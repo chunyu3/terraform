@@ -97,41 +97,6 @@ objects:
             python_parameter_name: policy_assignment_name
             python_variable_name: policy_assignment_name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PolicyAssignmentProperties
-            go_type_name: PolicyAssignmentProperties
-          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DisplayName
-          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: display_name
-          '/properties/policyDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PolicyDefinitionID
-          '/policyDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: policy_definition_id
-          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Scope
-          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: scope
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Type
-            python_field_name: type
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListForResourceGroup
         python_func_name: list_for_resource_group
@@ -170,6 +135,10 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
 
     description: |
       Manage Azure PolicyAssignment instance.
@@ -219,12 +188,6 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'policyAssignmentId'
-        description: 'The ID of the policy assignment to get. Use the format ''/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}''.'
-        required: true
-        input: true
-        azure_sdk_references: ['policyAssignmentId']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
         description: 'The name of the resource group containing the resource. The name is case insensitive.'
@@ -255,4 +218,10 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['resourceName']
+      - !ruby/object:Api::Type::String
+        name: 'policyAssignmentId'
+        description: 'The ID of the policy assignment to get. Use the format ''/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}''.'
+        required: true
+        input: true
+        azure_sdk_references: ['policyAssignmentId']
       # read only values included only in response

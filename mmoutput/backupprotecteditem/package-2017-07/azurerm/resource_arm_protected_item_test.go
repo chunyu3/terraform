@@ -34,18 +34,18 @@ func testCheckAzureRMProtectedItemExists(resourceName string) resource.TestCheck
             return fmt.Errorf("Protected Item not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         containerName := rs.Primary.Attributes["container_name"]
         fabricName := rs.Primary.Attributes["fabric_name"]
-        protectedItemName := rs.Primary.Attributes["protected_item_name"]
         vaultName := rs.Primary.Attributes["vault_name"]
 
         client := testAccProvider.Meta().(*ArmClient).protectedItemsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, vaultName, resourceGroup, fabricName, containerName, protectedItemName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, vaultName, fabricName, containerName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q) does not exist", protectedItemName, containerName, fabricName, resourceGroup, vaultName)
+                return fmt.Errorf("Bad: Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q) does not exist", name, containerName, fabricName, resourceGroup, vaultName)
             }
             return fmt.Errorf("Bad: Get on protectedItemsClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMProtectedItemDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         containerName := rs.Primary.Attributes["container_name"]
         fabricName := rs.Primary.Attributes["fabric_name"]
-        protectedItemName := rs.Primary.Attributes["protected_item_name"]
         vaultName := rs.Primary.Attributes["vault_name"]
 
-        if resp, err := client.Get(ctx, vaultName, resourceGroup, fabricName, containerName, protectedItemName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, vaultName, fabricName, containerName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on protectedItemsClient: %+v", err)
             }

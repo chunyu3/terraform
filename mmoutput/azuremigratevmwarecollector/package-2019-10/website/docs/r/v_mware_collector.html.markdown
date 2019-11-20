@@ -65,10 +65,6 @@ The `spn_detail` block supports the following:
 
 The following attributes are exported:
 
-* `created_timestamp` - Time when this collector was created. Date-Time represented in ISO-8601 format.
-
-* `updated_timestamp` - Time when this collector was updated. Date-Time represented in ISO-8601 format.
-
 * `id` - 
 
 * `name` - 

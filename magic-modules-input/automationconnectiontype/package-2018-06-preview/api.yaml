@@ -103,40 +103,6 @@ objects:
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ConnectionTypeCreateOrUpdateProperties
-            go_type_name: ConnectionTypeCreateOrUpdateProperties
-          '/properties/isGlobal': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsGlobal
-          '/isGlobal': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_global
-          '/properties/fieldDefinitions': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: FieldDefinitions
-          '/fieldDefinitions': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: field_definitions
-          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreationTime
-          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: creation_time
-          '/properties/lastModifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastModifiedTime
-          '/lastModifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_modified_time
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -175,7 +141,7 @@ objects:
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of connection type.'
+        description: 'The parameters supplied to the create or update connection type operation.'
         required: true
         input: true
         azure_sdk_references: ['connectionTypeName']
@@ -196,21 +162,6 @@ objects:
         required: true
         azure_sdk_references: ['/fieldDefinitions', '/properties/fieldDefinitions']
       # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
-        description: 'Gets the creation time.'
-        output: true
-        azure_sdk_references: ['/creationTime', '/properties/creationTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModifiedTime'
-        description: 'Gets or sets the last modified time.'
-        output: true
-        azure_sdk_references: ['/lastModifiedTime', '/properties/lastModifiedTime']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Gets or sets the description.'
-        output: true
-        azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Gets the id of the resource.'

@@ -10,30 +10,4 @@ task: !ruby/object:Provider::Ansible::Task
       manual:
         target_node_count: '1'
         node_deallocation_option: requeue
-    vm_size: STANDARD_NC6
-    vm_priority: dedicated
-    node_setup:
-      mount_volumes:
-        azure_file_shares:
-          - account_name: storage_account_name
-            azure_file_url: >-
-              https://storage_account_name.file.core.windows.net/azure_file_share_name
-            credentials:
-              account_key: >-
-                00000000000000000000000000000000000000000000000000000000000000000000000000000000000000==
-            relative_mount_path: azfiles
-            file_mode: '0777'
-            directory_mode: '0777'
-        file_servers:
-          - file_server:
-              id: >-
-                /subscriptions/{{ subscription_id }}/resourceGroups/{{
-                resource_group }}/providers/Microsoft.BatchAI/fileservers/{{
-                fileserver_name }}
-            relative_mount_path: nfs
-            mount_options: rw
-    user_account_settings:
-      admin_user_name: admin_user_name
-      admin_user_ssh_public_key: ssh-rsa AAAAB3NzaC1yc...
-      admin_user_password: admin_user_password
   

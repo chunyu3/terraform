@@ -38,12 +38,21 @@ func resourceArmServer() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "type": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
 
             "administrator_login": {
                 Type: schema.TypeString,
@@ -78,22 +87,7 @@ func resourceArmServer() *schema.Resource {
                 Optional: true,
             },
 
-            "fully_qualified_domain_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "kind": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "type": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -122,22 +116,26 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
+    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     administratorLogin := d.Get("administrator_login").(string)
     administratorLoginPassword := d.Get("administrator_login_password").(string)
     identity := d.Get("identity").([]interface{})
+    type := d.Get("type").(string)
     version := d.Get("version").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := sql.ServerUpdate{
         Identity: expandArmServerResourceIdentity(identity),
         Location: utils.String(location),
+        Name: utils.String(name),
         ServerProperties: &sql.ServerProperties{
             AdministratorLogin: utils.String(administratorLogin),
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
             Version: utils.String(version),
         },
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -184,26 +182,13 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    d.Set("name", name)
     d.Set("name", resp.Name)
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if serverProperties := resp.ServerProperties; serverProperties != nil {
-        d.Set("administrator_login", serverProperties.AdministratorLogin)
-        d.Set("administrator_login_password", serverProperties.AdministratorLoginPassword)
-        d.Set("fully_qualified_domain_name", serverProperties.FullyQualifiedDomainName)
-        d.Set("state", serverProperties.State)
-        d.Set("version", serverProperties.Version)
-    }
-    if err := d.Set("identity", flattenArmServerResourceIdentity(resp.Identity)); err != nil {
-        return fmt.Errorf("Error setting `identity`: %+v", err)
-    }
     d.Set("kind", resp.Kind)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -211,22 +196,25 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     administratorLogin := d.Get("administrator_login").(string)
     administratorLoginPassword := d.Get("administrator_login_password").(string)
     identity := d.Get("identity").([]interface{})
+    type := d.Get("type").(string)
     version := d.Get("version").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := sql.ServerUpdate{
         Identity: expandArmServerResourceIdentity(identity),
-        Location: utils.String(location),
+        Name: utils.String(name),
         ServerProperties: &sql.ServerProperties{
             AdministratorLogin: utils.String(administratorLogin),
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
             Version: utils.String(version),
         },
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -282,17 +270,4 @@ func expandArmServerResourceIdentity(input []interface{}) *sql.ResourceIdentity 
         Type: sql.IdentityType(type),
     }
     return &result
-}
-
-
-func flattenArmServerResourceIdentity(input *sql.ResourceIdentity) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["type"] = string(input.Type)
-
-    return []interface{}{result}
 }

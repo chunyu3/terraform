@@ -241,21 +241,6 @@ func resourceArmProfile() *schema.Resource {
                 Optional: true,
             },
 
-            "last_changed_utc": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "tenant_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -302,7 +287,7 @@ func resourceArmProfileCreateUpdate(d *schema.ResourceData, meta interface{}) er
 
     parameters := customerinsights.ProfileResourceFormat{
         ProfileTypeDefinition: &customerinsights.ProfileTypeDefinition{
-            ApiEntitySetName: utils.String(apiEntitySetName),
+            APIEntitySetName: utils.String(apiEntitySetName),
             Attributes: utils.ExpandKeyValuePairs(attributes),
             Description: utils.ExpandKeyValuePairs(description),
             DisplayName: utils.ExpandKeyValuePairs(displayName),
@@ -368,30 +353,6 @@ func resourceArmProfileRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if profileTypeDefinition := resp.ProfileTypeDefinition; profileTypeDefinition != nil {
-        d.Set("api_entity_set_name", profileTypeDefinition.ApiEntitySetName)
-        d.Set("attributes", utils.FlattenKeyValuePairs(profileTypeDefinition.Attributes))
-        d.Set("description", utils.FlattenKeyValuePairs(profileTypeDefinition.Description))
-        d.Set("display_name", utils.FlattenKeyValuePairs(profileTypeDefinition.DisplayName))
-        d.Set("entity_type", string(profileTypeDefinition.EntityType))
-        if err := d.Set("fields", flattenArmProfilePropertyDefinition(profileTypeDefinition.Fields)); err != nil {
-            return fmt.Errorf("Error setting `fields`: %+v", err)
-        }
-        d.Set("instances_count", profileTypeDefinition.InstancesCount)
-        d.Set("large_image", profileTypeDefinition.LargeImage)
-        d.Set("last_changed_utc", (profileTypeDefinition.LastChangedUtc).String())
-        d.Set("localized_attributes", utils.FlattenKeyValuePairs(profileTypeDefinition.LocalizedAttributes))
-        d.Set("medium_image", profileTypeDefinition.MediumImage)
-        d.Set("provisioning_state", string(profileTypeDefinition.ProvisioningState))
-        d.Set("schema_item_type_link", profileTypeDefinition.SchemaItemTypeLink)
-        d.Set("small_image", profileTypeDefinition.SmallImage)
-        if err := d.Set("strong_ids", flattenArmProfileStrongId(profileTypeDefinition.StrongIds)); err != nil {
-            return fmt.Errorf("Error setting `strong_ids`: %+v", err)
-        }
-        d.Set("tenant_id", profileTypeDefinition.TenantID)
-        d.Set("timestamp_field_name", profileTypeDefinition.TimestampFieldName)
-        d.Set("type_name", profileTypeDefinition.TypeName)
-    }
     d.Set("hub_name", hubName)
     d.Set("type", resp.Type)
 
@@ -508,106 +469,4 @@ func expandArmProfileProfileEnumValidValuesFormat(input []interface{}) *[]custom
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmProfilePropertyDefinition(input *[]customerinsights.PropertyDefinition) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if arrayValueSeparator := item.ArrayValueSeparator; arrayValueSeparator != nil {
-            v["array_value_separator"] = *arrayValueSeparator
-        }
-        v["enum_valid_values"] = flattenArmProfileProfileEnumValidValuesFormat(item.EnumValidValues)
-        if fieldName := item.FieldName; fieldName != nil {
-            v["field_name"] = *fieldName
-        }
-        if fieldType := item.FieldType; fieldType != nil {
-            v["field_type"] = *fieldType
-        }
-        if isArray := item.IsArray; isArray != nil {
-            v["is_array"] = *isArray
-        }
-        if isAvailableInGraph := item.IsAvailableInGraph; isAvailableInGraph != nil {
-            v["is_available_in_graph"] = *isAvailableInGraph
-        }
-        if isEnum := item.IsEnum; isEnum != nil {
-            v["is_enum"] = *isEnum
-        }
-        if isFlagEnum := item.IsFlagEnum; isFlagEnum != nil {
-            v["is_flag_enum"] = *isFlagEnum
-        }
-        if isImage := item.IsImage; isImage != nil {
-            v["is_image"] = *isImage
-        }
-        if isLocalizedString := item.IsLocalizedString; isLocalizedString != nil {
-            v["is_localized_string"] = *isLocalizedString
-        }
-        if isName := item.IsName; isName != nil {
-            v["is_name"] = *isName
-        }
-        if isRequired := item.IsRequired; isRequired != nil {
-            v["is_required"] = *isRequired
-        }
-        if maxLength := item.MaxLength; maxLength != nil {
-            v["max_length"] = *maxLength
-        }
-        if propertyId := item.PropertyID; propertyId != nil {
-            v["property_id"] = *propertyId
-        }
-        if schemaItemPropLink := item.SchemaItemPropLink; schemaItemPropLink != nil {
-            v["schema_item_prop_link"] = *schemaItemPropLink
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmProfileStrongId(input *[]customerinsights.StrongId) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["description"] = utils.FlattenKeyValuePairs(item.Description)
-        v["display_name"] = utils.FlattenKeyValuePairs(item.DisplayName)
-        v["key_property_names"] = utils.FlattenStringSlice(item.KeyPropertyNames)
-        if strongIdName := item.StrongIDName; strongIdName != nil {
-            v["strong_id_name"] = *strongIdName
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmProfileProfileEnumValidValuesFormat(input *[]customerinsights.ProfileEnumValidValuesFormat) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["localized_value_names"] = utils.FlattenKeyValuePairs(item.LocalizedValueNames)
-        if value := item.Value; value != nil {
-            v["value"] = *value
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

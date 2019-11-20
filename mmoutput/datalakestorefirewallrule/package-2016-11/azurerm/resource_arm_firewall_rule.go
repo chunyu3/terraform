@@ -93,8 +93,8 @@ func resourceArmFirewallRuleCreate(d *schema.ResourceData, meta interface{}) err
 
     parameters := datalakestore.UpdateFirewallRuleParameters{
         UpdateFirewallRuleProperties: &datalakestore.UpdateFirewallRuleProperties{
-            EndIpAddress: utils.String(endIpAddress),
-            StartIpAddress: utils.String(startIpAddress),
+            EndIPAddress: utils.String(endIpAddress),
+            StartIPAddress: utils.String(startIpAddress),
         },
     }
 
@@ -144,8 +144,8 @@ func resourceArmFirewallRuleRead(d *schema.ResourceData, meta interface{}) error
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
     if updateFirewallRuleProperties := resp.UpdateFirewallRuleProperties; updateFirewallRuleProperties != nil {
-        d.Set("end_ip_address", updateFirewallRuleProperties.EndIpAddress)
-        d.Set("start_ip_address", updateFirewallRuleProperties.StartIpAddress)
+        d.Set("end_ip_address", updateFirewallRuleProperties.EndIPAddress)
+        d.Set("start_ip_address", updateFirewallRuleProperties.StartIPAddress)
     }
     d.Set("type", resp.Type)
 
@@ -164,8 +164,8 @@ func resourceArmFirewallRuleUpdate(d *schema.ResourceData, meta interface{}) err
 
     parameters := datalakestore.UpdateFirewallRuleParameters{
         UpdateFirewallRuleProperties: &datalakestore.UpdateFirewallRuleProperties{
-            EndIpAddress: utils.String(endIpAddress),
-            StartIpAddress: utils.String(startIpAddress),
+            EndIPAddress: utils.String(endIpAddress),
+            StartIPAddress: utils.String(startIpAddress),
         },
     }
 

@@ -28,13 +28,13 @@ Manage Azure ServiceFabric instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the user profile. Changing this forces a new resource to be created.
+
 * `name` - (Required) The name of the service fabric. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `lab_name` - (Required) The name of the lab. Changing this forces a new resource to be created.
-
-* `user_name` - (Required) The name of the user profile. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
 
@@ -48,60 +48,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `applicable_schedule` - One `applicable_schedule` block defined below.
-
-* `provisioning_state` - The provisioning status of the resource.
-
-* `unique_identifier` - The unique immutable identifier of a resource (Guid).
-
 * `id` - The identifier of the resource.
 
 * `type` - The type of the resource.
-
-
----
-
-The `applicable_schedule` block contains the following:
-
-* `id` - (Optional) The identifier of the resource.
-
-* `name` - (Optional) The name of the resource.
-
-* `type` - (Optional) The type of the resource.
-
-* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
-
-* `tags` - (Optional) The tags of the resource.
-
-* `lab_vms_shutdown` - (Optional) One `lab_vms_shutdown` block defined below.
-
-* `lab_vms_startup` - (Optional) One `lab_vms_startup` block defined below.
-
-
----
-
-The `lab_vms_shutdown` block supports the following:
-
-* `id` - (Optional) The identifier of the resource.
-
-* `name` - (Optional) The name of the resource.
-
-* `type` - (Optional) The type of the resource.
-
-* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
-
-* `tags` - (Optional) The tags of the resource.
-
----
-
-The `lab_vms_startup` block supports the following:
-
-* `id` - (Optional) The identifier of the resource.
-
-* `name` - (Optional) The name of the resource.
-
-* `type` - (Optional) The type of the resource.
-
-* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
-
-* `tags` - (Optional) The tags of the resource.

@@ -40,6 +40,18 @@ The following arguments are supported:
 
 * `start_ip_address` - (Optional) The start IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' for all Azure-internal IP addresses.
 
+* `values` - (Optional) One or more `value` block defined below.
+
+---
+
+The `value` block supports the following:
+
+* `name` - (Optional) Resource name.
+
+* `start_ip_address` - (Optional) The start IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' for all Azure-internal IP addresses.
+
+* `end_ip_address` - (Optional) The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value '0.0.0.0' for all Azure-internal IP addresses.
+
 ## Attributes Reference
 
 The following attributes are exported:

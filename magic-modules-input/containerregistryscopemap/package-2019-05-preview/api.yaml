@@ -119,41 +119,6 @@ objects:
             python_parameter_name: scope_map_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ScopeMapPropertiesUpdateParameters
-            go_type_name: ScopeMapPropertiesUpdateParameters
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/actions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: Actions
-          '/actions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: actions
-          '/properties/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Type
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type
-          '/properties/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreationDate
-          '/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: creation_date
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -211,28 +176,6 @@ objects:
         azure_sdk_references: ['/actions', '/properties/actions']
         item_type: Api::Type::String
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The type of the scope map. E.g. BuildIn scope map.'
-        output: true
-        azure_sdk_references: ['/type', '/properties/type']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationDate'
-        description: 'The creation date of scope map.'
-        output: true
-        azure_sdk_references: ['/creationDate', '/properties/creationDate']
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'Provisioning state of the resource.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Creating
-          - :Updating
-          - :Deleting
-          - :Succeeded
-          - :Failed
-          - :Canceled
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource ID.'

@@ -31,19 +31,19 @@ func resourceArmProject() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "project_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "assessment_solution_id": {
                 Type: schema.TypeString,
@@ -76,47 +76,7 @@ func resourceArmProject() *schema.Resource {
                 Default: string(azuremigrate.Active),
             },
 
-            "created_timestamp": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_assessment_timestamp": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "number_of_assessments": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "number_of_groups": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "number_of_machines": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "service_endpoint": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "updated_timestamp": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -130,14 +90,14 @@ func resourceArmProjectCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).projectsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    projectName := d.Get("project_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, projectName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Project %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -166,17 +126,17 @@ func resourceArmProjectCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, projectName, project); err != nil {
-        return fmt.Errorf("Error creating Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, project); err != nil {
+        return fmt.Errorf("Error creating Project %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, projectName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Project %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Project (Project Name %q / Resource Group %q) ID", projectName, resourceGroup)
+        return fmt.Errorf("Cannot read Project %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -192,61 +152,42 @@ func resourceArmProjectRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    projectName := id.Path["assessmentProjects"]
+    name := id.Path["assessmentProjects"]
 
-    resp, err := client.Get(ctx, resourceGroup, projectName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Project %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+        return fmt.Errorf("Error reading Project %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if projectProperties := resp.ProjectProperties; projectProperties != nil {
-        d.Set("assessment_solution_id", projectProperties.AssessmentSolutionID)
-        d.Set("created_timestamp", (projectProperties.CreatedTimestamp).String())
-        d.Set("customer_workspace_id", projectProperties.CustomerWorkspaceID)
-        d.Set("customer_workspace_location", projectProperties.CustomerWorkspaceLocation)
-        d.Set("last_assessment_timestamp", (projectProperties.LastAssessmentTimestamp).String())
-        d.Set("number_of_assessments", int(*projectProperties.NumberOfAssessments))
-        d.Set("number_of_groups", int(*projectProperties.NumberOfGroups))
-        d.Set("number_of_machines", int(*projectProperties.NumberOfMachines))
-        d.Set("project_status", string(projectProperties.ProjectStatus))
-        d.Set("provisioning_state", string(projectProperties.ProvisioningState))
-        d.Set("service_endpoint", projectProperties.ServiceEndpoint)
-        d.Set("updated_timestamp", (projectProperties.UpdatedTimestamp).String())
-    }
-    d.Set("e_tag", resp.ETag)
-    d.Set("project_name", projectName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmProjectUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).projectsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     assessmentSolutionId := d.Get("assessment_solution_id").(string)
     customerWorkspaceId := d.Get("customer_workspace_id").(string)
     customerWorkspaceLocation := d.Get("customer_workspace_location").(string)
     eTag := d.Get("e_tag").(string)
-    projectName := d.Get("project_name").(string)
     projectStatus := d.Get("project_status").(string)
     t := d.Get("tags").(map[string]interface{})
 
     project := azuremigrate.Project{
         ETag: utils.String(eTag),
-        Location: utils.String(location),
         ProjectProperties: &azuremigrate.ProjectProperties{
             AssessmentSolutionID: utils.String(assessmentSolutionId),
             CustomerWorkspaceID: utils.String(customerWorkspaceId),
@@ -257,8 +198,8 @@ func resourceArmProjectUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, projectName, project); err != nil {
-        return fmt.Errorf("Error updating Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, project); err != nil {
+        return fmt.Errorf("Error updating Project %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmProjectRead(d, meta)
@@ -274,10 +215,10 @@ func resourceArmProjectDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    projectName := id.Path["assessmentProjects"]
+    name := id.Path["assessmentProjects"]
 
-    if _, err := client.Delete(ctx, resourceGroup, projectName); err != nil {
-        return fmt.Errorf("Error deleting Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Project %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

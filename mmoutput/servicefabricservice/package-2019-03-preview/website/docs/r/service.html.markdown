@@ -74,12 +74,6 @@ The `service_load_metric` block supports the following:
 
 The following attributes are exported:
 
-* `provisioning_state` - The current deployment or provisioning state, which only appears in the response
-
-* `service_type_name` - The name of the service type
-
-* `service_package_activation_mode` - The activation Mode of the service package
-
 * `id` - Azure resource identifier.
 
 * `name` - Azure resource name.

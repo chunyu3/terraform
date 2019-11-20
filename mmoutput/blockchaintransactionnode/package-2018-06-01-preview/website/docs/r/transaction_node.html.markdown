@@ -38,7 +38,11 @@ The following arguments are supported:
 
 * `firewall_rules` - (Optional) One or more `firewall_rule` block defined below.
 
+* `key_name` - (Optional) Gets or sets the API key name. Changing this forces a new resource to be created.
+
 * `password` - (Optional) Sets the transaction node dns endpoint basic auth password.
+
+* `value` - (Optional) Gets or sets the API key value. Changing this forces a new resource to be created.
 
 ---
 
@@ -53,14 +57,6 @@ The `firewall_rule` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `provisioning_state` - Gets or sets the blockchain member provision state.
-
-* `dns` - Gets or sets the transaction node dns endpoint.
-
-* `public_key` - Gets or sets the transaction node public key.
-
-* `user_name` - Gets or sets the transaction node dns endpoint basic auth user name.
 
 * `id` - Fully qualified resource Id of the resource.
 

@@ -34,16 +34,16 @@ func testCheckAzureRMPublishedBlueprintExists(resourceName string) resource.Test
             return fmt.Errorf("Published Blueprint not found: %s", resourceName)
         }
 
-        blueprintName := rs.Primary.Attributes["blueprint_name"]
+        name := rs.Primary.Attributes["name"]
         scope := rs.Primary.Attributes["scope"]
         versionID := rs.Primary.Attributes["version_id"]
 
         client := testAccProvider.Meta().(*ArmClient).publishedBlueprintsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, scope, blueprintName, versionID); err != nil {
+        if resp, err := client.Get(ctx, scope, name, versionID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Published Blueprint (Version %q / Blueprint Name %q / Scope %q) does not exist", versionID, blueprintName, scope)
+                return fmt.Errorf("Bad: Published Blueprint %q (Version %q / Scope %q) does not exist", name, versionID, scope)
             }
             return fmt.Errorf("Bad: Get on publishedBlueprintsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMPublishedBlueprintDestroy(s *terraform.State) error {
             continue
         }
 
-        blueprintName := rs.Primary.Attributes["blueprint_name"]
+        name := rs.Primary.Attributes["name"]
         scope := rs.Primary.Attributes["scope"]
         versionID := rs.Primary.Attributes["version_id"]
 
-        if resp, err := client.Get(ctx, scope, blueprintName, versionID); err != nil {
+        if resp, err := client.Get(ctx, scope, name, versionID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on publishedBlueprintsClient: %+v", err)
             }

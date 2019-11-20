@@ -179,67 +179,6 @@ objects:
             python_parameter_name: content_key_policy_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ContentKeyPolicyProperties
-            go_type_name: ContentKeyPolicyProperties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/options': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Options
-            go_type_name: ContentKeyPolicyOption
-          '/properties/options/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/options/configuration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Configuration
-            go_type_name: ContentKeyPolicyConfiguration
-          '/properties/options/restriction': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Restriction
-            go_type_name: ContentKeyPolicyRestriction
-          '/properties/options/policyOptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PolicyOptionID
-          '/options': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: options
-          '/options/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/options/configuration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: configuration
-          '/options/restriction': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: restriction
-          '/options/policyOptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: policy_option_id
-          '/properties/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PolicyID
-          '/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: policy_id
-          '/properties/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: Created
-          '/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created
-          '/properties/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastModified
-          '/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_modified
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -303,21 +242,6 @@ objects:
               required: false
               azure_sdk_references: ['/options/name', '/properties/options/name']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'policyId'
-        description: 'The legacy Policy ID.'
-        output: true
-        azure_sdk_references: ['/policyId', '/properties/policyId']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'created'
-        description: 'The creation date of the Policy'
-        output: true
-        azure_sdk_references: ['/created', '/properties/created']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModified'
-        description: 'The last modified date of the Policy'
-        output: true
-        azure_sdk_references: ['/lastModified', '/properties/lastModified']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource ID for the resource.'

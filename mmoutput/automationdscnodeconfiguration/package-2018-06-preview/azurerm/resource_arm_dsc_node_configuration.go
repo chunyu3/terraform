@@ -116,21 +116,6 @@ func resourceArmDscNodeConfiguration() *schema.Resource {
                 Optional: true,
             },
 
-            "creation_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "node_count": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -226,18 +211,6 @@ func resourceArmDscNodeConfigurationRead(d *schema.ResourceData, meta interface{
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
-    if dscNodeConfigurationCreateOrUpdateParametersProperties := resp.DscNodeConfigurationCreateOrUpdateParametersProperties; dscNodeConfigurationCreateOrUpdateParametersProperties != nil {
-        if err := d.Set("configuration", flattenArmDscNodeConfigurationDscConfigurationAssociationProperty(dscNodeConfigurationCreateOrUpdateParametersProperties.Configuration)); err != nil {
-            return fmt.Errorf("Error setting `configuration`: %+v", err)
-        }
-        d.Set("creation_time", (dscNodeConfigurationCreateOrUpdateParametersProperties.CreationTime).String())
-        d.Set("increment_node_configuration_build", dscNodeConfigurationCreateOrUpdateParametersProperties.IncrementNodeConfigurationBuild)
-        d.Set("last_modified_time", (dscNodeConfigurationCreateOrUpdateParametersProperties.LastModifiedTime).String())
-        d.Set("node_count", int(*dscNodeConfigurationCreateOrUpdateParametersProperties.NodeCount))
-        if err := d.Set("source", flattenArmDscNodeConfigurationContentSource(dscNodeConfigurationCreateOrUpdateParametersProperties.Source)); err != nil {
-            return fmt.Errorf("Error setting `source`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -312,30 +285,4 @@ func expandArmDscNodeConfigurationContentHash(input []interface{}) *automation.C
         Value: utils.String(value),
     }
     return &result
-}
-
-
-func flattenArmDscNodeConfigurationDscConfigurationAssociationProperty(input *automation.DscConfigurationAssociationProperty) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmDscNodeConfigurationContentSource(input *automation.ContentSource) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
 }

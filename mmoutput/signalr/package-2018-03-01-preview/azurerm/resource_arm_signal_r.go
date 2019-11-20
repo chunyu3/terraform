@@ -38,16 +38,36 @@ func resourceArmSignalR() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "type": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
             "host_name_prefix": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "key_type": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(signalr.Primary),
+                    string(signalr.Secondary),
+                }, false),
+                Default: string(signalr.Primary),
             },
 
             "sku": {
@@ -88,41 +108,6 @@ func resourceArmSignalR() *schema.Resource {
                 },
             },
 
-            "external_ip": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "host_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "public_port": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "server_port": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "version": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "tags": tags.Schema(),
         },
     }
@@ -147,18 +132,24 @@ func resourceArmSignalRCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
+    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     hostNamePrefix := d.Get("host_name_prefix").(string)
+    keyType := d.Get("key_type").(string)
     sku := d.Get("sku").([]interface{})
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := signalr.UpdateParameters{
+        KeyType: signalr.KeyType(keyType),
         Location: utils.String(location),
+        Name: utils.String(name),
         CreateOrUpdateProperties: &signalr.CreateOrUpdateProperties{
             HostNamePrefix: utils.String(hostNamePrefix),
         },
         Sku: expandArmSignalRResourceSku(sku),
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -205,27 +196,12 @@ func resourceArmSignalRRead(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    d.Set("name", name)
     d.Set("name", resp.Name)
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if createOrUpdateProperties := resp.CreateOrUpdateProperties; createOrUpdateProperties != nil {
-        d.Set("external_ip", createOrUpdateProperties.ExternalIp)
-        d.Set("host_name", createOrUpdateProperties.HostName)
-        d.Set("host_name_prefix", createOrUpdateProperties.HostNamePrefix)
-        d.Set("provisioning_state", string(createOrUpdateProperties.ProvisioningState))
-        d.Set("public_port", int(*createOrUpdateProperties.PublicPort))
-        d.Set("server_port", int(*createOrUpdateProperties.ServerPort))
-        d.Set("version", createOrUpdateProperties.Version)
-    }
-    if err := d.Set("sku", flattenArmSignalRResourceSku(resp.Sku)); err != nil {
-        return fmt.Errorf("Error setting `sku`: %+v", err)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmSignalRUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -233,18 +209,23 @@ func resourceArmSignalRUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     hostNamePrefix := d.Get("host_name_prefix").(string)
+    keyType := d.Get("key_type").(string)
     sku := d.Get("sku").([]interface{})
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := signalr.UpdateParameters{
-        Location: utils.String(location),
+        KeyType: signalr.KeyType(keyType),
+        Name: utils.String(name),
         CreateOrUpdateProperties: &signalr.CreateOrUpdateProperties{
             HostNamePrefix: utils.String(hostNamePrefix),
         },
         Sku: expandArmSignalRResourceSku(sku),
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -308,29 +289,4 @@ func expandArmSignalRResourceSku(input []interface{}) *signalr.ResourceSku {
         Tier: signalr.SkuTier(tier),
     }
     return &result
-}
-
-
-func flattenArmSignalRResourceSku(input *signalr.ResourceSku) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
-    if capacity := input.Capacity; capacity != nil {
-        result["capacity"] = int(*capacity)
-    }
-    if family := input.Family; family != nil {
-        result["family"] = *family
-    }
-    if size := input.Size; size != nil {
-        result["size"] = *size
-    }
-    result["tier"] = string(input.Tier)
-
-    return []interface{}{result}
 }

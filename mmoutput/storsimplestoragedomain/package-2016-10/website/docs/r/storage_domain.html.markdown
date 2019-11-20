@@ -28,15 +28,15 @@ Manage Azure StorageDomain instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The manager name Changing this forces a new resource to be created.
+* `name` - (Required) The storage domain name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `encryption_status` - (Required) The encryption status "Enabled | Disabled".
 
-* `storage_account_credential_ids` - (Required) The storage account credentials.
+* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
-* `storage_domain_name` - (Required) The storage domain name. Changing this forces a new resource to be created.
+* `storage_account_credential_ids` - (Required) The storage account credentials.
 
 * `encryption_key` - (Optional) One `encryption_key` block defined below.
 

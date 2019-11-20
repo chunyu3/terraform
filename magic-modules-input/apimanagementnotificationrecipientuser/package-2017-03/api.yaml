@@ -39,7 +39,7 @@ objects:
             python_variable_name: name
           'uid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: recipientUsers
-            go_variable_name: uid
+            go_variable_name: uID
             python_parameter_name: uid
             python_variable_name: uid
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -63,9 +63,34 @@ objects:
             python_variable_name: name
           'uid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: recipientUsers
-            go_variable_name: uid
+            go_variable_name: uID
             python_parameter_name: uid
             python_variable_name: uid
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'notificationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: notifications
+            go_variable_name: name
+            python_parameter_name: notification_name
+            python_variable_name: name
+          'uid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: recipientUsers
+            go_variable_name: uID
+            python_parameter_name: uid
+            python_variable_name: uid
+        response:
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByNotification
         python_func_name: list_by_notification

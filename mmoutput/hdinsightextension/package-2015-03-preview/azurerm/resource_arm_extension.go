@@ -132,8 +132,6 @@ func resourceArmExtensionRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     d.Set("cluster_name", clusterName)
-    d.Set("primary_key", resp.PrimaryKey)
-    d.Set("workspace_id", resp.WorkspaceID)
 
     return nil
 }

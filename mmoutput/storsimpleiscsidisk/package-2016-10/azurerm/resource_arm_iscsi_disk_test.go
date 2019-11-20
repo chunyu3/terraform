@@ -37,15 +37,15 @@ func testCheckAzureRMIscsiDiskExists(resourceName string) resource.TestCheckFunc
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
-        diskName := rs.Primary.Attributes["disk_name"]
         iscsiServerName := rs.Primary.Attributes["iscsi_server_name"]
+        managerName := rs.Primary.Attributes["manager_name"]
 
         client := testAccProvider.Meta().(*ArmClient).iscsiDisksClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, iscsiServerName, diskName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, iscsiServerName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Iscsi Disk %q (Resource Group %q / Disk Name %q / Iscsi Server Name %q / Device Name %q) does not exist", name, resourceGroup, diskName, iscsiServerName, deviceName)
+                return fmt.Errorf("Bad: Iscsi Disk %q (Iscsi Server Name %q / Manager Name %q / Resource Group %q / Device Name %q) does not exist", name, iscsiServerName, managerName, resourceGroup, deviceName)
             }
             return fmt.Errorf("Bad: Get on iscsiDisksClient: %+v", err)
         }
@@ -66,10 +66,10 @@ func testCheckAzureRMIscsiDiskDestroy(s *terraform.State) error {
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
-        diskName := rs.Primary.Attributes["disk_name"]
         iscsiServerName := rs.Primary.Attributes["iscsi_server_name"]
+        managerName := rs.Primary.Attributes["manager_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, iscsiServerName, diskName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, iscsiServerName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on iscsiDisksClient: %+v", err)
             }

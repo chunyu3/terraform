@@ -202,92 +202,6 @@ objects:
             python_parameter_name: failover_group_name
             python_variable_name: name
         response:
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: FailoverGroupUpdateProperties
-            go_type_name: FailoverGroupUpdateProperties
-          '/properties/readWriteEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ReadWriteEndpoint
-            go_type_name: FailoverGroupReadWriteEndpoint
-          '/properties/readWriteEndpoint/failoverPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: FailoverPolicy
-            go_enum_type_name: ReadWriteEndpointFailoverPolicy
-          '/properties/readWriteEndpoint/failoverWithDataLossGracePeriodMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: FailoverWithDataLossGracePeriodMinutes
-          '/readWriteEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: read_write_endpoint
-          '/readWriteEndpoint/failoverPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: failover_policy
-          '/readWriteEndpoint/failoverWithDataLossGracePeriodMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: failover_with_data_loss_grace_period_minutes
-          '/properties/readOnlyEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ReadOnlyEndpoint
-            go_type_name: FailoverGroupReadOnlyEndpoint
-          '/properties/readOnlyEndpoint/failoverPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: FailoverPolicy
-            go_enum_type_name: ReadOnlyEndpointFailoverPolicy
-          '/readOnlyEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: read_only_endpoint
-          '/readOnlyEndpoint/failoverPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: failover_policy
-          '/properties/databases': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: Databases
-          '/databases': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: databases
-          '/properties/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ReplicationRole
-            go_enum_type_name: FailoverGroupReplicationRole
-          '/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: replication_role
-          '/properties/replicationState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ReplicationState
-          '/replicationState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: replication_state
-          '/properties/partnerServers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: PartnerServers
-            go_type_name: PartnerInfo
-          '/properties/partnerServers/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/partnerServers/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Location
-          '/properties/partnerServers/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ReplicationRole
-            go_enum_type_name: FailoverGroupReplicationRole
-          '/partnerServers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: partner_servers
-          '/partnerServers/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/partnerServers/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: location
-          '/partnerServers/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: replication_role
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -383,26 +297,6 @@ objects:
         azure_sdk_references: ['/databases', '/properties/databases']
         item_type: Api::Type::String
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'replicationRole'
-        description: 'Local replication role of the failover group instance.'
-        output: true
-        azure_sdk_references: ['/replicationRole', '/properties/replicationRole']
-        values:
-          - :Primary
-          - :Secondary
-      - !ruby/object:Api::Type::String
-        name: 'replicationState'
-        description: 'Replication state of the failover group instance.'
-        output: true
-        azure_sdk_references: ['/replicationState', '/properties/replicationState']
-      - !ruby/object:Api::Type::Array
-        name: 'partnerServers'
-        description: 'List of partner server information for the failover group.'
-        output: true
-        azure_sdk_references: ['/partnerServers', '/properties/partnerServers']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

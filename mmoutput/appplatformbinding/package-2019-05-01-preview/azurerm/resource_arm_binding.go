@@ -83,22 +83,7 @@ func resourceArmBinding() *schema.Resource {
                 Optional: true,
             },
 
-            "created_at": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "generated_properties": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "updated_at": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -189,16 +174,6 @@ func resourceArmBindingRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("app_name", appName)
-    if bindingResourceProperties := resp.BindingResourceProperties; bindingResourceProperties != nil {
-        d.Set("binding_parameters", utils.FlattenKeyValuePairs(bindingResourceProperties.BindingParameters))
-        d.Set("created_at", bindingResourceProperties.CreatedAt)
-        d.Set("generated_properties", bindingResourceProperties.GeneratedProperties)
-        d.Set("key", bindingResourceProperties.Key)
-        d.Set("resource_id", bindingResourceProperties.ResourceID)
-        d.Set("resource_name", bindingResourceProperties.ResourceName)
-        d.Set("resource_type", bindingResourceProperties.ResourceType)
-        d.Set("updated_at", bindingResourceProperties.UpdatedAt)
-    }
     d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 

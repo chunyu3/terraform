@@ -23,7 +23,7 @@ objects:
         python_func_name: create_or_update
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
+            id_portion: resourcegroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
@@ -51,7 +51,7 @@ objects:
         python_func_name: delete
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
+            id_portion: resourcegroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
@@ -60,30 +60,11 @@ objects:
         python_func_name: get
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
+            id_portion: resourcegroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
         response:
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: GroupProperties
-            go_type_name: GroupProperties
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -96,7 +77,7 @@ objects:
         python_func_name: list_resources
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
+            id_portion: resourcegroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
@@ -106,7 +87,7 @@ objects:
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
-        description: 'Query parameters. If null is passed returns all resource groups.'
+        description: 'The name of the resource group to be created or updated. The name is case insensitive.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
@@ -129,11 +110,6 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Gets resource group provisioning state.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Gets the ID of the resource group.'

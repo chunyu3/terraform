@@ -75,12 +75,6 @@ The `hash` block supports the following:
 
 The following attributes are exported:
 
-* `last_modified_time` - Gets or sets the last modified time.
-
-* `creation_time` - Gets or sets creation time.
-
-* `node_count` - Number of nodes with this node configuration assigned
-
 * `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.

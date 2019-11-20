@@ -87,17 +87,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DomainTopicProperties
-            go_type_name: DomainTopicProperties
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: DomainTopicProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByDomain
         python_func_name: list_by_domain
@@ -124,13 +113,13 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'domainName'
-        description: 'Name of the domain'
+        description: 'Domain name.'
         required: true
         input: true
         azure_sdk_references: ['domainName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'Name of the topic'
+        description: 'Name of the domain topic'
         required: true
         input: true
         azure_sdk_references: ['domainTopicName']
@@ -150,15 +139,3 @@ objects:
         description: 'Type of the resource'
         output: true
         azure_sdk_references: ['/type']
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'Provisioning state of the domain topic.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Creating
-          - :Updating
-          - :Deleting
-          - :Succeeded
-          - :Canceled
-          - :Failed

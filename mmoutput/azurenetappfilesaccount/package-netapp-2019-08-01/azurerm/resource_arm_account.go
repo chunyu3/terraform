@@ -86,11 +86,6 @@ func resourceArmAccount() *schema.Resource {
                 },
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -179,18 +174,9 @@ func resourceArmAccountRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if accountProperties := resp.AccountProperties; accountProperties != nil {
-        if err := d.Set("active_directories", flattenArmAccountActiveDirectory(accountProperties.ActiveDirectories)); err != nil {
-            return fmt.Errorf("Error setting `active_directories`: %+v", err)
-        }
-        d.Set("provisioning_state", accountProperties.ProvisioningState)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -203,7 +189,6 @@ func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
     t := d.Get("tags").(map[string]interface{})
 
     body := azurenetappfiles.NetAppAccountPatch{
-        Location: utils.String(location),
         AccountProperties: &azurenetappfiles.AccountProperties{
             ActiveDirectories: expandArmAccountActiveDirectory(activeDirectories),
         },
@@ -262,7 +247,7 @@ func expandArmAccountActiveDirectory(input []interface{}) *[]azurenetappfiles.Ac
 
         result := azurenetappfiles.ActiveDirectory{
             ActiveDirectoryID: utils.String(activeDirectoryId),
-            Dns: utils.String(dns),
+            DNS: utils.String(dns),
             Domain: utils.String(domain),
             OrganizationalUnit: utils.String(organizationalUnit),
             Password: utils.String(password),
@@ -274,45 +259,4 @@ func expandArmAccountActiveDirectory(input []interface{}) *[]azurenetappfiles.Ac
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmAccountActiveDirectory(input *[]azurenetappfiles.ActiveDirectory) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if activeDirectoryId := item.ActiveDirectoryID; activeDirectoryId != nil {
-            v["active_directory_id"] = *activeDirectoryId
-        }
-        if dns := item.Dns; dns != nil {
-            v["dns"] = *dns
-        }
-        if domain := item.Domain; domain != nil {
-            v["domain"] = *domain
-        }
-        if organizationalUnit := item.OrganizationalUnit; organizationalUnit != nil {
-            v["organizational_unit"] = *organizationalUnit
-        }
-        if password := item.Password; password != nil {
-            v["password"] = *password
-        }
-        if smbServerName := item.SmbServerName; smbServerName != nil {
-            v["smb_server_name"] = *smbServerName
-        }
-        if status := item.Status; status != nil {
-            v["status"] = *status
-        }
-        if username := item.Username; username != nil {
-            v["username"] = *username
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

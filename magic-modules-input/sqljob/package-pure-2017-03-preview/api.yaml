@@ -144,60 +144,6 @@ objects:
             python_parameter_name: job_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: JobProperties
-            go_type_name: JobProperties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Schedule
-            go_type_name: JobSchedule
-          '/properties/schedule/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: StartTime
-          '/properties/schedule/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: EndTime
-          '/properties/schedule/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Type
-            go_enum_type_name: JobScheduleType
-          '/properties/schedule/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: Enabled
-          '/properties/schedule/interval': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Interval
-          '/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: schedule
-          '/schedule/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: start_time
-          '/schedule/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: end_time
-          '/schedule/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: type
-          '/schedule/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enabled
-          '/schedule/interval': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: interval
-          '/properties/version': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Version
-          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: version
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -250,7 +196,7 @@ objects:
         azure_sdk_references: ['jobAgentName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the job to get.'
+        description: 'The name of the job to delete.'
         required: true
         input: true
         azure_sdk_references: ['jobName']
@@ -295,11 +241,6 @@ objects:
             required: false
             azure_sdk_references: ['/schedule/interval', '/properties/schedule/interval']
       # read only values included only in response
-      - !ruby/object:Api::Type::Integer
-        name: 'version'
-        description: 'The job version number.'
-        output: true
-        azure_sdk_references: ['/version', '/properties/version']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

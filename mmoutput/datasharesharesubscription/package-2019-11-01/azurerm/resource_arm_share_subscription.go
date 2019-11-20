@@ -62,67 +62,25 @@ func resourceArmShareSubscription() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "created_at": {
+            "synchronization_id": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "provider_email": {
+            "synchronization_mode": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provider_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provider_tenant_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "share_description": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "share_kind": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "share_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "share_subscription_status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "share_terms": {
-                Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(datashare.Incremental),
+                    string(datashare.FullSync),
+                }, false),
+                Default: string(datashare.Incremental),
             },
 
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "user_email": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "user_name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -152,12 +110,16 @@ func resourceArmShareSubscriptionCreateUpdate(d *schema.ResourceData, meta inter
 
     invitationId := d.Get("invitation_id").(string)
     sourceShareLocation := d.Get("source_share_location").(string)
+    synchronizationId := d.Get("synchronization_id").(string)
+    synchronizationMode := d.Get("synchronization_mode").(string)
 
     shareSubscription := datashare.ShareSubscription{
         ShareSubscriptionProperties: &datashare.ShareSubscriptionProperties{
             InvitationID: utils.String(invitationId),
             SourceShareLocation: utils.String(sourceShareLocation),
         },
+        SynchronizationID: utils.String(synchronizationId),
+        SynchronizationMode: datashare.SynchronizationMode(synchronizationMode),
     }
 
 
@@ -205,22 +167,6 @@ func resourceArmShareSubscriptionRead(d *schema.ResourceData, meta interface{}) 
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    if shareSubscriptionProperties := resp.ShareSubscriptionProperties; shareSubscriptionProperties != nil {
-        d.Set("created_at", (shareSubscriptionProperties.CreatedAt).String())
-        d.Set("invitation_id", shareSubscriptionProperties.InvitationID)
-        d.Set("provider_email", shareSubscriptionProperties.ProviderEmail)
-        d.Set("provider_name", shareSubscriptionProperties.ProviderName)
-        d.Set("provider_tenant_name", shareSubscriptionProperties.ProviderTenantName)
-        d.Set("provisioning_state", string(shareSubscriptionProperties.ProvisioningState))
-        d.Set("share_description", shareSubscriptionProperties.ShareDescription)
-        d.Set("share_kind", string(shareSubscriptionProperties.ShareKind))
-        d.Set("share_name", shareSubscriptionProperties.ShareName)
-        d.Set("share_subscription_status", string(shareSubscriptionProperties.ShareSubscriptionStatus))
-        d.Set("share_terms", shareSubscriptionProperties.ShareTerms)
-        d.Set("source_share_location", shareSubscriptionProperties.SourceShareLocation)
-        d.Set("user_email", shareSubscriptionProperties.UserEmail)
-        d.Set("user_name", shareSubscriptionProperties.UserName)
-    }
     d.Set("type", resp.Type)
 
     return nil

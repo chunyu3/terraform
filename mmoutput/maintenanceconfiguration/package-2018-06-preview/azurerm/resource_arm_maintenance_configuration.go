@@ -36,44 +36,7 @@ func resourceArmMaintenanceConfiguration() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "extension_properties": {
-                Type: schema.TypeMap,
-                Optional: true,
-                Elem: &schema.Schema{Type: schema.TypeString},
-            },
-
-            "maintenance_scope": {
-                Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(maintenance.All),
-                    string(maintenance.Host),
-                    string(maintenance.Resource),
-                    string(maintenance.InResource),
-                }, false),
-                Default: string(maintenance.All),
-            },
-
-            "namespace": {
-                Type: schema.TypeString,
-                Optional: true,
-            },
-
-            "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "tags": tags.Schema(),
         },
     }
 }
@@ -97,20 +60,8 @@ func resourceArmMaintenanceConfigurationCreateUpdate(d *schema.ResourceData, met
         }
     }
 
-    location := azure.NormalizeLocation(d.Get("location").(string))
-    extensionProperties := d.Get("extension_properties").(map[string]interface{})
-    maintenanceScope := d.Get("maintenance_scope").(string)
-    namespace := d.Get("namespace").(string)
-    t := d.Get("tags").(map[string]interface{})
 
     configuration := maintenance.Configuration{
-        Location: utils.String(location),
-        ConfigurationProperties: &maintenance.ConfigurationProperties{
-            ExtensionProperties: utils.ExpandKeyValuePairs(extensionProperties),
-            MaintenanceScope: maintenance.Scope(maintenanceScope),
-            Namespace: utils.String(namespace),
-        },
-        Tags: tags.Expand(t),
     }
 
 
@@ -154,19 +105,9 @@ func resourceArmMaintenanceConfigurationRead(d *schema.ResourceData, meta interf
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if configurationProperties := resp.ConfigurationProperties; configurationProperties != nil {
-        d.Set("extension_properties", utils.FlattenKeyValuePairs(configurationProperties.ExtensionProperties))
-        d.Set("maintenance_scope", string(configurationProperties.MaintenanceScope))
-        d.Set("namespace", configurationProperties.Namespace)
-    }
-    d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 

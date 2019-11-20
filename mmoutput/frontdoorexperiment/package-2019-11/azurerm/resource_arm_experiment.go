@@ -67,41 +67,6 @@ func resourceArmExperiment() *schema.Resource {
                 Default: string(frontdoor.Enabled),
             },
 
-            "endpoint_a_endpoint": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "endpoint_a_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "endpoint_b_endpoint": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "endpoint_b_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "script_file_uri": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -194,28 +159,10 @@ func resourceArmExperimentRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if experimentUpdateProperties := resp.ExperimentUpdateProperties; experimentUpdateProperties != nil {
-        d.Set("description", experimentUpdateProperties.Description)
-        d.Set("enabled_state", string(experimentUpdateProperties.EnabledState))
-        if endpointA := experimentUpdateProperties.EndpointA; endpointA != nil {
-            d.Set("endpoint_a_endpoint", endpointA.endpointA_Endpoint)
-            d.Set("endpoint_a_name", endpointA.endpointA_Name)
-        }
-        if endpointB := experimentUpdateProperties.EndpointB; endpointB != nil {
-            d.Set("endpoint_b_endpoint", endpointB.endpointB_Endpoint)
-            d.Set("endpoint_b_name", endpointB.endpointB_Name)
-        }
-        d.Set("resource_state", string(experimentUpdateProperties.ResourceState))
-        d.Set("script_file_uri", experimentUpdateProperties.ScriptFileUri)
-        d.Set("status", experimentUpdateProperties.Status)
-    }
     d.Set("profile_name", profileName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmExperimentUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -230,7 +177,6 @@ func resourceArmExperimentUpdate(d *schema.ResourceData, meta interface{}) error
     t := d.Get("tags").(map[string]interface{})
 
     parameters := frontdoor.ExperimentUpdateModel{
-        Location: utils.String(location),
         ExperimentUpdateProperties: &frontdoor.ExperimentUpdateProperties{
             Description: utils.String(description),
             EnabledState: frontdoor.State(enabledState),

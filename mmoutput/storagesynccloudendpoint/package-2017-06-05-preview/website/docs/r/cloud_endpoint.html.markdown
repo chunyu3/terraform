@@ -36,11 +36,33 @@ The following arguments are supported:
 
 * `sync_group_name` - (Required) Name of Sync Group resource. Changing this forces a new resource to be created.
 
+* `azure_file_share` - (Optional) Azure File Share. Changing this forces a new resource to be created.
+
+* `azure_file_share_uri` - (Optional) Post Restore Azure file share uri. Changing this forces a new resource to be created.
+
+* `backup_metadata_property_bag` - (Optional) Pre Restore backup metadata property bag. Changing this forces a new resource to be created.
+
+* `failed_file_list` - (Optional) Post Restore Azure failed file list. Changing this forces a new resource to be created.
+
 * `friendly_name` - (Optional) Friendly Name
 
 * `last_workflow_id` - (Optional) CloudEndpoint lastWorkflowId
 
+* `partition` - (Optional) Post Restore partition. Changing this forces a new resource to be created.
+
 * `partnership_id` - (Optional) Partnership Id
+
+* `pause_wait_for_sync_drain_time_period_in_seconds` - (Optional) Pre Restore pause wait for sync drain time period in seconds. Changing this forces a new resource to be created.
+
+* `replica_group` - (Optional) Post Restore replica group. Changing this forces a new resource to be created.
+
+* `request_id` - (Optional) Post Restore request id. Changing this forces a new resource to be created.
+
+* `restore_file_spec` - (Optional) One or more `restore_file_spec` block defined below.
+
+* `source_azure_file_share_uri` - (Optional) Post Restore Azure source azure file share uri. Changing this forces a new resource to be created.
+
+* `status` - (Optional) Post Restore Azure status. Changing this forces a new resource to be created.
 
 * `storage_account` - (Optional) Storage Account name.
 
@@ -52,13 +74,15 @@ The following arguments are supported:
 
 * `storage_account_tenant_id` - (Optional) Storage Account Tenant Id
 
+---
+
+The `restore_file_spec` block supports the following:
+
+* `path` - (Optional) Restore file spec path
+
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `backup_enabled` - Backup Enabled
-
-* `provisioning_state` - CloudEndpoint Provisioning State
 
 * `id` - The id of the resource.
 

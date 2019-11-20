@@ -124,78 +124,6 @@ objects:
             python_parameter_name: connector_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Connector
-            go_type_name: Connector
-          '/properties/connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ConnectorName
-          '/connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: connector_name
-          '/properties/connectorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ConnectorType
-            go_enum_type_name: ConnectorTypes
-          '/connectorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: connector_type
-          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DisplayName
-          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: display_name
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/connectorProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: ConnectorProperties
-          '/connectorProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: connector_properties
-          '/properties/isInternal': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsInternal
-          '/isInternal': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_internal
-          '/properties/connectorId': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: ConnectorID
-          '/connectorId': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: connector_id
-          '/properties/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: Created
-          '/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created
-          '/properties/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastModified
-          '/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_modified
-          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: State
-            go_enum_type_name: ConnectorStates
-          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: state
-          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TenantID
-          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: tenant_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -279,38 +207,6 @@ objects:
         required: false
         azure_sdk_references: ['/isInternal', '/properties/isInternal']
       # read only values included only in response
-      - !ruby/object:Api::Type::Integer
-        name: 'connectorId'
-        description: 'ID of the connector.'
-        output: true
-        azure_sdk_references: ['/connectorId', '/properties/connectorId']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'created'
-        description: 'The created time.'
-        output: true
-        azure_sdk_references: ['/created', '/properties/created']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModified'
-        description: 'The last modified time.'
-        output: true
-        azure_sdk_references: ['/lastModified', '/properties/lastModified']
-      - !ruby/object:Api::Type::Enum
-        name: 'state'
-        description: 'State of connector.'
-        output: true
-        azure_sdk_references: ['/state', '/properties/state']
-        values:
-          - :Creating
-          - :Created
-          - :Ready
-          - :Expiring
-          - :Deleting
-          - :Failed
-      - !ruby/object:Api::Type::String
-        name: 'tenantId'
-        description: 'The hub name.'
-        output: true
-        azure_sdk_references: ['/tenantId', '/properties/tenantId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

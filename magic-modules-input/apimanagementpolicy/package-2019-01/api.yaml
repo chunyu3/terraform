@@ -97,31 +97,12 @@ objects:
             go_variable_name: policyID
             python_parameter_name: policy_id
             python_variable_name: policy_id
-          '/properties/format': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Format
-            go_enum_type_name: PolicyContentFormat
-          '/format': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: format
+          'format': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: format
+            python_parameter_name: format
+            python_variable_name: format
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PolicyContractProperties
-            go_type_name: PolicyContractProperties
-          '/properties/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
-          '/properties/format': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Format
-            go_enum_type_name: PolicyContentFormat
-          '/format': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: format
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -168,6 +149,12 @@ objects:
         input: true
         azure_sdk_references: ['policyId']
       - !ruby/object:Api::Type::String
+        name: 'format'
+        description: 'Policy Export Format.'
+        required: false
+        input: true
+        azure_sdk_references: ['format']
+      - !ruby/object:Api::Type::String
         name: 'value'
         description: 'Contents of the Policy as defined by the format.'
         required: true
@@ -183,12 +170,6 @@ objects:
           - :rawxml
           - :rawxml-link
         default_value: :xml
-      - !ruby/object:Api::Type::String
-        name: 'format'
-        description: 'Policy Export Format.'
-        required: false
-        input: true
-        azure_sdk_references: ['format']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

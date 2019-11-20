@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `circuit_name` - (Required) The name of the express route circuit. Changing this forces a new resource to be created.
+* `circuit_name` - (Required) The name of the circuit. Changing this forces a new resource to be created.
 
 * `id` - (Optional) Resource Id Changing this forces a new resource to be created.
 
@@ -87,5 +87,3 @@ The `stat` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `provisioning_state` - Gets or sets Provisioning state of the PublicIP resource Updating/Deleting/Failed

@@ -97,28 +97,6 @@ objects:
             python_parameter_name: secret_value_resource_name
             python_variable_name: name
         response:
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SecretValueResourceProperties
-            go_type_name: SecretValueResourceProperties
-          '/properties/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -142,6 +120,25 @@ objects:
             go_variable_name: secretResourceName
             python_parameter_name: secret_resource_name
             python_variable_name: secret_resource_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListValue
+        python_func_name: list_value
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'secretResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: secrets
+            go_variable_name: secretResourceName
+            python_parameter_name: secret_resource_name
+            python_variable_name: secret_resource_name
+          'secretValueResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: values
+            go_variable_name: name
+            python_parameter_name: secret_value_resource_name
+            python_variable_name: name
 
     description: |
       Manage Azure SecretValue instance.
@@ -182,11 +179,6 @@ objects:
         required: false
         azure_sdk_references: ['/value', '/properties/value']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'State of the resource.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified identifier for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'

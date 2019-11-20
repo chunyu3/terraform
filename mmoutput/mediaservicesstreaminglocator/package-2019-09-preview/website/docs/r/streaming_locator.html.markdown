@@ -66,8 +66,6 @@ The `content_key` block supports the following:
 
 The following attributes are exported:
 
-* `created` - The creation time of the Streaming Locator.
-
 * `id` - Fully qualified resource ID for the resource.
 
 * `name` - The name of the resource.

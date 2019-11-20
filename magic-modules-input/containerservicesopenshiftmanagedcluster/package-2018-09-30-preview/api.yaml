@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OpenShiftManagedCluster
+            go_type_name: TagsObject
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -150,7 +150,7 @@ objects:
             go_field_name: Count
           '/properties/masterPoolProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: VmSize
+            go_field_name: VMSize
             go_enum_type_name: OpenShiftContainerServiceVMSize
           '/properties/masterPoolProfile/subnetCidr': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -192,7 +192,7 @@ objects:
             go_field_name: Count
           '/properties/agentPoolProfiles/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: VmSize
+            go_field_name: VMSize
             go_enum_type_name: OpenShiftContainerServiceVMSize
           '/properties/agentPoolProfiles/subnetCidr': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -262,212 +262,6 @@ objects:
             python_parameter_name: resource_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/plan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_field_name: Plan
-            go_type_name: PurchasePlan
-            python_field_name: plan
-          '/plan/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/plan/product': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Product
-            python_field_name: product
-          '/plan/promotionCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: PromotionCode
-            python_field_name: promotion_code
-          '/plan/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Publisher
-            python_field_name: publisher
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: OpenShiftManagedClusterProperties
-            go_type_name: OpenShiftManagedClusterProperties
-          '/properties/openShiftVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: OpenShiftVersion
-          '/openShiftVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: open_shift_version
-          '/properties/publicHostname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PublicHostname
-          '/publicHostname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: public_hostname
-          '/properties/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Fqdn
-          '/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: fqdn
-          '/properties/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: NetworkProfile
-            go_type_name: NetworkProfile
-          '/properties/networkProfile/vnetCidr': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VnetCidr
-          '/properties/networkProfile/peerVnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PeerVnetID
-          '/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: network_profile
-          '/networkProfile/vnetCidr': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vnet_cidr
-          '/networkProfile/peerVnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: peer_vnet_id
-          '/properties/routerProfiles': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: RouterProfiles
-            go_type_name: OpenShiftRouterProfile
-          '/properties/routerProfiles/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/routerProfiles/publicSubdomain': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PublicSubdomain
-          '/properties/routerProfiles/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Fqdn
-          '/routerProfiles': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: router_profiles
-          '/routerProfiles/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/routerProfiles/publicSubdomain': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: public_subdomain
-          '/routerProfiles/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: fqdn
-          '/properties/masterPoolProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: MasterPoolProfile
-            go_type_name: OpenShiftManagedClusterMasterPoolProfile
-          '/properties/masterPoolProfile/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/masterPoolProfile/count': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Count
-          '/properties/masterPoolProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: VmSize
-            go_enum_type_name: OpenShiftContainerServiceVMSize
-          '/properties/masterPoolProfile/subnetCidr': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubnetCidr
-          '/properties/masterPoolProfile/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: OsType
-            go_enum_type_name: OSType
-          '/masterPoolProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: master_pool_profile
-          '/masterPoolProfile/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/masterPoolProfile/count': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: count
-          '/masterPoolProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: vm_size
-          '/masterPoolProfile/subnetCidr': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subnet_cidr
-          '/masterPoolProfile/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: os_type
-          '/properties/agentPoolProfiles': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: AgentPoolProfiles
-            go_type_name: OpenShiftManagedClusterAgentPoolProfile
-          '/properties/agentPoolProfiles/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/agentPoolProfiles/count': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Count
-          '/properties/agentPoolProfiles/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: VmSize
-            go_enum_type_name: OpenShiftContainerServiceVMSize
-          '/properties/agentPoolProfiles/subnetCidr': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubnetCidr
-          '/properties/agentPoolProfiles/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: OsType
-            go_enum_type_name: OSType
-          '/properties/agentPoolProfiles/role': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Role
-            go_enum_type_name: OpenShiftAgentPoolProfileRole
-          '/agentPoolProfiles': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: agent_pool_profiles
-          '/agentPoolProfiles/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/agentPoolProfiles/count': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: count
-          '/agentPoolProfiles/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: vm_size
-          '/agentPoolProfiles/subnetCidr': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subnet_cidr
-          '/agentPoolProfiles/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: os_type
-          '/agentPoolProfiles/role': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: role
-          '/properties/authProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AuthProfile
-            go_type_name: OpenShiftManagedClusterAuthProfile
-          '/properties/authProfile/identityProviders': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: IdentityProviders
-            go_type_name: OpenShiftManagedClusterIdentityProvider
-          '/properties/authProfile/identityProviders/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/authProfile/identityProviders/provider': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Provider
-            go_type_name: OpenShiftManagedClusterBaseIdentityProvider
-          '/authProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: auth_profile
-          '/authProfile/identityProviders': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: identity_providers
-          '/authProfile/identityProviders/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/authProfile/identityProviders/provider': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: provider
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -477,10 +271,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -490,6 +280,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
 
     description: |
       Manage Azure OpenShiftManagedCluster instance.
@@ -514,7 +308,7 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Resource tags'
+        description: 'Resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
@@ -759,11 +553,6 @@ objects:
                   required: false
                   azure_sdk_references: ['/authProfile/identityProviders/name', '/properties/authProfile/identityProviders/name']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The current deployment or provisioning state, which only appears in the response.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

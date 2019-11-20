@@ -90,6 +90,13 @@ objects:
             applicable_to: [go]
             go_field_name: EventName
             go_enum_type_name: NotificationChannelEventType
+          '/eventName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: EventName
+            go_enum_type_name: NotificationChannelEventType
+            python_field_name: event_name
+          '/jsonPayload': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: JSONPayload
+            python_field_name: json_payload
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -162,6 +169,13 @@ objects:
             applicable_to: [go]
             go_field_name: EventName
             go_enum_type_name: NotificationChannelEventType
+          '/eventName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: EventName
+            go_enum_type_name: NotificationChannelEventType
+            python_field_name: event_name
+          '/jsonPayload': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: JSONPayload
+            python_field_name: json_payload
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -206,72 +220,6 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: NotificationChannelPropertiesFragment
-            go_type_name: NotificationChannelPropertiesFragment
-          '/properties/webHookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: WebHookURL
-          '/webHookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: web_hook_url
-          '/properties/emailRecipient': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EmailRecipient
-          '/emailRecipient': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: email_recipient
-          '/properties/notificationLocale': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: NotificationLocale
-          '/notificationLocale': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: notification_locale
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Events
-            go_type_name: EventFragment
-          '/properties/events/eventName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: EventName
-            go_enum_type_name: NotificationChannelEventType
-          '/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: events
-          '/events/eventName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: event_name
-          '/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreatedDate
-          '/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created_date
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: UniqueIdentifier
-          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: unique_identifier
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -362,22 +310,23 @@ objects:
                 - :AutoShutdown
                 - :Cost
               default_value: :AutoShutdown
+      - !ruby/object:Api::Type::Enum
+        name: 'eventName'
+        description: 'The type of event (i.e. AutoShutdown, Cost)'
+        required: false
+        input: true
+        azure_sdk_references: ['/eventName']
+        values:
+          - :AutoShutdown
+          - :Cost
+        default_value: :AutoShutdown
+      - !ruby/object:Api::Type::String
+        name: 'jsonPayload'
+        description: 'Properties for the notification in json format.'
+        required: false
+        input: true
+        azure_sdk_references: ['/jsonPayload']
       # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdDate'
-        description: 'The creation date of the notification channel.'
-        output: true
-        azure_sdk_references: ['/createdDate', '/properties/createdDate']
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The provisioning status of the resource.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Type::String
-        name: 'uniqueIdentifier'
-        description: 'The unique immutable identifier of a resource (Guid).'
-        output: true
-        azure_sdk_references: ['/uniqueIdentifier', '/properties/uniqueIdentifier']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The identifier of the resource.'

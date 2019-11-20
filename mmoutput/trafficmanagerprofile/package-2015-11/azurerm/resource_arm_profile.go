@@ -31,14 +31,15 @@ func resourceArmProfile() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "location": azure.SchemaLocation(),
@@ -158,7 +159,8 @@ func resourceArmProfile() *schema.Resource {
 
             "type": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
             },
 
             "tags": tags.Schema(),
@@ -185,24 +187,28 @@ func resourceArmProfileCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
+    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     dnsConfig := d.Get("dns_config").([]interface{})
     endpoints := d.Get("endpoints").([]interface{})
     monitorConfig := d.Get("monitor_config").([]interface{})
     profileStatus := d.Get("profile_status").(string)
     trafficRoutingMethod := d.Get("traffic_routing_method").(string)
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := trafficmanager.Profile{
         Location: utils.String(location),
+        Name: utils.String(name),
         ProfileProperties: &trafficmanager.ProfileProperties{
-            DnsConfig: expandArmProfileDnsConfig(dnsConfig),
+            DNSConfig: expandArmProfileDnsConfig(dnsConfig),
             Endpoints: expandArmProfileEndpoint(endpoints),
             MonitorConfig: expandArmProfileMonitorConfig(monitorConfig),
             ProfileStatus: utils.String(profileStatus),
             TrafficRoutingMethod: utils.String(trafficRoutingMethod),
         },
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -245,28 +251,12 @@ func resourceArmProfileRead(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    d.Set("name", name)
     d.Set("name", resp.Name)
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if profileProperties := resp.ProfileProperties; profileProperties != nil {
-        if err := d.Set("dns_config", flattenArmProfileDnsConfig(profileProperties.DnsConfig)); err != nil {
-            return fmt.Errorf("Error setting `dns_config`: %+v", err)
-        }
-        if err := d.Set("endpoints", flattenArmProfileEndpoint(profileProperties.Endpoints)); err != nil {
-            return fmt.Errorf("Error setting `endpoints`: %+v", err)
-        }
-        if err := d.Set("monitor_config", flattenArmProfileMonitorConfig(profileProperties.MonitorConfig)); err != nil {
-            return fmt.Errorf("Error setting `monitor_config`: %+v", err)
-        }
-        d.Set("profile_status", profileProperties.ProfileStatus)
-        d.Set("traffic_routing_method", profileProperties.TrafficRoutingMethod)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmProfileUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -274,24 +264,27 @@ func resourceArmProfileUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     dnsConfig := d.Get("dns_config").([]interface{})
     endpoints := d.Get("endpoints").([]interface{})
     monitorConfig := d.Get("monitor_config").([]interface{})
     profileStatus := d.Get("profile_status").(string)
     trafficRoutingMethod := d.Get("traffic_routing_method").(string)
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := trafficmanager.Profile{
-        Location: utils.String(location),
+        Name: utils.String(name),
         ProfileProperties: &trafficmanager.ProfileProperties{
-            DnsConfig: expandArmProfileDnsConfig(dnsConfig),
+            DNSConfig: expandArmProfileDnsConfig(dnsConfig),
             Endpoints: expandArmProfileEndpoint(endpoints),
             MonitorConfig: expandArmProfileMonitorConfig(monitorConfig),
             ProfileStatus: utils.String(profileStatus),
             TrafficRoutingMethod: utils.String(trafficRoutingMethod),
         },
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -334,7 +327,7 @@ func expandArmProfileDnsConfig(input []interface{}) *trafficmanager.DnsConfig {
     result := trafficmanager.DnsConfig{
         Fqdn: utils.String(fqdn),
         RelativeName: utils.String(relativeName),
-        Ttl: utils.Int64(int64(ttl)),
+        TTL: utils.Int64(int64(ttl)),
     }
     return &result
 }
@@ -394,99 +387,4 @@ func expandArmProfileMonitorConfig(input []interface{}) *trafficmanager.MonitorC
         Protocol: utils.String(protocol),
     }
     return &result
-}
-
-
-func flattenArmProfileDnsConfig(input *trafficmanager.DnsConfig) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if fqdn := input.Fqdn; fqdn != nil {
-        result["fqdn"] = *fqdn
-    }
-    if relativeName := input.RelativeName; relativeName != nil {
-        result["relative_name"] = *relativeName
-    }
-    if ttl := input.Ttl; ttl != nil {
-        result["ttl"] = int(*ttl)
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmProfileEndpoint(input *[]trafficmanager.Endpoint) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if endpointProperties := item.EndpointProperties; endpointProperties != nil {
-            if endpointLocation := endpointProperties.EndpointLocation; endpointLocation != nil {
-                v["endpoint_location"] = *endpointLocation
-            }
-            if endpointMonitorStatus := endpointProperties.EndpointMonitorStatus; endpointMonitorStatus != nil {
-                v["endpoint_monitor_status"] = *endpointMonitorStatus
-            }
-            if endpointStatus := endpointProperties.EndpointStatus; endpointStatus != nil {
-                v["endpoint_status"] = *endpointStatus
-            }
-            if minChildEndpoints := endpointProperties.MinChildEndpoints; minChildEndpoints != nil {
-                v["min_child_endpoints"] = int(*minChildEndpoints)
-            }
-            if priority := endpointProperties.Priority; priority != nil {
-                v["priority"] = int(*priority)
-            }
-            if target := endpointProperties.Target; target != nil {
-                v["target"] = *target
-            }
-            if targetResourceId := endpointProperties.TargetResourceID; targetResourceId != nil {
-                v["target_resource_id"] = *targetResourceId
-            }
-            if weight := endpointProperties.Weight; weight != nil {
-                v["weight"] = int(*weight)
-            }
-        }
-        if type := item.Type; type != nil {
-            v["type"] = *type
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmProfileMonitorConfig(input *trafficmanager.MonitorConfig) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if path := input.Path; path != nil {
-        result["path"] = *path
-    }
-    if port := input.Port; port != nil {
-        result["port"] = int(*port)
-    }
-    if profileMonitorStatus := input.ProfileMonitorStatus; profileMonitorStatus != nil {
-        result["profile_monitor_status"] = *profileMonitorStatus
-    }
-    if protocol := input.Protocol; protocol != nil {
-        result["protocol"] = *protocol
-    }
-
-    return []interface{}{result}
 }

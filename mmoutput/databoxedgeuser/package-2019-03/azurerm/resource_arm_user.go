@@ -182,14 +182,6 @@ func resourceArmUserRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if userProperties := resp.UserProperties; userProperties != nil {
-        if err := d.Set("encrypted_password", flattenArmUserAsymmetricEncryptedSecret(userProperties.EncryptedPassword)); err != nil {
-            return fmt.Errorf("Error setting `encrypted_password`: %+v", err)
-        }
-        if err := d.Set("share_access_rights", flattenArmUserShareAccessRight(userProperties.ShareAccessRights)); err != nil {
-            return fmt.Errorf("Error setting `share_access_rights`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -259,43 +251,4 @@ func expandArmUserShareAccessRight(input []interface{}) *[]databoxedge.ShareAcce
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmUserAsymmetricEncryptedSecret(input *databoxedge.AsymmetricEncryptedSecret) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["encryption_algorithm"] = string(input.EncryptionAlgorithm)
-    if encryptionCertThumbprint := input.EncryptionCertThumbprint; encryptionCertThumbprint != nil {
-        result["encryption_cert_thumbprint"] = *encryptionCertThumbprint
-    }
-    if value := input.Value; value != nil {
-        result["value"] = *value
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmUserShareAccessRight(input *[]databoxedge.ShareAccessRight) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["access_type"] = string(item.AccessType)
-        if shareId := item.ShareID; shareId != nil {
-            v["share_id"] = *shareId
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

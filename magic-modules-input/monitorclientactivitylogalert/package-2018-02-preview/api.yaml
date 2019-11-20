@@ -96,86 +96,6 @@ objects:
             python_parameter_name: activity_log_alert_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ActivityLogAlertPatch
-            go_type_name: ActivityLogAlertPatch
-          '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: Enabled
-          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enabled
-          '/properties/scopes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: Scopes
-          '/scopes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: scopes
-          '/properties/condition': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Condition
-            go_type_name: ActivityLogAlertAllOfCondition
-          '/properties/condition/allOf': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: AllOf
-            go_type_name: ActivityLogAlertLeafCondition
-          '/properties/condition/allOf/field': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Field
-          '/properties/condition/allOf/equals': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Equals
-          '/condition': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: condition
-          '/condition/allOf': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: all_of
-          '/condition/allOf/field': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: field
-          '/condition/allOf/equals': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: equals
-          '/properties/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Actions
-            go_type_name: ActivityLogAlertActionList
-          '/properties/actions/actionGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: ActionGroups
-            go_type_name: ActivityLogAlertActionGroup
-          '/properties/actions/actionGroups/actionGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ActionGroupID
-          '/properties/actions/actionGroups/webhookProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: WebhookProperties
-          '/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: actions
-          '/actions/actionGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: action_groups
-          '/actions/actionGroups/actionGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: action_group_id
-          '/actions/actionGroups/webhookProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: webhook_properties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -185,10 +105,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscriptionId
-        python_func_name: list_by_subscription_id
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -198,6 +114,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscriptionId
+        python_func_name: list_by_subscription_id
+        request:
 
     description: |
       Manage Azure ActivityLogAlert instance.
@@ -232,29 +152,6 @@ objects:
         required: false
         azure_sdk_references: ['/enabled', '/properties/enabled']
       # read only values included only in response
-      - !ruby/object:Api::Type::Array
-        name: 'scopes'
-        description: 'A list of resourceIds that will be used as prefixes. The alert will only apply to activityLogs with resourceIds that fall under one of these prefixes. This list must include at least one item.'
-        output: true
-        azure_sdk_references: ['/scopes', '/properties/scopes']
-        item_type: Api::Type::String
-      - !ruby/object:Api::Type::NestedObject
-        name: 'condition'
-        description: 'The condition that will cause this alert to activate.'
-        output: true
-        azure_sdk_references: ['/condition', '/properties/condition']
-        properties:
-      - !ruby/object:Api::Type::NestedObject
-        name: 'actions'
-        description: 'The actions that will activate when the condition is met.'
-        output: true
-        azure_sdk_references: ['/actions', '/properties/actions']
-        properties:
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'A description of this activity log alert.'
-        output: true
-        azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource Id'

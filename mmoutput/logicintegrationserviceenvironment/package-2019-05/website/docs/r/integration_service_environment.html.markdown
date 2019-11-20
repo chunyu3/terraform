@@ -28,7 +28,7 @@ Manage Azure IntegrationServiceEnvironment instance.
 
 The following arguments are supported:
 
-* `integration_service_environment_name` - (Required) The integration service environment name. Changing this forces a new resource to be created.
+* `name` - (Required) The integration service environment name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group. Changing this forces a new resource to be created.
 
@@ -131,8 +131,6 @@ The `sku` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `provisioning_state` - The provisioning state.
 
 * `id` - The resource id.
 

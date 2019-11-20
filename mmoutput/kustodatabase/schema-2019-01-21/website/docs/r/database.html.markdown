@@ -30,9 +30,13 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the database in the Kusto cluster. Changing this forces a new resource to be created.
 
+* `name` - (Required) Database name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group containing the Kusto cluster. Changing this forces a new resource to be created.
 
 * `cluster_name` - (Required) The name of the Kusto cluster. Changing this forces a new resource to be created.
+
+* `type` - (Required) The type of resource, Microsoft.Kusto/clusters/databases. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Resource location. Changing this forces a new resource to be created.
 
@@ -42,20 +46,32 @@ The following arguments are supported:
 
 * `statistics` - (Optional) One `statistic` block defined below.
 
+* `value` - (Optional) One or more `value` block defined below.
+
 ---
 
 The `statistic` block supports the following:
 
 * `size` - (Optional) The database size - the total size of compressed data and index in bytes.
 
+---
+
+The `value` block supports the following:
+
+* `role` - (Required) Database principal role.
+
+* `name` - (Required) Database principal name.
+
+* `type` - (Required) Database principal type.
+
+* `fqn` - (Optional) Database principal fully qualified name.
+
+* `email` - (Optional) Database principal email if exists.
+
+* `app_id` - (Optional) Application id - relevant only for application principal type.
+
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `provisioning_state` - The provisioned state of the resource.
-
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-
-* `name` - The name of the resource
-
-* `type` - The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.

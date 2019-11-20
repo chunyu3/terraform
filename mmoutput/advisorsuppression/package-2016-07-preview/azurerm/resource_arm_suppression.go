@@ -80,13 +80,13 @@ func resourceArmSuppressionCreateUpdate(d *schema.ResourceData, meta interface{}
 
     name := d.Get("name").(string)
     recommendationID := d.Get("recommendation_id").(string)
-    resourceUri := d.Get("resource_uri").(string)
+    resourceURI := d.Get("resource_uri").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceUri, recommendationID, name)
+        existing, err := client.Get(ctx, resourceURI, recommendationID, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Suppression %q (Recommendation %q / Resource Uri %q): %+v", name, recommendationID, resourceUri, err)
+                return fmt.Errorf("Error checking for present of existing Suppression %q (Recommendation %q / Resource Uri %q): %+v", name, recommendationID, resourceURI, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -103,21 +103,21 @@ func resourceArmSuppressionCreateUpdate(d *schema.ResourceData, meta interface{}
         Location: utils.String(location),
         SuppressionID: utils.String(suppressionId),
         Tags: tags.Expand(t),
-        Ttl: utils.String(ttl),
+        TTL: utils.String(ttl),
     }
 
 
-    if _, err := client.Create(ctx, resourceUri, recommendationID, name, suppressionContract); err != nil {
-        return fmt.Errorf("Error creating Suppression %q (Recommendation %q / Resource Uri %q): %+v", name, recommendationID, resourceUri, err)
+    if _, err := client.Create(ctx, resourceURI, recommendationID, name, suppressionContract); err != nil {
+        return fmt.Errorf("Error creating Suppression %q (Recommendation %q / Resource Uri %q): %+v", name, recommendationID, resourceURI, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceUri, recommendationID, name)
+    resp, err := client.Get(ctx, resourceURI, recommendationID, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Suppression %q (Recommendation %q / Resource Uri %q): %+v", name, recommendationID, resourceUri, err)
+        return fmt.Errorf("Error retrieving Suppression %q (Recommendation %q / Resource Uri %q): %+v", name, recommendationID, resourceURI, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Suppression %q (Recommendation %q / Resource Uri %q) ID", name, recommendationID, resourceUri)
+        return fmt.Errorf("Cannot read Suppression %q (Recommendation %q / Resource Uri %q) ID", name, recommendationID, resourceURI)
     }
     d.SetId(*resp.ID)
 
@@ -135,28 +135,23 @@ func resourceArmSuppressionRead(d *schema.ResourceData, meta interface{}) error 
     recommendationID := id.Path["recommendations"]
     name := id.Path["suppressions"]
 
-    resp, err := client.Get(ctx, resourceUri, recommendationID, name)
+    resp, err := client.Get(ctx, resourceURI, recommendationID, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Suppression %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Suppression %q (Recommendation %q / Resource Uri %q): %+v", name, recommendationID, resourceUri, err)
+        return fmt.Errorf("Error reading Suppression %q (Recommendation %q / Resource Uri %q): %+v", name, recommendationID, resourceURI, err)
     }
 
 
     d.Set("name", name)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
     d.Set("recommendation_id", recommendationID)
-    d.Set("resource_uri", resourceUri)
-    d.Set("suppression_id", resp.SuppressionID)
-    d.Set("ttl", resp.Ttl)
+    d.Set("resource_uri", resourceURI)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -172,8 +167,8 @@ func resourceArmSuppressionDelete(d *schema.ResourceData, meta interface{}) erro
     recommendationID := id.Path["recommendations"]
     name := id.Path["suppressions"]
 
-    if _, err := client.Delete(ctx, resourceUri, recommendationID, name); err != nil {
-        return fmt.Errorf("Error deleting Suppression %q (Recommendation %q / Resource Uri %q): %+v", name, recommendationID, resourceUri, err)
+    if _, err := client.Delete(ctx, resourceURI, recommendationID, name); err != nil {
+        return fmt.Errorf("Error deleting Suppression %q (Recommendation %q / Resource Uri %q): %+v", name, recommendationID, resourceURI, err)
     }
 
     return nil

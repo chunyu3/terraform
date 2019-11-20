@@ -121,25 +121,12 @@ objects:
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
-          '/configuration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_field_name: Configuration
-            go_type_name: DscConfigurationAssociationProperty
-            python_field_name: configuration
-          '/configuration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-          '/lastModifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            go_field_name: LastModifiedTime
-            python_field_name: last_modified_time
-          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            go_field_name: CreationTime
-            python_field_name: creation_time
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByAutomationAccount
         python_func_name: list_by_automation_account
@@ -172,7 +159,7 @@ objects:
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The Dsc node configuration name.'
+        description: 'The create or update parameters for configuration.'
         required: true
         input: true
         azure_sdk_references: ['nodeConfigurationName']
@@ -251,13 +238,3 @@ objects:
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModifiedTime'
-        description: 'Gets or sets the last modified time.'
-        output: true
-        azure_sdk_references: ['/lastModifiedTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
-        description: 'Gets or sets creation time.'
-        output: true
-        azure_sdk_references: ['/creationTime']

@@ -45,7 +45,7 @@ objects:
             python_variable_name: auto_start
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: StreamingEndpoint
+            go_type_name: StreamingEntityScaleUnit
             python_parameter_name: parameters
             python_variable_name: parameters
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
@@ -126,13 +126,13 @@ objects:
             go_field_name: Identifier
           '/properties/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList/base64Key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: Base64key
+            go_field_name: Base64Key
           '/properties/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList/expiration': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: Expiration
           '/properties/accessControl/ip': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Ip
+            go_field_name: IP
             go_type_name: IPAccessControl
           '/properties/accessControl/ip/allow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
@@ -196,6 +196,9 @@ objects:
           '/properties/crossSiteAccessPolicies/crossDomainPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: CrossDomainPolicy
+          '/scaleUnit': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: ScaleUnit
+            python_field_name: scale_unit
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -218,7 +221,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: StreamingEndpoint
+            go_type_name: StreamingEntityScaleUnit
             python_parameter_name: parameters
             python_variable_name: parameters
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
@@ -299,13 +302,13 @@ objects:
             go_field_name: Identifier
           '/properties/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList/base64Key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: Base64key
+            go_field_name: Base64Key
           '/properties/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList/expiration': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: Expiration
           '/properties/accessControl/ip': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Ip
+            go_field_name: IP
             go_type_name: IPAccessControl
           '/properties/accessControl/ip/allow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
@@ -369,6 +372,9 @@ objects:
           '/properties/crossSiteAccessPolicies/crossDomainPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: CrossDomainPolicy
+          '/scaleUnit': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: ScaleUnit
+            python_field_name: scale_unit
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -409,191 +415,6 @@ objects:
             python_parameter_name: streaming_endpoint_name
             python_variable_name: name
         response:
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: StreamingEndpointProperties
-            go_type_name: StreamingEndpointProperties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/scaleUnits': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: ScaleUnits
-          '/scaleUnits': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: scale_units
-          '/properties/availabilitySetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AvailabilitySetName
-          '/availabilitySetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: availability_set_name
-          '/properties/accessControl': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AccessControl
-            go_type_name: StreamingEndpointAccessControl
-          '/properties/accessControl/akamai': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Akamai
-            go_type_name: AkamaiAccessControl
-          '/properties/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: AkamaiSignatureHeaderAuthenticationKeyList
-            go_type_name: AkamaiSignatureHeaderAuthenticationKey
-          '/properties/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList/identifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Identifier
-          '/properties/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList/base64Key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Base64key
-          '/properties/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList/expiration': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: Expiration
-          '/properties/accessControl/ip': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Ip
-            go_type_name: IPAccessControl
-          '/properties/accessControl/ip/allow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Allow
-            go_type_name: IPRange
-          '/properties/accessControl/ip/allow/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/accessControl/ip/allow/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Address
-          '/properties/accessControl/ip/allow/subnetPrefixLength': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: SubnetPrefixLength
-          '/accessControl': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: access_control
-          '/accessControl/akamai': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: akamai
-          '/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: akamai_signature_header_authentication_key_list
-          '/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList/identifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: identifier
-          '/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList/base64Key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: base64key
-          '/accessControl/akamai/akamaiSignatureHeaderAuthenticationKeyList/expiration': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: expiration
-          '/accessControl/ip': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: ip
-          '/accessControl/ip/allow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: allow
-          '/accessControl/ip/allow/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/accessControl/ip/allow/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: address
-          '/accessControl/ip/allow/subnetPrefixLength': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: subnet_prefix_length
-          '/properties/maxCacheAge': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: MaxCacheAge
-          '/maxCacheAge': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: max_cache_age
-          '/properties/customHostNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: CustomHostNames
-          '/customHostNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: custom_host_names
-          '/properties/cdnEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: CdnEnabled
-          '/cdnEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: cdn_enabled
-          '/properties/cdnProvider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CdnProvider
-          '/cdnProvider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: cdn_provider
-          '/properties/cdnProfile': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CdnProfile
-          '/cdnProfile': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: cdn_profile
-          '/properties/crossSiteAccessPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: CrossSiteAccessPolicies
-            go_type_name: CrossSiteAccessPolicies
-          '/properties/crossSiteAccessPolicies/clientAccessPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClientAccessPolicy
-          '/properties/crossSiteAccessPolicies/crossDomainPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CrossDomainPolicy
-          '/crossSiteAccessPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: cross_site_access_policies
-          '/crossSiteAccessPolicies/clientAccessPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: client_access_policy
-          '/crossSiteAccessPolicies/crossDomainPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: cross_domain_policy
-          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResourceState
-            go_enum_type_name: StreamingEndpointResourceState
-          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: resource_state
-          '/properties/freeTrialEndTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: FreeTrialEndTime
-          '/freeTrialEndTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: free_trial_end_time
-          '/properties/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: Created
-          '/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created
-          '/properties/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastModified
-          '/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_modified
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -776,44 +597,13 @@ objects:
             description: 'The content of crossdomain.xml used by Silverlight.'
             required: false
             azure_sdk_references: ['/crossSiteAccessPolicies/crossDomainPolicy', '/properties/crossSiteAccessPolicies/crossDomainPolicy']
+      - !ruby/object:Api::Type::Integer
+        name: 'scaleUnit'
+        description: 'The scale unit number of the StreamingEndpoint.'
+        required: false
+        input: true
+        azure_sdk_references: ['/scaleUnit']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'hostName'
-        description: 'The StreamingEndpoint host name.'
-        output: true
-        azure_sdk_references: ['/hostName', '/properties/hostName']
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The provisioning state of the StreamingEndpoint.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Type::Enum
-        name: 'resourceState'
-        description: 'The resource state of the StreamingEndpoint.'
-        output: true
-        azure_sdk_references: ['/resourceState', '/properties/resourceState']
-        values:
-          - :Stopped
-          - :Starting
-          - :Running
-          - :Stopping
-          - :Deleting
-          - :Scaling
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'freeTrialEndTime'
-        description: 'The free trial expiration time.'
-        output: true
-        azure_sdk_references: ['/freeTrialEndTime', '/properties/freeTrialEndTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'created'
-        description: 'The exact time the StreamingEndpoint was created.'
-        output: true
-        azure_sdk_references: ['/created', '/properties/created']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModified'
-        description: 'The exact time the StreamingEndpoint was last modified.'
-        output: true
-        azure_sdk_references: ['/lastModified', '/properties/lastModified']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource ID for the resource.'

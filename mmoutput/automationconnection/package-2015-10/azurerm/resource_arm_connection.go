@@ -38,9 +38,8 @@ func resourceArmConnection() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -52,20 +51,6 @@ func resourceArmConnection() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "connection_type": {
-                Type: schema.TypeList,
-                Required: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "name": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
             "description": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -75,16 +60,6 @@ func resourceArmConnection() *schema.Resource {
                 Type: schema.TypeMap,
                 Optional: true,
                 Elem: &schema.Schema{Type: schema.TypeString},
-            },
-
-            "creation_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified_time": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "type": {
@@ -116,14 +91,12 @@ func resourceArmConnectionCreate(d *schema.ResourceData, meta interface{}) error
     }
 
     name := d.Get("name").(string)
-    connectionType := d.Get("connection_type").([]interface{})
     description := d.Get("description").(string)
     fieldDefinitionValues := d.Get("field_definition_values").(map[string]interface{})
 
-    parameters := automation.ConnectionCreateOrUpdateParameters{
+    parameters := automation.ConnectionUpdateParameters{
         Name: utils.String(name),
-        ConnectionCreateOrUpdateProperties: &automation.ConnectionCreateOrUpdateProperties{
-            ConnectionType: expandArmConnectionConnectionTypeAssociationProperty(connectionType),
+        ConnectionUpdateProperties: &automation.ConnectionUpdateProperties{
             Description: utils.String(description),
             FieldDefinitionValues: utils.ExpandKeyValuePairs(fieldDefinitionValues),
         },
@@ -174,15 +147,6 @@ func resourceArmConnectionRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
-    if connectionCreateOrUpdateProperties := resp.ConnectionCreateOrUpdateProperties; connectionCreateOrUpdateProperties != nil {
-        if err := d.Set("connection_type", flattenArmConnectionConnectionTypeAssociationProperty(connectionCreateOrUpdateProperties.ConnectionType)); err != nil {
-            return fmt.Errorf("Error setting `connection_type`: %+v", err)
-        }
-        d.Set("creation_time", (connectionCreateOrUpdateProperties.CreationTime).String())
-        d.Set("description", connectionCreateOrUpdateProperties.Description)
-        d.Set("field_definition_values", utils.FlattenKeyValuePairs(connectionCreateOrUpdateProperties.FieldDefinitionValues))
-        d.Set("last_modified_time", (connectionCreateOrUpdateProperties.LastModifiedTime).String())
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -196,14 +160,12 @@ func resourceArmConnectionUpdate(d *schema.ResourceData, meta interface{}) error
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
-    connectionType := d.Get("connection_type").([]interface{})
     description := d.Get("description").(string)
     fieldDefinitionValues := d.Get("field_definition_values").(map[string]interface{})
 
-    parameters := automation.ConnectionCreateOrUpdateParameters{
+    parameters := automation.ConnectionUpdateParameters{
         Name: utils.String(name),
-        ConnectionCreateOrUpdateProperties: &automation.ConnectionCreateOrUpdateProperties{
-            ConnectionType: expandArmConnectionConnectionTypeAssociationProperty(connectionType),
+        ConnectionUpdateProperties: &automation.ConnectionUpdateProperties{
             Description: utils.String(description),
             FieldDefinitionValues: utils.ExpandKeyValuePairs(fieldDefinitionValues),
         },
@@ -235,33 +197,4 @@ func resourceArmConnectionDelete(d *schema.ResourceData, meta interface{}) error
     }
 
     return nil
-}
-
-func expandArmConnectionConnectionTypeAssociationProperty(input []interface{}) *automation.ConnectionTypeAssociationProperty {
-    if len(input) == 0 {
-        return nil
-    }
-    v := input[0].(map[string]interface{})
-
-    name := v["name"].(string)
-
-    result := automation.ConnectionTypeAssociationProperty{
-        Name: utils.String(name),
-    }
-    return &result
-}
-
-
-func flattenArmConnectionConnectionTypeAssociationProperty(input *automation.ConnectionTypeAssociationProperty) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
-
-    return []interface{}{result}
 }

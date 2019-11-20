@@ -58,6 +58,14 @@ objects:
           '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: HostName
+          '/protocolType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: ProtocolType
+            go_enum_type_name: ProtocolType
+            python_field_name: protocol_type
+          '/minimumTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: MinimumTLSVersion
+            go_enum_type_name: MinimumTlsVersion
+            python_field_name: minimum_tls_version
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -108,49 +116,6 @@ objects:
             python_parameter_name: custom_domain_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: CustomDomainPropertiesParameters
-            go_type_name: CustomDomainPropertiesParameters
-          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
-          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResourceState
-            go_enum_type_name: CustomDomainResourceState
-          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: resource_state
-          '/properties/customHttpsProvisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: CustomHttpsProvisioningState
-            go_enum_type_name: CustomHttpsProvisioningState
-          '/customHttpsProvisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: custom_https_provisioning_state
-          '/properties/customHttpsProvisioningSubstate': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: CustomHttpsProvisioningSubstate
-            go_enum_type_name: CustomHttpsProvisioningSubstate
-          '/customHttpsProvisioningSubstate': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: custom_https_provisioning_substate
-          '/properties/validationData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ValidationData
-          '/validationData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: validation_data
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -212,53 +177,27 @@ objects:
         description: 'The host name of the custom domain. Must be a domain name.'
         required: true
         azure_sdk_references: ['/hostName', '/properties/hostName']
+      - !ruby/object:Api::Type::Enum
+        name: 'protocolType'
+        description: 'Defines the TLS extension protocol that is used for secure delivery.'
+        required: true
+        input: true
+        azure_sdk_references: ['/protocolType']
+        values:
+          - :ServerNameIndication
+          - :IPBased
+      - !ruby/object:Api::Type::Enum
+        name: 'minimumTlsVersion'
+        description: 'TLS protocol version that will be used for Https'
+        required: false
+        input: true
+        azure_sdk_references: ['/minimumTlsVersion']
+        values:
+          - :None
+          - :TLS10
+          - :TLS12
+        default_value: :None
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'resourceState'
-        description: 'Resource status of the custom domain.'
-        output: true
-        azure_sdk_references: ['/resourceState', '/properties/resourceState']
-        values:
-          - :Creating
-          - :Active
-          - :Deleting
-      - !ruby/object:Api::Type::Enum
-        name: 'customHttpsProvisioningState'
-        description: 'Provisioning status of Custom Https of the custom domain.'
-        output: true
-        azure_sdk_references: ['/customHttpsProvisioningState', '/properties/customHttpsProvisioningState']
-        values:
-          - :Enabling
-          - :Enabled
-          - :Disabling
-          - :Disabled
-          - :Failed
-      - !ruby/object:Api::Type::Enum
-        name: 'customHttpsProvisioningSubstate'
-        description: 'Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.'
-        output: true
-        azure_sdk_references: ['/customHttpsProvisioningSubstate', '/properties/customHttpsProvisioningSubstate']
-        values:
-          - :SubmittingDomainControlValidationRequest
-          - :PendingDomainControlValidationREquestApproval
-          - :DomainControlValidationRequestApproved
-          - :DomainControlValidationRequestRejected
-          - :DomainControlValidationRequestTimedOut
-          - :IssuingCertificate
-          - :DeployingCertificate
-          - :CertificateDeployed
-          - :DeletingCertificate
-          - :CertificateDeleted
-      - !ruby/object:Api::Type::String
-        name: 'validationData'
-        description: 'Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.'
-        output: true
-        azure_sdk_references: ['/validationData', '/properties/validationData']
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Provisioning status of the custom domain.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

@@ -102,11 +102,6 @@ func resourceArmNetwork() *schema.Resource {
                 },
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -195,20 +190,9 @@ func resourceArmNetworkRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if networkResourceProperties := resp.NetworkResourceProperties; networkResourceProperties != nil {
-        d.Set("address_prefix", networkResourceProperties.AddressPrefix)
-        d.Set("description", networkResourceProperties.Description)
-        if err := d.Set("ingress_config", flattenArmNetworkIngressConfig(networkResourceProperties.IngressConfig)); err != nil {
-            return fmt.Errorf("Error setting `ingress_config`: %+v", err)
-        }
-        d.Set("provisioning_state", networkResourceProperties.ProvisioningState)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -268,49 +252,4 @@ func expandArmNetworkLayer4IngressConfig(input []interface{}) *[]servicefabricme
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmNetworkIngressConfig(input *servicefabricmeshrestapis.IngressConfig) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["layer4"] = flattenArmNetworkLayer4IngressConfig(input.Layer4)
-    result["qos_level"] = string(input.QosLevel)
-
-    return []interface{}{result}
-}
-
-func flattenArmNetworkLayer4IngressConfig(input *[]servicefabricmeshrestapis.Layer4IngressConfig) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if applicationName := item.ApplicationName; applicationName != nil {
-            v["application_name"] = *applicationName
-        }
-        if endpointName := item.EndpointName; endpointName != nil {
-            v["endpoint_name"] = *endpointName
-        }
-        if publicPort := item.PublicPort; publicPort != nil {
-            v["public_port"] = *publicPort
-        }
-        if serviceName := item.ServiceName; serviceName != nil {
-            v["service_name"] = *serviceName
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

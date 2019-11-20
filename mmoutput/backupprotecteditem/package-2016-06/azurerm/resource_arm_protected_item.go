@@ -224,25 +224,12 @@ func resourceArmProtectedItemRead(d *schema.ResourceData, meta interface{}) erro
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if protectedItem := resp.ProtectedItem; protectedItem != nil {
-        d.Set("backup_management_type", string(protectedItem.BackupManagementType))
-        d.Set("last_recovery_point", (protectedItem.LastRecoveryPoint).String())
-        d.Set("policy_id", protectedItem.PolicyID)
-        d.Set("source_resource_id", protectedItem.SourceResourceID)
-        d.Set("workload_type", string(protectedItem.WorkloadType))
-    }
     d.Set("container_name", containerName)
-    d.Set("e_tag", resp.ETag)
     d.Set("fabric_name", fabricName)
-    d.Set("type", resp.Type)
     d.Set("vault_name", vaultName)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 

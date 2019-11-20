@@ -57,6 +57,17 @@ func resourceArmNotificationChannel() *schema.Resource {
                 Optional: true,
             },
 
+            "event_name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(devtestlab.AutoShutdown),
+                    string(devtestlab.Cost),
+                }, false),
+                Default: string(devtestlab.AutoShutdown),
+            },
+
             "events": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -75,6 +86,12 @@ func resourceArmNotificationChannel() *schema.Resource {
                 },
             },
 
+            "json_payload": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "notification_locale": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -85,22 +102,7 @@ func resourceArmNotificationChannel() *schema.Resource {
                 Optional: true,
             },
 
-            "created_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "unique_identifier": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -133,12 +135,16 @@ func resourceArmNotificationChannelCreate(d *schema.ResourceData, meta interface
     location := azure.NormalizeLocation(d.Get("location").(string))
     description := d.Get("description").(string)
     emailRecipient := d.Get("email_recipient").(string)
+    eventName := d.Get("event_name").(string)
     events := d.Get("events").([]interface{})
+    jsonPayload := d.Get("json_payload").(string)
     notificationLocale := d.Get("notification_locale").(string)
     webHookUrl := d.Get("web_hook_url").(string)
     t := d.Get("tags").(map[string]interface{})
 
     notificationChannel := devtestlab.NotificationChannelFragment{
+        EventName: devtestlab.NotificationChannelEventType(eventName),
+        JSONPayload: utils.String(jsonPayload),
         Location: utils.String(location),
         NotificationChannelPropertiesFragment: &devtestlab.NotificationChannelPropertiesFragment{
             Description: utils.String(description),
@@ -194,24 +200,9 @@ func resourceArmNotificationChannelRead(d *schema.ResourceData, meta interface{}
     d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if notificationChannelPropertiesFragment := resp.NotificationChannelPropertiesFragment; notificationChannelPropertiesFragment != nil {
-        d.Set("created_date", (notificationChannelPropertiesFragment.CreatedDate).String())
-        d.Set("description", notificationChannelPropertiesFragment.Description)
-        d.Set("email_recipient", notificationChannelPropertiesFragment.EmailRecipient)
-        if err := d.Set("events", flattenArmNotificationChannelEventFragment(notificationChannelPropertiesFragment.Events)); err != nil {
-            return fmt.Errorf("Error setting `events`: %+v", err)
-        }
-        d.Set("notification_locale", notificationChannelPropertiesFragment.NotificationLocale)
-        d.Set("provisioning_state", notificationChannelPropertiesFragment.ProvisioningState)
-        d.Set("unique_identifier", notificationChannelPropertiesFragment.UniqueIdentifier)
-        d.Set("web_hook_url", notificationChannelPropertiesFragment.WebHookURL)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmNotificationChannelUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -223,13 +214,16 @@ func resourceArmNotificationChannelUpdate(d *schema.ResourceData, meta interface
     resourceGroup := d.Get("resource_group").(string)
     description := d.Get("description").(string)
     emailRecipient := d.Get("email_recipient").(string)
+    eventName := d.Get("event_name").(string)
     events := d.Get("events").([]interface{})
+    jsonPayload := d.Get("json_payload").(string)
     notificationLocale := d.Get("notification_locale").(string)
     webHookUrl := d.Get("web_hook_url").(string)
     t := d.Get("tags").(map[string]interface{})
 
     notificationChannel := devtestlab.NotificationChannelFragment{
-        Location: utils.String(location),
+        EventName: devtestlab.NotificationChannelEventType(eventName),
+        JSONPayload: utils.String(jsonPayload),
         NotificationChannelPropertiesFragment: &devtestlab.NotificationChannelPropertiesFragment{
             Description: utils.String(description),
             EmailRecipient: utils.String(emailRecipient),
@@ -281,22 +275,4 @@ func expandArmNotificationChannelEventFragment(input []interface{}) *[]devtestla
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmNotificationChannelEventFragment(input *[]devtestlab.EventFragment) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["event_name"] = string(item.EventName)
-
-        results = append(results, v)
-    }
-
-    return results
 }

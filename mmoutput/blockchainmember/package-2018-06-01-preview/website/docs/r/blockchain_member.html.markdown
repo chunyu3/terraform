@@ -34,23 +34,17 @@ The following arguments are supported:
 
 * `location` - (Optional) The GEO location of the blockchain service. Changing this forces a new resource to be created.
 
-* `consortium` - (Optional) Gets or sets the consortium for the blockchain member.
-
 * `consortium_management_account_password` - (Optional) Sets the managed consortium management account password.
-
-* `consortium_member_display_name` - (Optional) Gets the display name of the member in the consortium.
-
-* `consortium_role` - (Optional) Gets the role of the member in the consortium.
 
 * `firewall_rules` - (Optional) One or more `firewall_rule` block defined below.
 
-* `password` - (Optional) Sets the basic auth password of the blockchain member.
+* `key_name` - (Optional) Gets or sets the API key name. Changing this forces a new resource to be created.
 
-* `protocol` - (Optional) Gets or sets the blockchain protocol. Defaults to `NotSpecified`.
+* `password` - (Optional) Sets the transaction node dns endpoint basic auth password.
 
 * `sku` - (Optional) One `sku` block defined below.
 
-* `validator_nodes_sku` - (Optional) One `validator_nodes_sku` block defined below.
+* `value` - (Optional) Gets or sets the API key value. Changing this forces a new resource to be created.
 
 * `tags` - (Optional) Tags of the service which is a list of key value pairs that describes the resource. Changing this forces a new resource to be created.
 
@@ -72,27 +66,9 @@ The `sku` block supports the following:
 
 * `tier` - (Optional) Gets or sets Sku tier
 
----
-
-The `validator_nodes_sku` block supports the following:
-
-* `capacity` - (Optional) Gets or sets the nodes capacity.
-
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `provisioning_state` - Gets or sets the blockchain member provision state.
-
-* `dns` - Gets the dns endpoint of the blockchain member.
-
-* `user_name` - Gets the auth user name of the blockchain member.
-
-* `consortium_management_account_address` - Gets the managed consortium management account address.
-
-* `root_contract_address` - Gets the Ethereum root contract address of the blockchain.
-
-* `public_key` - Gets the public key of the blockchain member (default transaction node).
 
 * `id` - Fully qualified resource Id of the resource.
 

@@ -48,6 +48,9 @@ objects:
             applicable_to: [go]
             go_field_name: TopicProperties
             go_type_name: TopicProperties
+          '/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: KeyName
+            python_field_name: key_name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -78,29 +81,6 @@ objects:
             python_parameter_name: topic_name
             python_variable_name: topic_name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: TopicProperties
-            go_type_name: TopicProperties
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: TopicProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Endpoint
-          '/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: endpoint
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -110,10 +90,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscription
-        python_func_name: list_by_subscription
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -123,6 +99,24 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListSharedAccessKeys
+        python_func_name: list_shared_access_keys
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: topics
+            go_variable_name: topicName
+            python_parameter_name: topic_name
+            python_variable_name: topic_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListEventTypes
         python_func_name: list_event_types
@@ -176,6 +170,12 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
+        name: 'keyName'
+        description: 'Key name to regenerate key1 or key2'
+        required: true
+        input: true
+        azure_sdk_references: ['/keyName']
+      - !ruby/object:Api::Type::String
         name: 'providerNamespace'
         description: 'Namespace of the provider of the topic'
         required: true
@@ -194,23 +194,6 @@ objects:
         input: true
         azure_sdk_references: ['resourceName']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'Provisioning state of the topic.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Creating
-          - :Updating
-          - :Deleting
-          - :Succeeded
-          - :Canceled
-          - :Failed
-      - !ruby/object:Api::Type::String
-        name: 'endpoint'
-        description: 'Endpoint for the topic.'
-        output: true
-        azure_sdk_references: ['/endpoint', '/properties/endpoint']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified identifier of the resource'

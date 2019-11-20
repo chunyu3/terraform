@@ -37,14 +37,14 @@ func testCheckAzureRMBackupScheduleGroupExists(resourceName string) resource.Tes
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
-        scheduleGroupName := rs.Primary.Attributes["schedule_group_name"]
+        managerName := rs.Primary.Attributes["manager_name"]
 
         client := testAccProvider.Meta().(*ArmClient).backupScheduleGroupsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, scheduleGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Backup Schedule Group %q (Resource Group %q / Schedule Group Name %q / Device Name %q) does not exist", name, resourceGroup, scheduleGroupName, deviceName)
+                return fmt.Errorf("Bad: Backup Schedule Group %q (Manager Name %q / Resource Group %q / Device Name %q) does not exist", name, managerName, resourceGroup, deviceName)
             }
             return fmt.Errorf("Bad: Get on backupScheduleGroupsClient: %+v", err)
         }
@@ -65,9 +65,9 @@ func testCheckAzureRMBackupScheduleGroupDestroy(s *terraform.State) error {
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
-        scheduleGroupName := rs.Primary.Attributes["schedule_group_name"]
+        managerName := rs.Primary.Attributes["manager_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, scheduleGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on backupScheduleGroupsClient: %+v", err)
             }

@@ -96,6 +96,9 @@ objects:
             go_variable_name: version
             python_parameter_name: version
             python_variable_name: version
+          '/format': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Format
+            python_field_name: format
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -103,9 +106,6 @@ objects:
             go_field_name: State
             go_enum_type_name: PackageState
             python_field_name: state
-          '/format': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Format
-            python_field_name: format
           '/storageUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: StorageURL
             python_field_name: storage_url
@@ -143,6 +143,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['version']
+      - !ruby/object:Api::Type::String
+        name: 'format'
+        description: 'The format of the application package binary file.'
+        required: true
+        input: true
+        azure_sdk_references: ['/format']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -158,11 +164,6 @@ objects:
           - :pending
           - :active
           - :unmapped
-      - !ruby/object:Api::Type::String
-        name: 'format'
-        description: 'The format of the application package, if the package is active.'
-        output: true
-        azure_sdk_references: ['/format']
       - !ruby/object:Api::Type::String
         name: 'storageUrl'
         description: 'The storage URL at which the application package is stored.'

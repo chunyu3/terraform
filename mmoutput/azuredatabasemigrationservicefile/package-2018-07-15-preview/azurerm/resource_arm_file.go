@@ -31,14 +31,14 @@ func resourceArmFile() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "file_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "group_name": {
@@ -83,16 +83,6 @@ func resourceArmFile() *schema.Resource {
                 Optional: true,
             },
 
-            "last_modified": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "size": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -105,16 +95,16 @@ func resourceArmFileCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).filesClient
     ctx := meta.(*ArmClient).StopContext
 
-    fileName := d.Get("file_name").(string)
+    name := d.Get("name").(string)
     groupName := d.Get("group_name").(string)
     projectName := d.Get("project_name").(string)
     serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, groupName, serviceName, projectName, fileName)
+        existing, err := client.Get(ctx, groupName, serviceName, projectName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing File (File Name %q / Project Name %q / Service Name %q / Group Name %q): %+v", fileName, projectName, serviceName, groupName, err)
+                return fmt.Errorf("Error checking for present of existing File %q (Project Name %q / Service Name %q / Group Name %q): %+v", name, projectName, serviceName, groupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -137,17 +127,17 @@ func resourceArmFileCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, groupName, serviceName, projectName, fileName, parameters); err != nil {
-        return fmt.Errorf("Error creating File (File Name %q / Project Name %q / Service Name %q / Group Name %q): %+v", fileName, projectName, serviceName, groupName, err)
+    if _, err := client.CreateOrUpdate(ctx, groupName, serviceName, projectName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating File %q (Project Name %q / Service Name %q / Group Name %q): %+v", name, projectName, serviceName, groupName, err)
     }
 
 
-    resp, err := client.Get(ctx, groupName, serviceName, projectName, fileName)
+    resp, err := client.Get(ctx, groupName, serviceName, projectName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving File (File Name %q / Project Name %q / Service Name %q / Group Name %q): %+v", fileName, projectName, serviceName, groupName, err)
+        return fmt.Errorf("Error retrieving File %q (Project Name %q / Service Name %q / Group Name %q): %+v", name, projectName, serviceName, groupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read File (File Name %q / Project Name %q / Service Name %q / Group Name %q) ID", fileName, projectName, serviceName, groupName)
+        return fmt.Errorf("Cannot read File %q (Project Name %q / Service Name %q / Group Name %q) ID", name, projectName, serviceName, groupName)
     }
     d.SetId(*resp.ID)
 
@@ -165,29 +155,21 @@ func resourceArmFileRead(d *schema.ResourceData, meta interface{}) error {
     groupName := id.ResourceGroup
     serviceName := id.Path["services"]
     projectName := id.Path["projects"]
-    fileName := id.Path["files"]
+    name := id.Path["files"]
 
-    resp, err := client.Get(ctx, groupName, serviceName, projectName, fileName)
+    resp, err := client.Get(ctx, groupName, serviceName, projectName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] File %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading File (File Name %q / Project Name %q / Service Name %q / Group Name %q): %+v", fileName, projectName, serviceName, groupName, err)
+        return fmt.Errorf("Error reading File %q (Project Name %q / Service Name %q / Group Name %q): %+v", name, projectName, serviceName, groupName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
-    d.Set("etag", resp.Etag)
-    if projectFileProperties := resp.ProjectFileProperties; projectFileProperties != nil {
-        d.Set("extension", projectFileProperties.Extension)
-        d.Set("file_path", projectFileProperties.FilePath)
-        d.Set("last_modified", (projectFileProperties.LastModified).String())
-        d.Set("media_type", projectFileProperties.MediaType)
-        d.Set("size", int(*projectFileProperties.Size))
-    }
-    d.Set("file_name", fileName)
     d.Set("group_name", groupName)
     d.Set("project_name", projectName)
     d.Set("service_name", serviceName)
@@ -200,9 +182,9 @@ func resourceArmFileUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).filesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     etag := d.Get("etag").(string)
     extension := d.Get("extension").(string)
-    fileName := d.Get("file_name").(string)
     filePath := d.Get("file_path").(string)
     groupName := d.Get("group_name").(string)
     mediaType := d.Get("media_type").(string)
@@ -219,8 +201,8 @@ func resourceArmFileUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, groupName, serviceName, projectName, fileName, parameters); err != nil {
-        return fmt.Errorf("Error updating File (File Name %q / Project Name %q / Service Name %q / Group Name %q): %+v", fileName, projectName, serviceName, groupName, err)
+    if _, err := client.Update(ctx, groupName, serviceName, projectName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating File %q (Project Name %q / Service Name %q / Group Name %q): %+v", name, projectName, serviceName, groupName, err)
     }
 
     return resourceArmFileRead(d, meta)
@@ -238,10 +220,10 @@ func resourceArmFileDelete(d *schema.ResourceData, meta interface{}) error {
     groupName := id.ResourceGroup
     serviceName := id.Path["services"]
     projectName := id.Path["projects"]
-    fileName := id.Path["files"]
+    name := id.Path["files"]
 
-    if _, err := client.Delete(ctx, groupName, serviceName, projectName, fileName); err != nil {
-        return fmt.Errorf("Error deleting File (File Name %q / Project Name %q / Service Name %q / Group Name %q): %+v", fileName, projectName, serviceName, groupName, err)
+    if _, err := client.Delete(ctx, groupName, serviceName, projectName, name); err != nil {
+        return fmt.Errorf("Error deleting File %q (Project Name %q / Service Name %q / Group Name %q): %+v", name, projectName, serviceName, groupName, err)
     }
 
     return nil

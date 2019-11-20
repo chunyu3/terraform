@@ -171,14 +171,6 @@ The `destination` block supports the following:
 
 The following attributes are exported:
 
-* `provisioning_state` - State of the resource.
-
-* `status` - Status of the resource.
-
-* `status_details` - Gives additional information about the current status of the gateway.
-
-* `ip_address` - IP address of the gateway. This is populated in the response and is ignored for incoming requests.
-
 * `id` - Fully qualified identifier for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource

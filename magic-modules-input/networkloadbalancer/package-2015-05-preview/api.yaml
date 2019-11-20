@@ -104,7 +104,7 @@ objects:
             python_field_name: etag
           '/properties/frontendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: FrontendIpconfigurations
+            go_field_name: FrontendIPConfigurations
             go_type_name: FrontendIpConfiguration
           '/properties/frontendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -115,10 +115,10 @@ objects:
             go_type_name: FrontendIpConfigurationPropertiesFormat
           '/properties/frontendIPConfigurations/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: PrivateIpAddress
+            go_field_name: PrivateIPAddress
           '/properties/frontendIPConfigurations/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: PrivateIpallocationMethod
+            go_field_name: PrivateIPAllocationMethod
             go_enum_type_name: IpAllocationMethod
           '/properties/frontendIPConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -129,7 +129,7 @@ objects:
             go_field_name: ID
           '/properties/frontendIPConfigurations/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PublicIpAddress
+            go_field_name: PublicIPAddress
             go_type_name: SubResource
           '/properties/frontendIPConfigurations/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -211,7 +211,7 @@ objects:
             go_type_name: BackendAddressPoolPropertiesFormat
           '/properties/backendAddressPools/properties/backendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: BackendIpconfigurations
+            go_field_name: BackendIPConfigurations
             go_type_name: SubResource
           '/properties/backendAddressPools/properties/backendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -297,7 +297,7 @@ objects:
             go_type_name: LoadBalancingRulePropertiesFormat
           '/properties/loadBalancingRules/properties/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: FrontendIpconfiguration
+            go_field_name: FrontendIPConfiguration
             go_type_name: SubResource
           '/properties/loadBalancingRules/properties/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -335,7 +335,7 @@ objects:
             go_field_name: IdleTimeoutInMinutes
           '/properties/loadBalancingRules/properties/enableFloatingIP': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
-            go_field_name: EnableFloatingIp
+            go_field_name: EnableFloatingIP
           '/properties/loadBalancingRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -467,14 +467,14 @@ objects:
             go_type_name: InboundNatRulePropertiesFormat
           '/properties/inboundNatRules/properties/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: FrontendIpconfiguration
+            go_field_name: FrontendIPConfiguration
             go_type_name: SubResource
           '/properties/inboundNatRules/properties/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ID
           '/properties/inboundNatRules/properties/backendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BackendIpconfiguration
+            go_field_name: BackendIPConfiguration
             go_type_name: SubResource
           '/properties/inboundNatRules/properties/backendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -494,7 +494,7 @@ objects:
             go_field_name: IdleTimeoutInMinutes
           '/properties/inboundNatRules/properties/enableFloatingIP': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
-            go_field_name: EnableFloatingIp
+            go_field_name: EnableFloatingIP
           '/properties/inboundNatRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -544,7 +544,7 @@ objects:
             go_type_name: InboundNatPoolPropertiesFormat
           '/properties/inboundNatPools/properties/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: FrontendIpconfiguration
+            go_field_name: FrontendIPConfiguration
             go_type_name: SubResource
           '/properties/inboundNatPools/properties/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -611,7 +611,7 @@ objects:
             go_field_name: AllocatedOutboundPorts
           '/properties/outboundNatRules/properties/frontendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: FrontendIpconfigurations
+            go_field_name: FrontendIPConfigurations
             go_type_name: SubResource
           '/properties/outboundNatRules/properties/frontendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -634,7 +634,7 @@ objects:
             python_field_name: resource_guid
           '/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: ResourceGuid
+            go_field_name: ResourceGUID
           '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Etag
             python_field_name: etag
@@ -668,654 +668,6 @@ objects:
             python_parameter_name: load_balancer_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LoadBalancerPropertiesFormat
-            go_type_name: LoadBalancerPropertiesFormat
-          '/properties/frontendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: FrontendIpconfigurations
-            go_type_name: FrontendIpConfiguration
-          '/properties/frontendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/frontendIPConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: FrontendIpConfigurationPropertiesFormat
-            go_type_name: FrontendIpConfigurationPropertiesFormat
-          '/properties/frontendIPConfigurations/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PrivateIpAddress
-          '/properties/frontendIPConfigurations/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: PrivateIpallocationMethod
-            go_enum_type_name: IpAllocationMethod
-          '/properties/frontendIPConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Subnet
-            go_type_name: SubResource
-          '/properties/frontendIPConfigurations/properties/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/frontendIPConfigurations/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PublicIpAddress
-            go_type_name: SubResource
-          '/properties/frontendIPConfigurations/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/frontendIPConfigurations/properties/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: InboundNatRules
-            go_type_name: SubResource
-          '/properties/frontendIPConfigurations/properties/inboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/frontendIPConfigurations/properties/inboundNatPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: InboundNatPools
-            go_type_name: SubResource
-          '/properties/frontendIPConfigurations/properties/inboundNatPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/frontendIPConfigurations/properties/outboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: OutboundNatRules
-            go_type_name: SubResource
-          '/properties/frontendIPConfigurations/properties/outboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/frontendIPConfigurations/properties/loadBalancingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: LoadBalancingRules
-            go_type_name: SubResource
-          '/properties/frontendIPConfigurations/properties/loadBalancingRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/frontendIPConfigurations/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/frontendIPConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/frontendIPConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/frontendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: frontend_ipconfigurations
-          '/frontendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/frontendIPConfigurations/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: private_ip_address
-          '/frontendIPConfigurations/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: private_ipallocation_method
-          '/frontendIPConfigurations/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: subnet
-          '/frontendIPConfigurations/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/frontendIPConfigurations/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: public_ip_address
-          '/frontendIPConfigurations/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/frontendIPConfigurations/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: inbound_nat_rules
-          '/frontendIPConfigurations/inboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/frontendIPConfigurations/inboundNatPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: inbound_nat_pools
-          '/frontendIPConfigurations/inboundNatPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/frontendIPConfigurations/outboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: outbound_nat_rules
-          '/frontendIPConfigurations/outboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/frontendIPConfigurations/loadBalancingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: load_balancing_rules
-          '/frontendIPConfigurations/loadBalancingRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/frontendIPConfigurations/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/frontendIPConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/frontendIPConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/backendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: BackendAddressPools
-            go_type_name: BackendAddressPool
-          '/properties/backendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/backendAddressPools/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: BackendAddressPoolPropertiesFormat
-            go_type_name: BackendAddressPoolPropertiesFormat
-          '/properties/backendAddressPools/properties/backendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: BackendIpconfigurations
-            go_type_name: SubResource
-          '/properties/backendAddressPools/properties/backendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/backendAddressPools/properties/loadBalancingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: LoadBalancingRules
-            go_type_name: SubResource
-          '/properties/backendAddressPools/properties/loadBalancingRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/backendAddressPools/properties/outboundNatRule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: OutboundNatRule
-            go_type_name: SubResource
-          '/properties/backendAddressPools/properties/outboundNatRule/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/backendAddressPools/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/backendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/backendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/backendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: backend_address_pools
-          '/backendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/backendAddressPools/backendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: backend_ipconfigurations
-          '/backendAddressPools/backendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/backendAddressPools/loadBalancingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: load_balancing_rules
-          '/backendAddressPools/loadBalancingRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/backendAddressPools/outboundNatRule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: outbound_nat_rule
-          '/backendAddressPools/outboundNatRule/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/backendAddressPools/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/backendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/backendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/loadBalancingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: LoadBalancingRules
-            go_type_name: LoadBalancingRule
-          '/properties/loadBalancingRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/loadBalancingRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LoadBalancingRulePropertiesFormat
-            go_type_name: LoadBalancingRulePropertiesFormat
-          '/properties/loadBalancingRules/properties/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: FrontendIpconfiguration
-            go_type_name: SubResource
-          '/properties/loadBalancingRules/properties/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/loadBalancingRules/properties/backendAddressPool': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: BackendAddressPool
-            go_type_name: SubResource
-          '/properties/loadBalancingRules/properties/backendAddressPool/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/loadBalancingRules/properties/probe': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Probe
-            go_type_name: SubResource
-          '/properties/loadBalancingRules/properties/probe/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/loadBalancingRules/properties/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Protocol
-            go_enum_type_name: TransportProtocol
-          '/properties/loadBalancingRules/properties/loadDistribution': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: LoadDistribution
-            go_enum_type_name: LoadDistribution
-          '/properties/loadBalancingRules/properties/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: FrontendPort
-          '/properties/loadBalancingRules/properties/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: BackendPort
-          '/properties/loadBalancingRules/properties/idleTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: IdleTimeoutInMinutes
-          '/properties/loadBalancingRules/properties/enableFloatingIP': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: EnableFloatingIp
-          '/properties/loadBalancingRules/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/loadBalancingRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/loadBalancingRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/loadBalancingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: load_balancing_rules
-          '/loadBalancingRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/loadBalancingRules/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: frontend_ipconfiguration
-          '/loadBalancingRules/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/loadBalancingRules/backendAddressPool': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: backend_address_pool
-          '/loadBalancingRules/backendAddressPool/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/loadBalancingRules/probe': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: probe
-          '/loadBalancingRules/probe/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/loadBalancingRules/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: protocol
-          '/loadBalancingRules/loadDistribution': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: load_distribution
-          '/loadBalancingRules/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: frontend_port
-          '/loadBalancingRules/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: backend_port
-          '/loadBalancingRules/idleTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: idle_timeout_in_minutes
-          '/loadBalancingRules/enableFloatingIP': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enable_floating_ip
-          '/loadBalancingRules/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/loadBalancingRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/loadBalancingRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/probes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Probes
-            go_type_name: Probe
-          '/properties/probes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/probes/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ProbePropertiesFormat
-            go_type_name: ProbePropertiesFormat
-          '/properties/probes/properties/loadBalancingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: LoadBalancingRules
-            go_type_name: SubResource
-          '/properties/probes/properties/loadBalancingRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/probes/properties/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Protocol
-            go_enum_type_name: ProbeProtocol
-          '/properties/probes/properties/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Port
-          '/properties/probes/properties/intervalInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: IntervalInSeconds
-          '/properties/probes/properties/numberOfProbes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: NumberOfProbes
-          '/properties/probes/properties/requestPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RequestPath
-          '/properties/probes/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/probes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/probes/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/probes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: probes
-          '/probes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/probes/loadBalancingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: load_balancing_rules
-          '/probes/loadBalancingRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/probes/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: protocol
-          '/probes/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: port
-          '/probes/intervalInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: interval_in_seconds
-          '/probes/numberOfProbes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: number_of_probes
-          '/probes/requestPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: request_path
-          '/probes/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/probes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/probes/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: InboundNatRules
-            go_type_name: InboundNatRule
-          '/properties/inboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/inboundNatRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: InboundNatRulePropertiesFormat
-            go_type_name: InboundNatRulePropertiesFormat
-          '/properties/inboundNatRules/properties/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: FrontendIpconfiguration
-            go_type_name: SubResource
-          '/properties/inboundNatRules/properties/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/inboundNatRules/properties/backendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: BackendIpconfiguration
-            go_type_name: SubResource
-          '/properties/inboundNatRules/properties/backendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/inboundNatRules/properties/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Protocol
-            go_enum_type_name: TransportProtocol
-          '/properties/inboundNatRules/properties/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: FrontendPort
-          '/properties/inboundNatRules/properties/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: BackendPort
-          '/properties/inboundNatRules/properties/idleTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: IdleTimeoutInMinutes
-          '/properties/inboundNatRules/properties/enableFloatingIP': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: EnableFloatingIp
-          '/properties/inboundNatRules/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/inboundNatRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/inboundNatRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: inbound_nat_rules
-          '/inboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/inboundNatRules/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: frontend_ipconfiguration
-          '/inboundNatRules/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/inboundNatRules/backendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: backend_ipconfiguration
-          '/inboundNatRules/backendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/inboundNatRules/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: protocol
-          '/inboundNatRules/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: frontend_port
-          '/inboundNatRules/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: backend_port
-          '/inboundNatRules/idleTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: idle_timeout_in_minutes
-          '/inboundNatRules/enableFloatingIP': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enable_floating_ip
-          '/inboundNatRules/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/inboundNatRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/inboundNatRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/inboundNatPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: InboundNatPools
-            go_type_name: InboundNatPool
-          '/properties/inboundNatPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/inboundNatPools/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: InboundNatPoolPropertiesFormat
-            go_type_name: InboundNatPoolPropertiesFormat
-          '/properties/inboundNatPools/properties/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: FrontendIpconfiguration
-            go_type_name: SubResource
-          '/properties/inboundNatPools/properties/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/inboundNatPools/properties/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Protocol
-            go_enum_type_name: TransportProtocol
-          '/properties/inboundNatPools/properties/frontendPortRangeStart': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: FrontendPortRangeStart
-          '/properties/inboundNatPools/properties/frontendPortRangeEnd': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: FrontendPortRangeEnd
-          '/properties/inboundNatPools/properties/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: BackendPort
-          '/properties/inboundNatPools/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/inboundNatPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/inboundNatPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/inboundNatPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: inbound_nat_pools
-          '/inboundNatPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/inboundNatPools/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: frontend_ipconfiguration
-          '/inboundNatPools/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/inboundNatPools/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: protocol
-          '/inboundNatPools/frontendPortRangeStart': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: frontend_port_range_start
-          '/inboundNatPools/frontendPortRangeEnd': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: frontend_port_range_end
-          '/inboundNatPools/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: backend_port
-          '/inboundNatPools/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/inboundNatPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/inboundNatPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/outboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: OutboundNatRules
-            go_type_name: OutboundNatRule
-          '/properties/outboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/outboundNatRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: OutboundNatRulePropertiesFormat
-            go_type_name: OutboundNatRulePropertiesFormat
-          '/properties/outboundNatRules/properties/allocatedOutboundPorts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: AllocatedOutboundPorts
-          '/properties/outboundNatRules/properties/frontendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: FrontendIpconfigurations
-            go_type_name: SubResource
-          '/properties/outboundNatRules/properties/frontendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/outboundNatRules/properties/backendAddressPool': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: BackendAddressPool
-            go_type_name: SubResource
-          '/properties/outboundNatRules/properties/backendAddressPool/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/outboundNatRules/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/outboundNatRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/outboundNatRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/outboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: outbound_nat_rules
-          '/outboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/outboundNatRules/allocatedOutboundPorts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: allocated_outbound_ports
-          '/outboundNatRules/frontendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: frontend_ipconfigurations
-          '/outboundNatRules/frontendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/outboundNatRules/backendAddressPool': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: backend_address_pool
-          '/outboundNatRules/backendAddressPool/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/outboundNatRules/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/outboundNatRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/outboundNatRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceGuid
-          '/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_guid
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Etag
-            python_field_name: etag
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -1325,10 +677,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListAll
-        python_func_name: list_all
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -1338,6 +686,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAll
+        python_func_name: list_all
+        request:
 
     description: |
       Manage Azure LoadBalancer instance.
@@ -1874,11 +1226,6 @@ objects:
         input: true
         azure_sdk_references: ['/etag']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Gets or sets Provisioning state of the PublicIP resource Updating/Deleting/Failed'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

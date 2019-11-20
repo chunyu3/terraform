@@ -33,7 +33,7 @@ objects:
             python_parameter_name: account_name
             python_variable_name: account_name
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: workspaces
+            id_portion: null
             go_variable_name: workspaceName
             python_parameter_name: workspace_name
             python_variable_name: workspace_name
@@ -90,7 +90,7 @@ objects:
             python_parameter_name: account_name
             python_variable_name: account_name
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: workspaces
+            id_portion: null
             go_variable_name: workspaceName
             python_parameter_name: workspace_name
             python_variable_name: workspace_name
@@ -147,7 +147,7 @@ objects:
             python_parameter_name: account_name
             python_variable_name: account_name
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: workspaces
+            id_portion: null
             go_variable_name: workspaceName
             python_parameter_name: workspace_name
             python_variable_name: workspace_name
@@ -171,7 +171,7 @@ objects:
             python_parameter_name: account_name
             python_variable_name: account_name
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: workspaces
+            id_portion: null
             go_variable_name: workspaceName
             python_parameter_name: workspace_name
             python_variable_name: workspace_name
@@ -181,65 +181,6 @@ objects:
             python_parameter_name: project_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ProjectPropertiesUpdateParameters
-            go_type_name: ProjectPropertiesUpdateParameters
-          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FriendlyName
-          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: friendly_name
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/gitrepo': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Gitrepo
-          '/gitrepo': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: gitrepo
-          '/properties/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AccountID
-          '/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: account_id
-          '/properties/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: WorkspaceID
-          '/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: workspace_id
-          '/properties/projectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProjectID
-          '/projectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: project_id
-          '/properties/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreationDate
-          '/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: creation_date
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -319,37 +260,6 @@ objects:
         required: false
         azure_sdk_references: ['/gitrepo', '/properties/gitrepo']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'accountId'
-        description: 'The immutable id of the team account which contains this project.'
-        output: true
-        azure_sdk_references: ['/accountId', '/properties/accountId']
-      - !ruby/object:Api::Type::String
-        name: 'workspaceId'
-        description: 'The immutable id of the workspace which contains this project.'
-        output: true
-        azure_sdk_references: ['/workspaceId', '/properties/workspaceId']
-      - !ruby/object:Api::Type::String
-        name: 'projectId'
-        description: 'The immutable id of this project.'
-        output: true
-        azure_sdk_references: ['/projectId', '/properties/projectId']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationDate'
-        description: 'The creation date of the project in ISO8601 format.'
-        output: true
-        azure_sdk_references: ['/creationDate', '/properties/creationDate']
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The current deployment state of project resource. The provisioningState is to indicate states for resource provisioning.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Creating
-          - :Succeeded
-          - :Updating
-          - :Deleting
-          - :Failed
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource ID.'

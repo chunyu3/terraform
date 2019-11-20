@@ -31,10 +31,15 @@ func resourceArmPython2Package() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -82,81 +87,7 @@ func resourceArmPython2Package() *schema.Resource {
                 },
             },
 
-            "package_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "activity_count": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "creation_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "description": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "error": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "code": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "message": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "etag": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "is_composite": {
-                Type: schema.TypeBool,
-                Computed: true,
-            },
-
-            "is_global": {
-                Type: schema.TypeBool,
-                Computed: true,
-            },
-
-            "last_modified_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "size_in_bytes": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "version": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -170,15 +101,15 @@ func resourceArmPython2PackageCreate(d *schema.ResourceData, meta interface{}) e
     client := meta.(*ArmClient).python2PackageClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
-    packageName := d.Get("package_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName, packageName)
+        existing, err := client.Get(ctx, resourceGroup, automationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Python2 Package (Package Name %q / Automation Account Name %q / Resource Group %q): %+v", packageName, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Python2 Package %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -189,7 +120,7 @@ func resourceArmPython2PackageCreate(d *schema.ResourceData, meta interface{}) e
     contentLink := d.Get("content_link").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := automation.PythonPackageCreateParameters{
+    parameters := automation.PythonPackageUpdateParameters{
         PythonPackageCreateProperties: &automation.PythonPackageCreateProperties{
             ContentLink: expandArmPython2PackageContentLink(contentLink),
         },
@@ -197,17 +128,17 @@ func resourceArmPython2PackageCreate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, packageName, parameters); err != nil {
-        return fmt.Errorf("Error creating Python2 Package (Package Name %q / Automation Account Name %q / Resource Group %q): %+v", packageName, automationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Python2 Package %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, packageName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Python2 Package (Package Name %q / Automation Account Name %q / Resource Group %q): %+v", packageName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Python2 Package %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Python2 Package (Package Name %q / Automation Account Name %q / Resource Group %q) ID", packageName, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Python2 Package %q (Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -224,60 +155,39 @@ func resourceArmPython2PackageRead(d *schema.ResourceData, meta interface{}) err
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    packageName := id.Path["python2Packages"]
+    name := id.Path["python2Packages"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, packageName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Python2 Package %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Python2 Package (Package Name %q / Automation Account Name %q / Resource Group %q): %+v", packageName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Python2 Package %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if pythonPackageCreateProperties := resp.PythonPackageCreateProperties; pythonPackageCreateProperties != nil {
-        d.Set("activity_count", int(*pythonPackageCreateProperties.ActivityCount))
-        if err := d.Set("content_link", flattenArmPython2PackageContentLink(pythonPackageCreateProperties.ContentLink)); err != nil {
-            return fmt.Errorf("Error setting `content_link`: %+v", err)
-        }
-        d.Set("creation_time", (pythonPackageCreateProperties.CreationTime).String())
-        d.Set("description", pythonPackageCreateProperties.Description)
-        if err := d.Set("error", flattenArmPython2PackageModuleErrorInfo(pythonPackageCreateProperties.Error)); err != nil {
-            return fmt.Errorf("Error setting `error`: %+v", err)
-        }
-        d.Set("is_composite", pythonPackageCreateProperties.IsComposite)
-        d.Set("is_global", pythonPackageCreateProperties.IsGlobal)
-        d.Set("last_modified_time", (pythonPackageCreateProperties.LastModifiedTime).String())
-        d.Set("provisioning_state", string(pythonPackageCreateProperties.ProvisioningState))
-        d.Set("size_in_bytes", int(*pythonPackageCreateProperties.SizeInBytes))
-        d.Set("version", pythonPackageCreateProperties.Version)
-    }
     d.Set("automation_account_name", automationAccountName)
-    d.Set("etag", resp.Etag)
-    d.Set("package_name", packageName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmPython2PackageUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).python2PackageClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
     contentLink := d.Get("content_link").([]interface{})
-    packageName := d.Get("package_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := automation.PythonPackageCreateParameters{
+    parameters := automation.PythonPackageUpdateParameters{
         PythonPackageCreateProperties: &automation.PythonPackageCreateProperties{
             ContentLink: expandArmPython2PackageContentLink(contentLink),
         },
@@ -285,8 +195,8 @@ func resourceArmPython2PackageUpdate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, automationAccountName, packageName, parameters); err != nil {
-        return fmt.Errorf("Error updating Python2 Package (Package Name %q / Automation Account Name %q / Resource Group %q): %+v", packageName, automationAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Python2 Package %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return resourceArmPython2PackageRead(d, meta)
@@ -303,10 +213,10 @@ func resourceArmPython2PackageDelete(d *schema.ResourceData, meta interface{}) e
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    packageName := id.Path["python2Packages"]
+    name := id.Path["python2Packages"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, packageName); err != nil {
-        return fmt.Errorf("Error deleting Python2 Package (Package Name %q / Automation Account Name %q / Resource Group %q): %+v", packageName, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Python2 Package %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return nil
@@ -324,7 +234,7 @@ func expandArmPython2PackageContentLink(input []interface{}) *automation.Content
 
     result := automation.ContentLink{
         ContentHash: expandArmPython2PackageContentHash(contentHash),
-        Uri: utils.String(uri),
+        URI: utils.String(uri),
         Version: utils.String(version),
     }
     return &result
@@ -344,51 +254,4 @@ func expandArmPython2PackageContentHash(input []interface{}) *automation.Content
         Value: utils.String(value),
     }
     return &result
-}
-
-
-func flattenArmPython2PackageContentLink(input *automation.ContentLink) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["content_hash"] = flattenArmPython2PackageContentHash(input.ContentHash)
-    if uri := input.Uri; uri != nil {
-        result["uri"] = *uri
-    }
-    if version := input.Version; version != nil {
-        result["version"] = *version
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmPython2PackageModuleErrorInfo(input *automation.ModuleErrorInfo) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
-}
-
-func flattenArmPython2PackageContentHash(input *automation.ContentHash) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if algorithm := input.Algorithm; algorithm != nil {
-        result["algorithm"] = *algorithm
-    }
-    if value := input.Value; value != nil {
-        result["value"] = *value
-    }
-
-    return []interface{}{result}
 }

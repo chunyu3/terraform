@@ -102,8 +102,8 @@ func resourceArmFirewallRuleCreateUpdate(d *schema.ResourceData, meta interface{
 
     parameters := sql.FirewallRule{
         FirewallRuleProperties: &sql.FirewallRuleProperties{
-            EndIpAddress: utils.String(endIpAddress),
-            StartIpAddress: utils.String(startIpAddress),
+            EndIPAddress: utils.String(endIpAddress),
+            StartIPAddress: utils.String(startIpAddress),
         },
     }
 
@@ -153,10 +153,6 @@ func resourceArmFirewallRuleRead(d *schema.ResourceData, meta interface{}) error
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if firewallRuleProperties := resp.FirewallRuleProperties; firewallRuleProperties != nil {
-        d.Set("end_ip_address", firewallRuleProperties.EndIpAddress)
-        d.Set("start_ip_address", firewallRuleProperties.StartIpAddress)
     }
     d.Set("kind", resp.Kind)
     d.Set("server_name", serverName)

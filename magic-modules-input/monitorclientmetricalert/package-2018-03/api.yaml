@@ -277,108 +277,6 @@ objects:
             python_parameter_name: rule_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: MetricAlertProperties
-            go_type_name: MetricAlertProperties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/severity': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Severity
-          '/severity': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: severity
-          '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: Enabled
-          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enabled
-          '/properties/scopes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: Scopes
-          '/scopes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: scopes
-          '/properties/evaluationFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: EvaluationFrequency
-          '/evaluationFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: evaluation_frequency
-          '/properties/windowSize': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: WindowSize
-          '/windowSize': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: window_size
-          '/properties/targetResourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetResourceType
-          '/targetResourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_resource_type
-          '/properties/targetResourceRegion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetResourceRegion
-          '/targetResourceRegion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_resource_region
-          '/properties/criteria': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Criteria
-            go_type_name: MetricAlertCriteria
-          '/properties/criteria/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: AdditionalProperties
-          '/criteria': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: criteria
-          '/criteria/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: additional_properties
-          '/properties/autoMitigate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: AutoMitigate
-          '/autoMitigate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: auto_mitigate
-          '/properties/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Actions
-            go_type_name: MetricAlertAction
-          '/properties/actions/actionGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ActionGroupID
-          '/properties/actions/webhookProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: WebhookProperties
-          '/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: actions
-          '/actions/actionGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: action_group_id
-          '/actions/webhookProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: webhook_properties
-          '/properties/lastUpdatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastUpdatedTime
-          '/lastUpdatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_updated_time
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -388,10 +286,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscription
-        python_func_name: list_by_subscription
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -401,6 +295,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
 
     description: |
       Manage Azure MetricAlert instance.
@@ -504,11 +402,6 @@ objects:
               required: false
               azure_sdk_references: ['/actions/webhookProperties', '/properties/actions/webhookProperties']
       # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastUpdatedTime'
-        description: 'Last time the rule was updated in ISO8601 format.'
-        output: true
-        azure_sdk_references: ['/lastUpdatedTime', '/properties/lastUpdatedTime']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource Id'

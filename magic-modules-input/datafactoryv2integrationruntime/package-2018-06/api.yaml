@@ -65,6 +65,25 @@ objects:
           '/updateDelayOffset': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: UpdateDelayOffset
             python_field_name: update_delay_offset
+          '/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: KeyName
+            go_enum_type_name: IntegrationRuntimeAuthKeyName
+            python_field_name: key_name
+          '/factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: FactoryName
+            python_field_name: factory_name
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SubscriptionID
+            python_field_name: subscription_id
+          '/dataFactoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DataFactoryName
+            python_field_name: data_factory_name
+          '/dataFactoryLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DataFactoryLocation
+            python_field_name: data_factory_location
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -123,28 +142,12 @@ objects:
             python_parameter_name: integration_runtime_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: IntegrationRuntime
-            go_type_name: IntegrationRuntime
-          '/properties/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: AdditionalProperties
-          '/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: additional_properties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -165,6 +168,25 @@ objects:
             go_variable_name: factoryName
             python_parameter_name: factory_name
             python_variable_name: factory_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAuthKeys
+        python_func_name: list_auth_keys
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: factories
+            go_variable_name: factoryName
+            python_parameter_name: factory_name
+            python_variable_name: factory_name
+          'integrationRuntimeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationRuntimes
+            go_variable_name: name
+            python_parameter_name: integration_runtime_name
+            python_variable_name: name
 
     description: |
       Manage Azure IntegrationRuntime instance.
@@ -213,17 +235,52 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['/updateDelayOffset']
+      - !ruby/object:Api::Type::Enum
+        name: 'keyName'
+        description: 'The name of the authentication key to regenerate.'
+        required: false
+        input: true
+        azure_sdk_references: ['/keyName']
+        values:
+          - :authKey1
+          - :authKey2
+        default_value: :authKey1
+      - !ruby/object:Api::Type::String
+        name: 'factoryName'
+        description: 'The data factory name for linked integration runtime.'
+        required: true
+        input: true
+        azure_sdk_references: ['/factoryName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the linked integration runtime.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionId'
+        description: 'The ID of the subscription that the linked integration runtime belongs to.'
+        required: false
+        input: true
+        azure_sdk_references: ['/subscriptionId']
+      - !ruby/object:Api::Type::String
+        name: 'dataFactoryName'
+        description: 'The name of the data factory that the linked integration runtime belongs to.'
+        required: false
+        input: true
+        azure_sdk_references: ['/dataFactoryName']
+      - !ruby/object:Api::Type::String
+        name: 'dataFactoryLocation'
+        description: 'The location of the data factory that the linked integration runtime belongs to.'
+        required: false
+        input: true
+        azure_sdk_references: ['/dataFactoryLocation']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource identifier.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The resource name.'
-        output: true
-        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'The resource type.'

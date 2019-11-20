@@ -36,15 +36,15 @@ func testCheckAzureRMApiSchemaExists(resourceName string) resource.TestCheckFunc
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         schemaID := rs.Primary.Attributes["schema_id"]
 
         client := testAccProvider.Meta().(*ArmClient).apiSchemaClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, schemaID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, schemaID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Schema %q (Schema %q / Api %q / Resource Group %q) does not exist", name, schemaID, apiID, resourceGroup)
+                return fmt.Errorf("Bad: Api Schema %q (Schema %q / Api %q / Resource Group %q) does not exist", name, schemaID, aPIID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiSchemaClient: %+v", err)
         }
@@ -64,10 +64,10 @@ func testCheckAzureRMApiSchemaDestroy(s *terraform.State) error {
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         schemaID := rs.Primary.Attributes["schema_id"]
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, schemaID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, schemaID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiSchemaClient: %+v", err)
             }

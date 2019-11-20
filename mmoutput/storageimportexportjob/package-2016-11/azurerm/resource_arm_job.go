@@ -373,11 +373,6 @@ func resourceArmJob() *schema.Resource {
                 Optional: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -435,7 +430,7 @@ func resourceArmJobCreate(d *schema.ResourceData, meta interface{}) error {
             DiagnosticsPath: utils.String(diagnosticsPath),
             DriveList: expandArmJobDriveStatus(driveList),
             Export: expandArmJobExport(export),
-            IncompleteBlobListUri: utils.String(incompleteBlobListUri),
+            IncompleteBlobListURI: utils.String(incompleteBlobListUri),
             JobType: utils.String(jobType),
             LogLevel: utils.String(logLevel),
             PercentComplete: utils.Int(percentComplete),
@@ -492,45 +487,9 @@ func resourceArmJobRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if jobDetails := resp.JobDetails; jobDetails != nil {
-        d.Set("backup_drive_manifest", jobDetails.BackupDriveManifest)
-        d.Set("cancel_requested", jobDetails.CancelRequested)
-        if err := d.Set("delivery_package", flattenArmJobPackageInfomation(jobDetails.DeliveryPackage)); err != nil {
-            return fmt.Errorf("Error setting `delivery_package`: %+v", err)
-        }
-        d.Set("diagnostics_path", jobDetails.DiagnosticsPath)
-        if err := d.Set("drive_list", flattenArmJobDriveStatus(jobDetails.DriveList)); err != nil {
-            return fmt.Errorf("Error setting `drive_list`: %+v", err)
-        }
-        if err := d.Set("export", flattenArmJobExport(jobDetails.Export)); err != nil {
-            return fmt.Errorf("Error setting `export`: %+v", err)
-        }
-        d.Set("incomplete_blob_list_uri", jobDetails.IncompleteBlobListUri)
-        d.Set("job_type", jobDetails.JobType)
-        d.Set("log_level", jobDetails.LogLevel)
-        d.Set("percent_complete", jobDetails.PercentComplete)
-        d.Set("provisioning_state", jobDetails.ProvisioningState)
-        if err := d.Set("return_address", flattenArmJobReturnAddress(jobDetails.ReturnAddress)); err != nil {
-            return fmt.Errorf("Error setting `return_address`: %+v", err)
-        }
-        if err := d.Set("return_package", flattenArmJobPackageInfomation(jobDetails.ReturnPackage)); err != nil {
-            return fmt.Errorf("Error setting `return_package`: %+v", err)
-        }
-        if err := d.Set("return_shipping", flattenArmJobReturnShipping(jobDetails.ReturnShipping)); err != nil {
-            return fmt.Errorf("Error setting `return_shipping`: %+v", err)
-        }
-        if err := d.Set("shipping_information", flattenArmJobShippingInformation(jobDetails.ShippingInformation)); err != nil {
-            return fmt.Errorf("Error setting `shipping_information`: %+v", err)
-        }
-        d.Set("state", jobDetails.State)
-        d.Set("storage_account_id", jobDetails.StorageAccountID)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -558,7 +517,6 @@ func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
     t := d.Get("tags").(map[string]interface{})
 
     body := storageimportexport.PutJobParameters{
-        Location: utils.String(location),
         JobDetails: &storageimportexport.JobDetails{
             BackupDriveManifest: utils.Bool(backupDriveManifest),
             CancelRequested: utils.Bool(cancelRequested),
@@ -566,7 +524,7 @@ func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
             DiagnosticsPath: utils.String(diagnosticsPath),
             DriveList: expandArmJobDriveStatus(driveList),
             Export: expandArmJobExport(export),
-            IncompleteBlobListUri: utils.String(incompleteBlobListUri),
+            IncompleteBlobListURI: utils.String(incompleteBlobListUri),
             JobType: utils.String(jobType),
             LogLevel: utils.String(logLevel),
             PercentComplete: utils.Int(percentComplete),
@@ -650,13 +608,13 @@ func expandArmJobDriveStatus(input []interface{}) *[]storageimportexport.DriveSt
             CopyStatus: utils.String(copyStatus),
             DriveHeaderHash: utils.String(driveHeaderHash),
             DriveID: utils.String(driveId),
-            ErrorLogUri: utils.String(errorLogUri),
+            ErrorLogURI: utils.String(errorLogUri),
             ManifestFile: utils.String(manifestFile),
             ManifestHash: utils.String(manifestHash),
-            ManifestUri: utils.String(manifestUri),
+            ManifestURI: utils.String(manifestUri),
             PercentComplete: utils.Int(percentComplete),
             State: storageimportexport.DriveState(state),
-            VerboseLogUri: utils.String(verboseLogUri),
+            VerboseLogURI: utils.String(verboseLogUri),
         }
 
         results = append(results, result)
@@ -768,196 +726,4 @@ func expandArmJobExport_blobList(input []interface{}) *storageimportexport.Expor
         BlobPathPrefix: utils.ExpandStringSlice(blobPathPrefix),
     }
     return &result
-}
-
-
-func flattenArmJobPackageInfomation(input *storageimportexport.PackageInfomation) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if carrierName := input.CarrierName; carrierName != nil {
-        result["carrier_name"] = *carrierName
-    }
-    if driveCount := input.DriveCount; driveCount != nil {
-        result["drive_count"] = *driveCount
-    }
-    if shipDate := input.ShipDate; shipDate != nil {
-        result["ship_date"] = *shipDate
-    }
-    if trackingNumber := input.TrackingNumber; trackingNumber != nil {
-        result["tracking_number"] = *trackingNumber
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmJobDriveStatus(input *[]storageimportexport.DriveStatus) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if bitLockerKey := item.BitLockerKey; bitLockerKey != nil {
-            v["bit_locker_key"] = *bitLockerKey
-        }
-        if bytesSucceeded := item.BytesSucceeded; bytesSucceeded != nil {
-            v["bytes_succeeded"] = int(*bytesSucceeded)
-        }
-        if copyStatus := item.CopyStatus; copyStatus != nil {
-            v["copy_status"] = *copyStatus
-        }
-        if driveHeaderHash := item.DriveHeaderHash; driveHeaderHash != nil {
-            v["drive_header_hash"] = *driveHeaderHash
-        }
-        if driveId := item.DriveID; driveId != nil {
-            v["drive_id"] = *driveId
-        }
-        if errorLogUri := item.ErrorLogUri; errorLogUri != nil {
-            v["error_log_uri"] = *errorLogUri
-        }
-        if manifestFile := item.ManifestFile; manifestFile != nil {
-            v["manifest_file"] = *manifestFile
-        }
-        if manifestHash := item.ManifestHash; manifestHash != nil {
-            v["manifest_hash"] = *manifestHash
-        }
-        if manifestUri := item.ManifestUri; manifestUri != nil {
-            v["manifest_uri"] = *manifestUri
-        }
-        if percentComplete := item.PercentComplete; percentComplete != nil {
-            v["percent_complete"] = *percentComplete
-        }
-        v["state"] = string(item.State)
-        if verboseLogUri := item.VerboseLogUri; verboseLogUri != nil {
-            v["verbose_log_uri"] = *verboseLogUri
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmJobExport(input *storageimportexport.Export) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["blob_list"] = flattenArmJobExport_blobList(input.BlobList)
-    if blobListblobPath := input.BlobListblobPath; blobListblobPath != nil {
-        result["blob_listblob_path"] = *blobListblobPath
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmJobReturnAddress(input *storageimportexport.ReturnAddress) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if city := input.City; city != nil {
-        result["city"] = *city
-    }
-    if countryOrRegion := input.CountryOrRegion; countryOrRegion != nil {
-        result["country_or_region"] = *countryOrRegion
-    }
-    if email := input.Email; email != nil {
-        result["email"] = *email
-    }
-    if phone := input.Phone; phone != nil {
-        result["phone"] = *phone
-    }
-    if postalCode := input.PostalCode; postalCode != nil {
-        result["postal_code"] = *postalCode
-    }
-    if recipientName := input.RecipientName; recipientName != nil {
-        result["recipient_name"] = *recipientName
-    }
-    if stateOrProvince := input.StateOrProvince; stateOrProvince != nil {
-        result["state_or_province"] = *stateOrProvince
-    }
-    if streetAddress1 := input.StreetAddress1; streetAddress1 != nil {
-        result["street_address1"] = *streetAddress1
-    }
-    if streetAddress2 := input.StreetAddress2; streetAddress2 != nil {
-        result["street_address2"] = *streetAddress2
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmJobReturnShipping(input *storageimportexport.ReturnShipping) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if carrierAccountNumber := input.CarrierAccountNumber; carrierAccountNumber != nil {
-        result["carrier_account_number"] = *carrierAccountNumber
-    }
-    if carrierName := input.CarrierName; carrierName != nil {
-        result["carrier_name"] = *carrierName
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmJobShippingInformation(input *storageimportexport.ShippingInformation) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if city := input.City; city != nil {
-        result["city"] = *city
-    }
-    if countryOrRegion := input.CountryOrRegion; countryOrRegion != nil {
-        result["country_or_region"] = *countryOrRegion
-    }
-    if phone := input.Phone; phone != nil {
-        result["phone"] = *phone
-    }
-    if postalCode := input.PostalCode; postalCode != nil {
-        result["postal_code"] = *postalCode
-    }
-    if recipientName := input.RecipientName; recipientName != nil {
-        result["recipient_name"] = *recipientName
-    }
-    if stateOrProvince := input.StateOrProvince; stateOrProvince != nil {
-        result["state_or_province"] = *stateOrProvince
-    }
-    if streetAddress1 := input.StreetAddress1; streetAddress1 != nil {
-        result["street_address1"] = *streetAddress1
-    }
-    if streetAddress2 := input.StreetAddress2; streetAddress2 != nil {
-        result["street_address2"] = *streetAddress2
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmJobExport_blobList(input *storageimportexport.Export_blobList) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["blob_path"] = utils.FlattenStringSlice(input.BlobPath)
-    result["blob_path_prefix"] = utils.FlattenStringSlice(input.BlobPathPrefix)
-
-    return []interface{}{result}
 }

@@ -28,13 +28,13 @@ Manage Azure ReplicationStorageClassificationMapping instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Storage classification mapping name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group where the recovery services vault is present. Changing this forces a new resource to be created.
 
 * `fabric_name` - (Required) Fabric name. Changing this forces a new resource to be created.
 
 * `resource_name` - (Required) The name of the recovery services vault. Changing this forces a new resource to be created.
-
-* `storage_classification_mapping_name` - (Required) Storage classification mapping name. Changing this forces a new resource to be created.
 
 * `storage_classification_name` - (Required) Storage classification name. Changing this forces a new resource to be created.
 
@@ -49,5 +49,3 @@ The following attributes are exported:
 * `name` - Resource Name
 
 * `type` - Resource Type
-
-* `location` - Resource Location

@@ -50,21 +50,6 @@ func resourceArmNetwork() *schema.Resource {
                 Optional: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status_details": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -149,18 +134,9 @@ func resourceArmNetworkRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if networkResourceProperties := resp.NetworkResourceProperties; networkResourceProperties != nil {
-        d.Set("description", networkResourceProperties.Description)
-        d.Set("provisioning_state", networkResourceProperties.ProvisioningState)
-        d.Set("status", string(networkResourceProperties.Status))
-        d.Set("status_details", networkResourceProperties.StatusDetails)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 

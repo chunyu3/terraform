@@ -34,18 +34,18 @@ func testCheckAzureRMReplicationNetworkMappingExists(resourceName string) resour
             return fmt.Errorf("Replication Network Mapping not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         fabricName := rs.Primary.Attributes["fabric_name"]
-        networkMappingName := rs.Primary.Attributes["network_mapping_name"]
         networkName := rs.Primary.Attributes["network_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).replicationNetworkMappingsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, networkName, networkMappingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, networkName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Replication Network Mapping (Network Mapping Name %q / Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q) does not exist", networkMappingName, networkName, fabricName, resourceGroup, resourceName)
+                return fmt.Errorf("Bad: Replication Network Mapping %q (Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q) does not exist", name, networkName, fabricName, resourceGroup, resourceName)
             }
             return fmt.Errorf("Bad: Get on replicationNetworkMappingsClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMReplicationNetworkMappingDestroy(s *terraform.State) error 
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         fabricName := rs.Primary.Attributes["fabric_name"]
-        networkMappingName := rs.Primary.Attributes["network_mapping_name"]
         networkName := rs.Primary.Attributes["network_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
-        if resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, networkName, networkMappingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, networkName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on replicationNetworkMappingsClient: %+v", err)
             }

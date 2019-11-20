@@ -46,6 +46,8 @@ The `node` block supports the following:
 
 * `azure_location` - (Required) The location of the Enterprise Channel Node.
 
+* `name` - (Optional) The name of the Enterprise Channel for which availability needs to be checked. Changing this forces a new resource to be created.
+
 * `location` - (Optional) Specifies the location of the resource. Changing this forces a new resource to be created.
 
 * `etag` - (Optional) Entity Tag Changing this forces a new resource to be created.
@@ -69,7 +71,5 @@ The `sku` block supports the following:
 The following attributes are exported:
 
 * `id` - Specifies the resource ID.
-
-* `name` - Specifies the name of the resource.
 
 * `type` - Specifies the type of the resource.

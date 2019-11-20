@@ -1,0 +1,25 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_cosmosDbdatabaseaccount
+  description: CosmosDBCassandraTableCreateUpdate
+  code:
+    resource_group: myResourceGroup
+    account_name: myDatabaseAccount
+    table_name: myTable
+    keyspace_name: myKeyspace
+    create_update_cassandra_table_parameters:
+      properties:
+        resource:
+          id: tableName
+          defaultTtl: '100'
+          schema:
+            columns:
+              - name: columnA
+                type: Ascii
+            partitionKeys:
+              - name: columnA
+            clusterKeys:
+              - name: columnA
+                orderBy: Asc
+        options: {}
+  

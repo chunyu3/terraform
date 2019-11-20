@@ -89,31 +89,6 @@ func resourceArmConnector() *schema.Resource {
                 Optional: true,
             },
 
-            "connector_id": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "created": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "tenant_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -208,19 +183,6 @@ func resourceArmConnectorRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if connector := resp.Connector; connector != nil {
-        d.Set("connector_id", connector.ConnectorID)
-        d.Set("connector_name", connector.ConnectorName)
-        d.Set("connector_properties", utils.FlattenKeyValuePairs(connector.ConnectorProperties))
-        d.Set("connector_type", string(connector.ConnectorType))
-        d.Set("created", (connector.Created).String())
-        d.Set("description", connector.Description)
-        d.Set("display_name", connector.DisplayName)
-        d.Set("is_internal", connector.IsInternal)
-        d.Set("last_modified", (connector.LastModified).String())
-        d.Set("state", string(connector.State))
-        d.Set("tenant_id", connector.TenantID)
-    }
     d.Set("hub_name", hubName)
     d.Set("type", resp.Type)
 

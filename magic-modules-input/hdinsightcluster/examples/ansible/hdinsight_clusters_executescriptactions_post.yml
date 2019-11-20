@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_hdinsightcluster
+  description: Execute script action on HDInsight cluster
+  code:
+    resource_group: myResourceGroup
+    cluster_name: myCluster
+    script_actions:
+      - name: Test
+        uri: 'http://testurl.com/install.ssh'
+        roles:
+          - headnode
+          - workernode
+    persist_on_success: false
+  

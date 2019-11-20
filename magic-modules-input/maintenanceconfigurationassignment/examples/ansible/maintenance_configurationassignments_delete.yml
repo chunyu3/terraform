@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_maintenanceconfigurationassignment
+  description: ConfigurationAssignments_DeleteParent
+  code:
+    resource_group: myResourceGroup
+    provider_name: Microsoft.Compute
+    resource_parent_type: virtualMachineScaleSets
+    resource_parent_name: myResourceParentType
+    resource_type: virtualMachines
+    resource_name: myResourceType
+    name: myConfigurationAssignment
+    state: absent
+  

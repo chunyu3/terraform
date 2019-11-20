@@ -149,14 +149,10 @@ func resourceArmPropertyRead(d *schema.ResourceData, meta interface{}) error {
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("prop_id", propID)
-    d.Set("secret", resp.Secret)
-    d.Set("tags", utils.FlattenStringSlice(resp.Tags))
-    d.Set("value", resp.Value)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmPropertyUpdate(d *schema.ResourceData, meta interface{}) error {

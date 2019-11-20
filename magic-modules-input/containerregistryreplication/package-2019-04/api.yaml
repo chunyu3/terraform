@@ -113,48 +113,6 @@ objects:
             python_parameter_name: replication_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ReplicationProperties
-            go_type_name: ReplicationProperties
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Status
-            go_type_name: Status
-          '/properties/status/displayStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DisplayStatus
-          '/properties/status/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Message
-          '/properties/status/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: Timestamp
-          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: status
-          '/status/displayStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: display_status
-          '/status/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: message
-          '/status/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: timestamp
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -213,24 +171,6 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The provisioning state of the replication at the time the operation was called.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Creating
-          - :Updating
-          - :Deleting
-          - :Succeeded
-          - :Failed
-          - :Canceled
-      - !ruby/object:Api::Type::NestedObject
-        name: 'status'
-        description: 'The status of the replication at the time the operation was called.'
-        output: true
-        azure_sdk_references: ['/status', '/properties/status']
-        properties:
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource ID.'

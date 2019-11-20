@@ -3,7 +3,6 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_azuredatabasemigrationserviceservice
   description: Services_CreateOrUpdate
   code:
-    location: southcentralus
     virtual_subnet_id: >-
       /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
       }}/providers/Microsoft.Network/virtualNetworks/{{ virtual_network_name
@@ -11,5 +10,5 @@ task: !ruby/object:Provider::Ansible::Task
     sku:
       name: Basic_1vCore
     group_name: myResourceGroup
-    service_name: myService
+    name: myService
   

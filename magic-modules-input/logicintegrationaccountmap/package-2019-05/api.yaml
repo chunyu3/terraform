@@ -34,9 +34,9 @@ objects:
             python_variable_name: integration_account_name
           'mapName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: maps
-            go_variable_name: mapName
+            go_variable_name: name
             python_parameter_name: map_name
-            python_variable_name: map_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: map
             go_type_name: IntegrationAccountMap
@@ -90,6 +90,13 @@ objects:
           '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
             applicable_to: [go]
             go_field_name: Metadata
+          '/notAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: NotAfter
+            python_field_name: not_after
+          '/keyType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: KeyType
+            go_enum_type_name: KeyType
+            python_field_name: key_type
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -106,9 +113,9 @@ objects:
             python_variable_name: integration_account_name
           'mapName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: maps
-            go_variable_name: mapName
+            go_variable_name: name
             python_parameter_name: map_name
-            python_variable_name: map_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -125,77 +132,10 @@ objects:
             python_variable_name: integration_account_name
           'mapName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: maps
-            go_variable_name: mapName
+            go_variable_name: name
             python_parameter_name: map_name
-            python_variable_name: map_name
+            python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: IntegrationAccountMapProperties
-            go_type_name: IntegrationAccountMapProperties
-          '/properties/mapType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: MapType
-            go_enum_type_name: MapType
-          '/mapType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: map_type
-          '/properties/parametersSchema': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ParametersSchema
-            go_type_name: IntegrationAccountMapProperties_parametersSchema
-          '/properties/parametersSchema/ref': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Ref
-          '/parametersSchema': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: parameters_schema
-          '/parametersSchema/ref': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: ref
-          '/properties/content': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Content
-          '/content': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: content
-          '/properties/contentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ContentType
-          '/contentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: content_type
-          '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [go]
-            go_field_name: Metadata
-          '/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [python]
-            python_field_name: metadata
-          '/properties/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreatedTime
-          '/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created_time
-          '/properties/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: ChangedTime
-          '/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: changed_time
-          '/properties/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ContentLink
-            go_type_name: ContentLink
-          '/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: content_link
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -219,6 +159,25 @@ objects:
             go_variable_name: integrationAccountName
             python_parameter_name: integration_account_name
             python_variable_name: integration_account_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListContentCallbackUrl
+        python_func_name: list_content_callback_url
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationAccounts
+            go_variable_name: integrationAccountName
+            python_parameter_name: integration_account_name
+            python_variable_name: integration_account_name
+          'mapName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: maps
+            go_variable_name: name
+            python_parameter_name: map_name
+            python_variable_name: name
 
     description: |
       Manage Azure IntegrationAccountMap instance.
@@ -236,7 +195,7 @@ objects:
         input: true
         azure_sdk_references: ['integrationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'mapName'
+        name: 'name'
         description: 'The integration account map name.'
         required: true
         input: true
@@ -290,59 +249,24 @@ objects:
         description: 'The metadata.'
         required: false
         azure_sdk_references: ['/metadata', '/properties/metadata']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'notAfter'
+        description: 'The expiry time.'
+        required: false
+        input: true
+        azure_sdk_references: ['/notAfter']
+      - !ruby/object:Api::Type::Enum
+        name: 'keyType'
+        description: 'The key type.'
+        required: false
+        input: true
+        azure_sdk_references: ['/keyType']
+        values:
+          - :NotSpecified
+          - :Primary
+          - :Secondary
+        default_value: :NotSpecified
       # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdTime'
-        description: 'The created time.'
-        output: true
-        azure_sdk_references: ['/createdTime', '/properties/createdTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'changedTime'
-        description: 'The changed time.'
-        output: true
-        azure_sdk_references: ['/changedTime', '/properties/changedTime']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'contentLink'
-        description: 'The content link.'
-        output: true
-        azure_sdk_references: ['/contentLink', '/properties/contentLink']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'uri'
-            description: 'The content link URI.'
-            required: false
-            azure_sdk_references: ['/contentLink/uri', '/properties/contentLink/uri']
-          - !ruby/object:Api::Type::String
-            name: 'contentVersion'
-            description: 'The content version.'
-            required: false
-            azure_sdk_references: ['/contentLink/contentVersion', '/properties/contentLink/contentVersion']
-          - !ruby/object:Api::Type::Integer
-            name: 'contentSize'
-            description: 'The content size.'
-            required: false
-            azure_sdk_references: ['/contentLink/contentSize', '/properties/contentLink/contentSize']
-          - !ruby/object:Api::Type::NestedObject
-            name: 'contentHash'
-            description: 'The content hash.'
-            required: false
-            azure_sdk_references: ['/contentLink/contentHash', '/properties/contentLink/contentHash']
-            properties:
-              - !ruby/object:Api::Type::String
-                name: 'algorithm'
-                description: 'The algorithm of the content hash.'
-                required: false
-                azure_sdk_references: ['/contentLink/contentHash/algorithm', '/properties/contentLink/contentHash/algorithm']
-              - !ruby/object:Api::Type::String
-                name: 'value'
-                description: 'The value of the content hash.'
-                required: false
-                azure_sdk_references: ['/contentLink/contentHash/value', '/properties/contentLink/contentHash/value']
-          - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-            name: 'metadata'
-            description: 'The metadata.'
-            required: false
-            azure_sdk_references: ['/contentLink/metadata', '/properties/contentLink/metadata']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource id.'

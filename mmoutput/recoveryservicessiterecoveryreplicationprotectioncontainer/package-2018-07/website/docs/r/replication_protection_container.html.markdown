@@ -28,43 +28,22 @@ Manage Azure ReplicationProtectionContainer instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Protection container name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group where the recovery services vault is present. Changing this forces a new resource to be created.
 
-* `fabric_name` - (Required) Unique fabric ARM name. Changing this forces a new resource to be created.
-
-* `protection_container_name` - (Required) Unique protection container ARM name. Changing this forces a new resource to be created.
+* `fabric_name` - (Required) Unique fabric name. Changing this forces a new resource to be created.
 
 * `resource_name` - (Required) The name of the recovery services vault. Changing this forces a new resource to be created.
+
+* `replication_protected_item_name` - (Optional) The unique replication protected item name.
 
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `fabric_friendly_name` - Fabric friendly name.
-
-* `friendly_name` - The name.
-
-* `fabric_type` - The fabric type.
-
-* `protected_item_count` - Number of protected PEs
-
-* `pairing_status` - The pairing status of this cloud.
-
-* `role` - The role of this cloud.
-
-* `fabric_specific_details` - One `fabric_specific_detail` block defined below.
 
 * `id` - Resource Id
 
 * `name` - Resource Name
 
 * `type` - Resource Type
-
-* `location` - Resource Location
-
-
----
-
-The `fabric_specific_detail` block contains the following:
-
-* `instance_type` - (Optional) Gets the class type. Overridden in derived classes.

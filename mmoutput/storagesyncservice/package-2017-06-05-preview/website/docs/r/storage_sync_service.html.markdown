@@ -40,10 +40,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `storage_sync_service_status` - Storage Sync service status.
-
-* `storage_sync_service_uid` - Storage Sync service Uid
-
 * `id` - The id of the resource.
 
 * `name` - The name of the resource.

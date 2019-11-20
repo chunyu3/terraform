@@ -34,15 +34,15 @@ func testCheckAzureRMProfileExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Profile not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        profileName := rs.Primary.Attributes["profile_name"]
 
         client := testAccProvider.Meta().(*ArmClient).profilesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, profileName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Profile (Profile Name %q / Resource Group %q) does not exist", profileName, resourceGroup)
+                return fmt.Errorf("Bad: Profile %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on profilesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMProfileDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        profileName := rs.Primary.Attributes["profile_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, profileName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on profilesClient: %+v", err)
             }

@@ -235,17 +235,6 @@ func resourceArmAssetFilterRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
     d.Set("asset_name", assetName)
-    if mediaFilterProperties := resp.MediaFilterProperties; mediaFilterProperties != nil {
-        if err := d.Set("first_quality", flattenArmAssetFilterFirstQuality(mediaFilterProperties.FirstQuality)); err != nil {
-            return fmt.Errorf("Error setting `first_quality`: %+v", err)
-        }
-        if err := d.Set("presentation_time_range", flattenArmAssetFilterPresentationTimeRange(mediaFilterProperties.PresentationTimeRange)); err != nil {
-            return fmt.Errorf("Error setting `presentation_time_range`: %+v", err)
-        }
-        if err := d.Set("tracks", flattenArmAssetFilterFilterTrackSelection(mediaFilterProperties.Tracks)); err != nil {
-            return fmt.Errorf("Error setting `tracks`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -370,86 +359,4 @@ func expandArmAssetFilterFilterTrackPropertyCondition(input []interface{}) *[]me
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmAssetFilterFirstQuality(input *mediaservices.FirstQuality) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if bitrate := input.Bitrate; bitrate != nil {
-        result["bitrate"] = int(*bitrate)
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmAssetFilterPresentationTimeRange(input *mediaservices.PresentationTimeRange) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if endTimestamp := input.EndTimestamp; endTimestamp != nil {
-        result["end_timestamp"] = int(*endTimestamp)
-    }
-    if forceEndTimestamp := input.ForceEndTimestamp; forceEndTimestamp != nil {
-        result["force_end_timestamp"] = *forceEndTimestamp
-    }
-    if liveBackoffDuration := input.LiveBackoffDuration; liveBackoffDuration != nil {
-        result["live_backoff_duration"] = int(*liveBackoffDuration)
-    }
-    if presentationWindowDuration := input.PresentationWindowDuration; presentationWindowDuration != nil {
-        result["presentation_window_duration"] = int(*presentationWindowDuration)
-    }
-    if startTimestamp := input.StartTimestamp; startTimestamp != nil {
-        result["start_timestamp"] = int(*startTimestamp)
-    }
-    if timescale := input.Timescale; timescale != nil {
-        result["timescale"] = int(*timescale)
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmAssetFilterFilterTrackSelection(input *[]mediaservices.FilterTrackSelection) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["track_selections"] = flattenArmAssetFilterFilterTrackPropertyCondition(item.TrackSelections)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmAssetFilterFilterTrackPropertyCondition(input *[]mediaservices.FilterTrackPropertyCondition) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["operation"] = string(item.Operation)
-        v["property"] = string(item.Property)
-        if value := item.Value; value != nil {
-            v["value"] = *value
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

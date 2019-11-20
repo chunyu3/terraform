@@ -34,6 +34,8 @@ The following arguments are supported:
 
 * `location` - (Required) The region in which to create the account. Changing this forces a new resource to be created.
 
+* `key_name` - (Required) The type of account key to regenerate. Changing this forces a new resource to be created.
+
 * `auto_storage` - (Optional) One `auto_storage` block defined below.
 
 * `tags` - (Optional) The user specified tags associated with the account. Changing this forces a new resource to be created.
@@ -47,16 +49,6 @@ The `auto_storage` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `account_endpoint` - The endpoint used by this account to interact with the Batch services.
-
-* `provisioning_state` - The provisioned state of the resource
-
-* `core_quota` - The core quota for this Batch account.
-
-* `pool_quota` - The pool quota for this Batch account.
-
-* `active_job_and_job_schedule_quota` - The active job and job schedule quota for this Batch account.
 
 * `id` - The ID of the resource
 

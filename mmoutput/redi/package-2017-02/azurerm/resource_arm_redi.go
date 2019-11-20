@@ -40,9 +40,81 @@ func resourceArmRedi() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "sku": {
+            "container": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "files": {
                 Type: schema.TypeList,
                 Required: true,
+                ForceNew: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
+
+            "key_type": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(redis.Primary),
+                    string(redis.Secondary),
+                }, false),
+            },
+
+            "prefix": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "reboot_type": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(redis.PrimaryNode),
+                    string(redis.SecondaryNode),
+                    string(redis.AllNodes),
+                }, false),
+            },
+
+            "enable_non_ssl_port": {
+                Type: schema.TypeBool,
+                Optional: true,
+            },
+
+            "format": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "redis_configuration": {
+                Type: schema.TypeMap,
+                Optional: true,
+                Elem: &schema.Schema{Type: schema.TypeString},
+            },
+
+            "shard_count": {
+                Type: schema.TypeInt,
+                Optional: true,
+            },
+
+            "shard_id": {
+                Type: schema.TypeInt,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "sku": {
+                Type: schema.TypeList,
+                Optional: true,
                 MaxItems: 1,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
@@ -71,22 +143,6 @@ func resourceArmRedi() *schema.Resource {
                 },
             },
 
-            "enable_non_ssl_port": {
-                Type: schema.TypeBool,
-                Optional: true,
-            },
-
-            "redis_configuration": {
-                Type: schema.TypeMap,
-                Optional: true,
-                Elem: &schema.Schema{Type: schema.TypeString},
-            },
-
-            "shard_count": {
-                Type: schema.TypeInt,
-                Optional: true,
-            },
-
             "static_ip": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -101,69 +157,6 @@ func resourceArmRedi() *schema.Resource {
                 Type: schema.TypeMap,
                 Optional: true,
                 Elem: &schema.Schema{Type: schema.TypeString},
-            },
-
-            "access_keys": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "primary_key": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "secondary_key": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "host_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "linked_servers": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "value": {
-                            Type: schema.TypeList,
-                            Required: true,
-                            Elem: &schema.Resource{
-                                Schema: map[string]*schema.Schema{
-                                    "id": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-
-            "port": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "redis_version": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "ssl_port": {
-                Type: schema.TypeInt,
-                Computed: true,
             },
 
             "type": {
@@ -196,26 +189,40 @@ func resourceArmRediCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
+    container := d.Get("container").(string)
     enableNonSslPort := d.Get("enable_non_ssl_port").(bool)
+    files := d.Get("files").([]interface{})
+    format := d.Get("format").(string)
+    keyType := d.Get("key_type").(string)
+    prefix := d.Get("prefix").(string)
+    rebootType := d.Get("reboot_type").(string)
     redisConfiguration := d.Get("redis_configuration").(map[string]interface{})
     shardCount := d.Get("shard_count").(int)
+    shardId := d.Get("shard_id").(int)
     sku := d.Get("sku").([]interface{})
     staticIp := d.Get("static_ip").(string)
     subnetId := d.Get("subnet_id").(string)
     tenantSettings := d.Get("tenant_settings").(map[string]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := redis.CreateParameters{
+    parameters := redis.ExportRDBParameters{
+        Container: utils.String(container),
+        Files: utils.ExpandStringSlice(files),
+        Format: utils.String(format),
+        KeyType: redis.KeyType(keyType),
         Location: utils.String(location),
-        CreateProperties: &redis.CreateProperties{
+        Prefix: utils.String(prefix),
+        UpdateProperties: &redis.UpdateProperties{
             EnableNonSslPort: utils.Bool(enableNonSslPort),
             RedisConfiguration: utils.ExpandKeyValuePairs(redisConfiguration),
             ShardCount: utils.Int32(int32(shardCount)),
             Sku: expandArmRediSku(sku),
-            StaticIp: utils.String(staticIp),
+            StaticIP: utils.String(staticIp),
             SubnetID: utils.String(subnetId),
             TenantSettings: utils.ExpandKeyValuePairs(tenantSettings),
         },
+        RebootType: redis.RebootType(rebootType),
+        ShardID: utils.Int32(int32(shardId)),
         Tags: tags.Expand(t),
     }
 
@@ -265,34 +272,9 @@ func resourceArmRediRead(d *schema.ResourceData, meta interface{}) error {
 
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if createProperties := resp.CreateProperties; createProperties != nil {
-        if err := d.Set("access_keys", flattenArmRediAccessKeys(createProperties.AccessKeys)); err != nil {
-            return fmt.Errorf("Error setting `access_keys`: %+v", err)
-        }
-        d.Set("enable_non_ssl_port", createProperties.EnableNonSslPort)
-        d.Set("host_name", createProperties.HostName)
-        if err := d.Set("linked_servers", flattenArmRediLinkedServerList(createProperties.LinkedServers)); err != nil {
-            return fmt.Errorf("Error setting `linked_servers`: %+v", err)
-        }
-        d.Set("port", int(*createProperties.Port))
-        d.Set("provisioning_state", createProperties.ProvisioningState)
-        d.Set("redis_configuration", utils.FlattenKeyValuePairs(createProperties.RedisConfiguration))
-        d.Set("redis_version", createProperties.RedisVersion)
-        d.Set("shard_count", int(*createProperties.ShardCount))
-        if err := d.Set("sku", flattenArmRediSku(createProperties.Sku)); err != nil {
-            return fmt.Errorf("Error setting `sku`: %+v", err)
-        }
-        d.Set("ssl_port", int(*createProperties.SslPort))
-        d.Set("static_ip", createProperties.StaticIp)
-        d.Set("subnet_id", createProperties.SubnetID)
-        d.Set("tenant_settings", utils.FlattenKeyValuePairs(createProperties.TenantSettings))
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmRediUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -301,26 +283,39 @@ func resourceArmRediUpdate(d *schema.ResourceData, meta interface{}) error {
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
+    container := d.Get("container").(string)
     enableNonSslPort := d.Get("enable_non_ssl_port").(bool)
+    files := d.Get("files").([]interface{})
+    format := d.Get("format").(string)
+    keyType := d.Get("key_type").(string)
+    prefix := d.Get("prefix").(string)
+    rebootType := d.Get("reboot_type").(string)
     redisConfiguration := d.Get("redis_configuration").(map[string]interface{})
     shardCount := d.Get("shard_count").(int)
+    shardId := d.Get("shard_id").(int)
     sku := d.Get("sku").([]interface{})
     staticIp := d.Get("static_ip").(string)
     subnetId := d.Get("subnet_id").(string)
     tenantSettings := d.Get("tenant_settings").(map[string]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := redis.CreateParameters{
-        Location: utils.String(location),
-        CreateProperties: &redis.CreateProperties{
+    parameters := redis.ExportRDBParameters{
+        Container: utils.String(container),
+        Files: utils.ExpandStringSlice(files),
+        Format: utils.String(format),
+        KeyType: redis.KeyType(keyType),
+        Prefix: utils.String(prefix),
+        UpdateProperties: &redis.UpdateProperties{
             EnableNonSslPort: utils.Bool(enableNonSslPort),
             RedisConfiguration: utils.ExpandKeyValuePairs(redisConfiguration),
             ShardCount: utils.Int32(int32(shardCount)),
             Sku: expandArmRediSku(sku),
-            StaticIp: utils.String(staticIp),
+            StaticIP: utils.String(staticIp),
             SubnetID: utils.String(subnetId),
             TenantSettings: utils.ExpandKeyValuePairs(tenantSettings),
         },
+        RebootType: redis.RebootType(rebootType),
+        ShardID: utils.Int32(int32(shardId)),
         Tags: tags.Expand(t),
     }
 
@@ -377,43 +372,4 @@ func expandArmRediSku(input []interface{}) *redis.Sku {
         Name: redis.SkuName(name),
     }
     return &result
-}
-
-
-func flattenArmRediAccessKeys(input *redis.AccessKeys) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
-}
-
-func flattenArmRediLinkedServerList(input *redis.LinkedServerList) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
-}
-
-func flattenArmRediSku(input *redis.Sku) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["name"] = string(input.Name)
-    if capacity := input.Capacity; capacity != nil {
-        result["capacity"] = int(*capacity)
-    }
-    result["family"] = string(input.Family)
-
-    return []interface{}{result}
 }

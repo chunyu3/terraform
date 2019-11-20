@@ -163,107 +163,6 @@ objects:
             python_parameter_name: loggerid
             python_variable_name: loggerid
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LoggerUpdateParameters
-            go_type_name: LoggerUpdateParameters
-          '/properties/loggerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: LoggerType
-            go_enum_type_name: LoggerType
-          '/loggerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: logger_type
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: Credentials
-          '/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: credentials
-          '/properties/isBuffered': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsBuffered
-          '/isBuffered': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_buffered
-          '/properties/sampling': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Sampling
-            go_type_name: LoggerSamplingContract
-          '/properties/sampling/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LoggerSamplingProperties
-            go_type_name: LoggerSamplingProperties
-          '/properties/sampling/properties/samplingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: SamplingType
-            go_enum_type_name: SamplingType
-          '/properties/sampling/properties/percentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [go]
-            go_field_name: Percentage
-          '/properties/sampling/properties/maxTelemetryItemsPerSecond': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: MaxTelemetryItemsPerSecond
-          '/properties/sampling/properties/evaluationInterval': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: EvaluationInterval
-          '/properties/sampling/properties/percentageDecreaseTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: PercentageDecreaseTimeout
-          '/properties/sampling/properties/percentageIncreaseTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: PercentageIncreaseTimeout
-          '/properties/sampling/properties/minPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [go]
-            go_field_name: MinPercentage
-          '/properties/sampling/properties/maxPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [go]
-            go_field_name: MaxPercentage
-          '/properties/sampling/properties/movingAverageRatio': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [go]
-            go_field_name: MovingAverageRatio
-          '/properties/sampling/properties/initialPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [go]
-            go_field_name: InitialPercentage
-          '/sampling': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: sampling
-          '/sampling/samplingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: sampling_type
-          '/sampling/percentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [python]
-            python_field_name: percentage
-          '/sampling/maxTelemetryItemsPerSecond': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: max_telemetry_items_per_second
-          '/sampling/evaluationInterval': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: evaluation_interval
-          '/sampling/percentageDecreaseTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: percentage_decrease_timeout
-          '/sampling/percentageIncreaseTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: percentage_increase_timeout
-          '/sampling/minPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [python]
-            python_field_name: min_percentage
-          '/sampling/maxPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [python]
-            python_field_name: max_percentage
-          '/sampling/movingAverageRatio': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [python]
-            python_field_name: moving_average_ratio
-          '/sampling/initialPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [python]
-            python_field_name: initial_percentage
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -334,12 +233,6 @@ objects:
         required: false
         azure_sdk_references: ['/isBuffered', '/properties/isBuffered']
       # read only values included only in response
-      - !ruby/object:Api::Type::NestedObject
-        name: 'sampling'
-        description: 'Sampling settings for an ApplicationInsights logger.'
-        output: true
-        azure_sdk_references: ['/sampling', '/properties/sampling']
-        properties:
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

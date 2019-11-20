@@ -28,11 +28,11 @@ Manage Azure VirtualMachine instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the lab. Changing this forces a new resource to be created.
+
 * `name` - (Required) The name of the virtual machine. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
-
-* `lab_name` - (Required) The name of the lab. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
 
@@ -41,6 +41,10 @@ The following arguments are supported:
 * `artifact_deployment_status` - (Optional) One `artifact_deployment_status` block defined below.
 
 * `artifacts` - (Optional) One or more `artifact` block defined below.
+
+* `artifacts` - (Optional) One or more `artifact` block defined below.
+
+* `attach_new_data_disk_options` - (Optional) One `attach_new_data_disk_option` block defined below.
 
 * `compute_id` - (Optional) The resource identifier (Microsoft.Compute) of the virtual machine.
 
@@ -58,11 +62,15 @@ The following arguments are supported:
 
 * `environment_id` - (Optional) The resource ID of the environment that contains this virtual machine, if any.
 
+* `existing_lab_disk_id` - (Optional) Specifies the disk resource ID to detach from virtual machine. Changing this forces a new resource to be created.
+
 * `expiration_date` - (Optional) The expiration date for VM.
 
 * `fqdn` - (Optional) The fully-qualified domain name of the virtual machine.
 
 * `gallery_image_reference` - (Optional) One `gallery_image_reference` block defined below.
+
+* `host_caching` - (Optional) Caching option for a data disk (i.e. None, ReadOnly, ReadWrite). Defaults to `None`. Changing this forces a new resource to be created.
 
 * `is_authentication_with_ssh_key` - (Optional) Indicates whether this virtual machine uses an SSH key for authentication.
 
@@ -89,6 +97,8 @@ The following arguments are supported:
 * `schedule_parameters` - (Optional) One or more `schedule_parameter` block defined below.
 
 * `size` - (Optional) The size of the virtual machine.
+
+* `size` - (Optional) Specifies the size of the virtual machine. Changing this forces a new resource to be created.
 
 * `ssh_key` - (Optional) The SSH key of the virtual machine administrator.
 
@@ -136,6 +146,43 @@ The `parameter` block supports the following:
 * `name` - (Optional) The name of the artifact parameter.
 
 * `value` - (Optional) The value of the artifact parameter.
+
+---
+
+The `artifact` block supports the following:
+
+* `artifact_id` - (Optional) The artifact's identifier.
+
+* `artifact_title` - (Optional) The artifact's title.
+
+* `parameters` - (Optional) One or more `parameter` block defined below.
+
+* `status` - (Optional) The status of the artifact.
+
+* `deployment_status_message` - (Optional) The status message from the deployment.
+
+* `vm_extension_status_message` - (Optional) The status message from the virtual machine extension.
+
+* `install_time` - (Optional) The time that the artifact starts to install on the virtual machine.
+
+
+---
+
+The `parameter` block supports the following:
+
+* `name` - (Optional) The name of the artifact parameter.
+
+* `value` - (Optional) The value of the artifact parameter.
+
+---
+
+The `attach_new_data_disk_option` block supports the following:
+
+* `disk_size_gi_b` - (Optional) Size of the disk to be attached in GibiBytes.
+
+* `disk_name` - (Optional) The name of the disk to be attached.
+
+* `disk_type` - (Optional) The storage type for the disk (i.e. Standard, Premium). Defaults to `Standard`.
 
 ---
 
@@ -277,103 +324,6 @@ The `notification_setting` block supports the following:
 
 The following attributes are exported:
 
-* `compute_vm` - One `compute_vm` block defined below.
-
-* `applicable_schedule` - One `applicable_schedule` block defined below.
-
-* `provisioning_state` - The provisioning status of the resource.
-
-* `unique_identifier` - The unique immutable identifier of a resource (Guid).
-
 * `id` - The identifier of the resource.
 
 * `type` - The type of the resource.
-
-
----
-
-The `compute_vm` block contains the following:
-
-* `statuses` - (Optional) One or more `status` block defined below.
-
-* `os_type` - (Optional) Gets the OS type of the virtual machine.
-
-* `vm_size` - (Optional) Gets the size of the virtual machine.
-
-* `network_interface_id` - (Optional) Gets the network interface ID of the virtual machine.
-
-* `os_disk_id` - (Optional) Gets OS disk blob uri for the virtual machine.
-
-* `data_disk_ids` - (Optional) Gets data disks blob uri for the virtual machine.
-
-* `data_disks` - (Optional) One or more `data_disk` block defined below.
-
-
----
-
-The `status` block supports the following:
-
-* `code` - (Optional) Gets the status Code.
-
-* `display_status` - (Optional) Gets the short localizable label for the status.
-
-* `message` - (Optional) Gets the message associated with the status.
-
----
-
-The `data_disk` block supports the following:
-
-* `name` - (Optional) Gets data disk name.
-
-* `disk_uri` - (Optional) When backed by a blob, the URI of underlying blob.
-
-* `managed_disk_id` - (Optional) When backed by managed disk, this is the ID of the compute disk resource.
-
-* `disk_size_gi_b` - (Optional) Gets data disk size in GiB.
-
----
-
-The `applicable_schedule` block contains the following:
-
-* `id` - (Optional) The identifier of the resource.
-
-* `name` - (Optional) The name of the resource.
-
-* `type` - (Optional) The type of the resource.
-
-* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
-
-* `tags` - (Optional) The tags of the resource.
-
-* `lab_vms_shutdown` - (Optional) One `lab_vms_shutdown` block defined below.
-
-* `lab_vms_startup` - (Optional) One `lab_vms_startup` block defined below.
-
-
----
-
-The `lab_vms_shutdown` block supports the following:
-
-* `id` - (Optional) The identifier of the resource.
-
-* `name` - (Optional) The name of the resource.
-
-* `type` - (Optional) The type of the resource.
-
-* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
-
-* `tags` - (Optional) The tags of the resource.
-
----
-
-The `lab_vms_startup` block supports the following:
-
-* `id` - (Optional) The identifier of the resource.
-
-* `name` - (Optional) The name of the resource.
-
-* `type` - (Optional) The type of the resource.
-
-* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
-
-* `tags` - (Optional) The tags of the resource.

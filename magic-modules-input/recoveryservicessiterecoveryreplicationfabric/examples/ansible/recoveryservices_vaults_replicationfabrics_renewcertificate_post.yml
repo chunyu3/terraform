@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_recoveryservicessiterecoveryreplicationfabric
+  description: Renews certificate for the fabric.
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    name: myReplicationFabric
+    renew_certificate:
+      properties:
+        renewCertificateType: Cloud
+  

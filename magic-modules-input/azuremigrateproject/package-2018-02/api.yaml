@@ -135,93 +135,6 @@ objects:
             python_parameter_name: project_name
             python_variable_name: name
         response:
-          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ETag
-            python_field_name: e_tag
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ProjectProperties
-            go_type_name: ProjectProperties
-          '/properties/customerWorkspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CustomerWorkspaceID
-          '/customerWorkspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: customer_workspace_id
-          '/properties/customerWorkspaceLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CustomerWorkspaceLocation
-          '/customerWorkspaceLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: customer_workspace_location
-          '/properties/createdTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreatedTimestamp
-          '/createdTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created_timestamp
-          '/properties/updatedTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: UpdatedTimestamp
-          '/updatedTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: updated_timestamp
-          '/properties/discoveryStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: DiscoveryStatus
-            go_enum_type_name: DiscoveryStatus
-          '/discoveryStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: discovery_status
-          '/properties/lastDiscoveryTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastDiscoveryTimestamp
-          '/lastDiscoveryTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_discovery_timestamp
-          '/properties/lastDiscoverySessionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: LastDiscoverySessionID
-          '/lastDiscoverySessionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: last_discovery_session_id
-          '/properties/numberOfGroups': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: NumberOfGroups
-          '/numberOfGroups': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: number_of_groups
-          '/properties/numberOfMachines': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: NumberOfMachines
-          '/numberOfMachines': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: number_of_machines
-          '/properties/numberOfAssessments': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: NumberOfAssessments
-          '/numberOfAssessments': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: number_of_assessments
-          '/properties/lastAssessmentTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastAssessmentTimestamp
-          '/lastAssessmentTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_assessment_timestamp
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -231,10 +144,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscription
-        python_func_name: list_by_subscription
-        request:
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -244,6 +153,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
 
     description: |
       Manage Azure Project instance.
@@ -289,68 +202,6 @@ objects:
         required: false
         azure_sdk_references: ['/customerWorkspaceLocation', '/properties/customerWorkspaceLocation']
       # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdTimestamp'
-        description: 'Time when this project was created. Date-Time represented in ISO-8601 format.'
-        output: true
-        azure_sdk_references: ['/createdTimestamp', '/properties/createdTimestamp']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'updatedTimestamp'
-        description: 'Time when this project was last updated. Date-Time represented in ISO-8601 format.'
-        output: true
-        azure_sdk_references: ['/updatedTimestamp', '/properties/updatedTimestamp']
-      - !ruby/object:Api::Type::Enum
-        name: 'discoveryStatus'
-        description: 'Reports whether project is under discovery.'
-        output: true
-        azure_sdk_references: ['/discoveryStatus', '/properties/discoveryStatus']
-        values:
-          - :Unknown
-          - :NotStarted
-          - :InProgress
-          - :Completed
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastDiscoveryTimestamp'
-        description: 'Time when this project was created. Date-Time represented in ISO-8601 format. This value will be null until discovery is complete.'
-        output: true
-        azure_sdk_references: ['/lastDiscoveryTimestamp', '/properties/lastDiscoveryTimestamp']
-      - !ruby/object:Api::Type::String
-        name: 'lastDiscoverySessionId'
-        description: 'Session id of the last discovery.'
-        output: true
-        azure_sdk_references: ['/lastDiscoverySessionId', '/properties/lastDiscoverySessionId']
-      - !ruby/object:Api::Type::Integer
-        name: 'numberOfGroups'
-        description: 'Number of groups created in the project.'
-        output: true
-        azure_sdk_references: ['/numberOfGroups', '/properties/numberOfGroups']
-      - !ruby/object:Api::Type::Integer
-        name: 'numberOfMachines'
-        description: 'Number of machines in the project.'
-        output: true
-        azure_sdk_references: ['/numberOfMachines', '/properties/numberOfMachines']
-      - !ruby/object:Api::Type::Integer
-        name: 'numberOfAssessments'
-        description: 'Number of assessments created in the project.'
-        output: true
-        azure_sdk_references: ['/numberOfAssessments', '/properties/numberOfAssessments']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastAssessmentTimestamp'
-        description: 'Time when last assessment was created. Date-Time represented in ISO-8601 format. This value will be null until assessment is created.'
-        output: true
-        azure_sdk_references: ['/lastAssessmentTimestamp', '/properties/lastAssessmentTimestamp']
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'Provisioning state of the project.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Accepted
-          - :Creating
-          - :Deleting
-          - :Failed
-          - :Moving
-          - :Succeeded
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Path reference to this project /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}'

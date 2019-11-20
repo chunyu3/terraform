@@ -34,15 +34,15 @@ func testCheckAzureRMProximityPlacementGroupExists(resourceName string) resource
             return fmt.Errorf("Proximity Placement Group not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        proximityPlacementGroupName := rs.Primary.Attributes["proximity_placement_group_name"]
 
         client := testAccProvider.Meta().(*ArmClient).proximityPlacementGroupsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, proximityPlacementGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Proximity Placement Group (Proximity Placement Group Name %q / Resource Group %q) does not exist", proximityPlacementGroupName, resourceGroup)
+                return fmt.Errorf("Bad: Proximity Placement Group %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on proximityPlacementGroupsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMProximityPlacementGroupDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        proximityPlacementGroupName := rs.Primary.Attributes["proximity_placement_group_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, proximityPlacementGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on proximityPlacementGroupsClient: %+v", err)
             }

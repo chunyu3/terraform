@@ -3,6 +3,8 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_visualstudioproject
   description: Create a project resource
   code:
+    resource_group: myResourceGroup
+    root_resource_name: myAccount
     body:
       id: >-
         /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
@@ -15,7 +17,5 @@ task: !ruby/object:Provider::Ansible::Task
       properties:
         ProcessTemplateId: 6B724908-EF14-45CF-84F8-768B5384DA45
         VersionControlOption: Git
-    resource_group: myResourceGroup
-    root_resource_name: myAccount
     resource_name: myProject
   

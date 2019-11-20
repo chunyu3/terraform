@@ -31,14 +31,15 @@ func resourceArmEnterpriseChannel() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "location": azure.SchemaLocation(),
@@ -170,6 +171,7 @@ func resourceArmEnterpriseChannelCreate(d *schema.ResourceData, meta interface{}
         }
     }
 
+    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     etag := d.Get("etag").(string)
     kind := d.Get("kind").(string)
@@ -182,6 +184,7 @@ func resourceArmEnterpriseChannelCreate(d *schema.ResourceData, meta interface{}
         Etag: utils.String(etag),
         Kind: botservice.Kind(kind),
         Location: utils.String(location),
+        Name: utils.String(name),
         EnterpriseChannelProperties: &botservice.EnterpriseChannelProperties{
             Nodes: expandArmEnterpriseChannelEnterpriseChannelNode(nodes),
             State: botservice.EnterpriseChannelState(state),
@@ -234,32 +237,19 @@ func resourceArmEnterpriseChannelRead(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    d.Set("name", name)
     d.Set("name", resp.Name)
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    d.Set("etag", resp.Etag)
-    d.Set("kind", string(resp.Kind))
-    if enterpriseChannelProperties := resp.EnterpriseChannelProperties; enterpriseChannelProperties != nil {
-        if err := d.Set("nodes", flattenArmEnterpriseChannelEnterpriseChannelNode(enterpriseChannelProperties.Nodes)); err != nil {
-            return fmt.Errorf("Error setting `nodes`: %+v", err)
-        }
-        d.Set("state", string(enterpriseChannelProperties.State))
-    }
-    if err := d.Set("sku", flattenArmEnterpriseChannelSku(resp.Sku)); err != nil {
-        return fmt.Errorf("Error setting `sku`: %+v", err)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmEnterpriseChannelUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).enterpriseChannelsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     etag := d.Get("etag").(string)
@@ -272,7 +262,7 @@ func resourceArmEnterpriseChannelUpdate(d *schema.ResourceData, meta interface{}
     parameters := botservice.EnterpriseChannel{
         Etag: utils.String(etag),
         Kind: botservice.Kind(kind),
-        Location: utils.String(location),
+        Name: utils.String(name),
         EnterpriseChannelProperties: &botservice.EnterpriseChannelProperties{
             Nodes: expandArmEnterpriseChannelEnterpriseChannelNode(nodes),
             State: botservice.EnterpriseChannelState(state),
@@ -355,43 +345,4 @@ func expandArmEnterpriseChannelSku(input []interface{}) *botservice.Sku {
         Name: botservice.SkuName(name),
     }
     return &result
-}
-
-
-func flattenArmEnterpriseChannelEnterpriseChannelNode(input *[]botservice.EnterpriseChannelNode) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if azureLocation := item.AzureLocation; azureLocation != nil {
-            v["azure_location"] = *azureLocation
-        }
-        if azureSku := item.AzureSku; azureSku != nil {
-            v["azure_sku"] = *azureSku
-        }
-        v["state"] = string(item.State)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmEnterpriseChannelSku(input *botservice.Sku) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["name"] = string(input.Name)
-
-    return []interface{}{result}
 }

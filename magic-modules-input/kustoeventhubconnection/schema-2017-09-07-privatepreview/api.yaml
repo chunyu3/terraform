@@ -48,9 +48,9 @@ objects:
             go_type_name: EventHubConnectionUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          '/eventhubConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: EventhubConnectionName
+            python_field_name: eventhub_connection_name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: EventHubConnectionProperties
@@ -86,6 +86,9 @@ objects:
             applicable_to: [go]
             go_field_name: DataFormat
             go_enum_type_name: DataFormat
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -116,9 +119,9 @@ objects:
             go_type_name: EventHubConnectionUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          '/eventhubConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: EventhubConnectionName
+            python_field_name: eventhub_connection_name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: EventHubConnectionProperties
@@ -154,6 +157,9 @@ objects:
             applicable_to: [go]
             go_field_name: DataFormat
             go_enum_type_name: DataFormat
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -204,44 +210,6 @@ objects:
             python_parameter_name: event_hub_connection_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: EventHubConnectionProperties
-            go_type_name: EventHubConnectionProperties
-          '/properties/eventHubResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EventHubResourceID
-          '/eventHubResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: event_hub_resource_id
-          '/properties/consumerGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ConsumerGroup
-          '/consumerGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: consumer_group
-          '/properties/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TableName
-          '/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: table_name
-          '/properties/mappingRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: MappingRuleName
-          '/mappingRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: mapping_rule_name
-          '/properties/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: DataFormat
-            go_enum_type_name: DataFormat
-          '/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: data_format
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -293,17 +261,11 @@ objects:
         input: true
         azure_sdk_references: ['databaseName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'eventhubConnectionName'
         description: 'The name of the event hub connection.'
-        required: true
-        input: true
-        azure_sdk_references: ['eventHubConnectionName']
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
-        description: 'Resource location.'
         required: false
         input: true
-        azure_sdk_references: ['/location']
+        azure_sdk_references: ['/eventhubConnectionName']
       - !ruby/object:Api::Type::String
         name: 'eventHubResourceId'
         description: 'The resource ID of the event hub to be used to create a data connection.'
@@ -334,6 +296,18 @@ objects:
           - :JSON
           - :CSV
         default_value: :MULTIJSON
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the event hub connection.'
+        required: true
+        input: true
+        azure_sdk_references: ['eventHubConnectionName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

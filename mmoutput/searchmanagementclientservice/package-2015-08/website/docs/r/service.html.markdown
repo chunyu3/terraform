@@ -30,7 +30,11 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the Azure Search service associated with the specified resource group. Changing this forces a new resource to be created.
 
+* `name` - (Required) The Search service name to validate. Search service names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
+
+* `type` - (Required) The type of the resource whose name is to be validated. This value must always be 'searchServices'. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource. Changing this forces a new resource to be created.
 
@@ -62,14 +66,4 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
-* `status` - The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.
-
-* `status_details` - The details of the Search service status.
-
-* `provisioning_state` - The state of the last provisioning operation performed on the Search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create Search service. This is because the free service uses capacity that is already set up.
-
 * `id` - The ID of the resource. This can be used with the Azure Resource Manager to link resources together.
-
-* `name` - The name of the resource.
-
-* `type` - The resource type.

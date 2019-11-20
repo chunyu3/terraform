@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: batchAccounts
-            go_variable_name: accountName
+            go_variable_name: name
             python_parameter_name: account_name
-            python_variable_name: account_name
+            python_variable_name: name
           'applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: applications
             go_variable_name: applicationID
@@ -53,9 +53,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: batchAccounts
-            go_variable_name: accountName
+            go_variable_name: name
             python_parameter_name: account_name
-            python_variable_name: account_name
+            python_variable_name: name
           'applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: applications
             go_variable_name: applicationID
@@ -77,9 +77,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: batchAccounts
-            go_variable_name: accountName
+            go_variable_name: name
             python_parameter_name: account_name
-            python_variable_name: account_name
+            python_variable_name: name
           'applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: applications
             go_variable_name: applicationID
@@ -96,6 +96,9 @@ objects:
             go_variable_name: version
             python_parameter_name: version
             python_variable_name: version
+          '/format': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Format
+            python_field_name: format
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -103,9 +106,6 @@ objects:
             go_field_name: State
             go_enum_type_name: PackageState
             python_field_name: state
-          '/format': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Format
-            python_field_name: format
           '/storageUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: StorageURL
             python_field_name: storage_url
@@ -126,7 +126,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'accountName'
+        name: 'name'
         description: 'The name of the Batch account.'
         required: true
         input: true
@@ -143,6 +143,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['version']
+      - !ruby/object:Api::Type::String
+        name: 'format'
+        description: 'The format of the application package binary file.'
+        required: true
+        input: true
+        azure_sdk_references: ['/format']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -158,11 +164,6 @@ objects:
           - :Pending
           - :Active
           - :Unmapped
-      - !ruby/object:Api::Type::String
-        name: 'format'
-        description: 'The format of the application package, if the package is active.'
-        output: true
-        azure_sdk_references: ['/format']
       - !ruby/object:Api::Type::String
         name: 'storageUrl'
         description: 'The URL for the application package in Azure Storage.'

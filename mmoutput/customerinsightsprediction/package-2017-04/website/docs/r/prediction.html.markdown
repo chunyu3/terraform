@@ -28,6 +28,8 @@ Manage Azure Prediction instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Prediction. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `auto_analyze` - (Required) Whether do auto analyze.
@@ -40,13 +42,13 @@ The following arguments are supported:
 
 * `positive_outcome_expression` - (Required) Positive outcome expression.
 
-* `prediction_name` - (Required) The name of the Prediction. Changing this forces a new resource to be created.
-
 * `primary_profile_type` - (Required) Primary profile type.
 
 * `scope_expression` - (Required) Scope expression.
 
 * `score_label` - (Required) Score label.
+
+* `status` - (Required) Prediction model life cycle.  When prediction is in PendingModelConfirmation status, it is allowed to update the status to PendingFeaturing or Active through API. Changing this forces a new resource to be created.
 
 ---
 
@@ -86,25 +88,8 @@ The `grade` block supports the following:
 
 The following attributes are exported:
 
-* `provisioning_state` - Provisioning state.
-
-* `tenant_id` - The hub name.
-
-* `system_generated_entities` - One `system_generated_entity` block defined below.
-
 * `id` - Resource ID.
 
 * `name` - Resource name.
 
 * `type` - Resource type.
-
-
----
-
-The `system_generated_entity` block contains the following:
-
-* `generated_interaction_types` - (Optional) Generated interaction types.
-
-* `generated_links` - (Optional) Generated links.
-
-* `generated_kpis` - (Optional) Generated KPIs.

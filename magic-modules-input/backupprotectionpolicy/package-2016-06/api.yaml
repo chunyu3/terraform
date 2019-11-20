@@ -109,34 +109,6 @@ objects:
             python_parameter_name: policy_name
             python_variable_name: name
         response:
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Type
-            python_field_name: type
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ETag
-            python_field_name: e_tag
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ProtectionPolicy
-            go_type_name: ProtectionPolicy
-          '/properties/protectedItemsCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: ProtectedItemsCount
-          '/protectedItemsCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: protected_items_count
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -169,7 +141,7 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The backup policy name used in this GET operation.'
+        description: 'The name of the backup policy to be deleted.'
         required: true
         input: true
         azure_sdk_references: ['policyName']

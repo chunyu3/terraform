@@ -28,9 +28,9 @@ Manage Azure GalleryImage instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the gallery Image. Changing this forces a new resource to be created.
 
-* `gallery_image_name` - (Required) The name of the gallery Image. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `lab_account_name` - (Required) The name of the lab Account. Changing this forces a new resource to be created.
 
@@ -50,55 +50,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `author` - The author of the gallery image.
-
-* `created_date` - The creation date of the gallery image.
-
-* `description` - The description of the gallery image.
-
-* `image_reference` - One `image_reference` block defined below.
-
-* `icon` - The icon of the gallery image.
-
-* `plan_id` - The third party plan that applies to this image
-
-* `provisioning_state` - The provisioning status of the resource.
-
-* `latest_operation_result` - One `latest_operation_result` block defined below.
-
 * `id` - The identifier of the resource.
 
 * `name` - The name of the resource.
 
 * `type` - The type of the resource.
-
-
----
-
-The `image_reference` block contains the following:
-
-* `offer` - (Optional) The offer of the gallery image.
-
-* `publisher` - (Optional) The publisher of the gallery image.
-
-* `sku` - (Optional) The SKU of the gallery image.
-
-* `os_type` - (Optional) The OS type of the gallery image.
-
-* `version` - (Optional) The version of the gallery image.
-
----
-
-The `latest_operation_result` block contains the following:
-
-* `status` - (Optional) The current status of the operation.
-
-* `error_code` - (Optional) Error code on failure.
-
-* `error_message` - (Optional) The error message.
-
-* `request_uri` - (Optional) Request URI of the operation.
-
-* `http_method` - (Optional) The HttpMethod - PUT/POST/DELETE for the operation.
-
-* `operation_url` - (Optional) The URL to use to check long-running operation status

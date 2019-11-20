@@ -147,37 +147,7 @@ func resourceArmServer() *schema.Resource {
                 Default: string(mysql.5.6),
             },
 
-            "administrator_login": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "earliest_restore_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "fully_qualified_domain_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "master_server_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "replica_capacity": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "user_visible_state": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -275,29 +245,9 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if serverUpdateParametersProperties := resp.ServerUpdateParameters_properties; serverUpdateParametersProperties != nil {
-        d.Set("administrator_login", serverUpdateParametersProperties.AdministratorLogin)
-        d.Set("earliest_restore_date", (serverUpdateParametersProperties.EarliestRestoreDate).String())
-        d.Set("fully_qualified_domain_name", serverUpdateParametersProperties.FullyQualifiedDomainName)
-        d.Set("master_server_id", serverUpdateParametersProperties.MasterServerID)
-        d.Set("replica_capacity", int(*serverUpdateParametersProperties.ReplicaCapacity))
-        d.Set("replication_role", serverUpdateParametersProperties.ReplicationRole)
-        d.Set("ssl_enforcement", string(serverUpdateParametersProperties.SslEnforcement))
-        if err := d.Set("storage_profile", flattenArmServerStorageProfile(serverUpdateParametersProperties.StorageProfile)); err != nil {
-            return fmt.Errorf("Error setting `storage_profile`: %+v", err)
-        }
-        d.Set("user_visible_state", string(serverUpdateParametersProperties.UserVisibleState))
-        d.Set("version", string(serverUpdateParametersProperties.Version))
-    }
-    if err := d.Set("sku", flattenArmServerSku(resp.Sku)); err != nil {
-        return fmt.Errorf("Error setting `sku`: %+v", err)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -315,7 +265,6 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
     t := d.Get("tags").(map[string]interface{})
 
     parameters := mysql.ServerUpdateParameters{
-        Location: utils.String(location),
         ServerUpdateParameters_properties: &mysql.ServerUpdateParameters_properties{
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
             ReplicationRole: utils.String(replicationRole),
@@ -383,7 +332,7 @@ func expandArmServerStorageProfile(input []interface{}) *mysql.StorageProfile {
         BackupRetentionDays: utils.Int(backupRetentionDays),
         GeoRedundantBackup: mysql.GeoRedundantBackup(geoRedundantBackup),
         StorageAutogrow: mysql.StorageAutogrow(storageAutogrow),
-        StorageMb: utils.Int32(int32(storageMb)),
+        StorageMB: utils.Int32(int32(storageMb)),
     }
     return &result
 }
@@ -408,48 +357,4 @@ func expandArmServerSku(input []interface{}) *mysql.Sku {
         Tier: mysql.SkuTier(tier),
     }
     return &result
-}
-
-
-func flattenArmServerStorageProfile(input *mysql.StorageProfile) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if backupRetentionDays := input.BackupRetentionDays; backupRetentionDays != nil {
-        result["backup_retention_days"] = *backupRetentionDays
-    }
-    result["geo_redundant_backup"] = string(input.GeoRedundantBackup)
-    result["storage_autogrow"] = string(input.StorageAutogrow)
-    if storageMb := input.StorageMb; storageMb != nil {
-        result["storage_mb"] = int(*storageMb)
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmServerSku(input *mysql.Sku) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
-    if capacity := input.Capacity; capacity != nil {
-        result["capacity"] = int(*capacity)
-    }
-    if family := input.Family; family != nil {
-        result["family"] = *family
-    }
-    if size := input.Size; size != nil {
-        result["size"] = *size
-    }
-    result["tier"] = string(input.Tier)
-
-    return []interface{}{result}
 }

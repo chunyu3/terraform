@@ -109,45 +109,6 @@ objects:
             python_parameter_name: attached_database_configuration_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AttachedDatabaseConfigurationProperties
-            go_type_name: AttachedDatabaseConfigurationProperties
-          '/properties/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DatabaseName
-          '/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: database_name
-          '/properties/clusterResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClusterResourceID
-          '/clusterResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: cluster_resource_id
-          '/properties/defaultPrincipalsModificationKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: DefaultPrincipalsModificationKind
-            go_enum_type_name: DefaultPrincipalsModificationKind
-          '/defaultPrincipalsModificationKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: default_principals_modification_kind
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/attachedDatabaseNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: AttachedDatabaseNames
-          '/attachedDatabaseNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: attached_database_names
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -219,24 +180,6 @@ objects:
           - :Replace
           - :None
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The provisioned state of the resource.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Running
-          - :Creating
-          - :Deleting
-          - :Succeeded
-          - :Failed
-          - :Moving
-      - !ruby/object:Api::Type::Array
-        name: 'attachedDatabaseNames'
-        description: 'The list of databases from the clusterResourceId which are currently attached to the cluster.'
-        output: true
-        azure_sdk_references: ['/attachedDatabaseNames', '/properties/attachedDatabaseNames']
-        item_type: Api::Type::String
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'

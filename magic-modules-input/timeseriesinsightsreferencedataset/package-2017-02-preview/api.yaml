@@ -130,49 +130,6 @@ objects:
             python_parameter_name: reference_data_set_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ReferenceDataSetCreationProperties
-            go_type_name: ReferenceDataSetCreationProperties
-          '/properties/keyProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: KeyProperties
-            go_type_name: ReferenceDataSetKeyProperty
-          '/properties/keyProperties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/keyProperties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Type
-            go_enum_type_name: ReferenceDataKeyPropertyType
-          '/keyProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: key_properties
-          '/keyProperties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/keyProperties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: type
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreationTime
-          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: creation_time
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -254,23 +211,6 @@ objects:
                 - :DateTime
               default_value: :String
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'Provisioning state of the resource.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Accepted
-          - :Creating
-          - :Updating
-          - :Succeeded
-          - :Failed
-          - :Deleting
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
-        description: 'The time the resource was created.'
-        output: true
-        azure_sdk_references: ['/creationTime', '/properties/creationTime']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

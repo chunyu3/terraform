@@ -34,7 +34,7 @@ objects:
             python_variable_name: name
           'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: apis
-            go_variable_name: apiID
+            go_variable_name: aPIID
             python_parameter_name: api_id
             python_variable_name: api_id
           'tagId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -85,7 +85,7 @@ objects:
             python_variable_name: name
           'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: apis
-            go_variable_name: apiID
+            go_variable_name: aPIID
             python_parameter_name: api_id
             python_variable_name: api_id
           'tagId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -109,7 +109,7 @@ objects:
             python_variable_name: name
           'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: apis
-            go_variable_name: apiID
+            go_variable_name: aPIID
             python_parameter_name: api_id
             python_variable_name: api_id
           'tagId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -118,34 +118,6 @@ objects:
             python_parameter_name: tag_id
             python_variable_name: tag_id
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: TagDescriptionBaseProperties
-            go_type_name: TagDescriptionBaseProperties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/externalDocsUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ExternalDocsURL
-          '/externalDocsUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: external_docs_url
-          '/properties/externalDocsDescription': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ExternalDocsDescription
-          '/externalDocsDescription': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: external_docs_description
-          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DisplayName
-          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: display_name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -171,7 +143,7 @@ objects:
             python_variable_name: name
           'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: apis
-            go_variable_name: apiID
+            go_variable_name: aPIID
             python_parameter_name: api_id
             python_variable_name: api_id
 
@@ -218,11 +190,6 @@ objects:
         required: false
         azure_sdk_references: ['/externalDocsDescription', '/properties/externalDocsDescription']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'displayName'
-        description: 'Tag name.'
-        output: true
-        azure_sdk_references: ['/displayName', '/properties/displayName']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

@@ -58,14 +58,6 @@ The `hl` block supports the following:
 
 The following attributes are exported:
 
-* `created` - The exact time the Live Output was created.
-
-* `last_modified` - The exact time the Live Output was last modified.
-
-* `provisioning_state` - The provisioning state of the Live Output.
-
-* `resource_state` - The resource state of the Live Output.
-
 * `id` - Fully qualified resource ID for the resource.
 
 * `name` - The name of the resource.

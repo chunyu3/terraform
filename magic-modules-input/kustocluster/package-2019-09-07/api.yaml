@@ -41,9 +41,6 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Sku
             go_type_name: AzureSku
@@ -154,10 +151,10 @@ objects:
             go_field_name: SubnetID
           '/properties/virtualNetworkConfiguration/enginePublicIpId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: EnginePublicIpID
+            go_field_name: EnginePublicIPID
           '/properties/virtualNetworkConfiguration/dataManagementPublicIpId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: DataManagementPublicIpID
+            go_field_name: DataManagementPublicIPID
           '/keyVaultProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: key_vault_properties
@@ -182,7 +179,19 @@ objects:
             go_field_name: KeyVersion
           '/properties/keyVaultProperties/keyVaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: KeyVaultUri
+            go_field_name: KeyVaultURI
+          '/clusterResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ClusterResourceID
+            python_field_name: cluster_resource_id
+          '/attachedDatabaseConfigurationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AttachedDatabaseConfigurationName
+            python_field_name: attached_database_configuration_name
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -206,9 +215,6 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Sku
             go_type_name: AzureSku
@@ -319,10 +325,10 @@ objects:
             go_field_name: SubnetID
           '/properties/virtualNetworkConfiguration/enginePublicIpId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: EnginePublicIpID
+            go_field_name: EnginePublicIPID
           '/properties/virtualNetworkConfiguration/dataManagementPublicIpId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: DataManagementPublicIpID
+            go_field_name: DataManagementPublicIPID
           '/keyVaultProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: key_vault_properties
@@ -347,7 +353,19 @@ objects:
             go_field_name: KeyVersion
           '/properties/keyVaultProperties/keyVaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: KeyVaultUri
+            go_field_name: KeyVaultURI
+          '/clusterResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ClusterResourceID
+            python_field_name: cluster_resource_id
+          '/attachedDatabaseConfigurationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AttachedDatabaseConfigurationName
+            python_field_name: attached_database_configuration_name
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -378,200 +396,15 @@ objects:
             python_parameter_name: cluster_name
             python_variable_name: name
         response:
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_field_name: Sku
-            go_type_name: AzureSku
-            python_field_name: sku
-          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            go_field_name: Name
-            go_enum_type_name: AzureSkuName
-            python_field_name: name
-          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            go_field_name: Capacity
-            python_field_name: capacity
-          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            go_field_name: Tier
-            go_enum_type_name: AzureSkuTier
-            python_field_name: tier
-          '/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            go_field_name: Zones
-            python_field_name: zones
-          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_field_name: Identity
-            go_type_name: Identity
-            python_field_name: identity
-          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            go_field_name: Type
-            go_enum_type_name: IdentityType
-            python_field_name: type
-          '/identity/userAssignedIdentities': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: UserAssignedIdentities
-            python_field_name: user_assigned_identities
-          '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: PrincipalID
-            python_field_name: principal_id
-          '/identity/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: TenantID
-            python_field_name: tenant_id
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ClusterProperties
-            go_type_name: ClusterProperties
-          '/properties/trustedExternalTenants': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: TrustedExternalTenants
-            go_type_name: TrustedExternalTenant
-          '/properties/trustedExternalTenants/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/trustedExternalTenants': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: trusted_external_tenants
-          '/trustedExternalTenants/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
-          '/properties/optimizedAutoscale': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: OptimizedAutoscale
-            go_type_name: OptimizedAutoscale
-          '/properties/optimizedAutoscale/version': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Version
-          '/properties/optimizedAutoscale/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsEnabled
-          '/properties/optimizedAutoscale/minimum': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Minimum
-          '/properties/optimizedAutoscale/maximum': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Maximum
-          '/optimizedAutoscale': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: optimized_autoscale
-          '/optimizedAutoscale/version': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: version
-          '/optimizedAutoscale/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_enabled
-          '/optimizedAutoscale/minimum': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: minimum
-          '/optimizedAutoscale/maximum': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: maximum
-          '/properties/enableDiskEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: EnableDiskEncryption
-          '/enableDiskEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enable_disk_encryption
-          '/properties/enableStreamingIngest': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: EnableStreamingIngest
-          '/enableStreamingIngest': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enable_streaming_ingest
-          '/properties/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: VirtualNetworkConfiguration
-            go_type_name: VirtualNetworkConfiguration
-          '/properties/virtualNetworkConfiguration/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubnetID
-          '/properties/virtualNetworkConfiguration/enginePublicIpId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EnginePublicIpID
-          '/properties/virtualNetworkConfiguration/dataManagementPublicIpId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DataManagementPublicIpID
-          '/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: virtual_network_configuration
-          '/virtualNetworkConfiguration/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subnet_id
-          '/virtualNetworkConfiguration/enginePublicIpId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: engine_public_ip_id
-          '/virtualNetworkConfiguration/dataManagementPublicIpId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: data_management_public_ip_id
-          '/properties/keyVaultProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: KeyVaultProperties
-            go_type_name: KeyVaultProperties
-          '/properties/keyVaultProperties/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: KeyName
-          '/properties/keyVaultProperties/keyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: KeyVersion
-          '/properties/keyVaultProperties/keyVaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: KeyVaultUri
-          '/keyVaultProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: key_vault_properties
-          '/keyVaultProperties/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: key_name
-          '/keyVaultProperties/keyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: key_version
-          '/keyVaultProperties/keyVaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: key_vault_uri
-          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: State
-            go_enum_type_name: State
-          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: state
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Uri
-          '/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: uri
-          '/properties/dataIngestionUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DataIngestionUri
-          '/dataIngestionUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: data_ingestion_uri
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListSkus
-        python_func_name: list_skus
-        request:
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -581,6 +414,28 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListFollowerDatabases
+        python_func_name: list_follower_databases
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: name
+            python_parameter_name: cluster_name
+            python_variable_name: name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListSkus
+        python_func_name: list_skus
+        request:
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSkusByResource
         python_func_name: list_skus_by_resource
@@ -619,10 +474,10 @@ objects:
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
-        description: 'Resource location.'
-        required: false
+        description: 'Azure location.'
+        required: true
         input: true
-        azure_sdk_references: ['/location']
+        azure_sdk_references: ['location']
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
         description: 'The SKU of the cluster.'
@@ -776,56 +631,33 @@ objects:
             description: 'The Uri of the key vault.'
             required: true
             azure_sdk_references: ['/keyVaultProperties/keyVaultUri', '/properties/keyVaultProperties/keyVaultUri']
+      - !ruby/object:Api::Type::String
+        name: 'clusterResourceId'
+        description: 'Resource id of the cluster that follows a database owned by this cluster.'
+        required: true
+        input: true
+        azure_sdk_references: ['/clusterResourceId']
+      - !ruby/object:Api::Type::String
+        name: 'attachedDatabaseConfigurationName'
+        description: 'Resource name of the attached database configuration in the follower cluster.'
+        required: true
+        input: true
+        azure_sdk_references: ['/attachedDatabaseConfigurationName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Cluster name.'
+        required: true
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of resource, Microsoft.Kusto/clusters.'
+        required: true
+        input: true
+        azure_sdk_references: ['/type']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'state'
-        description: 'The state of the resource.'
-        output: true
-        azure_sdk_references: ['/state', '/properties/state']
-        values:
-          - :Creating
-          - :Unavailable
-          - :Running
-          - :Deleting
-          - :Deleted
-          - :Stopping
-          - :Stopped
-          - :Starting
-          - :Updating
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The provisioned state of the resource.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Running
-          - :Creating
-          - :Deleting
-          - :Succeeded
-          - :Failed
-          - :Moving
-      - !ruby/object:Api::Type::String
-        name: 'uri'
-        description: 'The cluster URI.'
-        output: true
-        azure_sdk_references: ['/uri', '/properties/uri']
-      - !ruby/object:Api::Type::String
-        name: 'dataIngestionUri'
-        description: 'The cluster data ingestion URI.'
-        output: true
-        azure_sdk_references: ['/dataIngestionUri', '/properties/dataIngestionUri']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The name of the resource'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
-        output: true
-        azure_sdk_references: ['/type']

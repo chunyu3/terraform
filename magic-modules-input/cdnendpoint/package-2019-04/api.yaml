@@ -82,13 +82,13 @@ objects:
             python_field_name: is_http_allowed
           '/properties/isHttpAllowed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
-            go_field_name: IsHttpAllowed
+            go_field_name: IsHTTPAllowed
           '/isHttpsAllowed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: is_https_allowed
           '/properties/isHttpsAllowed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
-            go_field_name: IsHttpsAllowed
+            go_field_name: IsHTTPSAllowed
           '/queryStringCachingBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: query_string_caching_behavior
@@ -181,6 +181,12 @@ objects:
             applicable_to: [go]
             go_field_name: Actions
             go_type_name: DeliveryRuleAction
+          '/contentPaths': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: ContentPaths
+            python_field_name: content_paths
+          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: HostName
+            python_field_name: host_name
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -241,198 +247,6 @@ objects:
             python_parameter_name: endpoint_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: EndpointPropertiesUpdateParameters
-            go_type_name: EndpointPropertiesUpdateParameters
-          '/properties/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: OriginHostHeader
-          '/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: origin_host_header
-          '/properties/originPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: OriginPath
-          '/originPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: origin_path
-          '/properties/contentTypesToCompress': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: ContentTypesToCompress
-          '/contentTypesToCompress': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: content_types_to_compress
-          '/properties/isCompressionEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsCompressionEnabled
-          '/isCompressionEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_compression_enabled
-          '/properties/isHttpAllowed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsHttpAllowed
-          '/isHttpAllowed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_http_allowed
-          '/properties/isHttpsAllowed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsHttpsAllowed
-          '/isHttpsAllowed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_https_allowed
-          '/properties/queryStringCachingBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: QueryStringCachingBehavior
-            go_enum_type_name: QueryStringCachingBehavior
-          '/queryStringCachingBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: query_string_caching_behavior
-          '/properties/optimizationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: OptimizationType
-            go_enum_type_name: OptimizationType
-          '/optimizationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: optimization_type
-          '/properties/probePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProbePath
-          '/probePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: probe_path
-          '/properties/geoFilters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: GeoFilters
-            go_type_name: GeoFilter
-          '/properties/geoFilters/relativePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RelativePath
-          '/properties/geoFilters/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Action
-            go_enum_type_name: GeoFilterActions
-          '/properties/geoFilters/countryCodes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: CountryCodes
-          '/geoFilters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: geo_filters
-          '/geoFilters/relativePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: relative_path
-          '/geoFilters/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: action
-          '/geoFilters/countryCodes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: country_codes
-          '/properties/deliveryPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DeliveryPolicy
-            go_type_name: EndpointPropertiesUpdateParameters_deliveryPolicy
-          '/properties/deliveryPolicy/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/properties/deliveryPolicy/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Rules
-            go_type_name: DeliveryRule
-          '/properties/deliveryPolicy/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/deliveryPolicy/rules/order': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Order
-          '/properties/deliveryPolicy/rules/conditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Conditions
-            go_type_name: DeliveryRuleCondition
-          '/properties/deliveryPolicy/rules/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Actions
-            go_type_name: DeliveryRuleAction
-          '/deliveryPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: delivery_policy
-          '/deliveryPolicy/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/deliveryPolicy/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: rules
-          '/deliveryPolicy/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/deliveryPolicy/rules/order': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: order
-          '/deliveryPolicy/rules/conditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: conditions
-          '/deliveryPolicy/rules/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: actions
-          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
-          '/properties/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Origins
-            go_type_name: DeepCreatedOrigin
-          '/properties/origins/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/origins/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DeepCreatedOriginProperties
-            go_type_name: DeepCreatedOriginProperties
-          '/properties/origins/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/properties/origins/properties/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpPort
-          '/properties/origins/properties/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpsPort
-          '/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: origins
-          '/origins/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/origins/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
-          '/origins/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: http_port
-          '/origins/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: https_port
-          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResourceState
-            go_enum_type_name: EndpointResourceState
-          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: resource_state
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -456,6 +270,25 @@ objects:
             go_variable_name: profileName
             python_parameter_name: profile_name
             python_variable_name: profile_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListResourceUsage
+        python_func_name: list_resource_usage
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: profiles
+            go_variable_name: profileName
+            python_parameter_name: profile_name
+            python_variable_name: profile_name
+          'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: endpoints
+            go_variable_name: name
+            python_parameter_name: endpoint_name
+            python_variable_name: name
 
     description: |
       Manage Azure Endpoint instance.
@@ -603,36 +436,20 @@ objects:
                   description: 'The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,………}. A rule with a lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not require any condition and actions listed in it will always be applied.'
                   required: true
                   azure_sdk_references: ['/deliveryPolicy/rules/order', '/properties/deliveryPolicy/rules/order']
-      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'contentPaths'
+        description: 'The path to the content to be loaded. Path should be a relative file URL of the origin.'
+        required: true
+        input: true
+        azure_sdk_references: ['/contentPaths']
+        item_type: Api::Type::String
       - !ruby/object:Api::Type::String
         name: 'hostName'
-        description: 'The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net'
-        output: true
-        azure_sdk_references: ['/hostName', '/properties/hostName']
-      - !ruby/object:Api::Type::Array
-        name: 'origins'
-        description: 'The source of the content being delivered via CDN.'
-        output: true
-        azure_sdk_references: ['/origins', '/properties/origins']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-      - !ruby/object:Api::Type::Enum
-        name: 'resourceState'
-        description: 'Resource status of the endpoint.'
-        output: true
-        azure_sdk_references: ['/resourceState', '/properties/resourceState']
-        values:
-          - :Creating
-          - :Deleting
-          - :Running
-          - :Starting
-          - :Stopped
-          - :Stopping
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Provisioning status of the endpoint.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        description: 'The host name of the custom domain. Must be a domain name.'
+        required: true
+        input: true
+        azure_sdk_references: ['/hostName']
+      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

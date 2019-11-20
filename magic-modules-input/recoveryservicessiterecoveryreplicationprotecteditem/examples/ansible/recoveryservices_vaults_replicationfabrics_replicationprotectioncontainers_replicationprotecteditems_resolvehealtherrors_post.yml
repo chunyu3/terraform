@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_recoveryservicessiterecoveryreplicationprotecteditem
+  description: Resolve health errors.
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    fabric_name: myReplicationFabric
+    protection_container_name: myReplicationProtectionContainer
+    replicated_protected_item_name: myReplicationProtectedItem
+    resolve_health_input:
+      properties:
+        healthErrors:
+          - healthErrorId: '3:8020'
+  

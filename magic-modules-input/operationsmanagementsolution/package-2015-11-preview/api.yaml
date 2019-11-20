@@ -176,56 +176,6 @@ objects:
             python_parameter_name: solution_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/plan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_field_name: Plan
-            go_type_name: SolutionPlan
-            python_field_name: plan
-          '/plan/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/plan/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Publisher
-            python_field_name: publisher
-          '/plan/promotionCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: PromotionCode
-            python_field_name: promotion_code
-          '/plan/product': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Product
-            python_field_name: product
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SolutionProperties
-            go_type_name: SolutionProperties
-          '/properties/workspaceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: WorkspaceResourceID
-          '/workspaceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: workspace_resource_id
-          '/properties/containedResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: ContainedResources
-          '/containedResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: contained_resources
-          '/properties/referencedResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: ReferencedResources
-          '/referencedResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: referenced_resources
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -235,10 +185,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscription
-        python_func_name: list_by_subscription
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -248,6 +194,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
 
     description: |
       Manage Azure Solution instance.
@@ -320,11 +270,6 @@ objects:
         azure_sdk_references: ['/referencedResources', '/properties/referencedResources']
         item_type: Api::Type::String
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The provisioning state for the solution.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

@@ -32,33 +32,342 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
+* `location` - (Optional) The location of the new virtual machine or environment Changing this forces a new resource to be created.
 
-* `lab_storage_type` - (Optional) Type of storage used by the lab. It can be either Premium or Standard. Default is Premium. Defaults to `Standard`.
+* `allow_claim` - (Optional) Indicates whether another user can take ownership of the virtual machine
 
-* `premium_data_disks` - (Optional) The setting to enable usage of premium data disks.<br>When its value is 'Enabled', creation of standard or premium data disks is allowed.<br>When its value is 'Disabled', only creation of standard data disks is allowed. Defaults to `Disabled`.
+* `applicable_schedule` - (Optional) One `applicable_schedule` block defined below.
+
+* `artifact_deployment_status` - (Optional) One `artifact_deployment_status` block defined below.
+
+* `artifacts` - (Optional) One or more `artifact` block defined below.
+
+* `blob_name` - (Optional) The blob name of the upload URI. Changing this forces a new resource to be created.
+
+* `blob_storage_absolute_sas_uri` - (Optional) The blob storage absolute sas uri with write permission to the container which the usage data needs to be uploaded to. Changing this forces a new resource to be created.
+
+* `bulk_creation_parameters` - (Optional) One `bulk_creation_parameter` block defined below.
+
+* `compute_vm` - (Optional) One `compute_vm` block defined below.
+
+* `created_by_user` - (Optional) The email address of creator of the virtual machine.
+
+* `created_by_user_id` - (Optional) The object identifier of the creator of the virtual machine.
+
+* `created_date` - (Optional) The creation date of the virtual machine.
+
+* `custom_image_id` - (Optional) The custom image identifier of the virtual machine.
+
+* `disallow_public_ip_address` - (Optional) Indicates whether the virtual machine is to be created without a public IP address.
+
+* `environment_id` - (Optional) The resource ID of the environment that contains this virtual machine, if any.
+
+* `expiration_date` - (Optional) The expiration date for VM.
+
+* `fqdn` - (Optional) The fully-qualified domain name of the virtual machine.
+
+* `gallery_image_reference` - (Optional) One `gallery_image_reference` block defined below.
+
+* `is_authentication_with_ssh_key` - (Optional) Indicates whether this virtual machine uses an SSH key for authentication.
+
+* `lab_subnet_name` - (Optional) The lab subnet name of the virtual machine.
+
+* `lab_virtual_network_id` - (Optional) The lab virtual network identifier of the virtual machine.
+
+* `network_interface` - (Optional) One `network_interface` block defined below.
+
+* `notes` - (Optional) The notes of the virtual machine.
+
+* `os_type` - (Optional) The OS type of the virtual machine.
+
+* `owner_object_id` - (Optional) The object identifier of the owner of the virtual machine.
+
+* `owner_user_principal_name` - (Optional) The user principal name of the virtual machine owner.
+
+* `password` - (Optional) The password of the virtual machine administrator.
+
+* `size` - (Optional) The size of the virtual machine.
+
+* `ssh_key` - (Optional) The SSH key of the virtual machine administrator.
+
+* `storage_type` - (Optional) Storage type to use for virtual machine (i.e. Standard, Premium).
 
 * `unique_identifier` - (Optional) The unique immutable identifier of a resource (Guid).
 
+* `usage_start_date` - (Optional) The start time of the usage. If not provided, usage will be reported since the beginning of data collection. Changing this forces a new resource to be created.
+
+* `user_name` - (Optional) The user name of the virtual machine.
+
+* `virtual_machine_creation_source` - (Optional) Tells source of creation of lab virtual machine. Output property only. Defaults to `FromCustomImage`.
+
 * `tags` - (Optional) The tags of the resource. Changing this forces a new resource to be created.
+
+---
+
+The `applicable_schedule` block supports the following:
+
+* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
+
+* `tags` - (Optional) The tags of the resource.
+
+* `lab_vms_shutdown` - (Optional) One `lab_vms_shutdown` block defined below.
+
+* `lab_vms_startup` - (Optional) One `lab_vms_startup` block defined below.
+
+
+---
+
+The `lab_vms_shutdown` block supports the following:
+
+* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
+
+* `tags` - (Optional) The tags of the resource.
+
+* `status` - (Optional) The status of the schedule (i.e. Enabled, Disabled) Defaults to `Enabled`.
+
+* `task_type` - (Optional) The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+
+* `weekly_recurrence` - (Optional) One `weekly_recurrence` block defined below.
+
+* `daily_recurrence` - (Optional) One `daily_recurrence` block defined below.
+
+* `hourly_recurrence` - (Optional) One `hourly_recurrence` block defined below.
+
+* `time_zone_id` - (Optional) The time zone ID (e.g. Pacific Standard time).
+
+* `notification_settings` - (Optional) One `notification_setting` block defined below.
+
+* `target_resource_id` - (Optional) The resource ID to which the schedule belongs
+
+* `unique_identifier` - (Optional) The unique immutable identifier of a resource (Guid).
+
+
+---
+
+The `weekly_recurrence` block supports the following:
+
+* `weekdays` - (Optional) The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+
+* `time` - (Optional) The time of the day the schedule will occur.
+
+---
+
+The `daily_recurrence` block supports the following:
+
+* `time` - (Optional) The time of day the schedule will occur.
+
+---
+
+The `hourly_recurrence` block supports the following:
+
+* `minute` - (Optional) Minutes of the hour the schedule will run.
+
+---
+
+The `notification_setting` block supports the following:
+
+* `status` - (Optional) If notifications are enabled for this schedule (i.e. Enabled, Disabled). Defaults to `Disabled`.
+
+* `time_in_minutes` - (Optional) Time in minutes before event at which notification will be sent.
+
+* `webhook_url` - (Optional) The webhook URL to which the notification will be sent.
+
+---
+
+The `lab_vms_startup` block supports the following:
+
+* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
+
+* `tags` - (Optional) The tags of the resource.
+
+* `status` - (Optional) The status of the schedule (i.e. Enabled, Disabled) Defaults to `Enabled`.
+
+* `task_type` - (Optional) The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+
+* `weekly_recurrence` - (Optional) One `weekly_recurrence` block defined below.
+
+* `daily_recurrence` - (Optional) One `daily_recurrence` block defined below.
+
+* `hourly_recurrence` - (Optional) One `hourly_recurrence` block defined below.
+
+* `time_zone_id` - (Optional) The time zone ID (e.g. Pacific Standard time).
+
+* `notification_settings` - (Optional) One `notification_setting` block defined below.
+
+* `target_resource_id` - (Optional) The resource ID to which the schedule belongs
+
+* `unique_identifier` - (Optional) The unique immutable identifier of a resource (Guid).
+
+
+---
+
+The `weekly_recurrence` block supports the following:
+
+* `weekdays` - (Optional) The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+
+* `time` - (Optional) The time of the day the schedule will occur.
+
+---
+
+The `daily_recurrence` block supports the following:
+
+* `time` - (Optional) The time of day the schedule will occur.
+
+---
+
+The `hourly_recurrence` block supports the following:
+
+* `minute` - (Optional) Minutes of the hour the schedule will run.
+
+---
+
+The `notification_setting` block supports the following:
+
+* `status` - (Optional) If notifications are enabled for this schedule (i.e. Enabled, Disabled). Defaults to `Disabled`.
+
+* `time_in_minutes` - (Optional) Time in minutes before event at which notification will be sent.
+
+* `webhook_url` - (Optional) The webhook URL to which the notification will be sent.
+
+---
+
+The `artifact_deployment_status` block supports the following:
+
+* `deployment_status` - (Optional) The deployment status of the artifact.
+
+* `artifacts_applied` - (Optional) The total count of the artifacts that were successfully applied.
+
+* `total_artifacts` - (Optional) The total count of the artifacts that were tentatively applied.
+
+---
+
+The `artifact` block supports the following:
+
+* `artifact_id` - (Optional) The artifact's identifier.
+
+* `parameters` - (Optional) One or more `parameter` block defined below.
+
+* `status` - (Optional) The status of the artifact.
+
+* `deployment_status_message` - (Optional) The status message from the deployment.
+
+* `vm_extension_status_message` - (Optional) The status message from the virtual machine extension.
+
+* `install_time` - (Optional) The time that the artifact starts to install on the virtual machine.
+
+
+---
+
+The `parameter` block supports the following:
+
+* `name` - (Optional) The name of the artifact parameter.
+
+* `value` - (Optional) The value of the artifact parameter.
+
+---
+
+The `bulk_creation_parameter` block supports the following:
+
+* `instance_count` - (Optional) The number of virtual machine instances to create.
+
+---
+
+The `compute_vm` block supports the following:
+
+* `statuses` - (Optional) One or more `status` block defined below.
+
+* `os_type` - (Optional) Gets the OS type of the virtual machine.
+
+* `vm_size` - (Optional) Gets the size of the virtual machine.
+
+* `network_interface_id` - (Optional) Gets the network interface ID of the virtual machine.
+
+* `os_disk_id` - (Optional) Gets OS disk blob uri for the virtual machine.
+
+* `data_disk_ids` - (Optional) Gets data disks blob uri for the virtual machine.
+
+* `data_disks` - (Optional) One or more `data_disk` block defined below.
+
+
+---
+
+The `status` block supports the following:
+
+* `code` - (Optional) Gets the status Code.
+
+* `display_status` - (Optional) Gets the short localizable label for the status.
+
+* `message` - (Optional) Gets the message associated with the status.
+
+---
+
+The `data_disk` block supports the following:
+
+* `name` - (Optional) Gets data disk name.
+
+* `disk_uri` - (Optional) When backed by a blob, the URI of underlying blob.
+
+* `managed_disk_id` - (Optional) When backed by managed disk, this is the ID of the compute disk resource.
+
+* `disk_size_gi_b` - (Optional) Gets data disk size in GiB.
+
+---
+
+The `gallery_image_reference` block supports the following:
+
+* `offer` - (Optional) The offer of the gallery image.
+
+* `publisher` - (Optional) The publisher of the gallery image.
+
+* `sku` - (Optional) The SKU of the gallery image.
+
+* `os_type` - (Optional) The OS type of the gallery image.
+
+* `version` - (Optional) The version of the gallery image.
+
+---
+
+The `network_interface` block supports the following:
+
+* `virtual_network_id` - (Optional) The resource ID of the virtual network.
+
+* `subnet_id` - (Optional) The resource ID of the sub net.
+
+* `public_ip_address_id` - (Optional) The resource ID of the public IP address.
+
+* `public_ip_address` - (Optional) The public IP address.
+
+* `private_ip_address` - (Optional) The private IP address.
+
+* `dns_name` - (Optional) The DNS name.
+
+* `rdp_authority` - (Optional) The RdpAuthority property is a server DNS host name or IP address followed by the service port number for RDP (Remote Desktop Protocol).
+
+* `ssh_authority` - (Optional) The SshAuthority property is a server DNS host name or IP address followed by the service port number for SSH.
+
+* `shared_public_ip_address_configuration` - (Optional) One `shared_public_ip_address_configuration` block defined below.
+
+
+---
+
+The `shared_public_ip_address_configuration` block supports the following:
+
+* `inbound_nat_rules` - (Optional) One or more `inbound_nat_rule` block defined below.
+
+
+---
+
+The `inbound_nat_rule` block supports the following:
+
+* `transport_protocol` - (Optional) The transport protocol for the endpoint. Defaults to `Tcp`.
+
+* `frontend_port` - (Optional) The external endpoint port of the inbound connection. Possible values range between 1 and 65535, inclusive. If unspecified, a value will be allocated automatically.
+
+* `backend_port` - (Optional) The port to which the external traffic will be redirected.
 
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `default_storage_account` - The lab's default storage account.
-
-* `default_premium_storage_account` - The lab's default premium storage account.
-
-* `artifacts_storage_account` - The lab's artifact storage account.
-
-* `premium_data_disk_storage_account` - The lab's premium data disk storage account.
-
-* `vault_name` - The lab's Key vault.
-
-* `created_date` - The creation date of the lab.
-
-* `provisioning_state` - The provisioning status of the resource.
 
 * `id` - The identifier of the resource.
 

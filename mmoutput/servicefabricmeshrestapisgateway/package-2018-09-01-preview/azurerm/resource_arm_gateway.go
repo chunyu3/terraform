@@ -269,26 +269,6 @@ func resourceArmGateway() *schema.Resource {
                 },
             },
 
-            "ip_address": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status_details": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -331,9 +311,9 @@ func resourceArmGatewayCreateUpdate(d *schema.ResourceData, meta interface{}) er
         GatewayResourceProperties: &servicefabricmeshrestapis.GatewayResourceProperties{
             Description: utils.String(description),
             DestinationNetwork: expandArmGatewayNetworkRef(destinationNetwork),
-            Http: expandArmGatewayHttpConfig(http),
+            HTTP: expandArmGatewayHttpConfig(http),
             SourceNetwork: expandArmGatewayNetworkRef(sourceNetwork),
-            Tcp: expandArmGatewayTcpConfig(tcp),
+            TCP: expandArmGatewayTcpConfig(tcp),
         },
         Tags: tags.Expand(t),
     }
@@ -381,31 +361,9 @@ func resourceArmGatewayRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if gatewayResourceProperties := resp.GatewayResourceProperties; gatewayResourceProperties != nil {
-        d.Set("description", gatewayResourceProperties.Description)
-        if err := d.Set("destination_network", flattenArmGatewayNetworkRef(gatewayResourceProperties.DestinationNetwork)); err != nil {
-            return fmt.Errorf("Error setting `destination_network`: %+v", err)
-        }
-        if err := d.Set("http", flattenArmGatewayHttpConfig(gatewayResourceProperties.Http)); err != nil {
-            return fmt.Errorf("Error setting `http`: %+v", err)
-        }
-        d.Set("ip_address", gatewayResourceProperties.IpAddress)
-        d.Set("provisioning_state", gatewayResourceProperties.ProvisioningState)
-        if err := d.Set("source_network", flattenArmGatewayNetworkRef(gatewayResourceProperties.SourceNetwork)); err != nil {
-            return fmt.Errorf("Error setting `source_network`: %+v", err)
-        }
-        d.Set("status", string(gatewayResourceProperties.Status))
-        d.Set("status_details", gatewayResourceProperties.StatusDetails)
-        if err := d.Set("tcp", flattenArmGatewayTcpConfig(gatewayResourceProperties.Tcp)); err != nil {
-            return fmt.Errorf("Error setting `tcp`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -602,202 +560,4 @@ func expandArmGatewayHttpRouteMatchPath(input []interface{}) *servicefabricmeshr
         Value: utils.String(value),
     }
     return &result
-}
-
-
-func flattenArmGatewayNetworkRef(input *servicefabricmeshrestapis.NetworkRef) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
-    result["endpoint_refs"] = flattenArmGatewayEndpointRef(input.EndpointRefs)
-
-    return []interface{}{result}
-}
-
-func flattenArmGatewayHttpConfig(input *[]servicefabricmeshrestapis.HttpConfig) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        v["hosts"] = flattenArmGatewayHttpHostConfig(item.Hosts)
-        if port := item.Port; port != nil {
-            v["port"] = *port
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmGatewayTcpConfig(input *[]servicefabricmeshrestapis.TcpConfig) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        v["destination"] = flattenArmGatewayGatewayDestination(item.Destination)
-        if port := item.Port; port != nil {
-            v["port"] = *port
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmGatewayEndpointRef(input *[]servicefabricmeshrestapis.EndpointRef) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmGatewayHttpHostConfig(input *[]servicefabricmeshrestapis.HttpHostConfig) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        v["routes"] = flattenArmGatewayHttpRouteConfig(item.Routes)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmGatewayGatewayDestination(input *servicefabricmeshrestapis.GatewayDestination) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if applicationName := input.ApplicationName; applicationName != nil {
-        result["application_name"] = *applicationName
-    }
-    if endpointName := input.EndpointName; endpointName != nil {
-        result["endpoint_name"] = *endpointName
-    }
-    if serviceName := input.ServiceName; serviceName != nil {
-        result["service_name"] = *serviceName
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmGatewayHttpRouteConfig(input *[]servicefabricmeshrestapis.HttpRouteConfig) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        v["destination"] = flattenArmGatewayGatewayDestination(item.Destination)
-        v["match"] = flattenArmGatewayHttpRouteMatchRule(item.Match)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmGatewayHttpRouteMatchRule(input *servicefabricmeshrestapis.HttpRouteMatchRule) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["headers"] = flattenArmGatewayHttpRouteMatchHeader(input.Headers)
-    result["path"] = flattenArmGatewayHttpRouteMatchPath(input.Path)
-
-    return []interface{}{result}
-}
-
-func flattenArmGatewayHttpRouteMatchHeader(input *[]servicefabricmeshrestapis.HttpRouteMatchHeader) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        v["type"] = string(item.Type)
-        if value := item.Value; value != nil {
-            v["value"] = *value
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmGatewayHttpRouteMatchPath(input *servicefabricmeshrestapis.HttpRouteMatchPath) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if rewrite := input.Rewrite; rewrite != nil {
-        result["rewrite"] = *rewrite
-    }
-    if type := input.Type; type != nil {
-        result["type"] = *type
-    }
-    if value := input.Value; value != nil {
-        result["value"] = *value
-    }
-
-    return []interface{}{result}
 }

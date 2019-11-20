@@ -1,0 +1,22 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_machinelearningservicesquota
+  description: update quotas
+  code:
+    location: myLocation
+    value:
+      - id: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.MachineLearningServices/workspaces/{{
+          workspace_name }}/quotas/{{ quota_name }}
+        type: Microsoft.MachineLearningServices/workspaces/quotas
+        limit: '100'
+        unit: Count
+      - id: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.MachineLearningServices/workspaces/{{
+          workspace_name }}/quotas/{{ quota_name }}
+        type: Microsoft.MachineLearningServices/workspaces/quotas
+        limit: '200'
+        unit: Count
+  

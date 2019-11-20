@@ -32,22 +32,6 @@ The following arguments are supported:
 
 * `resource_group` - (Required) Resource Group Name Changing this forces a new resource to be created.
 
-* `location` - (Optional) Gets or sets location of the resource Changing this forces a new resource to be created.
-
-* `extension_properties` - (Optional) Gets or sets extensionProperties of the maintenanceConfiguration
-
-* `maintenance_scope` - (Optional) Gets or sets maintenanceScope of the configuration Defaults to `All`.
-
-* `namespace` - (Optional) Gets or sets namespace of the resource
-
-* `tags` - (Optional) Gets or sets tags of the resource Changing this forces a new resource to be created.
-
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `id` - Fully qualified identifier of the resource
-
-* `name` - Name of the resource
-
-* `type` - Type of the resource

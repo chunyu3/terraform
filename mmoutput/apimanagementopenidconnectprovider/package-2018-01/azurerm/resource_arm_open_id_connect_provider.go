@@ -163,13 +163,6 @@ func resourceArmOpenIdConnectProviderRead(d *schema.ResourceData, meta interface
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if openidConnectProviderUpdateContractProperties := resp.OpenidConnectProviderUpdateContractProperties; openidConnectProviderUpdateContractProperties != nil {
-        d.Set("client_id", openidConnectProviderUpdateContractProperties.ClientID)
-        d.Set("client_secret", openidConnectProviderUpdateContractProperties.ClientSecret)
-        d.Set("description", openidConnectProviderUpdateContractProperties.Description)
-        d.Set("display_name", openidConnectProviderUpdateContractProperties.DisplayName)
-        d.Set("metadata_endpoint", openidConnectProviderUpdateContractProperties.MetadataEndpoint)
-    }
     d.Set("opid", opid)
     d.Set("type", resp.Type)
 

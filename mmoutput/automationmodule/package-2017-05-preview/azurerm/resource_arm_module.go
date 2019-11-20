@@ -31,6 +31,13 @@ func resourceArmModule() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
@@ -48,7 +55,7 @@ func resourceArmModule() *schema.Resource {
 
             "content_link": {
                 Type: schema.TypeList,
-                Required: true,
+                Optional: true,
                 MaxItems: 1,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
@@ -83,81 +90,7 @@ func resourceArmModule() *schema.Resource {
                 },
             },
 
-            "module_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "activity_count": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "creation_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "description": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "error": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "code": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "message": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "etag": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "is_composite": {
-                Type: schema.TypeBool,
-                Computed: true,
-            },
-
-            "is_global": {
-                Type: schema.TypeBool,
-                Computed: true,
-            },
-
-            "last_modified_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "size_in_bytes": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "version": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -171,15 +104,15 @@ func resourceArmModuleCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).moduleClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
-    moduleName := d.Get("module_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName, moduleName)
+        existing, err := client.Get(ctx, resourceGroup, automationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Module (Module Name %q / Automation Account Name %q / Resource Group %q): %+v", moduleName, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Module %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -192,27 +125,27 @@ func resourceArmModuleCreate(d *schema.ResourceData, meta interface{}) error {
     contentLink := d.Get("content_link").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := automation.ModuleCreateOrUpdateParameters{
+    parameters := automation.ModuleUpdateParameters{
         Location: utils.String(location),
         Name: utils.String(name),
-        ModuleCreateOrUpdateProperties: &automation.ModuleCreateOrUpdateProperties{
+        ModuleUpdateProperties: &automation.ModuleUpdateProperties{
             ContentLink: expandArmModuleContentLink(contentLink),
         },
         Tags: tags.Expand(t),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, moduleName, parameters); err != nil {
-        return fmt.Errorf("Error creating Module (Module Name %q / Automation Account Name %q / Resource Group %q): %+v", moduleName, automationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Module %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, moduleName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Module (Module Name %q / Automation Account Name %q / Resource Group %q): %+v", moduleName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Module %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Module (Module Name %q / Automation Account Name %q / Resource Group %q) ID", moduleName, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Module %q (Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -229,47 +162,26 @@ func resourceArmModuleRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    moduleName := id.Path["modules"]
+    name := id.Path["modules"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, moduleName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Module %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Module (Module Name %q / Automation Account Name %q / Resource Group %q): %+v", moduleName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Module %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if moduleCreateOrUpdateProperties := resp.ModuleCreateOrUpdateProperties; moduleCreateOrUpdateProperties != nil {
-        d.Set("activity_count", int(*moduleCreateOrUpdateProperties.ActivityCount))
-        if err := d.Set("content_link", flattenArmModuleContentLink(moduleCreateOrUpdateProperties.ContentLink)); err != nil {
-            return fmt.Errorf("Error setting `content_link`: %+v", err)
-        }
-        d.Set("creation_time", (moduleCreateOrUpdateProperties.CreationTime).String())
-        d.Set("description", moduleCreateOrUpdateProperties.Description)
-        if err := d.Set("error", flattenArmModuleModuleErrorInfo(moduleCreateOrUpdateProperties.Error)); err != nil {
-            return fmt.Errorf("Error setting `error`: %+v", err)
-        }
-        d.Set("is_composite", moduleCreateOrUpdateProperties.IsComposite)
-        d.Set("is_global", moduleCreateOrUpdateProperties.IsGlobal)
-        d.Set("last_modified_time", (moduleCreateOrUpdateProperties.LastModifiedTime).String())
-        d.Set("provisioning_state", string(moduleCreateOrUpdateProperties.ProvisioningState))
-        d.Set("size_in_bytes", int(*moduleCreateOrUpdateProperties.SizeInBytes))
-        d.Set("version", moduleCreateOrUpdateProperties.Version)
-    }
     d.Set("automation_account_name", automationAccountName)
-    d.Set("etag", resp.Etag)
-    d.Set("module_name", moduleName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmModuleUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -277,24 +189,23 @@ func resourceArmModuleUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
     contentLink := d.Get("content_link").([]interface{})
-    moduleName := d.Get("module_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := automation.ModuleCreateOrUpdateParameters{
-        Location: utils.String(location),
+    parameters := automation.ModuleUpdateParameters{
         Name: utils.String(name),
-        ModuleCreateOrUpdateProperties: &automation.ModuleCreateOrUpdateProperties{
+        ModuleUpdateProperties: &automation.ModuleUpdateProperties{
             ContentLink: expandArmModuleContentLink(contentLink),
         },
         Tags: tags.Expand(t),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, automationAccountName, moduleName, parameters); err != nil {
-        return fmt.Errorf("Error updating Module (Module Name %q / Automation Account Name %q / Resource Group %q): %+v", moduleName, automationAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Module %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return resourceArmModuleRead(d, meta)
@@ -311,10 +222,10 @@ func resourceArmModuleDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    moduleName := id.Path["modules"]
+    name := id.Path["modules"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, moduleName); err != nil {
-        return fmt.Errorf("Error deleting Module (Module Name %q / Automation Account Name %q / Resource Group %q): %+v", moduleName, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Module %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return nil
@@ -332,7 +243,7 @@ func expandArmModuleContentLink(input []interface{}) *automation.ContentLink {
 
     result := automation.ContentLink{
         ContentHash: expandArmModuleContentHash(contentHash),
-        Uri: utils.String(uri),
+        URI: utils.String(uri),
         Version: utils.String(version),
     }
     return &result
@@ -352,51 +263,4 @@ func expandArmModuleContentHash(input []interface{}) *automation.ContentHash {
         Value: utils.String(value),
     }
     return &result
-}
-
-
-func flattenArmModuleContentLink(input *automation.ContentLink) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["content_hash"] = flattenArmModuleContentHash(input.ContentHash)
-    if uri := input.Uri; uri != nil {
-        result["uri"] = *uri
-    }
-    if version := input.Version; version != nil {
-        result["version"] = *version
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmModuleModuleErrorInfo(input *automation.ModuleErrorInfo) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
-}
-
-func flattenArmModuleContentHash(input *automation.ContentHash) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if algorithm := input.Algorithm; algorithm != nil {
-        result["algorithm"] = *algorithm
-    }
-    if value := input.Value; value != nil {
-        result["value"] = *value
-    }
-
-    return []interface{}{result}
 }

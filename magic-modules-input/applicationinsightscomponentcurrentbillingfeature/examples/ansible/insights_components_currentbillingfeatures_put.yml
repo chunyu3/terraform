@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_applicationinsightscomponentcurrentbillingfeature
+  description: ComponentCurrentBillingFeaturesUpdate
+  code:
+    resource_group: myResourceGroup
+    name: myComponent
+    billing_features_properties:
+      CurrentBillingFeatures:
+        - Basic
+        - Application Insights Enterprise
+      DataVolumeCap:
+        Cap: '100'
+        StopSendNotificationWhenHitCap: true
+  

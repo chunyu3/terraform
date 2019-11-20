@@ -78,8 +78,6 @@ The `unknown` block supports the following:
 
 The following attributes are exported:
 
-* `provisioning_state` - ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
-
 * `name` - A fully qualified URL.
 
 * `id` - Resource Id

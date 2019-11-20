@@ -28,7 +28,7 @@ Manage Azure Credential instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of credential. Changing this forces a new resource to be created.
+* `name` - (Required) The parameters supplied to the Update credential operation. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
@@ -45,10 +45,6 @@ The following arguments are supported:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `creation_time` - Gets the creation time.
-
-* `last_modified_time` - Gets the last modified time.
 
 * `id` - Fully qualified resource Id for the resource
 

@@ -28,11 +28,11 @@ Manage Azure ArtifactSource instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the artifact source. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
-
-* `artifact_source_name` - (Required) The name of the artifact source. Changing this forces a new resource to be created.
 
 * `source_type` - (Required) The type of artifact source used.
 

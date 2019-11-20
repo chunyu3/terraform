@@ -34,6 +34,10 @@ The following arguments are supported:
 
 * `location` - (Required) Resource location. Changing this forces a new resource to be created.
 
+* `key_type` - (Required) Which Redis access key to reset. Changing this forces a new resource to be created.
+
+* `reboot_type` - (Required) Which Redis node(s) to reboot. Depending on this value data loss is possible. Changing this forces a new resource to be created.
+
 * `sku` - (Required) One `sku` block defined below.
 
 ---
@@ -54,6 +58,8 @@ The `sku` block supports the following:
 
 * `shard_count` - (Optional) The number of shards to be created on a Premium Cluster Cache.
 
+* `shard_id` - (Optional) If clustering is enabled, the ID of the shared be rebooted. Changing this forces a new resource to be created.
+
 * `static_ip` - (Optional) Required when deploying a Redis cache inside an existing Azure Virtual Network.
 
 * `subnet` - (Optional) Required when deploying a Redis cache inside an existing Azure Virtual Network.
@@ -67,14 +73,6 @@ The `sku` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `provisioning_state` - Redis instance provisioning status.
-
-* `host_name` - Redis host name.
-
-* `port` - Redis non-SSL port.
-
-* `ssl_port` - Redis SSL port.
 
 * `id` - Resource ID.
 

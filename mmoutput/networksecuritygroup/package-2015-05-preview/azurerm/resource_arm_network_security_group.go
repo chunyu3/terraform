@@ -226,11 +226,6 @@ func resourceArmNetworkSecurityGroup() *schema.Resource {
                 },
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -275,7 +270,7 @@ func resourceArmNetworkSecurityGroupCreateUpdate(d *schema.ResourceData, meta in
         SecurityGroupPropertiesFormat: &network.SecurityGroupPropertiesFormat{
             DefaultSecurityRules: expandArmNetworkSecurityGroupSecurityRule(defaultSecurityRules),
             NetworkInterfaces: expandArmNetworkSecurityGroupSubResource(networkInterfaces),
-            ResourceGuid: utils.String(resourceGuid),
+            ResourceGUID: utils.String(resourceGuid),
             SecurityRules: expandArmNetworkSecurityGroupSecurityRule(securityRules),
             Subnets: expandArmNetworkSecurityGroupSubResource(subnets),
         },
@@ -329,29 +324,9 @@ func resourceArmNetworkSecurityGroupRead(d *schema.ResourceData, meta interface{
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if securityGroupPropertiesFormat := resp.SecurityGroupPropertiesFormat; securityGroupPropertiesFormat != nil {
-        if err := d.Set("default_security_rules", flattenArmNetworkSecurityGroupSecurityRule(securityGroupPropertiesFormat.DefaultSecurityRules)); err != nil {
-            return fmt.Errorf("Error setting `default_security_rules`: %+v", err)
-        }
-        if err := d.Set("network_interfaces", flattenArmNetworkSecurityGroupSubResource(securityGroupPropertiesFormat.NetworkInterfaces)); err != nil {
-            return fmt.Errorf("Error setting `network_interfaces`: %+v", err)
-        }
-        d.Set("provisioning_state", securityGroupPropertiesFormat.ProvisioningState)
-        d.Set("resource_guid", securityGroupPropertiesFormat.ResourceGuid)
-        if err := d.Set("security_rules", flattenArmNetworkSecurityGroupSecurityRule(securityGroupPropertiesFormat.SecurityRules)); err != nil {
-            return fmt.Errorf("Error setting `security_rules`: %+v", err)
-        }
-        if err := d.Set("subnets", flattenArmNetworkSecurityGroupSubResource(securityGroupPropertiesFormat.Subnets)); err != nil {
-            return fmt.Errorf("Error setting `subnets`: %+v", err)
-        }
-    }
-    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -436,72 +411,4 @@ func expandArmNetworkSecurityGroupSubResource(input []interface{}) *[]network.Su
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmNetworkSecurityGroupSecurityRule(input *[]network.SecurityRule) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if securityRulePropertiesFormat := item.SecurityRulePropertiesFormat; securityRulePropertiesFormat != nil {
-            v["access"] = string(securityRulePropertiesFormat.Access)
-            if description := securityRulePropertiesFormat.Description; description != nil {
-                v["description"] = *description
-            }
-            if destinationAddressPrefix := securityRulePropertiesFormat.DestinationAddressPrefix; destinationAddressPrefix != nil {
-                v["destination_address_prefix"] = *destinationAddressPrefix
-            }
-            if destinationPortRange := securityRulePropertiesFormat.DestinationPortRange; destinationPortRange != nil {
-                v["destination_port_range"] = *destinationPortRange
-            }
-            v["direction"] = string(securityRulePropertiesFormat.Direction)
-            if priority := securityRulePropertiesFormat.Priority; priority != nil {
-                v["priority"] = int(*priority)
-            }
-            v["protocol"] = string(securityRulePropertiesFormat.Protocol)
-            if sourceAddressPrefix := securityRulePropertiesFormat.SourceAddressPrefix; sourceAddressPrefix != nil {
-                v["source_address_prefix"] = *sourceAddressPrefix
-            }
-            if sourcePortRange := securityRulePropertiesFormat.SourcePortRange; sourcePortRange != nil {
-                v["source_port_range"] = *sourcePortRange
-            }
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmNetworkSecurityGroupSubResource(input *[]network.SubResource) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

@@ -31,19 +31,19 @@ func resourceArmServiceTopology() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "service_topology_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "artifact_source_id": {
                 Type: schema.TypeString,
@@ -64,14 +64,14 @@ func resourceArmServiceTopologyCreateUpdate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).serviceTopologiesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    serviceTopologyName := d.Get("service_topology_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceTopologyName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Service Topology (Service Topology Name %q / Resource Group %q): %+v", serviceTopologyName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Service Topology %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -92,17 +92,17 @@ func resourceArmServiceTopologyCreateUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceTopologyName, serviceTopologyInfo); err != nil {
-        return fmt.Errorf("Error creating Service Topology (Service Topology Name %q / Resource Group %q): %+v", serviceTopologyName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, serviceTopologyInfo); err != nil {
+        return fmt.Errorf("Error creating Service Topology %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceTopologyName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Service Topology (Service Topology Name %q / Resource Group %q): %+v", serviceTopologyName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Service Topology %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Service Topology (Service Topology Name %q / Resource Group %q) ID", serviceTopologyName, resourceGroup)
+        return fmt.Errorf("Cannot read Service Topology %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -118,31 +118,25 @@ func resourceArmServiceTopologyRead(d *schema.ResourceData, meta interface{}) er
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceTopologyName := id.Path["serviceTopologies"]
+    name := id.Path["serviceTopologies"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceTopologyName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Service Topology %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Service Topology (Service Topology Name %q / Resource Group %q): %+v", serviceTopologyName, resourceGroup, err)
+        return fmt.Errorf("Error reading Service Topology %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if serviceTopologyResourceProperties := resp.ServiceTopologyResource_properties; serviceTopologyResourceProperties != nil {
-        d.Set("artifact_source_id", serviceTopologyResourceProperties.ArtifactSourceID)
-    }
-    d.Set("service_topology_name", serviceTopologyName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -156,10 +150,10 @@ func resourceArmServiceTopologyDelete(d *schema.ResourceData, meta interface{}) 
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceTopologyName := id.Path["serviceTopologies"]
+    name := id.Path["serviceTopologies"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceTopologyName); err != nil {
-        return fmt.Errorf("Error deleting Service Topology (Service Topology Name %q / Resource Group %q): %+v", serviceTopologyName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Service Topology %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

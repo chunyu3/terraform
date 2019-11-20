@@ -28,7 +28,7 @@ Manage Azure VirtualNetworkGatewayConnection instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The virtual network gateway connection shared key name. Changing this forces a new resource to be created.
+* `name` - (Required) The virtual network gateway connection reset shared key Name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
@@ -44,6 +44,8 @@ The following arguments are supported:
 
 * `ingress_bytes_transferred` - (Optional) The Ingress Bytes Transferred in this connection
 
+* `key_length` - (Optional) The virtual network connection reset shared key length Changing this forces a new resource to be created.
+
 * `local_network_gateway2` - (Optional) One `local_network_gateway2` block defined below.
 
 * `peer` - (Optional) One `peer` block defined below.
@@ -53,6 +55,8 @@ The following arguments are supported:
 * `routing_weight` - (Optional) The Routing weight.
 
 * `shared_key` - (Optional) The IPsec share key.
+
+* `value` - (Optional) The virtual network connection shared key value Changing this forces a new resource to be created.
 
 * `virtual_network_gateway1` - (Optional) One `virtual_network_gateway1` block defined below.
 
@@ -212,8 +216,6 @@ The `gateway_default_site` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `provisioning_state` - Gets or sets Provisioning state of the VirtualNetworkGatewayConnection resource Updating/Deleting/Failed
 
 * `id` - Resource Id
 

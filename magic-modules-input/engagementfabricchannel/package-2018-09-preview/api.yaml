@@ -103,28 +103,6 @@ objects:
             python_parameter_name: channel_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ChannelProperties
-            go_type_name: ChannelProperties
-          '/properties/channelType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ChannelType
-          '/channelType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: channel_type
-          '/properties/channelFunctions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: ChannelFunctions
-          '/channelFunctions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: channel_functions
-          '/properties/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: Credentials
-          '/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: credentials
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -166,7 +144,7 @@ objects:
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'Channel Name'
+        description: 'The EngagementFabric channel name'
         required: true
         input: true
         azure_sdk_references: ['channelName']

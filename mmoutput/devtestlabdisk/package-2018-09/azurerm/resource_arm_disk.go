@@ -90,27 +90,18 @@ func resourceArmDisk() *schema.Resource {
                 Optional: true,
             },
 
+            "leased_by_lab_vm_id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "managed_disk_id": {
                 Type: schema.TypeString,
                 Optional: true,
             },
 
-            "created_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "unique_identifier": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -148,18 +139,21 @@ func resourceArmDiskCreate(d *schema.ResourceData, meta interface{}) error {
     diskUri := d.Get("disk_uri").(string)
     hostCaching := d.Get("host_caching").(string)
     leasedByLabVmId := d.Get("leased_by_lab_vm_id").(string)
+    leasedByLabVmId := d.Get("leased_by_lab_vm_id").(string)
     managedDiskId := d.Get("managed_disk_id").(string)
     t := d.Get("tags").(map[string]interface{})
 
     disk := devtestlab.DiskFragment{
+        LeasedByLabVMID: utils.String(leasedByLabVmId),
+        LeasedByLabVMID: utils.String(leasedByLabVmId),
         Location: utils.String(location),
         DiskPropertiesFragment: &devtestlab.DiskPropertiesFragment{
             DiskBlobName: utils.String(diskBlobName),
             DiskSizeGiB: utils.Int32(int32(diskSizeGiB)),
             DiskType: devtestlab.StorageType(diskType),
-            DiskUri: utils.String(diskUri),
+            DiskURI: utils.String(diskUri),
             HostCaching: utils.String(hostCaching),
-            LeasedByLabVmID: utils.String(leasedByLabVmId),
+            LeasedByLabVMID: utils.String(leasedByLabVmId),
             ManagedDiskID: utils.String(managedDiskId),
         },
         Tags: tags.Expand(t),
@@ -214,25 +208,10 @@ func resourceArmDiskRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if diskPropertiesFragment := resp.DiskPropertiesFragment; diskPropertiesFragment != nil {
-        d.Set("created_date", (diskPropertiesFragment.CreatedDate).String())
-        d.Set("disk_blob_name", diskPropertiesFragment.DiskBlobName)
-        d.Set("disk_size_gi_b", int(*diskPropertiesFragment.DiskSizeGiB))
-        d.Set("disk_type", string(diskPropertiesFragment.DiskType))
-        d.Set("disk_uri", diskPropertiesFragment.DiskUri)
-        d.Set("host_caching", diskPropertiesFragment.HostCaching)
-        d.Set("leased_by_lab_vm_id", diskPropertiesFragment.LeasedByLabVmID)
-        d.Set("managed_disk_id", diskPropertiesFragment.ManagedDiskID)
-        d.Set("provisioning_state", diskPropertiesFragment.ProvisioningState)
-        d.Set("unique_identifier", diskPropertiesFragment.UniqueIdentifier)
-    }
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmDiskUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -249,18 +228,20 @@ func resourceArmDiskUpdate(d *schema.ResourceData, meta interface{}) error {
     hostCaching := d.Get("host_caching").(string)
     labName := d.Get("lab_name").(string)
     leasedByLabVmId := d.Get("leased_by_lab_vm_id").(string)
+    leasedByLabVmId := d.Get("leased_by_lab_vm_id").(string)
     managedDiskId := d.Get("managed_disk_id").(string)
     t := d.Get("tags").(map[string]interface{})
 
     disk := devtestlab.DiskFragment{
-        Location: utils.String(location),
+        LeasedByLabVMID: utils.String(leasedByLabVmId),
+        LeasedByLabVMID: utils.String(leasedByLabVmId),
         DiskPropertiesFragment: &devtestlab.DiskPropertiesFragment{
             DiskBlobName: utils.String(diskBlobName),
             DiskSizeGiB: utils.Int32(int32(diskSizeGiB)),
             DiskType: devtestlab.StorageType(diskType),
-            DiskUri: utils.String(diskUri),
+            DiskURI: utils.String(diskUri),
             HostCaching: utils.String(hostCaching),
-            LeasedByLabVmID: utils.String(leasedByLabVmId),
+            LeasedByLabVMID: utils.String(leasedByLabVmId),
             ManagedDiskID: utils.String(managedDiskId),
         },
         Tags: tags.Expand(t),

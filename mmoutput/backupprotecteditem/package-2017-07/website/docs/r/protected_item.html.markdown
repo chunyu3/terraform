@@ -28,13 +28,13 @@ Manage Azure ProtectedItem instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Backed up item to be deleted. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group where the recovery services vault is present. Changing this forces a new resource to be created.
 
-* `container_name` - (Required) Container name associated with the backup item. Changing this forces a new resource to be created.
+* `container_name` - (Required) Container name associated with the backed up item. Changing this forces a new resource to be created.
 
-* `fabric_name` - (Required) Fabric name associated with the backup item. Changing this forces a new resource to be created.
-
-* `protected_item_name` - (Required) Item name to be backed up. Changing this forces a new resource to be created.
+* `fabric_name` - (Required) Fabric name associated with the backed up item. Changing this forces a new resource to be created.
 
 * `vault_name` - (Required) The name of the recovery services vault. Changing this forces a new resource to be created.
 

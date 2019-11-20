@@ -46,10 +46,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `pool_id` - UUID v4 used to identify the Pool
-
-* `provisioning_state` - Azure lifecycle management
-
 * `id` - Resource Id
 
 * `name` - Resource name

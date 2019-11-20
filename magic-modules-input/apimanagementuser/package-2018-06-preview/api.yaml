@@ -39,7 +39,7 @@ objects:
             python_variable_name: user_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: UserUpdateParameters
+            go_type_name: UserTokenParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
@@ -102,6 +102,13 @@ objects:
           '/properties/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: LastName
+          '/keyType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: KeyType
+            go_enum_type_name: KeyType
+            python_field_name: key_type
+          '/expiry': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: Expiry
+            python_field_name: expiry
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -123,7 +130,7 @@ objects:
             python_variable_name: user_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: UserUpdateParameters
+            go_type_name: UserTokenParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
@@ -186,6 +193,13 @@ objects:
           '/properties/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: LastName
+          '/keyType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: KeyType
+            go_enum_type_name: KeyType
+            python_field_name: key_type
+          '/expiry': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: Expiry
+            python_field_name: expiry
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -235,104 +249,6 @@ objects:
             python_parameter_name: user_id
             python_variable_name: user_id
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: UserUpdateParametersProperties
-            go_type_name: UserUpdateParametersProperties
-          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: State
-            go_enum_type_name: UserState
-          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: state
-          '/properties/note': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Note
-          '/note': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: note
-          '/properties/identities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Identities
-            go_type_name: UserIdentityContract
-          '/properties/identities/provider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Provider
-          '/properties/identities/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/identities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: identities
-          '/identities/provider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provider
-          '/identities/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/properties/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Email
-          '/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: email
-          '/properties/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FirstName
-          '/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: first_name
-          '/properties/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: LastName
-          '/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: last_name
-          '/properties/registrationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: RegistrationDate
-          '/registrationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: registration_date
-          '/properties/groups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Groups
-            go_type_name: GroupContractProperties
-          '/properties/groups/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DisplayName
-          '/properties/groups/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/properties/groups/builtIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: BuiltIn
-          '/properties/groups/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Type
-            go_enum_type_name: GroupType
-          '/properties/groups/externalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ExternalID
-          '/groups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: groups
-          '/groups/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: display_name
-          '/groups/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/groups/builtIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: built_in
-          '/groups/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: type
-          '/groups/externalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: external_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -377,6 +293,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'expandGroups'
+        description: ''
+        required: false
+        input: true
+        azure_sdk_references: ['expandGroups']
       - !ruby/object:Api::Type::String
         name: 'userId'
         description: 'User identifier. Must be unique in the current API Management service instance.'
@@ -448,25 +370,22 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['notify']
-      - !ruby/object:Api::Type::Boolean
-        name: 'expandGroups'
-        description: ''
-        required: false
+      - !ruby/object:Api::Type::Enum
+        name: 'keyType'
+        description: 'The Key to be used to generate token for user.'
+        required: true
         input: true
-        azure_sdk_references: ['expandGroups']
-      # read only values included only in response
+        azure_sdk_references: ['/keyType']
+        values:
+          - :primary
+          - :secondary
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'registrationDate'
-        description: 'Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
-        output: true
-        azure_sdk_references: ['/registrationDate', '/properties/registrationDate']
-      - !ruby/object:Api::Type::Array
-        name: 'groups'
-        description: 'Collection of groups user is part of.'
-        output: true
-        azure_sdk_references: ['/groups', '/properties/groups']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
+        name: 'expiry'
+        description: 'The Expiry time of the Token. Maximum token expiry time is set to 30 days. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
+        required: true
+        input: true
+        azure_sdk_references: ['/expiry']
+      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

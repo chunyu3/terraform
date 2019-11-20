@@ -50,6 +50,18 @@ func resourceArmWorkflowAccessKey() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "key_type": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(logic.NotSpecified),
+                    string(logic.Primary),
+                    string(logic.Secondary),
+                }, false),
+                Default: string(logic.NotSpecified),
+            },
+
             "not_after": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -91,11 +103,13 @@ func resourceArmWorkflowAccessKeyCreateUpdate(d *schema.ResourceData, meta inter
     }
 
     id := d.Get("id").(string)
+    keyType := d.Get("key_type").(string)
     notAfter := d.Get("not_after").(string)
     notBefore := d.Get("not_before").(string)
 
     workflowAccesskey := logic.WorkflowAccessKey{
         ID: utils.String(id),
+        KeyType: logic.KeyType(keyType),
         WorkflowAccessKeyProperties: &logic.WorkflowAccessKeyProperties{
             NotAfter: convertStringToDate(notAfter),
             NotBefore: convertStringToDate(notBefore),
@@ -146,10 +160,6 @@ func resourceArmWorkflowAccessKeyRead(d *schema.ResourceData, meta interface{}) 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if workflowAccessKeyProperties := resp.WorkflowAccessKeyProperties; workflowAccessKeyProperties != nil {
-        d.Set("not_after", (workflowAccessKeyProperties.NotAfter).String())
-        d.Set("not_before", (workflowAccessKeyProperties.NotBefore).String())
-    }
     d.Set("type", resp.Type)
     d.Set("workflow_name", workflowName)
 

@@ -28,11 +28,11 @@ Manage Azure ProximityPlacementGroup instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the proximity placement group. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `proximity_placement_group_name` - (Required) The name of the proximity placement group. Changing this forces a new resource to be created.
 
 * `proximity_placement_group_type` - (Optional) Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br> **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br> **Ultra** : For future use. Defaults to `Standard`.
 
@@ -42,33 +42,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `virtual_machines` - One or more `virtual_machine` block defined below.
-
-* `virtual_machine_scale_sets` - One or more `virtual_machine_scale_set` block defined below.
-
-* `availability_sets` - One or more `availability_set` block defined below.
-
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
-
-
----
-
-The `virtual_machine` block contains the following:
-
-* `id` - (Optional) Resource Id
-
----
-
-The `virtual_machine_scale_set` block contains the following:
-
-* `id` - (Optional) Resource Id
-
----
-
-The `availability_set` block contains the following:
-
-* `id` - (Optional) Resource Id

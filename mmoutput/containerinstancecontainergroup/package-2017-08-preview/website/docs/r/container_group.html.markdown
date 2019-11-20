@@ -28,7 +28,7 @@ Manage Azure ContainerGroup instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the container group. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the container group to be deleted. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group that contains the container group. Changing this forces a new resource to be created.
 
@@ -169,10 +169,6 @@ The `azure_file` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `provisioning_state` - The provisioning state of the container group. This only appears in the response.
-
-* `state` - The current state of the container group. This is only valid for the response.
 
 * `id` - The resource id.
 

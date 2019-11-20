@@ -45,7 +45,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CloudEndpointCreateParameters
+            go_type_name: PostRestoreRequest
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -76,6 +76,43 @@ objects:
           '/properties/storageAccountTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: StorageAccountTenantID
+          '/azureFileShare': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AzureFileShare
+            python_field_name: azure_file_share
+          '/partition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Partition
+            python_field_name: partition
+          '/replicaGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ReplicaGroup
+            python_field_name: replica_group
+          '/requestId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: RequestID
+            python_field_name: request_id
+          '/azureFileShareUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AzureFileShareURI
+            python_field_name: azure_file_share_uri
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Status
+            python_field_name: status
+          '/sourceAzureFileShareUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SourceAzureFileShareURI
+            python_field_name: source_azure_file_share_uri
+          '/backupMetadataPropertyBag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: BackupMetadataPropertyBag
+            python_field_name: backup_metadata_property_bag
+          '/restoreFileSpec': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: RestoreFileSpec
+            go_type_name: RestoreFileSpec
+            python_field_name: restore_file_spec
+          '/restoreFileSpec/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Path
+            python_field_name: path
+          '/pauseWaitForSyncDrainTimePeriodInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: PauseWaitForSyncDrainTimePeriodInSeconds
+            python_field_name: pause_wait_for_sync_drain_time_period_in_seconds
+          '/failedFileList': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: FailedFileList
+            python_field_name: failed_file_list
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -126,64 +163,6 @@ objects:
             python_parameter_name: cloud_endpoint_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: CloudEndpointCreateParametersProperties
-            go_type_name: CloudEndpointCreateParametersProperties
-          '/properties/storageAccountResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageAccountResourceID
-          '/storageAccountResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_account_resource_id
-          '/properties/storageAccountShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageAccountShareName
-          '/storageAccountShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_account_share_name
-          '/properties/storageAccountTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageAccountTenantID
-          '/storageAccountTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_account_tenant_id
-          '/properties/partnershipId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PartnershipID
-          '/partnershipId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: partnership_id
-          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FriendlyName
-          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: friendly_name
-          '/properties/backupEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: BackupEnabled
-          '/backupEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: backup_enabled
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: LastWorkflowID
-          '/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: last_workflow_id
-          '/properties/lastOperationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: LastOperationName
-          '/lastOperationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: last_operation_name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -267,37 +246,79 @@ objects:
         description: 'Storage Account Tenant Id'
         required: false
         azure_sdk_references: ['/storageAccountTenantId', '/properties/storageAccountTenantId']
+      - !ruby/object:Api::Type::String
+        name: 'azureFileShare'
+        description: 'Azure File Share.'
+        required: false
+        input: true
+        azure_sdk_references: ['/azureFileShare']
+      - !ruby/object:Api::Type::String
+        name: 'partition'
+        description: 'Post Restore partition.'
+        required: false
+        input: true
+        azure_sdk_references: ['/partition']
+      - !ruby/object:Api::Type::String
+        name: 'replicaGroup'
+        description: 'Post Restore replica group.'
+        required: false
+        input: true
+        azure_sdk_references: ['/replicaGroup']
+      - !ruby/object:Api::Type::String
+        name: 'requestId'
+        description: 'Post Restore request id.'
+        required: false
+        input: true
+        azure_sdk_references: ['/requestId']
+      - !ruby/object:Api::Type::String
+        name: 'azureFileShareUri'
+        description: 'Post Restore Azure file share uri.'
+        required: false
+        input: true
+        azure_sdk_references: ['/azureFileShareUri']
+      - !ruby/object:Api::Type::String
+        name: 'status'
+        description: 'Post Restore Azure status.'
+        required: false
+        input: true
+        azure_sdk_references: ['/status']
+      - !ruby/object:Api::Type::String
+        name: 'sourceAzureFileShareUri'
+        description: 'Post Restore Azure source azure file share uri.'
+        required: false
+        input: true
+        azure_sdk_references: ['/sourceAzureFileShareUri']
+      - !ruby/object:Api::Type::String
+        name: 'backupMetadataPropertyBag'
+        description: 'Pre Restore backup metadata property bag.'
+        required: false
+        input: true
+        azure_sdk_references: ['/backupMetadataPropertyBag']
+      - !ruby/object:Api::Type::Array
+        name: 'restoreFileSpec'
+        description: 'Post Restore restore file spec array.'
+        required: false
+        azure_sdk_references: ['/restoreFileSpec']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'path'
+              description: 'Restore file spec path'
+              required: false
+              azure_sdk_references: ['/restoreFileSpec/path']
+      - !ruby/object:Api::Type::Integer
+        name: 'pauseWaitForSyncDrainTimePeriodInSeconds'
+        description: 'Pre Restore pause wait for sync drain time period in seconds.'
+        required: false
+        input: true
+        azure_sdk_references: ['/pauseWaitForSyncDrainTimePeriodInSeconds']
+      - !ruby/object:Api::Type::String
+        name: 'failedFileList'
+        description: 'Post Restore Azure failed file list.'
+        required: false
+        input: true
+        azure_sdk_references: ['/failedFileList']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'partnershipId'
-        description: 'Partnership Id'
-        output: true
-        azure_sdk_references: ['/partnershipId', '/properties/partnershipId']
-      - !ruby/object:Api::Type::String
-        name: 'friendlyName'
-        description: 'Friendly Name'
-        output: true
-        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
-      - !ruby/object:Api::Type::Boolean
-        name: 'backupEnabled'
-        description: 'Backup Enabled'
-        output: true
-        azure_sdk_references: ['/backupEnabled', '/properties/backupEnabled']
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'CloudEndpoint Provisioning State'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Type::String
-        name: 'lastWorkflowId'
-        description: 'CloudEndpoint lastWorkflowId'
-        output: true
-        azure_sdk_references: ['/lastWorkflowId', '/properties/lastWorkflowId']
-      - !ruby/object:Api::Type::String
-        name: 'lastOperationName'
-        description: 'Resource Last Operation Name'
-        output: true
-        azure_sdk_references: ['/lastOperationName', '/properties/lastOperationName']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'

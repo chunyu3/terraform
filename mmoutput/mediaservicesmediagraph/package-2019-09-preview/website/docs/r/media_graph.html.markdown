@@ -58,12 +58,6 @@ The `source` block supports the following:
 
 The following attributes are exported:
 
-* `state` - Media Graph state
-
-* `created` - Date the Media Graph was created
-
-* `last_modified` - Date the Media Graph was last modified
-
 * `id` - Fully qualified resource ID for the resource.
 
 * `name` - The name of the resource.

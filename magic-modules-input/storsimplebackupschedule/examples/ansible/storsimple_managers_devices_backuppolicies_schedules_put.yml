@@ -5,7 +5,9 @@ task: !ruby/object:Provider::Ansible::Task
   code:
     device_name: myDevice
     backup_policy_name: myBackupPolicy
-    backup_schedule_name: mySchedule
+    resource_group: myResourceGroup
+    manager_name: myManager
+    name: mySchedule
     kind: Series8000
     schedule_recurrence:
       recurrence_type: Weekly
@@ -18,6 +20,4 @@ task: !ruby/object:Provider::Ansible::Task
     retention_count: '1'
     start_time: '2017-06-24T01:00:00Z'
     schedule_status: Enabled
-    resource_group: myResourceGroup
-    name: myManager
   

@@ -40,19 +40,15 @@ The following arguments are supported:
 
 * `description` - (Optional) The Asset description.
 
+* `expiry_time` - (Optional) The SAS URL expiration time.  This must be less than 24 hours from the current time. Changing this forces a new resource to be created.
+
+* `permissions` - (Optional) The permissions to set on the SAS URL. Defaults to `Read`. Changing this forces a new resource to be created.
+
 * `storage_account_name` - (Optional) The name of the storage account.
 
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `asset_id` - The Asset ID.
-
-* `created` - The creation date of the Asset.
-
-* `last_modified` - The last modified date of the Asset.
-
-* `storage_encryption_format` - The Asset encryption format. One of None or MediaStorageEncryption.
 
 * `id` - Fully qualified resource ID for the resource.
 

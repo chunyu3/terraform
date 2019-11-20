@@ -78,23 +78,6 @@ objects:
             python_parameter_name: association_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Association_properties
-            go_type_name: Association_properties
-          '/properties/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetResourceID
-          '/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_resource_id
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -135,17 +118,6 @@ objects:
         required: false
         azure_sdk_references: ['/targetResourceId', '/properties/targetResourceId']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The provisioning state of the association.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Accepted
-          - :Deleting
-          - :Running
-          - :Succeeded
-          - :Failed
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The association id.'

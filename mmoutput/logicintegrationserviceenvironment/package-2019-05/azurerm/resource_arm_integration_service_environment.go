@@ -31,19 +31,19 @@ func resourceArmIntegrationServiceEnvironment() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "integration_service_environment_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -214,11 +214,6 @@ func resourceArmIntegrationServiceEnvironment() *schema.Resource {
                 Default: string(logic.NotSpecified),
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -233,14 +228,14 @@ func resourceArmIntegrationServiceEnvironmentCreate(d *schema.ResourceData, meta
     client := meta.(*ArmClient).integrationServiceEnvironmentsClient
     ctx := meta.(*ArmClient).StopContext
 
-    integrationServiceEnvironmentName := d.Get("integration_service_environment_name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, integrationServiceEnvironmentName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Integration Service Environment (Integration Service Environment Name %q / Resource Group %q): %+v", integrationServiceEnvironmentName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Integration Service Environment %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -269,21 +264,21 @@ func resourceArmIntegrationServiceEnvironmentCreate(d *schema.ResourceData, meta
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, integrationServiceEnvironmentName, integrationServiceEnvironment)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, integrationServiceEnvironment)
     if err != nil {
-        return fmt.Errorf("Error creating Integration Service Environment (Integration Service Environment Name %q / Resource Group %q): %+v", integrationServiceEnvironmentName, resourceGroup, err)
+        return fmt.Errorf("Error creating Integration Service Environment %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Integration Service Environment (Integration Service Environment Name %q / Resource Group %q): %+v", integrationServiceEnvironmentName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Integration Service Environment %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, integrationServiceEnvironmentName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Integration Service Environment (Integration Service Environment Name %q / Resource Group %q): %+v", integrationServiceEnvironmentName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Integration Service Environment %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Integration Service Environment (Integration Service Environment Name %q / Resource Group %q) ID", integrationServiceEnvironmentName, resourceGroup)
+        return fmt.Errorf("Cannot read Integration Service Environment %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -299,51 +294,34 @@ func resourceArmIntegrationServiceEnvironmentRead(d *schema.ResourceData, meta i
         return err
     }
     resourceGroup := id.ResourceGroup
-    integrationServiceEnvironmentName := id.Path["integrationServiceEnvironments"]
+    name := id.Path["integrationServiceEnvironments"]
 
-    resp, err := client.Get(ctx, resourceGroup, integrationServiceEnvironmentName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Integration Service Environment %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Integration Service Environment (Integration Service Environment Name %q / Resource Group %q): %+v", integrationServiceEnvironmentName, resourceGroup, err)
+        return fmt.Errorf("Error reading Integration Service Environment %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if integrationServiceEnvironmentProperties := resp.IntegrationServiceEnvironmentProperties; integrationServiceEnvironmentProperties != nil {
-        if err := d.Set("endpoints_configuration", flattenArmIntegrationServiceEnvironmentFlowEndpointsConfiguration(integrationServiceEnvironmentProperties.EndpointsConfiguration)); err != nil {
-            return fmt.Errorf("Error setting `endpoints_configuration`: %+v", err)
-        }
-        d.Set("integration_service_environment_id", integrationServiceEnvironmentProperties.IntegrationServiceEnvironmentID)
-        if err := d.Set("network_configuration", flattenArmIntegrationServiceEnvironmentNetworkConfiguration(integrationServiceEnvironmentProperties.NetworkConfiguration)); err != nil {
-            return fmt.Errorf("Error setting `network_configuration`: %+v", err)
-        }
-        d.Set("provisioning_state", string(integrationServiceEnvironmentProperties.ProvisioningState))
-        d.Set("state", string(integrationServiceEnvironmentProperties.State))
-    }
-    d.Set("integration_service_environment_name", integrationServiceEnvironmentName)
     d.Set("resource_group", resourceGroup)
-    if err := d.Set("sku", flattenArmIntegrationServiceEnvironmentIntegrationServiceEnvironmentSku(resp.Sku)); err != nil {
-        return fmt.Errorf("Error setting `sku`: %+v", err)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmIntegrationServiceEnvironmentUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).integrationServiceEnvironmentsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     endpointsConfiguration := d.Get("endpoints_configuration").([]interface{})
     integrationServiceEnvironmentId := d.Get("integration_service_environment_id").(string)
-    integrationServiceEnvironmentName := d.Get("integration_service_environment_name").(string)
     networkConfiguration := d.Get("network_configuration").([]interface{})
     resourceGroup := d.Get("resource_group").(string)
     sku := d.Get("sku").([]interface{})
@@ -351,7 +329,6 @@ func resourceArmIntegrationServiceEnvironmentUpdate(d *schema.ResourceData, meta
     t := d.Get("tags").(map[string]interface{})
 
     integrationServiceEnvironment := logic.IntegrationServiceEnvironment{
-        Location: utils.String(location),
         IntegrationServiceEnvironmentProperties: &logic.IntegrationServiceEnvironmentProperties{
             EndpointsConfiguration: expandArmIntegrationServiceEnvironmentFlowEndpointsConfiguration(endpointsConfiguration),
             IntegrationServiceEnvironmentID: utils.String(integrationServiceEnvironmentId),
@@ -363,12 +340,12 @@ func resourceArmIntegrationServiceEnvironmentUpdate(d *schema.ResourceData, meta
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, integrationServiceEnvironmentName, integrationServiceEnvironment)
+    future, err := client.Update(ctx, resourceGroup, name, integrationServiceEnvironment)
     if err != nil {
-        return fmt.Errorf("Error updating Integration Service Environment (Integration Service Environment Name %q / Resource Group %q): %+v", integrationServiceEnvironmentName, resourceGroup, err)
+        return fmt.Errorf("Error updating Integration Service Environment %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Integration Service Environment (Integration Service Environment Name %q / Resource Group %q): %+v", integrationServiceEnvironmentName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Integration Service Environment %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmIntegrationServiceEnvironmentRead(d, meta)
@@ -384,10 +361,10 @@ func resourceArmIntegrationServiceEnvironmentDelete(d *schema.ResourceData, meta
         return err
     }
     resourceGroup := id.ResourceGroup
-    integrationServiceEnvironmentName := id.Path["integrationServiceEnvironments"]
+    name := id.Path["integrationServiceEnvironments"]
 
-    if _, err := client.Delete(ctx, resourceGroup, integrationServiceEnvironmentName); err != nil {
-        return fmt.Errorf("Error deleting Integration Service Environment (Integration Service Environment Name %q / Resource Group %q): %+v", integrationServiceEnvironmentName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Integration Service Environment %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil
@@ -453,8 +430,8 @@ func expandArmIntegrationServiceEnvironmentFlowEndpoints(input []interface{}) *l
     accessEndpointIpAddresses := v["access_endpoint_ip_addresses"].([]interface{})
 
     result := logic.FlowEndpoints{
-        AccessEndpointIpAddresses: expandArmIntegrationServiceEnvironmentIpAddress(accessEndpointIpAddresses),
-        OutgoingIpAddresses: expandArmIntegrationServiceEnvironmentIpAddress(outgoingIpAddresses),
+        AccessEndpointIPAddresses: expandArmIntegrationServiceEnvironmentIpAddress(accessEndpointIpAddresses),
+        OutgoingIPAddresses: expandArmIntegrationServiceEnvironmentIpAddress(outgoingIpAddresses),
     }
     return &result
 }
@@ -501,112 +478,4 @@ func expandArmIntegrationServiceEnvironmentIpAddress(input []interface{}) *[]log
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmIntegrationServiceEnvironmentFlowEndpointsConfiguration(input *logic.FlowEndpointsConfiguration) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["connector"] = flattenArmIntegrationServiceEnvironmentFlowEndpoints(input.Connector)
-    result["workflow"] = flattenArmIntegrationServiceEnvironmentFlowEndpoints(input.Workflow)
-
-    return []interface{}{result}
-}
-
-func flattenArmIntegrationServiceEnvironmentNetworkConfiguration(input *logic.NetworkConfiguration) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["access_endpoint"] = flattenArmIntegrationServiceEnvironmentIntegrationServiceEnvironmentAccessEndpoint(input.AccessEndpoint)
-    result["subnets"] = flattenArmIntegrationServiceEnvironmentResourceReference(input.Subnets)
-    if virtualNetworkAddressSpace := input.VirtualNetworkAddressSpace; virtualNetworkAddressSpace != nil {
-        result["virtual_network_address_space"] = *virtualNetworkAddressSpace
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmIntegrationServiceEnvironmentIntegrationServiceEnvironmentSku(input *logic.IntegrationServiceEnvironmentSku) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["name"] = string(input.Name)
-    if capacity := input.Capacity; capacity != nil {
-        result["capacity"] = int(*capacity)
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmIntegrationServiceEnvironmentFlowEndpoints(input *logic.FlowEndpoints) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["access_endpoint_ip_addresses"] = flattenArmIntegrationServiceEnvironmentIpAddress(input.AccessEndpointIpAddresses)
-    result["outgoing_ip_addresses"] = flattenArmIntegrationServiceEnvironmentIpAddress(input.OutgoingIpAddresses)
-
-    return []interface{}{result}
-}
-
-func flattenArmIntegrationServiceEnvironmentIntegrationServiceEnvironmentAccessEndpoint(input *logic.IntegrationServiceEnvironmentAccessEndpoint) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["type"] = string(input.Type)
-
-    return []interface{}{result}
-}
-
-func flattenArmIntegrationServiceEnvironmentResourceReference(input *[]logic.ResourceReference) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmIntegrationServiceEnvironmentIpAddress(input *[]logic.IpAddress) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if address := item.Address; address != nil {
-            v["address"] = *address
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

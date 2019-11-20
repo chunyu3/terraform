@@ -38,33 +38,13 @@ The following arguments are supported:
 
 * `source_share_location` - (Required) Source share location.
 
+* `synchronization_id` - (Required) Synchronization id Changing this forces a new resource to be created.
+
+* `synchronization_mode` - (Optional) Mode of synchronization used in triggers and snapshot sync. Incremental by default Defaults to `Incremental`. Changing this forces a new resource to be created.
+
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `created_at` - Time at which the share subscription was created.
-
-* `provider_email` - Email of the provider who created the resource
-
-* `provider_name` - Name of the provider who created the resource
-
-* `provider_tenant_name` - Tenant name of the provider who created the resource
-
-* `provisioning_state` - Provisioning state of the share subscription
-
-* `share_description` - Description of share
-
-* `share_kind` - Kind of share
-
-* `share_name` - Name of the share
-
-* `share_subscription_status` - Gets the current status of share subscription.
-
-* `share_terms` - Terms of a share
-
-* `user_email` - Email of the user who created the resource
-
-* `user_name` - Name of the user who created the resource
 
 * `id` - The resource id of the azure resource
 

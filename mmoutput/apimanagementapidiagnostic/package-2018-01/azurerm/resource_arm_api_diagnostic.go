@@ -76,14 +76,14 @@ func resourceArmApiDiagnosticCreate(d *schema.ResourceData, meta interface{}) er
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    apiID := d.Get("api_id").(string)
+    aPIID := d.Get("api_id").(string)
     diagnosticID := d.Get("diagnostic_id").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, apiID, diagnosticID)
+        existing, err := client.Get(ctx, resourceGroup, name, aPIID, diagnosticID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -100,17 +100,17 @@ func resourceArmApiDiagnosticCreate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, apiID, diagnosticID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, aPIID, diagnosticID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, diagnosticID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, diagnosticID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q) ID", name, diagnosticID, apiID, resourceGroup)
+        return fmt.Errorf("Cannot read Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q) ID", name, diagnosticID, aPIID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -127,28 +127,25 @@ func resourceArmApiDiagnosticRead(d *schema.ResourceData, meta interface{}) erro
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     diagnosticID := id.Path["diagnostics"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, diagnosticID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, diagnosticID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Diagnostic %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("api_id", apiID)
+    d.Set("api_id", aPIID)
     d.Set("diagnostic_id", diagnosticID)
-    if diagnosticContractProperties := resp.DiagnosticContractProperties; diagnosticContractProperties != nil {
-        d.Set("enabled", diagnosticContractProperties.Enabled)
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -160,7 +157,7 @@ func resourceArmApiDiagnosticUpdate(d *schema.ResourceData, meta interface{}) er
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    apiID := d.Get("api_id").(string)
+    aPIID := d.Get("api_id").(string)
     diagnosticID := d.Get("diagnostic_id").(string)
     enabled := d.Get("enabled").(bool)
 
@@ -171,8 +168,8 @@ func resourceArmApiDiagnosticUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, apiID, diagnosticID, parameters); err != nil {
-        return fmt.Errorf("Error updating Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, aPIID, diagnosticID, parameters); err != nil {
+        return fmt.Errorf("Error updating Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
     }
 
     return resourceArmApiDiagnosticRead(d, meta)
@@ -189,11 +186,11 @@ func resourceArmApiDiagnosticDelete(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     diagnosticID := id.Path["diagnostics"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, apiID, diagnosticID); err != nil {
-        return fmt.Errorf("Error deleting Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, aPIID, diagnosticID); err != nil {
+        return fmt.Errorf("Error deleting Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
     }
 
     return nil

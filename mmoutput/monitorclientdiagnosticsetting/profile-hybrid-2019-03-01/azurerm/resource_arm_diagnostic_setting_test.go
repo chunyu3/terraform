@@ -35,14 +35,14 @@ func testCheckAzureRMDiagnosticSettingExists(resourceName string) resource.TestC
         }
 
         name := rs.Primary.Attributes["name"]
-        resourceUri := rs.Primary.Attributes["resource_uri"]
+        resourceURI := rs.Primary.Attributes["resource_uri"]
 
         client := testAccProvider.Meta().(*ArmClient).diagnosticSettingsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceUri, name); err != nil {
+        if resp, err := client.Get(ctx, resourceURI, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Diagnostic Setting %q (Resource Uri %q) does not exist", name, resourceUri)
+                return fmt.Errorf("Bad: Diagnostic Setting %q (Resource Uri %q) does not exist", name, resourceURI)
             }
             return fmt.Errorf("Bad: Get on diagnosticSettingsClient: %+v", err)
         }
@@ -61,9 +61,9 @@ func testCheckAzureRMDiagnosticSettingDestroy(s *terraform.State) error {
         }
 
         name := rs.Primary.Attributes["name"]
-        resourceUri := rs.Primary.Attributes["resource_uri"]
+        resourceURI := rs.Primary.Attributes["resource_uri"]
 
-        if resp, err := client.Get(ctx, resourceUri, name); err != nil {
+        if resp, err := client.Get(ctx, resourceURI, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on diagnosticSettingsClient: %+v", err)
             }

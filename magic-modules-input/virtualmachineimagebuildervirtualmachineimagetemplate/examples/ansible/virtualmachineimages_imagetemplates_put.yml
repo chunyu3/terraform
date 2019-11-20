@@ -3,6 +3,7 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_virtualmachineimagebuildervirtualmachineimagetemplate
   description: Create an Image Template.
   code:
+    resource_group: myResourceGroup
     location: westus
     tags:
       imagetemplate_tag1: IT_T1
@@ -16,6 +17,5 @@ task: !ruby/object:Provider::Ansible::Task
       - name: Shell Customizer Example
     distribute:
       - run_output_name: image_it_pir_1
-    resource_group: myResourceGroup
     image_template_name: myImageTemplate
   

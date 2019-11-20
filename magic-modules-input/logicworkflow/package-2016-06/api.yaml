@@ -94,6 +94,16 @@ objects:
           '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
             go_field_name: Parameters
+          '/targetSchemaVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: TargetSchemaVersion
+            python_field_name: target_schema_version
+          '/notAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: NotAfter
+            python_field_name: not_after
+          '/keyType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: KeyType
+            go_enum_type_name: KeyType
+            python_field_name: key_type
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -170,6 +180,16 @@ objects:
           '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
             go_field_name: Parameters
+          '/targetSchemaVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: TargetSchemaVersion
+            python_field_name: target_schema_version
+          '/notAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: NotAfter
+            python_field_name: not_after
+          '/keyType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: KeyType
+            go_enum_type_name: KeyType
+            python_field_name: key_type
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -199,130 +219,6 @@ objects:
             python_parameter_name: workflow_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: WorkflowProperties
-            go_type_name: WorkflowProperties
-          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: State
-            go_enum_type_name: WorkflowState
-          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: state
-          '/properties/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Sku
-            go_type_name: Sku
-          '/properties/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Name
-            go_enum_type_name: SkuName
-          '/properties/sku/plan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Plan
-            go_type_name: ResourceReference
-          '/properties/sku/plan/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/sku/plan/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/sku/plan/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Type
-          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: sku
-          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: name
-          '/sku/plan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: plan
-          '/sku/plan/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/sku/plan/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/sku/plan/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type
-          '/properties/integrationAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: IntegrationAccount
-            go_type_name: ResourceReference
-          '/properties/integrationAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/integrationAccount/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/integrationAccount/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Type
-          '/integrationAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: integration_account
-          '/integrationAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/integrationAccount/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/integrationAccount/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type
-          '/properties/definition': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [go]
-            go_field_name: Definition
-          '/definition': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [python]
-            python_field_name: definition
-          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: Parameters
-          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: parameters
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: WorkflowProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreatedTime
-          '/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created_time
-          '/properties/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: ChangedTime
-          '/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: changed_time
-          '/properties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Version
-          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: version
-          '/properties/accessEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AccessEndpoint
-          '/accessEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: access_endpoint
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -332,10 +228,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscription
-        python_func_name: list_by_subscription
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -345,6 +237,38 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListCallbackUrl
+        python_func_name: list_callback_url
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workflows
+            go_variable_name: name
+            python_parameter_name: workflow_name
+            python_variable_name: name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListSwagger
+        python_func_name: list_swagger
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workflows
+            go_variable_name: name
+            python_parameter_name: workflow_name
+            python_variable_name: name
 
     description: |
       Manage Azure Workflow instance.
@@ -404,18 +328,6 @@ objects:
               - :Basic
               - :Standard
               - :Premium
-          - !ruby/object:Api::Type::NestedObject
-            name: 'plan'
-            description: 'The reference to plan.'
-            required: false
-            azure_sdk_references: ['/sku/plan', '/properties/sku/plan']
-            properties:
-      - !ruby/object:Api::Type::NestedObject
-        name: 'integrationAccount'
-        description: 'The integration account.'
-        required: false
-        azure_sdk_references: ['/integrationAccount', '/properties/integrationAccount']
-        properties:
       - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
         name: 'definition'
         description: 'The definition. See [Schema reference for Workflow Definition Language in Azure Logic Apps](https://aka.ms/logic-apps-workflow-definition-language).'
@@ -426,51 +338,30 @@ objects:
         description: 'The parameters.'
         required: false
         azure_sdk_references: ['/parameters', '/properties/parameters']
-      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'targetSchemaVersion'
+        description: 'The target schema version.'
+        required: false
+        input: true
+        azure_sdk_references: ['/targetSchemaVersion']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'notAfter'
+        description: 'The expiry time.'
+        required: false
+        input: true
+        azure_sdk_references: ['/notAfter']
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'Gets the provisioning state.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        name: 'keyType'
+        description: 'The key type.'
+        required: false
+        input: true
+        azure_sdk_references: ['/keyType']
         values:
           - :NotSpecified
-          - :Accepted
-          - :Running
-          - :Ready
-          - :Creating
-          - :Created
-          - :Deleting
-          - :Deleted
-          - :Canceled
-          - :Failed
-          - :Succeeded
-          - :Moving
-          - :Updating
-          - :Registering
-          - :Registered
-          - :Unregistering
-          - :Unregistered
-          - :Completed
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdTime'
-        description: 'Gets the created time.'
-        output: true
-        azure_sdk_references: ['/createdTime', '/properties/createdTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'changedTime'
-        description: 'Gets the changed time.'
-        output: true
-        azure_sdk_references: ['/changedTime', '/properties/changedTime']
-      - !ruby/object:Api::Type::String
-        name: 'version'
-        description: 'Gets the version.'
-        output: true
-        azure_sdk_references: ['/version', '/properties/version']
-      - !ruby/object:Api::Type::String
-        name: 'accessEndpoint'
-        description: 'Gets the access endpoint.'
-        output: true
-        azure_sdk_references: ['/accessEndpoint', '/properties/accessEndpoint']
+          - :Primary
+          - :Secondary
+        default_value: :NotSpecified
+      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource id.'

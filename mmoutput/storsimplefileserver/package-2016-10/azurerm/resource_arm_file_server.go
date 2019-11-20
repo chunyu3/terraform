@@ -62,7 +62,7 @@ func resourceArmFileServer() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "file_server_name": {
+            "manager_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -95,13 +95,13 @@ func resourceArmFileServerCreateUpdate(d *schema.ResourceData, meta interface{})
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     deviceName := d.Get("device_name").(string)
-    fileServerName := d.Get("file_server_name").(string)
+    managerName := d.Get("manager_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName)
+        existing, err := client.Get(ctx, resourceGroup, managerName, deviceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing File Server %q (Resource Group %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, fileServerName, deviceName, err)
+                return fmt.Errorf("Error checking for present of existing File Server %q (Manager Name %q / Resource Group %q / Device Name %q): %+v", name, managerName, resourceGroup, deviceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -124,21 +124,21 @@ func resourceArmFileServerCreateUpdate(d *schema.ResourceData, meta interface{})
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, deviceName, fileServerName, fileServer)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, managerName, deviceName, name, fileServer)
     if err != nil {
-        return fmt.Errorf("Error creating File Server %q (Resource Group %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, fileServerName, deviceName, err)
+        return fmt.Errorf("Error creating File Server %q (Manager Name %q / Resource Group %q / Device Name %q): %+v", name, managerName, resourceGroup, deviceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of File Server %q (Resource Group %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, fileServerName, deviceName, err)
+        return fmt.Errorf("Error waiting for creation of File Server %q (Manager Name %q / Resource Group %q / Device Name %q): %+v", name, managerName, resourceGroup, deviceName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName)
+    resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving File Server %q (Resource Group %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, fileServerName, deviceName, err)
+        return fmt.Errorf("Error retrieving File Server %q (Manager Name %q / Resource Group %q / Device Name %q): %+v", name, managerName, resourceGroup, deviceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read File Server %q (Resource Group %q / File Server Name %q / Device Name %q) ID", name, resourceGroup, fileServerName, deviceName)
+        return fmt.Errorf("Cannot read File Server %q (Manager Name %q / Resource Group %q / Device Name %q) ID", name, managerName, resourceGroup, deviceName)
     }
     d.SetId(*resp.ID)
 
@@ -154,32 +154,26 @@ func resourceArmFileServerRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    name := id.Path["managers"]
+    managerName := id.Path["managers"]
     deviceName := id.Path["devices"]
-    fileServerName := id.Path["fileservers"]
+    name := id.Path["fileservers"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName)
+    resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] File Server %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading File Server %q (Resource Group %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, fileServerName, deviceName, err)
+        return fmt.Errorf("Error reading File Server %q (Manager Name %q / Resource Group %q / Device Name %q): %+v", name, managerName, resourceGroup, deviceName, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if fileServerProperties := resp.FileServerProperties; fileServerProperties != nil {
-        d.Set("backup_schedule_group_id", fileServerProperties.BackupScheduleGroupID)
-        d.Set("description", fileServerProperties.Description)
-        d.Set("domain_name", fileServerProperties.DomainName)
-        d.Set("storage_domain_id", fileServerProperties.StorageDomainID)
-    }
     d.Set("device_name", deviceName)
-    d.Set("file_server_name", fileServerName)
+    d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
     return nil
@@ -196,21 +190,21 @@ func resourceArmFileServerDelete(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.ResourceGroup
-    name := id.Path["managers"]
+    managerName := id.Path["managers"]
     deviceName := id.Path["devices"]
-    fileServerName := id.Path["fileservers"]
+    name := id.Path["fileservers"]
 
-    future, err := client.Delete(ctx, resourceGroup, name, deviceName, fileServerName)
+    future, err := client.Delete(ctx, resourceGroup, managerName, deviceName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting File Server %q (Resource Group %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, fileServerName, deviceName, err)
+        return fmt.Errorf("Error deleting File Server %q (Manager Name %q / Resource Group %q / Device Name %q): %+v", name, managerName, resourceGroup, deviceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting File Server %q (Resource Group %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, fileServerName, deviceName, err)
+            return fmt.Errorf("Error waiting for deleting File Server %q (Manager Name %q / Resource Group %q / Device Name %q): %+v", name, managerName, resourceGroup, deviceName, err)
         }
     }
 

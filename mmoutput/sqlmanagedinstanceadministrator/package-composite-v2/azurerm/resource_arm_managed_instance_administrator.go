@@ -163,12 +163,6 @@ func resourceArmManagedInstanceAdministratorRead(d *schema.ResourceData, meta in
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if managedInstanceAdministratorProperties := resp.ManagedInstanceAdministratorProperties; managedInstanceAdministratorProperties != nil {
-        d.Set("administrator_type", managedInstanceAdministratorProperties.AdministratorType)
-        d.Set("login", managedInstanceAdministratorProperties.Login)
-        d.Set("sid", managedInstanceAdministratorProperties.Sid)
-        d.Set("tenant_id", managedInstanceAdministratorProperties.TenantID)
-    }
     d.Set("managed_instance_name", managedInstanceName)
     d.Set("type", resp.Type)
 

@@ -87,24 +87,6 @@ func resourceArmZone() *schema.Resource {
                 Default: string(dns.Public),
             },
 
-            "max_number_of_record_sets": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "name_servers": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Schema{
-                    Type: schema.TypeString,
-                },
-            },
-
-            "number_of_record_sets": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -195,25 +177,9 @@ func resourceArmZoneRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    d.Set("etag", resp.Etag)
-    if zoneProperties := resp.ZoneProperties; zoneProperties != nil {
-        d.Set("max_number_of_record_sets", int(*zoneProperties.MaxNumberOfRecordSets))
-        d.Set("name_servers", utils.FlattenStringSlice(zoneProperties.NameServers))
-        d.Set("number_of_record_sets", int(*zoneProperties.NumberOfRecordSets))
-        if err := d.Set("registration_virtual_networks", flattenArmZoneSubResource(zoneProperties.RegistrationVirtualNetworks)); err != nil {
-            return fmt.Errorf("Error setting `registration_virtual_networks`: %+v", err)
-        }
-        if err := d.Set("resolution_virtual_networks", flattenArmZoneSubResource(zoneProperties.ResolutionVirtualNetworks)); err != nil {
-            return fmt.Errorf("Error setting `resolution_virtual_networks`: %+v", err)
-        }
-        d.Set("zone_type", string(zoneProperties.ZoneType))
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmZoneUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -230,7 +196,6 @@ func resourceArmZoneUpdate(d *schema.ResourceData, meta interface{}) error {
 
     parameters := dns.ZoneUpdate{
         Etag: utils.String(etag),
-        Location: utils.String(location),
         ZoneProperties: &dns.ZoneProperties{
             RegistrationVirtualNetworks: expandArmZoneSubResource(registrationVirtualNetworks),
             ResolutionVirtualNetworks: expandArmZoneSubResource(resolutionVirtualNetworks),
@@ -289,24 +254,4 @@ func expandArmZoneSubResource(input []interface{}) *[]dns.SubResource {
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmZoneSubResource(input *[]dns.SubResource) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

@@ -23,16 +23,16 @@ objects:
         go_func_name: Create
         python_func_name: create
         request:
-          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: vaults
-            go_variable_name: resourceName
-            python_parameter_name: resource_name
-            python_variable_name: resource_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
           'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: replicationFabrics
             go_variable_name: fabricName
@@ -45,9 +45,9 @@ objects:
             python_variable_name: storage_classification_name
           'storageClassificationMappingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: replicationStorageClassificationMappings
-            go_variable_name: storageClassificationMappingName
+            go_variable_name: name
             python_parameter_name: storage_classification_mapping_name
-            python_variable_name: storage_classification_mapping_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: pairingInput
             go_type_name: StorageClassificationMappingInput
@@ -68,16 +68,16 @@ objects:
         go_func_name: Delete
         python_func_name: delete
         request:
-          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: vaults
-            go_variable_name: resourceName
-            python_parameter_name: resource_name
-            python_variable_name: resource_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
           'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: replicationFabrics
             go_variable_name: fabricName
@@ -90,23 +90,23 @@ objects:
             python_variable_name: storage_classification_name
           'storageClassificationMappingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: replicationStorageClassificationMappings
-            go_variable_name: storageClassificationMappingName
+            go_variable_name: name
             python_parameter_name: storage_classification_mapping_name
-            python_variable_name: storage_classification_mapping_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
         request:
-          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: vaults
-            go_variable_name: resourceName
-            python_parameter_name: resource_name
-            python_variable_name: resource_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
           'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: replicationFabrics
             go_variable_name: fabricName
@@ -119,20 +119,10 @@ objects:
             python_variable_name: storage_classification_name
           'storageClassificationMappingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: replicationStorageClassificationMappings
-            go_variable_name: storageClassificationMappingName
+            go_variable_name: name
             python_parameter_name: storage_classification_mapping_name
-            python_variable_name: storage_classification_mapping_name
+            python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: StorageMappingInputProperties
-            go_type_name: StorageMappingInputProperties
-          '/properties/targetStorageClassificationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetStorageClassificationID
-          '/targetStorageClassificationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_storage_classification_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -142,37 +132,20 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
-          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: vaults
-            go_variable_name: resourceName
-            python_parameter_name: resource_name
-            python_variable_name: resource_name
-          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
-            go_variable_name: resourceGroup
-            python_parameter_name: resource_group_name
-            python_variable_name: resource_group
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByReplicationStorageClassifications
         python_func_name: list_by_replication_storage_classifications
         request:
-          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: vaults
-            go_variable_name: resourceName
-            python_parameter_name: resource_name
-            python_variable_name: resource_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
           'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: replicationFabrics
             go_variable_name: fabricName
@@ -183,6 +156,20 @@ objects:
             go_variable_name: storageClassificationName
             python_parameter_name: storage_classification_name
             python_variable_name: storage_classification_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
 
     description: |
       Manage Azure ReplicationStorageClassificationMapping instance.
@@ -212,7 +199,7 @@ objects:
         input: true
         azure_sdk_references: ['storageClassificationName']
       - !ruby/object:Api::Type::String
-        name: 'storageClassificationMappingName'
+        name: 'name'
         description: 'Storage classification mapping name.'
         required: true
         input: true
@@ -238,8 +225,3 @@ objects:
         description: 'Resource Type'
         output: true
         azure_sdk_references: ['/type']
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
-        description: 'Resource Location'
-        output: true
-        azure_sdk_references: ['/location']

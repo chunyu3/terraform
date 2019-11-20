@@ -3,6 +3,10 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_appplatformdeployment
   description: Deployments_CreateOrUpdate
   code:
+    resource_group: myResourceGroup
+    service_name: mySpring
+    app_name: myApp
+    name: myDeployment
     source:
       type: Source
       relative_path: >-
@@ -17,8 +21,4 @@ task: !ruby/object:Provider::Ansible::Task
       environment_variables:
         env: test
       runtime_version: Java_8
-    resource_group: myResourceGroup
-    service_name: mySpring
-    app_name: myApp
-    name: myDeployment
   

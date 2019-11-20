@@ -92,21 +92,6 @@ func resourceArmJob() *schema.Resource {
                 Default: string(mediaservices.Low),
             },
 
-            "created": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -196,17 +181,6 @@ func resourceArmJobRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    if jobProperties := resp.JobProperties; jobProperties != nil {
-        d.Set("correlation_data", utils.FlattenKeyValuePairs(jobProperties.CorrelationData))
-        d.Set("created", (jobProperties.Created).String())
-        d.Set("description", jobProperties.Description)
-        d.Set("last_modified", (jobProperties.LastModified).String())
-        if err := d.Set("outputs", flattenArmJobJobOutput(jobProperties.Outputs)); err != nil {
-            return fmt.Errorf("Error setting `outputs`: %+v", err)
-        }
-        d.Set("priority", string(jobProperties.Priority))
-        d.Set("state", string(jobProperties.State))
-    }
     d.Set("transform_name", transformName)
     d.Set("type", resp.Type)
 
@@ -277,24 +251,4 @@ func expandArmJobJobOutput(input []interface{}) *[]mediaservices.JobOutput {
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmJobJobOutput(input *[]mediaservices.JobOutput) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if label := item.Label; label != nil {
-            v["label"] = *label
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

@@ -34,15 +34,15 @@ func testCheckAzureRMStepExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Step not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        stepName := rs.Primary.Attributes["step_name"]
 
         client := testAccProvider.Meta().(*ArmClient).stepsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, stepName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Step (Step Name %q / Resource Group %q) does not exist", stepName, resourceGroup)
+                return fmt.Errorf("Bad: Step %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on stepsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMStepDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        stepName := rs.Primary.Attributes["step_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, stepName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on stepsClient: %+v", err)
             }

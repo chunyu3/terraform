@@ -34,15 +34,13 @@ The following arguments are supported:
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
 
+* `serial` - (Optional) serial of key to be regenerated Changing this forces a new resource to be created.
+
 * `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `account_id` - unique id of certain account.
-
-* `account_domain` - Correspond domain name of certain Spatial Anchors Account
 
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 

@@ -32,6 +32,8 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group containing the Traffic Manager profile. Changing this forces a new resource to be created.
 
+* `name` - (Optional) Gets or sets the name of the resource. Changing this forces a new resource to be created.
+
 * `location` - (Optional) Resource location Changing this forces a new resource to be created.
 
 * `dns_config` - (Optional) One `dns_config` block defined below.
@@ -43,6 +45,8 @@ The following arguments are supported:
 * `profile_status` - (Optional) Gets or sets the status of the Traffic Manager profile.  Possible values are 'Enabled' and 'Disabled'.
 
 * `traffic_routing_method` - (Optional) Gets or sets the traffic routing method of the Traffic Manager profile.  Possible values are 'Performance', 'Weighted', or 'Priority'.
+
+* `type` - (Optional) Gets or sets the type of the resource. Changing this forces a new resource to be created.
 
 * `tags` - (Optional) Resource tags Changing this forces a new resource to be created.
 
@@ -99,7 +103,3 @@ The `monitor_config` block supports the following:
 The following attributes are exported:
 
 * `id` - Resource Id
-
-* `name` - Resource name
-
-* `type` - Resource type

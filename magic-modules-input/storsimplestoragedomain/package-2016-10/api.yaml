@@ -30,14 +30,14 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
-            python_variable_name: name
+            python_variable_name: manager_name
           'storageDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: storageDomains
-            go_variable_name: storageDomainName
+            go_variable_name: name
             python_parameter_name: storage_domain_name
-            python_variable_name: storage_domain_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: storageDomain
             go_type_name: StorageDomain
@@ -98,14 +98,14 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
-            python_variable_name: name
+            python_variable_name: manager_name
           'storageDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: storageDomains
-            go_variable_name: storageDomainName
+            go_variable_name: name
             python_parameter_name: storage_domain_name
-            python_variable_name: storage_domain_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -117,58 +117,15 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
-            python_variable_name: name
+            python_variable_name: manager_name
           'storageDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: storageDomains
-            go_variable_name: storageDomainName
+            go_variable_name: name
             python_parameter_name: storage_domain_name
-            python_variable_name: storage_domain_name
+            python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: StorageDomainProperties
-            go_type_name: StorageDomainProperties
-          '/properties/storageAccountCredentialIds': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: StorageAccountCredentialIds
-          '/storageAccountCredentialIds': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: storage_account_credential_ids
-          '/properties/encryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: EncryptionKey
-            go_type_name: AsymmetricEncryptedSecret
-          '/properties/encryptionKey/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/properties/encryptionKey/encryptionCertificateThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EncryptionCertificateThumbprint
-          '/properties/encryptionKey/encryptionAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: EncryptionAlgorithm
-            go_enum_type_name: EncryptionAlgorithm
-          '/encryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: encryption_key
-          '/encryptionKey/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
-          '/encryptionKey/encryptionCertificateThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: encryption_certificate_thumbprint
-          '/encryptionKey/encryptionAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: encryption_algorithm
-          '/properties/encryptionStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: EncryptionStatus
-            go_enum_type_name: EncryptionStatus
-          '/encryptionStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: encryption_status
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -189,15 +146,27 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
-            python_variable_name: name
+            python_variable_name: manager_name
 
     description: |
       Manage Azure StorageDomain instance.
     properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'storageDomainName'
+        name: 'managerName'
+        description: 'The manager name'
+        required: true
+        input: true
+        azure_sdk_references: ['managerName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
         description: 'The storage domain name.'
         required: true
         input: true
@@ -241,18 +210,6 @@ objects:
         values:
           - :Enabled
           - :Disabled
-      - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
-        description: 'The resource group name'
-        required: true
-        input: true
-        azure_sdk_references: ['resourceGroupName']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The manager name'
-        required: true
-        input: true
-        azure_sdk_references: ['managerName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

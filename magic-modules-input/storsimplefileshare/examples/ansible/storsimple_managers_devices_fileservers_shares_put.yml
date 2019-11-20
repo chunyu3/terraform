@@ -5,7 +5,9 @@ task: !ruby/object:Provider::Ansible::Task
   code:
     device_name: myDevice
     file_server_name: myFileserver
-    share_name: myShare
+    resource_group: myResourceGroup
+    manager_name: myManager
+    name: myShare
     file_share:
       Client:
         BaseUri: 'https://management.azure.com/'
@@ -23,6 +25,4 @@ task: !ruby/object:Provider::Ansible::Task
         provisionedCapacityInBytes: '536870912000'
         monitoringStatus: Enabled
       name: Auto-TestFileShare1
-    resource_group: myResourceGroup
-    name: myManager
   

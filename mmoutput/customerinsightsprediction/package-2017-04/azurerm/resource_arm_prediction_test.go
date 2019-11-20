@@ -34,16 +34,16 @@ func testCheckAzureRMPredictionExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("Prediction not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         hubName := rs.Primary.Attributes["hub_name"]
-        predictionName := rs.Primary.Attributes["prediction_name"]
 
         client := testAccProvider.Meta().(*ArmClient).predictionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, predictionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Prediction (Prediction Name %q / Hub Name %q / Resource Group %q) does not exist", predictionName, hubName, resourceGroup)
+                return fmt.Errorf("Bad: Prediction %q (Hub Name %q / Resource Group %q) does not exist", name, hubName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on predictionsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMPredictionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         hubName := rs.Primary.Attributes["hub_name"]
-        predictionName := rs.Primary.Attributes["prediction_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, predictionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on predictionsClient: %+v", err)
             }

@@ -80,21 +80,6 @@ func resourceArmVolume() *schema.Resource {
                 Optional: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status_details": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -183,22 +168,9 @@ func resourceArmVolumeRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if volumeResourceProperties := resp.VolumeResourceProperties; volumeResourceProperties != nil {
-        if err := d.Set("azure_file_parameters", flattenArmVolumeVolumeProviderParametersAzureFile(volumeResourceProperties.AzureFileParameters)); err != nil {
-            return fmt.Errorf("Error setting `azure_file_parameters`: %+v", err)
-        }
-        d.Set("description", volumeResourceProperties.Description)
-        d.Set("provider", volumeResourceProperties.Provider)
-        d.Set("provisioning_state", volumeResourceProperties.ProvisioningState)
-        d.Set("status", string(volumeResourceProperties.Status))
-        d.Set("status_details", volumeResourceProperties.StatusDetails)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -237,25 +209,4 @@ func expandArmVolumeVolumeProviderParametersAzureFile(input []interface{}) *serv
         ShareName: utils.String(shareName),
     }
     return &result
-}
-
-
-func flattenArmVolumeVolumeProviderParametersAzureFile(input *servicefabricmeshrestapis.VolumeProviderParametersAzureFile) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if accountKey := input.AccountKey; accountKey != nil {
-        result["account_key"] = *accountKey
-    }
-    if accountName := input.AccountName; accountName != nil {
-        result["account_name"] = *accountName
-    }
-    if shareName := input.ShareName; shareName != nil {
-        result["share_name"] = *shareName
-    }
-
-    return []interface{}{result}
 }

@@ -28,9 +28,17 @@ Manage Azure MediaService instance.
 
 The following arguments are supported:
 
+* `id` - (Required) The id of the storage account resource. Changing this forces a new resource to be created.
+
+* `name` - (Required) The name of the resource. A name must be globally unique. Changing this forces a new resource to be created.
+
+* `name` - (Required) Name of the Media Service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
-* `media_service_name` - (Required) Name of the Media Service. Changing this forces a new resource to be created.
+* `key_type` - (Required) The keyType indicating which key you want to regenerate, Primary or Secondary. Changing this forces a new resource to be created.
+
+* `type` - (Required) The type of the resource - mediaservices. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). Changing this forces a new resource to be created.
 
@@ -49,20 +57,3 @@ The `storage_account` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `api_endpoints` - One or more `api_endpoint` block defined below.
-
-* `id` - The id of the resource.
-
-* `name` - The name of the resource.
-
-* `type` - The type of the resource
-
-
----
-
-The `api_endpoint` block contains the following:
-
-* `endpoint` - (Optional) The Media Services REST endpoint.
-
-* `major_version` - (Optional) The version of Media Services REST API.

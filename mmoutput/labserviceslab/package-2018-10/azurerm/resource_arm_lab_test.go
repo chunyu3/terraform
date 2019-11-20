@@ -34,16 +34,16 @@ func testCheckAzureRMLabExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Lab not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         labAccountName := rs.Primary.Attributes["lab_account_name"]
-        labName := rs.Primary.Attributes["lab_name"]
 
         client := testAccProvider.Meta().(*ArmClient).labsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, labAccountName, labName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, labAccountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Lab (Lab Name %q / Lab Account Name %q / Resource Group %q) does not exist", labName, labAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Lab %q (Lab Account Name %q / Resource Group %q) does not exist", name, labAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on labsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMLabDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         labAccountName := rs.Primary.Attributes["lab_account_name"]
-        labName := rs.Primary.Attributes["lab_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, labAccountName, labName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, labAccountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on labsClient: %+v", err)
             }

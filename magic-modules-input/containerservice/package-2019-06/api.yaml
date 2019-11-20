@@ -155,20 +155,20 @@ objects:
             go_field_name: Count
           '/properties/masterProfile/dnsPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: DnsPrefix
+            go_field_name: DNSPrefix
           '/properties/masterProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: VmSize
+            go_field_name: VMSize
             go_enum_type_name: ContainerServiceVMSizeTypes
           '/properties/masterProfile/osDiskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
-            go_field_name: OsDiskSizeGb
+            go_field_name: OsDiskSizeGB
           '/properties/masterProfile/vnetSubnetID': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: VnetSubnetID
           '/properties/masterProfile/firstConsecutiveStaticIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: FirstConsecutiveStaticIp
+            go_field_name: FirstConsecutiveStaticIP
           '/properties/masterProfile/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: StorageProfile
@@ -215,14 +215,14 @@ objects:
             go_field_name: Count
           '/properties/agentPoolProfiles/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: VmSize
+            go_field_name: VMSize
             go_enum_type_name: ContainerServiceVMSizeTypes
           '/properties/agentPoolProfiles/osDiskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
-            go_field_name: OsDiskSizeGb
+            go_field_name: OsDiskSizeGB
           '/properties/agentPoolProfiles/dnsPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: DnsPrefix
+            go_field_name: DNSPrefix
           '/properties/agentPoolProfiles/ports': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerArrayObject
             applicable_to: [go]
             go_field_name: Ports
@@ -280,7 +280,7 @@ objects:
             go_field_name: AdminUsername
           '/properties/linuxProfile/ssh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Ssh
+            go_field_name: SSH
             go_type_name: ContainerServiceSshConfiguration
           '/properties/linuxProfile/ssh/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
@@ -304,7 +304,7 @@ objects:
             go_type_name: ContainerServiceDiagnosticsProfile
           '/properties/diagnosticsProfile/vmDiagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VmDiagnostics
+            go_field_name: VMDiagnostics
             go_type_name: ContainerServiceVMDiagnostics
           '/properties/diagnosticsProfile/vmDiagnostics/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
@@ -339,306 +339,6 @@ objects:
             python_parameter_name: container_service_name
             python_variable_name: name
         response:
-          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: locations
-            go_variable_name: location
-            python_parameter_name: location
-            python_variable_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ContainerServiceProperties
-            go_type_name: ContainerServiceProperties
-          '/properties/orchestratorProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: OrchestratorProfile
-            go_type_name: ContainerServiceOrchestratorProfile
-          '/properties/orchestratorProfile/orchestratorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: OrchestratorType
-            go_enum_type_name: ContainerServiceOrchestratorTypes
-          '/properties/orchestratorProfile/orchestratorVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: OrchestratorVersion
-          '/orchestratorProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: orchestrator_profile
-          '/orchestratorProfile/orchestratorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: orchestrator_type
-          '/orchestratorProfile/orchestratorVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: orchestrator_version
-          '/properties/customProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: CustomProfile
-            go_type_name: ContainerServiceCustomProfile
-          '/properties/customProfile/orchestrator': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Orchestrator
-          '/customProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: custom_profile
-          '/customProfile/orchestrator': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: orchestrator
-          '/properties/servicePrincipalProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ServicePrincipalProfile
-            go_type_name: ContainerServiceServicePrincipalProfile
-          '/properties/servicePrincipalProfile/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClientID
-          '/properties/servicePrincipalProfile/secret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Secret
-          '/properties/servicePrincipalProfile/keyVaultSecretRef': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: KeyVaultSecretRef
-            go_type_name: KeyVaultSecretRef
-          '/properties/servicePrincipalProfile/keyVaultSecretRef/vaultID': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VaultID
-          '/properties/servicePrincipalProfile/keyVaultSecretRef/secretName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SecretName
-          '/properties/servicePrincipalProfile/keyVaultSecretRef/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Version
-          '/servicePrincipalProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: service_principal_profile
-          '/servicePrincipalProfile/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: client_id
-          '/servicePrincipalProfile/secret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: secret
-          '/servicePrincipalProfile/keyVaultSecretRef': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: key_vault_secret_ref
-          '/servicePrincipalProfile/keyVaultSecretRef/vaultID': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vault_id
-          '/servicePrincipalProfile/keyVaultSecretRef/secretName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: secret_name
-          '/servicePrincipalProfile/keyVaultSecretRef/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: version
-          '/properties/masterProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: MasterProfile
-            go_type_name: ContainerServiceMasterProfile
-          '/properties/masterProfile/count': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Count
-          '/properties/masterProfile/dnsPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DnsPrefix
-          '/properties/masterProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: VmSize
-            go_enum_type_name: ContainerServiceVMSizeTypes
-          '/properties/masterProfile/osDiskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: OsDiskSizeGb
-          '/properties/masterProfile/vnetSubnetID': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VnetSubnetID
-          '/properties/masterProfile/firstConsecutiveStaticIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FirstConsecutiveStaticIp
-          '/properties/masterProfile/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: StorageProfile
-            go_enum_type_name: ContainerServiceStorageProfileTypes
-          '/properties/masterProfile/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Fqdn
-          '/masterProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: master_profile
-          '/masterProfile/count': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: count
-          '/masterProfile/dnsPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: dns_prefix
-          '/masterProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: vm_size
-          '/masterProfile/osDiskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: os_disk_size_gb
-          '/masterProfile/vnetSubnetID': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vnet_subnet_id
-          '/masterProfile/firstConsecutiveStaticIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: first_consecutive_static_ip
-          '/masterProfile/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: storage_profile
-          '/masterProfile/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: fqdn
-          '/properties/agentPoolProfiles': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: AgentPoolProfiles
-            go_type_name: ContainerServiceAgentPoolProfile
-          '/properties/agentPoolProfiles/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/agentPoolProfiles/count': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Count
-          '/properties/agentPoolProfiles/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: VmSize
-            go_enum_type_name: ContainerServiceVMSizeTypes
-          '/properties/agentPoolProfiles/osDiskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: OsDiskSizeGb
-          '/properties/agentPoolProfiles/dnsPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DnsPrefix
-          '/properties/agentPoolProfiles/ports': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerArrayObject
-            applicable_to: [go]
-            go_field_name: Ports
-          '/properties/agentPoolProfiles/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: StorageProfile
-            go_enum_type_name: ContainerServiceStorageProfileTypes
-          '/properties/agentPoolProfiles/vnetSubnetID': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VnetSubnetID
-          '/properties/agentPoolProfiles/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: OsType
-            go_enum_type_name: OSType
-          '/properties/agentPoolProfiles/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Fqdn
-          '/agentPoolProfiles': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: agent_pool_profiles
-          '/agentPoolProfiles/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/agentPoolProfiles/count': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: count
-          '/agentPoolProfiles/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: vm_size
-          '/agentPoolProfiles/osDiskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: os_disk_size_gb
-          '/agentPoolProfiles/dnsPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: dns_prefix
-          '/agentPoolProfiles/ports': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerArrayObject
-            applicable_to: [python]
-            python_field_name: ports
-          '/agentPoolProfiles/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: storage_profile
-          '/agentPoolProfiles/vnetSubnetID': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vnet_subnet_id
-          '/agentPoolProfiles/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: os_type
-          '/agentPoolProfiles/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: fqdn
-          '/properties/windowsProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: WindowsProfile
-            go_type_name: ContainerServiceWindowsProfile
-          '/properties/windowsProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AdminUsername
-          '/properties/windowsProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AdminPassword
-          '/windowsProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: windows_profile
-          '/windowsProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: admin_username
-          '/windowsProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: admin_password
-          '/properties/linuxProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LinuxProfile
-            go_type_name: ContainerServiceLinuxProfile
-          '/properties/linuxProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AdminUsername
-          '/properties/linuxProfile/ssh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Ssh
-            go_type_name: ContainerServiceSshConfiguration
-          '/properties/linuxProfile/ssh/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: PublicKeys
-            go_type_name: ContainerServiceSshPublicKey
-          '/properties/linuxProfile/ssh/publicKeys/keyData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: KeyData
-          '/linuxProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: linux_profile
-          '/linuxProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: admin_username
-          '/linuxProfile/ssh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: ssh
-          '/linuxProfile/ssh/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: public_keys
-          '/linuxProfile/ssh/publicKeys/keyData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: key_data
-          '/properties/diagnosticsProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DiagnosticsProfile
-            go_type_name: ContainerServiceDiagnosticsProfile
-          '/properties/diagnosticsProfile/vmDiagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: VmDiagnostics
-            go_type_name: ContainerServiceVMDiagnostics
-          '/properties/diagnosticsProfile/vmDiagnostics/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: Enabled
-          '/properties/diagnosticsProfile/vmDiagnostics/storageUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageUri
-          '/diagnosticsProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: diagnostics_profile
-          '/diagnosticsProfile/vmDiagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: vm_diagnostics
-          '/diagnosticsProfile/vmDiagnostics/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enabled
-          '/diagnosticsProfile/vmDiagnostics/storageUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_uri
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -648,6 +348,15 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -661,15 +370,6 @@ objects:
             go_variable_name: location
             python_parameter_name: location
             python_variable_name: location
-      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListByResourceGroup
-        python_func_name: list_by_resource_group
-        request:
-          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
-            go_variable_name: resourceGroup
-            python_parameter_name: resource_group_name
-            python_variable_name: resource_group
 
     description: |
       Manage Azure ContainerService instance.
@@ -1287,11 +987,6 @@ objects:
                 required: true
                 azure_sdk_references: ['/diagnosticsProfile/vmDiagnostics/enabled', '/properties/diagnosticsProfile/vmDiagnostics/enabled']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The current deployment or provisioning state, which only appears in the response.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

@@ -46,8 +46,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `name_servers` - The name servers for this DNS zone. This is a read-only property and any attempt to set this value will be ignored.
-
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource

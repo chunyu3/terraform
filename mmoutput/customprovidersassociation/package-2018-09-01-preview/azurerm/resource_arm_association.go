@@ -53,11 +53,6 @@ func resourceArmAssociation() *schema.Resource {
                 Optional: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -138,10 +133,6 @@ func resourceArmAssociationRead(d *schema.ResourceData, meta interface{}) error 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
-    if associationProperties := resp.Association_properties; associationProperties != nil {
-        d.Set("provisioning_state", string(associationProperties.ProvisioningState))
-        d.Set("target_resource_id", associationProperties.TargetResourceID)
-    }
     d.Set("scope", scope)
     d.Set("type", resp.Type)
 

@@ -107,21 +107,6 @@ func resourceArmSubscription() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "end_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "notification_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "start_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
         },
     }
 }
@@ -208,20 +193,9 @@ func resourceArmSubscriptionRead(d *schema.ResourceData, meta interface{}) error
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("created_date", (resp.CreatedDate).String())
-    d.Set("end_date", (resp.EndDate).String())
-    d.Set("expiration_date", (resp.ExpirationDate).String())
-    d.Set("notification_date", (resp.NotificationDate).String())
-    d.Set("primary_key", resp.PrimaryKey)
-    d.Set("product_id", resp.ProductID)
-    d.Set("secondary_key", resp.SecondaryKey)
     d.Set("sid", sid)
-    d.Set("start_date", (resp.StartDate).String())
-    d.Set("state", string(resp.State))
-    d.Set("state_comment", resp.StateComment)
-    d.Set("user_id", resp.UserID)
 
     return nil
 }

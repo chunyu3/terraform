@@ -157,19 +157,10 @@ func resourceArmProtectionPolicyRead(d *schema.ResourceData, meta interface{}) e
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    d.Set("e_tag", resp.ETag)
-    if protectionPolicy := resp.ProtectionPolicy; protectionPolicy != nil {
-        d.Set("protected_items_count", int(*protectionPolicy.ProtectedItemsCount))
-    }
-    d.Set("type", resp.Type)
     d.Set("vault_name", vaultName)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 

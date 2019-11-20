@@ -210,23 +210,10 @@ func resourceArmJobCollectionRead(d *schema.ResourceData, meta interface{}) erro
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if jobCollectionProperties := resp.JobCollectionProperties; jobCollectionProperties != nil {
-        if err := d.Set("quota", flattenArmJobCollectionJobCollectionQuota(jobCollectionProperties.Quota)); err != nil {
-            return fmt.Errorf("Error setting `quota`: %+v", err)
-        }
-        if err := d.Set("sku", flattenArmJobCollectionSku(jobCollectionProperties.Sku)); err != nil {
-            return fmt.Errorf("Error setting `sku`: %+v", err)
-        }
-        d.Set("state", string(jobCollectionProperties.State))
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -305,50 +292,4 @@ func expandArmJobCollectionJobMaxRecurrence(input []interface{}) *scheduler.JobM
         Interval: utils.Int(interval),
     }
     return &result
-}
-
-
-func flattenArmJobCollectionJobCollectionQuota(input *scheduler.JobCollectionQuota) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if maxJobCount := input.MaxJobCount; maxJobCount != nil {
-        result["max_job_count"] = *maxJobCount
-    }
-    if maxJobOccurrence := input.MaxJobOccurrence; maxJobOccurrence != nil {
-        result["max_job_occurrence"] = *maxJobOccurrence
-    }
-    result["max_recurrence"] = flattenArmJobCollectionJobMaxRecurrence(input.MaxRecurrence)
-
-    return []interface{}{result}
-}
-
-func flattenArmJobCollectionSku(input *scheduler.Sku) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["name"] = string(input.Name)
-
-    return []interface{}{result}
-}
-
-func flattenArmJobCollectionJobMaxRecurrence(input *scheduler.JobMaxRecurrence) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["frequency"] = string(input.Frequency)
-    if interval := input.Interval; interval != nil {
-        result["interval"] = *interval
-    }
-
-    return []interface{}{result}
 }

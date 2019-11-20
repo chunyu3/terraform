@@ -191,8 +191,6 @@ The `shipping_information` block supports the following:
 
 The following attributes are exported:
 
-* `provisioning_state` - Specifies the provisioning state of the job.
-
 * `id` - Specifies the resource identifier of the job.
 
 * `name` - Specifies the name of the job.

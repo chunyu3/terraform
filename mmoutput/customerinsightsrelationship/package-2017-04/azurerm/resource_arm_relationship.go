@@ -202,26 +202,6 @@ func resourceArmRelationship() *schema.Resource {
                 },
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "relationship_guid_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "relationship_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "tenant_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -320,24 +300,6 @@ func resourceArmRelationshipRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if relationshipDefinition := resp.RelationshipDefinition; relationshipDefinition != nil {
-        d.Set("cardinality", string(relationshipDefinition.Cardinality))
-        d.Set("description", utils.FlattenKeyValuePairs(relationshipDefinition.Description))
-        d.Set("display_name", utils.FlattenKeyValuePairs(relationshipDefinition.DisplayName))
-        d.Set("expiry_date_time_utc", (relationshipDefinition.ExpiryDateTimeUtc).String())
-        if err := d.Set("fields", flattenArmRelationshipPropertyDefinition(relationshipDefinition.Fields)); err != nil {
-            return fmt.Errorf("Error setting `fields`: %+v", err)
-        }
-        if err := d.Set("lookup_mappings", flattenArmRelationshipRelationshipTypeMapping(relationshipDefinition.LookupMappings)); err != nil {
-            return fmt.Errorf("Error setting `lookup_mappings`: %+v", err)
-        }
-        d.Set("profile_type", relationshipDefinition.ProfileType)
-        d.Set("provisioning_state", string(relationshipDefinition.ProvisioningState))
-        d.Set("related_profile_type", relationshipDefinition.RelatedProfileType)
-        d.Set("relationship_guid_id", relationshipDefinition.RelationshipGuidID)
-        d.Set("relationship_name", relationshipDefinition.RelationshipName)
-        d.Set("tenant_id", relationshipDefinition.TenantID)
-    }
     d.Set("hub_name", hubName)
     d.Set("type", resp.Type)
 
@@ -480,123 +442,4 @@ func expandArmRelationshipRelationshipTypeFieldMapping(input []interface{}) *[]c
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmRelationshipPropertyDefinition(input *[]customerinsights.PropertyDefinition) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if arrayValueSeparator := item.ArrayValueSeparator; arrayValueSeparator != nil {
-            v["array_value_separator"] = *arrayValueSeparator
-        }
-        v["enum_valid_values"] = flattenArmRelationshipProfileEnumValidValuesFormat(item.EnumValidValues)
-        if fieldName := item.FieldName; fieldName != nil {
-            v["field_name"] = *fieldName
-        }
-        if fieldType := item.FieldType; fieldType != nil {
-            v["field_type"] = *fieldType
-        }
-        if isArray := item.IsArray; isArray != nil {
-            v["is_array"] = *isArray
-        }
-        if isAvailableInGraph := item.IsAvailableInGraph; isAvailableInGraph != nil {
-            v["is_available_in_graph"] = *isAvailableInGraph
-        }
-        if isEnum := item.IsEnum; isEnum != nil {
-            v["is_enum"] = *isEnum
-        }
-        if isFlagEnum := item.IsFlagEnum; isFlagEnum != nil {
-            v["is_flag_enum"] = *isFlagEnum
-        }
-        if isImage := item.IsImage; isImage != nil {
-            v["is_image"] = *isImage
-        }
-        if isLocalizedString := item.IsLocalizedString; isLocalizedString != nil {
-            v["is_localized_string"] = *isLocalizedString
-        }
-        if isName := item.IsName; isName != nil {
-            v["is_name"] = *isName
-        }
-        if isRequired := item.IsRequired; isRequired != nil {
-            v["is_required"] = *isRequired
-        }
-        if maxLength := item.MaxLength; maxLength != nil {
-            v["max_length"] = *maxLength
-        }
-        if propertyId := item.PropertyID; propertyId != nil {
-            v["property_id"] = *propertyId
-        }
-        if schemaItemPropLink := item.SchemaItemPropLink; schemaItemPropLink != nil {
-            v["schema_item_prop_link"] = *schemaItemPropLink
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmRelationshipRelationshipTypeMapping(input *[]customerinsights.RelationshipTypeMapping) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["field_mappings"] = flattenArmRelationshipRelationshipTypeFieldMapping(item.FieldMappings)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmRelationshipProfileEnumValidValuesFormat(input *[]customerinsights.ProfileEnumValidValuesFormat) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["localized_value_names"] = utils.FlattenKeyValuePairs(item.LocalizedValueNames)
-        if value := item.Value; value != nil {
-            v["value"] = *value
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmRelationshipRelationshipTypeFieldMapping(input *[]customerinsights.RelationshipTypeFieldMapping) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if profileFieldName := item.ProfileFieldName; profileFieldName != nil {
-            v["profile_field_name"] = *profileFieldName
-        }
-        if relatedProfileKeyProperty := item.RelatedProfileKeyProperty; relatedProfileKeyProperty != nil {
-            v["related_profile_key_property"] = *relatedProfileKeyProperty
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

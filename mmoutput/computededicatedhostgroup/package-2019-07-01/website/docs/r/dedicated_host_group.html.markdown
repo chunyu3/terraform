@@ -28,11 +28,11 @@ Manage Azure DedicatedHostGroup instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the dedicated host group. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `host_group_name` - (Required) The name of the dedicated host group. Changing this forces a new resource to be created.
 
 * `platform_fault_domain_count` - (Required) Number of fault domains that the host group can span.
 
@@ -44,17 +44,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `hosts` - One or more `host` block defined below.
-
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
-
-
----
-
-The `host` block contains the following:
-
-* `id` - (Optional) Resource Id

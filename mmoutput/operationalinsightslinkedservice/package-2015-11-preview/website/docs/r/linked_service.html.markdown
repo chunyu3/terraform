@@ -34,7 +34,7 @@ The following arguments are supported:
 
 * `resource_id` - (Required) The resource id of the resource that will be linked to the workspace.
 
-* `workspace_name` - (Required) Name of the Log Analytics Workspace that contains the linkedServices resource Changing this forces a new resource to be created.
+* `workspace_name` - (Required) Name of the Log Analytics Workspace that contains the linked services. Changing this forces a new resource to be created.
 
 * `tags` - (Optional) Resource tags Changing this forces a new resource to be created.
 

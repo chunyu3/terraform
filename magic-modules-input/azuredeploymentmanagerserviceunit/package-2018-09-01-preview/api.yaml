@@ -40,9 +40,9 @@ objects:
             python_variable_name: service_name
           'serviceUnitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: serviceUnits
-            go_variable_name: serviceUnitName
+            go_variable_name: name
             python_parameter_name: service_unit_name
-            python_variable_name: service_unit_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: serviceUnitInfo
             go_type_name: ServiceUnitResource
@@ -92,10 +92,10 @@ objects:
             go_type_name: ServiceUnitArtifacts
           '/properties/artifacts/templateUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: TemplateUri
+            go_field_name: TemplateURI
           '/properties/artifacts/parametersUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: ParametersUri
+            go_field_name: ParametersURI
           '/properties/artifacts/templateArtifactSourceRelativePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: TemplateArtifactSourceRelativePath
@@ -123,9 +123,9 @@ objects:
             python_variable_name: service_name
           'serviceUnitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: serviceUnits
-            go_variable_name: serviceUnitName
+            go_variable_name: name
             python_parameter_name: service_unit_name
-            python_variable_name: service_unit_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -147,64 +147,10 @@ objects:
             python_variable_name: service_name
           'serviceUnitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: serviceUnits
-            go_variable_name: serviceUnitName
+            go_variable_name: name
             python_parameter_name: service_unit_name
-            python_variable_name: service_unit_name
+            python_variable_name: name
         response:
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ServiceUnitResource_properties
-            go_type_name: ServiceUnitResource_properties
-          '/properties/targetResourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetResourceGroup
-          '/targetResourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_resource_group
-          '/properties/deploymentMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: DeploymentMode
-            go_enum_type_name: DeploymentMode
-          '/deploymentMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: deployment_mode
-          '/properties/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Artifacts
-            go_type_name: ServiceUnitArtifacts
-          '/properties/artifacts/templateUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TemplateUri
-          '/properties/artifacts/parametersUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ParametersUri
-          '/properties/artifacts/templateArtifactSourceRelativePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TemplateArtifactSourceRelativePath
-          '/properties/artifacts/parametersArtifactSourceRelativePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ParametersArtifactSourceRelativePath
-          '/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: artifacts
-          '/artifacts/templateUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: template_uri
-          '/artifacts/parametersUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: parameters_uri
-          '/artifacts/templateArtifactSourceRelativePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: template_artifact_source_relative_path
-          '/artifacts/parametersArtifactSourceRelativePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: parameters_artifact_source_relative_path
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -237,7 +183,7 @@ objects:
         input: true
         azure_sdk_references: ['serviceName']
       - !ruby/object:Api::Type::String
-        name: 'serviceUnitName'
+        name: 'name'
         description: 'The name of the service unit resource.'
         required: true
         input: true

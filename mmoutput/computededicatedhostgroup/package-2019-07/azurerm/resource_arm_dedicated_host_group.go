@@ -31,19 +31,19 @@ func resourceArmDedicatedHostGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "host_group_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "platform_fault_domain_count": {
                 Type: schema.TypeInt,
@@ -56,19 +56,6 @@ func resourceArmDedicatedHostGroup() *schema.Resource {
                 ForceNew: true,
                 Elem: &schema.Schema{
                     Type: schema.TypeString,
-                },
-            },
-
-            "hosts": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "id": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
                 },
             },
 
@@ -86,14 +73,14 @@ func resourceArmDedicatedHostGroupCreate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).dedicatedHostGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    hostGroupName := d.Get("host_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, hostGroupName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Dedicated Host Group (Host Group Name %q / Resource Group %q): %+v", hostGroupName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Dedicated Host Group %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -106,7 +93,7 @@ func resourceArmDedicatedHostGroupCreate(d *schema.ResourceData, meta interface{
     zones := d.Get("zones").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := compute.DedicatedHostGroup{
+    parameters := compute.DedicatedHostGroupUpdate{
         Location: utils.String(location),
         DedicatedHostGroupProperties: &compute.DedicatedHostGroupProperties{
             PlatformFaultDomainCount: utils.Int32(int32(platformFaultDomainCount)),
@@ -116,17 +103,17 @@ func resourceArmDedicatedHostGroupCreate(d *schema.ResourceData, meta interface{
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, hostGroupName, parameters); err != nil {
-        return fmt.Errorf("Error creating Dedicated Host Group (Host Group Name %q / Resource Group %q): %+v", hostGroupName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Dedicated Host Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, hostGroupName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Dedicated Host Group (Host Group Name %q / Resource Group %q): %+v", hostGroupName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Dedicated Host Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Dedicated Host Group (Host Group Name %q / Resource Group %q) ID", hostGroupName, resourceGroup)
+        return fmt.Errorf("Cannot read Dedicated Host Group %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -142,49 +129,38 @@ func resourceArmDedicatedHostGroupRead(d *schema.ResourceData, meta interface{})
         return err
     }
     resourceGroup := id.ResourceGroup
-    hostGroupName := id.Path["hostGroups"]
+    name := id.Path["hostGroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, hostGroupName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Dedicated Host Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Dedicated Host Group (Host Group Name %q / Resource Group %q): %+v", hostGroupName, resourceGroup, err)
+        return fmt.Errorf("Error reading Dedicated Host Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    d.Set("host_group_name", hostGroupName)
-    if dedicatedHostGroupProperties := resp.DedicatedHostGroupProperties; dedicatedHostGroupProperties != nil {
-        if err := d.Set("hosts", flattenArmDedicatedHostGroupSubResourceReadOnly(dedicatedHostGroupProperties.Hosts)); err != nil {
-            return fmt.Errorf("Error setting `hosts`: %+v", err)
-        }
-        d.Set("platform_fault_domain_count", int(*dedicatedHostGroupProperties.PlatformFaultDomainCount))
-    }
     d.Set("type", resp.Type)
-    d.Set("zones", utils.FlattenStringSlice(resp.Zones))
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmDedicatedHostGroupUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).dedicatedHostGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    hostGroupName := d.Get("host_group_name").(string)
     platformFaultDomainCount := d.Get("platform_fault_domain_count").(int)
     zones := d.Get("zones").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := compute.DedicatedHostGroup{
-        Location: utils.String(location),
+    parameters := compute.DedicatedHostGroupUpdate{
         DedicatedHostGroupProperties: &compute.DedicatedHostGroupProperties{
             PlatformFaultDomainCount: utils.Int32(int32(platformFaultDomainCount)),
         },
@@ -193,8 +169,8 @@ func resourceArmDedicatedHostGroupUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, hostGroupName, parameters); err != nil {
-        return fmt.Errorf("Error updating Dedicated Host Group (Host Group Name %q / Resource Group %q): %+v", hostGroupName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Dedicated Host Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmDedicatedHostGroupRead(d, meta)
@@ -210,28 +186,11 @@ func resourceArmDedicatedHostGroupDelete(d *schema.ResourceData, meta interface{
         return err
     }
     resourceGroup := id.ResourceGroup
-    hostGroupName := id.Path["hostGroups"]
+    name := id.Path["hostGroups"]
 
-    if _, err := client.Delete(ctx, resourceGroup, hostGroupName); err != nil {
-        return fmt.Errorf("Error deleting Dedicated Host Group (Host Group Name %q / Resource Group %q): %+v", hostGroupName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Dedicated Host Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil
-}
-
-
-func flattenArmDedicatedHostGroupSubResourceReadOnly(input *[]compute.SubResourceReadOnly) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-
-        results = append(results, v)
-    }
-
-    return results
 }

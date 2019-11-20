@@ -9,11 +9,11 @@ scopes:
 objects:
   - !ruby/object:Api::Resource
     name: ManagementAssociation
-    api_name: undefined
+    api_name: OperationsManagement
     base_url: NotUsedInAzure
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
-      provider_name: {providerName}
+      provider_name: Microsoft.OperationsManagement
       go_client_namespace: operationsmanagement
       go_client: managementAssociationsClient
       python_client_namespace: azure.mgmt.operationsmanagement
@@ -124,19 +124,6 @@ objects:
             python_parameter_name: management_association_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ManagementAssociationProperties
-            go_type_name: ManagementAssociationProperties
-          '/properties/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ApplicationID
-          '/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: application_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id

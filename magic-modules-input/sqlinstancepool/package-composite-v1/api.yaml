@@ -184,54 +184,6 @@ objects:
             python_parameter_name: instance_pool_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_field_name: Sku
-            go_type_name: Sku
-            python_field_name: sku
-          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Tier
-            python_field_name: tier
-          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Size
-            python_field_name: size
-          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Family
-            python_field_name: family
-          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            go_field_name: Capacity
-            python_field_name: capacity
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: InstancePoolProperties
-            go_type_name: InstancePoolProperties
-          '/properties/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubnetID
-          '/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subnet_id
-          '/properties/vCores': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: VCores
-          '/vCores': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: v_cores
-          '/properties/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: LicenseType
-            go_enum_type_name: InstancePoolLicenseType
-          '/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: license_type
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -241,10 +193,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -254,6 +202,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
 
     description: |
       Manage Azure InstancePool instance.
@@ -266,7 +218,7 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the instance pool to be retrieved.'
+        description: 'The name of the instance pool to be updated.'
         required: true
         input: true
         azure_sdk_references: ['instancePoolName']

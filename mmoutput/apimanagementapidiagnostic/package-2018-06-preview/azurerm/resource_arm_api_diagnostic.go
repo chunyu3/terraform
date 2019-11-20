@@ -249,14 +249,14 @@ func resourceArmApiDiagnosticCreate(d *schema.ResourceData, meta interface{}) er
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    apiID := d.Get("api_id").(string)
+    aPIID := d.Get("api_id").(string)
     diagnosticID := d.Get("diagnostic_id").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, apiID, diagnosticID)
+        existing, err := client.Get(ctx, resourceGroup, name, aPIID, diagnosticID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -275,7 +275,7 @@ func resourceArmApiDiagnosticCreate(d *schema.ResourceData, meta interface{}) er
         DiagnosticContractProperties: &apimanagement.DiagnosticContractProperties{
             AlwaysLog: apimanagement.AlwaysLog(alwaysLog),
             Backend: expandArmApiDiagnosticPipelineDiagnosticSettings(backend),
-            EnableHttpCorrelationHeaders: utils.Bool(enableHttpCorrelationHeaders),
+            EnableHTTPCorrelationHeaders: utils.Bool(enableHttpCorrelationHeaders),
             Frontend: expandArmApiDiagnosticPipelineDiagnosticSettings(frontend),
             LoggerID: utils.String(loggerId),
             Sampling: expandArmApiDiagnosticSamplingSettings(sampling),
@@ -283,17 +283,17 @@ func resourceArmApiDiagnosticCreate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, apiID, diagnosticID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, aPIID, diagnosticID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, diagnosticID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, diagnosticID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q) ID", name, diagnosticID, apiID, resourceGroup)
+        return fmt.Errorf("Cannot read Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q) ID", name, diagnosticID, aPIID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -310,38 +310,24 @@ func resourceArmApiDiagnosticRead(d *schema.ResourceData, meta interface{}) erro
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     diagnosticID := id.Path["diagnostics"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, diagnosticID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, diagnosticID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Diagnostic %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if diagnosticContractProperties := resp.DiagnosticContractProperties; diagnosticContractProperties != nil {
-        d.Set("always_log", string(diagnosticContractProperties.AlwaysLog))
-        if err := d.Set("backend", flattenArmApiDiagnosticPipelineDiagnosticSettings(diagnosticContractProperties.Backend)); err != nil {
-            return fmt.Errorf("Error setting `backend`: %+v", err)
-        }
-        d.Set("enable_http_correlation_headers", diagnosticContractProperties.EnableHttpCorrelationHeaders)
-        if err := d.Set("frontend", flattenArmApiDiagnosticPipelineDiagnosticSettings(diagnosticContractProperties.Frontend)); err != nil {
-            return fmt.Errorf("Error setting `frontend`: %+v", err)
-        }
-        d.Set("logger_id", diagnosticContractProperties.LoggerID)
-        if err := d.Set("sampling", flattenArmApiDiagnosticSamplingSettings(diagnosticContractProperties.Sampling)); err != nil {
-            return fmt.Errorf("Error setting `sampling`: %+v", err)
-        }
-    }
-    d.Set("api_id", apiID)
+    d.Set("api_id", aPIID)
     d.Set("diagnostic_id", diagnosticID)
     d.Set("type", resp.Type)
 
@@ -355,7 +341,7 @@ func resourceArmApiDiagnosticUpdate(d *schema.ResourceData, meta interface{}) er
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     alwaysLog := d.Get("always_log").(string)
-    apiID := d.Get("api_id").(string)
+    aPIID := d.Get("api_id").(string)
     backend := d.Get("backend").([]interface{})
     diagnosticID := d.Get("diagnostic_id").(string)
     enableHttpCorrelationHeaders := d.Get("enable_http_correlation_headers").(bool)
@@ -367,7 +353,7 @@ func resourceArmApiDiagnosticUpdate(d *schema.ResourceData, meta interface{}) er
         DiagnosticContractProperties: &apimanagement.DiagnosticContractProperties{
             AlwaysLog: apimanagement.AlwaysLog(alwaysLog),
             Backend: expandArmApiDiagnosticPipelineDiagnosticSettings(backend),
-            EnableHttpCorrelationHeaders: utils.Bool(enableHttpCorrelationHeaders),
+            EnableHTTPCorrelationHeaders: utils.Bool(enableHttpCorrelationHeaders),
             Frontend: expandArmApiDiagnosticPipelineDiagnosticSettings(frontend),
             LoggerID: utils.String(loggerId),
             Sampling: expandArmApiDiagnosticSamplingSettings(sampling),
@@ -375,8 +361,8 @@ func resourceArmApiDiagnosticUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, apiID, diagnosticID, parameters); err != nil {
-        return fmt.Errorf("Error updating Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, aPIID, diagnosticID, parameters); err != nil {
+        return fmt.Errorf("Error updating Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
     }
 
     return resourceArmApiDiagnosticRead(d, meta)
@@ -393,11 +379,11 @@ func resourceArmApiDiagnosticDelete(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     diagnosticID := id.Path["diagnostics"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, apiID, diagnosticID); err != nil {
-        return fmt.Errorf("Error deleting Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, apiID, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, aPIID, diagnosticID); err != nil {
+        return fmt.Errorf("Error deleting Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q): %+v", name, diagnosticID, aPIID, resourceGroup, err)
     }
 
     return nil
@@ -463,60 +449,4 @@ func expandArmApiDiagnosticBodyDiagnosticSettings(input []interface{}) *apimanag
         Bytes: utils.Int32(int32(bytes)),
     }
     return &result
-}
-
-
-func flattenArmApiDiagnosticPipelineDiagnosticSettings(input *apimanagement.PipelineDiagnosticSettings) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["request"] = flattenArmApiDiagnosticHttpMessageDiagnostic(input.Request)
-    result["response"] = flattenArmApiDiagnosticHttpMessageDiagnostic(input.Response)
-
-    return []interface{}{result}
-}
-
-func flattenArmApiDiagnosticSamplingSettings(input *apimanagement.SamplingSettings) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if percentage := input.Percentage; percentage != nil {
-        result["percentage"] = *percentage
-    }
-    result["sampling_type"] = string(input.SamplingType)
-
-    return []interface{}{result}
-}
-
-func flattenArmApiDiagnosticHttpMessageDiagnostic(input *apimanagement.HttpMessageDiagnostic) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["body"] = flattenArmApiDiagnosticBodyDiagnosticSettings(input.Body)
-    result["headers"] = utils.FlattenStringSlice(input.Headers)
-
-    return []interface{}{result}
-}
-
-func flattenArmApiDiagnosticBodyDiagnosticSettings(input *apimanagement.BodyDiagnosticSettings) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if bytes := input.Bytes; bytes != nil {
-        result["bytes"] = int(*bytes)
-    }
-
-    return []interface{}{result}
 }

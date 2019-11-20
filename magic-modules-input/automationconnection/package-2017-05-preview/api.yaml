@@ -146,47 +146,6 @@ objects:
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ConnectionUpdateProperties
-            go_type_name: ConnectionUpdateProperties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/fieldDefinitionValues': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: FieldDefinitionValues
-          '/fieldDefinitionValues': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: field_definition_values
-          '/properties/connectionType': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ConnectionType
-            go_type_name: ConnectionTypeAssociationProperty
-          '/properties/connectionType/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/connectionType': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: connection_type
-          '/connectionType/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreationTime
-          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: creation_time
-          '/properties/lastModifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastModifiedTime
-          '/lastModifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_modified_time
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -225,7 +184,7 @@ objects:
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of connection.'
+        description: 'The parameters supplied to the update a connection operation.'
         required: true
         input: true
         azure_sdk_references: ['connectionName']
@@ -246,22 +205,6 @@ objects:
         required: false
         azure_sdk_references: ['/fieldDefinitionValues', '/properties/fieldDefinitionValues']
       # read only values included only in response
-      - !ruby/object:Api::Type::NestedObject
-        name: 'connectionType'
-        description: 'Gets or sets the connectionType of the connection.'
-        output: true
-        azure_sdk_references: ['/connectionType', '/properties/connectionType']
-        properties:
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
-        description: 'Gets the creation time.'
-        output: true
-        azure_sdk_references: ['/creationTime', '/properties/creationTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModifiedTime'
-        description: 'Gets the last modified time.'
-        output: true
-        azure_sdk_references: ['/lastModifiedTime', '/properties/lastModifiedTime']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource'

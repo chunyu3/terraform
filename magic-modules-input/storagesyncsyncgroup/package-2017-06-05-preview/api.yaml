@@ -91,22 +91,6 @@ objects:
             python_parameter_name: sync_group_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SyncGroupProperties
-            go_type_name: SyncGroupProperties
-          '/properties/uniqueId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: UniqueID
-          '/uniqueId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: unique_id
-          '/properties/syncGroupStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SyncGroupStatus
-          '/syncGroupStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: sync_group_status
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -158,11 +142,6 @@ objects:
         required: false
         azure_sdk_references: ['/uniqueId', '/properties/uniqueId']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'syncGroupStatus'
-        description: 'Sync group status'
-        output: true
-        azure_sdk_references: ['/syncGroupStatus', '/properties/syncGroupStatus']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The id of the resource.'

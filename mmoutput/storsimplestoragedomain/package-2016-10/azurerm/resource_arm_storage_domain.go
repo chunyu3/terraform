@@ -52,19 +52,19 @@ func resourceArmStorageDomain() *schema.Resource {
                 }, false),
             },
 
+            "manager_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
             "storage_account_credential_ids": {
                 Type: schema.TypeList,
                 Required: true,
                 Elem: &schema.Schema{
                     Type: schema.TypeString,
                 },
-            },
-
-            "storage_domain_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "encryption_key": {
@@ -109,13 +109,13 @@ func resourceArmStorageDomainCreateUpdate(d *schema.ResourceData, meta interface
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    storageDomainName := d.Get("storage_domain_name").(string)
+    managerName := d.Get("manager_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, storageDomainName)
+        existing, err := client.Get(ctx, resourceGroup, managerName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
+                return fmt.Errorf("Error checking for present of existing Storage Domain %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -136,21 +136,21 @@ func resourceArmStorageDomainCreateUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, storageDomainName, storageDomain)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, managerName, name, storageDomain)
     if err != nil {
-        return fmt.Errorf("Error creating Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
+        return fmt.Errorf("Error creating Storage Domain %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
+        return fmt.Errorf("Error waiting for creation of Storage Domain %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, storageDomainName)
+    resp, err := client.Get(ctx, resourceGroup, managerName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
+        return fmt.Errorf("Error retrieving Storage Domain %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Storage Domain %q (Resource Group %q / Storage Domain Name %q) ID", name, resourceGroup, storageDomainName)
+        return fmt.Errorf("Cannot read Storage Domain %q (Manager Name %q / Resource Group %q) ID", name, managerName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -166,31 +166,24 @@ func resourceArmStorageDomainRead(d *schema.ResourceData, meta interface{}) erro
         return err
     }
     resourceGroup := id.ResourceGroup
-    name := id.Path["managers"]
-    storageDomainName := id.Path["storageDomains"]
+    managerName := id.Path["managers"]
+    name := id.Path["storageDomains"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, storageDomainName)
+    resp, err := client.Get(ctx, resourceGroup, managerName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Storage Domain %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
+        return fmt.Errorf("Error reading Storage Domain %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if storageDomainProperties := resp.StorageDomainProperties; storageDomainProperties != nil {
-        if err := d.Set("encryption_key", flattenArmStorageDomainAsymmetricEncryptedSecret(storageDomainProperties.EncryptionKey)); err != nil {
-            return fmt.Errorf("Error setting `encryption_key`: %+v", err)
-        }
-        d.Set("encryption_status", string(storageDomainProperties.EncryptionStatus))
-        d.Set("storage_account_credential_ids", utils.FlattenStringSlice(storageDomainProperties.StorageAccountCredentialIds))
-    }
-    d.Set("storage_domain_name", storageDomainName)
+    d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
     return nil
@@ -207,20 +200,20 @@ func resourceArmStorageDomainDelete(d *schema.ResourceData, meta interface{}) er
         return err
     }
     resourceGroup := id.ResourceGroup
-    name := id.Path["managers"]
-    storageDomainName := id.Path["storageDomains"]
+    managerName := id.Path["managers"]
+    name := id.Path["storageDomains"]
 
-    future, err := client.Delete(ctx, resourceGroup, name, storageDomainName)
+    future, err := client.Delete(ctx, resourceGroup, managerName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
+        return fmt.Errorf("Error deleting Storage Domain %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
+            return fmt.Errorf("Error waiting for deleting Storage Domain %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
         }
     }
 
@@ -243,23 +236,4 @@ func expandArmStorageDomainAsymmetricEncryptedSecret(input []interface{}) *stors
         Value: utils.String(value),
     }
     return &result
-}
-
-
-func flattenArmStorageDomainAsymmetricEncryptedSecret(input *storsimple.AsymmetricEncryptedSecret) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["encryption_algorithm"] = string(input.EncryptionAlgorithm)
-    if encryptionCertificateThumbprint := input.EncryptionCertificateThumbprint; encryptionCertificateThumbprint != nil {
-        result["encryption_certificate_thumbprint"] = *encryptionCertificateThumbprint
-    }
-    if value := input.Value; value != nil {
-        result["value"] = *value
-    }
-
-    return []interface{}{result}
 }

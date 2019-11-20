@@ -5,10 +5,10 @@ task: !ruby/object:Provider::Ansible::Task
     Create a deployment that will redeploy the last successful deployment on
     failure
   code:
-    resource_group: myResourceGroup
     name: myDeployment
     template_link: {}
     mode: Complete
     on_error_deployment:
       type: LastSuccessful
+    resource_group: myResourceGroup
   

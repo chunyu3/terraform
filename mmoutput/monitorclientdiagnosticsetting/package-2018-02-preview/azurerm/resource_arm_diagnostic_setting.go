@@ -159,13 +159,13 @@ func resourceArmDiagnosticSettingCreateUpdate(d *schema.ResourceData, meta inter
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
-    resourceUri := d.Get("resource_uri").(string)
+    resourceURI := d.Get("resource_uri").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceUri, name)
+        existing, err := client.Get(ctx, resourceURI, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Diagnostic Setting %q (Resource Uri %q): %+v", name, resourceUri, err)
+                return fmt.Errorf("Error checking for present of existing Diagnostic Setting %q (Resource Uri %q): %+v", name, resourceURI, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -196,17 +196,17 @@ func resourceArmDiagnosticSettingCreateUpdate(d *schema.ResourceData, meta inter
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceUri, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Diagnostic Setting %q (Resource Uri %q): %+v", name, resourceUri, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceURI, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Diagnostic Setting %q (Resource Uri %q): %+v", name, resourceURI, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceUri, name)
+    resp, err := client.Get(ctx, resourceURI, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Diagnostic Setting %q (Resource Uri %q): %+v", name, resourceUri, err)
+        return fmt.Errorf("Error retrieving Diagnostic Setting %q (Resource Uri %q): %+v", name, resourceURI, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Diagnostic Setting %q (Resource Uri %q) ID", name, resourceUri)
+        return fmt.Errorf("Cannot read Diagnostic Setting %q (Resource Uri %q) ID", name, resourceURI)
     }
     d.SetId(*resp.ID)
 
@@ -223,33 +223,19 @@ func resourceArmDiagnosticSettingRead(d *schema.ResourceData, meta interface{}) 
     }
     name := id.Path["diagnosticSettings"]
 
-    resp, err := client.Get(ctx, resourceUri, name)
+    resp, err := client.Get(ctx, resourceURI, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Diagnostic Setting %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Diagnostic Setting %q (Resource Uri %q): %+v", name, resourceUri, err)
+        return fmt.Errorf("Error reading Diagnostic Setting %q (Resource Uri %q): %+v", name, resourceURI, err)
     }
 
 
     d.Set("name", name)
-    if diagnosticSettings := resp.DiagnosticSettings; diagnosticSettings != nil {
-        d.Set("event_hub_authorization_rule_id", diagnosticSettings.EventHubAuthorizationRuleID)
-        d.Set("event_hub_name", diagnosticSettings.EventHubName)
-        d.Set("log_analytics_destination_type", diagnosticSettings.LogAnalyticsDestinationType)
-        if err := d.Set("logs", flattenArmDiagnosticSettingLogSettings(diagnosticSettings.Logs)); err != nil {
-            return fmt.Errorf("Error setting `logs`: %+v", err)
-        }
-        if err := d.Set("metrics", flattenArmDiagnosticSettingMetricSettings(diagnosticSettings.Metrics)); err != nil {
-            return fmt.Errorf("Error setting `metrics`: %+v", err)
-        }
-        d.Set("service_bus_rule_id", diagnosticSettings.ServiceBusRuleID)
-        d.Set("storage_account_id", diagnosticSettings.StorageAccountID)
-        d.Set("workspace_id", diagnosticSettings.WorkspaceID)
-    }
-    d.Set("resource_uri", resourceUri)
+    d.Set("resource_uri", resourceURI)
     d.Set("type", resp.Type)
 
     return nil
@@ -267,8 +253,8 @@ func resourceArmDiagnosticSettingDelete(d *schema.ResourceData, meta interface{}
     }
     name := id.Path["diagnosticSettings"]
 
-    if _, err := client.Delete(ctx, resourceUri, name); err != nil {
-        return fmt.Errorf("Error deleting Diagnostic Setting %q (Resource Uri %q): %+v", name, resourceUri, err)
+    if _, err := client.Delete(ctx, resourceURI, name); err != nil {
+        return fmt.Errorf("Error deleting Diagnostic Setting %q (Resource Uri %q): %+v", name, resourceURI, err)
     }
 
     return nil
@@ -328,71 +314,4 @@ func expandArmDiagnosticSettingRetentionPolicy(input []interface{}) *monitorclie
         Enabled: utils.Bool(enabled),
     }
     return &result
-}
-
-
-func flattenArmDiagnosticSettingLogSettings(input *[]monitorclient.LogSettings) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if category := item.Category; category != nil {
-            v["category"] = *category
-        }
-        if enabled := item.Enabled; enabled != nil {
-            v["enabled"] = *enabled
-        }
-        v["retention_policy"] = flattenArmDiagnosticSettingRetentionPolicy(item.RetentionPolicy)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmDiagnosticSettingMetricSettings(input *[]monitorclient.MetricSettings) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if category := item.Category; category != nil {
-            v["category"] = *category
-        }
-        if enabled := item.Enabled; enabled != nil {
-            v["enabled"] = *enabled
-        }
-        v["retention_policy"] = flattenArmDiagnosticSettingRetentionPolicy(item.RetentionPolicy)
-        if timeGrain := item.TimeGrain; timeGrain != nil {
-            v["time_grain"] = *timeGrain
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmDiagnosticSettingRetentionPolicy(input *monitorclient.RetentionPolicy) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if days := input.Days; days != nil {
-        result["days"] = int(*days)
-    }
-    if enabled := input.Enabled; enabled != nil {
-        result["enabled"] = *enabled
-    }
-
-    return []interface{}{result}
 }

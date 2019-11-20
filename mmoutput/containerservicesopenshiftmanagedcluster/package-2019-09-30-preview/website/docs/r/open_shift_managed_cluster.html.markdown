@@ -50,7 +50,7 @@ The following arguments are supported:
 
 * `router_profiles` - (Optional) One or more `router_profile` block defined below.
 
-* `tags` - (Optional) Resource tags Changing this forces a new resource to be created.
+* `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 
 ---
 
@@ -134,14 +134,6 @@ The `router_profile` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `provisioning_state` - The current deployment or provisioning state, which only appears in the response.
-
-* `cluster_version` - Version of OpenShift specified when creating the cluster.
-
-* `public_hostname` - Service generated FQDN for OpenShift API server.
-
-* `fqdn` - Service generated FQDN for OpenShift API server loadbalancer internal hostname.
 
 * `id` - Resource Id
 

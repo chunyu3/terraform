@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_recoveryservicessiterecoveryreplicationprotecteditem
+  description: Removes disk(s).
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    fabric_name: myReplicationFabric
+    protection_container_name: myReplicationProtectionContainer
+    replicated_protected_item_name: myReplicationProtectedItem
+    remove_disks_input:
+      properties:
+        providerSpecificDetails:
+          instanceType: A2A
+          vmDisksUris:
+            - 'https://vmstorage.blob.core.windows.net/vhds/datadisk1.vhd'
+  

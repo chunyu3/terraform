@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_containerinstancecontainer
+  description: ContainerExec
+  code:
+    resource_group: myResourceGroup
+    container_group_name: myContainerGroup
+    name: myContainer
+    container_exec_request:
+      command: /bin/bash
+      terminalSize:
+        row: '12'
+        column: '12'
+  

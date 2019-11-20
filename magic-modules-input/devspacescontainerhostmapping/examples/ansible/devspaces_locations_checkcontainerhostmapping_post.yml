@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_devspacescontainerhostmapping
+  description: ContainerHostMappingsGetContainerHostMapping
+  code:
+    container_host_mapping:
+      containerHostResourceId: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.ContainerService/managedClusters/{{
+        managed_cluster_name }}
+    resource_group: myResourceGroup
+    location: myLocation
+  

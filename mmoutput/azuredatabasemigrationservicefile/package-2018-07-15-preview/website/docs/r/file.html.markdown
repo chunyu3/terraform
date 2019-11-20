@@ -28,7 +28,7 @@ Manage Azure File instance.
 
 The following arguments are supported:
 
-* `file_name` - (Required) Name of the File Changing this forces a new resource to be created.
+* `name` - (Required) Name of the File Changing this forces a new resource to be created.
 
 * `group_name` - (Required) Name of the resource group Changing this forces a new resource to be created.
 
@@ -47,10 +47,6 @@ The following arguments are supported:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `last_modified` - Modification DateTime.
-
-* `size` - File size.
 
 * `id` - Resource ID.
 

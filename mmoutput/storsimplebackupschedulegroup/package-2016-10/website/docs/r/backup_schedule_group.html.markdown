@@ -28,13 +28,13 @@ Manage Azure BackupScheduleGroup instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The manager name Changing this forces a new resource to be created.
+* `name` - (Required) The name of the schedule group. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `device_name` - (Required) The name of the device. Changing this forces a new resource to be created.
 
-* `schedule_group_name` - (Required) The name of the schedule group. Changing this forces a new resource to be created.
+* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `start_time` - (Required) One `start_time` block defined below.
 

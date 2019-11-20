@@ -63,21 +63,6 @@ func resourceArmConnectionType() *schema.Resource {
                 Optional: true,
             },
 
-            "creation_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "description": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -163,13 +148,6 @@ func resourceArmConnectionTypeRead(d *schema.ResourceData, meta interface{}) err
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
-    if connectionTypeCreateOrUpdateProperties := resp.ConnectionTypeCreateOrUpdateProperties; connectionTypeCreateOrUpdateProperties != nil {
-        d.Set("creation_time", (connectionTypeCreateOrUpdateProperties.CreationTime).String())
-        d.Set("description", connectionTypeCreateOrUpdateProperties.Description)
-        d.Set("field_definitions", utils.FlattenKeyValuePairs(connectionTypeCreateOrUpdateProperties.FieldDefinitions))
-        d.Set("is_global", connectionTypeCreateOrUpdateProperties.IsGlobal)
-        d.Set("last_modified_time", (connectionTypeCreateOrUpdateProperties.LastModifiedTime).String())
-    }
     d.Set("type", resp.Type)
 
     return nil

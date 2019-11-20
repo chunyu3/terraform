@@ -47,5 +47,3 @@ The following arguments are supported:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `id` - OpenID Connect Provider identifier.

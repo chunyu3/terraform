@@ -210,18 +210,6 @@ func resourceArmIdentityProviderRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if identityProviderUpdateProperties := resp.IdentityProviderUpdateProperties; identityProviderUpdateProperties != nil {
-        d.Set("allowed_tenants", utils.FlattenStringSlice(identityProviderUpdateProperties.AllowedTenants))
-        d.Set("authority", identityProviderUpdateProperties.Authority)
-        d.Set("client_id", identityProviderUpdateProperties.ClientID)
-        d.Set("client_secret", identityProviderUpdateProperties.ClientSecret)
-        d.Set("password_reset_policy_name", identityProviderUpdateProperties.PasswordResetPolicyName)
-        d.Set("profile_editing_policy_name", identityProviderUpdateProperties.ProfileEditingPolicyName)
-        d.Set("signin_policy_name", identityProviderUpdateProperties.SigninPolicyName)
-        d.Set("signin_tenant", identityProviderUpdateProperties.SigninTenant)
-        d.Set("signup_policy_name", identityProviderUpdateProperties.SignupPolicyName)
-        d.Set("type", string(identityProviderUpdateProperties.Type))
-    }
     d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
     d.Set("type", resp.Type)

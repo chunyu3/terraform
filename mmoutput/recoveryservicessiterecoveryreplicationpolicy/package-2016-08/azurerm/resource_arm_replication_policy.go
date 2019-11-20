@@ -31,30 +31,23 @@ func resourceArmReplicationPolicy() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "policy_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "resource_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "friendly_name": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "type": {
@@ -69,15 +62,15 @@ func resourceArmReplicationPolicyCreate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).replicationPoliciesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    policyName := d.Get("policy_name").(string)
     resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceName, resourceGroup, policyName)
+        existing, err := client.Get(ctx, resourceGroup, resourceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Replication Policy (Policy Name %q / Resource Group %q / Resource Name %q): %+v", policyName, resourceGroup, resourceName, err)
+                return fmt.Errorf("Error checking for present of existing Replication Policy %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -86,25 +79,25 @@ func resourceArmReplicationPolicyCreate(d *schema.ResourceData, meta interface{}
     }
 
 
-    input := recoveryservicessiterecovery.CreatePolicyInput{
+    input := recoveryservicessiterecovery.UpdatePolicyInput{
     }
 
 
-    future, err := client.Create(ctx, resourceName, resourceGroup, policyName, input)
+    future, err := client.Create(ctx, resourceGroup, resourceName, name, input)
     if err != nil {
-        return fmt.Errorf("Error creating Replication Policy (Policy Name %q / Resource Group %q / Resource Name %q): %+v", policyName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error creating Replication Policy %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Replication Policy (Policy Name %q / Resource Group %q / Resource Name %q): %+v", policyName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error waiting for creation of Replication Policy %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceName, resourceGroup, policyName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Replication Policy (Policy Name %q / Resource Group %q / Resource Name %q): %+v", policyName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error retrieving Replication Policy %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Replication Policy (Policy Name %q / Resource Group %q / Resource Name %q) ID", policyName, resourceGroup, resourceName)
+        return fmt.Errorf("Cannot read Replication Policy %q (Resource Group %q / Resource Name %q) ID", name, resourceGroup, resourceName)
     }
     d.SetId(*resp.ID)
 
@@ -119,30 +112,24 @@ func resourceArmReplicationPolicyRead(d *schema.ResourceData, meta interface{}) 
     if err != nil {
         return err
     }
-    resourceName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
-    policyName := id.Path["replicationPolicies"]
+    resourceName := id.Path["vaults"]
+    name := id.Path["replicationPolicies"]
 
-    resp, err := client.Get(ctx, resourceName, resourceGroup, policyName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Replication Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Replication Policy (Policy Name %q / Resource Group %q / Resource Name %q): %+v", policyName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error reading Replication Policy %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if createPolicyInputProperties := resp.CreatePolicyInputProperties; createPolicyInputProperties != nil {
-        d.Set("friendly_name", createPolicyInputProperties.FriendlyName)
-    }
-    d.Set("policy_name", policyName)
     d.Set("resource_name", resourceName)
     d.Set("type", resp.Type)
 
@@ -153,20 +140,20 @@ func resourceArmReplicationPolicyUpdate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).replicationPoliciesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    policyName := d.Get("policy_name").(string)
     resourceName := d.Get("resource_name").(string)
 
-    input := recoveryservicessiterecovery.CreatePolicyInput{
+    input := recoveryservicessiterecovery.UpdatePolicyInput{
     }
 
 
-    future, err := client.Update(ctx, resourceName, resourceGroup, policyName, input)
+    future, err := client.Update(ctx, resourceGroup, resourceName, name, input)
     if err != nil {
-        return fmt.Errorf("Error updating Replication Policy (Policy Name %q / Resource Group %q / Resource Name %q): %+v", policyName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error updating Replication Policy %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Replication Policy (Policy Name %q / Resource Group %q / Resource Name %q): %+v", policyName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error waiting for update of Replication Policy %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
 
     return resourceArmReplicationPolicyRead(d, meta)
@@ -181,21 +168,21 @@ func resourceArmReplicationPolicyDelete(d *schema.ResourceData, meta interface{}
     if err != nil {
         return err
     }
-    resourceName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
-    policyName := id.Path["replicationPolicies"]
+    resourceName := id.Path["vaults"]
+    name := id.Path["replicationPolicies"]
 
-    future, err := client.Delete(ctx, resourceName, resourceGroup, policyName)
+    future, err := client.Delete(ctx, resourceGroup, resourceName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Replication Policy (Policy Name %q / Resource Group %q / Resource Name %q): %+v", policyName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error deleting Replication Policy %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Replication Policy (Policy Name %q / Resource Group %q / Resource Name %q): %+v", policyName, resourceGroup, resourceName, err)
+            return fmt.Errorf("Error waiting for deleting Replication Policy %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
         }
     }
 

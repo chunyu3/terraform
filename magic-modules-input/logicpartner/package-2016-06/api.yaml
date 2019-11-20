@@ -98,6 +98,13 @@ objects:
           '/properties/content/b2b/businessIdentities/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Value
+          '/notAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: NotAfter
+            python_field_name: not_after
+          '/keyType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: KeyType
+            go_enum_type_name: KeyType
+            python_field_name: key_type
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -137,74 +144,6 @@ objects:
             python_parameter_name: partner_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: IntegrationAccountPartnerProperties
-            go_type_name: IntegrationAccountPartnerProperties
-          '/properties/partnerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: PartnerType
-            go_enum_type_name: PartnerType
-          '/partnerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: partner_type
-          '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [go]
-            go_field_name: Metadata
-          '/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [python]
-            python_field_name: metadata
-          '/properties/content': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Content
-            go_type_name: PartnerContent
-          '/properties/content/b2b': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: B2b
-            go_type_name: B2BPartnerContent
-          '/properties/content/b2b/businessIdentities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: BusinessIdentities
-            go_type_name: BusinessIdentity
-          '/properties/content/b2b/businessIdentities/qualifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Qualifier
-          '/properties/content/b2b/businessIdentities/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/content': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: content
-          '/content/b2b': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: b2b
-          '/content/b2b/businessIdentities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: business_identities
-          '/content/b2b/businessIdentities/qualifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: qualifier
-          '/content/b2b/businessIdentities/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
-          '/properties/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreatedTime
-          '/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created_time
-          '/properties/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: ChangedTime
-          '/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: changed_time
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -228,6 +167,25 @@ objects:
             go_variable_name: integrationAccountName
             python_parameter_name: integration_account_name
             python_variable_name: integration_account_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListContentCallbackUrl
+        python_func_name: list_content_callback_url
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationAccounts
+            go_variable_name: integrationAccountName
+            python_parameter_name: integration_account_name
+            python_variable_name: integration_account_name
+          'partnerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: partners
+            go_variable_name: name
+            python_parameter_name: partner_name
+            python_variable_name: name
 
     description: |
       Manage Azure Partner instance.
@@ -304,17 +262,24 @@ objects:
                       description: 'The user defined business identity value.'
                       required: true
                       azure_sdk_references: ['/content/b2b/businessIdentities/value', '/properties/content/b2b/businessIdentities/value']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'notAfter'
+        description: 'The expiry time.'
+        required: false
+        input: true
+        azure_sdk_references: ['/notAfter']
+      - !ruby/object:Api::Type::Enum
+        name: 'keyType'
+        description: 'The key type.'
+        required: false
+        input: true
+        azure_sdk_references: ['/keyType']
+        values:
+          - :NotSpecified
+          - :Primary
+          - :Secondary
+        default_value: :NotSpecified
       # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdTime'
-        description: 'The created time.'
-        output: true
-        azure_sdk_references: ['/createdTime', '/properties/createdTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'changedTime'
-        description: 'The changed time.'
-        output: true
-        azure_sdk_references: ['/changedTime', '/properties/changedTime']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource id.'

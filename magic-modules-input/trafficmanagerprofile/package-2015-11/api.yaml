@@ -37,6 +37,12 @@ objects:
             go_type_name: Profile
             python_parameter_name: parameters
             python_variable_name: parameters
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
             python_field_name: location
@@ -73,7 +79,7 @@ objects:
             python_field_name: ttl
           '/properties/dnsConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: DnsConfig
+            go_field_name: DNSConfig
             go_type_name: DnsConfig
           '/properties/dnsConfig/relativeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -83,7 +89,7 @@ objects:
             go_field_name: Fqdn
           '/properties/dnsConfig/ttl': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
             applicable_to: [go]
-            go_field_name: Ttl
+            go_field_name: TTL
           '/monitorConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: monitor_config
@@ -211,6 +217,12 @@ objects:
             go_type_name: Profile
             python_parameter_name: parameters
             python_variable_name: parameters
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
             python_field_name: location
@@ -247,7 +259,7 @@ objects:
             python_field_name: ttl
           '/properties/dnsConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: DnsConfig
+            go_field_name: DNSConfig
             go_type_name: DnsConfig
           '/properties/dnsConfig/relativeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -257,7 +269,7 @@ objects:
             go_field_name: Fqdn
           '/properties/dnsConfig/ttl': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
             applicable_to: [go]
-            go_field_name: Ttl
+            go_field_name: TTL
           '/monitorConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: monitor_config
@@ -395,174 +407,15 @@ objects:
             python_parameter_name: profile_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ProfileProperties
-            go_type_name: ProfileProperties
-          '/properties/profileStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProfileStatus
-          '/profileStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: profile_status
-          '/properties/trafficRoutingMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TrafficRoutingMethod
-          '/trafficRoutingMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: traffic_routing_method
-          '/properties/dnsConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DnsConfig
-            go_type_name: DnsConfig
-          '/properties/dnsConfig/relativeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RelativeName
-          '/properties/dnsConfig/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Fqdn
-          '/properties/dnsConfig/ttl': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: Ttl
-          '/dnsConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: dns_config
-          '/dnsConfig/relativeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: relative_name
-          '/dnsConfig/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: fqdn
-          '/dnsConfig/ttl': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: ttl
-          '/properties/monitorConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: MonitorConfig
-            go_type_name: MonitorConfig
-          '/properties/monitorConfig/profileMonitorStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProfileMonitorStatus
-          '/properties/monitorConfig/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Protocol
-          '/properties/monitorConfig/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: Port
-          '/properties/monitorConfig/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Path
-          '/monitorConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: monitor_config
-          '/monitorConfig/profileMonitorStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: profile_monitor_status
-          '/monitorConfig/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: protocol
-          '/monitorConfig/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: port
-          '/monitorConfig/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: path
-          '/properties/endpoints': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Endpoints
-            go_type_name: Endpoint
-          '/properties/endpoints/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/endpoints/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/endpoints/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Type
-          '/properties/endpoints/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: EndpointProperties
-            go_type_name: EndpointProperties
-          '/properties/endpoints/properties/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetResourceID
-          '/properties/endpoints/properties/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Target
-          '/properties/endpoints/properties/endpointStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EndpointStatus
-          '/properties/endpoints/properties/weight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: Weight
-          '/properties/endpoints/properties/priority': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: Priority
-          '/properties/endpoints/properties/endpointLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EndpointLocation
-          '/properties/endpoints/properties/endpointMonitorStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EndpointMonitorStatus
-          '/properties/endpoints/properties/minChildEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: MinChildEndpoints
-          '/endpoints': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: endpoints
-          '/endpoints/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/endpoints/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/endpoints/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type
-          '/endpoints/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_resource_id
-          '/endpoints/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target
-          '/endpoints/endpointStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: endpoint_status
-          '/endpoints/weight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: weight
-          '/endpoints/priority': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: priority
-          '/endpoints/endpointLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: endpoint_location
-          '/endpoints/endpointMonitorStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: endpoint_monitor_status
-          '/endpoints/minChildEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: min_child_endpoints
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListAll
-        python_func_name: list_all
-        request:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListAllInResourceGroup
         python_func_name: list_all_in_resource_group
@@ -572,10 +425,26 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAll
+        python_func_name: list_all
+        request:
 
     description: |
       Manage Azure Profile instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets or sets the name of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Gets or sets the type of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/type']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
         description: 'The name of the resource group containing the Traffic Manager profile.'
@@ -725,13 +594,3 @@ objects:
         description: 'Resource Id'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'Resource name'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'Resource type'
-        output: true
-        azure_sdk_references: ['/type']

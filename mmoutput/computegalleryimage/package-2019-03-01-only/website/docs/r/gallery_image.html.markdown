@@ -28,13 +28,13 @@ Manage Azure GalleryImage instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the gallery Image Definition to be retrieved. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the gallery Image Definition to be deleted. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
 
-* `gallery_name` - (Required) The name of the Shared Image Gallery from which the Image Definitions are to be retrieved. Changing this forces a new resource to be created.
+* `gallery_name` - (Required) The name of the Shared Image Gallery from which Image Definitions are to be listed. Changing this forces a new resource to be created.
 
 * `identifier` - (Required) One `identifier` block defined below.
 
@@ -114,8 +114,6 @@ The `memory` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `provisioning_state` - The provisioning state, which only appears in the response.
 
 * `id` - Resource Id
 

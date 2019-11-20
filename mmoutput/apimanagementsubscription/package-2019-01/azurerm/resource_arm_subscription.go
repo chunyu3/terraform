@@ -111,26 +111,6 @@ func resourceArmSubscription() *schema.Resource {
                 Optional: true,
             },
 
-            "created_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "end_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "notification_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "start_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -228,21 +208,6 @@ func resourceArmSubscriptionRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if subscriptionUpdateParameterProperties := resp.SubscriptionUpdateParameterProperties; subscriptionUpdateParameterProperties != nil {
-        d.Set("allow_tracing", subscriptionUpdateParameterProperties.AllowTracing)
-        d.Set("created_date", (subscriptionUpdateParameterProperties.CreatedDate).String())
-        d.Set("display_name", subscriptionUpdateParameterProperties.DisplayName)
-        d.Set("end_date", (subscriptionUpdateParameterProperties.EndDate).String())
-        d.Set("expiration_date", (subscriptionUpdateParameterProperties.ExpirationDate).String())
-        d.Set("notification_date", (subscriptionUpdateParameterProperties.NotificationDate).String())
-        d.Set("owner_id", subscriptionUpdateParameterProperties.OwnerID)
-        d.Set("primary_key", subscriptionUpdateParameterProperties.PrimaryKey)
-        d.Set("scope", subscriptionUpdateParameterProperties.Scope)
-        d.Set("secondary_key", subscriptionUpdateParameterProperties.SecondaryKey)
-        d.Set("start_date", (subscriptionUpdateParameterProperties.StartDate).String())
-        d.Set("state", string(subscriptionUpdateParameterProperties.State))
-        d.Set("state_comment", subscriptionUpdateParameterProperties.StateComment)
-    }
     d.Set("sid", sid)
     d.Set("type", resp.Type)
 

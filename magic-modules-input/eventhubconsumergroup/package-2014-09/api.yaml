@@ -115,43 +115,12 @@ objects:
             python_parameter_name: consumer_group_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ConsumerGroupProperties
-            go_type_name: ConsumerGroupProperties
-          '/properties/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: UserMetadata
-          '/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: user_metadata
-          '/properties/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreatedAt
-          '/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created_at
-          '/properties/eventHubPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EventHubPath
-          '/eventHubPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: event_hub_path
-          '/properties/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: UpdatedAt
-          '/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: updated_at
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -226,21 +195,6 @@ objects:
         required: false
         azure_sdk_references: ['/userMetadata', '/properties/userMetadata']
       # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdAt'
-        description: 'Exact time the message was created.'
-        output: true
-        azure_sdk_references: ['/createdAt', '/properties/createdAt']
-      - !ruby/object:Api::Type::String
-        name: 'eventHubPath'
-        description: 'The path of the Event Hub.'
-        output: true
-        azure_sdk_references: ['/eventHubPath', '/properties/eventHubPath']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'updatedAt'
-        description: 'The exact time the message was updated.'
-        output: true
-        azure_sdk_references: ['/updatedAt', '/properties/updatedAt']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

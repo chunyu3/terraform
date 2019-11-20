@@ -76,8 +76,6 @@ The `action` block supports the following:
 
 The following attributes are exported:
 
-* `last_updated_time` - Last time the rule was updated in ISO8601 format.
-
 * `id` - Azure resource Id
 
 * `name` - Azure resource name

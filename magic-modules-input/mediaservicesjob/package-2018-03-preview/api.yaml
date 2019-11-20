@@ -133,128 +133,6 @@ objects:
             python_parameter_name: job_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: JobProperties
-            go_type_name: JobProperties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/input': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Input
-            go_type_name: JobInput
-          '/properties/input/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Label
-          '/input': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: input
-          '/input/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: label
-          '/properties/outputs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Outputs
-            go_type_name: JobOutput
-          '/properties/outputs/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Error
-            go_type_name: JobError
-          '/properties/outputs/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Code
-            go_enum_type_name: JobErrorCode
-          '/properties/outputs/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Message
-          '/properties/outputs/error/category': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Category
-            go_enum_type_name: JobErrorCategory
-          '/properties/outputs/error/retry': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Retry
-            go_enum_type_name: JobRetry
-          '/properties/outputs/error/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Details
-            go_type_name: JobErrorDetail
-          '/properties/outputs/error/details/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Code
-          '/properties/outputs/error/details/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Message
-          '/properties/outputs/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: State
-            go_enum_type_name: JobState
-          '/properties/outputs/progress': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Progress
-          '/outputs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: outputs
-          '/outputs/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: error
-          '/outputs/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: code
-          '/outputs/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: message
-          '/outputs/error/category': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: category
-          '/outputs/error/retry': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: retry
-          '/outputs/error/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: details
-          '/outputs/error/details/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: code
-          '/outputs/error/details/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: message
-          '/outputs/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: state
-          '/outputs/progress': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: progress
-          '/properties/priority': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Priority
-            go_enum_type_name: Priority
-          '/priority': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: priority
-          '/properties/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: Created
-          '/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created
-          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: State
-            go_enum_type_name: JobState
-          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: state
-          '/properties/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastModified
-          '/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_modified
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -327,13 +205,6 @@ objects:
             description: 'A label that is assigned to a JobInput, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label ''xyz'' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label ''xyz''.'
             required: false
             azure_sdk_references: ['/input/label', '/properties/input/label']
-      - !ruby/object:Api::Type::Array
-        name: 'outputs'
-        description: 'The outputs for the Job.'
-        required: true
-        azure_sdk_references: ['/outputs', '/properties/outputs']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
       - !ruby/object:Api::Type::Enum
         name: 'priority'
         description: 'Priority with which the job should be processed. Higher priority jobs are processed before lower priority jobs. If not set, the default is normal.'
@@ -345,29 +216,6 @@ objects:
           - :High
         default_value: :Low
       # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'created'
-        description: 'The UTC date and time when the Job was created, in ''YYYY-MM-DDThh:mm:ssZ'' format.'
-        output: true
-        azure_sdk_references: ['/created', '/properties/created']
-      - !ruby/object:Api::Type::Enum
-        name: 'state'
-        description: 'The current state of the job.'
-        output: true
-        azure_sdk_references: ['/state', '/properties/state']
-        values:
-          - :Canceled
-          - :Canceling
-          - :Error
-          - :Finished
-          - :Processing
-          - :Queued
-          - :Scheduled
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModified'
-        description: 'The UTC date and time when the Job was last updated, in ''YYYY-MM-DDThh:mm:ssZ'' format.'
-        output: true
-        azure_sdk_references: ['/lastModified', '/properties/lastModified']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource ID for the resource.'

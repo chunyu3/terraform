@@ -28,11 +28,11 @@ Manage Azure Step instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the deployment step. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
-
-* `step_name` - (Required) The name of the deployment step. Changing this forces a new resource to be created.
 
 * `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 

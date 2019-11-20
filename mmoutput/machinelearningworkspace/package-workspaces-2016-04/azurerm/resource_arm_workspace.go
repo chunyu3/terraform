@@ -65,37 +65,7 @@ func resourceArmWorkspace() *schema.Resource {
                 Default: string(machinelearning.Deleted),
             },
 
-            "creation_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "owner_email": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "studio_endpoint": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "user_storage_account_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "workspace_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "workspace_type": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -181,22 +151,9 @@ func resourceArmWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if workspacePropertiesUpdateParameters := resp.WorkspacePropertiesUpdateParameters; workspacePropertiesUpdateParameters != nil {
-        d.Set("creation_time", workspacePropertiesUpdateParameters.CreationTime)
-        d.Set("key_vault_identifier_id", workspacePropertiesUpdateParameters.KeyVaultIdentifierID)
-        d.Set("owner_email", workspacePropertiesUpdateParameters.OwnerEmail)
-        d.Set("studio_endpoint", workspacePropertiesUpdateParameters.StudioEndpoint)
-        d.Set("user_storage_account_id", workspacePropertiesUpdateParameters.UserStorageAccountID)
-        d.Set("workspace_id", workspacePropertiesUpdateParameters.WorkspaceID)
-        d.Set("workspace_state", string(workspacePropertiesUpdateParameters.WorkspaceState))
-        d.Set("workspace_type", string(workspacePropertiesUpdateParameters.WorkspaceType))
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -210,7 +167,6 @@ func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error 
     t := d.Get("tags").(map[string]interface{})
 
     parameters := machinelearning.WorkspaceUpdateParameters{
-        Location: utils.String(location),
         WorkspacePropertiesUpdateParameters: &machinelearning.WorkspacePropertiesUpdateParameters{
             KeyVaultIdentifierID: utils.String(keyVaultIdentifierId),
             WorkspaceState: machinelearning.WorkspaceState(workspaceState),

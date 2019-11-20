@@ -18,6 +18,35 @@ objects:
       go_client: tagClient
       python_client_namespace: azure.mgmt.apimanagement
       python_client: ApiManagementClient.tag
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+          'tagId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: tags
+            go_variable_name: tagID
+            python_parameter_name: tag_id
+            python_variable_name: tag_id
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: CreateOrUpdate
         python_func_name: create_or_update
@@ -105,67 +134,9 @@ objects:
             go_variable_name: tagID
             python_parameter_name: tag_id
             python_variable_name: tag_id
-      read: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: Get
-        python_func_name: get
-        request:
-          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
-            go_variable_name: resourceGroup
-            python_parameter_name: resource_group_name
-            python_variable_name: resource_group
-          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: service
-            go_variable_name: name
-            python_parameter_name: service_name
-            python_variable_name: name
-          'tagId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: tags
-            go_variable_name: tagID
-            python_parameter_name: tag_id
-            python_variable_name: tag_id
-        response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: TagContractProperties
-            go_type_name: TagContractProperties
-          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DisplayName
-          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: display_name
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Type
-            python_field_name: type
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListByService
-        python_func_name: list_by_service
-        request:
-          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
-            go_variable_name: resourceGroup
-            python_parameter_name: resource_group_name
-            python_variable_name: resource_group
-          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: service
-            go_variable_name: name
-            python_parameter_name: service_name
-            python_variable_name: name
-          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: null
-            go_variable_name: scope
-            python_parameter_name: scope
-            python_variable_name: scope
-      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListByApi
-        python_func_name: list_by_api
+        go_func_name: ListByOperation
+        python_func_name: list_by_operation
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
@@ -179,9 +150,14 @@ objects:
             python_variable_name: name
           'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: apis
-            go_variable_name: apiID
+            go_variable_name: aPIID
             python_parameter_name: api_id
             python_variable_name: api_id
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operations
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByProduct
         python_func_name: list_by_product
@@ -202,8 +178,8 @@ objects:
             python_parameter_name: product_id
             python_variable_name: product_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListByOperation
-        python_func_name: list_by_operation
+        go_func_name: ListByApi
+        python_func_name: list_by_api
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
@@ -217,14 +193,28 @@ objects:
             python_variable_name: name
           'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: apis
-            go_variable_name: apiID
+            go_variable_name: aPIID
             python_parameter_name: api_id
             python_variable_name: api_id
-          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: operations
-            go_variable_name: operationID
-            python_parameter_name: operation_id
-            python_variable_name: operation_id
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByService
+        python_func_name: list_by_service
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
 
     description: |
       Manage Azure Tag instance.
@@ -242,28 +232,23 @@ objects:
         input: true
         azure_sdk_references: ['serviceName']
       - !ruby/object:Api::Type::String
-        name: 'tagId'
-        description: 'Tag identifier. Must be unique in the current API Management service instance.'
-        required: true
-        input: true
-        azure_sdk_references: ['tagId']
-      - !ruby/object:Api::Type::String
-        name: 'displayName'
-        description: 'Tag name.'
-        required: true
-        azure_sdk_references: ['/displayName', '/properties/displayName']
-      - !ruby/object:Api::Type::String
-        name: 'scope'
-        description: 'Scope like ''apis'', ''products'' or ''apis/{apiId}'
-        required: false
-        input: true
-        azure_sdk_references: ['scope']
-      - !ruby/object:Api::Type::String
         name: 'apiId'
         description: 'API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.'
         required: true
         input: true
         azure_sdk_references: ['apiId']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'Operation identifier within an API. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
+      - !ruby/object:Api::Type::String
+        name: 'tagId'
+        description: 'Tag identifier. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['tagId']
       - !ruby/object:Api::Type::String
         name: 'productId'
         description: 'Product identifier. Must be unique in the current API Management service instance.'
@@ -271,11 +256,16 @@ objects:
         input: true
         azure_sdk_references: ['productId']
       - !ruby/object:Api::Type::String
-        name: 'operationId'
-        description: 'Operation identifier within an API. Must be unique in the current API Management service instance.'
-        required: true
+        name: 'scope'
+        description: 'Scope like ''apis'', ''products'' or ''apis/{apiId}'
+        required: false
         input: true
-        azure_sdk_references: ['operationId']
+        azure_sdk_references: ['scope']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'Tag name.'
+        required: true
+        azure_sdk_references: ['/displayName', '/properties/displayName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -34,15 +34,15 @@ func testCheckAzureRMIntegrationServiceEnvironmentExists(resourceName string) re
             return fmt.Errorf("Integration Service Environment not found: %s", resourceName)
         }
 
-        integrationServiceEnvironmentName := rs.Primary.Attributes["integration_service_environment_name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
 
         client := testAccProvider.Meta().(*ArmClient).integrationServiceEnvironmentsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, integrationServiceEnvironmentName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Integration Service Environment (Integration Service Environment Name %q / Resource Group %q) does not exist", integrationServiceEnvironmentName, resourceGroup)
+                return fmt.Errorf("Bad: Integration Service Environment %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on integrationServiceEnvironmentsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMIntegrationServiceEnvironmentDestroy(s *terraform.State) er
             continue
         }
 
-        integrationServiceEnvironmentName := rs.Primary.Attributes["integration_service_environment_name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
 
-        if resp, err := client.Get(ctx, resourceGroup, integrationServiceEnvironmentName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on integrationServiceEnvironmentsClient: %+v", err)
             }

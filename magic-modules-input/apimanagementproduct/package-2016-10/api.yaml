@@ -154,28 +154,6 @@ objects:
             python_parameter_name: product_id
             python_variable_name: product_id
         response:
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Description
-            python_field_name: description
-          '/terms': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Terms
-            python_field_name: terms
-          '/subscriptionRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            go_field_name: SubscriptionRequired
-            python_field_name: subscription_required
-          '/approvalRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            go_field_name: ApprovalRequired
-            python_field_name: approval_required
-          '/subscriptionsLimit': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            go_field_name: SubscriptionsLimit
-            python_field_name: subscriptions_limit
-          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            go_field_name: State
-            go_enum_type_name: ProductStateContract
-            python_field_name: state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -214,6 +192,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'expandGroups'
+        description: 'When set to true, the response contains an array of groups that have visibility to the product. The default is false.'
+        required: false
+        input: true
+        azure_sdk_references: ['expandGroups']
       - !ruby/object:Api::Type::String
         name: 'productId'
         description: 'Product identifier. Must be unique in the current API Management service instance.'
@@ -272,12 +256,6 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['deleteSubscriptions']
-      - !ruby/object:Api::Type::Boolean
-        name: 'expandGroups'
-        description: 'When set to true, the response contains an array of groups that have visibility to the product. The default is false.'
-        required: false
-        input: true
-        azure_sdk_references: ['expandGroups']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

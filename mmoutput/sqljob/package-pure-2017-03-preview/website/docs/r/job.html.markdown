@@ -28,7 +28,7 @@ Manage Azure Job instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the job to get. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the job to delete. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
@@ -57,8 +57,6 @@ The `schedule` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `version` - The job version number.
 
 * `id` - Resource ID.
 

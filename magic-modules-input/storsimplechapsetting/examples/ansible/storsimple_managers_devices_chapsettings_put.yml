@@ -4,7 +4,9 @@ task: !ruby/object:Provider::Ansible::Task
   description: ChapSettingsCreateOrUpdate
   code:
     device_name: myDevice
-    chap_user_name: myChapSetting
+    resource_group: myResourceGroup
+    manager_name: myManager
+    name: myChapSetting
     chap_setting:
       Client:
         BaseUri: 'https://management.azure.com/'
@@ -21,6 +23,4 @@ task: !ruby/object:Provider::Ansible::Task
           encryptionCertificateThumbprint: D73DB57C4CDD6761E159F8D1E8A7D759424983FD
           encryptionAlgorithm: RSAES_PKCS1_v_1_5
       name: ChapSettingForSDK
-    resource_group: myResourceGroup
-    name: myManager
   

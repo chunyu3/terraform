@@ -136,9 +136,6 @@ func resourceArmDiagnosticRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("diagnostic_id", diagnosticID)
-    if diagnosticContractProperties := resp.DiagnosticContractProperties; diagnosticContractProperties != nil {
-        d.Set("enabled", diagnosticContractProperties.Enabled)
-    }
     d.Set("type", resp.Type)
 
     return nil

@@ -1,0 +1,18 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_servicemapmap
+  description: SMMapsGenerateMachineListDependencyPost
+  code:
+    resource_group: myResourceGroup
+    name: myWorkspace
+    request:
+      kind: 'map:machine-list-dependency'
+      machineIds:
+        - >-
+          /subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-d60cf4c2-047a-408e-a5ff-cf3d77928c9f
+        - >-
+          /subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-52d4f2f9-e684-4003-a774-9cf99898861b
+      filterProcesses: false
+      startTime: '2018-01-08T20:07:49.78Z'
+      endTime: '2018-01-08T20:08:04.78Z'
+  

@@ -151,12 +151,6 @@ func resourceArmSecurityContactRead(d *schema.ResourceData, meta interface{}) er
 
     d.Set("name", name)
     d.Set("name", resp.Name)
-    if securityContactProperties := resp.SecurityContactProperties; securityContactProperties != nil {
-        d.Set("alert_notifications", string(securityContactProperties.AlertNotifications))
-        d.Set("alerts_to_admins", string(securityContactProperties.AlertsToAdmins))
-        d.Set("email", securityContactProperties.Email)
-        d.Set("phone", securityContactProperties.Phone)
-    }
     d.Set("type", resp.Type)
 
     return nil

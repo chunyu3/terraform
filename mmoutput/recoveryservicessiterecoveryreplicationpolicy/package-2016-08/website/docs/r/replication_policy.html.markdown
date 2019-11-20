@@ -28,9 +28,9 @@ Manage Azure ReplicationPolicy instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group where the recovery services vault is present. Changing this forces a new resource to be created.
+* `name` - (Required) Protection profile Id. Changing this forces a new resource to be created.
 
-* `policy_name` - (Required) Replication policy name Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group where the recovery services vault is present. Changing this forces a new resource to be created.
 
 * `resource_name` - (Required) The name of the recovery services vault. Changing this forces a new resource to be created.
 
@@ -38,12 +38,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `friendly_name` - The FriendlyName.
-
 * `id` - Resource Id
 
 * `name` - Resource Name
 
 * `type` - Resource Type
-
-* `location` - Resource Location

@@ -148,17 +148,9 @@ func resourceArmSqlServerRegistrationRead(d *schema.ResourceData, meta interface
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if sqlServerRegistrationProperties := resp.SqlServerRegistrationProperties; sqlServerRegistrationProperties != nil {
-        d.Set("property_bag", sqlServerRegistrationProperties.PropertyBag)
-        d.Set("resource_group", sqlServerRegistrationProperties.ResourceGroup)
-        d.Set("subscription_id", sqlServerRegistrationProperties.SubscriptionID)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmSqlServerRegistrationUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -173,7 +165,6 @@ func resourceArmSqlServerRegistrationUpdate(d *schema.ResourceData, meta interfa
     t := d.Get("tags").(map[string]interface{})
 
     parameters := azuredata.SqlServerRegistrationUpdate{
-        Location: utils.String(location),
         SqlServerRegistrationProperties: &azuredata.SqlServerRegistrationProperties{
             PropertyBag: utils.String(propertyBag),
             ResourceGroup: utils.String(resourceGroup),

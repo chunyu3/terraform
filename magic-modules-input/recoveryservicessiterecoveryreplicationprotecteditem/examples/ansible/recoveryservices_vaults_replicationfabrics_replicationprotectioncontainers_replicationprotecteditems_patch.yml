@@ -8,4 +8,20 @@ task: !ruby/object:Provider::Ansible::Task
     fabric_name: myReplicationFabric
     protection_container_name: myReplicationProtectionContainer
     replicated_protected_item_name: myReplicationProtectedItem
+    update_protection_input:
+      properties:
+        recoveryAzureVMName: vm1
+        recoveryAzureVMSize: Basic_A0
+        selectedRecoveryAzureNetworkId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Network/virtualNetworks/{{ virtual_network_name
+          }}
+        vmNics:
+          - nicId: >-
+              TWljcm9zb2Z0OkY4NDkxRTRGLTgxN0EtNDBERC1BOTBDLUFGNzczOTc4Qzc1Qlw3NjAwMzMxRS03NDk4LTQ0QTQtQjdDNy0xQjY1NkJDREQ1MkQ=
+            recoveryVMSubnetName: Subnet1
+            selectionType: SelectedByUser
+        licenseType: WindowsServer
+        providerSpecificDetails:
+          instanceType: HyperVReplicaAzure
   

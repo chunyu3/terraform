@@ -28,9 +28,9 @@ Manage Azure Assignment instance.
 
 The following arguments are supported:
 
-* `location` - (Required) The location of this Blueprint assignment. Changing this forces a new resource to be created.
+* `name` - (Required) name of the assignment. Changing this forces a new resource to be created.
 
-* `assignment_name` - (Required) name of the assignment. Changing this forces a new resource to be created.
+* `location` - (Required) The location of this Blueprint assignment. Changing this forces a new resource to be created.
 
 * `identity` - (Required) One `identity` block defined below.
 
@@ -66,21 +66,8 @@ The `lock` block supports the following:
 
 The following attributes are exported:
 
-* `status` - One `status` block defined below.
-
-* `provisioning_state` - State of the assignment.
-
 * `id` - String Id used to locate any resource on Azure.
 
 * `type` - Type of this resource.
 
 * `name` - Name of this resource.
-
-
----
-
-The `status` block contains the following:
-
-* `time_created` - (Optional) Creation time of this blueprint.
-
-* `last_modified` - (Optional) Last modified time of this blueprint.

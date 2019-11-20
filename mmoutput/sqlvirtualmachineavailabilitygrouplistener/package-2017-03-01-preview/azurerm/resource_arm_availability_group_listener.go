@@ -110,11 +110,6 @@ func resourceArmAvailabilityGroupListener() *schema.Resource {
                 Optional: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -129,13 +124,13 @@ func resourceArmAvailabilityGroupListenerCreateUpdate(d *schema.ResourceData, me
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    sqlVirtualMachineGroupName := d.Get("sql_virtual_machine_group_name").(string)
+    sQLVirtualMachineGroupName := d.Get("sql_virtual_machine_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, name)
+        existing, err := client.Get(ctx, resourceGroup, sQLVirtualMachineGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sQLVirtualMachineGroupName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -158,21 +153,21 @@ func resourceArmAvailabilityGroupListenerCreateUpdate(d *schema.ResourceData, me
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, sqlVirtualMachineGroupName, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, sQLVirtualMachineGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error creating Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sQLVirtualMachineGroupName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sQLVirtualMachineGroupName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, name)
+    resp, err := client.Get(ctx, resourceGroup, sQLVirtualMachineGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sQLVirtualMachineGroupName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q) ID", name, sqlVirtualMachineGroupName, resourceGroup)
+        return fmt.Errorf("Cannot read Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q) ID", name, sQLVirtualMachineGroupName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -188,33 +183,24 @@ func resourceArmAvailabilityGroupListenerRead(d *schema.ResourceData, meta inter
         return err
     }
     resourceGroup := id.ResourceGroup
-    sqlVirtualMachineGroupName := id.Path["sqlVirtualMachineGroups"]
+    sQLVirtualMachineGroupName := id.Path["sqlVirtualMachineGroups"]
     name := id.Path["availabilityGroupListeners"]
 
-    resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, name)
+    resp, err := client.Get(ctx, resourceGroup, sQLVirtualMachineGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Availability Group Listener %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error reading Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sQLVirtualMachineGroupName, resourceGroup, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if availabilityGroupListenerProperties := resp.AvailabilityGroupListenerProperties; availabilityGroupListenerProperties != nil {
-        d.Set("availability_group_name", availabilityGroupListenerProperties.AvailabilityGroupName)
-        d.Set("create_default_availability_group_if_not_exist", availabilityGroupListenerProperties.CreateDefaultAvailabilityGroupIfNotExist)
-        if err := d.Set("load_balancer_configurations", flattenArmAvailabilityGroupListenerLoadBalancerConfiguration(availabilityGroupListenerProperties.LoadBalancerConfigurations)); err != nil {
-            return fmt.Errorf("Error setting `load_balancer_configurations`: %+v", err)
-        }
-        d.Set("port", int(*availabilityGroupListenerProperties.Port))
-        d.Set("provisioning_state", availabilityGroupListenerProperties.ProvisioningState)
-    }
-    d.Set("sql_virtual_machine_group_name", sqlVirtualMachineGroupName)
+    d.Set("sql_virtual_machine_group_name", sQLVirtualMachineGroupName)
     d.Set("type", resp.Type)
 
     return nil
@@ -231,20 +217,20 @@ func resourceArmAvailabilityGroupListenerDelete(d *schema.ResourceData, meta int
         return err
     }
     resourceGroup := id.ResourceGroup
-    sqlVirtualMachineGroupName := id.Path["sqlVirtualMachineGroups"]
+    sQLVirtualMachineGroupName := id.Path["sqlVirtualMachineGroups"]
     name := id.Path["availabilityGroupListeners"]
 
-    future, err := client.Delete(ctx, resourceGroup, sqlVirtualMachineGroupName, name)
+    future, err := client.Delete(ctx, resourceGroup, sQLVirtualMachineGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sQLVirtualMachineGroupName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sQLVirtualMachineGroupName, resourceGroup, err)
         }
     }
 
@@ -263,10 +249,10 @@ func expandArmAvailabilityGroupListenerLoadBalancerConfiguration(input []interfa
 
         result := sqlvirtualmachine.LoadBalancerConfiguration{
             LoadBalancerResourceID: utils.String(loadBalancerResourceId),
-            PrivateIpAddress: expandArmAvailabilityGroupListenerPrivateIPAddress(privateIpAddress),
+            PrivateIPAddress: expandArmAvailabilityGroupListenerPrivateIPAddress(privateIpAddress),
             ProbePort: utils.Int32(int32(probePort)),
-            PublicIpAddressResourceID: utils.String(publicIpAddressResourceId),
-            SqlVirtualMachineInstances: utils.ExpandStringSlice(sqlVirtualMachineInstances),
+            PublicIPAddressResourceID: utils.String(publicIpAddressResourceId),
+            SQLVirtualMachineInstances: utils.ExpandStringSlice(sqlVirtualMachineInstances),
         }
 
         results = append(results, result)
@@ -284,53 +270,8 @@ func expandArmAvailabilityGroupListenerPrivateIPAddress(input []interface{}) *sq
     subnetResourceId := v["subnet_resource_id"].(string)
 
     result := sqlvirtualmachine.PrivateIPAddress{
-        IpAddress: utils.String(ipAddress),
+        IPAddress: utils.String(ipAddress),
         SubnetResourceID: utils.String(subnetResourceId),
     }
     return &result
-}
-
-
-func flattenArmAvailabilityGroupListenerLoadBalancerConfiguration(input *[]sqlvirtualmachine.LoadBalancerConfiguration) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if loadBalancerResourceId := item.LoadBalancerResourceID; loadBalancerResourceId != nil {
-            v["load_balancer_resource_id"] = *loadBalancerResourceId
-        }
-        v["private_ip_address"] = flattenArmAvailabilityGroupListenerPrivateIPAddress(item.PrivateIpAddress)
-        if probePort := item.ProbePort; probePort != nil {
-            v["probe_port"] = int(*probePort)
-        }
-        if publicIpAddressResourceId := item.PublicIpAddressResourceID; publicIpAddressResourceId != nil {
-            v["public_ip_address_resource_id"] = *publicIpAddressResourceId
-        }
-        v["sql_virtual_machine_instances"] = utils.FlattenStringSlice(item.SqlVirtualMachineInstances)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmAvailabilityGroupListenerPrivateIPAddress(input *sqlvirtualmachine.PrivateIPAddress) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if ipAddress := input.IpAddress; ipAddress != nil {
-        result["ip_address"] = *ipAddress
-    }
-    if subnetResourceId := input.SubnetResourceID; subnetResourceId != nil {
-        result["subnet_resource_id"] = *subnetResourceId
-    }
-
-    return []interface{}{result}
 }

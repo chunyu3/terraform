@@ -61,6 +61,27 @@ func resourceArmFirewallRule() *schema.Resource {
                 Optional: true,
             },
 
+            "values": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "end_ip_address": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "name": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "start_ip_address": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -92,13 +113,15 @@ func resourceArmFirewallRuleCreateUpdate(d *schema.ResourceData, meta interface{
     name := d.Get("name").(string)
     endIpAddress := d.Get("end_ip_address").(string)
     startIpAddress := d.Get("start_ip_address").(string)
+    values := d.Get("values").([]interface{})
 
-    parameters := sql.FirewallRule{
+    parameters := sql.FirewallRuleList{
         Name: utils.String(name),
         ServerFirewallRuleProperties: &sql.ServerFirewallRuleProperties{
-            EndIpAddress: utils.String(endIpAddress),
-            StartIpAddress: utils.String(startIpAddress),
+            EndIPAddress: utils.String(endIpAddress),
+            StartIPAddress: utils.String(startIpAddress),
         },
+        Values: expandArmFirewallRuleFirewallRule(values),
     }
 
 
@@ -143,12 +166,7 @@ func resourceArmFirewallRuleRead(d *schema.ResourceData, meta interface{}) error
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if serverFirewallRuleProperties := resp.ServerFirewallRuleProperties; serverFirewallRuleProperties != nil {
-        d.Set("end_ip_address", serverFirewallRuleProperties.EndIpAddress)
-        d.Set("start_ip_address", serverFirewallRuleProperties.StartIpAddress)
-    }
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 
@@ -174,4 +192,25 @@ func resourceArmFirewallRuleDelete(d *schema.ResourceData, meta interface{}) err
     }
 
     return nil
+}
+
+func expandArmFirewallRuleFirewallRule(input []interface{}) *[]sql.FirewallRule {
+    results := make([]sql.FirewallRule, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        startIpAddress := v["start_ip_address"].(string)
+        endIpAddress := v["end_ip_address"].(string)
+
+        result := sql.FirewallRule{
+            Name: utils.String(name),
+            ServerFirewallRuleProperties: &sql.ServerFirewallRuleProperties{
+                EndIPAddress: utils.String(endIpAddress),
+                StartIPAddress: utils.String(startIpAddress),
+            },
+        }
+
+        results = append(results, result)
+    }
+    return &results
 }

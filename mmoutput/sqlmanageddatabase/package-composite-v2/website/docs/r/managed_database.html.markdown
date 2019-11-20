@@ -34,6 +34,8 @@ The following arguments are supported:
 
 * `location` - (Required) Resource location. Changing this forces a new resource to be created.
 
+* `last_backup_name` - (Required) The last backup name to apply Changing this forces a new resource to be created.
+
 * `managed_instance_name` - (Required) The name of the managed instance. Changing this forces a new resource to be created.
 
 * `catalog_collation` - (Optional) Collation of the metadata catalog. Defaults to `DATABASE_DEFAULT`.
@@ -59,16 +61,6 @@ The following arguments are supported:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `status` - Status of the database.
-
-* `creation_date` - Creation date of the database.
-
-* `earliest_restore_point` - Earliest restore point in time for point in time restore.
-
-* `default_secondary_location` - Geo paired region.
-
-* `failover_group_id` - Instance Failover Group resource identifier that this managed database belongs to.
 
 * `id` - Resource ID.
 

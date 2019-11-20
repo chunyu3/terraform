@@ -188,34 +188,10 @@ func resourceArmStreamingEndpoint() *schema.Resource {
                 Optional: true,
             },
 
-            "created": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "free_trial_end_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "host_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_state": {
-                Type: schema.TypeString,
-                Computed: true,
+            "scale_unit": {
+                Type: schema.TypeInt,
+                Optional: true,
+                ForceNew: true,
             },
 
             "type": {
@@ -259,10 +235,11 @@ func resourceArmStreamingEndpointCreate(d *schema.ResourceData, meta interface{}
     customHostNames := d.Get("custom_host_names").([]interface{})
     description := d.Get("description").(string)
     maxCacheAge := d.Get("max_cache_age").(int)
+    scaleUnit := d.Get("scale_unit").(int)
     scaleUnits := d.Get("scale_units").(int)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := mediaservices.StreamingEndpoint{
+    parameters := mediaservices.StreamingEntityScaleUnit{
         Location: utils.String(location),
         StreamingEndpointProperties: &mediaservices.StreamingEndpointProperties{
             AccessControl: expandArmStreamingEndpointStreamingEndpointAccessControl(accessControl),
@@ -276,6 +253,7 @@ func resourceArmStreamingEndpointCreate(d *schema.ResourceData, meta interface{}
             MaxCacheAge: utils.Int64(int64(maxCacheAge)),
             ScaleUnits: utils.Int32(int32(scaleUnits)),
         },
+        ScaleUnit: utils.Int32(int32(scaleUnit)),
         Tags: tags.Expand(t),
     }
 
@@ -327,35 +305,10 @@ func resourceArmStreamingEndpointRead(d *schema.ResourceData, meta interface{}) 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if streamingEndpointProperties := resp.StreamingEndpointProperties; streamingEndpointProperties != nil {
-        if err := d.Set("access_control", flattenArmStreamingEndpointStreamingEndpointAccessControl(streamingEndpointProperties.AccessControl)); err != nil {
-            return fmt.Errorf("Error setting `access_control`: %+v", err)
-        }
-        d.Set("availability_set_name", streamingEndpointProperties.AvailabilitySetName)
-        d.Set("cdn_enabled", streamingEndpointProperties.CdnEnabled)
-        d.Set("cdn_profile", streamingEndpointProperties.CdnProfile)
-        d.Set("cdn_provider", streamingEndpointProperties.CdnProvider)
-        d.Set("created", (streamingEndpointProperties.Created).String())
-        if err := d.Set("cross_site_access_policies", flattenArmStreamingEndpointCrossSiteAccessPolicies(streamingEndpointProperties.CrossSiteAccessPolicies)); err != nil {
-            return fmt.Errorf("Error setting `cross_site_access_policies`: %+v", err)
-        }
-        d.Set("custom_host_names", utils.FlattenStringSlice(streamingEndpointProperties.CustomHostNames))
-        d.Set("description", streamingEndpointProperties.Description)
-        d.Set("free_trial_end_time", (streamingEndpointProperties.FreeTrialEndTime).String())
-        d.Set("host_name", streamingEndpointProperties.HostName)
-        d.Set("last_modified", (streamingEndpointProperties.LastModified).String())
-        d.Set("max_cache_age", int(*streamingEndpointProperties.MaxCacheAge))
-        d.Set("provisioning_state", streamingEndpointProperties.ProvisioningState)
-        d.Set("resource_state", string(streamingEndpointProperties.ResourceState))
-        d.Set("scale_units", int(*streamingEndpointProperties.ScaleUnits))
-    }
     d.Set("account_name", accountName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmStreamingEndpointUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -374,11 +327,11 @@ func resourceArmStreamingEndpointUpdate(d *schema.ResourceData, meta interface{}
     customHostNames := d.Get("custom_host_names").([]interface{})
     description := d.Get("description").(string)
     maxCacheAge := d.Get("max_cache_age").(int)
+    scaleUnit := d.Get("scale_unit").(int)
     scaleUnits := d.Get("scale_units").(int)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := mediaservices.StreamingEndpoint{
-        Location: utils.String(location),
+    parameters := mediaservices.StreamingEntityScaleUnit{
         StreamingEndpointProperties: &mediaservices.StreamingEndpointProperties{
             AccessControl: expandArmStreamingEndpointStreamingEndpointAccessControl(accessControl),
             AvailabilitySetName: utils.String(availabilitySetName),
@@ -391,6 +344,7 @@ func resourceArmStreamingEndpointUpdate(d *schema.ResourceData, meta interface{}
             MaxCacheAge: utils.Int64(int64(maxCacheAge)),
             ScaleUnits: utils.Int32(int32(scaleUnits)),
         },
+        ScaleUnit: utils.Int32(int32(scaleUnit)),
         Tags: tags.Expand(t),
     }
 
@@ -447,7 +401,7 @@ func expandArmStreamingEndpointStreamingEndpointAccessControl(input []interface{
 
     result := mediaservices.StreamingEndpointAccessControl{
         Akamai: expandArmStreamingEndpointAkamaiAccessControl(akamai),
-        Ip: expandArmStreamingEndpointIPAccessControl(ip),
+        IP: expandArmStreamingEndpointIPAccessControl(ip),
     }
     return &result
 }
@@ -505,7 +459,7 @@ func expandArmStreamingEndpointAkamaiSignatureHeaderAuthenticationKey(input []in
         expiration := v["expiration"].(string)
 
         result := mediaservices.AkamaiSignatureHeaderAuthenticationKey{
-            Base64key: utils.String(base64key),
+            Base64Key: utils.String(base64key),
             Expiration: convertStringToDate(expiration),
             Identifier: utils.String(identifier),
         }
@@ -547,109 +501,4 @@ func convertStringToDate(input interface{}) *date.Time {
       Time: dateTime,
   }
   return &result
-}
-
-
-func flattenArmStreamingEndpointStreamingEndpointAccessControl(input *mediaservices.StreamingEndpointAccessControl) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["akamai"] = flattenArmStreamingEndpointAkamaiAccessControl(input.Akamai)
-    result["ip"] = flattenArmStreamingEndpointIPAccessControl(input.Ip)
-
-    return []interface{}{result}
-}
-
-func flattenArmStreamingEndpointCrossSiteAccessPolicies(input *mediaservices.CrossSiteAccessPolicies) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if clientAccessPolicy := input.ClientAccessPolicy; clientAccessPolicy != nil {
-        result["client_access_policy"] = *clientAccessPolicy
-    }
-    if crossDomainPolicy := input.CrossDomainPolicy; crossDomainPolicy != nil {
-        result["cross_domain_policy"] = *crossDomainPolicy
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmStreamingEndpointAkamaiAccessControl(input *mediaservices.AkamaiAccessControl) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["akamai_signature_header_authentication_key_list"] = flattenArmStreamingEndpointAkamaiSignatureHeaderAuthenticationKey(input.AkamaiSignatureHeaderAuthenticationKeyList)
-
-    return []interface{}{result}
-}
-
-func flattenArmStreamingEndpointIPAccessControl(input *mediaservices.IPAccessControl) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["allow"] = flattenArmStreamingEndpointIPRange(input.Allow)
-
-    return []interface{}{result}
-}
-
-func flattenArmStreamingEndpointAkamaiSignatureHeaderAuthenticationKey(input *[]mediaservices.AkamaiSignatureHeaderAuthenticationKey) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if base64key := item.Base64key; base64key != nil {
-            v["base64key"] = *base64key
-        }
-        if expiration := item.Expiration; expiration != nil {
-            v["expiration"] = (*expiration).String()
-        }
-        if identifier := item.Identifier; identifier != nil {
-            v["identifier"] = *identifier
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmStreamingEndpointIPRange(input *[]mediaservices.IPRange) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if address := item.Address; address != nil {
-            v["address"] = *address
-        }
-        if subnetPrefixLength := item.SubnetPrefixLength; subnetPrefixLength != nil {
-            v["subnet_prefix_length"] = int(*subnetPrefixLength)
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

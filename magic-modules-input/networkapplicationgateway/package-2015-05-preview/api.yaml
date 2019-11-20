@@ -95,7 +95,7 @@ objects:
             python_field_name: etag
           '/properties/gatewayIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: GatewayIpconfigurations
+            go_field_name: GatewayIPConfigurations
             go_type_name: ApplicationGatewayIPConfiguration
           '/properties/gatewayIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -196,7 +196,7 @@ objects:
             python_field_name: etag
           '/properties/frontendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: FrontendIpconfigurations
+            go_field_name: FrontendIPConfigurations
             go_type_name: ApplicationGatewayFrontendIPConfiguration
           '/properties/frontendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -207,10 +207,10 @@ objects:
             go_type_name: ApplicationGatewayFrontendIPConfigurationPropertiesFormat
           '/properties/frontendIPConfigurations/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: PrivateIpAddress
+            go_field_name: PrivateIPAddress
           '/properties/frontendIPConfigurations/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: PrivateIpallocationMethod
+            go_field_name: PrivateIPAllocationMethod
             go_enum_type_name: IpAllocationMethod
           '/properties/frontendIPConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -221,7 +221,7 @@ objects:
             go_field_name: ID
           '/properties/frontendIPConfigurations/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PublicIpAddress
+            go_field_name: PublicIPAddress
             go_type_name: SubResource
           '/properties/frontendIPConfigurations/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -307,7 +307,7 @@ objects:
             go_type_name: ApplicationGatewayBackendAddressPoolPropertiesFormat
           '/properties/backendAddressPools/properties/backendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: BackendIpconfigurations
+            go_field_name: BackendIPConfigurations
             go_type_name: SubResource
           '/properties/backendAddressPools/properties/backendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -321,7 +321,7 @@ objects:
             go_field_name: Fqdn
           '/properties/backendAddressPools/properties/backendAddresses/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: IpAddress
+            go_field_name: IPAddress
           '/properties/backendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -351,7 +351,7 @@ objects:
             python_field_name: etag
           '/properties/backendHttpSettingsCollection': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: BackendHttpSettingsCollection
+            go_field_name: BackendHTTPSettingsCollection
             go_type_name: ApplicationGatewayBackendHttpSettings
           '/properties/backendHttpSettingsCollection/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -412,7 +412,7 @@ objects:
             python_field_name: etag
           '/properties/httpListeners': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: HttpListeners
+            go_field_name: HTTPListeners
             go_type_name: ApplicationGatewayHttpListener
           '/properties/httpListeners/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -423,7 +423,7 @@ objects:
             go_type_name: ApplicationGatewayHttpListenerPropertiesFormat
           '/properties/httpListeners/properties/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: FrontendIpconfiguration
+            go_field_name: FrontendIPConfiguration
             go_type_name: SubResource
           '/properties/httpListeners/properties/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -509,14 +509,14 @@ objects:
             go_field_name: ID
           '/properties/requestRoutingRules/properties/backendHttpSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BackendHttpSettings
+            go_field_name: BackendHTTPSettings
             go_type_name: SubResource
           '/properties/requestRoutingRules/properties/backendHttpSettings/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ID
           '/properties/requestRoutingRules/properties/httpListener': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: HttpListener
+            go_field_name: HTTPListener
             go_type_name: SubResource
           '/properties/requestRoutingRules/properties/httpListener/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -532,7 +532,7 @@ objects:
             python_field_name: resource_guid
           '/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: ResourceGuid
+            go_field_name: ResourceGUID
           '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Etag
             python_field_name: etag
@@ -566,565 +566,6 @@ objects:
             python_parameter_name: application_gateway_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ApplicationGatewayPropertiesFormat
-            go_type_name: ApplicationGatewayPropertiesFormat
-          '/properties/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Sku
-            go_type_name: ApplicationGatewaySku
-          '/properties/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Name
-            go_enum_type_name: ApplicationGatewaySkuName
-          '/properties/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Tier
-            go_enum_type_name: ApplicationGatewayTier
-          '/properties/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Capacity
-          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: sku
-          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: name
-          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: tier
-          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: capacity
-          '/properties/gatewayIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: GatewayIpconfigurations
-            go_type_name: ApplicationGatewayIPConfiguration
-          '/properties/gatewayIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/gatewayIPConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ApplicationGatewayIPConfigurationPropertiesFormat
-            go_type_name: ApplicationGatewayIPConfigurationPropertiesFormat
-          '/properties/gatewayIPConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Subnet
-            go_type_name: SubResource
-          '/properties/gatewayIPConfigurations/properties/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/gatewayIPConfigurations/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/gatewayIPConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/gatewayIPConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/gatewayIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: gateway_ipconfigurations
-          '/gatewayIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/gatewayIPConfigurations/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: subnet
-          '/gatewayIPConfigurations/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/gatewayIPConfigurations/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/gatewayIPConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/gatewayIPConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/sslCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: SslCertificates
-            go_type_name: ApplicationGatewaySslCertificate
-          '/properties/sslCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/sslCertificates/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ApplicationGatewaySslCertificatePropertiesFormat
-            go_type_name: ApplicationGatewaySslCertificatePropertiesFormat
-          '/properties/sslCertificates/properties/data': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Data
-          '/properties/sslCertificates/properties/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Password
-          '/properties/sslCertificates/properties/publicCertData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PublicCertData
-          '/properties/sslCertificates/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/sslCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/sslCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/sslCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: ssl_certificates
-          '/sslCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/sslCertificates/data': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: data
-          '/sslCertificates/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: password
-          '/sslCertificates/publicCertData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: public_cert_data
-          '/sslCertificates/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/sslCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/sslCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/frontendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: FrontendIpconfigurations
-            go_type_name: ApplicationGatewayFrontendIPConfiguration
-          '/properties/frontendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/frontendIPConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ApplicationGatewayFrontendIPConfigurationPropertiesFormat
-            go_type_name: ApplicationGatewayFrontendIPConfigurationPropertiesFormat
-          '/properties/frontendIPConfigurations/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PrivateIpAddress
-          '/properties/frontendIPConfigurations/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: PrivateIpallocationMethod
-            go_enum_type_name: IpAllocationMethod
-          '/properties/frontendIPConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Subnet
-            go_type_name: SubResource
-          '/properties/frontendIPConfigurations/properties/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/frontendIPConfigurations/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PublicIpAddress
-            go_type_name: SubResource
-          '/properties/frontendIPConfigurations/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/frontendIPConfigurations/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/frontendIPConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/frontendIPConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/frontendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: frontend_ipconfigurations
-          '/frontendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/frontendIPConfigurations/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: private_ip_address
-          '/frontendIPConfigurations/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: private_ipallocation_method
-          '/frontendIPConfigurations/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: subnet
-          '/frontendIPConfigurations/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/frontendIPConfigurations/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: public_ip_address
-          '/frontendIPConfigurations/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/frontendIPConfigurations/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/frontendIPConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/frontendIPConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/frontendPorts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: FrontendPorts
-            go_type_name: ApplicationGatewayFrontendPort
-          '/properties/frontendPorts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/frontendPorts/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ApplicationGatewayFrontendPortPropertiesFormat
-            go_type_name: ApplicationGatewayFrontendPortPropertiesFormat
-          '/properties/frontendPorts/properties/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Port
-          '/properties/frontendPorts/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/frontendPorts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/frontendPorts/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/frontendPorts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: frontend_ports
-          '/frontendPorts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/frontendPorts/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: port
-          '/frontendPorts/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/frontendPorts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/frontendPorts/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/backendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: BackendAddressPools
-            go_type_name: ApplicationGatewayBackendAddressPool
-          '/properties/backendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/backendAddressPools/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ApplicationGatewayBackendAddressPoolPropertiesFormat
-            go_type_name: ApplicationGatewayBackendAddressPoolPropertiesFormat
-          '/properties/backendAddressPools/properties/backendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: BackendIpconfigurations
-            go_type_name: SubResource
-          '/properties/backendAddressPools/properties/backendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/backendAddressPools/properties/backendAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: BackendAddresses
-            go_type_name: ApplicationGatewayBackendAddress
-          '/properties/backendAddressPools/properties/backendAddresses/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Fqdn
-          '/properties/backendAddressPools/properties/backendAddresses/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: IpAddress
-          '/properties/backendAddressPools/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/backendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/backendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/backendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: backend_address_pools
-          '/backendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/backendAddressPools/backendIPConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: backend_ipconfigurations
-          '/backendAddressPools/backendIPConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/backendAddressPools/backendAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: backend_addresses
-          '/backendAddressPools/backendAddresses/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: fqdn
-          '/backendAddressPools/backendAddresses/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: ip_address
-          '/backendAddressPools/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/backendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/backendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/backendHttpSettingsCollection': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: BackendHttpSettingsCollection
-            go_type_name: ApplicationGatewayBackendHttpSettings
-          '/properties/backendHttpSettingsCollection/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/backendHttpSettingsCollection/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ApplicationGatewayBackendHttpSettingsPropertiesFormat
-            go_type_name: ApplicationGatewayBackendHttpSettingsPropertiesFormat
-          '/properties/backendHttpSettingsCollection/properties/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Port
-          '/properties/backendHttpSettingsCollection/properties/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Protocol
-            go_enum_type_name: ApplicationGatewayProtocol
-          '/properties/backendHttpSettingsCollection/properties/cookieBasedAffinity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: CookieBasedAffinity
-            go_enum_type_name: ApplicationGatewayCookieBasedAffinity
-          '/properties/backendHttpSettingsCollection/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/backendHttpSettingsCollection/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/backendHttpSettingsCollection/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/backendHttpSettingsCollection': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: backend_http_settings_collection
-          '/backendHttpSettingsCollection/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/backendHttpSettingsCollection/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: port
-          '/backendHttpSettingsCollection/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: protocol
-          '/backendHttpSettingsCollection/cookieBasedAffinity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: cookie_based_affinity
-          '/backendHttpSettingsCollection/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/backendHttpSettingsCollection/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/backendHttpSettingsCollection/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/httpListeners': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: HttpListeners
-            go_type_name: ApplicationGatewayHttpListener
-          '/properties/httpListeners/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/httpListeners/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ApplicationGatewayHttpListenerPropertiesFormat
-            go_type_name: ApplicationGatewayHttpListenerPropertiesFormat
-          '/properties/httpListeners/properties/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: FrontendIpconfiguration
-            go_type_name: SubResource
-          '/properties/httpListeners/properties/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/httpListeners/properties/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: FrontendPort
-            go_type_name: SubResource
-          '/properties/httpListeners/properties/frontendPort/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/httpListeners/properties/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Protocol
-            go_enum_type_name: ApplicationGatewayProtocol
-          '/properties/httpListeners/properties/sslCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SslCertificate
-            go_type_name: SubResource
-          '/properties/httpListeners/properties/sslCertificate/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/httpListeners/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/httpListeners/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/httpListeners/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/httpListeners': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: http_listeners
-          '/httpListeners/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/httpListeners/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: frontend_ipconfiguration
-          '/httpListeners/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/httpListeners/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: frontend_port
-          '/httpListeners/frontendPort/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/httpListeners/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: protocol
-          '/httpListeners/sslCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: ssl_certificate
-          '/httpListeners/sslCertificate/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/httpListeners/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/httpListeners/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/httpListeners/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/requestRoutingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: RequestRoutingRules
-            go_type_name: ApplicationGatewayRequestRoutingRule
-          '/properties/requestRoutingRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/requestRoutingRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ApplicationGatewayRequestRoutingRulePropertiesFormat
-            go_type_name: ApplicationGatewayRequestRoutingRulePropertiesFormat
-          '/properties/requestRoutingRules/properties/ruleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: RuleType
-            go_enum_type_name: ApplicationGatewayRequestRoutingRuleType
-          '/properties/requestRoutingRules/properties/backendAddressPool': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: BackendAddressPool
-            go_type_name: SubResource
-          '/properties/requestRoutingRules/properties/backendAddressPool/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/requestRoutingRules/properties/backendHttpSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: BackendHttpSettings
-            go_type_name: SubResource
-          '/properties/requestRoutingRules/properties/backendHttpSettings/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/requestRoutingRules/properties/httpListener': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: HttpListener
-            go_type_name: SubResource
-          '/properties/requestRoutingRules/properties/httpListener/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/requestRoutingRules/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/requestRoutingRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/requestRoutingRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/requestRoutingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: request_routing_rules
-          '/requestRoutingRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/requestRoutingRules/ruleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: rule_type
-          '/requestRoutingRules/backendAddressPool': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: backend_address_pool
-          '/requestRoutingRules/backendAddressPool/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/requestRoutingRules/backendHttpSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: backend_http_settings
-          '/requestRoutingRules/backendHttpSettings/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/requestRoutingRules/httpListener': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: http_listener
-          '/requestRoutingRules/httpListener/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/requestRoutingRules/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/requestRoutingRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/requestRoutingRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceGuid
-          '/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_guid
-          '/properties/operationalState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: OperationalState
-            go_enum_type_name: ApplicationGatewayOperationalState
-          '/operationalState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: operational_state
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Etag
-            python_field_name: etag
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -1134,10 +575,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListAll
-        python_func_name: list_all
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -1147,6 +584,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAll
+        python_func_name: list_all
+        request:
 
     description: |
       Manage Azure ApplicationGateway instance.
@@ -1594,21 +1035,6 @@ objects:
         input: true
         azure_sdk_references: ['/etag']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'operationalState'
-        description: 'Gets operational state of application gateway resource'
-        output: true
-        azure_sdk_references: ['/operationalState', '/properties/operationalState']
-        values:
-          - :Stopped
-          - :Starting
-          - :Running
-          - :Stopping
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Gets or sets Provisioning state of the ApplicationGateway resource Updating/Deleting/Failed'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

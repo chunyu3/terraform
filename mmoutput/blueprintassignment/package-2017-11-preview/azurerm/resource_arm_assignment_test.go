@@ -34,14 +34,14 @@ func testCheckAzureRMAssignmentExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("Assignment not found: %s", resourceName)
         }
 
-        assignmentName := rs.Primary.Attributes["assignment_name"]
+        name := rs.Primary.Attributes["name"]
 
         client := testAccProvider.Meta().(*ArmClient).assignmentsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, assignmentName); err != nil {
+        if resp, err := client.Get(ctx, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Assignment (Assignment Name %q) does not exist", assignmentName)
+                return fmt.Errorf("Bad: Assignment %q does not exist", name)
             }
             return fmt.Errorf("Bad: Get on assignmentsClient: %+v", err)
         }
@@ -59,9 +59,9 @@ func testCheckAzureRMAssignmentDestroy(s *terraform.State) error {
             continue
         }
 
-        assignmentName := rs.Primary.Attributes["assignment_name"]
+        name := rs.Primary.Attributes["name"]
 
-        if resp, err := client.Get(ctx, assignmentName); err != nil {
+        if resp, err := client.Get(ctx, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on assignmentsClient: %+v", err)
             }

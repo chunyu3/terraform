@@ -28,15 +28,29 @@ Manage Azure EnvironmentSetting instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the environment Setting. Changing this forces a new resource to be created.
 
-* `environment_setting_name` - (Required) The name of the environment Setting. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `lab_account_name` - (Required) The name of the lab Account. Changing this forces a new resource to be created.
 
 * `lab_name` - (Required) The name of the lab. Changing this forces a new resource to be created.
 
-* `resource_settings` - (Required) One `resource_setting` block defined below.
+* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
+
+* `configuration_state` - (Optional) Describes the user's progress in configuring their environment setting Defaults to `NotApplicable`.
+
+* `description` - (Optional) Describes the environment and its resource settings
+
+* `resource_settings` - (Optional) One `resource_setting` block defined below.
+
+* `title` - (Optional) Brief title describing the environment and its resource settings
+
+* `unique_identifier` - (Optional) The unique immutable identifier of a resource (Guid).
+
+* `use_existing_image` - (Optional) Whether to use existing VM custom image when publishing. Changing this forces a new resource to be created.
+
+* `tags` - (Optional) The tags of the resource. Changing this forces a new resource to be created.
 
 ---
 
@@ -46,62 +60,23 @@ The `resource_setting` block supports the following:
 
 * `size` - (Optional) The size of the virtual machine Defaults to `Basic`.
 
-* `reference_vm` - (Required) One `reference_vm` block defined below.
+* `reference_vm` - (Optional) One `reference_vm` block defined below.
 
 
 ---
 
 The `reference_vm` block supports the following:
 
-* `user_name` - (Required) The username of the virtual machine
+* `user_name` - (Optional) The username of the virtual machine
 
 * `password` - (Optional) The password of the virtual machine. This will be set to null in GET resource API
-
-* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
-
-* `configuration_state` - (Optional) Describes the user's progress in configuring their environment setting Defaults to `NotApplicable`.
-
-* `description` - (Optional) Describes the environment and its resource settings
-
-* `title` - (Optional) Brief title describing the environment and its resource settings
-
-* `unique_identifier` - (Optional) The unique immutable identifier of a resource (Guid).
-
-* `tags` - (Optional) The tags of the resource. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `publishing_state` - Describes the readiness of this environment setting
-
-* `last_changed` - Time when the template VM was last changed.
-
-* `last_published` - Time when the template VM was last sent for publishing.
-
-* `provisioning_state` - The provisioning status of the resource.
-
-* `latest_operation_result` - One `latest_operation_result` block defined below.
 
 * `id` - The identifier of the resource.
 
 * `name` - The name of the resource.
 
 * `type` - The type of the resource.
-
-
----
-
-The `latest_operation_result` block contains the following:
-
-* `status` - (Optional) The current status of the operation.
-
-* `error_code` - (Optional) Error code on failure.
-
-* `error_message` - (Optional) The error message.
-
-* `request_uri` - (Optional) Request URI of the operation.
-
-* `http_method` - (Optional) The HttpMethod - PUT/POST/DELETE for the operation.
-
-* `operation_url` - (Optional) The URL to use to check long-running operation status

@@ -77,17 +77,7 @@ func resourceArmVirtualNetworkLink() *schema.Resource {
                 },
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "virtual_network_link_state": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -181,22 +171,10 @@ func resourceArmVirtualNetworkLinkRead(d *schema.ResourceData, meta interface{})
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    d.Set("etag", resp.Etag)
     d.Set("private_zone_name", privateZoneName)
-    if virtualNetworkLinkProperties := resp.VirtualNetworkLinkProperties; virtualNetworkLinkProperties != nil {
-        d.Set("provisioning_state", string(virtualNetworkLinkProperties.ProvisioningState))
-        d.Set("registration_enabled", virtualNetworkLinkProperties.RegistrationEnabled)
-        if err := d.Set("virtual_network", flattenArmVirtualNetworkLinkSubResource(virtualNetworkLinkProperties.VirtualNetwork)); err != nil {
-            return fmt.Errorf("Error setting `virtual_network`: %+v", err)
-        }
-        d.Set("virtual_network_link_state", string(virtualNetworkLinkProperties.VirtualNetworkLinkState))
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmVirtualNetworkLinkUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -213,7 +191,6 @@ func resourceArmVirtualNetworkLinkUpdate(d *schema.ResourceData, meta interface{
 
     parameters := privatedns.VirtualNetworkLink{
         Etag: utils.String(etag),
-        Location: utils.String(location),
         VirtualNetworkLinkProperties: &privatedns.VirtualNetworkLinkProperties{
             RegistrationEnabled: utils.Bool(registrationEnabled),
             VirtualNetwork: expandArmVirtualNetworkLinkSubResource(virtualNetwork),
@@ -275,19 +252,4 @@ func expandArmVirtualNetworkLinkSubResource(input []interface{}) *privatedns.Sub
         ID: utils.String(id),
     }
     return &result
-}
-
-
-func flattenArmVirtualNetworkLinkSubResource(input *privatedns.SubResource) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if id := input.ID; id != nil {
-        result["id"] = *id
-    }
-
-    return []interface{}{result}
 }

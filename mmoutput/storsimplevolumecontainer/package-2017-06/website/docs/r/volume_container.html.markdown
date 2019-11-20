@@ -28,15 +28,15 @@ Manage Azure VolumeContainer instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The manager name Changing this forces a new resource to be created.
+* `name` - (Required) The volume container name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `device_name` - (Required) The device name Changing this forces a new resource to be created.
 
-* `storage_account_credential_id` - (Required) The path ID of storage account associated with the volume container.
+* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
-* `volume_container_name` - (Required) The volume container name. Changing this forces a new resource to be created.
+* `storage_account_credential_id` - (Required) The path ID of storage account associated with the volume container.
 
 * `band_width_rate_in_mbps` - (Optional) The bandwidth-rate set on the volume container.
 
@@ -59,14 +59,6 @@ The `encryption_key` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `encryption_status` - The flag to denote whether encryption is enabled or not.
-
-* `volume_count` - The number of volumes in the volume Container.
-
-* `owner_ship_status` - The owner ship status of the volume container. Only when the status is "NotOwned", the delete operation on the volume container is permitted.
-
-* `total_cloud_storage_usage_in_bytes` - The total cloud storage for the volume container.
 
 * `id` - The path ID that uniquely identifies the object.
 

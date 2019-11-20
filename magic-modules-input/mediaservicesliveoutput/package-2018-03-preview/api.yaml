@@ -145,78 +145,6 @@ objects:
             python_parameter_name: live_output_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LiveOutputProperties
-            go_type_name: LiveOutputProperties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/assetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AssetName
-          '/assetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: asset_name
-          '/properties/archiveWindowLength': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: ArchiveWindowLength
-          '/archiveWindowLength': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: archive_window_length
-          '/properties/manifestName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ManifestName
-          '/manifestName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: manifest_name
-          '/properties/hls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Hls
-            go_type_name: Hls
-          '/properties/hls/fragmentsPerTsSegment': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: FragmentsPerTsSegment
-          '/hls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: hls
-          '/hls/fragmentsPerTsSegment': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: fragments_per_ts_segment
-          '/properties/outputSnapTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: OutputSnapTime
-          '/outputSnapTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: output_snap_time
-          '/properties/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: Created
-          '/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created
-          '/properties/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastModified
-          '/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_modified
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResourceState
-            go_enum_type_name: LiveOutputResourceState
-          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: resource_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -310,30 +238,6 @@ objects:
         required: false
         azure_sdk_references: ['/outputSnapTime', '/properties/outputSnapTime']
       # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'created'
-        description: 'The exact time the Live Output was created.'
-        output: true
-        azure_sdk_references: ['/created', '/properties/created']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModified'
-        description: 'The exact time the Live Output was last modified.'
-        output: true
-        azure_sdk_references: ['/lastModified', '/properties/lastModified']
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The provisioning state of the Live Output.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Type::Enum
-        name: 'resourceState'
-        description: 'The resource state of the Live Output.'
-        output: true
-        azure_sdk_references: ['/resourceState', '/properties/resourceState']
-        values:
-          - :Creating
-          - :Running
-          - :Deleting
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource ID for the resource.'

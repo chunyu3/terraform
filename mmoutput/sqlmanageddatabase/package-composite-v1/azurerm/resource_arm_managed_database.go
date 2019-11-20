@@ -45,6 +45,13 @@ func resourceArmManagedDatabase() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "last_backup_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
             "managed_instance_name": {
                 Type: schema.TypeString,
                 Required: true,
@@ -110,31 +117,6 @@ func resourceArmManagedDatabase() *schema.Resource {
                 Optional: true,
             },
 
-            "creation_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "default_secondary_location": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "earliest_restore_point": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "failover_group_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -169,6 +151,7 @@ func resourceArmManagedDatabaseCreate(d *schema.ResourceData, meta interface{}) 
     catalogCollation := d.Get("catalog_collation").(string)
     collation := d.Get("collation").(string)
     createMode := d.Get("create_mode").(string)
+    lastBackupName := d.Get("last_backup_name").(string)
     recoverableDatabaseId := d.Get("recoverable_database_id").(string)
     restorableDroppedDatabaseId := d.Get("restorable_dropped_database_id").(string)
     restorePointInTime := d.Get("restore_point_in_time").(string)
@@ -177,7 +160,8 @@ func resourceArmManagedDatabaseCreate(d *schema.ResourceData, meta interface{}) 
     storageContainerUri := d.Get("storage_container_uri").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.ManagedDatabaseUpdate{
+    parameters := sql.CompleteDatabaseRestoreDefinition{
+        LastBackupName: utils.String(lastBackupName),
         Location: utils.String(location),
         ManagedDatabaseProperties: &sql.ManagedDatabaseProperties{
             CatalogCollation: sql.CatalogCollationType(catalogCollation),
@@ -188,7 +172,7 @@ func resourceArmManagedDatabaseCreate(d *schema.ResourceData, meta interface{}) 
             RestorePointInTime: convertStringToDate(restorePointInTime),
             SourceDatabaseID: utils.String(sourceDatabaseId),
             StorageContainerSasToken: utils.String(storageContainerSasToken),
-            StorageContainerUri: utils.String(storageContainerUri),
+            StorageContainerURI: utils.String(storageContainerUri),
         },
         Tags: tags.Expand(t),
     }
@@ -241,29 +225,10 @@ func resourceArmManagedDatabaseRead(d *schema.ResourceData, meta interface{}) er
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if managedDatabaseProperties := resp.ManagedDatabaseProperties; managedDatabaseProperties != nil {
-        d.Set("catalog_collation", string(managedDatabaseProperties.CatalogCollation))
-        d.Set("collation", managedDatabaseProperties.Collation)
-        d.Set("create_mode", string(managedDatabaseProperties.CreateMode))
-        d.Set("creation_date", (managedDatabaseProperties.CreationDate).String())
-        d.Set("default_secondary_location", managedDatabaseProperties.DefaultSecondaryLocation)
-        d.Set("earliest_restore_point", (managedDatabaseProperties.EarliestRestorePoint).String())
-        d.Set("failover_group_id", managedDatabaseProperties.FailoverGroupID)
-        d.Set("recoverable_database_id", managedDatabaseProperties.RecoverableDatabaseID)
-        d.Set("restorable_dropped_database_id", managedDatabaseProperties.RestorableDroppedDatabaseID)
-        d.Set("restore_point_in_time", (managedDatabaseProperties.RestorePointInTime).String())
-        d.Set("source_database_id", managedDatabaseProperties.SourceDatabaseID)
-        d.Set("status", string(managedDatabaseProperties.Status))
-        d.Set("storage_container_sas_token", managedDatabaseProperties.StorageContainerSasToken)
-        d.Set("storage_container_uri", managedDatabaseProperties.StorageContainerUri)
-    }
     d.Set("managed_instance_name", managedInstanceName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmManagedDatabaseUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -275,6 +240,7 @@ func resourceArmManagedDatabaseUpdate(d *schema.ResourceData, meta interface{}) 
     catalogCollation := d.Get("catalog_collation").(string)
     collation := d.Get("collation").(string)
     createMode := d.Get("create_mode").(string)
+    lastBackupName := d.Get("last_backup_name").(string)
     managedInstanceName := d.Get("managed_instance_name").(string)
     recoverableDatabaseId := d.Get("recoverable_database_id").(string)
     restorableDroppedDatabaseId := d.Get("restorable_dropped_database_id").(string)
@@ -284,8 +250,8 @@ func resourceArmManagedDatabaseUpdate(d *schema.ResourceData, meta interface{}) 
     storageContainerUri := d.Get("storage_container_uri").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.ManagedDatabaseUpdate{
-        Location: utils.String(location),
+    parameters := sql.CompleteDatabaseRestoreDefinition{
+        LastBackupName: utils.String(lastBackupName),
         ManagedDatabaseProperties: &sql.ManagedDatabaseProperties{
             CatalogCollation: sql.CatalogCollationType(catalogCollation),
             Collation: utils.String(collation),
@@ -295,7 +261,7 @@ func resourceArmManagedDatabaseUpdate(d *schema.ResourceData, meta interface{}) 
             RestorePointInTime: convertStringToDate(restorePointInTime),
             SourceDatabaseID: utils.String(sourceDatabaseId),
             StorageContainerSasToken: utils.String(storageContainerSasToken),
-            StorageContainerUri: utils.String(storageContainerUri),
+            StorageContainerURI: utils.String(storageContainerUri),
         },
         Tags: tags.Expand(t),
     }

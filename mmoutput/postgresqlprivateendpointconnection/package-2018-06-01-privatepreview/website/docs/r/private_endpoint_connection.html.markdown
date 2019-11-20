@@ -28,7 +28,7 @@ Manage Azure PrivateEndpointConnection instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the private endpoint connection. Changing this forces a new resource to be created.
+* `name` - (Required)  Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
@@ -37,6 +37,8 @@ The following arguments are supported:
 * `private_endpoint` - (Optional) One `private_endpoint` block defined below.
 
 * `private_link_service_connection_state` - (Optional) One `private_link_service_connection_state` block defined below.
+
+* `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 
 ---
 
@@ -55,8 +57,6 @@ The `private_link_service_connection_state` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `provisioning_state` - State of the private endpoint connection.
 
 * `id` - Resource ID.
 

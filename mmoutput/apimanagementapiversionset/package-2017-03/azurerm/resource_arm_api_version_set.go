@@ -169,13 +169,6 @@ func resourceArmApiVersionSetRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if apiVersionSetUpdateParametersProperties := resp.ApiVersionSetUpdateParametersProperties; apiVersionSetUpdateParametersProperties != nil {
-        d.Set("description", apiVersionSetUpdateParametersProperties.Description)
-        d.Set("display_name", apiVersionSetUpdateParametersProperties.DisplayName)
-        d.Set("version_header_name", apiVersionSetUpdateParametersProperties.VersionHeaderName)
-        d.Set("version_query_name", apiVersionSetUpdateParametersProperties.VersionQueryName)
-        d.Set("versioning_scheme", string(apiVersionSetUpdateParametersProperties.VersioningScheme))
-    }
     d.Set("type", resp.Type)
     d.Set("version_set_id", versionSetID)
 

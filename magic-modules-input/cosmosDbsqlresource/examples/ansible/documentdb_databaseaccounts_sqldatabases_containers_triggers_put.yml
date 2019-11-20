@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_cosmosDbsqlresource
+  description: CosmosDBSqlTriggerCreateUpdate
+  code:
+    resource_group: myResourceGroup
+    account_name: myDatabaseAccount
+    database_name: mySqlDatabase
+    container_name: myContainer
+    name: myTrigger
+    create_update_sql_trigger_parameters:
+      properties:
+        resource:
+          id: triggerName
+          body: body
+          triggerType: triggerType
+          triggerOperation: triggerOperation
+        options: {}
+  

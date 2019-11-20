@@ -83,16 +83,6 @@ func resourceArmTransform() *schema.Resource {
                 Optional: true,
             },
 
-            "created": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -176,14 +166,6 @@ func resourceArmTransformRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    if transformProperties := resp.TransformProperties; transformProperties != nil {
-        d.Set("created", (transformProperties.Created).String())
-        d.Set("description", transformProperties.Description)
-        d.Set("last_modified", (transformProperties.LastModified).String())
-        if err := d.Set("outputs", flattenArmTransformTransformOutput(transformProperties.Outputs)); err != nil {
-            return fmt.Errorf("Error setting `outputs`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -249,23 +231,4 @@ func expandArmTransformTransformOutput(input []interface{}) *[]mediaservices.Tra
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmTransformTransformOutput(input *[]mediaservices.TransformOutput) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["on_error"] = string(item.OnError)
-        v["relative_priority"] = string(item.RelativePriority)
-
-        results = append(results, v)
-    }
-
-    return results
 }

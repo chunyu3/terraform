@@ -57,6 +57,30 @@ func resourceArmCloudEndpoint() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "azure_file_share": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "azure_file_share_uri": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "backup_metadata_property_bag": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "failed_file_list": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "friendly_name": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -67,9 +91,58 @@ func resourceArmCloudEndpoint() *schema.Resource {
                 Optional: true,
             },
 
+            "partition": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "partnership_id": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "pause_wait_for_sync_drain_time_period_in_seconds": {
+                Type: schema.TypeInt,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "replica_group": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "request_id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "restore_file_spec": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "path": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
+
+            "source_azure_file_share_uri": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "status": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
             },
 
             "storage_account": {
@@ -95,16 +168,6 @@ func resourceArmCloudEndpoint() *schema.Resource {
             "storage_account_tenant_id": {
                 Type: schema.TypeString,
                 Optional: true,
-            },
-
-            "backup_enabled": {
-                Type: schema.TypeBool,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "type": {
@@ -136,16 +199,33 @@ func resourceArmCloudEndpointCreateUpdate(d *schema.ResourceData, meta interface
         }
     }
 
+    azureFileShare := d.Get("azure_file_share").(string)
+    azureFileShareUri := d.Get("azure_file_share_uri").(string)
+    backupMetadataPropertyBag := d.Get("backup_metadata_property_bag").(string)
+    failedFileList := d.Get("failed_file_list").(string)
     friendlyName := d.Get("friendly_name").(string)
     lastWorkflowId := d.Get("last_workflow_id").(string)
+    partition := d.Get("partition").(string)
     partnershipId := d.Get("partnership_id").(string)
+    pauseWaitForSyncDrainTimePeriodInSeconds := d.Get("pause_wait_for_sync_drain_time_period_in_seconds").(int)
+    replicaGroup := d.Get("replica_group").(string)
+    requestId := d.Get("request_id").(string)
+    restoreFileSpec := d.Get("restore_file_spec").([]interface{})
+    sourceAzureFileShareUri := d.Get("source_azure_file_share_uri").(string)
+    status := d.Get("status").(string)
     storageAccount := d.Get("storage_account").(string)
     storageAccountKey := d.Get("storage_account_key").(string)
     storageAccountResourceId := d.Get("storage_account_resource_id").(string)
     storageAccountShareName := d.Get("storage_account_share_name").(string)
     storageAccountTenantId := d.Get("storage_account_tenant_id").(string)
 
-    parameters := storagesync.CloudEndpoint{
+    parameters := storagesync.PostRestoreRequest{
+        AzureFileShare: utils.String(azureFileShare),
+        AzureFileShareURI: utils.String(azureFileShareUri),
+        BackupMetadataPropertyBag: utils.String(backupMetadataPropertyBag),
+        FailedFileList: utils.String(failedFileList),
+        Partition: utils.String(partition),
+        PauseWaitForSyncDrainTimePeriodInSeconds: utils.Int(pauseWaitForSyncDrainTimePeriodInSeconds),
         CloudEndpointProperties: &storagesync.CloudEndpointProperties{
             FriendlyName: utils.String(friendlyName),
             LastWorkflowID: utils.String(lastWorkflowId),
@@ -156,6 +236,11 @@ func resourceArmCloudEndpointCreateUpdate(d *schema.ResourceData, meta interface
             StorageAccountShareName: utils.String(storageAccountShareName),
             StorageAccountTenantID: utils.String(storageAccountTenantId),
         },
+        ReplicaGroup: utils.String(replicaGroup),
+        RequestID: utils.String(requestId),
+        RestoreFileSpec: expandArmCloudEndpointRestoreFileSpec(restoreFileSpec),
+        SourceAzureFileShareURI: utils.String(sourceAzureFileShareUri),
+        Status: utils.String(status),
     }
 
 
@@ -207,18 +292,6 @@ func resourceArmCloudEndpointRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if cloudEndpointProperties := resp.CloudEndpointProperties; cloudEndpointProperties != nil {
-        d.Set("backup_enabled", cloudEndpointProperties.BackupEnabled)
-        d.Set("friendly_name", cloudEndpointProperties.FriendlyName)
-        d.Set("last_workflow_id", cloudEndpointProperties.LastWorkflowID)
-        d.Set("partnership_id", cloudEndpointProperties.PartnershipID)
-        d.Set("provisioning_state", cloudEndpointProperties.ProvisioningState)
-        d.Set("storage_account", cloudEndpointProperties.StorageAccount)
-        d.Set("storage_account_key", cloudEndpointProperties.StorageAccountKey)
-        d.Set("storage_account_resource_id", cloudEndpointProperties.StorageAccountResourceID)
-        d.Set("storage_account_share_name", cloudEndpointProperties.StorageAccountShareName)
-        d.Set("storage_account_tenant_id", cloudEndpointProperties.StorageAccountTenantID)
-    }
     d.Set("storage_sync_service_name", storageSyncServiceName)
     d.Set("sync_group_name", syncGroupName)
     d.Set("type", resp.Type)
@@ -256,4 +329,19 @@ func resourceArmCloudEndpointDelete(d *schema.ResourceData, meta interface{}) er
     }
 
     return nil
+}
+
+func expandArmCloudEndpointRestoreFileSpec(input []interface{}) *[]storagesync.RestoreFileSpec {
+    results := make([]storagesync.RestoreFileSpec, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        path := v["path"].(string)
+
+        result := storagesync.RestoreFileSpec{
+            Path: utils.String(path),
+        }
+
+        results = append(results, result)
+    }
+    return &results
 }

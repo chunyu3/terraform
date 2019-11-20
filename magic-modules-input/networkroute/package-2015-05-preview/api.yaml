@@ -68,7 +68,7 @@ objects:
             python_field_name: next_hop_ip_address
           '/properties/nextHopIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: NextHopIpAddress
+            go_field_name: NextHopIPAddress
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
@@ -115,44 +115,6 @@ objects:
             python_parameter_name: route_name
             python_variable_name: name
         response:
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: RoutePropertiesFormat
-            go_type_name: RoutePropertiesFormat
-          '/properties/addressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AddressPrefix
-          '/addressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: address_prefix
-          '/properties/nextHopType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: NextHopType
-            go_enum_type_name: RouteNextHopType
-          '/nextHopType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: next_hop_type
-          '/properties/nextHopIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: NextHopIpAddress
-          '/nextHopIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: next_hop_ip_address
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Etag
-            python_field_name: etag
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -229,8 +191,3 @@ objects:
         input: true
         azure_sdk_references: ['/etag']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Gets or sets Provisioning state of the resource Updating/Deleting/Failed'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']

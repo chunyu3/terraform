@@ -90,17 +90,7 @@ func resourceArmElasticPool() *schema.Resource {
                 Optional: true,
             },
 
-            "creation_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "kind": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "state": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -151,7 +141,7 @@ func resourceArmElasticPoolCreate(d *schema.ResourceData, meta interface{}) erro
             DatabaseDtuMin: utils.Int32(int32(databaseDtuMin)),
             Dtu: utils.Int32(int32(dtu)),
             Edition: sql.ElasticPoolEdition(edition),
-            StorageMb: utils.Int32(int32(storageMb)),
+            StorageMB: utils.Int32(int32(storageMb)),
             ZoneRedundant: utils.Bool(zoneRedundant),
         },
         Tags: tags.Expand(t),
@@ -205,24 +195,11 @@ func resourceArmElasticPoolRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if elasticPoolProperties := resp.ElasticPoolProperties; elasticPoolProperties != nil {
-        d.Set("creation_date", (elasticPoolProperties.CreationDate).String())
-        d.Set("database_dtu_max", int(*elasticPoolProperties.DatabaseDtuMax))
-        d.Set("database_dtu_min", int(*elasticPoolProperties.DatabaseDtuMin))
-        d.Set("dtu", int(*elasticPoolProperties.Dtu))
-        d.Set("edition", string(elasticPoolProperties.Edition))
-        d.Set("state", string(elasticPoolProperties.State))
-        d.Set("storage_mb", int(*elasticPoolProperties.StorageMb))
-        d.Set("zone_redundant", elasticPoolProperties.ZoneRedundant)
-    }
     d.Set("kind", resp.Kind)
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmElasticPoolUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -241,13 +218,12 @@ func resourceArmElasticPoolUpdate(d *schema.ResourceData, meta interface{}) erro
     t := d.Get("tags").(map[string]interface{})
 
     parameters := sql.ElasticPoolUpdate{
-        Location: utils.String(location),
         ElasticPoolProperties: &sql.ElasticPoolProperties{
             DatabaseDtuMax: utils.Int32(int32(databaseDtuMax)),
             DatabaseDtuMin: utils.Int32(int32(databaseDtuMin)),
             Dtu: utils.Int32(int32(dtu)),
             Edition: sql.ElasticPoolEdition(edition),
-            StorageMb: utils.Int32(int32(storageMb)),
+            StorageMB: utils.Int32(int32(storageMb)),
             ZoneRedundant: utils.Bool(zoneRedundant),
         },
         Tags: tags.Expand(t),

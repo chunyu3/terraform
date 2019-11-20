@@ -4,6 +4,7 @@ task: !ruby/object:Provider::Ansible::Task
   description: TriggerPut
   code:
     name: myTrigger
+    resource_group: myResourceGroup
     trigger:
       properties:
         customContextTag: CustomContextTags-1235346475
@@ -18,5 +19,4 @@ task: !ruby/object:Provider::Ansible::Task
             }}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{{
             data_box_edge_device_name }}/roles/{{ role_name }}
       kind: FileEvent
-    resource_group: myResourceGroup
   

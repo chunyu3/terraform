@@ -34,16 +34,16 @@ func testCheckAzureRMReplicationPolicyExists(resourceName string) resource.TestC
             return fmt.Errorf("Replication Policy not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        policyName := rs.Primary.Attributes["policy_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).replicationPoliciesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceName, resourceGroup, policyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Replication Policy (Policy Name %q / Resource Group %q / Resource Name %q) does not exist", policyName, resourceGroup, resourceName)
+                return fmt.Errorf("Bad: Replication Policy %q (Resource Group %q / Resource Name %q) does not exist", name, resourceGroup, resourceName)
             }
             return fmt.Errorf("Bad: Get on replicationPoliciesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMReplicationPolicyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        policyName := rs.Primary.Attributes["policy_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
-        if resp, err := client.Get(ctx, resourceName, resourceGroup, policyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on replicationPoliciesClient: %+v", err)
             }

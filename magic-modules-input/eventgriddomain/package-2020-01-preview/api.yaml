@@ -62,6 +62,9 @@ objects:
             applicable_to: [go]
             go_field_name: InputSchemaMapping
             go_type_name: InputSchemaMapping
+          '/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: KeyName
+            python_field_name: key_name
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -107,49 +110,6 @@ objects:
             python_parameter_name: domain_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DomainProperties
-            go_type_name: DomainProperties
-          '/properties/inputSchema': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: InputSchema
-            go_enum_type_name: InputSchema
-          '/inputSchema': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: input_schema
-          '/properties/inputSchemaMapping': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: InputSchemaMapping
-            go_type_name: InputSchemaMapping
-          '/inputSchemaMapping': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: input_schema_mapping
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: DomainProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Endpoint
-          '/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: endpoint
-          '/properties/metricResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: MetricResourceID
-          '/metricResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: metric_resource_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -159,10 +119,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscription
-        python_func_name: list_by_subscription
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -172,6 +128,24 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListSharedAccessKeys
+        python_func_name: list_shared_access_keys
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: domains
+            go_variable_name: name
+            python_parameter_name: domain_name
+            python_variable_name: name
 
     description: |
       Manage Azure Domain instance.
@@ -210,29 +184,13 @@ objects:
           - :CustomEventSchema
           - :CloudEventSchemaV1_0
         default_value: :EventGridSchema
+      - !ruby/object:Api::Type::String
+        name: 'keyName'
+        description: 'Key name to regenerate key1 or key2'
+        required: true
+        input: true
+        azure_sdk_references: ['/keyName']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'Provisioning state of the domain.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Creating
-          - :Updating
-          - :Deleting
-          - :Succeeded
-          - :Canceled
-          - :Failed
-      - !ruby/object:Api::Type::String
-        name: 'endpoint'
-        description: 'Endpoint for the domain.'
-        output: true
-        azure_sdk_references: ['/endpoint', '/properties/endpoint']
-      - !ruby/object:Api::Type::String
-        name: 'metricResourceId'
-        description: 'Metric resource id for the domain.'
-        output: true
-        azure_sdk_references: ['/metricResourceId', '/properties/metricResourceId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified identifier of the resource'

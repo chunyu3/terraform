@@ -34,18 +34,18 @@ func testCheckAzureRMReplicationStorageClassificationMappingExists(resourceName 
             return fmt.Errorf("Replication Storage Classification Mapping not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         fabricName := rs.Primary.Attributes["fabric_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
-        storageClassificationMappingName := rs.Primary.Attributes["storage_classification_mapping_name"]
         storageClassificationName := rs.Primary.Attributes["storage_classification_name"]
 
         client := testAccProvider.Meta().(*ArmClient).replicationStorageClassificationMappingsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, storageClassificationName, storageClassificationMappingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, storageClassificationName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Replication Storage Classification Mapping (Storage Classification Mapping Name %q / Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q) does not exist", storageClassificationMappingName, storageClassificationName, fabricName, resourceGroup, resourceName)
+                return fmt.Errorf("Bad: Replication Storage Classification Mapping %q (Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q) does not exist", name, storageClassificationName, fabricName, resourceGroup, resourceName)
             }
             return fmt.Errorf("Bad: Get on replicationStorageClassificationMappingsClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMReplicationStorageClassificationMappingDestroy(s *terraform
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         fabricName := rs.Primary.Attributes["fabric_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
-        storageClassificationMappingName := rs.Primary.Attributes["storage_classification_mapping_name"]
         storageClassificationName := rs.Primary.Attributes["storage_classification_name"]
 
-        if resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, storageClassificationName, storageClassificationMappingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, storageClassificationName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on replicationStorageClassificationMappingsClient: %+v", err)
             }

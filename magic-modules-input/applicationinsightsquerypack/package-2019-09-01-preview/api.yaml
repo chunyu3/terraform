@@ -76,40 +76,6 @@ objects:
             python_parameter_name: query_pack_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LogAnalyticsQueryPackProperties
-            go_type_name: LogAnalyticsQueryPackProperties
-          '/properties/queryPackId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: QueryPackID
-          '/queryPackId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: query_pack_id
-          '/properties/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: TimeCreated
-          '/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: time_created
-          '/properties/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: TimeModified
-          '/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: time_modified
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -119,10 +85,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -132,6 +94,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
 
     description: |
       Manage Azure QueryPack instance.
@@ -161,26 +127,6 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'queryPackId'
-        description: 'The unique ID of your application. This field cannot be changed.'
-        output: true
-        azure_sdk_references: ['/queryPackId', '/properties/queryPackId']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'timeCreated'
-        description: 'Creation Date for the Log Analytics QueryPack, in ISO 8601 format.'
-        output: true
-        azure_sdk_references: ['/timeCreated', '/properties/timeCreated']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'timeModified'
-        description: 'Last modified date of the Log Analytics QueryPack, in ISO 8601 format.'
-        output: true
-        azure_sdk_references: ['/timeModified', '/properties/timeModified']
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Current state of this QueryPack: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying, Canceled, and Failed.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource Id'

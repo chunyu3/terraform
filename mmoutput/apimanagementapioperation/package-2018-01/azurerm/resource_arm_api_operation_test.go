@@ -36,15 +36,15 @@ func testCheckAzureRMApiOperationExists(resourceName string) resource.TestCheckF
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         operationID := rs.Primary.Attributes["operation_id"]
 
         client := testAccProvider.Meta().(*ArmClient).apiOperationClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, operationID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Operation %q (Operation %q / Api %q / Resource Group %q) does not exist", name, operationID, apiID, resourceGroup)
+                return fmt.Errorf("Bad: Api Operation %q (Operation %q / Api %q / Resource Group %q) does not exist", name, operationID, aPIID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiOperationClient: %+v", err)
         }
@@ -64,10 +64,10 @@ func testCheckAzureRMApiOperationDestroy(s *terraform.State) error {
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         operationID := rs.Primary.Attributes["operation_id"]
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, operationID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiOperationClient: %+v", err)
             }

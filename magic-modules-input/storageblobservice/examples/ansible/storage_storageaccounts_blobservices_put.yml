@@ -1,0 +1,54 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_storageblobservice
+  description: PutBlobServices
+  code:
+    resource_group: myResourceGroup
+    account_name: myStorageAccount
+    name: myBlobService
+    cors:
+      cors_rules:
+        - allowed_origins:
+            - 'http://www.contoso.com'
+            - 'http://www.fabrikam.com'
+          allowed_methods:
+            - GET
+            - HEAD
+            - POST
+            - OPTIONS
+            - MERGE
+            - PUT
+          max_age_in_seconds: '100'
+          exposed_headers:
+            - x-ms-meta-*
+          allowed_headers:
+            - x-ms-meta-abc
+            - x-ms-meta-data*
+            - x-ms-meta-target*
+        - allowed_origins:
+            - '*'
+          allowed_methods:
+            - GET
+          max_age_in_seconds: '2'
+          exposed_headers:
+            - '*'
+          allowed_headers:
+            - '*'
+        - allowed_origins:
+            - 'http://www.abc23.com'
+            - 'https://www.fabrikam.com/*'
+          allowed_methods:
+            - GET
+            - PUT
+          max_age_in_seconds: '2000'
+          exposed_headers:
+            - x-ms-meta-abc
+            - x-ms-meta-data*
+            - x -ms-meta-target*
+          allowed_headers:
+            - x-ms-meta-12345675754564*
+    default_service_version: '2017-07-29'
+    delete_retention_policy:
+      enabled: true
+      days: '300'
+  

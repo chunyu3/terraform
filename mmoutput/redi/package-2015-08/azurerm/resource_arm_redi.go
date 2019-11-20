@@ -40,6 +40,27 @@ func resourceArmRedi() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "key_type": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(redis.Primary),
+                    string(redis.Secondary),
+                }, false),
+            },
+
+            "reboot_type": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(redis.PrimaryNode),
+                    string(redis.SecondaryNode),
+                    string(redis.AllNodes),
+                }, false),
+            },
+
             "sku": {
                 Type: schema.TypeList,
                 Required: true,
@@ -92,6 +113,12 @@ func resourceArmRedi() *schema.Resource {
                 Optional: true,
             },
 
+            "shard_id": {
+                Type: schema.TypeInt,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "static_ip": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -111,26 +138,6 @@ func resourceArmRedi() *schema.Resource {
             "virtual_network": {
                 Type: schema.TypeString,
                 Optional: true,
-            },
-
-            "host_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "port": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "ssl_port": {
-                Type: schema.TypeInt,
-                Computed: true,
             },
 
             "type": {
@@ -164,9 +171,12 @@ func resourceArmRediCreateUpdate(d *schema.ResourceData, meta interface{}) error
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     enableNonSslPort := d.Get("enable_non_ssl_port").(bool)
+    keyType := d.Get("key_type").(string)
+    rebootType := d.Get("reboot_type").(string)
     redisConfiguration := d.Get("redis_configuration").(map[string]interface{})
     redisVersion := d.Get("redis_version").(string)
     shardCount := d.Get("shard_count").(int)
+    shardId := d.Get("shard_id").(int)
     sku := d.Get("sku").([]interface{})
     staticIp := d.Get("static_ip").(string)
     subnet := d.Get("subnet").(string)
@@ -174,7 +184,8 @@ func resourceArmRediCreateUpdate(d *schema.ResourceData, meta interface{}) error
     virtualNetwork := d.Get("virtual_network").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := redis.CreateOrUpdateParameters{
+    parameters := redis.RebootParameters{
+        KeyType: redis.KeyType(keyType),
         Location: utils.String(location),
         Properties: &redis.Properties{
             EnableNonSslPort: utils.Bool(enableNonSslPort),
@@ -182,11 +193,13 @@ func resourceArmRediCreateUpdate(d *schema.ResourceData, meta interface{}) error
             RedisVersion: utils.String(redisVersion),
             ShardCount: utils.Int32(int32(shardCount)),
             Sku: expandArmRediSku(sku),
-            StaticIp: utils.String(staticIp),
+            StaticIP: utils.String(staticIp),
             Subnet: utils.String(subnet),
             TenantSettings: utils.ExpandKeyValuePairs(tenantSettings),
             VirtualNetwork: utils.String(virtualNetwork),
         },
+        RebootType: redis.RebootType(rebootType),
+        ShardID: utils.Int32(int32(shardId)),
         Tags: tags.Expand(t),
     }
 
@@ -232,29 +245,9 @@ func resourceArmRediRead(d *schema.ResourceData, meta interface{}) error {
 
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if properties := resp.Properties; properties != nil {
-        d.Set("enable_non_ssl_port", properties.EnableNonSslPort)
-        d.Set("host_name", properties.HostName)
-        d.Set("port", int(*properties.Port))
-        d.Set("provisioning_state", properties.ProvisioningState)
-        d.Set("redis_configuration", utils.FlattenKeyValuePairs(properties.RedisConfiguration))
-        d.Set("redis_version", properties.RedisVersion)
-        d.Set("shard_count", int(*properties.ShardCount))
-        if err := d.Set("sku", flattenArmRediSku(properties.Sku)); err != nil {
-            return fmt.Errorf("Error setting `sku`: %+v", err)
-        }
-        d.Set("ssl_port", int(*properties.SslPort))
-        d.Set("static_ip", properties.StaticIp)
-        d.Set("subnet", properties.Subnet)
-        d.Set("tenant_settings", utils.FlattenKeyValuePairs(properties.TenantSettings))
-        d.Set("virtual_network", properties.VirtualNetwork)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -293,21 +286,4 @@ func expandArmRediSku(input []interface{}) *redis.Sku {
         Name: redis.SkuName(name),
     }
     return &result
-}
-
-
-func flattenArmRediSku(input *redis.Sku) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["name"] = string(input.Name)
-    if capacity := input.Capacity; capacity != nil {
-        result["capacity"] = int(*capacity)
-    }
-    result["family"] = string(input.Family)
-
-    return []interface{}{result}
 }

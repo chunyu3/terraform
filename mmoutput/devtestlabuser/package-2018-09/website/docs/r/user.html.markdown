@@ -68,12 +68,6 @@ The `secret_store` block supports the following:
 
 The following attributes are exported:
 
-* `created_date` - The creation date of the user profile.
-
-* `provisioning_state` - The provisioning status of the resource.
-
-* `unique_identifier` - The unique immutable identifier of a resource (Guid).
-
 * `id` - The identifier of the resource.
 
 * `type` - The type of the resource.

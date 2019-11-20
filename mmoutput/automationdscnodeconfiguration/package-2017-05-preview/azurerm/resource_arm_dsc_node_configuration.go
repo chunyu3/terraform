@@ -118,16 +118,6 @@ func resourceArmDscNodeConfiguration() *schema.Resource {
                 ForceNew: true,
             },
 
-            "creation_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -213,11 +203,6 @@ func resourceArmDscNodeConfigurationRead(d *schema.ResourceData, meta interface{
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
-    if err := d.Set("configuration", flattenArmDscNodeConfigurationDscConfigurationAssociationProperty(resp.Configuration)); err != nil {
-        return fmt.Errorf("Error setting `configuration`: %+v", err)
-    }
-    d.Set("creation_time", (resp.CreationTime).String())
-    d.Set("last_modified_time", (resp.LastModifiedTime).String())
     d.Set("type", resp.Type)
 
     return nil
@@ -292,19 +277,4 @@ func expandArmDscNodeConfigurationContentHash(input []interface{}) *automation.C
         Value: utils.String(value),
     }
     return &result
-}
-
-
-func flattenArmDscNodeConfigurationDscConfigurationAssociationProperty(input *automation.DscConfigurationAssociationProperty) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
-
-    return []interface{}{result}
 }

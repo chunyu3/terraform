@@ -28,13 +28,13 @@ Manage Azure User instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the user. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `lab_account_name` - (Required) The name of the lab Account. Changing this forces a new resource to be created.
 
 * `lab_name` - (Required) The name of the lab. Changing this forces a new resource to be created.
-
-* `user_name` - (Required) The name of the user. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
 
@@ -46,39 +46,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `email` - The user email address, as it was specified during registration.
-
-* `family_name` - The user family name, as it was specified during registration.
-
-* `given_name` - The user given name, as it was specified during registration.
-
-* `tenant_id` - The user tenant ID, as it was specified during registration.
-
-* `total_usage` - How long the user has used his VMs in this lab
-
-* `provisioning_state` - The provisioning status of the resource.
-
-* `latest_operation_result` - One `latest_operation_result` block defined below.
-
 * `id` - The identifier of the resource.
 
 * `name` - The name of the resource.
 
 * `type` - The type of the resource.
-
-
----
-
-The `latest_operation_result` block contains the following:
-
-* `status` - (Optional) The current status of the operation.
-
-* `error_code` - (Optional) Error code on failure.
-
-* `error_message` - (Optional) The error message.
-
-* `request_uri` - (Optional) Request URI of the operation.
-
-* `http_method` - (Optional) The HttpMethod - PUT/POST/DELETE for the operation.
-
-* `operation_url` - (Optional) The URL to use to check long-running operation status

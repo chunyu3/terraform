@@ -85,6 +85,12 @@ func resourceArmVirtualNetworkGatewayConnection() *schema.Resource {
                 Optional: true,
             },
 
+            "key_length": {
+                Type: schema.TypeInt,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "local_network_gateway2": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -152,6 +158,12 @@ func resourceArmVirtualNetworkGatewayConnection() *schema.Resource {
             "shared_key": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "value": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
             },
 
             "virtual_network_gateway1": {
@@ -382,11 +394,6 @@ func resourceArmVirtualNetworkGatewayConnection() *schema.Resource {
                 },
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -422,17 +429,20 @@ func resourceArmVirtualNetworkGatewayConnectionCreateUpdate(d *schema.ResourceDa
     egressBytesTransferred := d.Get("egress_bytes_transferred").(int)
     etag := d.Get("etag").(string)
     ingressBytesTransferred := d.Get("ingress_bytes_transferred").(int)
+    keyLength := d.Get("key_length").(int)
     localNetworkGateway2 := d.Get("local_network_gateway2").([]interface{})
     peer := d.Get("peer").([]interface{})
     resourceGuid := d.Get("resource_guid").(string)
     routingWeight := d.Get("routing_weight").(int)
     sharedKey := d.Get("shared_key").(string)
+    value := d.Get("value").(string)
     virtualNetworkGateway1 := d.Get("virtual_network_gateway1").([]interface{})
     virtualNetworkGateway2 := d.Get("virtual_network_gateway2").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := network.VirtualNetworkGatewayConnection{
+    parameters := network.ConnectionResetSharedKey{
         Etag: utils.String(etag),
+        KeyLength: utils.Int64(int64(keyLength)),
         Location: utils.String(location),
         VirtualNetworkGatewayConnectionPropertiesFormat: &network.VirtualNetworkGatewayConnectionPropertiesFormat{
             ConnectionStatus: network.VirtualNetworkGatewayConnectionStatus(connectionStatus),
@@ -441,13 +451,14 @@ func resourceArmVirtualNetworkGatewayConnectionCreateUpdate(d *schema.ResourceDa
             IngressBytesTransferred: utils.Int64(int64(ingressBytesTransferred)),
             LocalNetworkGateway2: expandArmVirtualNetworkGatewayConnectionLocalNetworkGateway(localNetworkGateway2),
             Peer: expandArmVirtualNetworkGatewayConnectionSubResource(peer),
-            ResourceGuid: utils.String(resourceGuid),
+            ResourceGUID: utils.String(resourceGuid),
             RoutingWeight: utils.Int32(int32(routingWeight)),
             SharedKey: utils.String(sharedKey),
             VirtualNetworkGateway1: expandArmVirtualNetworkGatewayConnectionVirtualNetworkGateway(virtualNetworkGateway1),
             VirtualNetworkGateway2: expandArmVirtualNetworkGatewayConnectionVirtualNetworkGateway(virtualNetworkGateway2),
         },
         Tags: tags.Expand(t),
+        Value: utils.String(value),
     }
 
 
@@ -497,35 +508,9 @@ func resourceArmVirtualNetworkGatewayConnectionRead(d *schema.ResourceData, meta
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if virtualNetworkGatewayConnectionPropertiesFormat := resp.VirtualNetworkGatewayConnectionPropertiesFormat; virtualNetworkGatewayConnectionPropertiesFormat != nil {
-        d.Set("connection_status", string(virtualNetworkGatewayConnectionPropertiesFormat.ConnectionStatus))
-        d.Set("connection_type", string(virtualNetworkGatewayConnectionPropertiesFormat.ConnectionType))
-        d.Set("egress_bytes_transferred", int(*virtualNetworkGatewayConnectionPropertiesFormat.EgressBytesTransferred))
-        d.Set("ingress_bytes_transferred", int(*virtualNetworkGatewayConnectionPropertiesFormat.IngressBytesTransferred))
-        if err := d.Set("local_network_gateway2", flattenArmVirtualNetworkGatewayConnectionLocalNetworkGateway(virtualNetworkGatewayConnectionPropertiesFormat.LocalNetworkGateway2)); err != nil {
-            return fmt.Errorf("Error setting `local_network_gateway2`: %+v", err)
-        }
-        if err := d.Set("peer", flattenArmVirtualNetworkGatewayConnectionSubResource(virtualNetworkGatewayConnectionPropertiesFormat.Peer)); err != nil {
-            return fmt.Errorf("Error setting `peer`: %+v", err)
-        }
-        d.Set("provisioning_state", virtualNetworkGatewayConnectionPropertiesFormat.ProvisioningState)
-        d.Set("resource_guid", virtualNetworkGatewayConnectionPropertiesFormat.ResourceGuid)
-        d.Set("routing_weight", int(*virtualNetworkGatewayConnectionPropertiesFormat.RoutingWeight))
-        d.Set("shared_key", virtualNetworkGatewayConnectionPropertiesFormat.SharedKey)
-        if err := d.Set("virtual_network_gateway1", flattenArmVirtualNetworkGatewayConnectionVirtualNetworkGateway(virtualNetworkGatewayConnectionPropertiesFormat.VirtualNetworkGateway1)); err != nil {
-            return fmt.Errorf("Error setting `virtual_network_gateway1`: %+v", err)
-        }
-        if err := d.Set("virtual_network_gateway2", flattenArmVirtualNetworkGatewayConnectionVirtualNetworkGateway(virtualNetworkGatewayConnectionPropertiesFormat.VirtualNetworkGateway2)); err != nil {
-            return fmt.Errorf("Error setting `virtual_network_gateway2`: %+v", err)
-        }
-    }
-    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -575,9 +560,9 @@ func expandArmVirtualNetworkGatewayConnectionLocalNetworkGateway(input []interfa
         Etag: utils.String(etag),
         Location: utils.String(location),
         LocalNetworkGatewayPropertiesFormat: &network.LocalNetworkGatewayPropertiesFormat{
-            GatewayIpAddress: utils.String(gatewayIpAddress),
+            GatewayIPAddress: utils.String(gatewayIpAddress),
             LocalNetworkAddressSpace: expandArmVirtualNetworkGatewayConnectionAddressSpace(localNetworkAddressSpace),
-            ResourceGuid: utils.String(resourceGuid),
+            ResourceGUID: utils.String(resourceGuid),
         },
         Tags: tags.Expand(t),
     }
@@ -621,8 +606,8 @@ func expandArmVirtualNetworkGatewayConnectionVirtualNetworkGateway(input []inter
             EnableBgp: utils.Bool(enableBgp),
             GatewayDefaultSite: expandArmVirtualNetworkGatewayConnectionSubResource(gatewayDefaultSite),
             GatewayType: network.VirtualNetworkGatewayType(gatewayType),
-            IpConfigurations: expandArmVirtualNetworkGatewayConnectionVirtualNetworkGatewayIpConfiguration(ipConfigurations),
-            ResourceGuid: utils.String(resourceGuid),
+            IPConfigurations: expandArmVirtualNetworkGatewayConnectionVirtualNetworkGatewayIpConfiguration(ipConfigurations),
+            ResourceGUID: utils.String(resourceGuid),
             VpnType: network.VpnType(vpnType),
         },
         Tags: tags.Expand(t),
@@ -661,9 +646,9 @@ func expandArmVirtualNetworkGatewayConnectionVirtualNetworkGatewayIpConfiguratio
             ID: utils.String(id),
             Name: utils.String(name),
             VirtualNetworkGatewayIpConfigurationPropertiesFormat: &network.VirtualNetworkGatewayIpConfigurationPropertiesFormat{
-                PrivateIpAddress: utils.String(privateIpAddress),
-                PrivateIpallocationMethod: network.IpAllocationMethod(privateIpallocationMethod),
-                PublicIpAddress: expandArmVirtualNetworkGatewayConnectionSubResource(publicIpAddress),
+                PrivateIPAddress: utils.String(privateIpAddress),
+                PrivateIPAllocationMethod: network.IpAllocationMethod(privateIpallocationMethod),
+                PublicIPAddress: expandArmVirtualNetworkGatewayConnectionSubResource(publicIpAddress),
                 Subnet: expandArmVirtualNetworkGatewayConnectionSubResource(subnet),
             },
         }
@@ -671,119 +656,4 @@ func expandArmVirtualNetworkGatewayConnectionVirtualNetworkGatewayIpConfiguratio
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmVirtualNetworkGatewayConnectionLocalNetworkGateway(input *network.LocalNetworkGateway) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if location := input.Location; location != nil {
-        result["location"] = azure.NormalizeLocation(*location)
-    }
-    if etag := input.Etag; etag != nil {
-        result["etag"] = *etag
-    }
-    if localNetworkGatewayPropertiesFormat := input.LocalNetworkGatewayPropertiesFormat; localNetworkGatewayPropertiesFormat != nil {
-        if gatewayIpAddress := localNetworkGatewayPropertiesFormat.GatewayIpAddress; gatewayIpAddress != nil {
-            result["gateway_ip_address"] = *gatewayIpAddress
-        }
-        result["local_network_address_space"] = flattenArmVirtualNetworkGatewayConnectionAddressSpace(localNetworkGatewayPropertiesFormat.LocalNetworkAddressSpace)
-        if resourceGuid := localNetworkGatewayPropertiesFormat.ResourceGuid; resourceGuid != nil {
-            result["resource_guid"] = *resourceGuid
-        }
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmVirtualNetworkGatewayConnectionSubResource(input *network.SubResource) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if id := input.ID; id != nil {
-        result["id"] = *id
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmVirtualNetworkGatewayConnectionVirtualNetworkGateway(input *network.VirtualNetworkGateway) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if location := input.Location; location != nil {
-        result["location"] = azure.NormalizeLocation(*location)
-    }
-    if virtualNetworkGatewayPropertiesFormat := input.VirtualNetworkGatewayPropertiesFormat; virtualNetworkGatewayPropertiesFormat != nil {
-        if enableBgp := virtualNetworkGatewayPropertiesFormat.EnableBgp; enableBgp != nil {
-            result["enable_bgp"] = *enableBgp
-        }
-        result["gateway_default_site"] = flattenArmVirtualNetworkGatewayConnectionSubResource(virtualNetworkGatewayPropertiesFormat.GatewayDefaultSite)
-        result["gateway_type"] = string(virtualNetworkGatewayPropertiesFormat.GatewayType)
-        result["ip_configurations"] = flattenArmVirtualNetworkGatewayConnectionVirtualNetworkGatewayIpConfiguration(virtualNetworkGatewayPropertiesFormat.IpConfigurations)
-        if resourceGuid := virtualNetworkGatewayPropertiesFormat.ResourceGuid; resourceGuid != nil {
-            result["resource_guid"] = *resourceGuid
-        }
-        result["vpn_type"] = string(virtualNetworkGatewayPropertiesFormat.VpnType)
-    }
-    if etag := input.Etag; etag != nil {
-        result["etag"] = *etag
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmVirtualNetworkGatewayConnectionAddressSpace(input *network.AddressSpace) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["address_prefixes"] = utils.FlattenStringSlice(input.AddressPrefixes)
-
-    return []interface{}{result}
-}
-
-func flattenArmVirtualNetworkGatewayConnectionVirtualNetworkGatewayIpConfiguration(input *[]network.VirtualNetworkGatewayIpConfiguration) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
-        if virtualNetworkGatewayIpConfigurationPropertiesFormat := item.VirtualNetworkGatewayIpConfigurationPropertiesFormat; virtualNetworkGatewayIpConfigurationPropertiesFormat != nil {
-            if privateIpAddress := virtualNetworkGatewayIpConfigurationPropertiesFormat.PrivateIpAddress; privateIpAddress != nil {
-                v["private_ip_address"] = *privateIpAddress
-            }
-            v["private_ipallocation_method"] = string(virtualNetworkGatewayIpConfigurationPropertiesFormat.PrivateIpallocationMethod)
-            v["public_ip_address"] = flattenArmVirtualNetworkGatewayConnectionSubResource(virtualNetworkGatewayIpConfigurationPropertiesFormat.PublicIpAddress)
-            v["subnet"] = flattenArmVirtualNetworkGatewayConnectionSubResource(virtualNetworkGatewayIpConfigurationPropertiesFormat.Subnet)
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

@@ -95,8 +95,8 @@ func resourceArmFirewallRuleCreateUpdate(d *schema.ResourceData, meta interface{
 
     parameters := postgresql.FirewallRule{
         FirewallRuleProperties: &postgresql.FirewallRuleProperties{
-            EndIpAddress: utils.String(endIpAddress),
-            StartIpAddress: utils.String(startIpAddress),
+            EndIPAddress: utils.String(endIpAddress),
+            StartIPAddress: utils.String(startIpAddress),
         },
     }
 
@@ -148,10 +148,6 @@ func resourceArmFirewallRuleRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if firewallRuleProperties := resp.FirewallRuleProperties; firewallRuleProperties != nil {
-        d.Set("end_ip_address", firewallRuleProperties.EndIpAddress)
-        d.Set("start_ip_address", firewallRuleProperties.StartIpAddress)
-    }
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 

@@ -184,16 +184,6 @@ func resourceArmDiagnosticSettingRead(d *schema.ResourceData, meta interface{}) 
 
 
     d.Set("name", name)
-    if diagnosticSettings := resp.DiagnosticSettings; diagnosticSettings != nil {
-        d.Set("event_hub_authorization_rule_id", diagnosticSettings.EventHubAuthorizationRuleID)
-        d.Set("event_hub_name", diagnosticSettings.EventHubName)
-        if err := d.Set("logs", flattenArmDiagnosticSettingLogSettings(diagnosticSettings.Logs)); err != nil {
-            return fmt.Errorf("Error setting `logs`: %+v", err)
-        }
-        d.Set("service_bus_rule_id", diagnosticSettings.ServiceBusRuleID)
-        d.Set("storage_account_id", diagnosticSettings.StorageAccountID)
-        d.Set("workspace_id", diagnosticSettings.WorkspaceID)
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -251,43 +241,4 @@ func expandArmDiagnosticSettingRetentionPolicy(input []interface{}) *azureactive
         Enabled: utils.Bool(enabled),
     }
     return &result
-}
-
-
-func flattenArmDiagnosticSettingLogSettings(input *[]azureactivedirectory.LogSettings) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["category"] = string(item.Category)
-        if enabled := item.Enabled; enabled != nil {
-            v["enabled"] = *enabled
-        }
-        v["retention_policy"] = flattenArmDiagnosticSettingRetentionPolicy(item.RetentionPolicy)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmDiagnosticSettingRetentionPolicy(input *azureactivedirectory.RetentionPolicy) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if days := input.Days; days != nil {
-        result["days"] = int(*days)
-    }
-    if enabled := input.Enabled; enabled != nil {
-        result["enabled"] = *enabled
-    }
-
-    return []interface{}{result}
 }

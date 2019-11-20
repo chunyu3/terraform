@@ -60,10 +60,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `created_date` - The artifact source's creation date.
-
-* `provisioning_state` - The provisioning status of the resource.
-
 * `id` - The identifier of the resource.
 
 * `type` - The type of the resource.

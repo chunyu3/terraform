@@ -1,0 +1,18 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_apimanagementservice
+  description: ApiManagementServiceManageDeployment
+  code:
+    resource_group: myResourceGroup
+    name: myService
+    location: West US
+    sku_type: Developer
+    sku_unit_count: '1'
+    vpn_configuration:
+      subnet_resource_id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.Network/virtualNetworks/{{ virtual_network_name
+        }}/subnets/{{ subnet_name }}
+      location: West US
+    vpn_type: External
+  

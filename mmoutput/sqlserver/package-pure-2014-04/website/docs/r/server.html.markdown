@@ -28,11 +28,15 @@ Manage Azure Server instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name whose availability is to be checked. Changing this forces a new resource to be created.
+
 * `name` - (Required) The name of the server. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location. Changing this forces a new resource to be created.
+
+* `type` - (Required) The type of resource that is used as the scope of the availability check. Changing this forces a new resource to be created.
 
 * `administrator_login` - (Optional) Administrator username for the server. Can only be specified when the server is being created (and is required for creation).
 
@@ -46,18 +50,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `fully_qualified_domain_name` - The fully qualified domain name of the server.
-
-* `external_administrator_sid` - The ID of the Active Azure Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators.
-
-* `external_administrator_login` - The display name of the Azure Active Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators
-
-* `state` - The state of the server.
-
 * `id` - Resource ID.
-
-* `name` - Resource name.
-
-* `type` - Resource type.
 
 * `kind` - Kind of sql server.  This is metadata used for the Azure portal experience.

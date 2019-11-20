@@ -28,9 +28,9 @@ Manage Azure Project instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the Azure Resource Group that project is part of. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the Azure Migrate project. Changing this forces a new resource to be created.
 
-* `project_name` - (Required) Name of the Azure Migrate project. Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the Azure Resource Group that project is part of. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Azure location in which project is created. Changing this forces a new resource to be created.
 
@@ -49,22 +49,6 @@ The following arguments are supported:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `created_timestamp` - Time when this project was created. Date-Time represented in ISO-8601 format.
-
-* `updated_timestamp` - Time when this project was last updated. Date-Time represented in ISO-8601 format.
-
-* `service_endpoint` - Endpoint at which the collector agent can call agent REST API.
-
-* `number_of_groups` - Number of groups created in the project.
-
-* `number_of_machines` - Number of machines in the project.
-
-* `number_of_assessments` - Number of assessments created in the project.
-
-* `last_assessment_timestamp` - Time when last assessment was created. Date-Time represented in ISO-8601 format. This value will be null until assessment is created.
-
-* `provisioning_state` - Provisioning state of the project.
 
 * `id` - Path reference to this project /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}
 

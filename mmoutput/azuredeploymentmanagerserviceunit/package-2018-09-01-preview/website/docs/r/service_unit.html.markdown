@@ -28,6 +28,8 @@ Manage Azure ServiceUnit instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the service unit resource. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `service_name` - (Required) The name of the service resource. Changing this forces a new resource to be created.
 
 * `service_topology_name` - (Required) The name of the service topology . Changing this forces a new resource to be created.
-
-* `service_unit_name` - (Required) The name of the service unit resource. Changing this forces a new resource to be created.
 
 * `target_resource_group` - (Required) The Azure Resource Group to which the resources in the service unit belong to or should be deployed to.
 

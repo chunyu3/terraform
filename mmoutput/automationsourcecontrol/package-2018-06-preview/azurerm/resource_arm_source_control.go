@@ -102,26 +102,6 @@ func resourceArmSourceControl() *schema.Resource {
                 },
             },
 
-            "creation_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "repo_url": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "source_type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -212,17 +192,6 @@ func resourceArmSourceControlRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if sourceControlUpdateProperties := resp.SourceControlUpdateProperties; sourceControlUpdateProperties != nil {
-        d.Set("auto_sync", sourceControlUpdateProperties.AutoSync)
-        d.Set("branch", sourceControlUpdateProperties.Branch)
-        d.Set("creation_time", (sourceControlUpdateProperties.CreationTime).String())
-        d.Set("description", sourceControlUpdateProperties.Description)
-        d.Set("folder_path", sourceControlUpdateProperties.FolderPath)
-        d.Set("last_modified_time", (sourceControlUpdateProperties.LastModifiedTime).String())
-        d.Set("publish_runbook", sourceControlUpdateProperties.PublishRunbook)
-        d.Set("repo_url", sourceControlUpdateProperties.RepoURL)
-        d.Set("source_type", string(sourceControlUpdateProperties.SourceType))
-    }
     d.Set("automation_account_name", automationAccountName)
     d.Set("type", resp.Type)
 

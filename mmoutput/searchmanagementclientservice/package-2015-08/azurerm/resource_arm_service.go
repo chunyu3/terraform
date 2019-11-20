@@ -38,12 +38,21 @@ func resourceArmService() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "type": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
 
             "hosting_mode": {
                 Type: schema.TypeString,
@@ -107,26 +116,6 @@ func resourceArmService() *schema.Resource {
                 },
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status_details": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "tags": tags.Schema(),
         },
     }
@@ -151,17 +140,20 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
+    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     hostingMode := d.Get("hosting_mode").(string)
     identity := d.Get("identity").([]interface{})
     partitionCount := d.Get("partition_count").(int)
     replicaCount := d.Get("replica_count").(int)
     sku := d.Get("sku").([]interface{})
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
     service := searchmanagementclient.SearchService{
         Identity: expandArmServiceIdentity(identity),
         Location: utils.String(location),
+        Name: utils.String(name),
         SearchServiceProperties: &searchmanagementclient.SearchServiceProperties{
             HostingMode: searchmanagementclient.HostingMode(hostingMode),
             PartitionCount: utils.Int32(int32(partitionCount)),
@@ -169,6 +161,7 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
         },
         Sku: expandArmServiceSku(sku),
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -218,26 +211,9 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if searchServiceProperties := resp.SearchServiceProperties; searchServiceProperties != nil {
-        d.Set("hosting_mode", string(searchServiceProperties.HostingMode))
-        d.Set("partition_count", int(*searchServiceProperties.PartitionCount))
-        d.Set("provisioning_state", string(searchServiceProperties.ProvisioningState))
-        d.Set("replica_count", int(*searchServiceProperties.ReplicaCount))
-        d.Set("status", string(searchServiceProperties.Status))
-        d.Set("status_details", searchServiceProperties.StatusDetails)
-    }
-    if err := d.Set("identity", flattenArmServiceIdentity(resp.Identity)); err != nil {
-        return fmt.Errorf("Error setting `identity`: %+v", err)
-    }
-    if err := d.Set("sku", flattenArmServiceSku(resp.Sku)); err != nil {
-        return fmt.Errorf("Error setting `sku`: %+v", err)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -245,17 +221,19 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     hostingMode := d.Get("hosting_mode").(string)
     identity := d.Get("identity").([]interface{})
     partitionCount := d.Get("partition_count").(int)
     replicaCount := d.Get("replica_count").(int)
     sku := d.Get("sku").([]interface{})
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
     service := searchmanagementclient.SearchService{
         Identity: expandArmServiceIdentity(identity),
-        Location: utils.String(location),
+        Name: utils.String(name),
         SearchServiceProperties: &searchmanagementclient.SearchServiceProperties{
             HostingMode: searchmanagementclient.HostingMode(hostingMode),
             PartitionCount: utils.Int32(int32(partitionCount)),
@@ -263,6 +241,7 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
         },
         Sku: expandArmServiceSku(sku),
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -318,29 +297,4 @@ func expandArmServiceSku(input []interface{}) *searchmanagementclient.Sku {
         Name: searchmanagementclient.SkuName(name),
     }
     return &result
-}
-
-
-func flattenArmServiceIdentity(input *searchmanagementclient.Identity) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["type"] = string(input.Type)
-
-    return []interface{}{result}
-}
-
-func flattenArmServiceSku(input *searchmanagementclient.Sku) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["name"] = string(input.Name)
-
-    return []interface{}{result}
 }

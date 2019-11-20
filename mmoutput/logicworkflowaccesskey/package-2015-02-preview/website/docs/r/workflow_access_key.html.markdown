@@ -36,6 +36,8 @@ The following arguments are supported:
 
 * `id` - (Optional) Gets or sets the resource id. Changing this forces a new resource to be created.
 
+* `key_type` - (Optional) Gets or sets the key type. Defaults to `NotSpecified`. Changing this forces a new resource to be created.
+
 * `not_after` - (Optional) Gets or sets the not-after time.
 
 * `not_before` - (Optional) Gets or sets the not-before time.

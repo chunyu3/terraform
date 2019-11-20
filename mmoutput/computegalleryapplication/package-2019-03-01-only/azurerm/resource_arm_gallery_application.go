@@ -132,9 +132,9 @@ func resourceArmGalleryApplicationCreateUpdate(d *schema.ResourceData, meta inte
             Description: utils.String(description),
             EndOfLifeDate: convertStringToDate(endOfLifeDate),
             Eula: utils.String(eula),
-            PrivacyStatementUri: utils.String(privacyStatementUri),
-            ReleaseNoteUri: utils.String(releaseNoteUri),
-            SupportedOstype: compute.OperatingSystemTypes(supportedOstype),
+            PrivacyStatementURI: utils.String(privacyStatementUri),
+            ReleaseNoteURI: utils.String(releaseNoteUri),
+            SupportedOSType: compute.OperatingSystemTypes(supportedOstype),
         },
         Tags: tags.Expand(t),
     }
@@ -187,21 +187,10 @@ func resourceArmGalleryApplicationRead(d *schema.ResourceData, meta interface{})
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if galleryApplicationProperties := resp.GalleryApplicationProperties; galleryApplicationProperties != nil {
-        d.Set("description", galleryApplicationProperties.Description)
-        d.Set("end_of_life_date", (galleryApplicationProperties.EndOfLifeDate).String())
-        d.Set("eula", galleryApplicationProperties.Eula)
-        d.Set("privacy_statement_uri", galleryApplicationProperties.PrivacyStatementUri)
-        d.Set("release_note_uri", galleryApplicationProperties.ReleaseNoteUri)
-        d.Set("supported_ostype", string(galleryApplicationProperties.SupportedOstype))
-    }
     d.Set("gallery_name", galleryName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 

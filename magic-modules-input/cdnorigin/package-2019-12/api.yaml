@@ -69,13 +69,13 @@ objects:
             python_field_name: http_port
           '/properties/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
-            go_field_name: HttpPort
+            go_field_name: HTTPPort
           '/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
             python_field_name: https_port
           '/properties/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
-            go_field_name: HttpsPort
+            go_field_name: HTTPSPort
           '/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: origin_host_header
@@ -175,71 +175,6 @@ objects:
             python_parameter_name: origin_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: OriginUpdatePropertiesParameters
-            go_type_name: OriginUpdatePropertiesParameters
-          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
-          '/properties/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpPort
-          '/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: http_port
-          '/properties/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpsPort
-          '/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: https_port
-          '/properties/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: OriginHostHeader
-          '/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: origin_host_header
-          '/properties/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Priority
-          '/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: priority
-          '/properties/weight': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Weight
-          '/weight': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: weight
-          '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: Enabled
-          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enabled
-          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResourceState
-            go_enum_type_name: OriginResourceState
-          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: resource_state
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -344,20 +279,6 @@ objects:
         required: false
         azure_sdk_references: ['/enabled', '/properties/enabled']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'resourceState'
-        description: 'Resource status of the origin.'
-        output: true
-        azure_sdk_references: ['/resourceState', '/properties/resourceState']
-        values:
-          - :Creating
-          - :Active
-          - :Deleting
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Provisioning status of the origin.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

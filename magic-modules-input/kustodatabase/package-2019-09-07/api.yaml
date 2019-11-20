@@ -38,14 +38,6 @@ objects:
             go_variable_name: name
             python_parameter_name: database_name
             python_variable_name: name
-          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_variable_name: parameters
-            go_type_name: Database
-            python_parameter_name: parameters
-            python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -66,14 +58,6 @@ objects:
             go_variable_name: name
             python_parameter_name: database_name
             python_variable_name: name
-          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_variable_name: parameters
-            go_type_name: Database
-            python_parameter_name: parameters
-            python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -114,18 +98,16 @@ objects:
             python_parameter_name: database_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             go_field_name: Type
+            go_enum_type_name: Type
             python_field_name: type
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByCluster
         python_func_name: list_by_cluster
@@ -140,6 +122,25 @@ objects:
             go_variable_name: clusterName
             python_parameter_name: cluster_name
             python_variable_name: cluster_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListPrincipals
+        python_func_name: list_principals
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: name
+            python_parameter_name: database_name
+            python_variable_name: name
 
     description: |
       Manage Azure Database instance.
@@ -158,6 +159,21 @@ objects:
         azure_sdk_references: ['clusterName']
       - !ruby/object:Api::Type::String
         name: 'name'
+        description: 'Resource name.'
+        required: true
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::Enum
+        name: 'type'
+        description: 'The type of resource, for instance Microsoft.Kusto/clusters/databases.'
+        required: true
+        input: true
+        azure_sdk_references: ['/type']
+        values:
+          - :Microsoft.Kusto/clusters/databases
+          - :Microsoft.Kusto/clusters/attachedDatabaseConfigurations
+      - !ruby/object:Api::Type::String
+        name: 'name'
         description: 'The name of the database in the Kusto cluster.'
         required: true
         input: true
@@ -168,19 +184,57 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of Kusto database principals.'
+        required: false
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'role'
+              description: 'Database principal role.'
+              required: true
+              azure_sdk_references: ['/value/role']
+              values:
+                - :Admin
+                - :Ingestor
+                - :Monitor
+                - :User
+                - :UnrestrictedViewers
+                - :Viewer
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Database principal name.'
+              required: true
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::Enum
+              name: 'type'
+              description: 'Database principal type.'
+              required: true
+              azure_sdk_references: ['/value/type']
+              values:
+                - :App
+                - :Group
+                - :User
+            - !ruby/object:Api::Type::String
+              name: 'fqn'
+              description: 'Database principal fully qualified name.'
+              required: false
+              azure_sdk_references: ['/value/fqn']
+            - !ruby/object:Api::Type::String
+              name: 'email'
+              description: 'Database principal email if exists.'
+              required: false
+              azure_sdk_references: ['/value/email']
+            - !ruby/object:Api::Type::String
+              name: 'appId'
+              description: 'Application id - relevant only for application principal type.'
+              required: false
+              azure_sdk_references: ['/value/appId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The name of the resource'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
-        output: true
-        azure_sdk_references: ['/type']

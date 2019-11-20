@@ -32,41 +32,15 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `credentials` - (Required) The name and SendRule connection string of the event hub for azureEventHub logger.<br>Instrumentation key for applicationInsights logger.
-
-* `logger_type` - (Required) Logger type.
-
 * `loggerid` - (Required) Logger identifier. Must be unique in the API Management service instance. Changing this forces a new resource to be created.
+
+* `credentials` - (Optional) Logger credentials.
 
 * `description` - (Optional) Logger description.
 
 * `is_buffered` - (Optional) Whether records are buffered in the logger before publishing. Default is assumed to be true.
 
-* `sampling` - (Optional) One `sampling` block defined below.
-
----
-
-The `sampling` block supports the following:
-
-* `sampling_type` - (Optional) Sampling type. Defaults to `fixed`.
-
-* `percentage` - (Optional) Rate of sampling for fixed-rate sampling.
-
-* `max_telemetry_items_per_second` - (Optional) Target rate of telemetry items per second.
-
-* `evaluation_interval` - (Optional) Rate re-evaluation interval in ISO8601 format.
-
-* `percentage_decrease_timeout` - (Optional) Duration in ISO8601 format after which it's allowed to lower the sampling rate.
-
-* `percentage_increase_timeout` - (Optional) Duration in ISO8601 format after which it's allowed to increase the sampling rate.
-
-* `min_percentage` - (Optional) Minimum allowed rate of sampling.
-
-* `max_percentage` - (Optional) Maximum allowed rate of sampling.
-
-* `moving_average_ratio` - (Optional) Moving average ration assigned to most recent value.
-
-* `initial_percentage` - (Optional) Initial sampling rate.
+* `logger_type` - (Optional) Logger type. Defaults to `azureEventHub`.
 
 ## Attributes Reference
 

@@ -31,21 +31,19 @@ func resourceArmReplicationProtectionContainer() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "fabric_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "protection_container_name": {
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "fabric_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -59,47 +57,9 @@ func resourceArmReplicationProtectionContainer() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "fabric_friendly_name": {
+            "replication_protected_item_name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "fabric_specific_details": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "instance_type": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "fabric_type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "friendly_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "pairing_status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "protected_item_count": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "role": {
-                Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
             },
 
             "type": {
@@ -114,16 +74,16 @@ func resourceArmReplicationProtectionContainerCreateUpdate(d *schema.ResourceDat
     client := meta.(*ArmClient).replicationProtectionContainersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     fabricName := d.Get("fabric_name").(string)
-    protectionContainerName := d.Get("protection_container_name").(string)
     resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceName, resourceGroup, fabricName, protectionContainerName)
+        existing, err := client.Get(ctx, resourceGroup, resourceName, fabricName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Replication Protection Container (Protection Container Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", protectionContainerName, fabricName, resourceGroup, resourceName, err)
+                return fmt.Errorf("Error checking for present of existing Replication Protection Container %q (Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, fabricName, resourceGroup, resourceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -131,26 +91,30 @@ func resourceArmReplicationProtectionContainerCreateUpdate(d *schema.ResourceDat
         }
     }
 
+    replicationProtectedItemName := d.Get("replication_protected_item_name").(string)
 
     creationInput := recoveryservicessiterecovery.CreateProtectionContainerInput{
+        SwitchProtectionInputProperties: &recoveryservicessiterecovery.SwitchProtectionInputProperties{
+            ReplicationProtectedItemName: utils.String(replicationProtectedItemName),
+        },
     }
 
 
-    future, err := client.Create(ctx, resourceName, resourceGroup, fabricName, protectionContainerName, creationInput)
+    future, err := client.Create(ctx, resourceGroup, resourceName, fabricName, name, creationInput)
     if err != nil {
-        return fmt.Errorf("Error creating Replication Protection Container (Protection Container Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", protectionContainerName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error creating Replication Protection Container %q (Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, fabricName, resourceGroup, resourceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Replication Protection Container (Protection Container Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", protectionContainerName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error waiting for creation of Replication Protection Container %q (Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, fabricName, resourceGroup, resourceName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, protectionContainerName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Replication Protection Container (Protection Container Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", protectionContainerName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error retrieving Replication Protection Container %q (Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, fabricName, resourceGroup, resourceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Replication Protection Container (Protection Container Name %q / Fabric Name %q / Resource Group %q / Resource Name %q) ID", protectionContainerName, fabricName, resourceGroup, resourceName)
+        return fmt.Errorf("Cannot read Replication Protection Container %q (Fabric Name %q / Resource Group %q / Resource Name %q) ID", name, fabricName, resourceGroup, resourceName)
     }
     d.SetId(*resp.ID)
 
@@ -165,40 +129,26 @@ func resourceArmReplicationProtectionContainerRead(d *schema.ResourceData, meta 
     if err != nil {
         return err
     }
-    resourceName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
+    resourceName := id.Path["vaults"]
     fabricName := id.Path["replicationFabrics"]
-    protectionContainerName := id.Path["replicationProtectionContainers"]
+    name := id.Path["replicationProtectionContainers"]
 
-    resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, protectionContainerName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Replication Protection Container %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Replication Protection Container (Protection Container Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", protectionContainerName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error reading Replication Protection Container %q (Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, fabricName, resourceGroup, resourceName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if createProtectionContainerInputProperties := resp.CreateProtectionContainerInputProperties; createProtectionContainerInputProperties != nil {
-        d.Set("fabric_friendly_name", createProtectionContainerInputProperties.FabricFriendlyName)
-        if err := d.Set("fabric_specific_details", flattenArmReplicationProtectionContainerProtectionContainerFabricSpecificDetails(createProtectionContainerInputProperties.FabricSpecificDetails)); err != nil {
-            return fmt.Errorf("Error setting `fabric_specific_details`: %+v", err)
-        }
-        d.Set("fabric_type", createProtectionContainerInputProperties.FabricType)
-        d.Set("friendly_name", createProtectionContainerInputProperties.FriendlyName)
-        d.Set("pairing_status", createProtectionContainerInputProperties.PairingStatus)
-        d.Set("protected_item_count", int(*createProtectionContainerInputProperties.ProtectedItemCount))
-        d.Set("role", createProtectionContainerInputProperties.Role)
-    }
     d.Set("fabric_name", fabricName)
-    d.Set("protection_container_name", protectionContainerName)
     d.Set("resource_name", resourceName)
     d.Set("type", resp.Type)
 
@@ -215,36 +165,24 @@ func resourceArmReplicationProtectionContainerDelete(d *schema.ResourceData, met
     if err != nil {
         return err
     }
-    resourceName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
+    resourceName := id.Path["vaults"]
     fabricName := id.Path["replicationFabrics"]
-    protectionContainerName := id.Path["replicationProtectionContainers"]
+    name := id.Path["replicationProtectionContainers"]
 
-    future, err := client.Delete(ctx, resourceName, resourceGroup, fabricName, protectionContainerName)
+    future, err := client.Delete(ctx, resourceGroup, resourceName, fabricName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Replication Protection Container (Protection Container Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", protectionContainerName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error deleting Replication Protection Container %q (Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, fabricName, resourceGroup, resourceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Replication Protection Container (Protection Container Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", protectionContainerName, fabricName, resourceGroup, resourceName, err)
+            return fmt.Errorf("Error waiting for deleting Replication Protection Container %q (Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, fabricName, resourceGroup, resourceName, err)
         }
     }
 
     return nil
-}
-
-
-func flattenArmReplicationProtectionContainerProtectionContainerFabricSpecificDetails(input *recoveryservicessiterecovery.ProtectionContainerFabricSpecificDetails) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
 }

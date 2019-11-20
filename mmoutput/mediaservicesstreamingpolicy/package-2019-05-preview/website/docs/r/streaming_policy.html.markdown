@@ -384,8 +384,6 @@ The `enabled_protocol` block supports the following:
 
 The following attributes are exported:
 
-* `created` - Creation time of Streaming Policy
-
 * `id` - Fully qualified resource ID for the resource.
 
 * `name` - The name of the resource.

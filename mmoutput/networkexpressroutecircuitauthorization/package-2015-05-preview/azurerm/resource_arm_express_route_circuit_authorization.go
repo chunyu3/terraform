@@ -71,11 +71,6 @@ func resourceArmExpressRouteCircuitAuthorization() *schema.Resource {
                 Optional: true,
                 ForceNew: true,
             },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
         },
     }
 }
@@ -162,15 +157,8 @@ func resourceArmExpressRouteCircuitAuthorizationRead(d *schema.ResourceData, met
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if authorizationPropertiesFormat := resp.AuthorizationPropertiesFormat; authorizationPropertiesFormat != nil {
-        d.Set("authorization_key", authorizationPropertiesFormat.AuthorizationKey)
-        d.Set("authorization_use_status", string(authorizationPropertiesFormat.AuthorizationUseStatus))
-        d.Set("provisioning_state", authorizationPropertiesFormat.ProvisioningState)
-    }
     d.Set("circuit_name", circuitName)
-    d.Set("etag", resp.Etag)
 
     return nil
 }

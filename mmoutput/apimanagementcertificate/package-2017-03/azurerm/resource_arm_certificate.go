@@ -62,21 +62,6 @@ func resourceArmCertificate() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "expiration_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "subject": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "thumbprint": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -160,11 +145,6 @@ func resourceArmCertificateRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("certificate_id", certificateID)
-    if certificateCreateOrUpdateProperties := resp.CertificateCreateOrUpdateProperties; certificateCreateOrUpdateProperties != nil {
-        d.Set("expiration_date", (certificateCreateOrUpdateProperties.ExpirationDate).String())
-        d.Set("subject", certificateCreateOrUpdateProperties.Subject)
-        d.Set("thumbprint", certificateCreateOrUpdateProperties.Thumbprint)
-    }
     d.Set("type", resp.Type)
 
     return nil

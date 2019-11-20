@@ -238,11 +238,6 @@ func resourceArmContainerService() *schema.Resource {
                 },
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -341,33 +336,9 @@ func resourceArmContainerServiceRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if containerServiceProperties := resp.ContainerServiceProperties; containerServiceProperties != nil {
-        if err := d.Set("agent_pool_profiles", flattenArmContainerServiceContainerServiceAgentPoolProfile(containerServiceProperties.AgentPoolProfiles)); err != nil {
-            return fmt.Errorf("Error setting `agent_pool_profiles`: %+v", err)
-        }
-        if err := d.Set("diagnostics_profile", flattenArmContainerServiceContainerServiceDiagnosticsProfile(containerServiceProperties.DiagnosticsProfile)); err != nil {
-            return fmt.Errorf("Error setting `diagnostics_profile`: %+v", err)
-        }
-        if err := d.Set("linux_profile", flattenArmContainerServiceContainerServiceLinuxProfile(containerServiceProperties.LinuxProfile)); err != nil {
-            return fmt.Errorf("Error setting `linux_profile`: %+v", err)
-        }
-        if err := d.Set("master_profile", flattenArmContainerServiceContainerServiceMasterProfile(containerServiceProperties.MasterProfile)); err != nil {
-            return fmt.Errorf("Error setting `master_profile`: %+v", err)
-        }
-        if err := d.Set("orchestrator_profile", flattenArmContainerServiceContainerServiceOrchestratorProfile(containerServiceProperties.OrchestratorProfile)); err != nil {
-            return fmt.Errorf("Error setting `orchestrator_profile`: %+v", err)
-        }
-        d.Set("provisioning_state", containerServiceProperties.ProvisioningState)
-        if err := d.Set("windows_profile", flattenArmContainerServiceContainerServiceWindowsProfile(containerServiceProperties.WindowsProfile)); err != nil {
-            return fmt.Errorf("Error setting `windows_profile`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -411,9 +382,9 @@ func expandArmContainerServiceContainerServiceAgentPoolProfile(input []interface
 
         result := compute.ContainerServiceAgentPoolProfile{
             Count: utils.Int32(int32(count)),
-            DnsPrefix: utils.String(dnsPrefix),
+            DNSPrefix: utils.String(dnsPrefix),
             Name: utils.String(name),
-            VmSize: compute.ContainerServiceVMSizeTypes(vmSize),
+            VMSize: compute.ContainerServiceVMSizeTypes(vmSize),
         }
 
         results = append(results, result)
@@ -430,7 +401,7 @@ func expandArmContainerServiceContainerServiceDiagnosticsProfile(input []interfa
     vmDiagnostics := v["vm_diagnostics"].([]interface{})
 
     result := compute.ContainerServiceDiagnosticsProfile{
-        VmDiagnostics: expandArmContainerServiceContainerServiceVMDiagnostics(vmDiagnostics),
+        VMDiagnostics: expandArmContainerServiceContainerServiceVMDiagnostics(vmDiagnostics),
     }
     return &result
 }
@@ -446,7 +417,7 @@ func expandArmContainerServiceContainerServiceLinuxProfile(input []interface{}) 
 
     result := compute.ContainerServiceLinuxProfile{
         AdminUsername: utils.String(adminUsername),
-        Ssh: expandArmContainerServiceContainerServiceSshConfiguration(ssh),
+        SSH: expandArmContainerServiceContainerServiceSshConfiguration(ssh),
     }
     return &result
 }
@@ -462,7 +433,7 @@ func expandArmContainerServiceContainerServiceMasterProfile(input []interface{})
 
     result := compute.ContainerServiceMasterProfile{
         Count: utils.Int32(int32(count)),
-        DnsPrefix: utils.String(dnsPrefix),
+        DNSPrefix: utils.String(dnsPrefix),
     }
     return &result
 }
@@ -538,149 +509,4 @@ func expandArmContainerServiceContainerServiceSshPublicKey(input []interface{}) 
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmContainerServiceContainerServiceAgentPoolProfile(input *[]compute.ContainerServiceAgentPoolProfile) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if count := item.Count; count != nil {
-            v["count"] = int(*count)
-        }
-        if dnsPrefix := item.DnsPrefix; dnsPrefix != nil {
-            v["dns_prefix"] = *dnsPrefix
-        }
-        v["vm_size"] = string(item.VmSize)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmContainerServiceContainerServiceDiagnosticsProfile(input *compute.ContainerServiceDiagnosticsProfile) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["vm_diagnostics"] = flattenArmContainerServiceContainerServiceVMDiagnostics(input.VmDiagnostics)
-
-    return []interface{}{result}
-}
-
-func flattenArmContainerServiceContainerServiceLinuxProfile(input *compute.ContainerServiceLinuxProfile) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if adminUsername := input.AdminUsername; adminUsername != nil {
-        result["admin_username"] = *adminUsername
-    }
-    result["ssh"] = flattenArmContainerServiceContainerServiceSshConfiguration(input.Ssh)
-
-    return []interface{}{result}
-}
-
-func flattenArmContainerServiceContainerServiceMasterProfile(input *compute.ContainerServiceMasterProfile) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if count := input.Count; count != nil {
-        result["count"] = int(*count)
-    }
-    if dnsPrefix := input.DnsPrefix; dnsPrefix != nil {
-        result["dns_prefix"] = *dnsPrefix
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmContainerServiceContainerServiceOrchestratorProfile(input *compute.ContainerServiceOrchestratorProfile) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["orchestrator_type"] = string(input.OrchestratorType)
-
-    return []interface{}{result}
-}
-
-func flattenArmContainerServiceContainerServiceWindowsProfile(input *compute.ContainerServiceWindowsProfile) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if adminPassword := input.AdminPassword; adminPassword != nil {
-        result["admin_password"] = *adminPassword
-    }
-    if adminUsername := input.AdminUsername; adminUsername != nil {
-        result["admin_username"] = *adminUsername
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmContainerServiceContainerServiceVMDiagnostics(input *compute.ContainerServiceVMDiagnostics) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if enabled := input.Enabled; enabled != nil {
-        result["enabled"] = *enabled
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmContainerServiceContainerServiceSshConfiguration(input *compute.ContainerServiceSshConfiguration) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["public_keys"] = flattenArmContainerServiceContainerServiceSshPublicKey(input.PublicKeys)
-
-    return []interface{}{result}
-}
-
-func flattenArmContainerServiceContainerServiceSshPublicKey(input *[]compute.ContainerServiceSshPublicKey) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if keyData := item.KeyData; keyData != nil {
-            v["key_data"] = *keyData
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

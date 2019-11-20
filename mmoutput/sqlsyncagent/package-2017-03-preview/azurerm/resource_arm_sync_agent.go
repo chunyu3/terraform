@@ -41,11 +41,6 @@ func resourceArmSyncAgent() *schema.Resource {
                 Computed: true,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "server_name": {
@@ -60,32 +55,7 @@ func resourceArmSyncAgent() *schema.Resource {
                 Optional: true,
             },
 
-            "expiry_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "is_up_to_date": {
-                Type: schema.TypeBool,
-                Computed: true,
-            },
-
-            "last_alive_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "version": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -167,18 +137,6 @@ func resourceArmSyncAgentRead(d *schema.ResourceData, meta interface{}) error {
 
 
     d.Set("name", name)
-    if syncAgentProperties := resp.SyncAgentProperties; syncAgentProperties != nil {
-        d.Set("name", syncAgentProperties.Name)
-        d.Set("expiry_time", (syncAgentProperties.ExpiryTime).String())
-        d.Set("is_up_to_date", syncAgentProperties.IsUpToDate)
-        d.Set("last_alive_time", (syncAgentProperties.LastAliveTime).String())
-        d.Set("state", string(syncAgentProperties.State))
-        d.Set("sync_database_id", syncAgentProperties.SyncDatabaseID)
-        d.Set("version", syncAgentProperties.Version)
-    }
-    d.Set("name", resp.Name)
-    d.Set("name", resp.Name)
-    d.Set("name", resp.Name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("server_name", serverName)

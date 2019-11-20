@@ -1,0 +1,29 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_kustodatabase
+  description: KustoDatabaseRemovePrincipals
+  code:
+    resource_group: myResourceGroup
+    cluster_name: myCluster
+    name: myDatabase
+    database_principals_to_remove:
+      value:
+        - name: Some User
+          role: Admin
+          type: User
+          fqn: aaduser=some_guid
+          email: user@microsoft.com
+          appId: ''
+        - name: Kusto
+          role: Viewer
+          type: Group
+          fqn: aadgroup=some_guid
+          email: kusto@microsoft.com
+          appId: ''
+        - name: SomeApp
+          role: Admin
+          type: App
+          fqn: aadapp=some_guid_app_id
+          email: ''
+          appId: some_guid_app_id
+  

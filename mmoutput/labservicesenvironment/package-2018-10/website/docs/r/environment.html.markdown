@@ -28,9 +28,11 @@ Manage Azure Environment instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the environment. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `environment_name` - (Required) The name of the environment. Changing this forces a new resource to be created.
+* `environment_id` - (Required) The resourceId of the environment Changing this forces a new resource to be created.
 
 * `environment_setting_name` - (Required) The name of the environment Setting. Changing this forces a new resource to be created.
 
@@ -40,9 +42,13 @@ The following arguments are supported:
 
 * `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
 
+* `password` - (Optional) The password to assign to the user specified in Changing this forces a new resource to be created.
+
 * `resource_sets` - (Optional) One `resource_set` block defined below.
 
 * `unique_identifier` - (Optional) The unique immutable identifier of a resource (Guid).
+
+* `username` - (Optional) The username for which the password will be reset. Changing this forces a new resource to be created.
 
 * `tags` - (Optional) The tags of the resource. Changing this forces a new resource to be created.
 
@@ -58,57 +64,8 @@ The `resource_set` block supports the following:
 
 The following attributes are exported:
 
-* `claimed_by_user_object_id` - The AAD object Id of the user who has claimed the environment
-
-* `claimed_by_user_principal_id` - The user principal Id of the user who has claimed the environment
-
-* `claimed_by_user_name` - The name or email address of the user who has claimed the environment
-
-* `is_claimed` - Is the environment claimed or not
-
-* `last_known_power_state` - Last known power state of the environment
-
-* `network_interface` - One `network_interface` block defined below.
-
-* `total_usage` - How long the environment has been used by a lab user
-
-* `password_last_reset` - When the password was last reset on the environment.
-
-* `provisioning_state` - The provisioning status of the resource.
-
-* `latest_operation_result` - One `latest_operation_result` block defined below.
-
 * `id` - The identifier of the resource.
 
 * `name` - The name of the resource.
 
 * `type` - The type of the resource.
-
-
----
-
-The `network_interface` block contains the following:
-
-* `private_ip_address` - (Optional) PrivateIp address of the Compute VM
-
-* `ssh_authority` - (Optional) Connection information for Linux
-
-* `rdp_authority` - (Optional) Connection information for Windows
-
-* `username` - (Optional) Username of the VM
-
----
-
-The `latest_operation_result` block contains the following:
-
-* `status` - (Optional) The current status of the operation.
-
-* `error_code` - (Optional) Error code on failure.
-
-* `error_message` - (Optional) The error message.
-
-* `request_uri` - (Optional) Request URI of the operation.
-
-* `http_method` - (Optional) The HttpMethod - PUT/POST/DELETE for the operation.
-
-* `operation_url` - (Optional) The URL to use to check long-running operation status

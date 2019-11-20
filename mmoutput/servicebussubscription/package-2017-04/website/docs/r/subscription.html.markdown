@@ -28,11 +28,11 @@ Manage Azure Subscription instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The subscription name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of the Resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `namespace_name` - (Required) The namespace name Changing this forces a new resource to be created.
-
-* `subscription_name` - (Required) The subscription name. Changing this forces a new resource to be created.
 
 * `topic_name` - (Required) The topic name. Changing this forces a new resource to be created.
 
@@ -64,33 +64,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `message_count` - Number of messages.
-
-* `created_at` - Exact time the message was created.
-
-* `accessed_at` - Last time there was a receive request to this subscription.
-
-* `updated_at` - The exact time the message was updated.
-
-* `count_details` - One `count_detail` block defined below.
-
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
-
-
----
-
-The `count_detail` block contains the following:
-
-* `active_message_count` - (Optional) Number of active messages in the queue, topic, or subscription.
-
-* `dead_letter_message_count` - (Optional) Number of messages that are dead lettered.
-
-* `scheduled_message_count` - (Optional) Number of scheduled messages.
-
-* `transfer_message_count` - (Optional) Number of messages transferred to another queue, topic, or subscription.
-
-* `transfer_dead_letter_message_count` - (Optional) Number of messages transferred into dead letters.

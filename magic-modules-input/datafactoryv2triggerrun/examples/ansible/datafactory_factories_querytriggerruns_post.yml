@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_datafactoryv2triggerrun
+  description: TriggerRuns_QueryByFactory
+  code:
+    resource_group: myResourceGroup
+    factory_name: myFactory
+    filter_parameters:
+      lastUpdatedAfter: '2018-06-16T00:36:44.3345758Z'
+      lastUpdatedBefore: '2018-06-16T00:49:48.3686473Z'
+      filters:
+        - operand: TriggerName
+          operator: Equals
+          values:
+            - exampleTrigger
+  

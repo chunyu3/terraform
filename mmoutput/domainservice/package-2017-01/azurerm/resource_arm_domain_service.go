@@ -31,19 +31,19 @@ func resourceArmDomainService() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "domain_service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "domain_name": {
                 Type: schema.TypeString,
@@ -179,100 +179,7 @@ func resourceArmDomainService() *schema.Resource {
                 Optional: true,
             },
 
-            "domain_controller_ip_address": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Schema{
-                    Type: schema.TypeString,
-                },
-            },
-
-            "health_alerts": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "id": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "issue": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "last_detected": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validateRFC3339Date,
-                        },
-                        "name": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "raised": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validateRFC3339Date,
-                        },
-                        "resolution_uri": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "severity": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "health_last_evaluated": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "health_monitors": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "details": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "id": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "name": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "service_status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "tenant_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "vnet_site_id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -286,14 +193,14 @@ func resourceArmDomainServiceCreate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).domainServicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    domainServiceName := d.Get("domain_service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, domainServiceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Domain Service (Domain Service Name %q / Resource Group %q): %+v", domainServiceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Domain Service %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -326,21 +233,21 @@ func resourceArmDomainServiceCreate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, domainServiceName, domainService)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, domainService)
     if err != nil {
-        return fmt.Errorf("Error creating Domain Service (Domain Service Name %q / Resource Group %q): %+v", domainServiceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Domain Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Domain Service (Domain Service Name %q / Resource Group %q): %+v", domainServiceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Domain Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, domainServiceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Domain Service (Domain Service Name %q / Resource Group %q): %+v", domainServiceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Domain Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Domain Service (Domain Service Name %q / Resource Group %q) ID", domainServiceName, resourceGroup)
+        return fmt.Errorf("Cannot read Domain Service %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -356,65 +263,35 @@ func resourceArmDomainServiceRead(d *schema.ResourceData, meta interface{}) erro
         return err
     }
     resourceGroup := id.ResourceGroup
-    domainServiceName := id.Path["domainServices"]
+    name := id.Path["domainServices"]
 
-    resp, err := client.Get(ctx, resourceGroup, domainServiceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Domain Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Domain Service (Domain Service Name %q / Resource Group %q): %+v", domainServiceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Domain Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if domainServiceProperties := resp.DomainServiceProperties; domainServiceProperties != nil {
-        d.Set("domain_controller_ip_address", utils.FlattenStringSlice(domainServiceProperties.DomainControllerIpAddress))
-        d.Set("domain_name", domainServiceProperties.DomainName)
-        if err := d.Set("domain_security_settings", flattenArmDomainServiceDomainSecuritySettings(domainServiceProperties.DomainSecuritySettings)); err != nil {
-            return fmt.Errorf("Error setting `domain_security_settings`: %+v", err)
-        }
-        d.Set("filtered_sync", string(domainServiceProperties.FilteredSync))
-        if err := d.Set("health_alerts", flattenArmDomainServiceHealthAlert(domainServiceProperties.HealthAlerts)); err != nil {
-            return fmt.Errorf("Error setting `health_alerts`: %+v", err)
-        }
-        d.Set("health_last_evaluated", (domainServiceProperties.HealthLastEvaluated).String())
-        if err := d.Set("health_monitors", flattenArmDomainServiceHealthMonitor(domainServiceProperties.HealthMonitors)); err != nil {
-            return fmt.Errorf("Error setting `health_monitors`: %+v", err)
-        }
-        if err := d.Set("ldaps_settings", flattenArmDomainServiceLdapsSettings(domainServiceProperties.LdapsSettings)); err != nil {
-            return fmt.Errorf("Error setting `ldaps_settings`: %+v", err)
-        }
-        if err := d.Set("notification_settings", flattenArmDomainServiceNotificationSettings(domainServiceProperties.NotificationSettings)); err != nil {
-            return fmt.Errorf("Error setting `notification_settings`: %+v", err)
-        }
-        d.Set("provisioning_state", domainServiceProperties.ProvisioningState)
-        d.Set("service_status", domainServiceProperties.ServiceStatus)
-        d.Set("subnet_id", domainServiceProperties.SubnetID)
-        d.Set("tenant_id", domainServiceProperties.TenantID)
-        d.Set("vnet_site_id", domainServiceProperties.VnetSiteID)
-    }
-    d.Set("domain_service_name", domainServiceName)
-    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmDomainServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).domainServicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     domainName := d.Get("domain_name").(string)
     domainSecuritySettings := d.Get("domain_security_settings").([]interface{})
-    domainServiceName := d.Get("domain_service_name").(string)
     etag := d.Get("etag").(string)
     filteredSync := d.Get("filtered_sync").(string)
     ldapsSettings := d.Get("ldaps_settings").([]interface{})
@@ -424,7 +301,6 @@ func resourceArmDomainServiceUpdate(d *schema.ResourceData, meta interface{}) er
 
     domainService := domainservices.DomainService{
         Etag: utils.String(etag),
-        Location: utils.String(location),
         DomainServiceProperties: &domainservices.DomainServiceProperties{
             DomainName: utils.String(domainName),
             DomainSecuritySettings: expandArmDomainServiceDomainSecuritySettings(domainSecuritySettings),
@@ -437,12 +313,12 @@ func resourceArmDomainServiceUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, domainServiceName, domainService)
+    future, err := client.Update(ctx, resourceGroup, name, domainService)
     if err != nil {
-        return fmt.Errorf("Error updating Domain Service (Domain Service Name %q / Resource Group %q): %+v", domainServiceName, resourceGroup, err)
+        return fmt.Errorf("Error updating Domain Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Domain Service (Domain Service Name %q / Resource Group %q): %+v", domainServiceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Domain Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmDomainServiceRead(d, meta)
@@ -458,19 +334,19 @@ func resourceArmDomainServiceDelete(d *schema.ResourceData, meta interface{}) er
         return err
     }
     resourceGroup := id.ResourceGroup
-    domainServiceName := id.Path["domainServices"]
+    name := id.Path["domainServices"]
 
-    future, err := client.Delete(ctx, resourceGroup, domainServiceName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Domain Service (Domain Service Name %q / Resource Group %q): %+v", domainServiceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Domain Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Domain Service (Domain Service Name %q / Resource Group %q): %+v", domainServiceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Domain Service %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 
@@ -490,7 +366,7 @@ func expandArmDomainServiceDomainSecuritySettings(input []interface{}) *domainse
     result := domainservices.DomainSecuritySettings{
         NtlmV1: domainservices.NtlmV1(ntlmV1),
         SyncNtlmPasswords: domainservices.SyncNtlmPasswords(syncNtlmPasswords),
-        TlsV1: domainservices.TlsV1(tlsV1),
+        TLSV1: domainservices.TlsV1(tlsV1),
     }
     return &result
 }
@@ -531,84 +407,4 @@ func expandArmDomainServiceNotificationSettings(input []interface{}) *domainserv
         NotifyGlobalAdmins: domainservices.NotifyGlobalAdmins(notifyGlobalAdmins),
     }
     return &result
-}
-
-
-func flattenArmDomainServiceDomainSecuritySettings(input *domainservices.DomainSecuritySettings) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["ntlm_v1"] = string(input.NtlmV1)
-    result["sync_ntlm_passwords"] = string(input.SyncNtlmPasswords)
-    result["tls_v1"] = string(input.TlsV1)
-
-    return []interface{}{result}
-}
-
-func flattenArmDomainServiceHealthAlert(input *[]domainservices.HealthAlert) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmDomainServiceHealthMonitor(input *[]domainservices.HealthMonitor) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmDomainServiceLdapsSettings(input *domainservices.LdapsSettings) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["external_access"] = string(input.ExternalAccess)
-    result["ldaps"] = string(input.Ldaps)
-    if pfxCertificate := input.PfxCertificate; pfxCertificate != nil {
-        result["pfx_certificate"] = *pfxCertificate
-    }
-    if pfxCertificatePassword := input.PfxCertificatePassword; pfxCertificatePassword != nil {
-        result["pfx_certificate_password"] = *pfxCertificatePassword
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmDomainServiceNotificationSettings(input *domainservices.NotificationSettings) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["additional_recipients"] = utils.FlattenStringSlice(input.AdditionalRecipients)
-    result["notify_dc_admins"] = string(input.NotifyDcAdmins)
-    result["notify_global_admins"] = string(input.NotifyGlobalAdmins)
-
-    return []interface{}{result}
 }

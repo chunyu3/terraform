@@ -91,14 +91,14 @@ func resourceArmApiSchemaCreateUpdate(d *schema.ResourceData, meta interface{}) 
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    apiID := d.Get("api_id").(string)
+    aPIID := d.Get("api_id").(string)
     schemaID := d.Get("schema_id").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, apiID, schemaID)
+        existing, err := client.Get(ctx, resourceGroup, name, aPIID, schemaID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Schema %q (Schema %q / Api %q / Resource Group %q): %+v", name, schemaID, apiID, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Schema %q (Schema %q / Api %q / Resource Group %q): %+v", name, schemaID, aPIID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -117,17 +117,17 @@ func resourceArmApiSchemaCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, apiID, schemaID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api Schema %q (Schema %q / Api %q / Resource Group %q): %+v", name, schemaID, apiID, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, aPIID, schemaID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api Schema %q (Schema %q / Api %q / Resource Group %q): %+v", name, schemaID, aPIID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, schemaID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, schemaID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Schema %q (Schema %q / Api %q / Resource Group %q): %+v", name, schemaID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Schema %q (Schema %q / Api %q / Resource Group %q): %+v", name, schemaID, aPIID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Schema %q (Schema %q / Api %q / Resource Group %q) ID", name, schemaID, apiID, resourceGroup)
+        return fmt.Errorf("Cannot read Api Schema %q (Schema %q / Api %q / Resource Group %q) ID", name, schemaID, aPIID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -144,30 +144,24 @@ func resourceArmApiSchemaRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     schemaID := id.Path["schemas"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, schemaID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, schemaID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Schema %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Schema %q (Schema %q / Api %q / Resource Group %q): %+v", name, schemaID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Schema %q (Schema %q / Api %q / Resource Group %q): %+v", name, schemaID, aPIID, resourceGroup, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("api_id", apiID)
-    if schemaContractProperties := resp.SchemaContractProperties; schemaContractProperties != nil {
-        d.Set("content_type", schemaContractProperties.ContentType)
-        if err := d.Set("document", flattenArmApiSchemaSchemaDocumentProperties(schemaContractProperties.Document)); err != nil {
-            return fmt.Errorf("Error setting `document`: %+v", err)
-        }
-    }
+    d.Set("api_id", aPIID)
     d.Set("schema_id", schemaID)
     d.Set("type", resp.Type)
 
@@ -186,11 +180,11 @@ func resourceArmApiSchemaDelete(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     schemaID := id.Path["schemas"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, apiID, schemaID); err != nil {
-        return fmt.Errorf("Error deleting Api Schema %q (Schema %q / Api %q / Resource Group %q): %+v", name, schemaID, apiID, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, aPIID, schemaID); err != nil {
+        return fmt.Errorf("Error deleting Api Schema %q (Schema %q / Api %q / Resource Group %q): %+v", name, schemaID, aPIID, resourceGroup, err)
     }
 
     return nil
@@ -208,19 +202,4 @@ func expandArmApiSchemaSchemaDocumentProperties(input []interface{}) *apimanagem
         Value: utils.String(value),
     }
     return &result
-}
-
-
-func flattenArmApiSchemaSchemaDocumentProperties(input *apimanagement.SchemaDocumentProperties) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if value := input.Value; value != nil {
-        result["value"] = *value
-    }
-
-    return []interface{}{result}
 }

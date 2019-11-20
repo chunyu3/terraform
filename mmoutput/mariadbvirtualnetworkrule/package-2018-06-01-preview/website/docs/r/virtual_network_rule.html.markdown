@@ -42,8 +42,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `state` - Virtual Network Rule State
-
 * `id` - Resource ID
 
 * `name` - Resource name.

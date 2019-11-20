@@ -3,6 +3,8 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_visualstudioproject
   description: Update a project resource
   code:
+    resource_group: myResourceGroup
+    root_resource_name: myAccount
     body:
       id: >-
         /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
@@ -13,7 +15,5 @@ task: !ruby/object:Provider::Ansible::Task
       location: Central US
       tags: {}
       properties: {}
-    resource_group: myResourceGroup
-    root_resource_name: myAccount
     resource_name: myProject
   

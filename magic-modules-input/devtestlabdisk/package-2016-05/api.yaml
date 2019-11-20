@@ -76,7 +76,7 @@ objects:
             python_field_name: leased_by_lab_vm_id
           '/properties/leasedByLabVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: LeasedByLabVmID
+            go_field_name: LeasedByLabVMID
           '/diskBlobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: disk_blob_name
@@ -88,7 +88,7 @@ objects:
             python_field_name: disk_uri
           '/properties/diskUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: DiskUri
+            go_field_name: DiskURI
           '/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: host_caching
@@ -107,6 +107,9 @@ objects:
           '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: UniqueIdentifier
+          '/leasedByLabVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LeasedByLabVMID
+            python_field_name: leased_by_lab_vm_id
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -162,77 +165,6 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DiskProperties
-            go_type_name: DiskProperties
-          '/properties/diskType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: DiskType
-            go_enum_type_name: StorageType
-          '/diskType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: disk_type
-          '/properties/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: DiskSizeGiB
-          '/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: disk_size_gi_b
-          '/properties/leasedByLabVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: LeasedByLabVmID
-          '/leasedByLabVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: leased_by_lab_vm_id
-          '/properties/diskBlobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DiskBlobName
-          '/diskBlobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: disk_blob_name
-          '/properties/diskUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DiskUri
-          '/diskUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: disk_uri
-          '/properties/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostCaching
-          '/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_caching
-          '/properties/managedDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ManagedDiskID
-          '/managedDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: managed_disk_id
-          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: UniqueIdentifier
-          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: unique_identifier
-          '/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreatedDate
-          '/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created_date
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -342,17 +274,13 @@ objects:
         description: 'The unique immutable identifier of a resource (Guid).'
         required: false
         azure_sdk_references: ['/uniqueIdentifier', '/properties/uniqueIdentifier']
-      # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdDate'
-        description: 'The creation date of the disk.'
-        output: true
-        azure_sdk_references: ['/createdDate', '/properties/createdDate']
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The provisioning status of the resource.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        name: 'leasedByLabVmId'
+        description: 'The resource ID of the Lab VM to which the disk is attached.'
+        required: false
+        input: true
+        azure_sdk_references: ['/leasedByLabVmId']
+      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The identifier of the resource.'

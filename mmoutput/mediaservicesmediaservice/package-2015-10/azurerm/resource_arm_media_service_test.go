@@ -34,15 +34,15 @@ func testCheckAzureRMMediaServiceExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Media Service not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        mediaServiceName := rs.Primary.Attributes["media_service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).mediaServiceClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, mediaServiceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Media Service (Media Service Name %q / Resource Group %q) does not exist", mediaServiceName, resourceGroup)
+                return fmt.Errorf("Bad: Media Service %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on mediaServiceClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMMediaServiceDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        mediaServiceName := rs.Primary.Attributes["media_service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, mediaServiceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on mediaServiceClient: %+v", err)
             }

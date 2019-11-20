@@ -130,17 +130,6 @@ objects:
             python_parameter_name: step_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: BuildStepPropertiesUpdateParameters
-            go_type_name: BuildStepPropertiesUpdateParameters
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -169,6 +158,30 @@ objects:
             go_variable_name: buildTaskName
             python_parameter_name: build_task_name
             python_variable_name: build_task_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBuildArguments
+        python_func_name: list_build_arguments
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: registryName
+            python_parameter_name: registry_name
+            python_variable_name: registry_name
+          'buildTaskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: buildTasks
+            go_variable_name: buildTaskName
+            python_parameter_name: build_task_name
+            python_variable_name: build_task_name
+          'stepName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: steps
+            go_variable_name: name
+            python_parameter_name: step_name
+            python_variable_name: name
 
     description: |
       Manage Azure BuildStep instance.
@@ -204,18 +217,6 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The provisioning state of the build step.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Creating
-          - :Updating
-          - :Deleting
-          - :Succeeded
-          - :Failed
-          - :Canceled
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource ID.'

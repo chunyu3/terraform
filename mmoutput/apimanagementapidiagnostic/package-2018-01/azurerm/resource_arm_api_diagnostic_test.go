@@ -36,15 +36,15 @@ func testCheckAzureRMApiDiagnosticExists(resourceName string) resource.TestCheck
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         diagnosticID := rs.Primary.Attributes["diagnostic_id"]
 
         client := testAccProvider.Meta().(*ArmClient).apiDiagnosticClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, diagnosticID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, diagnosticID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q) does not exist", name, diagnosticID, apiID, resourceGroup)
+                return fmt.Errorf("Bad: Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q) does not exist", name, diagnosticID, aPIID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiDiagnosticClient: %+v", err)
         }
@@ -64,10 +64,10 @@ func testCheckAzureRMApiDiagnosticDestroy(s *terraform.State) error {
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         diagnosticID := rs.Primary.Attributes["diagnostic_id"]
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, diagnosticID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, diagnosticID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiDiagnosticClient: %+v", err)
             }

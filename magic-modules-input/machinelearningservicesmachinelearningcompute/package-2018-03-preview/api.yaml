@@ -111,98 +111,6 @@ objects:
             python_parameter_name: compute_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Compute
-            go_type_name: Compute
-          '/properties/computeLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ComputeLocation
-          '/computeLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: compute_location
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceID
-          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_id
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/createdOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreatedOn
-          '/createdOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created_on
-          '/properties/modifiedOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: ModifiedOn
-          '/modifiedOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: modified_on
-          '/properties/provisioningErrors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: ProvisioningErrors
-            go_type_name: MachineLearningServiceError
-          '/properties/provisioningErrors/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Error
-            go_type_name: ErrorResponse
-          '/properties/provisioningErrors/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Code
-          '/properties/provisioningErrors/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Message
-          '/properties/provisioningErrors/error/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Details
-            go_type_name: ErrorDetail
-          '/properties/provisioningErrors/error/details/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Code
-          '/properties/provisioningErrors/error/details/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Message
-          '/provisioningErrors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: provisioning_errors
-          '/provisioningErrors/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: error
-          '/provisioningErrors/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: code
-          '/provisioningErrors/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: message
-          '/provisioningErrors/error/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: details
-          '/provisioningErrors/error/details/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: code
-          '/provisioningErrors/error/details/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: message
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -219,10 +127,6 @@ objects:
           '/identity/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: TenantID
             python_field_name: tenant_id
-          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            go_field_name: Type
-            go_enum_type_name: ResourceIdentityType
-            python_field_name: type
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -240,6 +144,25 @@ objects:
             go_variable_name: workspaceName
             python_parameter_name: workspace_name
             python_variable_name: workspace_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListKeys
+        python_func_name: list_keys
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'computeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: computes
+            go_variable_name: name
+            python_parameter_name: compute_name
+            python_variable_name: name
 
     description: |
       Manage Azure MachineLearningCompute instance.
@@ -290,36 +213,6 @@ objects:
         required: false
         azure_sdk_references: ['/resourceId', '/properties/resourceId']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Unknown
-          - :Updating
-          - :Creating
-          - :Deleting
-          - :Succeeded
-          - :Failed
-          - :Canceled
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdOn'
-        description: 'The date and time when the compute was created.'
-        output: true
-        azure_sdk_references: ['/createdOn', '/properties/createdOn']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'modifiedOn'
-        description: 'The date and time when the compute was last modified.'
-        output: true
-        azure_sdk_references: ['/modifiedOn', '/properties/modifiedOn']
-      - !ruby/object:Api::Type::Array
-        name: 'provisioningErrors'
-        description: 'Errors during provisioning'
-        output: true
-        azure_sdk_references: ['/provisioningErrors', '/properties/provisioningErrors']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Specifies the resource ID.'
@@ -336,6 +229,16 @@ objects:
         output: true
         azure_sdk_references: ['/identity']
         properties:
+          - !ruby/object:Api::Type::String
+            name: 'principalId'
+            description: 'The principal ID of resource identity.'
+            output: true
+            azure_sdk_references: ['/identity/principalId']
+          - !ruby/object:Api::Type::String
+            name: 'tenantId'
+            description: 'The tenant ID of resource.'
+            output: true
+            azure_sdk_references: ['/identity/tenantId']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'Specifies the type of the resource.'

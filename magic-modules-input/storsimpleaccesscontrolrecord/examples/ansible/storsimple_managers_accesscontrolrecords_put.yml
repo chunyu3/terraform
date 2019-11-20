@@ -3,7 +3,9 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_storsimpleaccesscontrolrecord
   description: AccessControlRecordsCreateOrUpdate
   code:
-    access_control_record_name: myAccessControlRecord
+    resource_group: myResourceGroup
+    manager_name: myManager
+    name: myAccessControlRecord
     access_control_record:
       Client:
         BaseUri: 'https://management.azure.com/'
@@ -16,6 +18,4 @@ task: !ruby/object:Provider::Ansible::Task
       properties:
         initiatorName: 'iqn.2017-06.com.contoso:ForTest'
       name: AcrForSDKTest
-    resource_group: myResourceGroup
-    name: myManager
   

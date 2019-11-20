@@ -36,27 +36,43 @@ The following arguments are supported:
 
 * `sync_group_name` - (Required) Name of Sync Group resource. Changing this forces a new resource to be created.
 
+* `azure_file_share` - (Optional) Azure File Share. Changing this forces a new resource to be created.
+
 * `azure_file_share_name` - (Optional) Azure file share name
+
+* `azure_file_share_uri` - (Optional) Post Restore Azure file share uri. Changing this forces a new resource to be created.
+
+* `backup_metadata_property_bag` - (Optional) Pre Restore backup metadata property bag. Changing this forces a new resource to be created.
+
+* `failed_file_list` - (Optional) Post Restore Azure failed file list. Changing this forces a new resource to be created.
+
+* `partition` - (Optional) Post Restore partition. Changing this forces a new resource to be created.
+
+* `pause_wait_for_sync_drain_time_period_in_seconds` - (Optional) Pre Restore pause wait for sync drain time period in seconds. Changing this forces a new resource to be created.
+
+* `replica_group` - (Optional) Post Restore replica group. Changing this forces a new resource to be created.
+
+* `request_id` - (Optional) Post Restore request id. Changing this forces a new resource to be created.
+
+* `restore_file_spec` - (Optional) One or more `restore_file_spec` block defined below.
+
+* `source_azure_file_share_uri` - (Optional) Post Restore Azure source azure file share uri. Changing this forces a new resource to be created.
+
+* `status` - (Optional) Post Restore Azure status. Changing this forces a new resource to be created.
 
 * `storage_account_resource_id` - (Optional) Storage Account Resource Id
 
 * `storage_account_tenant_id` - (Optional) Storage Account Tenant Id
 
+---
+
+The `restore_file_spec` block supports the following:
+
+* `path` - (Optional) Restore file spec path
+
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `partnership_id` - Partnership Id
-
-* `friendly_name` - Friendly Name
-
-* `backup_enabled` - Backup Enabled
-
-* `provisioning_state` - CloudEndpoint Provisioning State
-
-* `last_workflow_id` - CloudEndpoint lastWorkflowId
-
-* `last_operation_name` - Resource Last Operation Name
 
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 

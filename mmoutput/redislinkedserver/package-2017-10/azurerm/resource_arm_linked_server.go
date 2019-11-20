@@ -66,11 +66,6 @@ func resourceArmLinkedServer() *schema.Resource {
                 }, false),
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -159,12 +154,6 @@ func resourceArmLinkedServerRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if linkedServerCreateProperties := resp.LinkedServerCreateProperties; linkedServerCreateProperties != nil {
-        d.Set("linked_redis_cache_id", linkedServerCreateProperties.LinkedRedisCacheID)
-        d.Set("linked_redis_cache_location", linkedServerCreateProperties.LinkedRedisCacheLocation)
-        d.Set("provisioning_state", linkedServerCreateProperties.ProvisioningState)
-        d.Set("server_role", string(linkedServerCreateProperties.ServerRole))
-    }
     d.Set("type", resp.Type)
 
     return nil

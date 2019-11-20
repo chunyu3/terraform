@@ -115,11 +115,6 @@ func resourceArmSyncMember() *schema.Resource {
                 Optional: true,
             },
 
-            "sync_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -165,7 +160,7 @@ func resourceArmSyncMemberCreate(d *schema.ResourceData, meta interface{}) error
             DatabaseType: sql.SyncMemberDbType(databaseType),
             Password: utils.String(password),
             ServerName: utils.String(serverName),
-            SqlServerDatabaseID: utils.String(sqlServerDatabaseId),
+            SQLServerDatabaseID: utils.String(sqlServerDatabaseId),
             SyncAgentID: utils.String(syncAgentId),
             SyncDirection: sql.SyncDirection(syncDirection),
             UserName: utils.String(userName),
@@ -223,17 +218,6 @@ func resourceArmSyncMemberRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("database_name", databaseName)
-    if syncMemberProperties := resp.SyncMemberProperties; syncMemberProperties != nil {
-        d.Set("database_name", syncMemberProperties.DatabaseName)
-        d.Set("database_type", string(syncMemberProperties.DatabaseType))
-        d.Set("password", syncMemberProperties.Password)
-        d.Set("server_name", syncMemberProperties.ServerName)
-        d.Set("sql_server_database_id", syncMemberProperties.SqlServerDatabaseID)
-        d.Set("sync_agent_id", syncMemberProperties.SyncAgentID)
-        d.Set("sync_direction", string(syncMemberProperties.SyncDirection))
-        d.Set("sync_state", string(syncMemberProperties.SyncState))
-        d.Set("user_name", syncMemberProperties.UserName)
-    }
     d.Set("server_name", serverName)
     d.Set("sync_group_name", syncGroupName)
     d.Set("type", resp.Type)
@@ -265,7 +249,7 @@ func resourceArmSyncMemberUpdate(d *schema.ResourceData, meta interface{}) error
             DatabaseType: sql.SyncMemberDbType(databaseType),
             Password: utils.String(password),
             ServerName: utils.String(serverName),
-            SqlServerDatabaseID: utils.String(sqlServerDatabaseId),
+            SQLServerDatabaseID: utils.String(sqlServerDatabaseId),
             SyncAgentID: utils.String(syncAgentId),
             SyncDirection: sql.SyncDirection(syncDirection),
             UserName: utils.String(userName),

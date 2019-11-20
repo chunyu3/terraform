@@ -65,29 +65,28 @@ func resourceArmAsset() *schema.Resource {
                 Optional: true,
             },
 
+            "expiry_time": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+                ValidateFunc: validateRFC3339Date,
+            },
+
+            "permissions": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(mediaservices.Read),
+                    string(mediaservices.ReadWrite),
+                    string(mediaservices.ReadWriteDelete),
+                }, false),
+                Default: string(mediaservices.Read),
+            },
+
             "storage_account_name": {
                 Type: schema.TypeString,
                 Optional: true,
-            },
-
-            "asset_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "created": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "storage_encryption_format": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "type": {
@@ -121,9 +120,13 @@ func resourceArmAssetCreate(d *schema.ResourceData, meta interface{}) error {
     alternateId := d.Get("alternate_id").(string)
     container := d.Get("container").(string)
     description := d.Get("description").(string)
+    expiryTime := d.Get("expiry_time").(string)
+    permissions := d.Get("permissions").(string)
     storageAccountName := d.Get("storage_account_name").(string)
 
-    parameters := mediaservices.Asset{
+    parameters := mediaservices.ListContainerSasInput{
+        ExpiryTime: convertStringToDate(expiryTime),
+        Permissions: mediaservices.AssetContainerPermission(permissions),
         AssetProperties: &mediaservices.AssetProperties{
             AlternateID: utils.String(alternateId),
             Container: utils.String(container),
@@ -177,16 +180,6 @@ func resourceArmAssetRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    if assetProperties := resp.AssetProperties; assetProperties != nil {
-        d.Set("alternate_id", assetProperties.AlternateID)
-        d.Set("asset_id", assetProperties.AssetID)
-        d.Set("container", assetProperties.Container)
-        d.Set("created", (assetProperties.Created).String())
-        d.Set("description", assetProperties.Description)
-        d.Set("last_modified", (assetProperties.LastModified).String())
-        d.Set("storage_account_name", assetProperties.StorageAccountName)
-        d.Set("storage_encryption_format", string(assetProperties.StorageEncryptionFormat))
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -202,9 +195,13 @@ func resourceArmAssetUpdate(d *schema.ResourceData, meta interface{}) error {
     alternateId := d.Get("alternate_id").(string)
     container := d.Get("container").(string)
     description := d.Get("description").(string)
+    expiryTime := d.Get("expiry_time").(string)
+    permissions := d.Get("permissions").(string)
     storageAccountName := d.Get("storage_account_name").(string)
 
-    parameters := mediaservices.Asset{
+    parameters := mediaservices.ListContainerSasInput{
+        ExpiryTime: convertStringToDate(expiryTime),
+        Permissions: mediaservices.AssetContainerPermission(permissions),
         AssetProperties: &mediaservices.AssetProperties{
             AlternateID: utils.String(alternateId),
             Container: utils.String(container),
@@ -239,4 +236,19 @@ func resourceArmAssetDelete(d *schema.ResourceData, meta interface{}) error {
     }
 
     return nil
+}
+
+func convertStringToDate(input interface{}) *date.Time {
+  v := input.(string)
+
+  dateTime, err := date.ParseTime(time.RFC3339, v)
+  if err != nil {
+      log.Printf("[ERROR] Cannot convert an invalid string to RFC3339 date %q: %+v", v, err)
+      return nil
+  }
+
+  result := date.Time{
+      Time: dateTime,
+  }
+  return &result
 }

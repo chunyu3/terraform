@@ -28,7 +28,7 @@ Manage Azure IscsiServer instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The manager name Changing this forces a new resource to be created.
+* `name` - (Required) The iSCSI server name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
@@ -36,7 +36,7 @@ The following arguments are supported:
 
 * `device_name` - (Required) The device name. Changing this forces a new resource to be created.
 
-* `iscsi_server_name` - (Required) The iSCSI server name. Changing this forces a new resource to be created.
+* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `storage_domain_id` - (Required) The storage domain id.
 

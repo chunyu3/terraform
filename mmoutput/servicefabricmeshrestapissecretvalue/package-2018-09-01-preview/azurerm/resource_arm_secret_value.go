@@ -57,11 +57,6 @@ func resourceArmSecretValue() *schema.Resource {
                 Optional: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -148,17 +143,10 @@ func resourceArmSecretValueRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if secretValueResourceProperties := resp.SecretValueResourceProperties; secretValueResourceProperties != nil {
-        d.Set("provisioning_state", secretValueResourceProperties.ProvisioningState)
-        d.Set("value", secretValueResourceProperties.Value)
-    }
     d.Set("secret_resource_name", secretResourceName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 

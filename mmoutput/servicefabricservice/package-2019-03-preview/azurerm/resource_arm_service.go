@@ -142,21 +142,6 @@ func resourceArmService() *schema.Resource {
                 Computed: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "service_package_activation_mode": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "service_type_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -255,28 +240,12 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
     d.Set("application_name", applicationName)
     d.Set("cluster_name", clusterName)
-    if serviceResourceUpdateProperties := resp.ServiceResourceUpdateProperties; serviceResourceUpdateProperties != nil {
-        if err := d.Set("correlation_scheme", flattenArmServiceServiceCorrelationDescription(serviceResourceUpdateProperties.CorrelationScheme)); err != nil {
-            return fmt.Errorf("Error setting `correlation_scheme`: %+v", err)
-        }
-        d.Set("default_move_cost", string(serviceResourceUpdateProperties.DefaultMoveCost))
-        d.Set("placement_constraints", serviceResourceUpdateProperties.PlacementConstraints)
-        d.Set("provisioning_state", serviceResourceUpdateProperties.ProvisioningState)
-        if err := d.Set("service_load_metrics", flattenArmServiceServiceLoadMetricDescription(serviceResourceUpdateProperties.ServiceLoadMetrics)); err != nil {
-            return fmt.Errorf("Error setting `service_load_metrics`: %+v", err)
-        }
-        d.Set("service_package_activation_mode", string(serviceResourceUpdateProperties.ServicePackageActivationMode))
-        d.Set("service_type_name", serviceResourceUpdateProperties.ServiceTypeName)
-    }
     d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -294,7 +263,6 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     t := d.Get("tags").(map[string]interface{})
 
     parameters := servicefabric.ServiceResourceUpdate{
-        Location: utils.String(location),
         ServiceResourceUpdateProperties: &servicefabric.ServiceResourceUpdateProperties{
             CorrelationScheme: expandArmServiceServiceCorrelationDescription(correlationScheme),
             DefaultMoveCost: servicefabric.MoveCost(defaultMoveCost),
@@ -385,54 +353,4 @@ func expandArmServiceServiceLoadMetricDescription(input []interface{}) *[]servic
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmServiceServiceCorrelationDescription(input *[]servicefabric.ServiceCorrelationDescription) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["scheme"] = string(item.Scheme)
-        if serviceName := item.ServiceName; serviceName != nil {
-            v["service_name"] = *serviceName
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmServiceServiceLoadMetricDescription(input *[]servicefabric.ServiceLoadMetricDescription) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if defaultLoad := item.DefaultLoad; defaultLoad != nil {
-            v["default_load"] = *defaultLoad
-        }
-        if primaryDefaultLoad := item.PrimaryDefaultLoad; primaryDefaultLoad != nil {
-            v["primary_default_load"] = *primaryDefaultLoad
-        }
-        if secondaryDefaultLoad := item.SecondaryDefaultLoad; secondaryDefaultLoad != nil {
-            v["secondary_default_load"] = *secondaryDefaultLoad
-        }
-        v["weight"] = string(item.Weight)
-
-        results = append(results, v)
-    }
-
-    return results
 }

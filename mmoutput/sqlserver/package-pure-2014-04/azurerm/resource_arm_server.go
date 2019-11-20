@@ -38,12 +38,21 @@ func resourceArmServer() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "type": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
 
             "administrator_login": {
                 Type: schema.TypeString,
@@ -65,32 +74,7 @@ func resourceArmServer() *schema.Resource {
                 Default: string(sql.2.0),
             },
 
-            "external_administrator_login": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "external_administrator_sid": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "fully_qualified_domain_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "kind": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "type": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -119,20 +103,24 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
+    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     administratorLogin := d.Get("administrator_login").(string)
     administratorLoginPassword := d.Get("administrator_login_password").(string)
+    type := d.Get("type").(string)
     version := d.Get("version").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := sql.ServerUpdate{
         Location: utils.String(location),
+        Name: utils.String(name),
         ServerProperties: &sql.ServerProperties{
             AdministratorLogin: utils.String(administratorLogin),
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
             Version: sql.ServerVersion(version),
         },
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -175,25 +163,13 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    d.Set("name", name)
     d.Set("name", resp.Name)
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if serverProperties := resp.ServerProperties; serverProperties != nil {
-        d.Set("administrator_login", serverProperties.AdministratorLogin)
-        d.Set("administrator_login_password", serverProperties.AdministratorLoginPassword)
-        d.Set("external_administrator_login", serverProperties.ExternalAdministratorLogin)
-        d.Set("external_administrator_sid", serverProperties.ExternalAdministratorSid)
-        d.Set("fully_qualified_domain_name", serverProperties.FullyQualifiedDomainName)
-        d.Set("state", string(serverProperties.State))
-        d.Set("version", string(serverProperties.Version))
-    }
     d.Set("kind", resp.Kind)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -201,20 +177,23 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     administratorLogin := d.Get("administrator_login").(string)
     administratorLoginPassword := d.Get("administrator_login_password").(string)
+    type := d.Get("type").(string)
     version := d.Get("version").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := sql.ServerUpdate{
-        Location: utils.String(location),
+        Name: utils.String(name),
         ServerProperties: &sql.ServerProperties{
             AdministratorLogin: utils.String(administratorLogin),
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
             Version: sql.ServerVersion(version),
         },
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 

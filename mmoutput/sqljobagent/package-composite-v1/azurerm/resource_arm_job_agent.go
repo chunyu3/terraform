@@ -89,11 +89,6 @@ func resourceArmJobAgent() *schema.Resource {
                 },
             },
 
-            "state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -186,20 +181,10 @@ func resourceArmJobAgentRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if jobAgentProperties := resp.JobAgentProperties; jobAgentProperties != nil {
-        d.Set("database_id", jobAgentProperties.DatabaseID)
-        d.Set("state", string(jobAgentProperties.State))
-    }
     d.Set("server_name", serverName)
-    if err := d.Set("sku", flattenArmJobAgentSku(resp.Sku)); err != nil {
-        return fmt.Errorf("Error setting `sku`: %+v", err)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmJobAgentUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -214,7 +199,6 @@ func resourceArmJobAgentUpdate(d *schema.ResourceData, meta interface{}) error {
     t := d.Get("tags").(map[string]interface{})
 
     parameters := sql.JobAgentUpdate{
-        Location: utils.String(location),
         JobAgentProperties: &sql.JobAgentProperties{
             DatabaseID: utils.String(databaseId),
         },
@@ -284,31 +268,4 @@ func expandArmJobAgentSku(input []interface{}) *sql.Sku {
         Tier: utils.String(tier),
     }
     return &result
-}
-
-
-func flattenArmJobAgentSku(input *sql.Sku) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
-    if capacity := input.Capacity; capacity != nil {
-        result["capacity"] = int(*capacity)
-    }
-    if family := input.Family; family != nil {
-        result["family"] = *family
-    }
-    if size := input.Size; size != nil {
-        result["size"] = *size
-    }
-    if tier := input.Tier; tier != nil {
-        result["tier"] = *tier
-    }
-
-    return []interface{}{result}
 }

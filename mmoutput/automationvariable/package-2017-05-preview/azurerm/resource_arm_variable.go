@@ -61,21 +61,6 @@ func resourceArmVariable() *schema.Resource {
                 Optional: true,
             },
 
-            "creation_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "is_encrypted": {
-                Type: schema.TypeBool,
-                Computed: true,
-            },
-
-            "last_modified_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -161,13 +146,6 @@ func resourceArmVariableRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
-    if variableUpdateProperties := resp.VariableUpdateProperties; variableUpdateProperties != nil {
-        d.Set("creation_time", (variableUpdateProperties.CreationTime).String())
-        d.Set("description", variableUpdateProperties.Description)
-        d.Set("is_encrypted", variableUpdateProperties.IsEncrypted)
-        d.Set("last_modified_time", (variableUpdateProperties.LastModifiedTime).String())
-        d.Set("value", variableUpdateProperties.Value)
-    }
     d.Set("type", resp.Type)
 
     return nil

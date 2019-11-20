@@ -153,96 +153,6 @@ objects:
             python_parameter_name: failover_group_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: InstanceFailoverGroupProperties
-            go_type_name: InstanceFailoverGroupProperties
-          '/properties/readWriteEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ReadWriteEndpoint
-            go_type_name: InstanceFailoverGroupReadWriteEndpoint
-          '/properties/readWriteEndpoint/failoverPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: FailoverPolicy
-            go_enum_type_name: ReadWriteEndpointFailoverPolicy
-          '/properties/readWriteEndpoint/failoverWithDataLossGracePeriodMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: FailoverWithDataLossGracePeriodMinutes
-          '/readWriteEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: read_write_endpoint
-          '/readWriteEndpoint/failoverPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: failover_policy
-          '/readWriteEndpoint/failoverWithDataLossGracePeriodMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: failover_with_data_loss_grace_period_minutes
-          '/properties/readOnlyEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ReadOnlyEndpoint
-            go_type_name: InstanceFailoverGroupReadOnlyEndpoint
-          '/properties/readOnlyEndpoint/failoverPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: FailoverPolicy
-            go_enum_type_name: ReadOnlyEndpointFailoverPolicy
-          '/readOnlyEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: read_only_endpoint
-          '/readOnlyEndpoint/failoverPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: failover_policy
-          '/properties/partnerRegions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: PartnerRegions
-            go_type_name: PartnerRegionInfo
-          '/properties/partnerRegions/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Location
-          '/properties/partnerRegions/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ReplicationRole
-            go_enum_type_name: InstanceFailoverGroupReplicationRole
-          '/partnerRegions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: partner_regions
-          '/partnerRegions/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: location
-          '/partnerRegions/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: replication_role
-          '/properties/managedInstancePairs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: ManagedInstancePairs
-            go_type_name: ManagedInstancePairInfo
-          '/properties/managedInstancePairs/primaryManagedInstanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PrimaryManagedInstanceID
-          '/properties/managedInstancePairs/partnerManagedInstanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PartnerManagedInstanceID
-          '/managedInstancePairs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: managed_instance_pairs
-          '/managedInstancePairs/primaryManagedInstanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: primary_managed_instance_id
-          '/managedInstancePairs/partnerManagedInstanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: partner_managed_instance_id
-          '/properties/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ReplicationRole
-            go_enum_type_name: InstanceFailoverGroupReplicationRole
-          '/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: replication_role
-          '/properties/replicationState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ReplicationState
-          '/replicationState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: replication_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -353,19 +263,6 @@ objects:
               required: false
               azure_sdk_references: ['/managedInstancePairs/partnerManagedInstanceId', '/properties/managedInstancePairs/partnerManagedInstanceId']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'replicationRole'
-        description: 'Local replication role of the failover group instance.'
-        output: true
-        azure_sdk_references: ['/replicationRole', '/properties/replicationRole']
-        values:
-          - :Primary
-          - :Secondary
-      - !ruby/object:Api::Type::String
-        name: 'replicationState'
-        description: 'Replication state of the failover group instance.'
-        output: true
-        azure_sdk_references: ['/replicationState', '/properties/replicationState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

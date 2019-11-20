@@ -28,7 +28,7 @@ Manage Azure Channel instance.
 
 The following arguments are supported:
 
-* `name` - (Required) Channel Name Changing this forces a new resource to be created.
+* `name` - (Required) The EngagementFabric channel name Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) Resource Group Name Changing this forces a new resource to be created.
 

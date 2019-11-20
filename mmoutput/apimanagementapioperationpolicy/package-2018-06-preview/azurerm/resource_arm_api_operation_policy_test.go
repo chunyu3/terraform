@@ -36,16 +36,16 @@ func testCheckAzureRMApiOperationPolicyExists(resourceName string) resource.Test
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         operationID := rs.Primary.Attributes["operation_id"]
         policyID := rs.Primary.Attributes["policy_id"]
 
         client := testAccProvider.Meta().(*ArmClient).apiOperationPolicyClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID, policyID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, operationID, policyID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Operation Policy %q (Policy %q / Operation %q / Api %q / Resource Group %q) does not exist", name, policyID, operationID, apiID, resourceGroup)
+                return fmt.Errorf("Bad: Api Operation Policy %q (Policy %q / Operation %q / Api %q / Resource Group %q) does not exist", name, policyID, operationID, aPIID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiOperationPolicyClient: %+v", err)
         }
@@ -65,11 +65,11 @@ func testCheckAzureRMApiOperationPolicyDestroy(s *terraform.State) error {
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         operationID := rs.Primary.Attributes["operation_id"]
         policyID := rs.Primary.Attributes["policy_id"]
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID, policyID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, operationID, policyID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiOperationPolicyClient: %+v", err)
             }

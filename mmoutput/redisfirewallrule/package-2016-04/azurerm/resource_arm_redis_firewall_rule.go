@@ -95,8 +95,8 @@ func resourceArmRedisFirewallRuleCreateUpdate(d *schema.ResourceData, meta inter
 
     parameters := redis.FirewallRule{
         FirewallRuleProperties: &redis.FirewallRuleProperties{
-            EndIp: utils.String(endIp),
-            StartIp: utils.String(startIp),
+            EndIP: utils.String(endIp),
+            StartIP: utils.String(startIp),
         },
     }
 
@@ -145,10 +145,6 @@ func resourceArmRedisFirewallRuleRead(d *schema.ResourceData, meta interface{}) 
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("cache_name", cacheName)
-    if firewallRuleProperties := resp.FirewallRuleProperties; firewallRuleProperties != nil {
-        d.Set("end_ip", firewallRuleProperties.EndIp)
-        d.Set("start_ip", firewallRuleProperties.StartIp)
-    }
     d.Set("type", resp.Type)
 
     return nil

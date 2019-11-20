@@ -256,11 +256,6 @@ func resourceArmImage() *schema.Resource {
                 },
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -299,7 +294,7 @@ func resourceArmImageCreate(d *schema.ResourceData, meta interface{}) error {
     parameters := compute.ImageUpdate{
         Location: utils.String(location),
         ImageProperties: &compute.ImageProperties{
-            HyperVgeneration: compute.HyperVGenerationTypes(hyperVgeneration),
+            HyperVGeneration: compute.HyperVGenerationTypes(hyperVgeneration),
             SourceVirtualMachine: expandArmImageSubResource(sourceVirtualMachine),
             StorageProfile: expandArmImageImageStorageProfile(storageProfile),
         },
@@ -353,22 +348,9 @@ func resourceArmImageRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if imageProperties := resp.ImageProperties; imageProperties != nil {
-        d.Set("hyper_vgeneration", string(imageProperties.HyperVgeneration))
-        d.Set("provisioning_state", imageProperties.ProvisioningState)
-        if err := d.Set("source_virtual_machine", flattenArmImageSubResource(imageProperties.SourceVirtualMachine)); err != nil {
-            return fmt.Errorf("Error setting `source_virtual_machine`: %+v", err)
-        }
-        if err := d.Set("storage_profile", flattenArmImageImageStorageProfile(imageProperties.StorageProfile)); err != nil {
-            return fmt.Errorf("Error setting `storage_profile`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmImageUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -383,9 +365,8 @@ func resourceArmImageUpdate(d *schema.ResourceData, meta interface{}) error {
     t := d.Get("tags").(map[string]interface{})
 
     parameters := compute.ImageUpdate{
-        Location: utils.String(location),
         ImageProperties: &compute.ImageProperties{
-            HyperVgeneration: compute.HyperVGenerationTypes(hyperVgeneration),
+            HyperVGeneration: compute.HyperVGenerationTypes(hyperVgeneration),
             SourceVirtualMachine: expandArmImageSubResource(sourceVirtualMachine),
             StorageProfile: expandArmImageImageStorageProfile(storageProfile),
         },
@@ -479,10 +460,10 @@ func expandArmImageImageDataDisk(input []interface{}) *[]compute.ImageDataDisk {
         lun := v["lun"].(int)
 
         result := compute.ImageDataDisk{
-            BlobUri: utils.String(blobUri),
+            BlobURI: utils.String(blobUri),
             Caching: compute.CachingTypes(caching),
             DiskEncryptionSet: expandArmImageDiskEncryptionSetParameters(diskEncryptionSet),
-            DiskSizeGb: utils.Int32(int32(diskSizeGb)),
+            DiskSizeGB: utils.Int32(int32(diskSizeGb)),
             Lun: utils.Int32(int32(lun)),
             ManagedDisk: expandArmImageSubResource(managedDisk),
             Snapshot: expandArmImageSubResource(snapshot),
@@ -511,10 +492,10 @@ func expandArmImageImageOSDisk(input []interface{}) *compute.ImageOSDisk {
     osState := v["os_state"].(string)
 
     result := compute.ImageOSDisk{
-        BlobUri: utils.String(blobUri),
+        BlobURI: utils.String(blobUri),
         Caching: compute.CachingTypes(caching),
         DiskEncryptionSet: expandArmImageDiskEncryptionSetParameters(diskEncryptionSet),
-        DiskSizeGb: utils.Int32(int32(diskSizeGb)),
+        DiskSizeGB: utils.Int32(int32(diskSizeGb)),
         ManagedDisk: expandArmImageSubResource(managedDisk),
         OsState: compute.OperatingSystemStateTypes(osState),
         OsType: compute.OperatingSystemTypes(osType),
@@ -536,103 +517,4 @@ func expandArmImageDiskEncryptionSetParameters(input []interface{}) *compute.Dis
         ID: utils.String(id),
     }
     return &result
-}
-
-
-func flattenArmImageSubResource(input *compute.SubResource) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if id := input.ID; id != nil {
-        result["id"] = *id
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmImageImageStorageProfile(input *compute.ImageStorageProfile) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["data_disks"] = flattenArmImageImageDataDisk(input.DataDisks)
-    result["os_disk"] = flattenArmImageImageOSDisk(input.OsDisk)
-    if zoneResilient := input.ZoneResilient; zoneResilient != nil {
-        result["zone_resilient"] = *zoneResilient
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmImageImageDataDisk(input *[]compute.ImageDataDisk) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if blobUri := item.BlobUri; blobUri != nil {
-            v["blob_uri"] = *blobUri
-        }
-        v["caching"] = string(item.Caching)
-        v["disk_encryption_set"] = flattenArmImageDiskEncryptionSetParameters(item.DiskEncryptionSet)
-        if diskSizeGb := item.DiskSizeGb; diskSizeGb != nil {
-            v["disk_size_gb"] = int(*diskSizeGb)
-        }
-        if lun := item.Lun; lun != nil {
-            v["lun"] = int(*lun)
-        }
-        v["managed_disk"] = flattenArmImageSubResource(item.ManagedDisk)
-        v["snapshot"] = flattenArmImageSubResource(item.Snapshot)
-        v["storage_account_type"] = string(item.StorageAccountType)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmImageImageOSDisk(input *compute.ImageOSDisk) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if blobUri := input.BlobUri; blobUri != nil {
-        result["blob_uri"] = *blobUri
-    }
-    result["caching"] = string(input.Caching)
-    result["disk_encryption_set"] = flattenArmImageDiskEncryptionSetParameters(input.DiskEncryptionSet)
-    if diskSizeGb := input.DiskSizeGb; diskSizeGb != nil {
-        result["disk_size_gb"] = int(*diskSizeGb)
-    }
-    result["managed_disk"] = flattenArmImageSubResource(input.ManagedDisk)
-    result["os_state"] = string(input.OsState)
-    result["os_type"] = string(input.OsType)
-    result["snapshot"] = flattenArmImageSubResource(input.Snapshot)
-    result["storage_account_type"] = string(input.StorageAccountType)
-
-    return []interface{}{result}
-}
-
-func flattenArmImageDiskEncryptionSetParameters(input *compute.DiskEncryptionSetParameters) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if id := input.ID; id != nil {
-        result["id"] = *id
-    }
-
-    return []interface{}{result}
 }

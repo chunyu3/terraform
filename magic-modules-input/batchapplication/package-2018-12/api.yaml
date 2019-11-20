@@ -34,9 +34,9 @@ objects:
             python_variable_name: account_name
           'applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: applications
-            go_variable_name: applicationName
+            go_variable_name: name
             python_parameter_name: application_name
-            python_variable_name: application_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Application
@@ -80,9 +80,9 @@ objects:
             python_variable_name: account_name
           'applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: applications
-            go_variable_name: applicationName
+            go_variable_name: name
             python_parameter_name: application_name
-            python_variable_name: application_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Application
@@ -126,9 +126,9 @@ objects:
             python_variable_name: account_name
           'applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: applications
-            go_variable_name: applicationName
+            go_variable_name: name
             python_parameter_name: application_name
-            python_variable_name: application_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -145,32 +145,10 @@ objects:
             python_variable_name: account_name
           'applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: applications
-            go_variable_name: applicationName
+            go_variable_name: name
             python_parameter_name: application_name
-            python_variable_name: application_name
+            python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ApplicationProperties
-            go_type_name: ApplicationProperties
-          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DisplayName
-          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: display_name
-          '/properties/allowUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: AllowUpdates
-          '/allowUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: allow_updates
-          '/properties/defaultVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DefaultVersion
-          '/defaultVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: default_version
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -197,6 +175,11 @@ objects:
             go_variable_name: accountName
             python_parameter_name: account_name
             python_variable_name: account_name
+          'maxresults': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            id_portion: null
+            go_variable_name: maxresults
+            python_parameter_name: maxresults
+            python_variable_name: maxresults
 
     description: |
       Manage Azure Application instance.
@@ -214,7 +197,7 @@ objects:
         input: true
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::String
-        name: 'applicationName'
+        name: 'name'
         description: 'The name of the application. This must be unique within the account.'
         required: true
         input: true
@@ -234,6 +217,12 @@ objects:
         description: 'The package to use if a client requests the application but does not specify a version. This property can only be set to the name of an existing package.'
         required: false
         azure_sdk_references: ['/defaultVersion', '/properties/defaultVersion']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxresults'
+        description: 'The maximum number of items to return in the response.'
+        required: false
+        input: true
+        azure_sdk_references: ['maxresults']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

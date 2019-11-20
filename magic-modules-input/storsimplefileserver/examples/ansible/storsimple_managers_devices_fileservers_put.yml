@@ -4,7 +4,9 @@ task: !ruby/object:Provider::Ansible::Task
   description: FileServersCreateOrUpdate
   code:
     device_name: myDevice
-    file_server_name: myFileserver
+    resource_group: myResourceGroup
+    manager_name: myManager
+    name: myFileserver
     file_server:
       Client:
         BaseUri: 'https://management.azure.com/'
@@ -26,6 +28,4 @@ task: !ruby/object:Provider::Ansible::Task
           device_name }}/backupScheduleGroups/{{ backup_schedule_group_name }}
         description: Demo FileServer for SDK Test
       name: HSDK-4XY4FI2IVG
-    resource_group: myResourceGroup
-    name: myManager
   

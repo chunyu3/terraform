@@ -548,11 +548,6 @@ func resourceArmLoadBalancer() *schema.Resource {
                 Optional: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -599,13 +594,13 @@ func resourceArmLoadBalancerCreateUpdate(d *schema.ResourceData, meta interface{
         Location: utils.String(location),
         LoadBalancerPropertiesFormat: &network.LoadBalancerPropertiesFormat{
             BackendAddressPools: expandArmLoadBalancerBackendAddressPool(backendAddressPools),
-            FrontendIpconfigurations: expandArmLoadBalancerFrontendIpConfiguration(frontendIpconfigurations),
+            FrontendIPConfigurations: expandArmLoadBalancerFrontendIpConfiguration(frontendIpconfigurations),
             InboundNatPools: expandArmLoadBalancerInboundNatPool(inboundNatPools),
             InboundNatRules: expandArmLoadBalancerInboundNatRule(inboundNatRules),
             LoadBalancingRules: expandArmLoadBalancerLoadBalancingRule(loadBalancingRules),
             OutboundNatRules: expandArmLoadBalancerOutboundNatRule(outboundNatRules),
             Probes: expandArmLoadBalancerProbe(probes),
-            ResourceGuid: utils.String(resourceGuid),
+            ResourceGUID: utils.String(resourceGuid),
         },
         Tags: tags.Expand(t),
     }
@@ -657,38 +652,9 @@ func resourceArmLoadBalancerRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if loadBalancerPropertiesFormat := resp.LoadBalancerPropertiesFormat; loadBalancerPropertiesFormat != nil {
-        if err := d.Set("backend_address_pools", flattenArmLoadBalancerBackendAddressPool(loadBalancerPropertiesFormat.BackendAddressPools)); err != nil {
-            return fmt.Errorf("Error setting `backend_address_pools`: %+v", err)
-        }
-        if err := d.Set("frontend_ipconfigurations", flattenArmLoadBalancerFrontendIpConfiguration(loadBalancerPropertiesFormat.FrontendIpconfigurations)); err != nil {
-            return fmt.Errorf("Error setting `frontend_ipconfigurations`: %+v", err)
-        }
-        if err := d.Set("inbound_nat_pools", flattenArmLoadBalancerInboundNatPool(loadBalancerPropertiesFormat.InboundNatPools)); err != nil {
-            return fmt.Errorf("Error setting `inbound_nat_pools`: %+v", err)
-        }
-        if err := d.Set("inbound_nat_rules", flattenArmLoadBalancerInboundNatRule(loadBalancerPropertiesFormat.InboundNatRules)); err != nil {
-            return fmt.Errorf("Error setting `inbound_nat_rules`: %+v", err)
-        }
-        if err := d.Set("load_balancing_rules", flattenArmLoadBalancerLoadBalancingRule(loadBalancerPropertiesFormat.LoadBalancingRules)); err != nil {
-            return fmt.Errorf("Error setting `load_balancing_rules`: %+v", err)
-        }
-        if err := d.Set("outbound_nat_rules", flattenArmLoadBalancerOutboundNatRule(loadBalancerPropertiesFormat.OutboundNatRules)); err != nil {
-            return fmt.Errorf("Error setting `outbound_nat_rules`: %+v", err)
-        }
-        if err := d.Set("probes", flattenArmLoadBalancerProbe(loadBalancerPropertiesFormat.Probes)); err != nil {
-            return fmt.Errorf("Error setting `probes`: %+v", err)
-        }
-        d.Set("provisioning_state", loadBalancerPropertiesFormat.ProvisioningState)
-        d.Set("resource_guid", loadBalancerPropertiesFormat.ResourceGuid)
-    }
-    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -737,7 +703,7 @@ func expandArmLoadBalancerBackendAddressPool(input []interface{}) *[]network.Bac
             ID: utils.String(id),
             Name: utils.String(name),
             BackendAddressPoolPropertiesFormat: &network.BackendAddressPoolPropertiesFormat{
-                BackendIpconfigurations: expandArmLoadBalancerSubResource(backendIpconfigurations),
+                BackendIPConfigurations: expandArmLoadBalancerSubResource(backendIpconfigurations),
                 LoadBalancingRules: expandArmLoadBalancerSubResource(loadBalancingRules),
                 OutboundNatRule: expandArmLoadBalancerSubResource(outboundNatRule),
             },
@@ -773,9 +739,9 @@ func expandArmLoadBalancerFrontendIpConfiguration(input []interface{}) *[]networ
                 InboundNatRules: expandArmLoadBalancerSubResource(inboundNatRules),
                 LoadBalancingRules: expandArmLoadBalancerSubResource(loadBalancingRules),
                 OutboundNatRules: expandArmLoadBalancerSubResource(outboundNatRules),
-                PrivateIpAddress: utils.String(privateIpAddress),
-                PrivateIpallocationMethod: network.IpAllocationMethod(privateIpallocationMethod),
-                PublicIpAddress: expandArmLoadBalancerSubResource(publicIpAddress),
+                PrivateIPAddress: utils.String(privateIpAddress),
+                PrivateIPAllocationMethod: network.IpAllocationMethod(privateIpallocationMethod),
+                PublicIPAddress: expandArmLoadBalancerSubResource(publicIpAddress),
                 Subnet: expandArmLoadBalancerSubResource(subnet),
             },
         }
@@ -804,7 +770,7 @@ func expandArmLoadBalancerInboundNatPool(input []interface{}) *[]network.Inbound
             Name: utils.String(name),
             InboundNatPoolPropertiesFormat: &network.InboundNatPoolPropertiesFormat{
                 BackendPort: utils.Int32(int32(backendPort)),
-                FrontendIpconfiguration: expandArmLoadBalancerSubResource(frontendIpconfiguration),
+                FrontendIPConfiguration: expandArmLoadBalancerSubResource(frontendIpconfiguration),
                 FrontendPortRangeEnd: utils.Int32(int32(frontendPortRangeEnd)),
                 FrontendPortRangeStart: utils.Int32(int32(frontendPortRangeStart)),
                 Protocol: network.TransportProtocol(protocol),
@@ -836,10 +802,10 @@ func expandArmLoadBalancerInboundNatRule(input []interface{}) *[]network.Inbound
             ID: utils.String(id),
             Name: utils.String(name),
             InboundNatRulePropertiesFormat: &network.InboundNatRulePropertiesFormat{
-                BackendIpconfiguration: expandArmLoadBalancerSubResource(backendIpconfiguration),
+                BackendIPConfiguration: expandArmLoadBalancerSubResource(backendIpconfiguration),
                 BackendPort: utils.Int32(int32(backendPort)),
-                EnableFloatingIp: utils.Bool(enableFloatingIp),
-                FrontendIpconfiguration: expandArmLoadBalancerSubResource(frontendIpconfiguration),
+                EnableFloatingIP: utils.Bool(enableFloatingIp),
+                FrontendIPConfiguration: expandArmLoadBalancerSubResource(frontendIpconfiguration),
                 FrontendPort: utils.Int32(int32(frontendPort)),
                 IdleTimeoutInMinutes: utils.Int32(int32(idleTimeoutInMinutes)),
                 Protocol: network.TransportProtocol(protocol),
@@ -875,8 +841,8 @@ func expandArmLoadBalancerLoadBalancingRule(input []interface{}) *[]network.Load
             LoadBalancingRulePropertiesFormat: &network.LoadBalancingRulePropertiesFormat{
                 BackendAddressPool: expandArmLoadBalancerSubResource(backendAddressPool),
                 BackendPort: utils.Int32(int32(backendPort)),
-                EnableFloatingIp: utils.Bool(enableFloatingIp),
-                FrontendIpconfiguration: expandArmLoadBalancerSubResource(frontendIpconfiguration),
+                EnableFloatingIP: utils.Bool(enableFloatingIp),
+                FrontendIPConfiguration: expandArmLoadBalancerSubResource(frontendIpconfiguration),
                 FrontendPort: utils.Int32(int32(frontendPort)),
                 IdleTimeoutInMinutes: utils.Int32(int32(idleTimeoutInMinutes)),
                 LoadDistribution: network.LoadDistribution(loadDistribution),
@@ -908,7 +874,7 @@ func expandArmLoadBalancerOutboundNatRule(input []interface{}) *[]network.Outbou
             OutboundNatRulePropertiesFormat: &network.OutboundNatRulePropertiesFormat{
                 AllocatedOutboundPorts: utils.Int32(int32(allocatedOutboundPorts)),
                 BackendAddressPool: expandArmLoadBalancerSubResource(backendAddressPool),
-                FrontendIpconfigurations: expandArmLoadBalancerSubResource(frontendIpconfigurations),
+                FrontendIPConfigurations: expandArmLoadBalancerSubResource(frontendIpconfigurations),
             },
         }
 
@@ -977,302 +943,4 @@ func expandArmLoadBalancerSubResource(input []interface{}) *network.SubResource 
         ID: utils.String(id),
     }
     return &result
-}
-
-
-func flattenArmLoadBalancerBackendAddressPool(input *[]network.BackendAddressPool) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if backendAddressPoolPropertiesFormat := item.BackendAddressPoolPropertiesFormat; backendAddressPoolPropertiesFormat != nil {
-            v["backend_ipconfigurations"] = flattenArmLoadBalancerSubResource(backendAddressPoolPropertiesFormat.BackendIpconfigurations)
-            v["load_balancing_rules"] = flattenArmLoadBalancerSubResource(backendAddressPoolPropertiesFormat.LoadBalancingRules)
-            v["outbound_nat_rule"] = flattenArmLoadBalancerSubResource(backendAddressPoolPropertiesFormat.OutboundNatRule)
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmLoadBalancerFrontendIpConfiguration(input *[]network.FrontendIpConfiguration) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
-        if frontendIpConfigurationPropertiesFormat := item.FrontendIpConfigurationPropertiesFormat; frontendIpConfigurationPropertiesFormat != nil {
-            v["inbound_nat_pools"] = flattenArmLoadBalancerSubResource(frontendIpConfigurationPropertiesFormat.InboundNatPools)
-            v["inbound_nat_rules"] = flattenArmLoadBalancerSubResource(frontendIpConfigurationPropertiesFormat.InboundNatRules)
-            v["load_balancing_rules"] = flattenArmLoadBalancerSubResource(frontendIpConfigurationPropertiesFormat.LoadBalancingRules)
-            v["outbound_nat_rules"] = flattenArmLoadBalancerSubResource(frontendIpConfigurationPropertiesFormat.OutboundNatRules)
-            if privateIpAddress := frontendIpConfigurationPropertiesFormat.PrivateIpAddress; privateIpAddress != nil {
-                v["private_ip_address"] = *privateIpAddress
-            }
-            v["private_ipallocation_method"] = string(frontendIpConfigurationPropertiesFormat.PrivateIpallocationMethod)
-            v["public_ip_address"] = flattenArmLoadBalancerSubResource(frontendIpConfigurationPropertiesFormat.PublicIpAddress)
-            v["subnet"] = flattenArmLoadBalancerSubResource(frontendIpConfigurationPropertiesFormat.Subnet)
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmLoadBalancerInboundNatPool(input *[]network.InboundNatPool) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if inboundNatPoolPropertiesFormat := item.InboundNatPoolPropertiesFormat; inboundNatPoolPropertiesFormat != nil {
-            if backendPort := inboundNatPoolPropertiesFormat.BackendPort; backendPort != nil {
-                v["backend_port"] = int(*backendPort)
-            }
-            v["frontend_ipconfiguration"] = flattenArmLoadBalancerSubResource(inboundNatPoolPropertiesFormat.FrontendIpconfiguration)
-            if frontendPortRangeEnd := inboundNatPoolPropertiesFormat.FrontendPortRangeEnd; frontendPortRangeEnd != nil {
-                v["frontend_port_range_end"] = int(*frontendPortRangeEnd)
-            }
-            if frontendPortRangeStart := inboundNatPoolPropertiesFormat.FrontendPortRangeStart; frontendPortRangeStart != nil {
-                v["frontend_port_range_start"] = int(*frontendPortRangeStart)
-            }
-            v["protocol"] = string(inboundNatPoolPropertiesFormat.Protocol)
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmLoadBalancerInboundNatRule(input *[]network.InboundNatRule) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if inboundNatRulePropertiesFormat := item.InboundNatRulePropertiesFormat; inboundNatRulePropertiesFormat != nil {
-            v["backend_ipconfiguration"] = flattenArmLoadBalancerSubResource(inboundNatRulePropertiesFormat.BackendIpconfiguration)
-            if backendPort := inboundNatRulePropertiesFormat.BackendPort; backendPort != nil {
-                v["backend_port"] = int(*backendPort)
-            }
-            if enableFloatingIp := inboundNatRulePropertiesFormat.EnableFloatingIp; enableFloatingIp != nil {
-                v["enable_floating_ip"] = *enableFloatingIp
-            }
-            v["frontend_ipconfiguration"] = flattenArmLoadBalancerSubResource(inboundNatRulePropertiesFormat.FrontendIpconfiguration)
-            if frontendPort := inboundNatRulePropertiesFormat.FrontendPort; frontendPort != nil {
-                v["frontend_port"] = int(*frontendPort)
-            }
-            if idleTimeoutInMinutes := inboundNatRulePropertiesFormat.IdleTimeoutInMinutes; idleTimeoutInMinutes != nil {
-                v["idle_timeout_in_minutes"] = int(*idleTimeoutInMinutes)
-            }
-            v["protocol"] = string(inboundNatRulePropertiesFormat.Protocol)
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmLoadBalancerLoadBalancingRule(input *[]network.LoadBalancingRule) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if loadBalancingRulePropertiesFormat := item.LoadBalancingRulePropertiesFormat; loadBalancingRulePropertiesFormat != nil {
-            v["backend_address_pool"] = flattenArmLoadBalancerSubResource(loadBalancingRulePropertiesFormat.BackendAddressPool)
-            if backendPort := loadBalancingRulePropertiesFormat.BackendPort; backendPort != nil {
-                v["backend_port"] = int(*backendPort)
-            }
-            if enableFloatingIp := loadBalancingRulePropertiesFormat.EnableFloatingIp; enableFloatingIp != nil {
-                v["enable_floating_ip"] = *enableFloatingIp
-            }
-            v["frontend_ipconfiguration"] = flattenArmLoadBalancerSubResource(loadBalancingRulePropertiesFormat.FrontendIpconfiguration)
-            if frontendPort := loadBalancingRulePropertiesFormat.FrontendPort; frontendPort != nil {
-                v["frontend_port"] = int(*frontendPort)
-            }
-            if idleTimeoutInMinutes := loadBalancingRulePropertiesFormat.IdleTimeoutInMinutes; idleTimeoutInMinutes != nil {
-                v["idle_timeout_in_minutes"] = int(*idleTimeoutInMinutes)
-            }
-            v["load_distribution"] = string(loadBalancingRulePropertiesFormat.LoadDistribution)
-            v["probe"] = flattenArmLoadBalancerSubResource(loadBalancingRulePropertiesFormat.Probe)
-            v["protocol"] = string(loadBalancingRulePropertiesFormat.Protocol)
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmLoadBalancerOutboundNatRule(input *[]network.OutboundNatRule) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if outboundNatRulePropertiesFormat := item.OutboundNatRulePropertiesFormat; outboundNatRulePropertiesFormat != nil {
-            if allocatedOutboundPorts := outboundNatRulePropertiesFormat.AllocatedOutboundPorts; allocatedOutboundPorts != nil {
-                v["allocated_outbound_ports"] = int(*allocatedOutboundPorts)
-            }
-            v["backend_address_pool"] = flattenArmLoadBalancerSubResource(outboundNatRulePropertiesFormat.BackendAddressPool)
-            v["frontend_ipconfigurations"] = flattenArmLoadBalancerSubResource(outboundNatRulePropertiesFormat.FrontendIpconfigurations)
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmLoadBalancerProbe(input *[]network.Probe) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
-        if probePropertiesFormat := item.ProbePropertiesFormat; probePropertiesFormat != nil {
-            if intervalInSeconds := probePropertiesFormat.IntervalInSeconds; intervalInSeconds != nil {
-                v["interval_in_seconds"] = int(*intervalInSeconds)
-            }
-            v["load_balancing_rules"] = flattenArmLoadBalancerSubResource(probePropertiesFormat.LoadBalancingRules)
-            if numberOfProbes := probePropertiesFormat.NumberOfProbes; numberOfProbes != nil {
-                v["number_of_probes"] = int(*numberOfProbes)
-            }
-            if port := probePropertiesFormat.Port; port != nil {
-                v["port"] = int(*port)
-            }
-            v["protocol"] = string(probePropertiesFormat.Protocol)
-            if requestPath := probePropertiesFormat.RequestPath; requestPath != nil {
-                v["request_path"] = *requestPath
-            }
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmLoadBalancerSubResource(input *[]network.SubResource) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmLoadBalancerSubResource(input *network.SubResource) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if id := input.ID; id != nil {
-        result["id"] = *id
-    }
-
-    return []interface{}{result}
 }

@@ -36,14 +36,14 @@ func testCheckAzureRMSuppressionExists(resourceName string) resource.TestCheckFu
 
         name := rs.Primary.Attributes["name"]
         recommendationID := rs.Primary.Attributes["recommendation_id"]
-        resourceUri := rs.Primary.Attributes["resource_uri"]
+        resourceURI := rs.Primary.Attributes["resource_uri"]
 
         client := testAccProvider.Meta().(*ArmClient).suppressionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceUri, recommendationID, name); err != nil {
+        if resp, err := client.Get(ctx, resourceURI, recommendationID, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Suppression %q (Recommendation %q / Resource Uri %q) does not exist", name, recommendationID, resourceUri)
+                return fmt.Errorf("Bad: Suppression %q (Recommendation %q / Resource Uri %q) does not exist", name, recommendationID, resourceURI)
             }
             return fmt.Errorf("Bad: Get on suppressionsClient: %+v", err)
         }
@@ -63,9 +63,9 @@ func testCheckAzureRMSuppressionDestroy(s *terraform.State) error {
 
         name := rs.Primary.Attributes["name"]
         recommendationID := rs.Primary.Attributes["recommendation_id"]
-        resourceUri := rs.Primary.Attributes["resource_uri"]
+        resourceURI := rs.Primary.Attributes["resource_uri"]
 
-        if resp, err := client.Get(ctx, resourceUri, recommendationID, name); err != nil {
+        if resp, err := client.Get(ctx, resourceURI, recommendationID, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on suppressionsClient: %+v", err)
             }

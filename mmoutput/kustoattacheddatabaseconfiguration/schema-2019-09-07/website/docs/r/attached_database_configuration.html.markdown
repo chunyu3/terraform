@@ -46,10 +46,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `provisioning_state` - The provisioned state of the resource.
-
-* `attached_database_names` - The list of databases from the clusterResourceId which are currently attached to the cluster.
-
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource

@@ -45,6 +45,16 @@ func resourceArmBatchAccount() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "key_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(batch.Primary),
+                    string(batch.Secondary),
+                }, false),
+            },
+
             "auto_storage": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -58,66 +68,6 @@ func resourceArmBatchAccount() *schema.Resource {
                         },
                     },
                 },
-            },
-
-            "key_vault_reference": {
-                Type: schema.TypeList,
-                Optional: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "id": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
-                        "url": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
-                    },
-                },
-            },
-
-            "pool_allocation_mode": {
-                Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(batch.BatchService),
-                    string(batch.UserSubscription),
-                }, false),
-                Default: string(batch.BatchService),
-            },
-
-            "account_endpoint": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "active_job_and_job_schedule_quota": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "dedicated_core_quota": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "low_priority_core_quota": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "pool_quota": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "type": {
@@ -151,16 +101,14 @@ func resourceArmBatchAccountCreate(d *schema.ResourceData, meta interface{}) err
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     autoStorage := d.Get("auto_storage").([]interface{})
-    keyVaultReference := d.Get("key_vault_reference").([]interface{})
-    poolAllocationMode := d.Get("pool_allocation_mode").(string)
+    keyName := d.Get("key_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := batch.AccountCreateParameters{
+    parameters := batch.AccountRegenerateKeyParameters{
+        KeyName: batch.AccountKeyType(keyName),
         Location: utils.String(location),
-        AccountCreateProperties: &batch.AccountCreateProperties{
+        AccountUpdateProperties: &batch.AccountUpdateProperties{
             AutoStorage: expandArmBatchAccountAutoStorageBaseProperties(autoStorage),
-            KeyVaultReference: expandArmBatchAccountKeyVaultReference(keyVaultReference),
-            PoolAllocationMode: batch.PoolAllocationMode(poolAllocationMode),
         },
         Tags: tags.Expand(t),
     }
@@ -215,21 +163,6 @@ func resourceArmBatchAccountRead(d *schema.ResourceData, meta interface{}) error
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if accountCreateProperties := resp.AccountCreateProperties; accountCreateProperties != nil {
-        d.Set("account_endpoint", accountCreateProperties.AccountEndpoint)
-        d.Set("active_job_and_job_schedule_quota", int(*accountCreateProperties.ActiveJobAndJobScheduleQuota))
-        if err := d.Set("auto_storage", flattenArmBatchAccountAutoStorageBaseProperties(accountCreateProperties.AutoStorage)); err != nil {
-            return fmt.Errorf("Error setting `auto_storage`: %+v", err)
-        }
-        d.Set("dedicated_core_quota", int(*accountCreateProperties.DedicatedCoreQuota))
-        if err := d.Set("key_vault_reference", flattenArmBatchAccountKeyVaultReference(accountCreateProperties.KeyVaultReference)); err != nil {
-            return fmt.Errorf("Error setting `key_vault_reference`: %+v", err)
-        }
-        d.Set("low_priority_core_quota", int(*accountCreateProperties.LowPriorityCoreQuota))
-        d.Set("pool_allocation_mode", string(accountCreateProperties.PoolAllocationMode))
-        d.Set("pool_quota", int(*accountCreateProperties.PoolQuota))
-        d.Set("provisioning_state", string(accountCreateProperties.ProvisioningState))
-    }
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -242,16 +175,13 @@ func resourceArmBatchAccountUpdate(d *schema.ResourceData, meta interface{}) err
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     autoStorage := d.Get("auto_storage").([]interface{})
-    keyVaultReference := d.Get("key_vault_reference").([]interface{})
-    poolAllocationMode := d.Get("pool_allocation_mode").(string)
+    keyName := d.Get("key_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := batch.AccountCreateParameters{
-        Location: utils.String(location),
-        AccountCreateProperties: &batch.AccountCreateProperties{
+    parameters := batch.AccountRegenerateKeyParameters{
+        KeyName: batch.AccountKeyType(keyName),
+        AccountUpdateProperties: &batch.AccountUpdateProperties{
             AutoStorage: expandArmBatchAccountAutoStorageBaseProperties(autoStorage),
-            KeyVaultReference: expandArmBatchAccountKeyVaultReference(keyVaultReference),
-            PoolAllocationMode: batch.PoolAllocationMode(poolAllocationMode),
         },
         Tags: tags.Expand(t),
     }
@@ -305,52 +235,4 @@ func expandArmBatchAccountAutoStorageBaseProperties(input []interface{}) *batch.
         StorageAccountID: utils.String(storageAccountId),
     }
     return &result
-}
-
-func expandArmBatchAccountKeyVaultReference(input []interface{}) *batch.KeyVaultReference {
-    if len(input) == 0 {
-        return nil
-    }
-    v := input[0].(map[string]interface{})
-
-    id := v["id"].(string)
-    url := v["url"].(string)
-
-    result := batch.KeyVaultReference{
-        ID: utils.String(id),
-        URL: utils.String(url),
-    }
-    return &result
-}
-
-
-func flattenArmBatchAccountAutoStorageBaseProperties(input *batch.AutoStorageBaseProperties) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if storageAccountId := input.StorageAccountID; storageAccountId != nil {
-        result["storage_account_id"] = *storageAccountId
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmBatchAccountKeyVaultReference(input *batch.KeyVaultReference) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if id := input.ID; id != nil {
-        result["id"] = *id
-    }
-    if url := input.URL; url != nil {
-        result["url"] = *url
-    }
-
-    return []interface{}{result}
 }

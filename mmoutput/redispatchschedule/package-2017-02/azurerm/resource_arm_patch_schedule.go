@@ -153,11 +153,6 @@ func resourceArmPatchScheduleRead(d *schema.ResourceData, meta interface{}) erro
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if scheduleEntries := resp.ScheduleEntries; scheduleEntries != nil {
-        if err := d.Set("schedule_entries", flattenArmPatchScheduleScheduleEntry(scheduleEntries.ScheduleEntries)); err != nil {
-            return fmt.Errorf("Error setting `schedule_entries`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -200,28 +195,4 @@ func expandArmPatchScheduleScheduleEntry(input []interface{}) *[]redis.ScheduleE
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmPatchScheduleScheduleEntry(input *[]redis.ScheduleEntry) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["day_of_week"] = string(item.DayOfWeek)
-        if maintenanceWindow := item.MaintenanceWindow; maintenanceWindow != nil {
-            v["maintenance_window"] = *maintenanceWindow
-        }
-        if startHourUtc := item.StartHourUtc; startHourUtc != nil {
-            v["start_hour_utc"] = int(*startHourUtc)
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

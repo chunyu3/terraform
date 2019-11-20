@@ -40,8 +40,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `sync_group_status` - Sync group status
-
 * `id` - The id of the resource.
 
 * `name` - The name of the resource.

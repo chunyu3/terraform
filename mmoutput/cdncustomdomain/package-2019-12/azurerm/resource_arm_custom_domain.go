@@ -63,32 +63,29 @@ func resourceArmCustomDomain() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "custom_https_provisioning_state": {
+            "protocol_type": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(cdn.ServerNameIndication),
+                    string(cdn.IPBased),
+                }, false),
             },
 
-            "custom_https_provisioning_substate": {
+            "minimum_tls_version": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_state": {
-                Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(cdn.None),
+                    string(cdn.TLS10),
+                    string(cdn.TLS12),
+                }, false),
+                Default: string(cdn.None),
             },
 
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "validation_data": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -118,11 +115,15 @@ func resourceArmCustomDomainCreateUpdate(d *schema.ResourceData, meta interface{
     }
 
     hostName := d.Get("host_name").(string)
+    minimumTlsVersion := d.Get("minimum_tls_version").(string)
+    protocolType := d.Get("protocol_type").(string)
 
     customDomainProperties := cdn.CustomDomainParameters{
+        MinimumTLSVersion: cdn.MinimumTlsVersion(minimumTlsVersion),
         CustomDomainPropertiesParameters: &cdn.CustomDomainPropertiesParameters{
             HostName: utils.String(hostName),
         },
+        ProtocolType: cdn.ProtocolType(protocolType),
     }
 
 
@@ -174,14 +175,6 @@ func resourceArmCustomDomainRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if customDomainPropertiesParameters := resp.CustomDomainPropertiesParameters; customDomainPropertiesParameters != nil {
-        d.Set("custom_https_provisioning_state", string(customDomainPropertiesParameters.CustomHttpsProvisioningState))
-        d.Set("custom_https_provisioning_substate", string(customDomainPropertiesParameters.CustomHttpsProvisioningSubstate))
-        d.Set("host_name", customDomainPropertiesParameters.HostName)
-        d.Set("provisioning_state", customDomainPropertiesParameters.ProvisioningState)
-        d.Set("resource_state", string(customDomainPropertiesParameters.ResourceState))
-        d.Set("validation_data", customDomainPropertiesParameters.ValidationData)
-    }
     d.Set("endpoint_name", endpointName)
     d.Set("profile_name", profileName)
     d.Set("type", resp.Type)

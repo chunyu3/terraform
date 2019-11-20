@@ -186,12 +186,6 @@ The `widget_type` block supports the following:
 
 The following attributes are exported:
 
-* `tenant_id` - The hub name.
-
-* `assignment_name` - The name of the metadata object.
-
-* `provisioning_state` - Provisioning state.
-
 * `id` - Resource ID.
 
 * `name` - Resource name.

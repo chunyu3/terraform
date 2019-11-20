@@ -125,24 +125,6 @@ The `complete_operation` block supports the following:
 
 The following attributes are exported:
 
-* `connector_name` - The connector name.
-
-* `created` - The created time.
-
-* `last_modified` - The last modified time.
-
-* `connector_mapping_name` - The connector mapping name
-
-* `data_format_id` - The DataFormat ID.
-
-* `next_run_time` - The next run time based on customer's settings.
-
-* `run_id` - The RunId.
-
-* `state` - State of connector mapping.
-
-* `tenant_id` - The hub name.
-
 * `id` - Resource ID.
 
 * `name` - Resource name.

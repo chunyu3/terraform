@@ -90,15 +90,6 @@ objects:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
-          '/subject': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Subject
-            python_field_name: subject
-          '/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Thumbprint
-            python_field_name: thumbprint
-          '/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            go_field_name: ExpirationDate
-            python_field_name: expiration_date
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByService
         python_func_name: list_by_service
@@ -153,18 +144,3 @@ objects:
         description: 'Certificate identifier path: /certificates/{certificateId}'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'subject'
-        description: 'Subject attribute of the certificate.'
-        output: true
-        azure_sdk_references: ['/subject']
-      - !ruby/object:Api::Type::String
-        name: 'thumbprint'
-        description: 'Thumbprint of the certificate.'
-        output: true
-        azure_sdk_references: ['/thumbprint']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'expirationDate'
-        description: 'Expiration date of the certificate. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
-        output: true
-        azure_sdk_references: ['/expirationDate']

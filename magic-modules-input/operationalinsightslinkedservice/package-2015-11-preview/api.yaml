@@ -94,19 +94,6 @@ objects:
             python_parameter_name: linked_service_name
             python_variable_name: name
         response:
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LinkedServiceProperties
-            go_type_name: LinkedServiceProperties
-          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceID
-          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -142,7 +129,7 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'workspaceName'
-        description: 'Name of the Log Analytics Workspace that contains the linkedServices resource'
+        description: 'Name of the Log Analytics Workspace that contains the linked services.'
         required: true
         input: true
         azure_sdk_references: ['workspaceName']

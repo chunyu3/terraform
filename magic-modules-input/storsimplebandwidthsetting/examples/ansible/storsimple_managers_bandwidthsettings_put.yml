@@ -3,7 +3,9 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_storsimplebandwidthsetting
   description: BandwidthSettingsCreateOrUpdate
   code:
-    bandwidth_setting_name: myBandwidthSetting
+    resource_group: myResourceGroup
+    manager_name: myManager
+    name: myBandwidthSetting
     schedules:
       - start:
           hours: '10'
@@ -17,6 +19,4 @@ task: !ruby/object:Provider::Ansible::Task
         days:
           - Saturday
           - Sunday
-    resource_group: myResourceGroup
-    name: myManager
   

@@ -31,10 +31,15 @@ func resourceArmReplicationStorageClassificationMapping() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -46,13 +51,6 @@ func resourceArmReplicationStorageClassificationMapping() *schema.Resource {
             },
 
             "resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "storage_classification_mapping_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -83,17 +81,17 @@ func resourceArmReplicationStorageClassificationMappingCreateUpdate(d *schema.Re
     client := meta.(*ArmClient).replicationStorageClassificationMappingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     fabricName := d.Get("fabric_name").(string)
     resourceName := d.Get("resource_name").(string)
-    storageClassificationMappingName := d.Get("storage_classification_mapping_name").(string)
     storageClassificationName := d.Get("storage_classification_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceName, resourceGroup, fabricName, storageClassificationName, storageClassificationMappingName)
+        existing, err := client.Get(ctx, resourceGroup, resourceName, fabricName, storageClassificationName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Replication Storage Classification Mapping (Storage Classification Mapping Name %q / Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", storageClassificationMappingName, storageClassificationName, fabricName, resourceGroup, resourceName, err)
+                return fmt.Errorf("Error checking for present of existing Replication Storage Classification Mapping %q (Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, storageClassificationName, fabricName, resourceGroup, resourceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -110,21 +108,21 @@ func resourceArmReplicationStorageClassificationMappingCreateUpdate(d *schema.Re
     }
 
 
-    future, err := client.Create(ctx, resourceName, resourceGroup, fabricName, storageClassificationName, storageClassificationMappingName, pairingInput)
+    future, err := client.Create(ctx, resourceGroup, resourceName, fabricName, storageClassificationName, name, pairingInput)
     if err != nil {
-        return fmt.Errorf("Error creating Replication Storage Classification Mapping (Storage Classification Mapping Name %q / Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", storageClassificationMappingName, storageClassificationName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error creating Replication Storage Classification Mapping %q (Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, storageClassificationName, fabricName, resourceGroup, resourceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Replication Storage Classification Mapping (Storage Classification Mapping Name %q / Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", storageClassificationMappingName, storageClassificationName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error waiting for creation of Replication Storage Classification Mapping %q (Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, storageClassificationName, fabricName, resourceGroup, resourceName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, storageClassificationName, storageClassificationMappingName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, storageClassificationName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Replication Storage Classification Mapping (Storage Classification Mapping Name %q / Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", storageClassificationMappingName, storageClassificationName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error retrieving Replication Storage Classification Mapping %q (Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, storageClassificationName, fabricName, resourceGroup, resourceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Replication Storage Classification Mapping (Storage Classification Mapping Name %q / Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q) ID", storageClassificationMappingName, storageClassificationName, fabricName, resourceGroup, resourceName)
+        return fmt.Errorf("Cannot read Replication Storage Classification Mapping %q (Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q) ID", name, storageClassificationName, fabricName, resourceGroup, resourceName)
     }
     d.SetId(*resp.ID)
 
@@ -139,35 +137,29 @@ func resourceArmReplicationStorageClassificationMappingRead(d *schema.ResourceDa
     if err != nil {
         return err
     }
-    resourceName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
+    resourceName := id.Path["vaults"]
     fabricName := id.Path["replicationFabrics"]
     storageClassificationName := id.Path["replicationStorageClassifications"]
-    storageClassificationMappingName := id.Path["replicationStorageClassificationMappings"]
+    name := id.Path["replicationStorageClassificationMappings"]
 
-    resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, storageClassificationName, storageClassificationMappingName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, storageClassificationName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Replication Storage Classification Mapping %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Replication Storage Classification Mapping (Storage Classification Mapping Name %q / Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", storageClassificationMappingName, storageClassificationName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error reading Replication Storage Classification Mapping %q (Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, storageClassificationName, fabricName, resourceGroup, resourceName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
     d.Set("fabric_name", fabricName)
     d.Set("resource_name", resourceName)
-    d.Set("storage_classification_mapping_name", storageClassificationMappingName)
     d.Set("storage_classification_name", storageClassificationName)
-    if storageMappingInputProperties := resp.StorageMappingInputProperties; storageMappingInputProperties != nil {
-        d.Set("target_storage_classification_id", storageMappingInputProperties.TargetStorageClassificationID)
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -183,23 +175,23 @@ func resourceArmReplicationStorageClassificationMappingDelete(d *schema.Resource
     if err != nil {
         return err
     }
-    resourceName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
+    resourceName := id.Path["vaults"]
     fabricName := id.Path["replicationFabrics"]
     storageClassificationName := id.Path["replicationStorageClassifications"]
-    storageClassificationMappingName := id.Path["replicationStorageClassificationMappings"]
+    name := id.Path["replicationStorageClassificationMappings"]
 
-    future, err := client.Delete(ctx, resourceName, resourceGroup, fabricName, storageClassificationName, storageClassificationMappingName)
+    future, err := client.Delete(ctx, resourceGroup, resourceName, fabricName, storageClassificationName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Replication Storage Classification Mapping (Storage Classification Mapping Name %q / Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", storageClassificationMappingName, storageClassificationName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error deleting Replication Storage Classification Mapping %q (Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, storageClassificationName, fabricName, resourceGroup, resourceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Replication Storage Classification Mapping (Storage Classification Mapping Name %q / Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", storageClassificationMappingName, storageClassificationName, fabricName, resourceGroup, resourceName, err)
+            return fmt.Errorf("Error waiting for deleting Replication Storage Classification Mapping %q (Storage Classification Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, storageClassificationName, fabricName, resourceGroup, resourceName, err)
         }
     }
 

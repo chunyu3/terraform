@@ -153,90 +153,6 @@ objects:
             python_parameter_name: account_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AccountPropertiesUpdateParameters
-            go_type_name: AccountPropertiesUpdateParameters
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FriendlyName
-          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: friendly_name
-          '/properties/seats': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Seats
-          '/seats': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: seats
-          '/properties/vsoAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VsoAccountID
-          '/vsoAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vso_account_id
-          '/properties/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AccountID
-          '/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: account_id
-          '/properties/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: KeyVaultID
-          '/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: key_vault_id
-          '/properties/discoveryUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DiscoveryUri
-          '/discoveryUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: discovery_uri
-          '/properties/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreationDate
-          '/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: creation_date
-          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: StorageAccount
-            go_type_name: StorageAccountProperties
-          '/properties/storageAccount/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageAccountID
-          '/properties/storageAccount/accessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AccessKey
-          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: storage_account
-          '/storageAccount/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_account_id
-          '/storageAccount/accessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: access_key
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -246,10 +162,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -259,6 +171,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
 
     description: |
       Manage Azure Account instance.
@@ -308,48 +224,6 @@ objects:
         required: false
         azure_sdk_references: ['/storageAccountKey', '/properties/storageAccountKey']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'vsoAccountId'
-        description: 'The fully qualified arm id of the vso account to be used for this team account.'
-        output: true
-        azure_sdk_references: ['/vsoAccountId', '/properties/vsoAccountId']
-      - !ruby/object:Api::Type::String
-        name: 'accountId'
-        description: 'The immutable id associated with this team account.'
-        output: true
-        azure_sdk_references: ['/accountId', '/properties/accountId']
-      - !ruby/object:Api::Type::String
-        name: 'keyVaultId'
-        description: 'The fully qualified arm id of the user key vault.'
-        output: true
-        azure_sdk_references: ['/keyVaultId', '/properties/keyVaultId']
-      - !ruby/object:Api::Type::String
-        name: 'discoveryUri'
-        description: 'The uri for this machine learning team account.'
-        output: true
-        azure_sdk_references: ['/discoveryUri', '/properties/discoveryUri']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationDate'
-        description: 'The creation date of the machine learning team account in ISO8601 format.'
-        output: true
-        azure_sdk_references: ['/creationDate', '/properties/creationDate']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'storageAccount'
-        description: 'The properties of the storage account for the machine learning team account.'
-        output: true
-        azure_sdk_references: ['/storageAccount', '/properties/storageAccount']
-        properties:
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The current deployment state of team account resource. The provisioningState is to indicate states for resource provisioning.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Creating
-          - :Succeeded
-          - :Updating
-          - :Deleting
-          - :Failed
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource ID.'

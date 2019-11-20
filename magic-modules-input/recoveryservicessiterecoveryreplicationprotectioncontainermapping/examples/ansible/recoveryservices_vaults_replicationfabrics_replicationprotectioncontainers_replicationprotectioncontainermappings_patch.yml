@@ -7,5 +7,14 @@ task: !ruby/object:Provider::Ansible::Task
     resource_group: myResourceGroup
     fabric_name: myReplicationFabric
     protection_container_name: myReplicationProtectionContainer
-    mapping_name: myReplicationProtectionContainerMapping
+    name: myReplicationProtectionContainerMapping
+    update_input:
+      properties:
+        providerSpecificInput:
+          instanceType: A2A
+          agentAutoUpdateStatus: Enabled
+          automationAccountArmId: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Automation/automationAccounts/{{
+            automation_account_name }}
   

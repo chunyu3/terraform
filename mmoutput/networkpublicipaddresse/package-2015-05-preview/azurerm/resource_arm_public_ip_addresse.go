@@ -111,11 +111,6 @@ func resourceArmPublicIpAddresse() *schema.Resource {
                 Optional: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -159,12 +154,12 @@ func resourceArmPublicIpAddresseCreateUpdate(d *schema.ResourceData, meta interf
         Etag: utils.String(etag),
         Location: utils.String(location),
         PublicIpAddressPropertiesFormat: &network.PublicIpAddressPropertiesFormat{
-            DnsSettings: expandArmPublicIpAddressePublicIpAddressDnsSettings(dnsSettings),
+            DNSSettings: expandArmPublicIpAddressePublicIpAddressDnsSettings(dnsSettings),
             IdleTimeoutInMinutes: utils.Int32(int32(idleTimeoutInMinutes)),
-            IpAddress: utils.String(ipAddress),
-            IpConfiguration: expandArmPublicIpAddresseSubResource(ipConfiguration),
-            PublicIpallocationMethod: network.IpAllocationMethod(publicIpallocationMethod),
-            ResourceGuid: utils.String(resourceGuid),
+            IPAddress: utils.String(ipAddress),
+            IPConfiguration: expandArmPublicIpAddresseSubResource(ipConfiguration),
+            PublicIPAllocationMethod: network.IpAllocationMethod(publicIpallocationMethod),
+            ResourceGUID: utils.String(resourceGuid),
         },
         Tags: tags.Expand(t),
     }
@@ -216,26 +211,9 @@ func resourceArmPublicIpAddresseRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if publicIpAddressPropertiesFormat := resp.PublicIpAddressPropertiesFormat; publicIpAddressPropertiesFormat != nil {
-        if err := d.Set("dns_settings", flattenArmPublicIpAddressePublicIpAddressDnsSettings(publicIpAddressPropertiesFormat.DnsSettings)); err != nil {
-            return fmt.Errorf("Error setting `dns_settings`: %+v", err)
-        }
-        d.Set("idle_timeout_in_minutes", int(*publicIpAddressPropertiesFormat.IdleTimeoutInMinutes))
-        d.Set("ip_address", publicIpAddressPropertiesFormat.IpAddress)
-        if err := d.Set("ip_configuration", flattenArmPublicIpAddresseSubResource(publicIpAddressPropertiesFormat.IpConfiguration)); err != nil {
-            return fmt.Errorf("Error setting `ip_configuration`: %+v", err)
-        }
-        d.Set("provisioning_state", publicIpAddressPropertiesFormat.ProvisioningState)
-        d.Set("public_ipallocation_method", string(publicIpAddressPropertiesFormat.PublicIpallocationMethod))
-        d.Set("resource_guid", publicIpAddressPropertiesFormat.ResourceGuid)
-    }
-    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -298,39 +276,4 @@ func expandArmPublicIpAddresseSubResource(input []interface{}) *network.SubResou
         ID: utils.String(id),
     }
     return &result
-}
-
-
-func flattenArmPublicIpAddressePublicIpAddressDnsSettings(input *network.PublicIpAddressDnsSettings) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if domainNameLabel := input.DomainNameLabel; domainNameLabel != nil {
-        result["domain_name_label"] = *domainNameLabel
-    }
-    if fqdn := input.Fqdn; fqdn != nil {
-        result["fqdn"] = *fqdn
-    }
-    if reverseFqdn := input.ReverseFqdn; reverseFqdn != nil {
-        result["reverse_fqdn"] = *reverseFqdn
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmPublicIpAddresseSubResource(input *network.SubResource) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if id := input.ID; id != nil {
-        result["id"] = *id
-    }
-
-    return []interface{}{result}
 }

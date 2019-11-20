@@ -36,15 +36,15 @@ func testCheckAzureRMApiReleaseExists(resourceName string) resource.TestCheckFun
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         releaseID := rs.Primary.Attributes["release_id"]
 
         client := testAccProvider.Meta().(*ArmClient).apiReleaseClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, releaseID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, releaseID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Release %q (Release %q / Api %q / Resource Group %q) does not exist", name, releaseID, apiID, resourceGroup)
+                return fmt.Errorf("Bad: Api Release %q (Release %q / Api %q / Resource Group %q) does not exist", name, releaseID, aPIID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiReleaseClient: %+v", err)
         }
@@ -64,10 +64,10 @@ func testCheckAzureRMApiReleaseDestroy(s *terraform.State) error {
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         releaseID := rs.Primary.Attributes["release_id"]
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, releaseID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, releaseID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiReleaseClient: %+v", err)
             }

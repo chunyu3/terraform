@@ -64,47 +64,6 @@ func resourceArmWatcher() *schema.Resource {
                 Optional: true,
             },
 
-            "creation_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "description": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified_by": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_modified_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "script_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "script_parameters": {
-                Type: schema.TypeMap,
-                Computed: true,
-                Elem: &schema.Schema{Type: schema.TypeString},
-            },
-
-            "script_run_on": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -195,25 +154,10 @@ func resourceArmWatcherRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
     d.Set("automation_account_name", automationAccountName)
-    if watcherUpdateProperties := resp.WatcherUpdateProperties; watcherUpdateProperties != nil {
-        d.Set("creation_time", (watcherUpdateProperties.CreationTime).String())
-        d.Set("description", watcherUpdateProperties.Description)
-        d.Set("execution_frequency_in_seconds", int(*watcherUpdateProperties.ExecutionFrequencyInSeconds))
-        d.Set("last_modified_by", watcherUpdateProperties.LastModifiedBy)
-        d.Set("last_modified_time", (watcherUpdateProperties.LastModifiedTime).String())
-        d.Set("script_name", watcherUpdateProperties.ScriptName)
-        d.Set("script_parameters", utils.FlattenKeyValuePairs(watcherUpdateProperties.ScriptParameters))
-        d.Set("script_run_on", watcherUpdateProperties.ScriptRunOn)
-        d.Set("status", watcherUpdateProperties.Status)
-    }
-    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmWatcherUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -230,7 +174,6 @@ func resourceArmWatcherUpdate(d *schema.ResourceData, meta interface{}) error {
 
     parameters := automation.WatcherUpdateParameters{
         Etag: utils.String(etag),
-        Location: utils.String(location),
         Name: utils.String(name),
         WatcherUpdateProperties: &automation.WatcherUpdateProperties{
             ExecutionFrequencyInSeconds: utils.Int64(int64(executionFrequencyInSeconds)),

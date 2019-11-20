@@ -147,12 +147,8 @@ func resourceArmCustomerSubscriptionRead(d *schema.ResourceData, meta interface{
 
     d.Set("name", name)
     d.Set("name", resp.Name)
-    d.Set("etag", resp.Etag)
     d.Set("registration_name", registrationName)
     d.Set("resource_group", resourceGroup)
-    if customerSubscriptionProperties := resp.CustomerSubscriptionProperties; customerSubscriptionProperties != nil {
-        d.Set("tenant_id", customerSubscriptionProperties.TenantID)
-    }
     d.Set("type", resp.Type)
 
     return nil

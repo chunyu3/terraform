@@ -32,29 +32,13 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
-* `partner_servers` - (Required) One or more `partner_server` block defined below.
-
-* `read_write_endpoint` - (Required) One `read_write_endpoint` block defined below.
-
 * `server_name` - (Required) The name of the server containing the failover group. Changing this forces a new resource to be created.
-
----
-
-The `partner_server` block supports the following:
-
-* `id` - (Required) Resource identifier of the partner server.
-
----
-
-The `read_write_endpoint` block supports the following:
-
-* `failover_policy` - (Required) Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
-
-* `failover_with_data_loss_grace_period_minutes` - (Optional) Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
 
 * `databases` - (Optional) List of databases in the failover group.
 
 * `read_only_endpoint` - (Optional) One `read_only_endpoint` block defined below.
+
+* `read_write_endpoint` - (Optional) One `read_write_endpoint` block defined below.
 
 * `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 
@@ -64,13 +48,17 @@ The `read_only_endpoint` block supports the following:
 
 * `failover_policy` - (Optional) Failover policy of the read-only endpoint for the failover group. Defaults to `Disabled`.
 
+---
+
+The `read_write_endpoint` block supports the following:
+
+* `failover_policy` - (Required) Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
+
+* `failover_with_data_loss_grace_period_minutes` - (Optional) Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
+
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `replication_role` - Local replication role of the failover group instance.
-
-* `replication_state` - Replication state of the failover group instance.
 
 * `id` - Resource ID.
 

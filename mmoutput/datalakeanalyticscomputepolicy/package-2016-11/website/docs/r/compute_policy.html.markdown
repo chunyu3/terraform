@@ -28,7 +28,7 @@ Manage Azure ComputePolicy instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the compute policy to retrieve. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the compute policy to delete. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the Azure resource group. Changing this forces a new resource to be created.
 

@@ -30,14 +30,14 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
-            python_variable_name: name
+            python_variable_name: manager_name
           'accessControlRecordName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: accessControlRecords
-            go_variable_name: accessControlRecordName
+            go_variable_name: name
             python_parameter_name: access_control_record_name
-            python_variable_name: access_control_record_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: accessControlRecord
             go_type_name: AccessControlRecord
@@ -65,14 +65,14 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
-            python_variable_name: name
+            python_variable_name: manager_name
           'accessControlRecordName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: accessControlRecords
-            go_variable_name: accessControlRecordName
+            go_variable_name: name
             python_parameter_name: access_control_record_name
-            python_variable_name: access_control_record_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -84,25 +84,15 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
-            python_variable_name: name
+            python_variable_name: manager_name
           'accessControlRecordName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: accessControlRecords
-            go_variable_name: accessControlRecordName
+            go_variable_name: name
             python_parameter_name: access_control_record_name
-            python_variable_name: access_control_record_name
+            python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AccessControlRecordProperties
-            go_type_name: AccessControlRecordProperties
-          '/properties/initiatorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: InitiatorName
-          '/initiatorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: initiator_name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -123,16 +113,28 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
-            python_variable_name: name
+            python_variable_name: manager_name
 
     description: |
       Manage Azure AccessControlRecord instance.
     properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'accessControlRecordName'
-        description: 'Name of access control record to be fetched.'
+        name: 'managerName'
+        description: 'The manager name'
+        required: true
+        input: true
+        azure_sdk_references: ['managerName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the access control record to delete.'
         required: true
         input: true
         azure_sdk_references: ['accessControlRecordName']
@@ -141,18 +143,6 @@ objects:
         description: 'The Iscsi initiator name (IQN)'
         required: true
         azure_sdk_references: ['/initiatorName', '/properties/initiatorName']
-      - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
-        description: 'The resource group name'
-        required: true
-        input: true
-        azure_sdk_references: ['resourceGroupName']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The manager name'
-        required: true
-        input: true
-        azure_sdk_references: ['managerName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

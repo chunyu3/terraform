@@ -49,6 +49,13 @@ func resourceArmStorageAccountCredential() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "manager_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
             "ssl_status": {
                 Type: schema.TypeString,
                 Required: true,
@@ -56,13 +63,6 @@ func resourceArmStorageAccountCredential() *schema.Resource {
                     string(storsimple.Enabled),
                     string(storsimple.Disabled),
                 }, false),
-            },
-
-            "storage_account_credential_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "access_key": {
@@ -107,11 +107,6 @@ func resourceArmStorageAccountCredential() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "volumes_count": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
         },
     }
 }
@@ -122,13 +117,13 @@ func resourceArmStorageAccountCredentialCreateUpdate(d *schema.ResourceData, met
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    storageAccountCredentialName := d.Get("storage_account_credential_name").(string)
+    managerName := d.Get("manager_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, storageAccountCredentialName)
+        existing, err := client.Get(ctx, resourceGroup, managerName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
+                return fmt.Errorf("Error checking for present of existing Storage Account Credential %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -151,21 +146,21 @@ func resourceArmStorageAccountCredentialCreateUpdate(d *schema.ResourceData, met
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, storageAccountCredentialName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, managerName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
+        return fmt.Errorf("Error creating Storage Account Credential %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
+        return fmt.Errorf("Error waiting for creation of Storage Account Credential %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, storageAccountCredentialName)
+    resp, err := client.Get(ctx, resourceGroup, managerName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
+        return fmt.Errorf("Error retrieving Storage Account Credential %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q) ID", name, resourceGroup, storageAccountCredentialName)
+        return fmt.Errorf("Cannot read Storage Account Credential %q (Manager Name %q / Resource Group %q) ID", name, managerName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -181,33 +176,24 @@ func resourceArmStorageAccountCredentialRead(d *schema.ResourceData, meta interf
         return err
     }
     resourceGroup := id.ResourceGroup
-    name := id.Path["managers"]
-    storageAccountCredentialName := id.Path["storageAccountCredentials"]
+    managerName := id.Path["managers"]
+    name := id.Path["storageAccountCredentials"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, storageAccountCredentialName)
+    resp, err := client.Get(ctx, resourceGroup, managerName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Storage Account Credential %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
+        return fmt.Errorf("Error reading Storage Account Credential %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if storageAccountCredentialProperties := resp.StorageAccountCredentialProperties; storageAccountCredentialProperties != nil {
-        if err := d.Set("access_key", flattenArmStorageAccountCredentialAsymmetricEncryptedSecret(storageAccountCredentialProperties.AccessKey)); err != nil {
-            return fmt.Errorf("Error setting `access_key`: %+v", err)
-        }
-        d.Set("end_point", storageAccountCredentialProperties.EndPoint)
-        d.Set("ssl_status", string(storageAccountCredentialProperties.SslStatus))
-        d.Set("volumes_count", int(*storageAccountCredentialProperties.VolumesCount))
-    }
-    d.Set("kind", string(resp.Kind))
-    d.Set("storage_account_credential_name", storageAccountCredentialName)
+    d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
     return nil
@@ -224,20 +210,20 @@ func resourceArmStorageAccountCredentialDelete(d *schema.ResourceData, meta inte
         return err
     }
     resourceGroup := id.ResourceGroup
-    name := id.Path["managers"]
-    storageAccountCredentialName := id.Path["storageAccountCredentials"]
+    managerName := id.Path["managers"]
+    name := id.Path["storageAccountCredentials"]
 
-    future, err := client.Delete(ctx, resourceGroup, name, storageAccountCredentialName)
+    future, err := client.Delete(ctx, resourceGroup, managerName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
+        return fmt.Errorf("Error deleting Storage Account Credential %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
+            return fmt.Errorf("Error waiting for deleting Storage Account Credential %q (Manager Name %q / Resource Group %q): %+v", name, managerName, resourceGroup, err)
         }
     }
 
@@ -260,23 +246,4 @@ func expandArmStorageAccountCredentialAsymmetricEncryptedSecret(input []interfac
         Value: utils.String(value),
     }
     return &result
-}
-
-
-func flattenArmStorageAccountCredentialAsymmetricEncryptedSecret(input *storsimple.AsymmetricEncryptedSecret) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["encryption_algorithm"] = string(input.EncryptionAlgorithm)
-    if encryptionCertThumbprint := input.EncryptionCertThumbprint; encryptionCertThumbprint != nil {
-        result["encryption_cert_thumbprint"] = *encryptionCertThumbprint
-    }
-    if value := input.Value; value != nil {
-        result["value"] = *value
-    }
-
-    return []interface{}{result}
 }

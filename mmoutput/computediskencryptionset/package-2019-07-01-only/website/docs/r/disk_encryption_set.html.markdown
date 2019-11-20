@@ -28,11 +28,11 @@ Manage Azure DiskEncryptionSet instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `disk_encryption_set_name` - (Required) The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters. Changing this forces a new resource to be created.
 
 * `active_key` - (Optional) One `active_key` block defined below.
 
@@ -65,28 +65,8 @@ The `identity` block supports the following:
 
 The following attributes are exported:
 
-* `previous_keys` - One or more `previous_key` block defined below.
-
-* `provisioning_state` - The disk encryption set provisioning state.
-
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
-
-
----
-
-The `previous_key` block contains the following:
-
-* `source_vault` - (Required) One `source_vault` block defined below.
-
-* `key_url` - (Required) Url pointing to a key or secret in KeyVault
-
-
----
-
-The `source_vault` block supports the following:
-
-* `id` - (Optional) Resource Id

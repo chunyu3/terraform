@@ -34,16 +34,16 @@ func testCheckAzureRMPython2PackageExists(resourceName string) resource.TestChec
             return fmt.Errorf("Python2 Package not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        packageName := rs.Primary.Attributes["package_name"]
 
         client := testAccProvider.Meta().(*ArmClient).python2PackageClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, packageName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Python2 Package (Package Name %q / Automation Account Name %q / Resource Group %q) does not exist", packageName, automationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Python2 Package %q (Automation Account Name %q / Resource Group %q) does not exist", name, automationAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on python2PackageClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMPython2PackageDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        packageName := rs.Primary.Attributes["package_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, packageName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on python2PackageClient: %+v", err)
             }

@@ -30,6 +30,8 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the Windows IoT Device Service. Changing this forces a new resource to be created.
 
+* `name` - (Required) The name of the Windows IoT Device Service to check. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group that contains the Windows IoT Device Service. Changing this forces a new resource to be created.
 
 * `admin_domain_name` - (Optional) Windows IoT Device Service OEM AAD domain Changing this forces a new resource to be created.
@@ -46,22 +48,4 @@ The following attributes are exported:
 
 * `id` - Fully qualified resource Id for the resource
 
-* `name` - The name of the resource
-
 * `type` - The type of the resource.
-
-* `tags` - Resource tags.
-
-* `location` - The Azure Region where the resource lives
-
-* `etag` - The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention.
-
-* `notes` - Windows IoT Device Service notes.
-
-* `start_date` - Windows IoT Device Service start date,
-
-* `quantity` - Windows IoT Device Service device allocation,
-
-* `billing_domain_name` - Windows IoT Device Service ODM AAD domain
-
-* `admin_domain_name` - Windows IoT Device Service OEM AAD domain

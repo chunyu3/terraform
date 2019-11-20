@@ -69,13 +69,6 @@ func resourceArmIscsiDisk() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "disk_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "disk_status": {
                 Type: schema.TypeString,
                 Required: true,
@@ -86,6 +79,13 @@ func resourceArmIscsiDisk() *schema.Resource {
             },
 
             "iscsi_server_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "manager_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -111,18 +111,8 @@ func resourceArmIscsiDisk() *schema.Resource {
                 Optional: true,
             },
 
-            "local_used_capacity_in_bytes": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "used_capacity_in_bytes": {
-                Type: schema.TypeInt,
                 Computed: true,
             },
         },
@@ -136,14 +126,14 @@ func resourceArmIscsiDiskCreateUpdate(d *schema.ResourceData, meta interface{}) 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     deviceName := d.Get("device_name").(string)
-    diskName := d.Get("disk_name").(string)
     iscsiServerName := d.Get("iscsi_server_name").(string)
+    managerName := d.Get("manager_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, deviceName, iscsiServerName, diskName)
+        existing, err := client.Get(ctx, resourceGroup, managerName, deviceName, iscsiServerName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Iscsi Disk %q (Resource Group %q / Disk Name %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, diskName, iscsiServerName, deviceName, err)
+                return fmt.Errorf("Error checking for present of existing Iscsi Disk %q (Iscsi Server Name %q / Manager Name %q / Resource Group %q / Device Name %q): %+v", name, iscsiServerName, managerName, resourceGroup, deviceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -170,21 +160,21 @@ func resourceArmIscsiDiskCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, deviceName, iscsiServerName, diskName, iscsiDisk)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, managerName, deviceName, iscsiServerName, name, iscsiDisk)
     if err != nil {
-        return fmt.Errorf("Error creating Iscsi Disk %q (Resource Group %q / Disk Name %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, diskName, iscsiServerName, deviceName, err)
+        return fmt.Errorf("Error creating Iscsi Disk %q (Iscsi Server Name %q / Manager Name %q / Resource Group %q / Device Name %q): %+v", name, iscsiServerName, managerName, resourceGroup, deviceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Iscsi Disk %q (Resource Group %q / Disk Name %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, diskName, iscsiServerName, deviceName, err)
+        return fmt.Errorf("Error waiting for creation of Iscsi Disk %q (Iscsi Server Name %q / Manager Name %q / Resource Group %q / Device Name %q): %+v", name, iscsiServerName, managerName, resourceGroup, deviceName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, deviceName, iscsiServerName, diskName)
+    resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, iscsiServerName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Iscsi Disk %q (Resource Group %q / Disk Name %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, diskName, iscsiServerName, deviceName, err)
+        return fmt.Errorf("Error retrieving Iscsi Disk %q (Iscsi Server Name %q / Manager Name %q / Resource Group %q / Device Name %q): %+v", name, iscsiServerName, managerName, resourceGroup, deviceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Iscsi Disk %q (Resource Group %q / Disk Name %q / Iscsi Server Name %q / Device Name %q) ID", name, resourceGroup, diskName, iscsiServerName, deviceName)
+        return fmt.Errorf("Cannot read Iscsi Disk %q (Iscsi Server Name %q / Manager Name %q / Resource Group %q / Device Name %q) ID", name, iscsiServerName, managerName, resourceGroup, deviceName)
     }
     d.SetId(*resp.ID)
 
@@ -200,38 +190,28 @@ func resourceArmIscsiDiskRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    name := id.Path["managers"]
+    managerName := id.Path["managers"]
     deviceName := id.Path["devices"]
     iscsiServerName := id.Path["iscsiservers"]
-    diskName := id.Path["disks"]
+    name := id.Path["disks"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, deviceName, iscsiServerName, diskName)
+    resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, iscsiServerName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Iscsi Disk %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Iscsi Disk %q (Resource Group %q / Disk Name %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, diskName, iscsiServerName, deviceName, err)
+        return fmt.Errorf("Error reading Iscsi Disk %q (Iscsi Server Name %q / Manager Name %q / Resource Group %q / Device Name %q): %+v", name, iscsiServerName, managerName, resourceGroup, deviceName, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if iSCSIDiskProperties := resp.ISCSIDiskProperties; iSCSIDiskProperties != nil {
-        d.Set("access_control_records", utils.FlattenStringSlice(iSCSIDiskProperties.AccessControlRecords))
-        d.Set("data_policy", string(iSCSIDiskProperties.DataPolicy))
-        d.Set("description", iSCSIDiskProperties.Description)
-        d.Set("disk_status", string(iSCSIDiskProperties.DiskStatus))
-        d.Set("local_used_capacity_in_bytes", int(*iSCSIDiskProperties.LocalUsedCapacityInBytes))
-        d.Set("monitoring_status", string(iSCSIDiskProperties.MonitoringStatus))
-        d.Set("provisioned_capacity_in_bytes", int(*iSCSIDiskProperties.ProvisionedCapacityInBytes))
-        d.Set("used_capacity_in_bytes", int(*iSCSIDiskProperties.UsedCapacityInBytes))
-    }
     d.Set("device_name", deviceName)
-    d.Set("disk_name", diskName)
     d.Set("iscsi_server_name", iscsiServerName)
+    d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
     return nil
@@ -248,22 +228,22 @@ func resourceArmIscsiDiskDelete(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    name := id.Path["managers"]
+    managerName := id.Path["managers"]
     deviceName := id.Path["devices"]
     iscsiServerName := id.Path["iscsiservers"]
-    diskName := id.Path["disks"]
+    name := id.Path["disks"]
 
-    future, err := client.Delete(ctx, resourceGroup, name, deviceName, iscsiServerName, diskName)
+    future, err := client.Delete(ctx, resourceGroup, managerName, deviceName, iscsiServerName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Iscsi Disk %q (Resource Group %q / Disk Name %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, diskName, iscsiServerName, deviceName, err)
+        return fmt.Errorf("Error deleting Iscsi Disk %q (Iscsi Server Name %q / Manager Name %q / Resource Group %q / Device Name %q): %+v", name, iscsiServerName, managerName, resourceGroup, deviceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Iscsi Disk %q (Resource Group %q / Disk Name %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, diskName, iscsiServerName, deviceName, err)
+            return fmt.Errorf("Error waiting for deleting Iscsi Disk %q (Iscsi Server Name %q / Manager Name %q / Resource Group %q / Device Name %q): %+v", name, iscsiServerName, managerName, resourceGroup, deviceName, err)
         }
     }
 

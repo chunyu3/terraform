@@ -55,11 +55,6 @@ func resourceArmSyncGroup() *schema.Resource {
                 Optional: true,
             },
 
-            "sync_group_status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -141,10 +136,6 @@ func resourceArmSyncGroupRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("storage_sync_service_name", storageSyncServiceName)
-    if syncGroupProperties := resp.SyncGroupProperties; syncGroupProperties != nil {
-        d.Set("sync_group_status", syncGroupProperties.SyncGroupStatus)
-        d.Set("unique_id", syncGroupProperties.UniqueID)
-    }
     d.Set("type", resp.Type)
 
     return nil

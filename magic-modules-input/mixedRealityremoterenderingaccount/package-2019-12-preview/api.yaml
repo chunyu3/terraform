@@ -47,6 +47,9 @@ objects:
             applicable_to: [go]
             go_field_name: AccountProperties
             go_type_name: AccountProperties
+          '/serial': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: Serial
+            python_field_name: serial
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -76,6 +79,9 @@ objects:
             applicable_to: [go]
             go_field_name: AccountProperties
             go_type_name: AccountProperties
+          '/serial': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: Serial
+            python_field_name: serial
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -105,28 +111,6 @@ objects:
             python_parameter_name: account_name
             python_variable_name: name
         response:
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AccountProperties
-            go_type_name: AccountProperties
-          '/properties/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AccountID
-          '/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: account_id
-          '/properties/accountDomain': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AccountDomain
-          '/accountDomain': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: account_domain
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -136,10 +120,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscription
-        python_func_name: list_by_subscription
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -149,6 +129,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
 
     description: |
       Manage Azure RemoteRenderingAccount instance.
@@ -177,17 +161,13 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::Integer
+        name: 'serial'
+        description: 'serial of key to be regenerated'
+        required: false
+        input: true
+        azure_sdk_references: ['/serial']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'accountId'
-        description: 'unique id of certain account.'
-        output: true
-        azure_sdk_references: ['/accountId', '/properties/accountId']
-      - !ruby/object:Api::Type::String
-        name: 'accountDomain'
-        description: 'Correspond domain name of certain Spatial Anchors Account'
-        output: true
-        azure_sdk_references: ['/accountDomain', '/properties/accountDomain']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'

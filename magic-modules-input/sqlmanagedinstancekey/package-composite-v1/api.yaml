@@ -59,7 +59,7 @@ objects:
             python_field_name: uri
           '/properties/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: Uri
+            go_field_name: URI
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -100,35 +100,6 @@ objects:
             python_parameter_name: key_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ManagedInstanceKeyProperties
-            go_type_name: ManagedInstanceKeyProperties
-          '/properties/serverKeyType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ServerKeyType
-            go_enum_type_name: ServerKeyType
-          '/serverKeyType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: server_key_type
-          '/properties/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Uri
-          '/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: uri
-          '/properties/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Thumbprint
-          '/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: thumbprint
-          '/properties/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreationDate
-          '/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: creation_date
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -173,7 +144,7 @@ objects:
         azure_sdk_references: ['managedInstanceName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the managed instance key to be retrieved.'
+        description: 'The name of the managed instance key to be deleted.'
         required: true
         input: true
         azure_sdk_references: ['keyName']
@@ -191,16 +162,6 @@ objects:
         required: false
         azure_sdk_references: ['/uri', '/properties/uri']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'thumbprint'
-        description: 'Thumbprint of the key.'
-        output: true
-        azure_sdk_references: ['/thumbprint', '/properties/thumbprint']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationDate'
-        description: 'The key creation date.'
-        output: true
-        azure_sdk_references: ['/creationDate', '/properties/creationDate']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

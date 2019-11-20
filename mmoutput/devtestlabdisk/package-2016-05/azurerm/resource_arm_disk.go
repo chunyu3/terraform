@@ -89,6 +89,12 @@ func resourceArmDisk() *schema.Resource {
                 Optional: true,
             },
 
+            "leased_by_lab_vm_id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "managed_disk_id": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -97,16 +103,6 @@ func resourceArmDisk() *schema.Resource {
             "unique_identifier": {
                 Type: schema.TypeString,
                 Optional: true,
-            },
-
-            "created_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "type": {
@@ -147,19 +143,22 @@ func resourceArmDiskCreateUpdate(d *schema.ResourceData, meta interface{}) error
     diskUri := d.Get("disk_uri").(string)
     hostCaching := d.Get("host_caching").(string)
     leasedByLabVmId := d.Get("leased_by_lab_vm_id").(string)
+    leasedByLabVmId := d.Get("leased_by_lab_vm_id").(string)
     managedDiskId := d.Get("managed_disk_id").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
     t := d.Get("tags").(map[string]interface{})
 
     disk := devtestlab.Disk{
+        LeasedByLabVMID: utils.String(leasedByLabVmId),
+        LeasedByLabVMID: utils.String(leasedByLabVmId),
         Location: utils.String(location),
         DiskProperties: &devtestlab.DiskProperties{
             DiskBlobName: utils.String(diskBlobName),
             DiskSizeGiB: utils.Int32(int32(diskSizeGiB)),
             DiskType: devtestlab.StorageType(diskType),
-            DiskUri: utils.String(diskUri),
+            DiskURI: utils.String(diskUri),
             HostCaching: utils.String(hostCaching),
-            LeasedByLabVmID: utils.String(leasedByLabVmId),
+            LeasedByLabVMID: utils.String(leasedByLabVmId),
             ManagedDiskID: utils.String(managedDiskId),
             UniqueIdentifier: utils.String(uniqueIdentifier),
         },
@@ -215,25 +214,10 @@ func resourceArmDiskRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if diskProperties := resp.DiskProperties; diskProperties != nil {
-        d.Set("created_date", (diskProperties.CreatedDate).String())
-        d.Set("disk_blob_name", diskProperties.DiskBlobName)
-        d.Set("disk_size_gi_b", int(*diskProperties.DiskSizeGiB))
-        d.Set("disk_type", string(diskProperties.DiskType))
-        d.Set("disk_uri", diskProperties.DiskUri)
-        d.Set("host_caching", diskProperties.HostCaching)
-        d.Set("leased_by_lab_vm_id", diskProperties.LeasedByLabVmID)
-        d.Set("managed_disk_id", diskProperties.ManagedDiskID)
-        d.Set("provisioning_state", diskProperties.ProvisioningState)
-        d.Set("unique_identifier", diskProperties.UniqueIdentifier)
-    }
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 

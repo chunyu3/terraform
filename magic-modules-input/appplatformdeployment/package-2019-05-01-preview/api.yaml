@@ -33,6 +33,11 @@ objects:
             go_variable_name: serviceName
             python_parameter_name: service_name
             python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: appName
+            python_parameter_name: app_name
+            python_variable_name: app_name
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
             go_variable_name: name
@@ -106,10 +111,10 @@ objects:
             go_type_name: DeploymentSettings
           '/properties/deploymentSettings/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
-            go_field_name: Cpu
+            go_field_name: CPU
           '/properties/deploymentSettings/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
-            go_field_name: MemoryInGb
+            go_field_name: MemoryInGB
           '/properties/deploymentSettings/jvmOptions': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: JvmOptions
@@ -138,6 +143,11 @@ objects:
             go_variable_name: serviceName
             python_parameter_name: service_name
             python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: appName
+            python_parameter_name: app_name
+            python_variable_name: app_name
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
             go_variable_name: name
@@ -211,10 +221,10 @@ objects:
             go_type_name: DeploymentSettings
           '/properties/deploymentSettings/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
-            go_field_name: Cpu
+            go_field_name: CPU
           '/properties/deploymentSettings/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
-            go_field_name: MemoryInGb
+            go_field_name: MemoryInGB
           '/properties/deploymentSettings/jvmOptions': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: JvmOptions
@@ -242,6 +252,11 @@ objects:
             go_variable_name: serviceName
             python_parameter_name: service_name
             python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: appName
+            python_parameter_name: app_name
+            python_variable_name: app_name
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
             go_variable_name: name
@@ -261,155 +276,17 @@ objects:
             go_variable_name: serviceName
             python_parameter_name: service_name
             python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: appName
+            python_parameter_name: app_name
+            python_variable_name: app_name
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
             go_variable_name: name
             python_parameter_name: deployment_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DeploymentResourceProperties
-            go_type_name: DeploymentResourceProperties
-          '/properties/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Source
-            go_type_name: UserSourceInfo
-          '/properties/source/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Type
-            go_enum_type_name: UserSourceType
-          '/properties/source/relativePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RelativePath
-          '/properties/source/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Version
-          '/properties/source/artifactSelector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ArtifactSelector
-          '/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: source
-          '/source/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: type
-          '/source/relativePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: relative_path
-          '/source/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: version
-          '/source/artifactSelector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: artifact_selector
-          '/properties/deploymentSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DeploymentSettings
-            go_type_name: DeploymentSettings
-          '/properties/deploymentSettings/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Cpu
-          '/properties/deploymentSettings/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: MemoryInGb
-          '/properties/deploymentSettings/jvmOptions': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: JvmOptions
-          '/properties/deploymentSettings/instanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: InstanceCount
-          '/properties/deploymentSettings/environmentVariables': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: EnvironmentVariables
-          '/properties/deploymentSettings/runtimeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: RuntimeVersion
-            go_enum_type_name: RuntimeVersion
-          '/deploymentSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: deployment_settings
-          '/deploymentSettings/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: cpu
-          '/deploymentSettings/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: memory_in_gb
-          '/deploymentSettings/jvmOptions': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: jvm_options
-          '/deploymentSettings/instanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: instance_count
-          '/deploymentSettings/environmentVariables': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: environment_variables
-          '/deploymentSettings/runtimeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: runtime_version
-          '/properties/appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AppName
-          '/appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: app_name
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: DeploymentResourceProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Status
-            go_enum_type_name: DeploymentResourceStatus
-          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: status
-          '/properties/active': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: Active
-          '/active': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: active
-          '/properties/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreatedTime
-          '/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created_time
-          '/properties/instances': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Instances
-            go_type_name: DeploymentInstance
-          '/properties/instances/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/instances/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Status
-          '/properties/instances/reason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Reason
-          '/properties/instances/discoveryStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DiscoveryStatus
-          '/instances': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: instances
-          '/instances/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/instances/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: status
-          '/instances/reason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: reason
-          '/instances/discoveryStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: discovery_status
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -420,8 +297,8 @@ objects:
             go_field_name: Type
             python_field_name: type
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListClusterAllDeployments
-        python_func_name: list_cluster_all_deployments
+        go_func_name: List
+        python_func_name: list
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
@@ -433,14 +310,19 @@ objects:
             go_variable_name: serviceName
             python_parameter_name: service_name
             python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: appName
+            python_parameter_name: app_name
+            python_variable_name: app_name
           'version': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             id_portion: null
             go_variable_name: version
             python_parameter_name: version
             python_variable_name: version
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
+        go_func_name: ListClusterAllDeployments
+        python_func_name: list_cluster_all_deployments
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
@@ -461,6 +343,30 @@ objects:
     description: |
       Manage Azure Deployment instance.
     properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'The name of the Service resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'appName'
+        description: 'The name of the App resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['appName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Deployment resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['deploymentName']
       - !ruby/object:Api::Type::NestedObject
         name: 'source'
         description: 'Uploaded source information of the deployment.'
@@ -531,30 +437,6 @@ objects:
               - :Java_8
               - :Java_11
             default_value: :Java_8
-      - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
-        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
-        required: true
-        input: true
-        azure_sdk_references: ['resourceGroupName']
-      - !ruby/object:Api::Type::String
-        name: 'serviceName'
-        description: 'The name of the Service resource.'
-        required: true
-        input: true
-        azure_sdk_references: ['serviceName']
-      - !ruby/object:Api::Type::String
-        name: 'appName'
-        description: 'The name of the App resource.'
-        required: true
-        input: true
-        azure_sdk_references: ['appName']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The name of the Deployment resource.'
-        required: true
-        input: true
-        azure_sdk_references: ['deploymentName']
       - !ruby/object:Api::Type::Array
         name: 'version'
         description: 'Version of the deployments to be listed'
@@ -563,51 +445,6 @@ objects:
         azure_sdk_references: ['version']
         item_type: Api::Type::String
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'appName'
-        description: 'App name of the deployment'
-        output: true
-        azure_sdk_references: ['/appName', '/properties/appName']
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'Provisioning state of the Deployment'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Creating
-          - :Updating
-          - :Succeeded
-          - :Failed
-      - !ruby/object:Api::Type::Enum
-        name: 'status'
-        description: 'Status of the Deployment'
-        output: true
-        azure_sdk_references: ['/status', '/properties/status']
-        values:
-          - :Unknown
-          - :Stopped
-          - :Running
-          - :Failed
-          - :Allocating
-          - :Upgrading
-          - :Compiling
-      - !ruby/object:Api::Type::Boolean
-        name: 'active'
-        description: 'Indicates whether the Deployment is active'
-        output: true
-        azure_sdk_references: ['/active', '/properties/active']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdTime'
-        description: 'Date time when the resource is created'
-        output: true
-        azure_sdk_references: ['/createdTime', '/properties/createdTime']
-      - !ruby/object:Api::Type::Array
-        name: 'instances'
-        description: 'Collection of instances belong to the Deployment'
-        output: true
-        azure_sdk_references: ['/instances', '/properties/instances']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource.'

@@ -45,6 +45,22 @@ func resourceArmSnapshot() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "access": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(compute.None),
+                    string(compute.Read),
+                }, false),
+            },
+
+            "duration_in_seconds": {
+                Type: schema.TypeInt,
+                Required: true,
+                ForceNew: true,
+            },
+
             "account_type": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -190,21 +206,6 @@ func resourceArmSnapshot() *schema.Resource {
                 Default: string(compute.Windows),
             },
 
-            "owner_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "time_created": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -235,19 +236,23 @@ func resourceArmSnapshotCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
+    access := d.Get("access").(string)
     accountType := d.Get("account_type").(string)
     creationData := d.Get("creation_data").([]interface{})
     diskSizeGb := d.Get("disk_size_gb").(int)
+    durationInSeconds := d.Get("duration_in_seconds").(int)
     encryptionSettings := d.Get("encryption_settings").([]interface{})
     osType := d.Get("os_type").(string)
     t := d.Get("tags").(map[string]interface{})
 
     snapshot := compute.SnapshotUpdate{
+        Access: compute.AccessLevel(access),
+        DurationInSeconds: utils.Int32(int32(durationInSeconds)),
         Location: utils.String(location),
         DiskUpdateProperties: &compute.DiskUpdateProperties{
             AccountType: compute.StorageAccountTypes(accountType),
             CreationData: expandArmSnapshotCreationData(creationData),
-            DiskSizeGb: utils.Int32(int32(diskSizeGb)),
+            DiskSizeGB: utils.Int32(int32(diskSizeGb)),
             EncryptionSettings: expandArmSnapshotEncryptionSettings(encryptionSettings),
             OsType: compute.OperatingSystemTypes(osType),
         },
@@ -301,26 +306,9 @@ func resourceArmSnapshotRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if diskUpdateProperties := resp.DiskUpdateProperties; diskUpdateProperties != nil {
-        d.Set("account_type", string(diskUpdateProperties.AccountType))
-        if err := d.Set("creation_data", flattenArmSnapshotCreationData(diskUpdateProperties.CreationData)); err != nil {
-            return fmt.Errorf("Error setting `creation_data`: %+v", err)
-        }
-        d.Set("disk_size_gb", int(*diskUpdateProperties.DiskSizeGb))
-        if err := d.Set("encryption_settings", flattenArmSnapshotEncryptionSettings(diskUpdateProperties.EncryptionSettings)); err != nil {
-            return fmt.Errorf("Error setting `encryption_settings`: %+v", err)
-        }
-        d.Set("os_type", string(diskUpdateProperties.OsType))
-        d.Set("owner_id", diskUpdateProperties.OwnerID)
-        d.Set("provisioning_state", diskUpdateProperties.ProvisioningState)
-        d.Set("time_created", (diskUpdateProperties.TimeCreated).String())
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -329,19 +317,22 @@ func resourceArmSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
+    access := d.Get("access").(string)
     accountType := d.Get("account_type").(string)
     creationData := d.Get("creation_data").([]interface{})
     diskSizeGb := d.Get("disk_size_gb").(int)
+    durationInSeconds := d.Get("duration_in_seconds").(int)
     encryptionSettings := d.Get("encryption_settings").([]interface{})
     osType := d.Get("os_type").(string)
     t := d.Get("tags").(map[string]interface{})
 
     snapshot := compute.SnapshotUpdate{
-        Location: utils.String(location),
+        Access: compute.AccessLevel(access),
+        DurationInSeconds: utils.Int32(int32(durationInSeconds)),
         DiskUpdateProperties: &compute.DiskUpdateProperties{
             AccountType: compute.StorageAccountTypes(accountType),
             CreationData: expandArmSnapshotCreationData(creationData),
-            DiskSizeGb: utils.Int32(int32(diskSizeGb)),
+            DiskSizeGB: utils.Int32(int32(diskSizeGb)),
             EncryptionSettings: expandArmSnapshotEncryptionSettings(encryptionSettings),
             OsType: compute.OperatingSystemTypes(osType),
         },
@@ -405,7 +396,7 @@ func expandArmSnapshotCreationData(input []interface{}) *compute.CreationData {
         CreateOption: compute.DiskCreateOption(createOption),
         ImageReference: expandArmSnapshotImageDiskReference(imageReference),
         SourceResourceID: utils.String(sourceResourceId),
-        SourceUri: utils.String(sourceUri),
+        SourceURI: utils.String(sourceUri),
         StorageAccountID: utils.String(storageAccountId),
     }
     return &result
@@ -489,104 +480,4 @@ func expandArmSnapshotSourceVault(input []interface{}) *compute.SourceVault {
         ID: utils.String(id),
     }
     return &result
-}
-
-
-func flattenArmSnapshotCreationData(input *compute.CreationData) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["create_option"] = string(input.CreateOption)
-    result["image_reference"] = flattenArmSnapshotImageDiskReference(input.ImageReference)
-    if sourceResourceId := input.SourceResourceID; sourceResourceId != nil {
-        result["source_resource_id"] = *sourceResourceId
-    }
-    if sourceUri := input.SourceUri; sourceUri != nil {
-        result["source_uri"] = *sourceUri
-    }
-    if storageAccountId := input.StorageAccountID; storageAccountId != nil {
-        result["storage_account_id"] = *storageAccountId
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmSnapshotEncryptionSettings(input *compute.EncryptionSettings) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["disk_encryption_key"] = flattenArmSnapshotKeyVaultAndSecretReference(input.DiskEncryptionKey)
-    if enabled := input.Enabled; enabled != nil {
-        result["enabled"] = *enabled
-    }
-    result["key_encryption_key"] = flattenArmSnapshotKeyVaultAndKeyReference(input.KeyEncryptionKey)
-
-    return []interface{}{result}
-}
-
-func flattenArmSnapshotImageDiskReference(input *compute.ImageDiskReference) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if id := input.ID; id != nil {
-        result["id"] = *id
-    }
-    if lun := input.Lun; lun != nil {
-        result["lun"] = int(*lun)
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmSnapshotKeyVaultAndSecretReference(input *compute.KeyVaultAndSecretReference) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if secretUrl := input.SecretURL; secretUrl != nil {
-        result["secret_url"] = *secretUrl
-    }
-    result["source_vault"] = flattenArmSnapshotSourceVault(input.SourceVault)
-
-    return []interface{}{result}
-}
-
-func flattenArmSnapshotKeyVaultAndKeyReference(input *compute.KeyVaultAndKeyReference) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if keyUrl := input.KeyURL; keyUrl != nil {
-        result["key_url"] = *keyUrl
-    }
-    result["source_vault"] = flattenArmSnapshotSourceVault(input.SourceVault)
-
-    return []interface{}{result}
-}
-
-func flattenArmSnapshotSourceVault(input *compute.SourceVault) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if id := input.ID; id != nil {
-        result["id"] = *id
-    }
-
-    return []interface{}{result}
 }

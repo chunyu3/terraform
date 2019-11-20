@@ -55,21 +55,6 @@ func resourceArmSecret() *schema.Resource {
                 Optional: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status_details": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -156,19 +141,9 @@ func resourceArmSecretRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if secretResourceProperties := resp.SecretResourceProperties; secretResourceProperties != nil {
-        d.Set("content_type", secretResourceProperties.ContentType)
-        d.Set("description", secretResourceProperties.Description)
-        d.Set("provisioning_state", secretResourceProperties.ProvisioningState)
-        d.Set("status", string(secretResourceProperties.Status))
-        d.Set("status_details", secretResourceProperties.StatusDetails)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 

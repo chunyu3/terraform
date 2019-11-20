@@ -31,19 +31,20 @@ func resourceArmProfile() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "profile_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "dns_config": {
                 Type: schema.TypeList,
@@ -201,7 +202,8 @@ func resourceArmProfile() *schema.Resource {
 
             "type": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
             },
 
             "tags": tags.Schema(),
@@ -213,14 +215,14 @@ func resourceArmProfileCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).profilesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    profileName := d.Get("profile_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, profileName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -228,38 +230,42 @@ func resourceArmProfileCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
+    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     dnsConfig := d.Get("dns_config").([]interface{})
     endpoints := d.Get("endpoints").([]interface{})
     monitorConfig := d.Get("monitor_config").([]interface{})
     profileStatus := d.Get("profile_status").(string)
     trafficRoutingMethod := d.Get("traffic_routing_method").(string)
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := trafficmanager.Profile{
         Location: utils.String(location),
+        Name: utils.String(name),
         ProfileProperties: &trafficmanager.ProfileProperties{
-            DnsConfig: expandArmProfileDnsConfig(dnsConfig),
+            DNSConfig: expandArmProfileDnsConfig(dnsConfig),
             Endpoints: expandArmProfileEndpoint(endpoints),
             MonitorConfig: expandArmProfileMonitorConfig(monitorConfig),
             ProfileStatus: trafficmanager.ProfileStatus(profileStatus),
             TrafficRoutingMethod: trafficmanager.TrafficRoutingMethod(trafficRoutingMethod),
         },
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, profileName, parameters); err != nil {
-        return fmt.Errorf("Error creating Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, profileName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Profile (Profile Name %q / Resource Group %q) ID", profileName, resourceGroup)
+        return fmt.Errorf("Cannot read Profile %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -275,71 +281,58 @@ func resourceArmProfileRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    profileName := id.Path["trafficmanagerprofiles"]
+    name := id.Path["trafficmanagerprofiles"]
 
-    resp, err := client.Get(ctx, resourceGroup, profileName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Profile %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+        return fmt.Errorf("Error reading Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
     d.Set("name", resp.Name)
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if profileProperties := resp.ProfileProperties; profileProperties != nil {
-        if err := d.Set("dns_config", flattenArmProfileDnsConfig(profileProperties.DnsConfig)); err != nil {
-            return fmt.Errorf("Error setting `dns_config`: %+v", err)
-        }
-        if err := d.Set("endpoints", flattenArmProfileEndpoint(profileProperties.Endpoints)); err != nil {
-            return fmt.Errorf("Error setting `endpoints`: %+v", err)
-        }
-        if err := d.Set("monitor_config", flattenArmProfileMonitorConfig(profileProperties.MonitorConfig)); err != nil {
-            return fmt.Errorf("Error setting `monitor_config`: %+v", err)
-        }
-        d.Set("profile_status", string(profileProperties.ProfileStatus))
-        d.Set("traffic_routing_method", string(profileProperties.TrafficRoutingMethod))
-    }
-    d.Set("profile_name", profileName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmProfileUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).profilesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     dnsConfig := d.Get("dns_config").([]interface{})
     endpoints := d.Get("endpoints").([]interface{})
     monitorConfig := d.Get("monitor_config").([]interface{})
-    profileName := d.Get("profile_name").(string)
     profileStatus := d.Get("profile_status").(string)
     trafficRoutingMethod := d.Get("traffic_routing_method").(string)
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := trafficmanager.Profile{
-        Location: utils.String(location),
+        Name: utils.String(name),
         ProfileProperties: &trafficmanager.ProfileProperties{
-            DnsConfig: expandArmProfileDnsConfig(dnsConfig),
+            DNSConfig: expandArmProfileDnsConfig(dnsConfig),
             Endpoints: expandArmProfileEndpoint(endpoints),
             MonitorConfig: expandArmProfileMonitorConfig(monitorConfig),
             ProfileStatus: trafficmanager.ProfileStatus(profileStatus),
             TrafficRoutingMethod: trafficmanager.TrafficRoutingMethod(trafficRoutingMethod),
         },
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, profileName, parameters); err != nil {
-        return fmt.Errorf("Error updating Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmProfileRead(d, meta)
@@ -355,10 +348,10 @@ func resourceArmProfileDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    profileName := id.Path["trafficmanagerprofiles"]
+    name := id.Path["trafficmanagerprofiles"]
 
-    if _, err := client.Delete(ctx, resourceGroup, profileName); err != nil {
-        return fmt.Errorf("Error deleting Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil
@@ -375,7 +368,7 @@ func expandArmProfileDnsConfig(input []interface{}) *trafficmanager.DnsConfig {
 
     result := trafficmanager.DnsConfig{
         RelativeName: utils.String(relativeName),
-        Ttl: utils.Int64(int64(ttl)),
+        TTL: utils.Int64(int64(ttl)),
     }
     return &result
 }
@@ -437,89 +430,4 @@ func expandArmProfileMonitorConfig(input []interface{}) *trafficmanager.MonitorC
         ToleratedNumberOfFailures: utils.Int64(int64(toleratedNumberOfFailures)),
     }
     return &result
-}
-
-
-func flattenArmProfileDnsConfig(input *trafficmanager.DnsConfig) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if relativeName := input.RelativeName; relativeName != nil {
-        result["relative_name"] = *relativeName
-    }
-    if ttl := input.Ttl; ttl != nil {
-        result["ttl"] = int(*ttl)
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmProfileEndpoint(input *[]trafficmanager.Endpoint) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if endpointProperties := item.EndpointProperties; endpointProperties != nil {
-            if endpointLocation := endpointProperties.EndpointLocation; endpointLocation != nil {
-                v["endpoint_location"] = *endpointLocation
-            }
-            v["endpoint_monitor_status"] = string(endpointProperties.EndpointMonitorStatus)
-            v["endpoint_status"] = string(endpointProperties.EndpointStatus)
-            v["geo_mapping"] = utils.FlattenStringSlice(endpointProperties.GeoMapping)
-            if minChildEndpoints := endpointProperties.MinChildEndpoints; minChildEndpoints != nil {
-                v["min_child_endpoints"] = int(*minChildEndpoints)
-            }
-            if priority := endpointProperties.Priority; priority != nil {
-                v["priority"] = int(*priority)
-            }
-            if target := endpointProperties.Target; target != nil {
-                v["target"] = *target
-            }
-            if targetResourceId := endpointProperties.TargetResourceID; targetResourceId != nil {
-                v["target_resource_id"] = *targetResourceId
-            }
-            if weight := endpointProperties.Weight; weight != nil {
-                v["weight"] = int(*weight)
-            }
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmProfileMonitorConfig(input *trafficmanager.MonitorConfig) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if intervalInSeconds := input.IntervalInSeconds; intervalInSeconds != nil {
-        result["interval_in_seconds"] = int(*intervalInSeconds)
-    }
-    if path := input.Path; path != nil {
-        result["path"] = *path
-    }
-    if port := input.Port; port != nil {
-        result["port"] = int(*port)
-    }
-    result["profile_monitor_status"] = string(input.ProfileMonitorStatus)
-    result["protocol"] = string(input.Protocol)
-    if timeoutInSeconds := input.TimeoutInSeconds; timeoutInSeconds != nil {
-        result["timeout_in_seconds"] = int(*timeoutInSeconds)
-    }
-    if toleratedNumberOfFailures := input.ToleratedNumberOfFailures; toleratedNumberOfFailures != nil {
-        result["tolerated_number_of_failures"] = int(*toleratedNumberOfFailures)
-    }
-
-    return []interface{}{result}
 }

@@ -74,19 +74,6 @@ func resourceArmAttachedDatabaseConfiguration() *schema.Resource {
                 }, false),
             },
 
-            "attached_database_names": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Schema{
-                    Type: schema.TypeString,
-                },
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -177,16 +164,6 @@ func resourceArmAttachedDatabaseConfigurationRead(d *schema.ResourceData, meta i
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if attachedDatabaseConfigurationProperties := resp.AttachedDatabaseConfigurationProperties; attachedDatabaseConfigurationProperties != nil {
-        d.Set("attached_database_names", utils.FlattenStringSlice(attachedDatabaseConfigurationProperties.AttachedDatabaseNames))
-        d.Set("cluster_resource_id", attachedDatabaseConfigurationProperties.ClusterResourceID)
-        d.Set("database_name", attachedDatabaseConfigurationProperties.DatabaseName)
-        d.Set("default_principals_modification_kind", string(attachedDatabaseConfigurationProperties.DefaultPrincipalsModificationKind))
-        d.Set("provisioning_state", string(attachedDatabaseConfigurationProperties.ProvisioningState))
-    }
     d.Set("cluster_name", clusterName)
     d.Set("type", resp.Type)
 

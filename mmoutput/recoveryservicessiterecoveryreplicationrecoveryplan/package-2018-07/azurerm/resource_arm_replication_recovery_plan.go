@@ -31,156 +31,25 @@ func resourceArmReplicationRecoveryPlan() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "groups": {
-                Type: schema.TypeList,
-                Required: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "group_type": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(recoveryservicessiterecovery.Shutdown),
-                                string(recoveryservicessiterecovery.Boot),
-                                string(recoveryservicessiterecovery.Failover),
-                            }, false),
-                        },
-                        "end_group_actions": {
-                            Type: schema.TypeList,
-                            Optional: true,
-                            Elem: &schema.Resource{
-                                Schema: map[string]*schema.Schema{
-                                    "action_name": {
-                                        Type: schema.TypeString,
-                                        Required: true,
-                                        ValidateFunc: validate.NoEmptyStrings,
-                                    },
-                                    "failover_directions": {
-                                        Type: schema.TypeList,
-                                        Required: true,
-                                        Elem: &schema.Schema{
-                                            Type: schema.TypeString,
-                                            ValidateFunc: validation.StringInSlice([]string{
-                                                string(recoveryservicessiterecovery.PrimaryToRecovery),
-                                                string(recoveryservicessiterecovery.RecoveryToPrimary),
-                                           }, false),
-                                        },
-                                    },
-                                    "failover_types": {
-                                        Type: schema.TypeList,
-                                        Required: true,
-                                        Elem: &schema.Schema{
-                                            Type: schema.TypeString,
-                                            ValidateFunc: validation.StringInSlice([]string{
-                                                string(recoveryservicessiterecovery.ReverseReplicate),
-                                                string(recoveryservicessiterecovery.Commit),
-                                                string(recoveryservicessiterecovery.PlannedFailover),
-                                                string(recoveryservicessiterecovery.UnplannedFailover),
-                                                string(recoveryservicessiterecovery.DisableProtection),
-                                                string(recoveryservicessiterecovery.TestFailover),
-                                                string(recoveryservicessiterecovery.TestFailoverCleanup),
-                                                string(recoveryservicessiterecovery.Failback),
-                                                string(recoveryservicessiterecovery.FinalizeFailback),
-                                                string(recoveryservicessiterecovery.ChangePit),
-                                                string(recoveryservicessiterecovery.RepairReplication),
-                                                string(recoveryservicessiterecovery.SwitchProtection),
-                                                string(recoveryservicessiterecovery.CompleteMigration),
-                                           }, false),
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                        "replication_protected_items": {
-                            Type: schema.TypeList,
-                            Optional: true,
-                            Elem: &schema.Resource{
-                                Schema: map[string]*schema.Schema{
-                                    "id": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
-                                    "virtual_machine_id": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
-                                },
-                            },
-                        },
-                        "start_group_actions": {
-                            Type: schema.TypeList,
-                            Optional: true,
-                            Elem: &schema.Resource{
-                                Schema: map[string]*schema.Schema{
-                                    "action_name": {
-                                        Type: schema.TypeString,
-                                        Required: true,
-                                        ValidateFunc: validate.NoEmptyStrings,
-                                    },
-                                    "failover_directions": {
-                                        Type: schema.TypeList,
-                                        Required: true,
-                                        Elem: &schema.Schema{
-                                            Type: schema.TypeString,
-                                            ValidateFunc: validation.StringInSlice([]string{
-                                                string(recoveryservicessiterecovery.PrimaryToRecovery),
-                                                string(recoveryservicessiterecovery.RecoveryToPrimary),
-                                           }, false),
-                                        },
-                                    },
-                                    "failover_types": {
-                                        Type: schema.TypeList,
-                                        Required: true,
-                                        Elem: &schema.Schema{
-                                            Type: schema.TypeString,
-                                            ValidateFunc: validation.StringInSlice([]string{
-                                                string(recoveryservicessiterecovery.ReverseReplicate),
-                                                string(recoveryservicessiterecovery.Commit),
-                                                string(recoveryservicessiterecovery.PlannedFailover),
-                                                string(recoveryservicessiterecovery.UnplannedFailover),
-                                                string(recoveryservicessiterecovery.DisableProtection),
-                                                string(recoveryservicessiterecovery.TestFailover),
-                                                string(recoveryservicessiterecovery.TestFailoverCleanup),
-                                                string(recoveryservicessiterecovery.Failback),
-                                                string(recoveryservicessiterecovery.FinalizeFailback),
-                                                string(recoveryservicessiterecovery.ChangePit),
-                                                string(recoveryservicessiterecovery.RepairReplication),
-                                                string(recoveryservicessiterecovery.SwitchProtection),
-                                                string(recoveryservicessiterecovery.CompleteMigration),
-                                           }, false),
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-
-            "primary_fabric_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "recovery_fabric_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "recovery_plan_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "failover_direction": {
+                Type: schema.TypeString,
+                Required: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(recoveryservicessiterecovery.PrimaryToRecovery),
+                    string(recoveryservicessiterecovery.RecoveryToPrimary),
+                }, false),
             },
 
             "resource_name": {
@@ -190,93 +59,13 @@ func resourceArmReplicationRecoveryPlan() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "failover_deployment_model": {
+            "source_site_operations": {
                 Type: schema.TypeString,
-                Optional: true,
+                Required: true,
                 ValidateFunc: validation.StringInSlice([]string{
-                    string(recoveryservicessiterecovery.NotApplicable),
-                    string(recoveryservicessiterecovery.Classic),
-                    string(recoveryservicessiterecovery.ResourceManager),
+                    string(recoveryservicessiterecovery.Required),
+                    string(recoveryservicessiterecovery.NotRequired),
                 }, false),
-                Default: string(recoveryservicessiterecovery.NotApplicable),
-            },
-
-            "allowed_operations": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Schema{
-                    Type: schema.TypeString,
-                },
-            },
-
-            "current_scenario": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "job_id": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "scenario_name": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "start_time": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validateRFC3339Date,
-                        },
-                    },
-                },
-            },
-
-            "current_scenario_status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "current_scenario_status_description": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "friendly_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_planned_failover_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_test_failover_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_unplanned_failover_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "primary_fabric_friendly_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "recovery_fabric_friendly_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "replication_providers": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Schema{
-                    Type: schema.TypeString,
-                },
             },
 
             "type": {
@@ -291,15 +80,15 @@ func resourceArmReplicationRecoveryPlanCreate(d *schema.ResourceData, meta inter
     client := meta.(*ArmClient).replicationRecoveryPlansClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    recoveryPlanName := d.Get("recovery_plan_name").(string)
     resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceName, resourceGroup, recoveryPlanName)
+        existing, err := client.Get(ctx, resourceGroup, resourceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Replication Recovery Plan (Recovery Plan Name %q / Resource Group %q / Resource Name %q): %+v", recoveryPlanName, resourceGroup, resourceName, err)
+                return fmt.Errorf("Error checking for present of existing Replication Recovery Plan %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -307,36 +96,32 @@ func resourceArmReplicationRecoveryPlanCreate(d *schema.ResourceData, meta inter
         }
     }
 
-    failoverDeploymentModel := d.Get("failover_deployment_model").(string)
-    groups := d.Get("groups").([]interface{})
-    primaryFabricId := d.Get("primary_fabric_id").(string)
-    recoveryFabricId := d.Get("recovery_fabric_id").(string)
+    failoverDirection := d.Get("failover_direction").(string)
+    sourceSiteOperations := d.Get("source_site_operations").(string)
 
-    input := recoveryservicessiterecovery.CreateRecoveryPlanInput{
-        CreateRecoveryPlanInputProperties: &recoveryservicessiterecovery.CreateRecoveryPlanInputProperties{
-            FailoverDeploymentModel: recoveryservicessiterecovery.FailoverDeploymentModel(failoverDeploymentModel),
-            Groups: expandArmReplicationRecoveryPlanRecoveryPlanGroup(groups),
-            PrimaryFabricID: utils.String(primaryFabricId),
-            RecoveryFabricID: utils.String(recoveryFabricId),
+    input := recoveryservicessiterecovery.RecoveryPlanUnplannedFailoverInput{
+        RecoveryPlanUnplannedFailoverInputProperties: &recoveryservicessiterecovery.RecoveryPlanUnplannedFailoverInputProperties{
+            FailoverDirection: recoveryservicessiterecovery.PossibleOperationsDirections(failoverDirection),
+            SourceSiteOperations: recoveryservicessiterecovery.SourceSiteOperations(sourceSiteOperations),
         },
     }
 
 
-    future, err := client.Create(ctx, resourceName, resourceGroup, recoveryPlanName, input)
+    future, err := client.Create(ctx, resourceGroup, resourceName, name, input)
     if err != nil {
-        return fmt.Errorf("Error creating Replication Recovery Plan (Recovery Plan Name %q / Resource Group %q / Resource Name %q): %+v", recoveryPlanName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error creating Replication Recovery Plan %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Replication Recovery Plan (Recovery Plan Name %q / Resource Group %q / Resource Name %q): %+v", recoveryPlanName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error waiting for creation of Replication Recovery Plan %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceName, resourceGroup, recoveryPlanName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Replication Recovery Plan (Recovery Plan Name %q / Resource Group %q / Resource Name %q): %+v", recoveryPlanName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error retrieving Replication Recovery Plan %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Replication Recovery Plan (Recovery Plan Name %q / Resource Group %q / Resource Name %q) ID", recoveryPlanName, resourceGroup, resourceName)
+        return fmt.Errorf("Cannot read Replication Recovery Plan %q (Resource Group %q / Resource Name %q) ID", name, resourceGroup, resourceName)
     }
     d.SetId(*resp.ID)
 
@@ -351,48 +136,24 @@ func resourceArmReplicationRecoveryPlanRead(d *schema.ResourceData, meta interfa
     if err != nil {
         return err
     }
-    resourceName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
-    recoveryPlanName := id.Path["replicationRecoveryPlans"]
+    resourceName := id.Path["vaults"]
+    name := id.Path["replicationRecoveryPlans"]
 
-    resp, err := client.Get(ctx, resourceName, resourceGroup, recoveryPlanName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Replication Recovery Plan %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Replication Recovery Plan (Recovery Plan Name %q / Resource Group %q / Resource Name %q): %+v", recoveryPlanName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error reading Replication Recovery Plan %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if createRecoveryPlanInputProperties := resp.CreateRecoveryPlanInputProperties; createRecoveryPlanInputProperties != nil {
-        d.Set("allowed_operations", utils.FlattenStringSlice(createRecoveryPlanInputProperties.AllowedOperations))
-        if err := d.Set("current_scenario", flattenArmReplicationRecoveryPlanCurrentScenarioDetails(createRecoveryPlanInputProperties.CurrentScenario)); err != nil {
-            return fmt.Errorf("Error setting `current_scenario`: %+v", err)
-        }
-        d.Set("current_scenario_status", createRecoveryPlanInputProperties.CurrentScenarioStatus)
-        d.Set("current_scenario_status_description", createRecoveryPlanInputProperties.CurrentScenarioStatusDescription)
-        d.Set("failover_deployment_model", string(createRecoveryPlanInputProperties.FailoverDeploymentModel))
-        d.Set("friendly_name", createRecoveryPlanInputProperties.FriendlyName)
-        if err := d.Set("groups", flattenArmReplicationRecoveryPlanRecoveryPlanGroup(createRecoveryPlanInputProperties.Groups)); err != nil {
-            return fmt.Errorf("Error setting `groups`: %+v", err)
-        }
-        d.Set("last_planned_failover_time", (createRecoveryPlanInputProperties.LastPlannedFailoverTime).String())
-        d.Set("last_test_failover_time", (createRecoveryPlanInputProperties.LastTestFailoverTime).String())
-        d.Set("last_unplanned_failover_time", (createRecoveryPlanInputProperties.LastUnplannedFailoverTime).String())
-        d.Set("primary_fabric_friendly_name", createRecoveryPlanInputProperties.PrimaryFabricFriendlyName)
-        d.Set("primary_fabric_id", createRecoveryPlanInputProperties.PrimaryFabricID)
-        d.Set("recovery_fabric_friendly_name", createRecoveryPlanInputProperties.RecoveryFabricFriendlyName)
-        d.Set("recovery_fabric_id", createRecoveryPlanInputProperties.RecoveryFabricID)
-        d.Set("replication_providers", utils.FlattenStringSlice(createRecoveryPlanInputProperties.ReplicationProviders))
-    }
-    d.Set("recovery_plan_name", recoveryPlanName)
     d.Set("resource_name", resourceName)
     d.Set("type", resp.Type)
 
@@ -403,30 +164,26 @@ func resourceArmReplicationRecoveryPlanUpdate(d *schema.ResourceData, meta inter
     client := meta.(*ArmClient).replicationRecoveryPlansClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    failoverDeploymentModel := d.Get("failover_deployment_model").(string)
-    groups := d.Get("groups").([]interface{})
-    primaryFabricId := d.Get("primary_fabric_id").(string)
-    recoveryFabricId := d.Get("recovery_fabric_id").(string)
-    recoveryPlanName := d.Get("recovery_plan_name").(string)
+    failoverDirection := d.Get("failover_direction").(string)
     resourceName := d.Get("resource_name").(string)
+    sourceSiteOperations := d.Get("source_site_operations").(string)
 
-    input := recoveryservicessiterecovery.CreateRecoveryPlanInput{
-        CreateRecoveryPlanInputProperties: &recoveryservicessiterecovery.CreateRecoveryPlanInputProperties{
-            FailoverDeploymentModel: recoveryservicessiterecovery.FailoverDeploymentModel(failoverDeploymentModel),
-            Groups: expandArmReplicationRecoveryPlanRecoveryPlanGroup(groups),
-            PrimaryFabricID: utils.String(primaryFabricId),
-            RecoveryFabricID: utils.String(recoveryFabricId),
+    input := recoveryservicessiterecovery.RecoveryPlanUnplannedFailoverInput{
+        RecoveryPlanUnplannedFailoverInputProperties: &recoveryservicessiterecovery.RecoveryPlanUnplannedFailoverInputProperties{
+            FailoverDirection: recoveryservicessiterecovery.PossibleOperationsDirections(failoverDirection),
+            SourceSiteOperations: recoveryservicessiterecovery.SourceSiteOperations(sourceSiteOperations),
         },
     }
 
 
-    future, err := client.Update(ctx, resourceName, resourceGroup, recoveryPlanName, input)
+    future, err := client.Update(ctx, resourceGroup, resourceName, name, input)
     if err != nil {
-        return fmt.Errorf("Error updating Replication Recovery Plan (Recovery Plan Name %q / Resource Group %q / Resource Name %q): %+v", recoveryPlanName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error updating Replication Recovery Plan %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Replication Recovery Plan (Recovery Plan Name %q / Resource Group %q / Resource Name %q): %+v", recoveryPlanName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error waiting for update of Replication Recovery Plan %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
 
     return resourceArmReplicationRecoveryPlanRead(d, meta)
@@ -441,179 +198,23 @@ func resourceArmReplicationRecoveryPlanDelete(d *schema.ResourceData, meta inter
     if err != nil {
         return err
     }
-    resourceName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
-    recoveryPlanName := id.Path["replicationRecoveryPlans"]
+    resourceName := id.Path["vaults"]
+    name := id.Path["replicationRecoveryPlans"]
 
-    future, err := client.Delete(ctx, resourceName, resourceGroup, recoveryPlanName)
+    future, err := client.Delete(ctx, resourceGroup, resourceName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Replication Recovery Plan (Recovery Plan Name %q / Resource Group %q / Resource Name %q): %+v", recoveryPlanName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error deleting Replication Recovery Plan %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Replication Recovery Plan (Recovery Plan Name %q / Resource Group %q / Resource Name %q): %+v", recoveryPlanName, resourceGroup, resourceName, err)
+            return fmt.Errorf("Error waiting for deleting Replication Recovery Plan %q (Resource Group %q / Resource Name %q): %+v", name, resourceGroup, resourceName, err)
         }
     }
 
     return nil
-}
-
-func expandArmReplicationRecoveryPlanRecoveryPlanGroup(input []interface{}) *[]recoveryservicessiterecovery.RecoveryPlanGroup {
-    results := make([]recoveryservicessiterecovery.RecoveryPlanGroup, 0)
-    for _, item := range input {
-        v := item.(map[string]interface{})
-        groupType := v["group_type"].(string)
-        replicationProtectedItems := v["replication_protected_items"].([]interface{})
-        startGroupActions := v["start_group_actions"].([]interface{})
-        endGroupActions := v["end_group_actions"].([]interface{})
-
-        result := recoveryservicessiterecovery.RecoveryPlanGroup{
-            EndGroupActions: expandArmReplicationRecoveryPlanRecoveryPlanAction(endGroupActions),
-            GroupType: recoveryservicessiterecovery.RecoveryPlanGroupType(groupType),
-            ReplicationProtectedItems: expandArmReplicationRecoveryPlanRecoveryPlanProtectedItem(replicationProtectedItems),
-            StartGroupActions: expandArmReplicationRecoveryPlanRecoveryPlanAction(startGroupActions),
-        }
-
-        results = append(results, result)
-    }
-    return &results
-}
-
-func expandArmReplicationRecoveryPlanRecoveryPlanAction(input []interface{}) *[]recoveryservicessiterecovery.RecoveryPlanAction {
-    results := make([]recoveryservicessiterecovery.RecoveryPlanAction, 0)
-    for _, item := range input {
-        v := item.(map[string]interface{})
-        actionName := v["action_name"].(string)
-        failoverTypes := v["failover_types"].([]interface{})
-        failoverDirections := v["failover_directions"].([]interface{})
-
-        result := recoveryservicessiterecovery.RecoveryPlanAction{
-            ActionName: utils.String(actionName),
-            FailoverDirections: expandArmReplicationRecoveryPlan(failoverDirections),
-            FailoverTypes: expandArmReplicationRecoveryPlan(failoverTypes),
-        }
-
-        results = append(results, result)
-    }
-    return &results
-}
-
-func expandArmReplicationRecoveryPlanRecoveryPlanProtectedItem(input []interface{}) *[]recoveryservicessiterecovery.RecoveryPlanProtectedItem {
-    results := make([]recoveryservicessiterecovery.RecoveryPlanProtectedItem, 0)
-    for _, item := range input {
-        v := item.(map[string]interface{})
-        id := v["id"].(string)
-        virtualMachineId := v["virtual_machine_id"].(string)
-
-        result := recoveryservicessiterecovery.RecoveryPlanProtectedItem{
-            ID: utils.String(id),
-            VirtualMachineID: utils.String(virtualMachineId),
-        }
-
-        results = append(results, result)
-    }
-    return &results
-}
-
-func expandArmReplicationRecoveryPlan(input []interface{}) *[]recoveryservicessiterecovery. {
-    results := make([]recoveryservicessiterecovery., 0)
-    for _, item := range input {
-        v := item.(string)
-        result := recoveryservicessiterecovery.(v)
-        results = append(results, result)
-    }
-    return &results
-}
-
-
-func flattenArmReplicationRecoveryPlanCurrentScenarioDetails(input *recoveryservicessiterecovery.CurrentScenarioDetails) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
-}
-
-func flattenArmReplicationRecoveryPlanRecoveryPlanGroup(input *[]recoveryservicessiterecovery.RecoveryPlanGroup) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        v["end_group_actions"] = flattenArmReplicationRecoveryPlanRecoveryPlanAction(item.EndGroupActions)
-        v["group_type"] = string(item.GroupType)
-        v["replication_protected_items"] = flattenArmReplicationRecoveryPlanRecoveryPlanProtectedItem(item.ReplicationProtectedItems)
-        v["start_group_actions"] = flattenArmReplicationRecoveryPlanRecoveryPlanAction(item.StartGroupActions)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmReplicationRecoveryPlanRecoveryPlanAction(input *[]recoveryservicessiterecovery.RecoveryPlanAction) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if actionName := item.ActionName; actionName != nil {
-            v["action_name"] = *actionName
-        }
-        v["failover_directions"] = flattenArmReplicationRecoveryPlan(string(item.FailoverDirections))
-        v["failover_types"] = flattenArmReplicationRecoveryPlan(string(item.FailoverTypes))
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmReplicationRecoveryPlanRecoveryPlanProtectedItem(input *[]recoveryservicessiterecovery.RecoveryPlanProtectedItem) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if virtualMachineId := item.VirtualMachineID; virtualMachineId != nil {
-            v["virtual_machine_id"] = *virtualMachineId
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmReplicationRecoveryPlan(input *[]recoveryservicessiterecovery.) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        result := string(item)
-        results = append(results, result)
-    }
-
-    return results
 }

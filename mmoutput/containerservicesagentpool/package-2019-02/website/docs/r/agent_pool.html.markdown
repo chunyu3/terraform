@@ -62,8 +62,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `provisioning_state` - The current deployment or provisioning state, which only appears in the response.
-
 * `id` - Resource ID.
 
 * `name` - The name of the resource that is unique within a resource group. This name can be used to access the resource.

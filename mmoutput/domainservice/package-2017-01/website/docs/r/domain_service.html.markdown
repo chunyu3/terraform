@@ -28,9 +28,9 @@ Manage Azure DomainService instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group within the user's subscription. The name is case insensitive. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the domain service. Changing this forces a new resource to be created.
 
-* `domain_service_name` - (Required) The name of the domain service. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group within the user's subscription. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Resource location Changing this forces a new resource to be created.
 
@@ -86,53 +86,8 @@ The `notification_setting` block supports the following:
 
 The following attributes are exported:
 
-* `tenant_id` - Azure Active Directory tenant id
-
-* `vnet_site_id` - Virtual network site id
-
-* `health_last_evaluated` - Last domain evaluation run DateTime
-
-* `health_monitors` - One or more `health_monitor` block defined below.
-
-* `health_alerts` - One or more `health_alert` block defined below.
-
-* `domain_controller_ip_address` - List of Domain Controller IP Address
-
-* `service_status` - Status of Domain Service instance
-
-* `provisioning_state` - the current deployment or provisioning state, which only appears in the response.
-
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
-
-
----
-
-The `health_monitor` block contains the following:
-
-* `id` - (Optional) Health Monitor Id
-
-* `name` - (Optional) Health Monitor Name
-
-* `details` - (Optional) Health Monitor Details
-
----
-
-The `health_alert` block contains the following:
-
-* `id` - (Optional) Health Alert Id
-
-* `name` - (Optional) Health Alert Name
-
-* `issue` - (Optional) Health Alert Issue
-
-* `severity` - (Optional) Health Alert Severity
-
-* `raised` - (Optional) Health Alert Raised DateTime
-
-* `last_detected` - (Optional) Health Alert Last Detected DateTime
-
-* `resolution_uri` - (Optional) Health Alert TSG Link

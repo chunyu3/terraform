@@ -89,13 +89,13 @@ func resourceArmSqlServerCreateUpdate(d *schema.ResourceData, meta interface{}) 
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    sqlServerRegistrationName := d.Get("sql_server_registration_name").(string)
+    sQLServerRegistrationName := d.Get("sql_server_registration_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, sqlServerRegistrationName, name)
+        existing, err := client.Get(ctx, resourceGroup, sQLServerRegistrationName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Sql Server %q (Sql Server Registration Name %q / Resource Group %q): %+v", name, sqlServerRegistrationName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Sql Server %q (Sql Server Registration Name %q / Resource Group %q): %+v", name, sQLServerRegistrationName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -120,17 +120,17 @@ func resourceArmSqlServerCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, sqlServerRegistrationName, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Sql Server %q (Sql Server Registration Name %q / Resource Group %q): %+v", name, sqlServerRegistrationName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, sQLServerRegistrationName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Sql Server %q (Sql Server Registration Name %q / Resource Group %q): %+v", name, sQLServerRegistrationName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, sqlServerRegistrationName, name)
+    resp, err := client.Get(ctx, resourceGroup, sQLServerRegistrationName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Sql Server %q (Sql Server Registration Name %q / Resource Group %q): %+v", name, sqlServerRegistrationName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Sql Server %q (Sql Server Registration Name %q / Resource Group %q): %+v", name, sQLServerRegistrationName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Sql Server %q (Sql Server Registration Name %q / Resource Group %q) ID", name, sqlServerRegistrationName, resourceGroup)
+        return fmt.Errorf("Cannot read Sql Server %q (Sql Server Registration Name %q / Resource Group %q) ID", name, sQLServerRegistrationName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -146,31 +146,24 @@ func resourceArmSqlServerRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    sqlServerRegistrationName := id.Path["sqlServerRegistrations"]
+    sQLServerRegistrationName := id.Path["sqlServerRegistrations"]
     name := id.Path["sqlServers"]
 
-    resp, err := client.Get(ctx, resourceGroup, sqlServerRegistrationName, name)
+    resp, err := client.Get(ctx, resourceGroup, sQLServerRegistrationName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Sql Server %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Sql Server %q (Sql Server Registration Name %q / Resource Group %q): %+v", name, sqlServerRegistrationName, resourceGroup, err)
+        return fmt.Errorf("Error reading Sql Server %q (Sql Server Registration Name %q / Resource Group %q): %+v", name, sQLServerRegistrationName, resourceGroup, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if sqlServerProperties := resp.SqlServerProperties; sqlServerProperties != nil {
-        d.Set("cores", int(*sqlServerProperties.Cores))
-        d.Set("edition", sqlServerProperties.Edition)
-        d.Set("property_bag", sqlServerProperties.PropertyBag)
-        d.Set("registration_id", sqlServerProperties.RegistrationID)
-        d.Set("version", sqlServerProperties.Version)
-    }
-    d.Set("sql_server_registration_name", sqlServerRegistrationName)
+    d.Set("sql_server_registration_name", sQLServerRegistrationName)
     d.Set("type", resp.Type)
 
     return nil
@@ -187,11 +180,11 @@ func resourceArmSqlServerDelete(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    sqlServerRegistrationName := id.Path["sqlServerRegistrations"]
+    sQLServerRegistrationName := id.Path["sqlServerRegistrations"]
     name := id.Path["sqlServers"]
 
-    if _, err := client.Delete(ctx, resourceGroup, sqlServerRegistrationName, name); err != nil {
-        return fmt.Errorf("Error deleting Sql Server %q (Sql Server Registration Name %q / Resource Group %q): %+v", name, sqlServerRegistrationName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, sQLServerRegistrationName, name); err != nil {
+        return fmt.Errorf("Error deleting Sql Server %q (Sql Server Registration Name %q / Resource Group %q): %+v", name, sQLServerRegistrationName, resourceGroup, err)
     }
 
     return nil

@@ -39,9 +39,9 @@ objects:
             python_variable_name: project_name
           'fileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: files
-            go_variable_name: fileName
+            go_variable_name: name
             python_parameter_name: file_name
-            python_variable_name: file_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ProjectFile
@@ -93,9 +93,9 @@ objects:
             python_variable_name: project_name
           'fileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: files
-            go_variable_name: fileName
+            go_variable_name: name
             python_parameter_name: file_name
-            python_variable_name: file_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ProjectFile
@@ -147,9 +147,9 @@ objects:
             python_variable_name: project_name
           'fileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: files
-            go_variable_name: fileName
+            go_variable_name: name
             python_parameter_name: file_name
-            python_variable_name: file_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -171,47 +171,10 @@ objects:
             python_variable_name: project_name
           'fileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: files
-            go_variable_name: fileName
+            go_variable_name: name
             python_parameter_name: file_name
-            python_variable_name: file_name
+            python_variable_name: name
         response:
-          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Etag
-            python_field_name: etag
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ProjectFileProperties
-            go_type_name: ProjectFileProperties
-          '/properties/extension': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Extension
-          '/extension': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: extension
-          '/properties/filePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FilePath
-          '/filePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: file_path
-          '/properties/mediaType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: MediaType
-          '/mediaType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: media_type
-          '/properties/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastModified
-          '/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_modified
-          '/properties/size': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: Size
-          '/size': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: size
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -245,6 +208,30 @@ objects:
       Manage Azure File instance.
     properties:
       - !ruby/object:Api::Type::String
+        name: 'groupName'
+        description: 'Name of the resource group'
+        required: true
+        input: true
+        azure_sdk_references: ['groupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'Name of the service'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'projectName'
+        description: 'Name of the project'
+        required: true
+        input: true
+        azure_sdk_references: ['projectName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the File'
+        required: true
+        input: true
+        azure_sdk_references: ['fileName']
+      - !ruby/object:Api::Type::String
         name: 'etag'
         description: 'HTTP strong entity tag value. This is ignored if submitted.'
         required: false
@@ -265,41 +252,7 @@ objects:
         description: 'File content type. This property can be modified to reflect the file content type.'
         required: false
         azure_sdk_references: ['/mediaType', '/properties/mediaType']
-      - !ruby/object:Api::Type::String
-        name: 'groupName'
-        description: 'Name of the resource group'
-        required: true
-        input: true
-        azure_sdk_references: ['groupName']
-      - !ruby/object:Api::Type::String
-        name: 'serviceName'
-        description: 'Name of the service'
-        required: true
-        input: true
-        azure_sdk_references: ['serviceName']
-      - !ruby/object:Api::Type::String
-        name: 'projectName'
-        description: 'Name of the project'
-        required: true
-        input: true
-        azure_sdk_references: ['projectName']
-      - !ruby/object:Api::Type::String
-        name: 'fileName'
-        description: 'Name of the File'
-        required: true
-        input: true
-        azure_sdk_references: ['fileName']
       # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModified'
-        description: 'Modification DateTime.'
-        output: true
-        azure_sdk_references: ['/lastModified', '/properties/lastModified']
-      - !ruby/object:Api::Type::Integer
-        name: 'size'
-        description: 'File size.'
-        output: true
-        azure_sdk_references: ['/size', '/properties/size']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

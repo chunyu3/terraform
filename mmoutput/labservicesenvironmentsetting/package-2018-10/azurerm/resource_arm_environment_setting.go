@@ -31,19 +31,19 @@ func resourceArmEnvironmentSetting() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "environment_setting_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "lab_account_name": {
                 Type: schema.TypeString,
@@ -57,48 +57,6 @@ func resourceArmEnvironmentSetting() *schema.Resource {
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "resource_settings": {
-                Type: schema.TypeList,
-                Required: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "reference_vm": {
-                            Type: schema.TypeList,
-                            Required: true,
-                            MaxItems: 1,
-                            Elem: &schema.Resource{
-                                Schema: map[string]*schema.Schema{
-                                    "user_name": {
-                                        Type: schema.TypeString,
-                                        Required: true,
-                                        ValidateFunc: validate.NoEmptyStrings,
-                                    },
-                                    "password": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
-                                },
-                            },
-                        },
-                        "gallery_image_resource_id": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "size": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(labservices.Basic),
-                                string(labservices.Standard),
-                                string(labservices.Performance),
-                            }, false),
-                            Default: string(labservices.Basic),
-                        },
-                    },
-                },
             },
 
             "configuration_state": {
@@ -116,6 +74,47 @@ func resourceArmEnvironmentSetting() *schema.Resource {
                 Optional: true,
             },
 
+            "resource_settings": {
+                Type: schema.TypeList,
+                Optional: true,
+                MaxItems: 1,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "gallery_image_resource_id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "reference_vm": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            MaxItems: 1,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "password": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "user_name": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                },
+                            },
+                        },
+                        "size": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(labservices.Basic),
+                                string(labservices.Standard),
+                                string(labservices.Performance),
+                            }, false),
+                            Default: string(labservices.Basic),
+                        },
+                    },
+                },
+            },
+
             "title": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -126,57 +125,10 @@ func resourceArmEnvironmentSetting() *schema.Resource {
                 Optional: true,
             },
 
-            "last_changed": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_published": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "latest_operation_result": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "error_code": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "error_message": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "http_method": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "operation_url": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "request_uri": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "status": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "publishing_state": {
-                Type: schema.TypeString,
-                Computed: true,
+            "use_existing_image": {
+                Type: schema.TypeBool,
+                Optional: true,
+                ForceNew: true,
             },
 
             "type": {
@@ -193,16 +145,16 @@ func resourceArmEnvironmentSettingCreate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).environmentSettingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    environmentSettingName := d.Get("environment_setting_name").(string)
     labAccountName := d.Get("lab_account_name").(string)
     labName := d.Get("lab_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labAccountName, labName, environmentSettingName)
+        existing, err := client.Get(ctx, resourceGroup, labAccountName, labName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Environment Setting (Environment Setting Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", environmentSettingName, labName, labAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Environment Setting %q (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", name, labName, labAccountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -216,36 +168,38 @@ func resourceArmEnvironmentSettingCreate(d *schema.ResourceData, meta interface{
     resourceSettings := d.Get("resource_settings").([]interface{})
     title := d.Get("title").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
+    useExistingImage := d.Get("use_existing_image").(bool)
     t := d.Get("tags").(map[string]interface{})
 
-    environmentSetting := labservices.EnvironmentSetting{
+    environmentSetting := labservices.EnvironmentSettingFragment{
         Location: utils.String(location),
-        EnvironmentSettingProperties: &labservices.EnvironmentSettingProperties{
+        EnvironmentSettingPropertiesFragment: &labservices.EnvironmentSettingPropertiesFragment{
             ConfigurationState: labservices.ConfigurationState(configurationState),
             Description: utils.String(description),
-            ResourceSettings: expandArmEnvironmentSettingResourceSettings(resourceSettings),
+            ResourceSettings: expandArmEnvironmentSettingResourceSettingsFragment(resourceSettings),
             Title: utils.String(title),
             UniqueIdentifier: utils.String(uniqueIdentifier),
         },
         Tags: tags.Expand(t),
+        UseExistingImage: utils.Bool(useExistingImage),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, labAccountName, labName, environmentSettingName, environmentSetting)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, labAccountName, labName, name, environmentSetting)
     if err != nil {
-        return fmt.Errorf("Error creating Environment Setting (Environment Setting Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", environmentSettingName, labName, labAccountName, resourceGroup, err)
+        return fmt.Errorf("Error creating Environment Setting %q (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", name, labName, labAccountName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Environment Setting (Environment Setting Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", environmentSettingName, labName, labAccountName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Environment Setting %q (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", name, labName, labAccountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, environmentSettingName)
+    resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Environment Setting (Environment Setting Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", environmentSettingName, labName, labAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Environment Setting %q (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", name, labName, labAccountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Environment Setting (Environment Setting Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q) ID", environmentSettingName, labName, labAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Environment Setting %q (Lab Name %q / Lab Account Name %q / Resource Group %q) ID", name, labName, labAccountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -263,78 +217,60 @@ func resourceArmEnvironmentSettingRead(d *schema.ResourceData, meta interface{})
     resourceGroup := id.ResourceGroup
     labAccountName := id.Path["labaccounts"]
     labName := id.Path["labs"]
-    environmentSettingName := id.Path["environmentsettings"]
+    name := id.Path["environmentsettings"]
 
-    resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, environmentSettingName)
+    resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Environment Setting %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Environment Setting (Environment Setting Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", environmentSettingName, labName, labAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Environment Setting %q (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", name, labName, labAccountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if environmentSettingProperties := resp.EnvironmentSettingProperties; environmentSettingProperties != nil {
-        d.Set("configuration_state", string(environmentSettingProperties.ConfigurationState))
-        d.Set("description", environmentSettingProperties.Description)
-        d.Set("last_changed", (environmentSettingProperties.LastChanged).String())
-        d.Set("last_published", (environmentSettingProperties.LastPublished).String())
-        if err := d.Set("latest_operation_result", flattenArmEnvironmentSettingLatestOperationResult(environmentSettingProperties.LatestOperationResult)); err != nil {
-            return fmt.Errorf("Error setting `latest_operation_result`: %+v", err)
-        }
-        d.Set("provisioning_state", environmentSettingProperties.ProvisioningState)
-        d.Set("publishing_state", string(environmentSettingProperties.PublishingState))
-        if err := d.Set("resource_settings", flattenArmEnvironmentSettingResourceSettings(environmentSettingProperties.ResourceSettings)); err != nil {
-            return fmt.Errorf("Error setting `resource_settings`: %+v", err)
-        }
-        d.Set("title", environmentSettingProperties.Title)
-        d.Set("unique_identifier", environmentSettingProperties.UniqueIdentifier)
-    }
-    d.Set("environment_setting_name", environmentSettingName)
     d.Set("lab_account_name", labAccountName)
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmEnvironmentSettingUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).environmentSettingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     configurationState := d.Get("configuration_state").(string)
     description := d.Get("description").(string)
-    environmentSettingName := d.Get("environment_setting_name").(string)
     labAccountName := d.Get("lab_account_name").(string)
     labName := d.Get("lab_name").(string)
     resourceSettings := d.Get("resource_settings").([]interface{})
     title := d.Get("title").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
+    useExistingImage := d.Get("use_existing_image").(bool)
     t := d.Get("tags").(map[string]interface{})
 
-    environmentSetting := labservices.EnvironmentSetting{
-        Location: utils.String(location),
-        EnvironmentSettingProperties: &labservices.EnvironmentSettingProperties{
+    environmentSetting := labservices.EnvironmentSettingFragment{
+        EnvironmentSettingPropertiesFragment: &labservices.EnvironmentSettingPropertiesFragment{
             ConfigurationState: labservices.ConfigurationState(configurationState),
             Description: utils.String(description),
-            ResourceSettings: expandArmEnvironmentSettingResourceSettings(resourceSettings),
+            ResourceSettings: expandArmEnvironmentSettingResourceSettingsFragment(resourceSettings),
             Title: utils.String(title),
             UniqueIdentifier: utils.String(uniqueIdentifier),
         },
         Tags: tags.Expand(t),
+        UseExistingImage: utils.Bool(useExistingImage),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labAccountName, labName, environmentSettingName, environmentSetting); err != nil {
-        return fmt.Errorf("Error updating Environment Setting (Environment Setting Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", environmentSettingName, labName, labAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, labAccountName, labName, name, environmentSetting); err != nil {
+        return fmt.Errorf("Error updating Environment Setting %q (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", name, labName, labAccountName, resourceGroup, err)
     }
 
     return resourceArmEnvironmentSettingRead(d, meta)
@@ -352,26 +288,26 @@ func resourceArmEnvironmentSettingDelete(d *schema.ResourceData, meta interface{
     resourceGroup := id.ResourceGroup
     labAccountName := id.Path["labaccounts"]
     labName := id.Path["labs"]
-    environmentSettingName := id.Path["environmentsettings"]
+    name := id.Path["environmentsettings"]
 
-    future, err := client.Delete(ctx, resourceGroup, labAccountName, labName, environmentSettingName)
+    future, err := client.Delete(ctx, resourceGroup, labAccountName, labName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Environment Setting (Environment Setting Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", environmentSettingName, labName, labAccountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Environment Setting %q (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", name, labName, labAccountName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Environment Setting (Environment Setting Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", environmentSettingName, labName, labAccountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Environment Setting %q (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", name, labName, labAccountName, resourceGroup, err)
         }
     }
 
     return nil
 }
 
-func expandArmEnvironmentSettingResourceSettings(input []interface{}) *labservices.ResourceSettings {
+func expandArmEnvironmentSettingResourceSettingsFragment(input []interface{}) *labservices.ResourceSettingsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -381,15 +317,15 @@ func expandArmEnvironmentSettingResourceSettings(input []interface{}) *labservic
     size := v["size"].(string)
     referenceVm := v["reference_vm"].([]interface{})
 
-    result := labservices.ResourceSettings{
+    result := labservices.ResourceSettingsFragment{
         GalleryImageResourceID: utils.String(galleryImageResourceId),
-        ReferenceVm: expandArmEnvironmentSettingReferenceVm(referenceVm),
+        ReferenceVM: expandArmEnvironmentSettingReferenceVmFragment(referenceVm),
         Size: labservices.ManagedLabVmSize(size),
     }
     return &result
 }
 
-func expandArmEnvironmentSettingReferenceVm(input []interface{}) *labservices.ReferenceVm {
+func expandArmEnvironmentSettingReferenceVmFragment(input []interface{}) *labservices.ReferenceVmFragment {
     if len(input) == 0 {
         return nil
     }
@@ -398,54 +334,9 @@ func expandArmEnvironmentSettingReferenceVm(input []interface{}) *labservices.Re
     userName := v["user_name"].(string)
     password := v["password"].(string)
 
-    result := labservices.ReferenceVm{
+    result := labservices.ReferenceVmFragment{
         Password: utils.String(password),
         UserName: utils.String(userName),
     }
     return &result
-}
-
-
-func flattenArmEnvironmentSettingLatestOperationResult(input *labservices.LatestOperationResult) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
-}
-
-func flattenArmEnvironmentSettingResourceSettings(input *labservices.ResourceSettings) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if galleryImageResourceId := input.GalleryImageResourceID; galleryImageResourceId != nil {
-        result["gallery_image_resource_id"] = *galleryImageResourceId
-    }
-    result["reference_vm"] = flattenArmEnvironmentSettingReferenceVm(input.ReferenceVm)
-    result["size"] = string(input.Size)
-
-    return []interface{}{result}
-}
-
-func flattenArmEnvironmentSettingReferenceVm(input *labservices.ReferenceVm) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if password := input.Password; password != nil {
-        result["password"] = *password
-    }
-    if userName := input.UserName; userName != nil {
-        result["user_name"] = *userName
-    }
-
-    return []interface{}{result}
 }

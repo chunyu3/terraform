@@ -48,10 +48,4 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `created_at` - Exact time the message was created.
-
-* `event_hub_path` - The path of the Event Hub.
-
-* `updated_at` - The exact time the message was updated.
-
 * `id` - Resource Id

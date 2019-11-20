@@ -31,19 +31,19 @@ func resourceArmProximityPlacementGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "proximity_placement_group_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "proximity_placement_group_type": {
                 Type: schema.TypeString,
@@ -55,48 +55,9 @@ func resourceArmProximityPlacementGroup() *schema.Resource {
                 Default: string(compute.Standard),
             },
 
-            "availability_sets": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "id": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
-            },
-
-            "virtual_machine_scale_sets": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "id": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "virtual_machines": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "id": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
             },
 
             "tags": tags.Schema(),
@@ -108,14 +69,14 @@ func resourceArmProximityPlacementGroupCreate(d *schema.ResourceData, meta inter
     client := meta.(*ArmClient).proximityPlacementGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    proximityPlacementGroupName := d.Get("proximity_placement_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, proximityPlacementGroupName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Proximity Placement Group (Proximity Placement Group Name %q / Resource Group %q): %+v", proximityPlacementGroupName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Proximity Placement Group %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -127,7 +88,7 @@ func resourceArmProximityPlacementGroupCreate(d *schema.ResourceData, meta inter
     proximityPlacementGroupType := d.Get("proximity_placement_group_type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := compute.ProximityPlacementGroup{
+    parameters := compute.ProximityPlacementGroupUpdate{
         Location: utils.String(location),
         ProximityPlacementGroupProperties: &compute.ProximityPlacementGroupProperties{
             ProximityPlacementGroupType: compute.ProximityPlacementGroupType(proximityPlacementGroupType),
@@ -136,17 +97,17 @@ func resourceArmProximityPlacementGroupCreate(d *schema.ResourceData, meta inter
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, proximityPlacementGroupName, parameters); err != nil {
-        return fmt.Errorf("Error creating Proximity Placement Group (Proximity Placement Group Name %q / Resource Group %q): %+v", proximityPlacementGroupName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Proximity Placement Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, proximityPlacementGroupName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Proximity Placement Group (Proximity Placement Group Name %q / Resource Group %q): %+v", proximityPlacementGroupName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Proximity Placement Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Proximity Placement Group (Proximity Placement Group Name %q / Resource Group %q) ID", proximityPlacementGroupName, resourceGroup)
+        return fmt.Errorf("Cannot read Proximity Placement Group %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -162,53 +123,37 @@ func resourceArmProximityPlacementGroupRead(d *schema.ResourceData, meta interfa
         return err
     }
     resourceGroup := id.ResourceGroup
-    proximityPlacementGroupName := id.Path["proximityPlacementGroups"]
+    name := id.Path["proximityPlacementGroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, proximityPlacementGroupName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Proximity Placement Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Proximity Placement Group (Proximity Placement Group Name %q / Resource Group %q): %+v", proximityPlacementGroupName, resourceGroup, err)
+        return fmt.Errorf("Error reading Proximity Placement Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if proximityPlacementGroupProperties := resp.ProximityPlacementGroupProperties; proximityPlacementGroupProperties != nil {
-        if err := d.Set("availability_sets", flattenArmProximityPlacementGroupSubResource(proximityPlacementGroupProperties.AvailabilitySets)); err != nil {
-            return fmt.Errorf("Error setting `availability_sets`: %+v", err)
-        }
-        d.Set("proximity_placement_group_type", string(proximityPlacementGroupProperties.ProximityPlacementGroupType))
-        if err := d.Set("virtual_machine_scale_sets", flattenArmProximityPlacementGroupSubResource(proximityPlacementGroupProperties.VirtualMachineScaleSets)); err != nil {
-            return fmt.Errorf("Error setting `virtual_machine_scale_sets`: %+v", err)
-        }
-        if err := d.Set("virtual_machines", flattenArmProximityPlacementGroupSubResource(proximityPlacementGroupProperties.VirtualMachines)); err != nil {
-            return fmt.Errorf("Error setting `virtual_machines`: %+v", err)
-        }
-    }
-    d.Set("proximity_placement_group_name", proximityPlacementGroupName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmProximityPlacementGroupUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).proximityPlacementGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    proximityPlacementGroupName := d.Get("proximity_placement_group_name").(string)
     proximityPlacementGroupType := d.Get("proximity_placement_group_type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := compute.ProximityPlacementGroup{
-        Location: utils.String(location),
+    parameters := compute.ProximityPlacementGroupUpdate{
         ProximityPlacementGroupProperties: &compute.ProximityPlacementGroupProperties{
             ProximityPlacementGroupType: compute.ProximityPlacementGroupType(proximityPlacementGroupType),
         },
@@ -216,8 +161,8 @@ func resourceArmProximityPlacementGroupUpdate(d *schema.ResourceData, meta inter
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, proximityPlacementGroupName, parameters); err != nil {
-        return fmt.Errorf("Error updating Proximity Placement Group (Proximity Placement Group Name %q / Resource Group %q): %+v", proximityPlacementGroupName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Proximity Placement Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmProximityPlacementGroupRead(d, meta)
@@ -233,28 +178,11 @@ func resourceArmProximityPlacementGroupDelete(d *schema.ResourceData, meta inter
         return err
     }
     resourceGroup := id.ResourceGroup
-    proximityPlacementGroupName := id.Path["proximityPlacementGroups"]
+    name := id.Path["proximityPlacementGroups"]
 
-    if _, err := client.Delete(ctx, resourceGroup, proximityPlacementGroupName); err != nil {
-        return fmt.Errorf("Error deleting Proximity Placement Group (Proximity Placement Group Name %q / Resource Group %q): %+v", proximityPlacementGroupName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Proximity Placement Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil
-}
-
-
-func flattenArmProximityPlacementGroupSubResource(input *[]compute.SubResource) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-
-        results = append(results, v)
-    }
-
-    return results
 }

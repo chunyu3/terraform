@@ -28,13 +28,13 @@ Manage Azure Python2Package instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of python package. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
 
 * `content_link` - (Required) One `content_link` block defined below.
-
-* `package_name` - (Required) The name of python package. Changing this forces a new resource to be created.
 
 ---
 
@@ -61,41 +61,8 @@ The `content_hash` block supports the following:
 
 The following attributes are exported:
 
-* `is_global` - Gets or sets the isGlobal flag of the module.
-
-* `version` - Gets or sets the version of the module.
-
-* `size_in_bytes` - Gets or sets the size in bytes of the module.
-
-* `activity_count` - Gets or sets the activity count of the module.
-
-* `provisioning_state` - Gets or sets the provisioning state of the module.
-
-* `error` - One `error` block defined below.
-
-* `creation_time` - Gets or sets the creation time.
-
-* `last_modified_time` - Gets or sets the last modified time.
-
-* `description` - Gets or sets the description.
-
-* `is_composite` - Gets or sets type of module, if its composite or not.
-
 * `id` - Fully qualified resource Id for the resource
 
 * `name` - The name of the resource
 
 * `type` - The type of the resource.
-
-* `location` - The Azure Region where the resource lives
-
-* `etag` - Gets or sets the etag of the resource.
-
-
----
-
-The `error` block contains the following:
-
-* `code` - (Optional) Gets or sets the error code.
-
-* `message` - (Optional) Gets or sets the error message.

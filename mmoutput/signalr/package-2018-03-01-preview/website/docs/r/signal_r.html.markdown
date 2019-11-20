@@ -28,13 +28,19 @@ Manage Azure SignalR instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The SignalR service name to validate. e.g."my-signalR-name-here" Changing this forces a new resource to be created.
+
 * `name` - (Required) The name of the SignalR resource. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `location` - (Required) Azure GEO region: e.g. West US | East US | North Central US | South Central US | West Europe | North Europe | East Asia | Southeast Asia | etc. <br>The geo region of a resource never changes after it is created. Changing this forces a new resource to be created.
 
+* `type` - (Required) The resource type. Should be always "Microsoft.SignalRService/SignalR". Changing this forces a new resource to be created.
+
 * `host_name_prefix` - (Optional) Prefix for the hostName of the SignalR service. Retained for future use.<br>The hostname will be of format: &lt;hostNamePrefix&gt;.service.signalr.net.
+
+* `key_type` - (Optional) The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive). Defaults to `Primary`. Changing this forces a new resource to be created.
 
 * `sku` - (Optional) One `sku` block defined below.
 
@@ -58,20 +64,4 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
-* `provisioning_state` - Provisioning state of the resource.
-
-* `external_ip` - The publicly accessible IP of the SignalR service.
-
-* `host_name` - FQDN of the SignalR service instance. Format: xxx.service.signalr.net
-
-* `public_port` - The publicly accessibly port of the SignalR service which is designed for browser/client side usage.
-
-* `server_port` - The publicly accessibly port of the SignalR service which is designed for customer server side usage.
-
-* `version` - Version of the SignalR resource. Probably you need the same or higher version of client SDKs.
-
 * `id` - Fully qualified resource Id for the resource.
-
-* `name` - The name of the resource.
-
-* `type` - The type of the service - e.g. "Microsoft.SignalRService/SignalR"

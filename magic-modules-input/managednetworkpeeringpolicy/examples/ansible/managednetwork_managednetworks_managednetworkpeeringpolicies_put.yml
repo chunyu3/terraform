@@ -3,6 +3,9 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_managednetworkpeeringpolicy
   description: ManagedNetworkPeeringPoliciesPut
   code:
+    resource_group: myResourceGroup
+    managed_network_name: myManagedNetwork
+    name: myManagedNetworkPeeringPolicy
     managed_network_policy:
       properties:
         type: HubAndSpokeTopology
@@ -17,7 +20,4 @@ task: !ruby/object:Provider::Ansible::Task
               my_resource_group_name }}/Microsoft.ManagedNetwork/{{
               microsoft.managed_network_name }}/myManagedNetwork/{{
               my_managed_network_name }}/myManagedNetworkGroup1
-    resource_group: myResourceGroup
-    managed_network_name: myManagedNetwork
-    name: myManagedNetworkPeeringPolicy
   

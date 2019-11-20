@@ -38,19 +38,11 @@ The following arguments are supported:
 
 * `profile_name` - (Required) Name of the CDN profile which is unique within the resource group. Changing this forces a new resource to be created.
 
+* `protocol_type` - (Required) Defines the TLS extension protocol that is used for secure delivery. Changing this forces a new resource to be created.
+
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `resource_state` - Resource status of the custom domain.
-
-* `custom_https_provisioning_state` - Provisioning status of Custom Https of the custom domain.
-
-* `custom_https_provisioning_substate` - Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
-
-* `validation_data` - Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
-
-* `provisioning_state` - Provisioning status of the custom domain.
 
 * `id` - Resource ID.
 

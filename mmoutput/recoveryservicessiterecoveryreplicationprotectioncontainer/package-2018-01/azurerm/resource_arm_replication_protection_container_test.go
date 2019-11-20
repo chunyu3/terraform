@@ -34,17 +34,17 @@ func testCheckAzureRMReplicationProtectionContainerExists(resourceName string) r
             return fmt.Errorf("Replication Protection Container not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         fabricName := rs.Primary.Attributes["fabric_name"]
-        protectionContainerName := rs.Primary.Attributes["protection_container_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).replicationProtectionContainersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, protectionContainerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Replication Protection Container (Protection Container Name %q / Fabric Name %q / Resource Group %q / Resource Name %q) does not exist", protectionContainerName, fabricName, resourceGroup, resourceName)
+                return fmt.Errorf("Bad: Replication Protection Container %q (Fabric Name %q / Resource Group %q / Resource Name %q) does not exist", name, fabricName, resourceGroup, resourceName)
             }
             return fmt.Errorf("Bad: Get on replicationProtectionContainersClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMReplicationProtectionContainerDestroy(s *terraform.State) e
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         fabricName := rs.Primary.Attributes["fabric_name"]
-        protectionContainerName := rs.Primary.Attributes["protection_container_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
-        if resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, protectionContainerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on replicationProtectionContainersClient: %+v", err)
             }

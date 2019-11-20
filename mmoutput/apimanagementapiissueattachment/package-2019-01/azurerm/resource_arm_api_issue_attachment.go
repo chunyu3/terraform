@@ -96,15 +96,15 @@ func resourceArmApiIssueAttachmentCreateUpdate(d *schema.ResourceData, meta inte
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    apiID := d.Get("api_id").(string)
+    aPIID := d.Get("api_id").(string)
     attachmentID := d.Get("attachment_id").(string)
     issueID := d.Get("issue_id").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, apiID, issueID, attachmentID)
+        existing, err := client.Get(ctx, resourceGroup, name, aPIID, issueID, attachmentID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q): %+v", name, attachmentID, issueID, apiID, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q): %+v", name, attachmentID, issueID, aPIID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -125,17 +125,17 @@ func resourceArmApiIssueAttachmentCreateUpdate(d *schema.ResourceData, meta inte
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, apiID, issueID, attachmentID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q): %+v", name, attachmentID, issueID, apiID, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, aPIID, issueID, attachmentID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q): %+v", name, attachmentID, issueID, aPIID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, attachmentID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, issueID, attachmentID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q): %+v", name, attachmentID, issueID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q): %+v", name, attachmentID, issueID, aPIID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q) ID", name, attachmentID, issueID, apiID, resourceGroup)
+        return fmt.Errorf("Cannot read Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q) ID", name, attachmentID, issueID, aPIID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -152,31 +152,26 @@ func resourceArmApiIssueAttachmentRead(d *schema.ResourceData, meta interface{})
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     issueID := id.Path["issues"]
     attachmentID := id.Path["attachments"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, attachmentID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, issueID, attachmentID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Issue Attachment %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q): %+v", name, attachmentID, issueID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q): %+v", name, attachmentID, issueID, aPIID, resourceGroup, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("api_id", apiID)
+    d.Set("api_id", aPIID)
     d.Set("attachment_id", attachmentID)
-    if issueAttachmentContractProperties := resp.IssueAttachmentContractProperties; issueAttachmentContractProperties != nil {
-        d.Set("content", issueAttachmentContractProperties.Content)
-        d.Set("content_format", issueAttachmentContractProperties.ContentFormat)
-        d.Set("title", issueAttachmentContractProperties.Title)
-    }
     d.Set("issue_id", issueID)
     d.Set("type", resp.Type)
 
@@ -195,12 +190,12 @@ func resourceArmApiIssueAttachmentDelete(d *schema.ResourceData, meta interface{
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     issueID := id.Path["issues"]
     attachmentID := id.Path["attachments"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, apiID, issueID, attachmentID); err != nil {
-        return fmt.Errorf("Error deleting Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q): %+v", name, attachmentID, issueID, apiID, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, aPIID, issueID, attachmentID); err != nil {
+        return fmt.Errorf("Error deleting Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q): %+v", name, attachmentID, issueID, aPIID, resourceGroup, err)
     }
 
     return nil

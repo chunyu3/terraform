@@ -28,7 +28,7 @@ Manage Azure RoleDefinition instance.
 
 The following arguments are supported:
 
-* `role_definition_id` - (Required) The ID of the role definition. Changing this forces a new resource to be created.
+* `role_definition_id` - (Required) The fully qualified role definition ID. Use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for subscription level role definitions, or /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role definitions. Changing this forces a new resource to be created.
 
 * `scope` - (Required) The scope of the role definition. Changing this forces a new resource to be created.
 

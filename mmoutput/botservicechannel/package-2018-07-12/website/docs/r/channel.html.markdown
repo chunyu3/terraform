@@ -28,7 +28,7 @@ Manage Azure Channel instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the Bot resource. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the Channel resource. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the Bot resource group in the user subscription. Changing this forces a new resource to be created.
 

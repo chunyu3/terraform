@@ -74,6 +74,13 @@ func resourceArmFileShare() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "manager_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
             "monitoring_status": {
                 Type: schema.TypeString,
                 Required: true,
@@ -86,13 +93,6 @@ func resourceArmFileShare() *schema.Resource {
             "provisioned_capacity_in_bytes": {
                 Type: schema.TypeInt,
                 Required: true,
-            },
-
-            "share_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "share_status": {
@@ -109,18 +109,8 @@ func resourceArmFileShare() *schema.Resource {
                 Optional: true,
             },
 
-            "local_used_capacity_in_bytes": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "used_capacity_in_bytes": {
-                Type: schema.TypeInt,
                 Computed: true,
             },
         },
@@ -135,13 +125,13 @@ func resourceArmFileShareCreateUpdate(d *schema.ResourceData, meta interface{}) 
     resourceGroup := d.Get("resource_group").(string)
     deviceName := d.Get("device_name").(string)
     fileServerName := d.Get("file_server_name").(string)
-    shareName := d.Get("share_name").(string)
+    managerName := d.Get("manager_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName, shareName)
+        existing, err := client.Get(ctx, resourceGroup, managerName, deviceName, fileServerName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
+                return fmt.Errorf("Error checking for present of existing File Share %q (Manager Name %q / Resource Group %q / File Server Name %q / Device Name %q): %+v", name, managerName, resourceGroup, fileServerName, deviceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -168,21 +158,21 @@ func resourceArmFileShareCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, deviceName, fileServerName, shareName, fileShare)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, managerName, deviceName, fileServerName, name, fileShare)
     if err != nil {
-        return fmt.Errorf("Error creating File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
+        return fmt.Errorf("Error creating File Share %q (Manager Name %q / Resource Group %q / File Server Name %q / Device Name %q): %+v", name, managerName, resourceGroup, fileServerName, deviceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
+        return fmt.Errorf("Error waiting for creation of File Share %q (Manager Name %q / Resource Group %q / File Server Name %q / Device Name %q): %+v", name, managerName, resourceGroup, fileServerName, deviceName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName, shareName)
+    resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, fileServerName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
+        return fmt.Errorf("Error retrieving File Share %q (Manager Name %q / Resource Group %q / File Server Name %q / Device Name %q): %+v", name, managerName, resourceGroup, fileServerName, deviceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q) ID", name, resourceGroup, shareName, fileServerName, deviceName)
+        return fmt.Errorf("Cannot read File Share %q (Manager Name %q / Resource Group %q / File Server Name %q / Device Name %q) ID", name, managerName, resourceGroup, fileServerName, deviceName)
     }
     d.SetId(*resp.ID)
 
@@ -198,38 +188,28 @@ func resourceArmFileShareRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    name := id.Path["managers"]
+    managerName := id.Path["managers"]
     deviceName := id.Path["devices"]
     fileServerName := id.Path["fileservers"]
-    shareName := id.Path["shares"]
+    name := id.Path["shares"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName, shareName)
+    resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, fileServerName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] File Share %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
+        return fmt.Errorf("Error reading File Share %q (Manager Name %q / Resource Group %q / File Server Name %q / Device Name %q): %+v", name, managerName, resourceGroup, fileServerName, deviceName, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if fileShareProperties := resp.FileShareProperties; fileShareProperties != nil {
-        d.Set("admin_user", fileShareProperties.AdminUser)
-        d.Set("data_policy", string(fileShareProperties.DataPolicy))
-        d.Set("description", fileShareProperties.Description)
-        d.Set("local_used_capacity_in_bytes", int(*fileShareProperties.LocalUsedCapacityInBytes))
-        d.Set("monitoring_status", string(fileShareProperties.MonitoringStatus))
-        d.Set("provisioned_capacity_in_bytes", int(*fileShareProperties.ProvisionedCapacityInBytes))
-        d.Set("share_status", string(fileShareProperties.ShareStatus))
-        d.Set("used_capacity_in_bytes", int(*fileShareProperties.UsedCapacityInBytes))
-    }
     d.Set("device_name", deviceName)
     d.Set("file_server_name", fileServerName)
-    d.Set("share_name", shareName)
+    d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
     return nil
@@ -246,22 +226,22 @@ func resourceArmFileShareDelete(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    name := id.Path["managers"]
+    managerName := id.Path["managers"]
     deviceName := id.Path["devices"]
     fileServerName := id.Path["fileservers"]
-    shareName := id.Path["shares"]
+    name := id.Path["shares"]
 
-    future, err := client.Delete(ctx, resourceGroup, name, deviceName, fileServerName, shareName)
+    future, err := client.Delete(ctx, resourceGroup, managerName, deviceName, fileServerName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
+        return fmt.Errorf("Error deleting File Share %q (Manager Name %q / Resource Group %q / File Server Name %q / Device Name %q): %+v", name, managerName, resourceGroup, fileServerName, deviceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
+            return fmt.Errorf("Error waiting for deleting File Share %q (Manager Name %q / Resource Group %q / File Server Name %q / Device Name %q): %+v", name, managerName, resourceGroup, fileServerName, deviceName, err)
         }
     }
 

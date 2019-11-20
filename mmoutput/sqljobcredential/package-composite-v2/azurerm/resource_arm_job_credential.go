@@ -154,10 +154,6 @@ func resourceArmJobCredentialRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("job_agent_name", jobAgentName)
-    if jobCredentialProperties := resp.JobCredentialProperties; jobCredentialProperties != nil {
-        d.Set("password", jobCredentialProperties.Password)
-        d.Set("username", jobCredentialProperties.Username)
-    }
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 

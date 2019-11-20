@@ -34,43 +34,13 @@ The following arguments are supported:
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
 
-* `source` - (Required) One `source` block defined below.
-
----
-
-The `source` block supports the following:
-
-* `query` - (Optional) Log search query. Required for action type - AlertingAction
-
-* `authorized_resources` - (Optional) List of  Resource referred into query
-
-* `data_source_id` - (Required) The resource uri over which log search query is to be run.
-
-* `query_type` - (Optional) Set value to 'ResultCount' . Defaults to `ResultCount`.
-
-* `description` - (Optional) The description of the Log Search rule.
-
 * `enabled` - (Optional) The flag which indicates whether the Log Search rule is enabled. Value should be true or false Defaults to `true`.
 
-* `schedule` - (Optional) One `schedule` block defined below.
-
 * `tags` - (Optional) Resource tags Changing this forces a new resource to be created.
-
----
-
-The `schedule` block supports the following:
-
-* `frequency_in_minutes` - (Required) frequency (in minutes) at which rule condition should be evaluated.
-
-* `time_window_in_minutes` - (Required) Time window for which data needs to be fetched for query (should be greater than or equal to frequencyInMinutes).
 
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `last_updated_time` - Last time the rule was updated in IS08601 format.
-
-* `provisioning_state` - Provisioning state of the scheduled query rule
 
 * `id` - Azure resource Id
 

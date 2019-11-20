@@ -50,9 +50,46 @@ func resourceArmShare() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "consumer_email": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "consumer_name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "consumer_tenant_name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "description": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "duration_ms": {
+                Type: schema.TypeInt,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "end_time": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+                ValidateFunc: validateRFC3339Date,
+            },
+
+            "message": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
             },
 
             "share_kind": {
@@ -65,32 +102,31 @@ func resourceArmShare() *schema.Resource {
                 Default: string(datashare.CopyBased),
             },
 
+            "start_time": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+                ValidateFunc: validateRFC3339Date,
+            },
+
+            "status": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "synchronization_id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "terms": {
                 Type: schema.TypeString,
                 Optional: true,
             },
 
-            "created_at": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "user_email": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "user_name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -118,16 +154,34 @@ func resourceArmShareCreateUpdate(d *schema.ResourceData, meta interface{}) erro
         }
     }
 
+    consumerEmail := d.Get("consumer_email").(string)
+    consumerName := d.Get("consumer_name").(string)
+    consumerTenantName := d.Get("consumer_tenant_name").(string)
     description := d.Get("description").(string)
+    durationMs := d.Get("duration_ms").(int)
+    endTime := d.Get("end_time").(string)
+    message := d.Get("message").(string)
     shareKind := d.Get("share_kind").(string)
+    startTime := d.Get("start_time").(string)
+    status := d.Get("status").(string)
+    synchronizationId := d.Get("synchronization_id").(string)
     terms := d.Get("terms").(string)
 
     share := datashare.Share{
+        ConsumerEmail: utils.String(consumerEmail),
+        ConsumerName: utils.String(consumerName),
+        ConsumerTenantName: utils.String(consumerTenantName),
+        DurationMs: utils.Int32(int32(durationMs)),
+        EndTime: convertStringToDate(endTime),
+        Message: utils.String(message),
         ShareProperties: &datashare.ShareProperties{
             Description: utils.String(description),
             ShareKind: datashare.ShareKind(shareKind),
             Terms: utils.String(terms),
         },
+        StartTime: convertStringToDate(startTime),
+        Status: utils.String(status),
+        SynchronizationID: utils.String(synchronizationId),
     }
 
 
@@ -175,15 +229,6 @@ func resourceArmShareRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    if shareProperties := resp.ShareProperties; shareProperties != nil {
-        d.Set("created_at", (shareProperties.CreatedAt).String())
-        d.Set("description", shareProperties.Description)
-        d.Set("provisioning_state", string(shareProperties.ProvisioningState))
-        d.Set("share_kind", string(shareProperties.ShareKind))
-        d.Set("terms", shareProperties.Terms)
-        d.Set("user_email", shareProperties.UserEmail)
-        d.Set("user_name", shareProperties.UserName)
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -218,4 +263,19 @@ func resourceArmShareDelete(d *schema.ResourceData, meta interface{}) error {
     }
 
     return nil
+}
+
+func convertStringToDate(input interface{}) *date.Time {
+  v := input.(string)
+
+  dateTime, err := date.ParseTime(time.RFC3339, v)
+  if err != nil {
+      log.Printf("[ERROR] Cannot convert an invalid string to RFC3339 date %q: %+v", v, err)
+      return nil
+  }
+
+  result := date.Time{
+      Time: dateTime,
+  }
+  return &result
 }

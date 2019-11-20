@@ -34,15 +34,15 @@ func testCheckAzureRMDiskEncryptionSetExists(resourceName string) resource.TestC
             return fmt.Errorf("Disk Encryption Set not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        diskEncryptionSetName := rs.Primary.Attributes["disk_encryption_set_name"]
 
         client := testAccProvider.Meta().(*ArmClient).diskEncryptionSetsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, diskEncryptionSetName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Disk Encryption Set (Disk Encryption Set Name %q / Resource Group %q) does not exist", diskEncryptionSetName, resourceGroup)
+                return fmt.Errorf("Bad: Disk Encryption Set %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on diskEncryptionSetsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMDiskEncryptionSetDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        diskEncryptionSetName := rs.Primary.Attributes["disk_encryption_set_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, diskEncryptionSetName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on diskEncryptionSetsClient: %+v", err)
             }

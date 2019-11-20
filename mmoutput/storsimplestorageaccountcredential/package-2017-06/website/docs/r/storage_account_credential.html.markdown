@@ -28,15 +28,15 @@ Manage Azure StorageAccountCredential instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The manager name Changing this forces a new resource to be created.
+* `name` - (Required) The name of the storage account credential. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `end_point` - (Required) The storage endpoint
 
-* `ssl_status` - (Required) Signifies whether SSL needs to be enabled or not.
+* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
-* `storage_account_credential_name` - (Required) The name of storage account credential to be fetched. Changing this forces a new resource to be created.
+* `ssl_status` - (Required) Signifies whether SSL needs to be enabled or not.
 
 * `access_key` - (Optional) One `access_key` block defined below.
 
@@ -55,8 +55,6 @@ The `access_key` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `volumes_count` - The count of volumes using this storage account credential.
 
 * `id` - The path ID that uniquely identifies the object.
 

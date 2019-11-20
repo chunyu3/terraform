@@ -44,6 +44,10 @@ The following arguments are supported:
 
 * `artifacts` - (Optional) One or more `artifact` block defined below.
 
+* `artifacts` - (Optional) One or more `artifact` block defined below.
+
+* `attach_new_data_disk_options` - (Optional) One `attach_new_data_disk_option` block defined below.
+
 * `compute_vm` - (Optional) One `compute_vm` block defined below.
 
 * `created_by_user` - (Optional) The email address of creator of the virtual machine.
@@ -58,11 +62,15 @@ The following arguments are supported:
 
 * `environment_id` - (Optional) The resource ID of the environment that contains this virtual machine, if any.
 
+* `existing_lab_disk_id` - (Optional) Specifies the disk resource ID to detach from virtual machine. Changing this forces a new resource to be created.
+
 * `expiration_date` - (Optional) The expiration date for VM.
 
 * `fqdn` - (Optional) The fully-qualified domain name of the virtual machine.
 
 * `gallery_image_reference` - (Optional) One `gallery_image_reference` block defined below.
+
+* `host_caching` - (Optional) Caching option for a data disk (i.e. None, ReadOnly, ReadWrite). Defaults to `None`. Changing this forces a new resource to be created.
 
 * `is_authentication_with_ssh_key` - (Optional) Indicates whether this virtual machine uses an SSH key for authentication.
 
@@ -260,6 +268,41 @@ The `parameter` block supports the following:
 
 ---
 
+The `artifact` block supports the following:
+
+* `artifact_id` - (Optional) The artifact's identifier.
+
+* `parameters` - (Optional) One or more `parameter` block defined below.
+
+* `status` - (Optional) The status of the artifact.
+
+* `deployment_status_message` - (Optional) The status message from the deployment.
+
+* `vm_extension_status_message` - (Optional) The status message from the virtual machine extension.
+
+* `install_time` - (Optional) The time that the artifact starts to install on the virtual machine.
+
+
+---
+
+The `parameter` block supports the following:
+
+* `name` - (Optional) The name of the artifact parameter.
+
+* `value` - (Optional) The value of the artifact parameter.
+
+---
+
+The `attach_new_data_disk_option` block supports the following:
+
+* `disk_size_gi_b` - (Optional) Size of the disk to be attached in Gibibytes.
+
+* `disk_name` - (Optional) The name of the disk to be attached.
+
+* `disk_type` - (Optional) The storage type for the disk (i.e. Standard, Premium). Defaults to `Standard`.
+
+---
+
 The `compute_vm` block supports the following:
 
 * `statuses` - (Optional) One or more `status` block defined below.
@@ -356,10 +399,6 @@ The `inbound_nat_rule` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `compute_id` - The resource identifier (Microsoft.Compute) of the virtual machine.
-
-* `provisioning_state` - The provisioning status of the resource.
 
 * `id` - The identifier of the resource.
 

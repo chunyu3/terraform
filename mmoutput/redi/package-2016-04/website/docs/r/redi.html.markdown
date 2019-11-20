@@ -34,7 +34,35 @@ The following arguments are supported:
 
 * `location` - (Required) Resource location. Changing this forces a new resource to be created.
 
-* `sku` - (Required) One `sku` block defined below.
+* `container` - (Required) Container name to export to. Changing this forces a new resource to be created.
+
+* `files` - (Required) files to import. Changing this forces a new resource to be created.
+
+* `key_type` - (Required) The Redis access key to regenerate. Changing this forces a new resource to be created.
+
+* `prefix` - (Required) Prefix to use for exported files. Changing this forces a new resource to be created.
+
+* `reboot_type` - (Required) Which Redis node(s) to reboot. Depending on this value data loss is possible. Changing this forces a new resource to be created.
+
+* `enable_non_ssl_port` - (Optional) Specifies whether the non-ssl Redis server port (6379) is enabled.
+
+* `format` - (Optional) File format. Changing this forces a new resource to be created.
+
+* `redis_configuration` - (Optional) All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc.
+
+* `shard_count` - (Optional) The number of shards to be created on a Premium Cluster Cache.
+
+* `shard_id` - (Optional) If clustering is enabled, the ID of the shard to be rebooted. Changing this forces a new resource to be created.
+
+* `sku` - (Optional) One `sku` block defined below.
+
+* `static_ip` - (Optional) Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
+
+* `subnet_id` - (Optional) The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
+
+* `tenant_settings` - (Optional) tenantSettings
+
+* `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 
 ---
 
@@ -46,45 +74,10 @@ The `sku` block supports the following:
 
 * `capacity` - (Required) The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3, 4).
 
-* `enable_non_ssl_port` - (Optional) Specifies whether the non-ssl Redis server port (6379) is enabled.
-
-* `redis_configuration` - (Optional) All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc.
-
-* `shard_count` - (Optional) The number of shards to be created on a Premium Cluster Cache.
-
-* `static_ip` - (Optional) Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
-
-* `subnet_id` - (Optional) The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
-
-* `tenant_settings` - (Optional) tenantSettings
-
-* `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
-
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `redis_version` - Redis version.
-
-* `provisioning_state` - Redis instance provisioning status.
-
-* `host_name` - Redis host name.
-
-* `port` - Redis non-SSL port.
-
-* `ssl_port` - Redis SSL port.
-
-* `access_keys` - One `access_key` block defined below.
-
 * `id` - Resource ID.
 
 * `type` - Resource type.
-
-
----
-
-The `access_key` block contains the following:
-
-* `primary_key` - (Optional) The current primary key that clients can use to authenticate with Redis cache.
-
-* `secondary_key` - (Optional) The current secondary key that clients can use to authenticate with Redis cache.

@@ -28,7 +28,7 @@ Manage Azure Volume instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The manager name Changing this forces a new resource to be created.
+* `name` - (Required) The volume name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
@@ -36,13 +36,13 @@ The following arguments are supported:
 
 * `device_name` - (Required) The device name Changing this forces a new resource to be created.
 
+* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
+
 * `monitoring_status` - (Required) The monitoring status of the volume.
 
 * `size_in_bytes` - (Required) The size of the volume in bytes.
 
 * `volume_container_name` - (Required) The volume container name. Changing this forces a new resource to be created.
-
-* `volume_name` - (Required) The volume name. Changing this forces a new resource to be created.
 
 * `volume_status` - (Required) The volume status.
 
@@ -53,14 +53,6 @@ The following arguments are supported:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `volume_container_id` - The ID of the volume container, in which this volume is created.
-
-* `operation_status` - The operation status on the volume.
-
-* `backup_status` - The backup status of the volume.
-
-* `backup_policy_ids` - The IDs of the backup policies, in which this volume is part of.
 
 * `id` - The path ID that uniquely identifies the object.
 

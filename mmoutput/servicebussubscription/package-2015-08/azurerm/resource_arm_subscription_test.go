@@ -34,17 +34,17 @@ func testCheckAzureRMSubscriptionExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Subscription not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         namespaceName := rs.Primary.Attributes["namespace_name"]
-        subscriptionName := rs.Primary.Attributes["subscription_name"]
         topicName := rs.Primary.Attributes["topic_name"]
 
         client := testAccProvider.Meta().(*ArmClient).subscriptionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, topicName, subscriptionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, namespaceName, topicName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Subscription (Subscription Name %q / Topic Name %q / Namespace Name %q / Resource Group %q) does not exist", subscriptionName, topicName, namespaceName, resourceGroup)
+                return fmt.Errorf("Bad: Subscription %q (Topic Name %q / Namespace Name %q / Resource Group %q) does not exist", name, topicName, namespaceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on subscriptionsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMSubscriptionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         namespaceName := rs.Primary.Attributes["namespace_name"]
-        subscriptionName := rs.Primary.Attributes["subscription_name"]
         topicName := rs.Primary.Attributes["topic_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, topicName, subscriptionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, namespaceName, topicName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on subscriptionsClient: %+v", err)
             }

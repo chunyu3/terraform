@@ -34,17 +34,17 @@ func testCheckAzureRMUserExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("User not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         labAccountName := rs.Primary.Attributes["lab_account_name"]
         labName := rs.Primary.Attributes["lab_name"]
-        userName := rs.Primary.Attributes["user_name"]
 
         client := testAccProvider.Meta().(*ArmClient).usersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, userName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: User (User Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q) does not exist", userName, labName, labAccountName, resourceGroup)
+                return fmt.Errorf("Bad: User %q (Lab Name %q / Lab Account Name %q / Resource Group %q) does not exist", name, labName, labAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on usersClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMUserDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         labAccountName := rs.Primary.Attributes["lab_account_name"]
         labName := rs.Primary.Attributes["lab_name"]
-        userName := rs.Primary.Attributes["user_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, userName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on usersClient: %+v", err)
             }

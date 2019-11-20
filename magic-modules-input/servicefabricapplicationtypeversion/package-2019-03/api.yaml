@@ -114,34 +114,6 @@ objects:
             python_parameter_name: version
             python_variable_name: version
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ApplicationTypeVersionResourceProperties
-            go_type_name: ApplicationTypeVersionResourceProperties
-          '/properties/appPackageUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AppPackageURL
-          '/appPackageUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: app_package_url
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/defaultParameterList': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: DefaultParameterList
-          '/defaultParameterList': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: default_parameter_list
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -219,16 +191,6 @@ objects:
         required: true
         azure_sdk_references: ['/appPackageUrl', '/properties/appPackageUrl']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The current deployment or provisioning state, which only appears in the response'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'defaultParameterList'
-        description: 'List of application type parameters that can be overridden when creating or updating the application.'
-        output: true
-        azure_sdk_references: ['/defaultParameterList', '/properties/defaultParameterList']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource identifier.'

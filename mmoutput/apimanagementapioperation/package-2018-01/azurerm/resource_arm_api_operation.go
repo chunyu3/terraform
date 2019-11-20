@@ -400,14 +400,14 @@ func resourceArmApiOperationCreate(d *schema.ResourceData, meta interface{}) err
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    apiID := d.Get("api_id").(string)
+    aPIID := d.Get("api_id").(string)
     operationID := d.Get("operation_id").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, apiID, operationID)
+        existing, err := client.Get(ctx, resourceGroup, name, aPIID, operationID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, apiID, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, aPIID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -438,17 +438,17 @@ func resourceArmApiOperationCreate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, apiID, operationID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, apiID, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, aPIID, operationID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, aPIID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, operationID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, aPIID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Operation %q (Operation %q / Api %q / Resource Group %q) ID", name, operationID, apiID, resourceGroup)
+        return fmt.Errorf("Cannot read Api Operation %q (Operation %q / Api %q / Resource Group %q) ID", name, operationID, aPIID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -465,40 +465,24 @@ func resourceArmApiOperationRead(d *schema.ResourceData, meta interface{}) error
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     operationID := id.Path["operations"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, operationID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Operation %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, aPIID, resourceGroup, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("api_id", apiID)
-    if operationUpdateContractProperties := resp.OperationUpdateContractProperties; operationUpdateContractProperties != nil {
-        d.Set("description", operationUpdateContractProperties.Description)
-        d.Set("display_name", operationUpdateContractProperties.DisplayName)
-        d.Set("method", operationUpdateContractProperties.Method)
-        d.Set("policies", operationUpdateContractProperties.Policies)
-        if err := d.Set("request", flattenArmApiOperationRequestContract(operationUpdateContractProperties.Request)); err != nil {
-            return fmt.Errorf("Error setting `request`: %+v", err)
-        }
-        if err := d.Set("responses", flattenArmApiOperationResponseContract(operationUpdateContractProperties.Responses)); err != nil {
-            return fmt.Errorf("Error setting `responses`: %+v", err)
-        }
-        if err := d.Set("template_parameters", flattenArmApiOperationParameterContract(operationUpdateContractProperties.TemplateParameters)); err != nil {
-            return fmt.Errorf("Error setting `template_parameters`: %+v", err)
-        }
-        d.Set("url_template", operationUpdateContractProperties.URLTemplate)
-    }
+    d.Set("api_id", aPIID)
     d.Set("operation_id", operationID)
     d.Set("type", resp.Type)
 
@@ -511,7 +495,7 @@ func resourceArmApiOperationUpdate(d *schema.ResourceData, meta interface{}) err
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    apiID := d.Get("api_id").(string)
+    aPIID := d.Get("api_id").(string)
     description := d.Get("description").(string)
     displayName := d.Get("display_name").(string)
     method := d.Get("method").(string)
@@ -536,8 +520,8 @@ func resourceArmApiOperationUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, apiID, operationID, parameters); err != nil {
-        return fmt.Errorf("Error updating Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, apiID, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, aPIID, operationID, parameters); err != nil {
+        return fmt.Errorf("Error updating Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, aPIID, resourceGroup, err)
     }
 
     return resourceArmApiOperationRead(d, meta)
@@ -554,11 +538,11 @@ func resourceArmApiOperationDelete(d *schema.ResourceData, meta interface{}) err
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     operationID := id.Path["operations"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, apiID, operationID); err != nil {
-        return fmt.Errorf("Error deleting Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, apiID, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, aPIID, operationID); err != nil {
+        return fmt.Errorf("Error deleting Api Operation %q (Operation %q / Api %q / Resource Group %q): %+v", name, operationID, aPIID, resourceGroup, err)
     }
 
     return nil
@@ -651,107 +635,4 @@ func expandArmApiOperationRepresentationContract(input []interface{}) *[]apimana
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmApiOperationRequestContract(input *apimanagement.RequestContract) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if description := input.Description; description != nil {
-        result["description"] = *description
-    }
-    result["headers"] = flattenArmApiOperationParameterContract(input.Headers)
-    result["query_parameters"] = flattenArmApiOperationParameterContract(input.QueryParameters)
-    result["representations"] = flattenArmApiOperationRepresentationContract(input.Representations)
-
-    return []interface{}{result}
-}
-
-func flattenArmApiOperationResponseContract(input *[]apimanagement.ResponseContract) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if description := item.Description; description != nil {
-            v["description"] = *description
-        }
-        v["headers"] = flattenArmApiOperationParameterContract(item.Headers)
-        v["representations"] = flattenArmApiOperationRepresentationContract(item.Representations)
-        if statusCode := item.StatusCode; statusCode != nil {
-            v["status_code"] = int(*statusCode)
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmApiOperationParameterContract(input *[]apimanagement.ParameterContract) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if defaultValue := item.DefaultValue; defaultValue != nil {
-            v["default_value"] = *defaultValue
-        }
-        if description := item.Description; description != nil {
-            v["description"] = *description
-        }
-        if required := item.Required; required != nil {
-            v["required"] = *required
-        }
-        if type := item.Type; type != nil {
-            v["type"] = *type
-        }
-        v["values"] = utils.FlattenStringSlice(item.Values)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmApiOperationRepresentationContract(input *[]apimanagement.RepresentationContract) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if contentType := item.ContentType; contentType != nil {
-            v["content_type"] = *contentType
-        }
-        v["form_parameters"] = flattenArmApiOperationParameterContract(item.FormParameters)
-        if sample := item.Sample; sample != nil {
-            v["sample"] = *sample
-        }
-        if schemaId := item.SchemaID; schemaId != nil {
-            v["schema_id"] = *schemaId
-        }
-        if typeName := item.TypeName; typeName != nil {
-            v["type_name"] = *typeName
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

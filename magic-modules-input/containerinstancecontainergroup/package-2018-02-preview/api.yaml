@@ -159,20 +159,20 @@ objects:
             go_type_name: ResourceRequests
           '/properties/containers/properties/resources/requests/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
             applicable_to: [go]
-            go_field_name: MemoryInGb
+            go_field_name: MemoryInGB
           '/properties/containers/properties/resources/requests/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
             applicable_to: [go]
-            go_field_name: Cpu
+            go_field_name: CPU
           '/properties/containers/properties/resources/limits': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Limits
             go_type_name: ResourceLimits
           '/properties/containers/properties/resources/limits/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
             applicable_to: [go]
-            go_field_name: MemoryInGb
+            go_field_name: MemoryInGB
           '/properties/containers/properties/resources/limits/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
             applicable_to: [go]
-            go_field_name: Cpu
+            go_field_name: CPU
           '/properties/containers/properties/volumeMounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: VolumeMounts
@@ -241,7 +241,7 @@ objects:
             python_field_name: dns_name_label
           '/properties/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: IpAddress
+            go_field_name: IPAddress
             go_type_name: IpAddress
           '/properties/ipAddress/ports': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
@@ -259,10 +259,10 @@ objects:
             go_field_name: Type
           '/properties/ipAddress/ip': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: Ip
+            go_field_name: IP
           '/properties/ipAddress/dnsNameLabel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: DnsNameLabel
+            go_field_name: DNSNameLabel
           '/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: os_type
@@ -394,517 +394,6 @@ objects:
             python_parameter_name: container_group_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ContainerGroup_properties
-            go_type_name: ContainerGroup_properties
-          '/properties/containers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Containers
-            go_type_name: Container
-          '/properties/containers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/containers/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ContainerProperties
-            go_type_name: ContainerProperties
-          '/properties/containers/properties/image': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Image
-          '/properties/containers/properties/command': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: Command
-          '/properties/containers/properties/ports': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Ports
-            go_type_name: ContainerPort
-          '/properties/containers/properties/ports/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Protocol
-            go_enum_type_name: ContainerNetworkProtocol
-          '/properties/containers/properties/ports/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Port
-          '/properties/containers/properties/environmentVariables': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: EnvironmentVariables
-            go_type_name: EnvironmentVariable
-          '/properties/containers/properties/environmentVariables/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/containers/properties/environmentVariables/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/properties/containers/properties/resources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Resources
-            go_type_name: ResourceRequirements
-          '/properties/containers/properties/resources/requests': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Requests
-            go_type_name: ResourceRequests
-          '/properties/containers/properties/resources/requests/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [go]
-            go_field_name: MemoryInGb
-          '/properties/containers/properties/resources/requests/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [go]
-            go_field_name: Cpu
-          '/properties/containers/properties/resources/limits': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Limits
-            go_type_name: ResourceLimits
-          '/properties/containers/properties/resources/limits/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [go]
-            go_field_name: MemoryInGb
-          '/properties/containers/properties/resources/limits/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [go]
-            go_field_name: Cpu
-          '/properties/containers/properties/volumeMounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: VolumeMounts
-            go_type_name: VolumeMount
-          '/properties/containers/properties/volumeMounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/containers/properties/volumeMounts/mountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: MountPath
-          '/properties/containers/properties/volumeMounts/readOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: ReadOnly
-          '/properties/containers/properties/instanceView': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: InstanceView
-            go_type_name: ContainerProperties_instanceView
-          '/properties/containers/properties/instanceView/restartCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: RestartCount
-          '/properties/containers/properties/instanceView/currentState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: CurrentState
-            go_type_name: ContainerState
-          '/properties/containers/properties/instanceView/currentState/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: State
-          '/properties/containers/properties/instanceView/currentState/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: StartTime
-          '/properties/containers/properties/instanceView/currentState/exitCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: ExitCode
-          '/properties/containers/properties/instanceView/currentState/finishTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: FinishTime
-          '/properties/containers/properties/instanceView/currentState/detailStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DetailStatus
-          '/properties/containers/properties/instanceView/previousState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PreviousState
-            go_type_name: ContainerState
-          '/properties/containers/properties/instanceView/previousState/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: State
-          '/properties/containers/properties/instanceView/previousState/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: StartTime
-          '/properties/containers/properties/instanceView/previousState/exitCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: ExitCode
-          '/properties/containers/properties/instanceView/previousState/finishTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: FinishTime
-          '/properties/containers/properties/instanceView/previousState/detailStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DetailStatus
-          '/properties/containers/properties/instanceView/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Events
-            go_type_name: Event
-          '/properties/containers/properties/instanceView/events/count': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Count
-          '/properties/containers/properties/instanceView/events/firstTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: FirstTimestamp
-          '/properties/containers/properties/instanceView/events/lastTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastTimestamp
-          '/properties/containers/properties/instanceView/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/containers/properties/instanceView/events/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Message
-          '/properties/containers/properties/instanceView/events/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Type
-          '/containers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: containers
-          '/containers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/containers/image': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: image
-          '/containers/command': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: command
-          '/containers/ports': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: ports
-          '/containers/ports/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: protocol
-          '/containers/ports/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: port
-          '/containers/environmentVariables': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: environment_variables
-          '/containers/environmentVariables/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/containers/environmentVariables/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
-          '/containers/resources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: resources
-          '/containers/resources/requests': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: requests
-          '/containers/resources/requests/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [python]
-            python_field_name: memory_in_gb
-          '/containers/resources/requests/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [python]
-            python_field_name: cpu
-          '/containers/resources/limits': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: limits
-          '/containers/resources/limits/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [python]
-            python_field_name: memory_in_gb
-          '/containers/resources/limits/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [python]
-            python_field_name: cpu
-          '/containers/volumeMounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: volume_mounts
-          '/containers/volumeMounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/containers/volumeMounts/mountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: mount_path
-          '/containers/volumeMounts/readOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: read_only
-          '/containers/instanceView': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: instance_view
-          '/containers/instanceView/restartCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: restart_count
-          '/containers/instanceView/currentState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: current_state
-          '/containers/instanceView/currentState/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: state
-          '/containers/instanceView/currentState/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: start_time
-          '/containers/instanceView/currentState/exitCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: exit_code
-          '/containers/instanceView/currentState/finishTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: finish_time
-          '/containers/instanceView/currentState/detailStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: detail_status
-          '/containers/instanceView/previousState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: previous_state
-          '/containers/instanceView/previousState/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: state
-          '/containers/instanceView/previousState/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: start_time
-          '/containers/instanceView/previousState/exitCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: exit_code
-          '/containers/instanceView/previousState/finishTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: finish_time
-          '/containers/instanceView/previousState/detailStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: detail_status
-          '/containers/instanceView/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: events
-          '/containers/instanceView/events/count': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: count
-          '/containers/instanceView/events/firstTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: first_timestamp
-          '/containers/instanceView/events/lastTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_timestamp
-          '/containers/instanceView/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/containers/instanceView/events/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: message
-          '/containers/instanceView/events/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type
-          '/properties/imageRegistryCredentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: ImageRegistryCredentials
-            go_type_name: ImageRegistryCredential
-          '/properties/imageRegistryCredentials/server': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Server
-          '/properties/imageRegistryCredentials/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Username
-          '/properties/imageRegistryCredentials/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Password
-          '/imageRegistryCredentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: image_registry_credentials
-          '/imageRegistryCredentials/server': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server
-          '/imageRegistryCredentials/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: username
-          '/imageRegistryCredentials/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: password
-          '/properties/restartPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: RestartPolicy
-            go_enum_type_name: ContainerGroupRestartPolicy
-          '/restartPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: restart_policy
-          '/properties/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: IpAddress
-            go_type_name: IpAddress
-          '/properties/ipAddress/ports': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Ports
-            go_type_name: Port
-          '/properties/ipAddress/ports/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Protocol
-            go_enum_type_name: ContainerGroupNetworkProtocol
-          '/properties/ipAddress/ports/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Port
-          '/properties/ipAddress/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Type
-          '/properties/ipAddress/ip': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Ip
-          '/properties/ipAddress/dnsNameLabel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DnsNameLabel
-          '/properties/ipAddress/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Fqdn
-          '/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: ip_address
-          '/ipAddress/ports': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: ports
-          '/ipAddress/ports/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: protocol
-          '/ipAddress/ports/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: port
-          '/ipAddress/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type
-          '/ipAddress/ip': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: ip
-          '/ipAddress/dnsNameLabel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: dns_name_label
-          '/ipAddress/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: fqdn
-          '/properties/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: OsType
-            go_enum_type_name: OperatingSystemTypes
-          '/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: os_type
-          '/properties/volumes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Volumes
-            go_type_name: Volume
-          '/properties/volumes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/volumes/azureFile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AzureFile
-            go_type_name: AzureFileVolume
-          '/properties/volumes/azureFile/shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ShareName
-          '/properties/volumes/azureFile/readOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: ReadOnly
-          '/properties/volumes/azureFile/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageAccountName
-          '/properties/volumes/azureFile/storageAccountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageAccountKey
-          '/properties/volumes/emptyDir': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [go]
-            go_field_name: EmptyDir
-          '/properties/volumes/secret': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: Secret
-          '/properties/volumes/gitRepo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: GitRepo
-            go_type_name: GitRepoVolume
-          '/properties/volumes/gitRepo/directory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Directory
-          '/properties/volumes/gitRepo/repository': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Repository
-          '/properties/volumes/gitRepo/revision': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Revision
-          '/volumes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: volumes
-          '/volumes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/volumes/azureFile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: azure_file
-          '/volumes/azureFile/shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: share_name
-          '/volumes/azureFile/readOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: read_only
-          '/volumes/azureFile/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_account_name
-          '/volumes/azureFile/storageAccountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_account_key
-          '/volumes/emptyDir': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [python]
-            python_field_name: empty_dir
-          '/volumes/secret': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: secret
-          '/volumes/gitRepo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: git_repo
-          '/volumes/gitRepo/directory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: directory
-          '/volumes/gitRepo/repository': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: repository
-          '/volumes/gitRepo/revision': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: revision
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/instanceView': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: InstanceView
-            go_type_name: ContainerGroup_properties_instanceView
-          '/properties/instanceView/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Events
-            go_type_name: Event
-          '/properties/instanceView/events/count': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Count
-          '/properties/instanceView/events/firstTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: FirstTimestamp
-          '/properties/instanceView/events/lastTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastTimestamp
-          '/properties/instanceView/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/instanceView/events/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Message
-          '/properties/instanceView/events/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Type
-          '/properties/instanceView/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: State
-          '/instanceView': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: instance_view
-          '/instanceView/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: events
-          '/instanceView/events/count': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: count
-          '/instanceView/events/firstTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: first_timestamp
-          '/instanceView/events/lastTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_timestamp
-          '/instanceView/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/instanceView/events/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: message
-          '/instanceView/events/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type
-          '/instanceView/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -914,10 +403,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -927,6 +412,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
 
     description: |
       Manage Azure ContainerGroup instance.
@@ -1228,17 +717,6 @@ objects:
                   required: false
                   azure_sdk_references: ['/volumes/gitRepo/revision', '/properties/volumes/gitRepo/revision']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The provisioning state of the container group. This only appears in the response.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'instanceView'
-        description: 'The instance view of the container group. Only valid in response.'
-        output: true
-        azure_sdk_references: ['/instanceView', '/properties/instanceView']
-        properties:
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource id.'

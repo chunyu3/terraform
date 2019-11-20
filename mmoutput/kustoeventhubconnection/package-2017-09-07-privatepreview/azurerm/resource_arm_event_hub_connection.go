@@ -82,6 +82,12 @@ func resourceArmEventHubConnection() *schema.Resource {
                 Default: string(kusto.MULTIJSON),
             },
 
+            "eventhub_connection_name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "mapping_rule_name": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -125,10 +131,12 @@ func resourceArmEventHubConnectionCreate(d *schema.ResourceData, meta interface{
     consumerGroup := d.Get("consumer_group").(string)
     dataFormat := d.Get("data_format").(string)
     eventHubResourceId := d.Get("event_hub_resource_id").(string)
+    eventhubConnectionName := d.Get("eventhub_connection_name").(string)
     mappingRuleName := d.Get("mapping_rule_name").(string)
     tableName := d.Get("table_name").(string)
 
     parameters := kusto.EventHubConnectionUpdate{
+        EventhubConnectionName: utils.String(eventhubConnectionName),
         Location: utils.String(location),
         EventHubConnectionProperties: &kusto.EventHubConnectionProperties{
             ConsumerGroup: utils.String(consumerGroup),
@@ -188,17 +196,7 @@ func resourceArmEventHubConnectionRead(d *schema.ResourceData, meta interface{})
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
     d.Set("cluster_name", clusterName)
-    if eventHubConnectionProperties := resp.EventHubConnectionProperties; eventHubConnectionProperties != nil {
-        d.Set("consumer_group", eventHubConnectionProperties.ConsumerGroup)
-        d.Set("data_format", string(eventHubConnectionProperties.DataFormat))
-        d.Set("event_hub_resource_id", eventHubConnectionProperties.EventHubResourceID)
-        d.Set("mapping_rule_name", eventHubConnectionProperties.MappingRuleName)
-        d.Set("table_name", eventHubConnectionProperties.TableName)
-    }
     d.Set("database_name", databaseName)
     d.Set("type", resp.Type)
 
@@ -216,11 +214,12 @@ func resourceArmEventHubConnectionUpdate(d *schema.ResourceData, meta interface{
     dataFormat := d.Get("data_format").(string)
     databaseName := d.Get("database_name").(string)
     eventHubResourceId := d.Get("event_hub_resource_id").(string)
+    eventhubConnectionName := d.Get("eventhub_connection_name").(string)
     mappingRuleName := d.Get("mapping_rule_name").(string)
     tableName := d.Get("table_name").(string)
 
     parameters := kusto.EventHubConnectionUpdate{
-        Location: utils.String(location),
+        EventhubConnectionName: utils.String(eventhubConnectionName),
         EventHubConnectionProperties: &kusto.EventHubConnectionProperties{
             ConsumerGroup: utils.String(consumerGroup),
             DataFormat: kusto.DataFormat(dataFormat),

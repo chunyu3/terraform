@@ -31,19 +31,19 @@ func resourceArmSubscription() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "namespace_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "subscription_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -133,56 +133,7 @@ func resourceArmSubscription() *schema.Resource {
                 Default: string(servicebus.Active),
             },
 
-            "accessed_at": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "count_details": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "active_message_count": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                        "dead_letter_message_count": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                        "scheduled_message_count": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                        "transfer_dead_letter_message_count": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                        "transfer_message_count": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "created_at": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "message_count": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "updated_at": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -194,16 +145,16 @@ func resourceArmSubscriptionCreateUpdate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).subscriptionsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     namespaceName := d.Get("namespace_name").(string)
-    subscriptionName := d.Get("subscription_name").(string)
     topicName := d.Get("topic_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, namespaceName, topicName, subscriptionName)
+        existing, err := client.Get(ctx, resourceGroup, namespaceName, topicName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Subscription (Subscription Name %q / Topic Name %q / Namespace Name %q / Resource Group %q): %+v", subscriptionName, topicName, namespaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Subscription %q (Topic Name %q / Namespace Name %q / Resource Group %q): %+v", name, topicName, namespaceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -242,17 +193,17 @@ func resourceArmSubscriptionCreateUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, topicName, subscriptionName, parameters); err != nil {
-        return fmt.Errorf("Error creating Subscription (Subscription Name %q / Topic Name %q / Namespace Name %q / Resource Group %q): %+v", subscriptionName, topicName, namespaceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, topicName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Subscription %q (Topic Name %q / Namespace Name %q / Resource Group %q): %+v", name, topicName, namespaceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, topicName, subscriptionName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, topicName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Subscription (Subscription Name %q / Topic Name %q / Namespace Name %q / Resource Group %q): %+v", subscriptionName, topicName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Subscription %q (Topic Name %q / Namespace Name %q / Resource Group %q): %+v", name, topicName, namespaceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Subscription (Subscription Name %q / Topic Name %q / Namespace Name %q / Resource Group %q) ID", subscriptionName, topicName, namespaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Subscription %q (Topic Name %q / Namespace Name %q / Resource Group %q) ID", name, topicName, namespaceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -270,44 +221,23 @@ func resourceArmSubscriptionRead(d *schema.ResourceData, meta interface{}) error
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
     topicName := id.Path["topics"]
-    subscriptionName := id.Path["subscriptions"]
+    name := id.Path["subscriptions"]
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, topicName, subscriptionName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, topicName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Subscription %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Subscription (Subscription Name %q / Topic Name %q / Namespace Name %q / Resource Group %q): %+v", subscriptionName, topicName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Subscription %q (Topic Name %q / Namespace Name %q / Resource Group %q): %+v", name, topicName, namespaceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if sBSubscriptionProperties := resp.SBSubscriptionProperties; sBSubscriptionProperties != nil {
-        d.Set("accessed_at", (sBSubscriptionProperties.AccessedAt).String())
-        d.Set("auto_delete_on_idle", sBSubscriptionProperties.AutoDeleteOnIdle)
-        if err := d.Set("count_details", flattenArmSubscriptionMessageCountDetails(sBSubscriptionProperties.CountDetails)); err != nil {
-            return fmt.Errorf("Error setting `count_details`: %+v", err)
-        }
-        d.Set("created_at", (sBSubscriptionProperties.CreatedAt).String())
-        d.Set("dead_lettering_on_filter_evaluation_exceptions", sBSubscriptionProperties.DeadLetteringOnFilterEvaluationExceptions)
-        d.Set("dead_lettering_on_message_expiration", sBSubscriptionProperties.DeadLetteringOnMessageExpiration)
-        d.Set("default_message_time_to_live", sBSubscriptionProperties.DefaultMessageTimeToLive)
-        d.Set("duplicate_detection_history_time_window", sBSubscriptionProperties.DuplicateDetectionHistoryTimeWindow)
-        d.Set("enable_batched_operations", sBSubscriptionProperties.EnableBatchedOperations)
-        d.Set("forward_dead_lettered_messages_to", sBSubscriptionProperties.ForwardDeadLetteredMessagesTo)
-        d.Set("forward_to", sBSubscriptionProperties.ForwardTo)
-        d.Set("lock_duration", sBSubscriptionProperties.LockDuration)
-        d.Set("max_delivery_count", int(*sBSubscriptionProperties.MaxDeliveryCount))
-        d.Set("message_count", int(*sBSubscriptionProperties.MessageCount))
-        d.Set("requires_session", sBSubscriptionProperties.RequiresSession)
-        d.Set("status", string(sBSubscriptionProperties.Status))
-        d.Set("updated_at", (sBSubscriptionProperties.UpdatedAt).String())
-    }
     d.Set("namespace_name", namespaceName)
-    d.Set("subscription_name", subscriptionName)
     d.Set("topic_name", topicName)
     d.Set("type", resp.Type)
 
@@ -327,23 +257,11 @@ func resourceArmSubscriptionDelete(d *schema.ResourceData, meta interface{}) err
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
     topicName := id.Path["topics"]
-    subscriptionName := id.Path["subscriptions"]
+    name := id.Path["subscriptions"]
 
-    if _, err := client.Delete(ctx, resourceGroup, namespaceName, topicName, subscriptionName); err != nil {
-        return fmt.Errorf("Error deleting Subscription (Subscription Name %q / Topic Name %q / Namespace Name %q / Resource Group %q): %+v", subscriptionName, topicName, namespaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, namespaceName, topicName, name); err != nil {
+        return fmt.Errorf("Error deleting Subscription %q (Topic Name %q / Namespace Name %q / Resource Group %q): %+v", name, topicName, namespaceName, resourceGroup, err)
     }
 
     return nil
-}
-
-
-func flattenArmSubscriptionMessageCountDetails(input *servicebus.MessageCountDetails) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
 }

@@ -45,6 +45,16 @@ func resourceArmBatchAccount() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "key_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(batch.Primary),
+                    string(batch.Secondary),
+                }, false),
+            },
+
             "auto_storage": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -58,31 +68,6 @@ func resourceArmBatchAccount() *schema.Resource {
                         },
                     },
                 },
-            },
-
-            "account_endpoint": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "active_job_and_job_schedule_quota": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "core_quota": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "pool_quota": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "type": {
@@ -116,9 +101,11 @@ func resourceArmBatchAccountCreate(d *schema.ResourceData, meta interface{}) err
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     autoStorage := d.Get("auto_storage").([]interface{})
+    keyName := d.Get("key_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := batch.AccountUpdateParameters{
+    parameters := batch.AccountRegenerateKeyParameters{
+        KeyName: batch.AccountKeyType(keyName),
         Location: utils.String(location),
         AccountBaseProperties: &batch.AccountBaseProperties{
             AutoStorage: expandArmBatchAccountAutoStorageBaseProperties(autoStorage),
@@ -173,22 +160,9 @@ func resourceArmBatchAccountRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if accountBaseProperties := resp.AccountBaseProperties; accountBaseProperties != nil {
-        d.Set("account_endpoint", accountBaseProperties.AccountEndpoint)
-        d.Set("active_job_and_job_schedule_quota", int(*accountBaseProperties.ActiveJobAndJobScheduleQuota))
-        if err := d.Set("auto_storage", flattenArmBatchAccountAutoStorageBaseProperties(accountBaseProperties.AutoStorage)); err != nil {
-            return fmt.Errorf("Error setting `auto_storage`: %+v", err)
-        }
-        d.Set("core_quota", int(*accountBaseProperties.CoreQuota))
-        d.Set("pool_quota", int(*accountBaseProperties.PoolQuota))
-        d.Set("provisioning_state", string(accountBaseProperties.ProvisioningState))
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmBatchAccountUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -198,10 +172,11 @@ func resourceArmBatchAccountUpdate(d *schema.ResourceData, meta interface{}) err
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     autoStorage := d.Get("auto_storage").([]interface{})
+    keyName := d.Get("key_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := batch.AccountUpdateParameters{
-        Location: utils.String(location),
+    parameters := batch.AccountRegenerateKeyParameters{
+        KeyName: batch.AccountKeyType(keyName),
         AccountBaseProperties: &batch.AccountBaseProperties{
             AutoStorage: expandArmBatchAccountAutoStorageBaseProperties(autoStorage),
         },
@@ -257,19 +232,4 @@ func expandArmBatchAccountAutoStorageBaseProperties(input []interface{}) *batch.
         StorageAccountID: utils.String(storageAccountId),
     }
     return &result
-}
-
-
-func flattenArmBatchAccountAutoStorageBaseProperties(input *batch.AutoStorageBaseProperties) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if storageAccountId := input.StorageAccountID; storageAccountId != nil {
-        result["storage_account_id"] = *storageAccountId
-    }
-
-    return []interface{}{result}
 }

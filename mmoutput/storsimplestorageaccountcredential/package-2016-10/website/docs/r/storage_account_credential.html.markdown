@@ -28,19 +28,19 @@ Manage Azure StorageAccountCredential instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The manager name Changing this forces a new resource to be created.
+* `name` - (Required) The name of the storage account credential. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `cloud_type` - (Required) The cloud service provider
-
-* `credential_name` - (Required) The name of storage account credential to be fetched. Changing this forces a new resource to be created.
 
 * `enable_ssl` - (Required) SSL needs to be enabled or not
 
 * `end_point` - (Required) The storage endpoint
 
 * `login` - (Required) The storage account login
+
+* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `location` - (Optional) The storage account's geo location Changing this forces a new resource to be created.
 

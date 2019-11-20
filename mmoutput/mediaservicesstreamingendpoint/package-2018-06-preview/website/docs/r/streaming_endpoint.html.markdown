@@ -56,6 +56,8 @@ The following arguments are supported:
 
 * `max_cache_age` - (Optional) Max cache age
 
+* `scale_unit` - (Optional) The scale unit number of the StreamingEndpoint. Changing this forces a new resource to be created.
+
 * `scale_units` - (Optional) The number of scale units.
 
 * `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
@@ -114,18 +116,6 @@ The `cross_site_access_policy` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `host_name` - The StreamingEndpoint host name.
-
-* `provisioning_state` - The provisioning state of the StreamingEndpoint.
-
-* `resource_state` - The resource state of the StreamingEndpoint.
-
-* `free_trial_end_time` - The free trial expiration time.
-
-* `created` - The exact time the StreamingEndpoint was created.
-
-* `last_modified` - The exact time the StreamingEndpoint was last modified.
 
 * `id` - Fully qualified resource ID for the resource.
 

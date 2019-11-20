@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: VirtualNetworkGatewayConnection
+            go_type_name: ConnectionResetSharedKey
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -124,7 +124,7 @@ objects:
             go_type_name: VirtualNetworkGatewayPropertiesFormat
           '/properties/virtualNetworkGateway1/properties/ipConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: IpConfigurations
+            go_field_name: IPConfigurations
             go_type_name: VirtualNetworkGatewayIpConfiguration
           '/properties/virtualNetworkGateway1/properties/ipConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -135,10 +135,10 @@ objects:
             go_type_name: VirtualNetworkGatewayIpConfigurationPropertiesFormat
           '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: PrivateIpAddress
+            go_field_name: PrivateIPAddress
           '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: PrivateIpallocationMethod
+            go_field_name: PrivateIPAllocationMethod
             go_enum_type_name: IpAllocationMethod
           '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -149,7 +149,7 @@ objects:
             go_field_name: ID
           '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PublicIpAddress
+            go_field_name: PublicIPAddress
             go_type_name: SubResource
           '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -180,7 +180,7 @@ objects:
             go_field_name: ID
           '/properties/virtualNetworkGateway1/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: ResourceGuid
+            go_field_name: ResourceGUID
           '/properties/virtualNetworkGateway1/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Etag
@@ -260,7 +260,7 @@ objects:
             go_type_name: VirtualNetworkGatewayPropertiesFormat
           '/properties/virtualNetworkGateway2/properties/ipConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: IpConfigurations
+            go_field_name: IPConfigurations
             go_type_name: VirtualNetworkGatewayIpConfiguration
           '/properties/virtualNetworkGateway2/properties/ipConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -271,10 +271,10 @@ objects:
             go_type_name: VirtualNetworkGatewayIpConfigurationPropertiesFormat
           '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: PrivateIpAddress
+            go_field_name: PrivateIPAddress
           '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: PrivateIpallocationMethod
+            go_field_name: PrivateIPAllocationMethod
             go_enum_type_name: IpAllocationMethod
           '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -285,7 +285,7 @@ objects:
             go_field_name: ID
           '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PublicIpAddress
+            go_field_name: PublicIPAddress
             go_type_name: SubResource
           '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -316,7 +316,7 @@ objects:
             go_field_name: ID
           '/properties/virtualNetworkGateway2/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: ResourceGuid
+            go_field_name: ResourceGUID
           '/properties/virtualNetworkGateway2/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Etag
@@ -367,10 +367,10 @@ objects:
             go_field_name: AddressPrefixes
           '/properties/localNetworkGateway2/properties/gatewayIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: GatewayIpAddress
+            go_field_name: GatewayIPAddress
           '/properties/localNetworkGateway2/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: ResourceGuid
+            go_field_name: ResourceGUID
           '/properties/localNetworkGateway2/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Etag
@@ -430,25 +430,16 @@ objects:
             python_field_name: resource_guid
           '/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: ResourceGuid
+            go_field_name: ResourceGUID
           '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Etag
             python_field_name: etag
-      delete: !ruby/object:Api::Azure::SDKOperationDefinition
-        async: true
-        go_func_name: Delete
-        python_func_name: delete
-        request:
-          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
-            go_variable_name: resourceGroup
-            python_parameter_name: resource_group_name
-            python_variable_name: resource_group
-          'virtualNetworkGatewayConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: connections
-            go_variable_name: name
-            python_parameter_name: virtual_network_gateway_connection_name
-            python_variable_name: name
+          '/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Value
+            python_field_name: value
+          '/keyLength': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            go_field_name: KeyLength
+            python_field_name: key_length
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -464,492 +455,6 @@ objects:
             python_parameter_name: virtual_network_gateway_connection_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: VirtualNetworkGatewayConnectionPropertiesFormat
-            go_type_name: VirtualNetworkGatewayConnectionPropertiesFormat
-          '/properties/virtualNetworkGateway1': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: VirtualNetworkGateway1
-            go_type_name: VirtualNetworkGateway
-          '/properties/virtualNetworkGateway1/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Location
-          '/properties/virtualNetworkGateway1/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: Tags
-          '/properties/virtualNetworkGateway1/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: VirtualNetworkGatewayPropertiesFormat
-            go_type_name: VirtualNetworkGatewayPropertiesFormat
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: IpConfigurations
-            go_type_name: VirtualNetworkGatewayIpConfiguration
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: VirtualNetworkGatewayIpConfigurationPropertiesFormat
-            go_type_name: VirtualNetworkGatewayIpConfigurationPropertiesFormat
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PrivateIpAddress
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: PrivateIpallocationMethod
-            go_enum_type_name: IpAllocationMethod
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Subnet
-            go_type_name: SubResource
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PublicIpAddress
-            go_type_name: SubResource
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/virtualNetworkGateway1/properties/ipConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/properties/virtualNetworkGateway1/properties/gatewayType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: GatewayType
-            go_enum_type_name: VirtualNetworkGatewayType
-          '/properties/virtualNetworkGateway1/properties/vpnType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: VpnType
-            go_enum_type_name: VpnType
-          '/properties/virtualNetworkGateway1/properties/enableBgp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: EnableBgp
-          '/properties/virtualNetworkGateway1/properties/gatewayDefaultSite': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: GatewayDefaultSite
-            go_type_name: SubResource
-          '/properties/virtualNetworkGateway1/properties/gatewayDefaultSite/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/virtualNetworkGateway1/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceGuid
-          '/properties/virtualNetworkGateway1/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/virtualNetworkGateway1/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/properties/virtualNetworkGateway1/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/virtualNetworkGateway1/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/virtualNetworkGateway1/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Type
-          '/virtualNetworkGateway1': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: virtual_network_gateway1
-          '/virtualNetworkGateway1/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: location
-          '/virtualNetworkGateway1/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: tags
-          '/virtualNetworkGateway1/ipConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: ip_configurations
-          '/virtualNetworkGateway1/ipConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/virtualNetworkGateway1/ipConfigurations/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: private_ip_address
-          '/virtualNetworkGateway1/ipConfigurations/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: private_ipallocation_method
-          '/virtualNetworkGateway1/ipConfigurations/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: subnet
-          '/virtualNetworkGateway1/ipConfigurations/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/virtualNetworkGateway1/ipConfigurations/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: public_ip_address
-          '/virtualNetworkGateway1/ipConfigurations/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/virtualNetworkGateway1/ipConfigurations/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/virtualNetworkGateway1/ipConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/virtualNetworkGateway1/ipConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/virtualNetworkGateway1/gatewayType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: gateway_type
-          '/virtualNetworkGateway1/vpnType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: vpn_type
-          '/virtualNetworkGateway1/enableBgp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enable_bgp
-          '/virtualNetworkGateway1/gatewayDefaultSite': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: gateway_default_site
-          '/virtualNetworkGateway1/gatewayDefaultSite/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/virtualNetworkGateway1/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_guid
-          '/virtualNetworkGateway1/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/virtualNetworkGateway1/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/virtualNetworkGateway1/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/virtualNetworkGateway1/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/virtualNetworkGateway1/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type
-          '/properties/virtualNetworkGateway2': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: VirtualNetworkGateway2
-            go_type_name: VirtualNetworkGateway
-          '/properties/virtualNetworkGateway2/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Location
-          '/properties/virtualNetworkGateway2/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: Tags
-          '/properties/virtualNetworkGateway2/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: VirtualNetworkGatewayPropertiesFormat
-            go_type_name: VirtualNetworkGatewayPropertiesFormat
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: IpConfigurations
-            go_type_name: VirtualNetworkGatewayIpConfiguration
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: VirtualNetworkGatewayIpConfigurationPropertiesFormat
-            go_type_name: VirtualNetworkGatewayIpConfigurationPropertiesFormat
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PrivateIpAddress
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: PrivateIpallocationMethod
-            go_enum_type_name: IpAllocationMethod
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Subnet
-            go_type_name: SubResource
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PublicIpAddress
-            go_type_name: SubResource
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/virtualNetworkGateway2/properties/ipConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/properties/virtualNetworkGateway2/properties/gatewayType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: GatewayType
-            go_enum_type_name: VirtualNetworkGatewayType
-          '/properties/virtualNetworkGateway2/properties/vpnType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: VpnType
-            go_enum_type_name: VpnType
-          '/properties/virtualNetworkGateway2/properties/enableBgp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: EnableBgp
-          '/properties/virtualNetworkGateway2/properties/gatewayDefaultSite': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: GatewayDefaultSite
-            go_type_name: SubResource
-          '/properties/virtualNetworkGateway2/properties/gatewayDefaultSite/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/virtualNetworkGateway2/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceGuid
-          '/properties/virtualNetworkGateway2/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/virtualNetworkGateway2/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/properties/virtualNetworkGateway2/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/virtualNetworkGateway2/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/virtualNetworkGateway2/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Type
-          '/virtualNetworkGateway2': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: virtual_network_gateway2
-          '/virtualNetworkGateway2/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: location
-          '/virtualNetworkGateway2/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: tags
-          '/virtualNetworkGateway2/ipConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: ip_configurations
-          '/virtualNetworkGateway2/ipConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/virtualNetworkGateway2/ipConfigurations/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: private_ip_address
-          '/virtualNetworkGateway2/ipConfigurations/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: private_ipallocation_method
-          '/virtualNetworkGateway2/ipConfigurations/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: subnet
-          '/virtualNetworkGateway2/ipConfigurations/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/virtualNetworkGateway2/ipConfigurations/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: public_ip_address
-          '/virtualNetworkGateway2/ipConfigurations/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/virtualNetworkGateway2/ipConfigurations/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/virtualNetworkGateway2/ipConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/virtualNetworkGateway2/ipConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/virtualNetworkGateway2/gatewayType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: gateway_type
-          '/virtualNetworkGateway2/vpnType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: vpn_type
-          '/virtualNetworkGateway2/enableBgp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enable_bgp
-          '/virtualNetworkGateway2/gatewayDefaultSite': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: gateway_default_site
-          '/virtualNetworkGateway2/gatewayDefaultSite/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/virtualNetworkGateway2/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_guid
-          '/virtualNetworkGateway2/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/virtualNetworkGateway2/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/virtualNetworkGateway2/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/virtualNetworkGateway2/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/virtualNetworkGateway2/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type
-          '/properties/localNetworkGateway2': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LocalNetworkGateway2
-            go_type_name: LocalNetworkGateway
-          '/properties/localNetworkGateway2/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Location
-          '/properties/localNetworkGateway2/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: Tags
-          '/properties/localNetworkGateway2/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LocalNetworkGatewayPropertiesFormat
-            go_type_name: LocalNetworkGatewayPropertiesFormat
-          '/properties/localNetworkGateway2/properties/localNetworkAddressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LocalNetworkAddressSpace
-            go_type_name: AddressSpace
-          '/properties/localNetworkGateway2/properties/localNetworkAddressSpace/addressPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: AddressPrefixes
-          '/properties/localNetworkGateway2/properties/gatewayIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: GatewayIpAddress
-          '/properties/localNetworkGateway2/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceGuid
-          '/properties/localNetworkGateway2/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/properties/localNetworkGateway2/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Etag
-          '/properties/localNetworkGateway2/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/localNetworkGateway2/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/localNetworkGateway2/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Type
-          '/localNetworkGateway2': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: local_network_gateway2
-          '/localNetworkGateway2/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: location
-          '/localNetworkGateway2/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: tags
-          '/localNetworkGateway2/localNetworkAddressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: local_network_address_space
-          '/localNetworkGateway2/localNetworkAddressSpace/addressPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: address_prefixes
-          '/localNetworkGateway2/gatewayIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: gateway_ip_address
-          '/localNetworkGateway2/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_guid
-          '/localNetworkGateway2/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/localNetworkGateway2/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: etag
-          '/localNetworkGateway2/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/localNetworkGateway2/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/localNetworkGateway2/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type
-          '/properties/connectionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ConnectionType
-            go_enum_type_name: VirtualNetworkGatewayConnectionType
-          '/connectionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: connection_type
-          '/properties/routingWeight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: RoutingWeight
-          '/routingWeight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: routing_weight
-          '/properties/sharedKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SharedKey
-          '/sharedKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: shared_key
-          '/properties/connectionStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ConnectionStatus
-            go_enum_type_name: VirtualNetworkGatewayConnectionStatus
-          '/connectionStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: connection_status
-          '/properties/egressBytesTransferred': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: EgressBytesTransferred
-          '/egressBytesTransferred': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: egress_bytes_transferred
-          '/properties/ingressBytesTransferred': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: IngressBytesTransferred
-          '/ingressBytesTransferred': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: ingress_bytes_transferred
-          '/properties/peer': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Peer
-            go_type_name: SubResource
-          '/properties/peer/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/peer': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: peer
-          '/peer/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceGuid
-          '/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_guid
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Etag
-            python_field_name: etag
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -959,6 +464,21 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'virtualNetworkGatewayConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: connections
+            go_variable_name: name
+            python_parameter_name: virtual_network_gateway_connection_name
+            python_variable_name: name
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -980,7 +500,7 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The virtual network gateway connection shared key name.'
+        description: 'The virtual network gateway connection reset shared key Name.'
         required: true
         input: true
         azure_sdk_references: ['virtualNetworkGatewayConnectionName']
@@ -1342,12 +862,19 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['/etag']
-      # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Gets or sets Provisioning state of the VirtualNetworkGatewayConnection resource Updating/Deleting/Failed'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        name: 'value'
+        description: 'The virtual network connection shared key value'
+        required: false
+        input: true
+        azure_sdk_references: ['/value']
+      - !ruby/object:Api::Type::Integer
+        name: 'keyLength'
+        description: 'The virtual network connection reset shared key length'
+        required: false
+        input: true
+        azure_sdk_references: ['/keyLength']
+      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

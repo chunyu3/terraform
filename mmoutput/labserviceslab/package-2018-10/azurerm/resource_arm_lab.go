@@ -31,6 +31,13 @@ func resourceArmLab() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -38,14 +45,16 @@ func resourceArmLab() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "lab_account_name": {
-                Type: schema.TypeString,
+            "email_addresses": {
+                Type: schema.TypeList,
                 Required: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
             },
 
-            "lab_name": {
+            "lab_account_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -78,71 +87,8 @@ func resourceArmLab() *schema.Resource {
                 Default: string(labservices.Restricted),
             },
 
-            "created_by_object_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "created_by_user_principal_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "created_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "invitation_code": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "latest_operation_result": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "error_code": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "error_message": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "http_method": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "operation_url": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "request_uri": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "status": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "user_quota": {
-                Type: schema.TypeInt,
                 Computed: true,
             },
 
@@ -155,15 +101,15 @@ func resourceArmLabCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).labsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     labAccountName := d.Get("lab_account_name").(string)
-    labName := d.Get("lab_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labAccountName, labName)
+        existing, err := client.Get(ctx, resourceGroup, labAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Lab (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", labName, labAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Lab %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -172,15 +118,17 @@ func resourceArmLabCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
+    emailAddresses := d.Get("email_addresses").([]interface{})
     maxUsersInLab := d.Get("max_users_in_lab").(int)
     uniqueIdentifier := d.Get("unique_identifier").(string)
     usageQuota := d.Get("usage_quota").(string)
     userAccessMode := d.Get("user_access_mode").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    lab := labservices.Lab{
+    lab := labservices.LabFragment{
+        EmailAddresses: utils.ExpandStringSlice(emailAddresses),
         Location: utils.String(location),
-        LabProperties: &labservices.LabProperties{
+        LabPropertiesFragment: &labservices.LabPropertiesFragment{
             MaxUsersInLab: utils.Int32(int32(maxUsersInLab)),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             UsageQuota: utils.String(usageQuota),
@@ -190,17 +138,17 @@ func resourceArmLabCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labAccountName, labName, lab); err != nil {
-        return fmt.Errorf("Error creating Lab (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", labName, labAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labAccountName, name, lab); err != nil {
+        return fmt.Errorf("Error creating Lab %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labAccountName, labName)
+    resp, err := client.Get(ctx, resourceGroup, labAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Lab (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", labName, labAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Lab %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Lab (Lab Name %q / Lab Account Name %q / Resource Group %q) ID", labName, labAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Lab %q (Lab Account Name %q / Resource Group %q) ID", name, labAccountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -217,62 +165,45 @@ func resourceArmLabRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     labAccountName := id.Path["labaccounts"]
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
 
-    resp, err := client.Get(ctx, resourceGroup, labAccountName, labName)
+    resp, err := client.Get(ctx, resourceGroup, labAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Lab %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Lab (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", labName, labAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Lab %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if labProperties := resp.LabProperties; labProperties != nil {
-        d.Set("created_by_object_id", labProperties.CreatedByObjectID)
-        d.Set("created_by_user_principal_name", labProperties.CreatedByUserPrincipalName)
-        d.Set("created_date", (labProperties.CreatedDate).String())
-        d.Set("invitation_code", labProperties.InvitationCode)
-        if err := d.Set("latest_operation_result", flattenArmLabLatestOperationResult(labProperties.LatestOperationResult)); err != nil {
-            return fmt.Errorf("Error setting `latest_operation_result`: %+v", err)
-        }
-        d.Set("max_users_in_lab", int(*labProperties.MaxUsersInLab))
-        d.Set("provisioning_state", labProperties.ProvisioningState)
-        d.Set("unique_identifier", labProperties.UniqueIdentifier)
-        d.Set("usage_quota", labProperties.UsageQuota)
-        d.Set("user_access_mode", string(labProperties.UserAccessMode))
-        d.Set("user_quota", int(*labProperties.UserQuota))
-    }
     d.Set("lab_account_name", labAccountName)
-    d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmLabUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).labsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
+    emailAddresses := d.Get("email_addresses").([]interface{})
     labAccountName := d.Get("lab_account_name").(string)
-    labName := d.Get("lab_name").(string)
     maxUsersInLab := d.Get("max_users_in_lab").(int)
     uniqueIdentifier := d.Get("unique_identifier").(string)
     usageQuota := d.Get("usage_quota").(string)
     userAccessMode := d.Get("user_access_mode").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    lab := labservices.Lab{
-        Location: utils.String(location),
-        LabProperties: &labservices.LabProperties{
+    lab := labservices.LabFragment{
+        EmailAddresses: utils.ExpandStringSlice(emailAddresses),
+        LabPropertiesFragment: &labservices.LabPropertiesFragment{
             MaxUsersInLab: utils.Int32(int32(maxUsersInLab)),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             UsageQuota: utils.String(usageQuota),
@@ -282,8 +213,8 @@ func resourceArmLabUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labAccountName, labName, lab); err != nil {
-        return fmt.Errorf("Error updating Lab (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", labName, labAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, labAccountName, name, lab); err != nil {
+        return fmt.Errorf("Error updating Lab %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
     }
 
     return resourceArmLabRead(d, meta)
@@ -300,33 +231,21 @@ func resourceArmLabDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     labAccountName := id.Path["labaccounts"]
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
 
-    future, err := client.Delete(ctx, resourceGroup, labAccountName, labName)
+    future, err := client.Delete(ctx, resourceGroup, labAccountName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Lab (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", labName, labAccountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Lab %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Lab (Lab Name %q / Lab Account Name %q / Resource Group %q): %+v", labName, labAccountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Lab %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
         }
     }
 
     return nil
-}
-
-
-func flattenArmLabLatestOperationResult(input *labservices.LatestOperationResult) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
 }

@@ -73,32 +73,24 @@ func resourceArmTransactionNode() *schema.Resource {
                 },
             },
 
+            "key_name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "password": {
                 Type: schema.TypeString,
                 Optional: true,
             },
 
-            "dns": {
+            "value": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "public_key": {
-                Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
             },
 
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "user_name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -128,14 +120,18 @@ func resourceArmTransactionNodeCreate(d *schema.ResourceData, meta interface{}) 
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     firewallRules := d.Get("firewall_rules").([]interface{})
+    keyName := d.Get("key_name").(string)
     password := d.Get("password").(string)
+    value := d.Get("value").(string)
 
     transactionNode := blockchain.TransactionNodeUpdate{
+        KeyName: utils.String(keyName),
         Location: utils.String(location),
         TransactionNodePropertiesUpdate: &blockchain.TransactionNodePropertiesUpdate{
             FirewallRules: expandArmTransactionNodeFirewallRule(firewallRules),
             Password: utils.String(password),
         },
+        Value: utils.String(value),
     }
 
 
@@ -186,20 +182,7 @@ func resourceArmTransactionNodeRead(d *schema.ResourceData, meta interface{}) er
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
     d.Set("blockchain_member_name", blockchainMemberName)
-    if transactionNodePropertiesUpdate := resp.TransactionNodePropertiesUpdate; transactionNodePropertiesUpdate != nil {
-        d.Set("dns", transactionNodePropertiesUpdate.Dns)
-        if err := d.Set("firewall_rules", flattenArmTransactionNodeFirewallRule(transactionNodePropertiesUpdate.FirewallRules)); err != nil {
-            return fmt.Errorf("Error setting `firewall_rules`: %+v", err)
-        }
-        d.Set("password", transactionNodePropertiesUpdate.Password)
-        d.Set("provisioning_state", string(transactionNodePropertiesUpdate.ProvisioningState))
-        d.Set("public_key", transactionNodePropertiesUpdate.PublicKey)
-        d.Set("user_name", transactionNodePropertiesUpdate.UserName)
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -213,14 +196,17 @@ func resourceArmTransactionNodeUpdate(d *schema.ResourceData, meta interface{}) 
     resourceGroup := d.Get("resource_group").(string)
     blockchainMemberName := d.Get("blockchain_member_name").(string)
     firewallRules := d.Get("firewall_rules").([]interface{})
+    keyName := d.Get("key_name").(string)
     password := d.Get("password").(string)
+    value := d.Get("value").(string)
 
     transactionNode := blockchain.TransactionNodeUpdate{
-        Location: utils.String(location),
+        KeyName: utils.String(keyName),
         TransactionNodePropertiesUpdate: &blockchain.TransactionNodePropertiesUpdate{
             FirewallRules: expandArmTransactionNodeFirewallRule(firewallRules),
             Password: utils.String(password),
         },
+        Value: utils.String(value),
     }
 
 
@@ -270,38 +256,12 @@ func expandArmTransactionNodeFirewallRule(input []interface{}) *[]blockchain.Fir
         endIpAddress := v["end_ip_address"].(string)
 
         result := blockchain.FirewallRule{
-            EndIpAddress: utils.String(endIpAddress),
+            EndIPAddress: utils.String(endIpAddress),
             RuleName: utils.String(ruleName),
-            StartIpAddress: utils.String(startIpAddress),
+            StartIPAddress: utils.String(startIpAddress),
         }
 
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmTransactionNodeFirewallRule(input *[]blockchain.FirewallRule) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if endIpAddress := item.EndIpAddress; endIpAddress != nil {
-            v["end_ip_address"] = *endIpAddress
-        }
-        if ruleName := item.RuleName; ruleName != nil {
-            v["rule_name"] = *ruleName
-        }
-        if startIpAddress := item.StartIpAddress; startIpAddress != nil {
-            v["start_ip_address"] = *startIpAddress
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

@@ -39,7 +39,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: FirewallRule
+            go_type_name: FirewallRuleList
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -54,13 +54,36 @@ objects:
             python_field_name: start_ip_address
           '/properties/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: StartIpAddress
+            go_field_name: StartIPAddress
           '/endIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: end_ip_address
           '/properties/endIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: EndIpAddress
+            go_field_name: EndIPAddress
+          '/values': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Values
+            go_type_name: FirewallRule
+            python_field_name: values
+          '/values/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/values/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerFirewallRuleProperties
+            go_type_name: ServerFirewallRuleProperties
+          '/values/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: start_ip_address
+          '/values/properties/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StartIPAddress
+          '/values/endIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: end_ip_address
+          '/values/properties/endIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EndIPAddress
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -100,25 +123,6 @@ objects:
             python_parameter_name: firewall_rule_name
             python_variable_name: name
         response:
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ServerFirewallRuleProperties
-            go_type_name: ServerFirewallRuleProperties
-          '/properties/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StartIpAddress
-          '/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: start_ip_address
-          '/properties/endIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EndIpAddress
-          '/endIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: end_ip_address
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -177,6 +181,28 @@ objects:
         description: 'The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value ''0.0.0.0'' for all Azure-internal IP addresses.'
         required: false
         azure_sdk_references: ['/endIpAddress', '/properties/endIpAddress']
+      - !ruby/object:Api::Type::Array
+        name: 'values'
+        description: ''
+        required: false
+        azure_sdk_references: ['/values']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/values/name']
+            - !ruby/object:Api::Type::String
+              name: 'startIpAddress'
+              description: 'The start IP address of the firewall rule. Must be IPv4 format. Use value ''0.0.0.0'' for all Azure-internal IP addresses.'
+              required: false
+              azure_sdk_references: ['/values/startIpAddress', '/values/properties/startIpAddress']
+            - !ruby/object:Api::Type::String
+              name: 'endIpAddress'
+              description: 'The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value ''0.0.0.0'' for all Azure-internal IP addresses.'
+              required: false
+              azure_sdk_references: ['/values/endIpAddress', '/values/properties/endIpAddress']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

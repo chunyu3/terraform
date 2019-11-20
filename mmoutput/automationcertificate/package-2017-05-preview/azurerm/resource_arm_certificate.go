@@ -56,31 +56,6 @@ func resourceArmCertificate() *schema.Resource {
                 Optional: true,
             },
 
-            "creation_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "expiry_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "is_exportable": {
-                Type: schema.TypeBool,
-                Computed: true,
-            },
-
-            "last_modified_time": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "thumbprint": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -164,14 +139,6 @@ func resourceArmCertificateRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
-    if certificateUpdateProperties := resp.CertificateUpdateProperties; certificateUpdateProperties != nil {
-        d.Set("creation_time", (certificateUpdateProperties.CreationTime).String())
-        d.Set("description", certificateUpdateProperties.Description)
-        d.Set("expiry_time", (certificateUpdateProperties.ExpiryTime).String())
-        d.Set("is_exportable", certificateUpdateProperties.IsExportable)
-        d.Set("last_modified_time", (certificateUpdateProperties.LastModifiedTime).String())
-        d.Set("thumbprint", certificateUpdateProperties.Thumbprint)
-    }
     d.Set("type", resp.Type)
 
     return nil

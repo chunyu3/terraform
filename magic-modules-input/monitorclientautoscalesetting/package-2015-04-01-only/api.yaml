@@ -176,7 +176,7 @@ objects:
             go_field_name: MetricName
           '/properties/profiles/rules/metricTrigger/metricResourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: MetricResourceUri
+            go_field_name: MetricResourceURI
           '/properties/profiles/rules/metricTrigger/timeGrain': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
             applicable_to: [go]
             go_field_name: TimeGrain
@@ -303,7 +303,7 @@ objects:
             go_type_name: WebhookNotification
           '/properties/notifications/webhooks/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: ServiceUri
+            go_field_name: ServiceURI
           '/properties/notifications/webhooks/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
             go_field_name: {"$id":"534","$type":"DictionaryType","valueType":{"$id":"535","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"536","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"537","fixed":false},"deprecated":false}
@@ -324,7 +324,7 @@ objects:
             python_field_name: target_resource_uri
           '/properties/targetResourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: TargetResourceUri
+            go_field_name: TargetResourceURI
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -368,294 +368,6 @@ objects:
             python_parameter_name: autoscale_setting_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AutoscaleSetting
-            go_type_name: AutoscaleSetting
-          '/properties/profiles': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Profiles
-            go_type_name: AutoscaleProfile
-          '/properties/profiles/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/profiles/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Capacity
-            go_type_name: ScaleCapacity
-          '/properties/profiles/capacity/minimum': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Minimum
-          '/properties/profiles/capacity/maximum': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Maximum
-          '/properties/profiles/capacity/default': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Default
-          '/properties/profiles/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Rules
-            go_type_name: ScaleRule
-          '/properties/profiles/rules/metricTrigger': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: MetricTrigger
-            go_type_name: MetricTrigger
-          '/properties/profiles/rules/metricTrigger/metricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: MetricName
-          '/properties/profiles/rules/metricTrigger/metricResourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: MetricResourceUri
-          '/properties/profiles/rules/metricTrigger/timeGrain': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: TimeGrain
-          '/properties/profiles/rules/metricTrigger/statistic': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Statistic
-            go_enum_type_name: MetricStatisticType
-          '/properties/profiles/rules/metricTrigger/timeWindow': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: TimeWindow
-          '/properties/profiles/rules/metricTrigger/timeAggregation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: TimeAggregation
-            go_enum_type_name: TimeAggregationType
-          '/properties/profiles/rules/metricTrigger/operator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Operator
-            go_enum_type_name: ComparisonOperationType
-          '/properties/profiles/rules/metricTrigger/threshold': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [go]
-            go_field_name: Threshold
-          '/properties/profiles/rules/scaleAction': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ScaleAction
-            go_type_name: ScaleAction
-          '/properties/profiles/rules/scaleAction/direction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Direction
-            go_enum_type_name: ScaleDirection
-          '/properties/profiles/rules/scaleAction/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Type
-            go_enum_type_name: ScaleType
-          '/properties/profiles/rules/scaleAction/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/properties/profiles/rules/scaleAction/cooldown': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: Cooldown
-          '/properties/profiles/fixedDate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: FixedDate
-            go_type_name: TimeWindow
-          '/properties/profiles/fixedDate/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TimeZone
-          '/properties/profiles/fixedDate/start': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: Start
-          '/properties/profiles/fixedDate/end': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: End
-          '/properties/profiles/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Recurrence
-            go_type_name: Recurrence
-          '/properties/profiles/recurrence/frequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Frequency
-            go_enum_type_name: RecurrenceFrequency
-          '/properties/profiles/recurrence/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Schedule
-            go_type_name: RecurrentSchedule
-          '/properties/profiles/recurrence/schedule/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TimeZone
-          '/properties/profiles/recurrence/schedule/days': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: Days
-          '/properties/profiles/recurrence/schedule/hours': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
-            applicable_to: [go]
-            go_field_name: Hours
-          '/properties/profiles/recurrence/schedule/minutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
-            applicable_to: [go]
-            go_field_name: Minutes
-          '/profiles': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: profiles
-          '/profiles/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/profiles/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: capacity
-          '/profiles/capacity/minimum': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: minimum
-          '/profiles/capacity/maximum': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: maximum
-          '/profiles/capacity/default': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: default
-          '/profiles/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: rules
-          '/profiles/rules/metricTrigger': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: metric_trigger
-          '/profiles/rules/metricTrigger/metricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: metric_name
-          '/profiles/rules/metricTrigger/metricResourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: metric_resource_uri
-          '/profiles/rules/metricTrigger/timeGrain': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: time_grain
-          '/profiles/rules/metricTrigger/statistic': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: statistic
-          '/profiles/rules/metricTrigger/timeWindow': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: time_window
-          '/profiles/rules/metricTrigger/timeAggregation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: time_aggregation
-          '/profiles/rules/metricTrigger/operator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: operator
-          '/profiles/rules/metricTrigger/threshold': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
-            applicable_to: [python]
-            python_field_name: threshold
-          '/profiles/rules/scaleAction': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: scale_action
-          '/profiles/rules/scaleAction/direction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: direction
-          '/profiles/rules/scaleAction/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: type
-          '/profiles/rules/scaleAction/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
-          '/profiles/rules/scaleAction/cooldown': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: cooldown
-          '/profiles/fixedDate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: fixed_date
-          '/profiles/fixedDate/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: time_zone
-          '/profiles/fixedDate/start': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: start
-          '/profiles/fixedDate/end': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: end
-          '/profiles/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: recurrence
-          '/profiles/recurrence/frequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: frequency
-          '/profiles/recurrence/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: schedule
-          '/profiles/recurrence/schedule/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: time_zone
-          '/profiles/recurrence/schedule/days': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: days
-          '/profiles/recurrence/schedule/hours': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
-            applicable_to: [python]
-            python_field_name: hours
-          '/profiles/recurrence/schedule/minutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
-            applicable_to: [python]
-            python_field_name: minutes
-          '/properties/notifications': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Notifications
-            go_type_name: AutoscaleNotification
-          '/properties/notifications/operation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Operation
-          '/properties/notifications/email': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Email
-            go_type_name: EmailNotification
-          '/properties/notifications/email/sendToSubscriptionAdministrator': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: SendToSubscriptionAdministrator
-          '/properties/notifications/email/sendToSubscriptionCoAdministrators': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: SendToSubscriptionCoAdministrators
-          '/properties/notifications/email/customEmails': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: CustomEmails
-          '/properties/notifications/webhooks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Webhooks
-            go_type_name: WebhookNotification
-          '/properties/notifications/webhooks/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServiceUri
-          '/properties/notifications/webhooks/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: {"$id":"534","$type":"DictionaryType","valueType":{"$id":"535","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"536","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"537","fixed":false},"deprecated":false}
-          '/notifications': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: notifications
-          '/notifications/operation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: operation
-          '/notifications/email': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: email
-          '/notifications/email/sendToSubscriptionAdministrator': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: send_to_subscription_administrator
-          '/notifications/email/sendToSubscriptionCoAdministrators': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: send_to_subscription_co_administrators
-          '/notifications/email/customEmails': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: custom_emails
-          '/notifications/webhooks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: webhooks
-          '/notifications/webhooks/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: service_uri
-          '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: Enabled
-          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enabled
-          '/properties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/properties/targetResourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetResourceUri
-          '/targetResourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_resource_uri
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -665,10 +377,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscription
-        python_func_name: list_by_subscription
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -678,6 +386,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
 
     description: |
       Manage Azure AutoscaleSetting instance.

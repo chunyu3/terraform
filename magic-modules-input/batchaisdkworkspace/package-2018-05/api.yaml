@@ -114,38 +114,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: WorkspaceProperties
-            go_type_name: WorkspaceProperties
-          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreationTime
-          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: creation_time
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: ProvisioningStateTransitionTime
-          '/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: provisioning_state_transition_time
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
-          'maxresults': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            id_portion: null
-            go_variable_name: maxresults
-            python_parameter_name: maxresults
-            python_variable_name: maxresults
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -160,10 +128,25 @@ objects:
             go_variable_name: maxresults
             python_parameter_name: maxresults
             python_variable_name: maxresults
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'maxresults': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            id_portion: null
+            go_variable_name: maxresults
+            python_parameter_name: maxresults
+            python_variable_name: maxresults
 
     description: |
       Manage Azure Workspace instance.
     properties:
+      - !ruby/object:Api::Type::Integer
+        name: 'maxresults'
+        description: 'The maximum number of items to return in the response. A maximum of 1000 files can be returned.'
+        required: false
+        input: true
+        azure_sdk_references: ['maxresults']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
         description: 'Name of the resource group to which the resource belongs.'
@@ -188,12 +171,6 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
-      - !ruby/object:Api::Type::Integer
-        name: 'maxresults'
-        description: 'The maximum number of items to return in the response. A maximum of 1000 files can be returned.'
-        required: false
-        input: true
-        azure_sdk_references: ['maxresults']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -210,23 +187,3 @@ objects:
         description: 'The type of the resource'
         output: true
         azure_sdk_references: ['/type']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
-        description: 'Time when the Workspace was created.'
-        output: true
-        azure_sdk_references: ['/creationTime', '/properties/creationTime']
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The provisioned state of the Workspace'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :creating
-          - :succeeded
-          - :failed
-          - :deleting
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'provisioningStateTransitionTime'
-        description: 'The time at which the workspace entered its current provisioning state.'
-        output: true
-        azure_sdk_references: ['/provisioningStateTransitionTime', '/properties/provisioningStateTransitionTime']

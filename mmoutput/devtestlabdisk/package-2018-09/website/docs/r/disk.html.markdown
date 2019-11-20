@@ -50,6 +50,8 @@ The following arguments are supported:
 
 * `leased_by_lab_vm_id` - (Optional) The resource ID of the VM to which this disk is leased.
 
+* `leased_by_lab_vm_id` - (Optional) The resource ID of the Lab VM to which the disk is attached. Changing this forces a new resource to be created.
+
 * `managed_disk_id` - (Optional) When backed by managed disk, this is the ID of the compute disk resource.
 
 * `tags` - (Optional) The tags of the resource. Changing this forces a new resource to be created.
@@ -57,12 +59,6 @@ The following arguments are supported:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `created_date` - The creation date of the disk.
-
-* `provisioning_state` - The provisioning status of the resource.
-
-* `unique_identifier` - The unique immutable identifier of a resource (Guid).
 
 * `id` - The identifier of the resource.
 

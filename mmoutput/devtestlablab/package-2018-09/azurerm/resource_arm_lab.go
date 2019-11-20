@@ -40,35 +40,76 @@ func resourceArmLab() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "announcement": {
+            "allow_claim": {
+                Type: schema.TypeBool,
+                Optional: true,
+            },
+
+            "artifact_deployment_status": {
                 Type: schema.TypeList,
                 Optional: true,
                 MaxItems: 1,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "enabled": {
+                        "artifacts_applied": {
+                            Type: schema.TypeInt,
+                            Optional: true,
+                        },
+                        "deployment_status": {
                             Type: schema.TypeString,
                             Optional: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(devtestlab.Enabled),
-                                string(devtestlab.Disabled),
-                            }, false),
-                            Default: string(devtestlab.Enabled),
                         },
-                        "expiration_date": {
+                        "total_artifacts": {
+                            Type: schema.TypeInt,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
+
+            "artifacts": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "artifact_id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "artifact_title": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "deployment_status_message": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "install_time": {
                             Type: schema.TypeString,
                             Optional: true,
                             ValidateFunc: validateRFC3339Date,
                         },
-                        "expired": {
-                            Type: schema.TypeBool,
+                        "parameters": {
+                            Type: schema.TypeList,
                             Optional: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "name": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "value": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                },
+                            },
                         },
-                        "markdown": {
+                        "status": {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "title": {
+                        "vm_extension_status_message": {
                             Type: schema.TypeString,
                             Optional: true,
                         },
@@ -76,66 +117,362 @@ func resourceArmLab() *schema.Resource {
                 },
             },
 
-            "environment_permission": {
+            "blob_name": {
                 Type: schema.TypeString,
                 Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(devtestlab.Reader),
-                    string(devtestlab.Contributor),
-                }, false),
-                Default: string(devtestlab.Reader),
+                ForceNew: true,
             },
 
-            "extended_properties": {
-                Type: schema.TypeMap,
-                Optional: true,
-                Elem: &schema.Schema{Type: schema.TypeString},
-            },
-
-            "lab_storage_type": {
+            "blob_storage_absolute_sas_uri": {
                 Type: schema.TypeString,
                 Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(devtestlab.Standard),
-                    string(devtestlab.Premium),
-                    string(devtestlab.StandardSSD),
-                }, false),
-                Default: string(devtestlab.Standard),
+                ForceNew: true,
             },
 
-            "mandatory_artifacts_resource_ids_linux": {
-                Type: schema.TypeList,
-                Optional: true,
-                Elem: &schema.Schema{
-                    Type: schema.TypeString,
-                },
-            },
-
-            "mandatory_artifacts_resource_ids_windows": {
-                Type: schema.TypeList,
-                Optional: true,
-                Elem: &schema.Schema{
-                    Type: schema.TypeString,
-                },
-            },
-
-            "premium_data_disks": {
-                Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(devtestlab.Disabled),
-                    string(devtestlab.Enabled),
-                }, false),
-                Default: string(devtestlab.Disabled),
-            },
-
-            "support": {
+            "bulk_creation_parameters": {
                 Type: schema.TypeList,
                 Optional: true,
                 MaxItems: 1,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "enabled": {
+                        "instance_count": {
+                            Type: schema.TypeInt,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
+
+            "compute_id": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "created_by_user": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "created_by_user_id": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "created_date": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validateRFC3339Date,
+            },
+
+            "custom_image_id": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "data_disk_parameters": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "attach_new_data_disk_options": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            MaxItems: 1,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "disk_name": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "disk_size_gi_b": {
+                                        Type: schema.TypeInt,
+                                        Optional: true,
+                                    },
+                                    "disk_type": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                        ValidateFunc: validation.StringInSlice([]string{
+                                            string(devtestlab.Standard),
+                                            string(devtestlab.Premium),
+                                            string(devtestlab.StandardSSD),
+                                        }, false),
+                                        Default: string(devtestlab.Standard),
+                                    },
+                                },
+                            },
+                        },
+                        "existing_lab_disk_id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "host_caching": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(devtestlab.None),
+                                string(devtestlab.ReadOnly),
+                                string(devtestlab.ReadWrite),
+                            }, false),
+                            Default: string(devtestlab.None),
+                        },
+                    },
+                },
+            },
+
+            "destination_virtual_machine_name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "disallow_public_ip_address": {
+                Type: schema.TypeBool,
+                Optional: true,
+            },
+
+            "environment_id": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "expiration_date": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validateRFC3339Date,
+            },
+
+            "fqdn": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "gallery_image_reference": {
+                Type: schema.TypeList,
+                Optional: true,
+                MaxItems: 1,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "offer": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "os_type": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "publisher": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "sku": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "version": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
+
+            "is_authentication_with_ssh_key": {
+                Type: schema.TypeBool,
+                Optional: true,
+            },
+
+            "lab_subnet_name": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "lab_virtual_network_id": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "last_known_power_state": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "network_interface": {
+                Type: schema.TypeList,
+                Optional: true,
+                MaxItems: 1,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "dns_name": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "private_ip_address": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "public_ip_address": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "public_ip_address_id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "rdp_authority": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "shared_public_ip_address_configuration": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            MaxItems: 1,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "inbound_nat_rules": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "backend_port": {
+                                                    Type: schema.TypeInt,
+                                                    Optional: true,
+                                                },
+                                                "frontend_port": {
+                                                    Type: schema.TypeInt,
+                                                    Optional: true,
+                                                },
+                                                "transport_protocol": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                    ValidateFunc: validation.StringInSlice([]string{
+                                                        string(devtestlab.Tcp),
+                                                        string(devtestlab.Udp),
+                                                    }, false),
+                                                    Default: string(devtestlab.Tcp),
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        "ssh_authority": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "subnet_id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "virtual_network_id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
+
+            "notes": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "os_type": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "owner_object_id": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "owner_user_principal_name": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "password": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "plan_id": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "schedule_parameters": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "daily_recurrence": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            MaxItems: 1,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "time": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                },
+                            },
+                        },
+                        "hourly_recurrence": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            MaxItems: 1,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "minute": {
+                                        Type: schema.TypeInt,
+                                        Optional: true,
+                                    },
+                                },
+                            },
+                        },
+                        "location": azure.SchemaLocation(),
+                        "name": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "notification_settings": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            MaxItems: 1,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "email_recipient": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "notification_locale": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "status": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                        ValidateFunc: validation.StringInSlice([]string{
+                                            string(devtestlab.Enabled),
+                                            string(devtestlab.Disabled),
+                                        }, false),
+                                        Default: string(devtestlab.Enabled),
+                                    },
+                                    "time_in_minutes": {
+                                        Type: schema.TypeInt,
+                                        Optional: true,
+                                    },
+                                    "webhook_url": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                },
+                            },
+                        },
+                        "status": {
                             Type: schema.TypeString,
                             Optional: true,
                             ValidateFunc: validation.StringInSlice([]string{
@@ -144,75 +481,88 @@ func resourceArmLab() *schema.Resource {
                             }, false),
                             Default: string(devtestlab.Enabled),
                         },
-                        "markdown": {
+                        "tags": tags.Schema(),
+                        "target_resource_id": {
                             Type: schema.TypeString,
                             Optional: true,
+                        },
+                        "task_type": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "time_zone_id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "weekly_recurrence": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            MaxItems: 1,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "time": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "weekdays": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Schema{
+                                            Type: schema.TypeString,
+                                        },
+                                    },
+                                },
+                            },
                         },
                     },
                 },
             },
 
-            "artifacts_storage_account": {
+            "size": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
             },
 
-            "created_date": {
+            "source_virtual_machine_resource_id": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
             },
 
-            "default_premium_storage_account": {
+            "ssh_key": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
             },
 
-            "default_storage_account": {
+            "storage_type": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
             },
 
-            "load_balancer_id": {
+            "usage_start_date": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
+                ValidateFunc: validateRFC3339Date,
             },
 
-            "network_security_group_id": {
+            "user_name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
             },
 
-            "premium_data_disk_storage_account": {
+            "virtual_machine_creation_source": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "public_ip_id": {
-                Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(devtestlab.FromCustomImage),
+                    string(devtestlab.FromGalleryImage),
+                    string(devtestlab.FromSharedGalleryImage),
+                }, false),
+                Default: string(devtestlab.FromCustomImage),
             },
 
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "unique_identifier": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "vault_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "vm_creation_resource_group": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -242,29 +592,87 @@ func resourceArmLabCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
-    announcement := d.Get("announcement").([]interface{})
-    environmentPermission := d.Get("environment_permission").(string)
-    extendedProperties := d.Get("extended_properties").(map[string]interface{})
-    labStorageType := d.Get("lab_storage_type").(string)
-    mandatoryArtifactsResourceIdsLinux := d.Get("mandatory_artifacts_resource_ids_linux").([]interface{})
-    mandatoryArtifactsResourceIdsWindows := d.Get("mandatory_artifacts_resource_ids_windows").([]interface{})
-    premiumDataDisks := d.Get("premium_data_disks").(string)
-    support := d.Get("support").([]interface{})
+    allowClaim := d.Get("allow_claim").(bool)
+    artifactDeploymentStatus := d.Get("artifact_deployment_status").([]interface{})
+    artifacts := d.Get("artifacts").([]interface{})
+    blobName := d.Get("blob_name").(string)
+    blobStorageAbsoluteSasUri := d.Get("blob_storage_absolute_sas_uri").(string)
+    bulkCreationParameters := d.Get("bulk_creation_parameters").([]interface{})
+    computeId := d.Get("compute_id").(string)
+    createdByUser := d.Get("created_by_user").(string)
+    createdByUserId := d.Get("created_by_user_id").(string)
+    createdDate := d.Get("created_date").(string)
+    customImageId := d.Get("custom_image_id").(string)
+    dataDiskParameters := d.Get("data_disk_parameters").([]interface{})
+    destinationVirtualMachineName := d.Get("destination_virtual_machine_name").(string)
+    disallowPublicIpAddress := d.Get("disallow_public_ip_address").(bool)
+    environmentId := d.Get("environment_id").(string)
+    expirationDate := d.Get("expiration_date").(string)
+    fqdn := d.Get("fqdn").(string)
+    galleryImageReference := d.Get("gallery_image_reference").([]interface{})
+    isAuthenticationWithSshKey := d.Get("is_authentication_with_ssh_key").(bool)
+    labSubnetName := d.Get("lab_subnet_name").(string)
+    labVirtualNetworkId := d.Get("lab_virtual_network_id").(string)
+    lastKnownPowerState := d.Get("last_known_power_state").(string)
+    networkInterface := d.Get("network_interface").([]interface{})
+    notes := d.Get("notes").(string)
+    osType := d.Get("os_type").(string)
+    ownerObjectId := d.Get("owner_object_id").(string)
+    ownerUserPrincipalName := d.Get("owner_user_principal_name").(string)
+    password := d.Get("password").(string)
+    planId := d.Get("plan_id").(string)
+    scheduleParameters := d.Get("schedule_parameters").([]interface{})
+    size := d.Get("size").(string)
+    sourceVirtualMachineResourceId := d.Get("source_virtual_machine_resource_id").(string)
+    sshKey := d.Get("ssh_key").(string)
+    storageType := d.Get("storage_type").(string)
+    usageStartDate := d.Get("usage_start_date").(string)
+    userName := d.Get("user_name").(string)
+    virtualMachineCreationSource := d.Get("virtual_machine_creation_source").(string)
     t := d.Get("tags").(map[string]interface{})
 
     lab := devtestlab.LabFragment{
+        BlobName: utils.String(blobName),
+        BlobStorageAbsoluteSasURI: utils.String(blobStorageAbsoluteSasUri),
+        DestinationVirtualMachineName: utils.String(destinationVirtualMachineName),
         Location: utils.String(location),
-        LabPropertiesFragment: &devtestlab.LabPropertiesFragment{
-            Announcement: expandArmLabLabAnnouncementPropertiesFragment(announcement),
-            EnvironmentPermission: devtestlab.EnvironmentPermission(environmentPermission),
-            ExtendedProperties: utils.ExpandKeyValuePairs(extendedProperties),
-            LabStorageType: devtestlab.StorageType(labStorageType),
-            MandatoryArtifactsResourceIdsLinux: utils.ExpandStringSlice(mandatoryArtifactsResourceIdsLinux),
-            MandatoryArtifactsResourceIdsWindows: utils.ExpandStringSlice(mandatoryArtifactsResourceIdsWindows),
-            PremiumDataDisks: devtestlab.PremiumDataDisk(premiumDataDisks),
-            Support: expandArmLabLabSupportPropertiesFragment(support),
+        LabVirtualMachineCreationParameterProperties: &devtestlab.LabVirtualMachineCreationParameterProperties{
+            AllowClaim: utils.Bool(allowClaim),
+            ArtifactDeploymentStatus: expandArmLabArtifactDeploymentStatusProperties(artifactDeploymentStatus),
+            Artifacts: expandArmLabArtifactInstallProperties(artifacts),
+            BulkCreationParameters: expandArmLabBulkCreationParameters(bulkCreationParameters),
+            ComputeID: utils.String(computeId),
+            CreatedByUser: utils.String(createdByUser),
+            CreatedByUserID: utils.String(createdByUserId),
+            CreatedDate: convertStringToDate(createdDate),
+            CustomImageID: utils.String(customImageId),
+            DataDiskParameters: expandArmLabDataDiskProperties(dataDiskParameters),
+            DisallowPublicIPAddress: utils.Bool(disallowPublicIpAddress),
+            EnvironmentID: utils.String(environmentId),
+            ExpirationDate: convertStringToDate(expirationDate),
+            Fqdn: utils.String(fqdn),
+            GalleryImageReference: expandArmLabGalleryImageReference(galleryImageReference),
+            IsAuthenticationWithSSHKey: utils.Bool(isAuthenticationWithSshKey),
+            LabSubnetName: utils.String(labSubnetName),
+            LabVirtualNetworkID: utils.String(labVirtualNetworkId),
+            LastKnownPowerState: utils.String(lastKnownPowerState),
+            NetworkInterface: expandArmLabNetworkInterfaceProperties(networkInterface),
+            Notes: utils.String(notes),
+            OsType: utils.String(osType),
+            OwnerObjectID: utils.String(ownerObjectId),
+            OwnerUserPrincipalName: utils.String(ownerUserPrincipalName),
+            Password: utils.String(password),
+            PlanID: utils.String(planId),
+            ScheduleParameters: expandArmLabScheduleCreationParameter(scheduleParameters),
+            Size: utils.String(size),
+            SSHKey: utils.String(sshKey),
+            StorageType: utils.String(storageType),
+            UserName: utils.String(userName),
+            VirtualMachineCreationSource: devtestlab.VirtualMachineCreationSource(virtualMachineCreationSource),
         },
+        SourceVirtualMachineResourceID: utils.String(sourceVirtualMachineResourceId),
         Tags: tags.Expand(t),
+        UsageStartDate: convertStringToDate(usageStartDate),
     }
 
 
@@ -313,38 +721,9 @@ func resourceArmLabRead(d *schema.ResourceData, meta interface{}) error {
 
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if labPropertiesFragment := resp.LabPropertiesFragment; labPropertiesFragment != nil {
-        if err := d.Set("announcement", flattenArmLabLabAnnouncementPropertiesFragment(labPropertiesFragment.Announcement)); err != nil {
-            return fmt.Errorf("Error setting `announcement`: %+v", err)
-        }
-        d.Set("artifacts_storage_account", labPropertiesFragment.ArtifactsStorageAccount)
-        d.Set("created_date", (labPropertiesFragment.CreatedDate).String())
-        d.Set("default_premium_storage_account", labPropertiesFragment.DefaultPremiumStorageAccount)
-        d.Set("default_storage_account", labPropertiesFragment.DefaultStorageAccount)
-        d.Set("environment_permission", string(labPropertiesFragment.EnvironmentPermission))
-        d.Set("extended_properties", utils.FlattenKeyValuePairs(labPropertiesFragment.ExtendedProperties))
-        d.Set("lab_storage_type", string(labPropertiesFragment.LabStorageType))
-        d.Set("load_balancer_id", labPropertiesFragment.LoadBalancerID)
-        d.Set("mandatory_artifacts_resource_ids_linux", utils.FlattenStringSlice(labPropertiesFragment.MandatoryArtifactsResourceIdsLinux))
-        d.Set("mandatory_artifacts_resource_ids_windows", utils.FlattenStringSlice(labPropertiesFragment.MandatoryArtifactsResourceIdsWindows))
-        d.Set("network_security_group_id", labPropertiesFragment.NetworkSecurityGroupID)
-        d.Set("premium_data_disk_storage_account", labPropertiesFragment.PremiumDataDiskStorageAccount)
-        d.Set("premium_data_disks", string(labPropertiesFragment.PremiumDataDisks))
-        d.Set("provisioning_state", labPropertiesFragment.ProvisioningState)
-        d.Set("public_ip_id", labPropertiesFragment.PublicIpID)
-        if err := d.Set("support", flattenArmLabLabSupportPropertiesFragment(labPropertiesFragment.Support)); err != nil {
-            return fmt.Errorf("Error setting `support`: %+v", err)
-        }
-        d.Set("unique_identifier", labPropertiesFragment.UniqueIdentifier)
-        d.Set("vault_name", labPropertiesFragment.VaultName)
-        d.Set("vm_creation_resource_group", labPropertiesFragment.VmCreationResourceGroup)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmLabUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -353,29 +732,86 @@ func resourceArmLabUpdate(d *schema.ResourceData, meta interface{}) error {
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    announcement := d.Get("announcement").([]interface{})
-    environmentPermission := d.Get("environment_permission").(string)
-    extendedProperties := d.Get("extended_properties").(map[string]interface{})
-    labStorageType := d.Get("lab_storage_type").(string)
-    mandatoryArtifactsResourceIdsLinux := d.Get("mandatory_artifacts_resource_ids_linux").([]interface{})
-    mandatoryArtifactsResourceIdsWindows := d.Get("mandatory_artifacts_resource_ids_windows").([]interface{})
-    premiumDataDisks := d.Get("premium_data_disks").(string)
-    support := d.Get("support").([]interface{})
+    allowClaim := d.Get("allow_claim").(bool)
+    artifactDeploymentStatus := d.Get("artifact_deployment_status").([]interface{})
+    artifacts := d.Get("artifacts").([]interface{})
+    blobName := d.Get("blob_name").(string)
+    blobStorageAbsoluteSasUri := d.Get("blob_storage_absolute_sas_uri").(string)
+    bulkCreationParameters := d.Get("bulk_creation_parameters").([]interface{})
+    computeId := d.Get("compute_id").(string)
+    createdByUser := d.Get("created_by_user").(string)
+    createdByUserId := d.Get("created_by_user_id").(string)
+    createdDate := d.Get("created_date").(string)
+    customImageId := d.Get("custom_image_id").(string)
+    dataDiskParameters := d.Get("data_disk_parameters").([]interface{})
+    destinationVirtualMachineName := d.Get("destination_virtual_machine_name").(string)
+    disallowPublicIpAddress := d.Get("disallow_public_ip_address").(bool)
+    environmentId := d.Get("environment_id").(string)
+    expirationDate := d.Get("expiration_date").(string)
+    fqdn := d.Get("fqdn").(string)
+    galleryImageReference := d.Get("gallery_image_reference").([]interface{})
+    isAuthenticationWithSshKey := d.Get("is_authentication_with_ssh_key").(bool)
+    labSubnetName := d.Get("lab_subnet_name").(string)
+    labVirtualNetworkId := d.Get("lab_virtual_network_id").(string)
+    lastKnownPowerState := d.Get("last_known_power_state").(string)
+    networkInterface := d.Get("network_interface").([]interface{})
+    notes := d.Get("notes").(string)
+    osType := d.Get("os_type").(string)
+    ownerObjectId := d.Get("owner_object_id").(string)
+    ownerUserPrincipalName := d.Get("owner_user_principal_name").(string)
+    password := d.Get("password").(string)
+    planId := d.Get("plan_id").(string)
+    scheduleParameters := d.Get("schedule_parameters").([]interface{})
+    size := d.Get("size").(string)
+    sourceVirtualMachineResourceId := d.Get("source_virtual_machine_resource_id").(string)
+    sshKey := d.Get("ssh_key").(string)
+    storageType := d.Get("storage_type").(string)
+    usageStartDate := d.Get("usage_start_date").(string)
+    userName := d.Get("user_name").(string)
+    virtualMachineCreationSource := d.Get("virtual_machine_creation_source").(string)
     t := d.Get("tags").(map[string]interface{})
 
     lab := devtestlab.LabFragment{
-        Location: utils.String(location),
-        LabPropertiesFragment: &devtestlab.LabPropertiesFragment{
-            Announcement: expandArmLabLabAnnouncementPropertiesFragment(announcement),
-            EnvironmentPermission: devtestlab.EnvironmentPermission(environmentPermission),
-            ExtendedProperties: utils.ExpandKeyValuePairs(extendedProperties),
-            LabStorageType: devtestlab.StorageType(labStorageType),
-            MandatoryArtifactsResourceIdsLinux: utils.ExpandStringSlice(mandatoryArtifactsResourceIdsLinux),
-            MandatoryArtifactsResourceIdsWindows: utils.ExpandStringSlice(mandatoryArtifactsResourceIdsWindows),
-            PremiumDataDisks: devtestlab.PremiumDataDisk(premiumDataDisks),
-            Support: expandArmLabLabSupportPropertiesFragment(support),
+        BlobName: utils.String(blobName),
+        BlobStorageAbsoluteSasURI: utils.String(blobStorageAbsoluteSasUri),
+        DestinationVirtualMachineName: utils.String(destinationVirtualMachineName),
+        LabVirtualMachineCreationParameterProperties: &devtestlab.LabVirtualMachineCreationParameterProperties{
+            AllowClaim: utils.Bool(allowClaim),
+            ArtifactDeploymentStatus: expandArmLabArtifactDeploymentStatusProperties(artifactDeploymentStatus),
+            Artifacts: expandArmLabArtifactInstallProperties(artifacts),
+            BulkCreationParameters: expandArmLabBulkCreationParameters(bulkCreationParameters),
+            ComputeID: utils.String(computeId),
+            CreatedByUser: utils.String(createdByUser),
+            CreatedByUserID: utils.String(createdByUserId),
+            CreatedDate: convertStringToDate(createdDate),
+            CustomImageID: utils.String(customImageId),
+            DataDiskParameters: expandArmLabDataDiskProperties(dataDiskParameters),
+            DisallowPublicIPAddress: utils.Bool(disallowPublicIpAddress),
+            EnvironmentID: utils.String(environmentId),
+            ExpirationDate: convertStringToDate(expirationDate),
+            Fqdn: utils.String(fqdn),
+            GalleryImageReference: expandArmLabGalleryImageReference(galleryImageReference),
+            IsAuthenticationWithSSHKey: utils.Bool(isAuthenticationWithSshKey),
+            LabSubnetName: utils.String(labSubnetName),
+            LabVirtualNetworkID: utils.String(labVirtualNetworkId),
+            LastKnownPowerState: utils.String(lastKnownPowerState),
+            NetworkInterface: expandArmLabNetworkInterfaceProperties(networkInterface),
+            Notes: utils.String(notes),
+            OsType: utils.String(osType),
+            OwnerObjectID: utils.String(ownerObjectId),
+            OwnerUserPrincipalName: utils.String(ownerUserPrincipalName),
+            Password: utils.String(password),
+            PlanID: utils.String(planId),
+            ScheduleParameters: expandArmLabScheduleCreationParameter(scheduleParameters),
+            Size: utils.String(size),
+            SSHKey: utils.String(sshKey),
+            StorageType: utils.String(storageType),
+            UserName: utils.String(userName),
+            VirtualMachineCreationSource: devtestlab.VirtualMachineCreationSource(virtualMachineCreationSource),
         },
+        SourceVirtualMachineResourceID: utils.String(sourceVirtualMachineResourceId),
         Tags: tags.Expand(t),
+        UsageStartDate: convertStringToDate(usageStartDate),
     }
 
 
@@ -415,40 +851,61 @@ func resourceArmLabDelete(d *schema.ResourceData, meta interface{}) error {
     return nil
 }
 
-func expandArmLabLabAnnouncementPropertiesFragment(input []interface{}) *devtestlab.LabAnnouncementPropertiesFragment {
+func expandArmLabArtifactDeploymentStatusProperties(input []interface{}) *devtestlab.ArtifactDeploymentStatusProperties {
     if len(input) == 0 {
         return nil
     }
     v := input[0].(map[string]interface{})
 
-    title := v["title"].(string)
-    markdown := v["markdown"].(string)
-    enabled := v["enabled"].(string)
-    expirationDate := v["expiration_date"].(string)
-    expired := v["expired"].(bool)
+    deploymentStatus := v["deployment_status"].(string)
+    artifactsApplied := v["artifacts_applied"].(int)
+    totalArtifacts := v["total_artifacts"].(int)
 
-    result := devtestlab.LabAnnouncementPropertiesFragment{
-        Enabled: devtestlab.EnableStatus(enabled),
-        ExpirationDate: convertStringToDate(expirationDate),
-        Expired: utils.Bool(expired),
-        Markdown: utils.String(markdown),
-        Title: utils.String(title),
+    result := devtestlab.ArtifactDeploymentStatusProperties{
+        ArtifactsApplied: utils.Int32(int32(artifactsApplied)),
+        DeploymentStatus: utils.String(deploymentStatus),
+        TotalArtifacts: utils.Int32(int32(totalArtifacts)),
     }
     return &result
 }
 
-func expandArmLabLabSupportPropertiesFragment(input []interface{}) *devtestlab.LabSupportPropertiesFragment {
+func expandArmLabArtifactInstallProperties(input []interface{}) *[]devtestlab.ArtifactInstallProperties {
+    results := make([]devtestlab.ArtifactInstallProperties, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        artifactId := v["artifact_id"].(string)
+        artifactTitle := v["artifact_title"].(string)
+        parameters := v["parameters"].([]interface{})
+        status := v["status"].(string)
+        deploymentStatusMessage := v["deployment_status_message"].(string)
+        vmExtensionStatusMessage := v["vm_extension_status_message"].(string)
+        installTime := v["install_time"].(string)
+
+        result := devtestlab.ArtifactInstallProperties{
+            ArtifactID: utils.String(artifactId),
+            ArtifactTitle: utils.String(artifactTitle),
+            DeploymentStatusMessage: utils.String(deploymentStatusMessage),
+            InstallTime: convertStringToDate(installTime),
+            Parameters: expandArmLabArtifactParameterProperties(parameters),
+            Status: utils.String(status),
+            VMExtensionStatusMessage: utils.String(vmExtensionStatusMessage),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmLabBulkCreationParameters(input []interface{}) *devtestlab.BulkCreationParameters {
     if len(input) == 0 {
         return nil
     }
     v := input[0].(map[string]interface{})
 
-    enabled := v["enabled"].(string)
-    markdown := v["markdown"].(string)
+    instanceCount := v["instance_count"].(int)
 
-    result := devtestlab.LabSupportPropertiesFragment{
-        Enabled: devtestlab.EnableStatus(enabled),
-        Markdown: utils.String(markdown),
+    result := devtestlab.BulkCreationParameters{
+        InstanceCount: utils.Int32(int32(instanceCount)),
     }
     return &result
 }
@@ -468,42 +925,244 @@ func convertStringToDate(input interface{}) *date.Time {
   return &result
 }
 
+func expandArmLabDataDiskProperties(input []interface{}) *[]devtestlab.DataDiskProperties {
+    results := make([]devtestlab.DataDiskProperties, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        attachNewDataDiskOptions := v["attach_new_data_disk_options"].([]interface{})
+        existingLabDiskId := v["existing_lab_disk_id"].(string)
+        hostCaching := v["host_caching"].(string)
 
-func flattenArmLabLabAnnouncementPropertiesFragment(input *devtestlab.LabAnnouncementPropertiesFragment) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
+        result := devtestlab.DataDiskProperties{
+            AttachNewDataDiskOptions: expandArmLabAttachNewDataDiskOptions(attachNewDataDiskOptions),
+            ExistingLabDiskID: utils.String(existingLabDiskId),
+            HostCaching: devtestlab.HostCachingOptions(hostCaching),
+        }
 
-    result := make(map[string]interface{})
-
-    result["enabled"] = string(input.Enabled)
-    if expirationDate := input.ExpirationDate; expirationDate != nil {
-        result["expiration_date"] = (*expirationDate).String()
+        results = append(results, result)
     }
-    if expired := input.Expired; expired != nil {
-        result["expired"] = *expired
-    }
-    if markdown := input.Markdown; markdown != nil {
-        result["markdown"] = *markdown
-    }
-    if title := input.Title; title != nil {
-        result["title"] = *title
-    }
-
-    return []interface{}{result}
+    return &results
 }
 
-func flattenArmLabLabSupportPropertiesFragment(input *devtestlab.LabSupportPropertiesFragment) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
+func expandArmLabGalleryImageReference(input []interface{}) *devtestlab.GalleryImageReference {
+    if len(input) == 0 {
+        return nil
     }
+    v := input[0].(map[string]interface{})
 
-    result := make(map[string]interface{})
+    offer := v["offer"].(string)
+    publisher := v["publisher"].(string)
+    sku := v["sku"].(string)
+    osType := v["os_type"].(string)
+    version := v["version"].(string)
 
-    result["enabled"] = string(input.Enabled)
-    if markdown := input.Markdown; markdown != nil {
-        result["markdown"] = *markdown
+    result := devtestlab.GalleryImageReference{
+        Offer: utils.String(offer),
+        OsType: utils.String(osType),
+        Publisher: utils.String(publisher),
+        Sku: utils.String(sku),
+        Version: utils.String(version),
     }
+    return &result
+}
 
-    return []interface{}{result}
+func expandArmLabNetworkInterfaceProperties(input []interface{}) *devtestlab.NetworkInterfaceProperties {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    virtualNetworkId := v["virtual_network_id"].(string)
+    subnetId := v["subnet_id"].(string)
+    publicIpAddressId := v["public_ip_address_id"].(string)
+    publicIpAddress := v["public_ip_address"].(string)
+    privateIpAddress := v["private_ip_address"].(string)
+    dnsName := v["dns_name"].(string)
+    rdpAuthority := v["rdp_authority"].(string)
+    sshAuthority := v["ssh_authority"].(string)
+    sharedPublicIpAddressConfiguration := v["shared_public_ip_address_configuration"].([]interface{})
+
+    result := devtestlab.NetworkInterfaceProperties{
+        DNSName: utils.String(dnsName),
+        PrivateIPAddress: utils.String(privateIpAddress),
+        PublicIPAddress: utils.String(publicIpAddress),
+        PublicIPAddressID: utils.String(publicIpAddressId),
+        RdpAuthority: utils.String(rdpAuthority),
+        SharedPublicIPAddressConfiguration: expandArmLabSharedPublicIpAddressConfiguration(sharedPublicIpAddressConfiguration),
+        SSHAuthority: utils.String(sshAuthority),
+        SubnetID: utils.String(subnetId),
+        VirtualNetworkID: utils.String(virtualNetworkId),
+    }
+    return &result
+}
+
+func expandArmLabScheduleCreationParameter(input []interface{}) *[]devtestlab.ScheduleCreationParameter {
+    results := make([]devtestlab.ScheduleCreationParameter, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        status := v["status"].(string)
+        taskType := v["task_type"].(string)
+        weeklyRecurrence := v["weekly_recurrence"].([]interface{})
+        dailyRecurrence := v["daily_recurrence"].([]interface{})
+        hourlyRecurrence := v["hourly_recurrence"].([]interface{})
+        timeZoneId := v["time_zone_id"].(string)
+        notificationSettings := v["notification_settings"].([]interface{})
+        targetResourceId := v["target_resource_id"].(string)
+        name := v["name"].(string)
+        location := azure.NormalizeLocation(v["location"].(string))
+        t := v["tags"].(map[string]interface{})
+
+        result := devtestlab.ScheduleCreationParameter{
+            Location: utils.String(location),
+            Name: utils.String(name),
+            ScheduleCreationParameterProperties: &devtestlab.ScheduleCreationParameterProperties{
+                DailyRecurrence: expandArmLabDayDetails(dailyRecurrence),
+                HourlyRecurrence: expandArmLabHourDetails(hourlyRecurrence),
+                NotificationSettings: expandArmLabNotificationSettings(notificationSettings),
+                Status: devtestlab.EnableStatus(status),
+                TargetResourceID: utils.String(targetResourceId),
+                TaskType: utils.String(taskType),
+                TimeZoneID: utils.String(timeZoneId),
+                WeeklyRecurrence: expandArmLabWeekDetails(weeklyRecurrence),
+            },
+            Tags: tags.Expand(t),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmLabArtifactParameterProperties(input []interface{}) *[]devtestlab.ArtifactParameterProperties {
+    results := make([]devtestlab.ArtifactParameterProperties, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        value := v["value"].(string)
+
+        result := devtestlab.ArtifactParameterProperties{
+            Name: utils.String(name),
+            Value: utils.String(value),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmLabAttachNewDataDiskOptions(input []interface{}) *devtestlab.AttachNewDataDiskOptions {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    diskSizeGiB := v["disk_size_gi_b"].(int)
+    diskName := v["disk_name"].(string)
+    diskType := v["disk_type"].(string)
+
+    result := devtestlab.AttachNewDataDiskOptions{
+        DiskName: utils.String(diskName),
+        DiskSizeGiB: utils.Int32(int32(diskSizeGiB)),
+        DiskType: devtestlab.StorageType(diskType),
+    }
+    return &result
+}
+
+func expandArmLabSharedPublicIpAddressConfiguration(input []interface{}) *devtestlab.SharedPublicIpAddressConfiguration {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    inboundNatRules := v["inbound_nat_rules"].([]interface{})
+
+    result := devtestlab.SharedPublicIpAddressConfiguration{
+        InboundNatRules: expandArmLabInboundNatRule(inboundNatRules),
+    }
+    return &result
+}
+
+func expandArmLabDayDetails(input []interface{}) *devtestlab.DayDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    time := v["time"].(string)
+
+    result := devtestlab.DayDetails{
+        Time: utils.String(time),
+    }
+    return &result
+}
+
+func expandArmLabHourDetails(input []interface{}) *devtestlab.HourDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    minute := v["minute"].(int)
+
+    result := devtestlab.HourDetails{
+        Minute: utils.Int32(int32(minute)),
+    }
+    return &result
+}
+
+func expandArmLabNotificationSettings(input []interface{}) *devtestlab.NotificationSettings {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    status := v["status"].(string)
+    timeInMinutes := v["time_in_minutes"].(int)
+    webhookUrl := v["webhook_url"].(string)
+    emailRecipient := v["email_recipient"].(string)
+    notificationLocale := v["notification_locale"].(string)
+
+    result := devtestlab.NotificationSettings{
+        EmailRecipient: utils.String(emailRecipient),
+        NotificationLocale: utils.String(notificationLocale),
+        Status: devtestlab.EnableStatus(status),
+        TimeInMinutes: utils.Int32(int32(timeInMinutes)),
+        WebhookURL: utils.String(webhookUrl),
+    }
+    return &result
+}
+
+func expandArmLabWeekDetails(input []interface{}) *devtestlab.WeekDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    weekdays := v["weekdays"].([]interface{})
+    time := v["time"].(string)
+
+    result := devtestlab.WeekDetails{
+        Time: utils.String(time),
+        Weekdays: utils.ExpandStringSlice(weekdays),
+    }
+    return &result
+}
+
+func expandArmLabInboundNatRule(input []interface{}) *[]devtestlab.InboundNatRule {
+    results := make([]devtestlab.InboundNatRule, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        transportProtocol := v["transport_protocol"].(string)
+        frontendPort := v["frontend_port"].(int)
+        backendPort := v["backend_port"].(int)
+
+        result := devtestlab.InboundNatRule{
+            BackendPort: utils.Int32(int32(backendPort)),
+            FrontendPort: utils.Int32(int32(frontendPort)),
+            TransportProtocol: devtestlab.TransportProtocol(transportProtocol),
+        }
+
+        results = append(results, result)
+    }
+    return &results
 }

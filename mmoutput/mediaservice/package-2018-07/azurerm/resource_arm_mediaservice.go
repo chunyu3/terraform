@@ -66,11 +66,6 @@ func resourceArmMediaservice() *schema.Resource {
                 },
             },
 
-            "media_service_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -100,11 +95,13 @@ func resourceArmMediaserviceCreate(d *schema.ResourceData, meta interface{}) err
         }
     }
 
+    id := d.Get("id").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     storageAccounts := d.Get("storage_accounts").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := mediaservices.MediaService{
+    parameters := mediaservices.SyncStorageKeysInput{
+        ID: utils.String(id),
         Location: utils.String(location),
         MediaServiceProperties: &mediaservices.MediaServiceProperties{
             StorageAccounts: expandArmMediaserviceStorageAccount(storageAccounts),
@@ -155,31 +152,23 @@ func resourceArmMediaserviceRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if mediaServiceProperties := resp.MediaServiceProperties; mediaServiceProperties != nil {
-        d.Set("media_service_id", mediaServiceProperties.MediaServiceID)
-        if err := d.Set("storage_accounts", flattenArmMediaserviceStorageAccount(mediaServiceProperties.StorageAccounts)); err != nil {
-            return fmt.Errorf("Error setting `storage_accounts`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmMediaserviceUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).mediaservicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    id := d.Get("id").(string)
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     storageAccounts := d.Get("storage_accounts").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := mediaservices.MediaService{
-        Location: utils.String(location),
+    parameters := mediaservices.SyncStorageKeysInput{
+        ID: utils.String(id),
         MediaServiceProperties: &mediaservices.MediaServiceProperties{
             StorageAccounts: expandArmMediaserviceStorageAccount(storageAccounts),
         },
@@ -228,25 +217,4 @@ func expandArmMediaserviceStorageAccount(input []interface{}) *[]mediaservices.S
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmMediaserviceStorageAccount(input *[]mediaservices.StorageAccount) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        v["type"] = string(item.Type)
-
-        results = append(results, v)
-    }
-
-    return results
 }

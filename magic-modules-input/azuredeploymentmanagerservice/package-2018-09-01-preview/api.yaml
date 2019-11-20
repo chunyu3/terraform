@@ -34,9 +34,9 @@ objects:
             python_variable_name: service_topology_name
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: services
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: serviceInfo
             go_type_name: ServiceResource
@@ -80,9 +80,9 @@ objects:
             python_variable_name: service_topology_name
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: services
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -99,32 +99,10 @@ objects:
             python_variable_name: service_topology_name
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: services
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
         response:
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ServiceResource_properties
-            go_type_name: ServiceResource_properties
-          '/properties/targetLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetLocation
-          '/targetLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_location
-          '/properties/targetSubscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetSubscriptionID
-          '/targetSubscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_subscription_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -151,7 +129,7 @@ objects:
         input: true
         azure_sdk_references: ['serviceTopologyName']
       - !ruby/object:Api::Type::String
-        name: 'serviceName'
+        name: 'name'
         description: 'The name of the service resource.'
         required: true
         input: true

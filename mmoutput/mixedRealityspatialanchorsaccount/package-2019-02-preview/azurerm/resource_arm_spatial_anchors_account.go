@@ -45,14 +45,10 @@ func resourceArmSpatialAnchorsAccount() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "account_domain": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "account_id": {
-                Type: schema.TypeString,
-                Computed: true,
+            "serial": {
+                Type: schema.TypeInt,
+                Optional: true,
+                ForceNew: true,
             },
 
             "type": {
@@ -85,10 +81,12 @@ func resourceArmSpatialAnchorsAccountCreate(d *schema.ResourceData, meta interfa
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
+    serial := d.Get("serial").(int)
     t := d.Get("tags").(map[string]interface{})
 
     spatialAnchorsAccount := mixedreality.SpatialAnchorsAccount{
         Location: utils.String(location),
+        Serial: utils.Int(serial),
         Tags: tags.Expand(t),
     }
 
@@ -135,16 +133,9 @@ func resourceArmSpatialAnchorsAccountRead(d *schema.ResourceData, meta interface
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if spatialAnchorsAccountProperties := resp.SpatialAnchorsAccountProperties; spatialAnchorsAccountProperties != nil {
-        d.Set("account_domain", spatialAnchorsAccountProperties.AccountDomain)
-        d.Set("account_id", spatialAnchorsAccountProperties.AccountID)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmSpatialAnchorsAccountUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -153,10 +144,11 @@ func resourceArmSpatialAnchorsAccountUpdate(d *schema.ResourceData, meta interfa
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
+    serial := d.Get("serial").(int)
     t := d.Get("tags").(map[string]interface{})
 
     spatialAnchorsAccount := mixedreality.SpatialAnchorsAccount{
-        Location: utils.String(location),
+        Serial: utils.Int(serial),
         Tags: tags.Expand(t),
     }
 

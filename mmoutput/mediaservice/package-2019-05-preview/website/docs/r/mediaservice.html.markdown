@@ -32,6 +32,8 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
+* `id` - (Optional) The ID of the storage account resource. Changing this forces a new resource to be created.
+
 * `location` - (Optional) The Azure Region of the resource. Changing this forces a new resource to be created.
 
 * `storage_accounts` - (Optional) One or more `storage_account` block defined below.
@@ -49,10 +51,6 @@ The `storage_account` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `media_service_id` - The Media Services account ID.
-
-* `id` - Fully qualified resource ID for the resource.
 
 * `name` - The name of the resource.
 

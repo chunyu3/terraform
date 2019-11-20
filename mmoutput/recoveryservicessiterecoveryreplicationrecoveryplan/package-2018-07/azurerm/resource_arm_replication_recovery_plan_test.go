@@ -34,16 +34,16 @@ func testCheckAzureRMReplicationRecoveryPlanExists(resourceName string) resource
             return fmt.Errorf("Replication Recovery Plan not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        recoveryPlanName := rs.Primary.Attributes["recovery_plan_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).replicationRecoveryPlansClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceName, resourceGroup, recoveryPlanName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Replication Recovery Plan (Recovery Plan Name %q / Resource Group %q / Resource Name %q) does not exist", recoveryPlanName, resourceGroup, resourceName)
+                return fmt.Errorf("Bad: Replication Recovery Plan %q (Resource Group %q / Resource Name %q) does not exist", name, resourceGroup, resourceName)
             }
             return fmt.Errorf("Bad: Get on replicationRecoveryPlansClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMReplicationRecoveryPlanDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        recoveryPlanName := rs.Primary.Attributes["recovery_plan_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
-        if resp, err := client.Get(ctx, resourceName, resourceGroup, recoveryPlanName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on replicationRecoveryPlansClient: %+v", err)
             }

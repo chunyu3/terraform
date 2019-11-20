@@ -38,7 +38,11 @@ The following arguments are supported:
 
 * `description` - (Optional) Description of notification.
 
+* `event_name` - (Optional) The type of event (i.e. AutoShutdown, Cost) Defaults to `AutoShutdown`. Changing this forces a new resource to be created.
+
 * `events` - (Optional) One or more `event` block defined below.
+
+* `json_payload` - (Optional) Properties for the notification in json format. Changing this forces a new resource to be created.
 
 * `unique_identifier` - (Optional) The unique immutable identifier of a resource (Guid).
 
@@ -55,10 +59,6 @@ The `event` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `created_date` - The creation date of the notification channel.
-
-* `provisioning_state` - The provisioning status of the resource.
 
 * `id` - The identifier of the resource.
 

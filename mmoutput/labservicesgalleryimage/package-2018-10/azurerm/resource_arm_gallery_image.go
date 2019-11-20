@@ -31,19 +31,19 @@ func resourceArmGalleryImage() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "gallery_image_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "lab_account_name": {
                 Type: schema.TypeString,
@@ -72,98 +72,6 @@ func resourceArmGalleryImage() *schema.Resource {
                 Optional: true,
             },
 
-            "author": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "created_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "description": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "icon": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "image_reference": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "offer": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "os_type": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "publisher": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "sku": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "version": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "latest_operation_result": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "error_code": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "error_message": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "http_method": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "operation_url": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "request_uri": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "status": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "plan_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -178,15 +86,15 @@ func resourceArmGalleryImageCreate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).galleryImagesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    galleryImageName := d.Get("gallery_image_name").(string)
     labAccountName := d.Get("lab_account_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labAccountName, galleryImageName)
+        existing, err := client.Get(ctx, resourceGroup, labAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Gallery Image (Gallery Image Name %q / Lab Account Name %q / Resource Group %q): %+v", galleryImageName, labAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Gallery Image %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -201,9 +109,9 @@ func resourceArmGalleryImageCreate(d *schema.ResourceData, meta interface{}) err
     uniqueIdentifier := d.Get("unique_identifier").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    galleryImage := labservices.GalleryImage{
+    galleryImage := labservices.GalleryImageFragment{
         Location: utils.String(location),
-        GalleryImageProperties: &labservices.GalleryImageProperties{
+        GalleryImagePropertiesFragment: &labservices.GalleryImagePropertiesFragment{
             IsEnabled: utils.Bool(isEnabled),
             IsOverride: utils.Bool(isOverride),
             IsPlanAuthorized: utils.Bool(isPlanAuthorized),
@@ -213,17 +121,17 @@ func resourceArmGalleryImageCreate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labAccountName, galleryImageName, galleryImage); err != nil {
-        return fmt.Errorf("Error creating Gallery Image (Gallery Image Name %q / Lab Account Name %q / Resource Group %q): %+v", galleryImageName, labAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labAccountName, name, galleryImage); err != nil {
+        return fmt.Errorf("Error creating Gallery Image %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labAccountName, galleryImageName)
+    resp, err := client.Get(ctx, resourceGroup, labAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Gallery Image (Gallery Image Name %q / Lab Account Name %q / Resource Group %q): %+v", galleryImageName, labAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Gallery Image %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Gallery Image (Gallery Image Name %q / Lab Account Name %q / Resource Group %q) ID", galleryImageName, labAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Gallery Image %q (Lab Account Name %q / Resource Group %q) ID", name, labAccountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -240,55 +148,34 @@ func resourceArmGalleryImageRead(d *schema.ResourceData, meta interface{}) error
     }
     resourceGroup := id.ResourceGroup
     labAccountName := id.Path["labaccounts"]
-    galleryImageName := id.Path["galleryimages"]
+    name := id.Path["galleryimages"]
 
-    resp, err := client.Get(ctx, resourceGroup, labAccountName, galleryImageName)
+    resp, err := client.Get(ctx, resourceGroup, labAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Gallery Image %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Gallery Image (Gallery Image Name %q / Lab Account Name %q / Resource Group %q): %+v", galleryImageName, labAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Gallery Image %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if galleryImageProperties := resp.GalleryImageProperties; galleryImageProperties != nil {
-        d.Set("author", galleryImageProperties.Author)
-        d.Set("created_date", (galleryImageProperties.CreatedDate).String())
-        d.Set("description", galleryImageProperties.Description)
-        d.Set("icon", galleryImageProperties.Icon)
-        if err := d.Set("image_reference", flattenArmGalleryImageGalleryImageReference(galleryImageProperties.ImageReference)); err != nil {
-            return fmt.Errorf("Error setting `image_reference`: %+v", err)
-        }
-        d.Set("is_enabled", galleryImageProperties.IsEnabled)
-        d.Set("is_override", galleryImageProperties.IsOverride)
-        d.Set("is_plan_authorized", galleryImageProperties.IsPlanAuthorized)
-        if err := d.Set("latest_operation_result", flattenArmGalleryImageLatestOperationResult(galleryImageProperties.LatestOperationResult)); err != nil {
-            return fmt.Errorf("Error setting `latest_operation_result`: %+v", err)
-        }
-        d.Set("plan_id", galleryImageProperties.PlanID)
-        d.Set("provisioning_state", galleryImageProperties.ProvisioningState)
-        d.Set("unique_identifier", galleryImageProperties.UniqueIdentifier)
-    }
-    d.Set("gallery_image_name", galleryImageName)
     d.Set("lab_account_name", labAccountName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmGalleryImageUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).galleryImagesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    galleryImageName := d.Get("gallery_image_name").(string)
     isEnabled := d.Get("is_enabled").(bool)
     isOverride := d.Get("is_override").(bool)
     isPlanAuthorized := d.Get("is_plan_authorized").(bool)
@@ -296,9 +183,8 @@ func resourceArmGalleryImageUpdate(d *schema.ResourceData, meta interface{}) err
     uniqueIdentifier := d.Get("unique_identifier").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    galleryImage := labservices.GalleryImage{
-        Location: utils.String(location),
-        GalleryImageProperties: &labservices.GalleryImageProperties{
+    galleryImage := labservices.GalleryImageFragment{
+        GalleryImagePropertiesFragment: &labservices.GalleryImagePropertiesFragment{
             IsEnabled: utils.Bool(isEnabled),
             IsOverride: utils.Bool(isOverride),
             IsPlanAuthorized: utils.Bool(isPlanAuthorized),
@@ -308,8 +194,8 @@ func resourceArmGalleryImageUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labAccountName, galleryImageName, galleryImage); err != nil {
-        return fmt.Errorf("Error updating Gallery Image (Gallery Image Name %q / Lab Account Name %q / Resource Group %q): %+v", galleryImageName, labAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, labAccountName, name, galleryImage); err != nil {
+        return fmt.Errorf("Error updating Gallery Image %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
     }
 
     return resourceArmGalleryImageRead(d, meta)
@@ -326,34 +212,11 @@ func resourceArmGalleryImageDelete(d *schema.ResourceData, meta interface{}) err
     }
     resourceGroup := id.ResourceGroup
     labAccountName := id.Path["labaccounts"]
-    galleryImageName := id.Path["galleryimages"]
+    name := id.Path["galleryimages"]
 
-    if _, err := client.Delete(ctx, resourceGroup, labAccountName, galleryImageName); err != nil {
-        return fmt.Errorf("Error deleting Gallery Image (Gallery Image Name %q / Lab Account Name %q / Resource Group %q): %+v", galleryImageName, labAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, labAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Gallery Image %q (Lab Account Name %q / Resource Group %q): %+v", name, labAccountName, resourceGroup, err)
     }
 
     return nil
-}
-
-
-func flattenArmGalleryImageGalleryImageReference(input *labservices.GalleryImageReference) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
-}
-
-func flattenArmGalleryImageLatestOperationResult(input *labservices.LatestOperationResult) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
 }

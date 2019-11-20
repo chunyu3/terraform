@@ -40,7 +40,7 @@ objects:
             python_variable_name: server_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: RegisteredServerCreateParameters
+            go_type_name: TriggerRolloverRequest
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
@@ -64,7 +64,7 @@ objects:
             python_field_name: server_osversion
           '/properties/serverOSVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: ServerOsversion
+            go_field_name: ServerOSVersion
           '/lastHeartBeat': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: last_heart_beat
@@ -101,6 +101,9 @@ objects:
           '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: FriendlyName
+          '/serverCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ServerCertificate
+            python_field_name: server_certificate
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -141,124 +144,6 @@ objects:
             python_parameter_name: server_id
             python_variable_name: server_id
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: RegisteredServerCreateParametersProperties
-            go_type_name: RegisteredServerCreateParametersProperties
-          '/properties/serverCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerCertificate
-          '/serverCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_certificate
-          '/properties/agentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AgentVersion
-          '/agentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: agent_version
-          '/properties/serverOSVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerOsversion
-          '/serverOSVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_osversion
-          '/properties/lastHeartBeat': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: LastHeartBeat
-          '/lastHeartBeat': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: last_heart_beat
-          '/properties/serverRole': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerRole
-          '/serverRole': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_role
-          '/properties/clusterId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClusterID
-          '/clusterId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: cluster_id
-          '/properties/clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClusterName
-          '/clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: cluster_name
-          '/properties/serverId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerID
-          '/serverId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_id
-          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FriendlyName
-          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: friendly_name
-          '/properties/serverManagementErrorCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: ServerManagementErrorCode
-          '/serverManagementErrorCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: server_management_error_code
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/storageSyncServiceUid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageSyncServiceUid
-          '/storageSyncServiceUid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_sync_service_uid
-          '/properties/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: LastWorkflowID
-          '/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: last_workflow_id
-          '/properties/lastOperationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: LastOperationName
-          '/lastOperationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: last_operation_name
-          '/properties/discoveryEndpointUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DiscoveryEndpointUri
-          '/discoveryEndpointUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: discovery_endpoint_uri
-          '/properties/resourceLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceLocation
-          '/resourceLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_location
-          '/properties/serviceLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServiceLocation
-          '/serviceLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: service_location
-          '/properties/managementEndpointUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ManagementEndpointUri
-          '/managementEndpointUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: management_endpoint_uri
-          '/properties/monitoringConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: MonitoringConfiguration
-          '/monitoringConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: monitoring_configuration
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -300,7 +185,7 @@ objects:
         azure_sdk_references: ['storageSyncServiceName']
       - !ruby/object:Api::Type::String
         name: 'serverId'
-        description: 'GUID identifying the on-premises server.'
+        description: 'Server Id'
         required: true
         input: true
         azure_sdk_references: ['serverId']
@@ -349,57 +234,13 @@ objects:
         description: 'Friendly Name'
         required: false
         azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
+      - !ruby/object:Api::Type::String
+        name: 'serverCertificate'
+        description: 'Certificate Data'
+        required: false
+        input: true
+        azure_sdk_references: ['/serverCertificate']
       # read only values included only in response
-      - !ruby/object:Api::Type::Integer
-        name: 'serverManagementErrorCode'
-        description: 'Registered Server Management Error Code'
-        output: true
-        azure_sdk_references: ['/serverManagementErrorCode', '/properties/serverManagementErrorCode']
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Registered Server Provisioning State'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Type::String
-        name: 'storageSyncServiceUid'
-        description: 'Registered Server storageSyncServiceUid'
-        output: true
-        azure_sdk_references: ['/storageSyncServiceUid', '/properties/storageSyncServiceUid']
-      - !ruby/object:Api::Type::String
-        name: 'lastWorkflowId'
-        description: 'Registered Server lastWorkflowId'
-        output: true
-        azure_sdk_references: ['/lastWorkflowId', '/properties/lastWorkflowId']
-      - !ruby/object:Api::Type::String
-        name: 'lastOperationName'
-        description: 'Resource Last Operation Name'
-        output: true
-        azure_sdk_references: ['/lastOperationName', '/properties/lastOperationName']
-      - !ruby/object:Api::Type::String
-        name: 'discoveryEndpointUri'
-        description: 'Resource discoveryEndpointUri'
-        output: true
-        azure_sdk_references: ['/discoveryEndpointUri', '/properties/discoveryEndpointUri']
-      - !ruby/object:Api::Type::String
-        name: 'resourceLocation'
-        description: 'Resource Location'
-        output: true
-        azure_sdk_references: ['/resourceLocation', '/properties/resourceLocation']
-      - !ruby/object:Api::Type::String
-        name: 'serviceLocation'
-        description: 'Service Location'
-        output: true
-        azure_sdk_references: ['/serviceLocation', '/properties/serviceLocation']
-      - !ruby/object:Api::Type::String
-        name: 'managementEndpointUri'
-        description: 'Management Endpoint Uri'
-        output: true
-        azure_sdk_references: ['/managementEndpointUri', '/properties/managementEndpointUri']
-      - !ruby/object:Api::Type::String
-        name: 'monitoringConfiguration'
-        description: 'Monitoring Configuration'
-        output: true
-        azure_sdk_references: ['/monitoringConfiguration', '/properties/monitoringConfiguration']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'

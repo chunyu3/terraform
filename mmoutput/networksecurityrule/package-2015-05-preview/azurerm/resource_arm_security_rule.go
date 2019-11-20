@@ -116,11 +116,6 @@ func resourceArmSecurityRule() *schema.Resource {
                 Type: schema.TypeString,
                 Optional: true,
             },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
         },
     }
 }
@@ -221,21 +216,7 @@ func resourceArmSecurityRuleRead(d *schema.ResourceData, meta interface{}) error
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if securityRulePropertiesFormat := resp.SecurityRulePropertiesFormat; securityRulePropertiesFormat != nil {
-        d.Set("access", string(securityRulePropertiesFormat.Access))
-        d.Set("description", securityRulePropertiesFormat.Description)
-        d.Set("destination_address_prefix", securityRulePropertiesFormat.DestinationAddressPrefix)
-        d.Set("destination_port_range", securityRulePropertiesFormat.DestinationPortRange)
-        d.Set("direction", string(securityRulePropertiesFormat.Direction))
-        d.Set("priority", int(*securityRulePropertiesFormat.Priority))
-        d.Set("protocol", string(securityRulePropertiesFormat.Protocol))
-        d.Set("provisioning_state", securityRulePropertiesFormat.ProvisioningState)
-        d.Set("source_address_prefix", securityRulePropertiesFormat.SourceAddressPrefix)
-        d.Set("source_port_range", securityRulePropertiesFormat.SourcePortRange)
-    }
-    d.Set("etag", resp.Etag)
     d.Set("network_security_group_name", networkSecurityGroupName)
 
     return nil

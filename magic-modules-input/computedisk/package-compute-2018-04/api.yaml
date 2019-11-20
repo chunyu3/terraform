@@ -71,7 +71,7 @@ objects:
             python_field_name: disk_size_gb
           '/properties/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
-            go_field_name: DiskSizeGb
+            go_field_name: DiskSizeGB
           '/encryptionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: encryption_settings
@@ -137,6 +137,13 @@ objects:
           '/properties/encryptionSettings/keyEncryptionKey/keyUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: KeyURL
+          '/access': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Access
+            go_enum_type_name: AccessLevel
+            python_field_name: access
+          '/durationInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: DurationInSeconds
+            python_field_name: duration_in_seconds
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -190,7 +197,7 @@ objects:
             python_field_name: disk_size_gb
           '/properties/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
-            go_field_name: DiskSizeGb
+            go_field_name: DiskSizeGB
           '/encryptionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: encryption_settings
@@ -256,6 +263,13 @@ objects:
           '/properties/encryptionSettings/keyEncryptionKey/keyUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: KeyURL
+          '/access': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Access
+            go_enum_type_name: AccessLevel
+            python_field_name: access
+          '/durationInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: DurationInSeconds
+            python_field_name: duration_in_seconds
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -286,171 +300,6 @@ objects:
             python_parameter_name: disk_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_field_name: Sku
-            go_type_name: DiskSku
-            python_field_name: sku
-          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            go_field_name: Name
-            go_enum_type_name: StorageAccountTypes
-            python_field_name: name
-          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Tier
-            python_field_name: tier
-          '/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            go_field_name: Zones
-            python_field_name: zones
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DiskUpdateProperties
-            go_type_name: DiskUpdateProperties
-          '/properties/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: OsType
-            go_enum_type_name: OperatingSystemTypes
-          '/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: os_type
-          '/properties/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: DiskSizeGb
-          '/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: disk_size_gb
-          '/properties/encryptionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: EncryptionSettings
-            go_type_name: EncryptionSettings
-          '/properties/encryptionSettings/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: Enabled
-          '/properties/encryptionSettings/diskEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DiskEncryptionKey
-            go_type_name: KeyVaultAndSecretReference
-          '/properties/encryptionSettings/diskEncryptionKey/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SourceVault
-            go_type_name: SourceVault
-          '/properties/encryptionSettings/diskEncryptionKey/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/encryptionSettings/diskEncryptionKey/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SecretURL
-          '/properties/encryptionSettings/keyEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: KeyEncryptionKey
-            go_type_name: KeyVaultAndKeyReference
-          '/properties/encryptionSettings/keyEncryptionKey/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SourceVault
-            go_type_name: SourceVault
-          '/properties/encryptionSettings/keyEncryptionKey/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/encryptionSettings/keyEncryptionKey/keyUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: KeyURL
-          '/encryptionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: encryption_settings
-          '/encryptionSettings/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enabled
-          '/encryptionSettings/diskEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: disk_encryption_key
-          '/encryptionSettings/diskEncryptionKey/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: source_vault
-          '/encryptionSettings/diskEncryptionKey/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/encryptionSettings/diskEncryptionKey/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: secret_url
-          '/encryptionSettings/keyEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: key_encryption_key
-          '/encryptionSettings/keyEncryptionKey/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: source_vault
-          '/encryptionSettings/keyEncryptionKey/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/encryptionSettings/keyEncryptionKey/keyUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: key_url
-          '/properties/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: TimeCreated
-          '/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: time_created
-          '/properties/creationData': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: CreationData
-            go_type_name: CreationData
-          '/properties/creationData/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: CreateOption
-            go_enum_type_name: DiskCreateOption
-          '/properties/creationData/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageAccountID
-          '/properties/creationData/imageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ImageReference
-            go_type_name: ImageDiskReference
-          '/properties/creationData/imageReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/creationData/imageReference/lun': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: Lun
-          '/properties/creationData/sourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SourceUri
-          '/properties/creationData/sourceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SourceResourceID
-          '/creationData': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: creation_data
-          '/creationData/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: create_option
-          '/creationData/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_account_id
-          '/creationData/imageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: image_reference
-          '/creationData/imageReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/creationData/imageReference/lun': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: lun
-          '/creationData/sourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: source_uri
-          '/creationData/sourceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: source_resource_id
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -463,10 +312,6 @@ objects:
           '/managedBy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ManagedBy
             python_field_name: managed_by
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -476,6 +321,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
 
     description: |
       Manage Azure Disk instance.
@@ -596,23 +445,22 @@ objects:
                 description: 'Url pointing to a key or secret in KeyVault'
                 required: true
                 azure_sdk_references: ['/encryptionSettings/keyEncryptionKey/keyUrl', '/properties/encryptionSettings/keyEncryptionKey/keyUrl']
+      - !ruby/object:Api::Type::Enum
+        name: 'access'
+        description: ''
+        required: true
+        input: true
+        azure_sdk_references: ['/access']
+        values:
+          - :None
+          - :Read
+      - !ruby/object:Api::Type::Integer
+        name: 'durationInSeconds'
+        description: 'Time duration in seconds until the SAS access expires.'
+        required: true
+        input: true
+        azure_sdk_references: ['/durationInSeconds']
       # read only values included only in response
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'timeCreated'
-        description: 'The time when the disk was created.'
-        output: true
-        azure_sdk_references: ['/timeCreated', '/properties/timeCreated']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'creationData'
-        description: 'Disk source information. CreationData information cannot be changed after the disk has been created.'
-        output: true
-        azure_sdk_references: ['/creationData', '/properties/creationData']
-        properties:
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The disk provisioning state.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

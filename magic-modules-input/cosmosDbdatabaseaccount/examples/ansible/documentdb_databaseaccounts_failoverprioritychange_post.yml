@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_cosmosDbdatabaseaccount
+  description: CosmosDBDatabaseAccountFailoverPriorityChange
+  code:
+    resource_group: myResourceGroup
+    account_name: myDatabaseAccount
+    failover_parameters:
+      failoverPolicies:
+        - locationName: eastus
+          failoverPriority: '0'
+        - locationName: westus
+          failoverPriority: '1'
+  

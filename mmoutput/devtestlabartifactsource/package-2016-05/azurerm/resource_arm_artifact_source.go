@@ -102,16 +102,6 @@ func resourceArmArtifactSource() *schema.Resource {
                 Optional: true,
             },
 
-            "created_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -165,7 +155,7 @@ func resourceArmArtifactSourceCreate(d *schema.ResourceData, meta interface{}) e
             SourceType: devtestlab.SourceControlType(sourceType),
             Status: devtestlab.EnableStatus(status),
             UniqueIdentifier: utils.String(uniqueIdentifier),
-            Uri: utils.String(uri),
+            URI: utils.String(uri),
         },
         Tags: tags.Expand(t),
     }
@@ -214,25 +204,9 @@ func resourceArmArtifactSourceRead(d *schema.ResourceData, meta interface{}) err
     d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if artifactSourcePropertiesFragment := resp.ArtifactSourcePropertiesFragment; artifactSourcePropertiesFragment != nil {
-        d.Set("arm_template_folder_path", artifactSourcePropertiesFragment.ArmTemplateFolderPath)
-        d.Set("branch_ref", artifactSourcePropertiesFragment.BranchRef)
-        d.Set("created_date", (artifactSourcePropertiesFragment.CreatedDate).String())
-        d.Set("display_name", artifactSourcePropertiesFragment.DisplayName)
-        d.Set("folder_path", artifactSourcePropertiesFragment.FolderPath)
-        d.Set("provisioning_state", artifactSourcePropertiesFragment.ProvisioningState)
-        d.Set("security_token", artifactSourcePropertiesFragment.SecurityToken)
-        d.Set("source_type", string(artifactSourcePropertiesFragment.SourceType))
-        d.Set("status", string(artifactSourcePropertiesFragment.Status))
-        d.Set("unique_identifier", artifactSourcePropertiesFragment.UniqueIdentifier)
-        d.Set("uri", artifactSourcePropertiesFragment.Uri)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmArtifactSourceUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -254,7 +228,6 @@ func resourceArmArtifactSourceUpdate(d *schema.ResourceData, meta interface{}) e
     t := d.Get("tags").(map[string]interface{})
 
     artifactSource := devtestlab.ArtifactSourceFragment{
-        Location: utils.String(location),
         ArtifactSourcePropertiesFragment: &devtestlab.ArtifactSourcePropertiesFragment{
             ArmTemplateFolderPath: utils.String(armTemplateFolderPath),
             BranchRef: utils.String(branchRef),
@@ -264,7 +237,7 @@ func resourceArmArtifactSourceUpdate(d *schema.ResourceData, meta interface{}) e
             SourceType: devtestlab.SourceControlType(sourceType),
             Status: devtestlab.EnableStatus(status),
             UniqueIdentifier: utils.String(uniqueIdentifier),
-            Uri: utils.String(uri),
+            URI: utils.String(uri),
         },
         Tags: tags.Expand(t),
     }

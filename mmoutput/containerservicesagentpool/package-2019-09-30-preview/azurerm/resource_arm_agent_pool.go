@@ -333,11 +333,6 @@ func resourceArmAgentPool() *schema.Resource {
                 Optional: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -388,18 +383,18 @@ func resourceArmAgentPoolCreateUpdate(d *schema.ResourceData, meta interface{}) 
             AvailabilityZones: utils.ExpandStringSlice(availabilityZones),
             Count: utils.Int32(int32(count)),
             EnableAutoScaling: utils.Bool(enableAutoScaling),
-            EnableNodePublicIp: utils.Bool(enableNodePublicIp),
+            EnableNodePublicIP: utils.Bool(enableNodePublicIp),
             MaxCount: utils.Int32(int32(maxCount)),
             MaxPods: utils.Int32(int32(maxPods)),
             MinCount: utils.Int32(int32(minCount)),
             NodeTaints: utils.ExpandStringSlice(nodeTaints),
             OrchestratorVersion: utils.String(orchestratorVersion),
-            OsDiskSizeGb: utils.Int32(int32(osDiskSizeGb)),
+            OsDiskSizeGB: utils.Int32(int32(osDiskSizeGb)),
             OsType: containerservices.OSType(osType),
             ScaleSetEvictionPolicy: containerservices.ScaleSetEvictionPolicy(scaleSetEvictionPolicy),
             ScaleSetPriority: containerservices.ScaleSetPriority(scaleSetPriority),
             Type: containerservices.AgentPoolType(type),
-            VmSize: containerservices.ContainerServiceVMSizeTypes(vmSize),
+            VMSize: containerservices.ContainerServiceVMSizeTypes(vmSize),
             VnetSubnetID: utils.String(vnetSubnetId),
         },
     }
@@ -452,25 +447,6 @@ func resourceArmAgentPoolRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if managedClusterAgentPoolProfileProperties := resp.ManagedClusterAgentPoolProfileProperties; managedClusterAgentPoolProfileProperties != nil {
-        d.Set("availability_zones", utils.FlattenStringSlice(managedClusterAgentPoolProfileProperties.AvailabilityZones))
-        d.Set("count", int(*managedClusterAgentPoolProfileProperties.Count))
-        d.Set("enable_auto_scaling", managedClusterAgentPoolProfileProperties.EnableAutoScaling)
-        d.Set("enable_node_public_ip", managedClusterAgentPoolProfileProperties.EnableNodePublicIp)
-        d.Set("max_count", int(*managedClusterAgentPoolProfileProperties.MaxCount))
-        d.Set("max_pods", int(*managedClusterAgentPoolProfileProperties.MaxPods))
-        d.Set("min_count", int(*managedClusterAgentPoolProfileProperties.MinCount))
-        d.Set("node_taints", utils.FlattenStringSlice(managedClusterAgentPoolProfileProperties.NodeTaints))
-        d.Set("orchestrator_version", managedClusterAgentPoolProfileProperties.OrchestratorVersion)
-        d.Set("os_disk_size_gb", int(*managedClusterAgentPoolProfileProperties.OsDiskSizeGb))
-        d.Set("os_type", string(managedClusterAgentPoolProfileProperties.OsType))
-        d.Set("provisioning_state", managedClusterAgentPoolProfileProperties.ProvisioningState)
-        d.Set("scale_set_eviction_policy", string(managedClusterAgentPoolProfileProperties.ScaleSetEvictionPolicy))
-        d.Set("scale_set_priority", string(managedClusterAgentPoolProfileProperties.ScaleSetPriority))
-        d.Set("type", string(managedClusterAgentPoolProfileProperties.Type))
-        d.Set("vm_size", string(managedClusterAgentPoolProfileProperties.VmSize))
-        d.Set("vnet_subnet_id", managedClusterAgentPoolProfileProperties.VnetSubnetID)
-    }
     d.Set("resource_name", resourceName)
     d.Set("type", resp.Type)
     d.Set("type", resp.Type)

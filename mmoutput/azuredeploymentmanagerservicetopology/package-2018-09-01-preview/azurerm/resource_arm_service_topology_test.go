@@ -34,15 +34,15 @@ func testCheckAzureRMServiceTopologyExists(resourceName string) resource.TestChe
             return fmt.Errorf("Service Topology not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serviceTopologyName := rs.Primary.Attributes["service_topology_name"]
 
         client := testAccProvider.Meta().(*ArmClient).serviceTopologiesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceTopologyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Service Topology (Service Topology Name %q / Resource Group %q) does not exist", serviceTopologyName, resourceGroup)
+                return fmt.Errorf("Bad: Service Topology %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on serviceTopologiesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMServiceTopologyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serviceTopologyName := rs.Primary.Attributes["service_topology_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceTopologyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on serviceTopologiesClient: %+v", err)
             }

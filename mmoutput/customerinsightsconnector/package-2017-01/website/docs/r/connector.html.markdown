@@ -50,16 +50,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `connector_id` - ID of the connector.
-
-* `created` - The created time.
-
-* `last_modified` - The last modified time.
-
-* `state` - State of connector.
-
-* `tenant_id` - The hub name.
-
 * `id` - Resource ID.
 
 * `name` - Resource name.

@@ -31,17 +31,17 @@ func resourceArmAssignment() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "assignment_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "location": azure.SchemaLocation(),
 
             "identity": {
                 Type: schema.TypeList,
@@ -136,30 +136,6 @@ func resourceArmAssignment() *schema.Resource {
                 },
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "status": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "last_modified": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validateRFC3339Date,
-                        },
-                        "time_created": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validateRFC3339Date,
-                        },
-                    },
-                },
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -172,14 +148,14 @@ func resourceArmAssignmentCreateUpdate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).assignmentsClient
     ctx := meta.(*ArmClient).StopContext
 
-    assignmentName := d.Get("assignment_name").(string)
+    name := d.Get("name").(string)
     scope := d.Get("scope").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, scope, assignmentName)
+        existing, err := client.Get(ctx, scope, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Assignment (Assignment Name %q / Scope %q): %+v", assignmentName, scope, err)
+                return fmt.Errorf("Error checking for present of existing Assignment %q (Scope %q): %+v", name, scope, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -210,17 +186,17 @@ func resourceArmAssignmentCreateUpdate(d *schema.ResourceData, meta interface{})
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, scope, assignmentName, assignment); err != nil {
-        return fmt.Errorf("Error creating Assignment (Assignment Name %q / Scope %q): %+v", assignmentName, scope, err)
+    if _, err := client.CreateOrUpdate(ctx, scope, name, assignment); err != nil {
+        return fmt.Errorf("Error creating Assignment %q (Scope %q): %+v", name, scope, err)
     }
 
 
-    resp, err := client.Get(ctx, scope, assignmentName)
+    resp, err := client.Get(ctx, scope, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Assignment (Assignment Name %q / Scope %q): %+v", assignmentName, scope, err)
+        return fmt.Errorf("Error retrieving Assignment %q (Scope %q): %+v", name, scope, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Assignment (Assignment Name %q / Scope %q) ID", assignmentName, scope)
+        return fmt.Errorf("Cannot read Assignment %q (Scope %q) ID", name, scope)
     }
     d.SetId(*resp.ID)
 
@@ -235,41 +211,21 @@ func resourceArmAssignmentRead(d *schema.ResourceData, meta interface{}) error {
     if err != nil {
         return err
     }
-    assignmentName := id.Path["blueprintAssignments"]
+    name := id.Path["blueprintAssignments"]
 
-    resp, err := client.Get(ctx, scope, assignmentName)
+    resp, err := client.Get(ctx, scope, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Assignment %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Assignment (Assignment Name %q / Scope %q): %+v", assignmentName, scope, err)
+        return fmt.Errorf("Error reading Assignment %q (Scope %q): %+v", name, scope, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    d.Set("assignment_name", assignmentName)
-    if assignmentProperties := resp.AssignmentProperties; assignmentProperties != nil {
-        d.Set("blueprint_id", assignmentProperties.BlueprintID)
-        d.Set("description", assignmentProperties.Description)
-        d.Set("display_name", assignmentProperties.DisplayName)
-        if err := d.Set("locks", flattenArmAssignmentAssignmentLockSettings(assignmentProperties.Locks)); err != nil {
-            return fmt.Errorf("Error setting `locks`: %+v", err)
-        }
-        d.Set("parameters", utils.FlattenKeyValuePairs(assignmentProperties.Parameters))
-        d.Set("provisioning_state", string(assignmentProperties.ProvisioningState))
-        d.Set("resource_groups", utils.FlattenKeyValuePairs(assignmentProperties.ResourceGroups))
-        if err := d.Set("status", flattenArmAssignmentAssignmentStatus(assignmentProperties.Status)); err != nil {
-            return fmt.Errorf("Error setting `status`: %+v", err)
-        }
-    }
-    if err := d.Set("identity", flattenArmAssignmentManagedServiceIdentity(resp.Identity)); err != nil {
-        return fmt.Errorf("Error setting `identity`: %+v", err)
-    }
     d.Set("scope", scope)
     d.Set("type", resp.Type)
 
@@ -286,10 +242,10 @@ func resourceArmAssignmentDelete(d *schema.ResourceData, meta interface{}) error
     if err != nil {
         return err
     }
-    assignmentName := id.Path["blueprintAssignments"]
+    name := id.Path["blueprintAssignments"]
 
-    if _, err := client.Delete(ctx, scope, assignmentName); err != nil {
-        return fmt.Errorf("Error deleting Assignment (Assignment Name %q / Scope %q): %+v", assignmentName, scope, err)
+    if _, err := client.Delete(ctx, scope, name); err != nil {
+        return fmt.Errorf("Error deleting Assignment %q (Scope %q): %+v", name, scope, err)
     }
 
     return nil
@@ -329,48 +285,4 @@ func expandArmAssignmentAssignmentLockSettings(input []interface{}) *blueprint.A
         Mode: blueprint.AssignmentLockMode(mode),
     }
     return &result
-}
-
-
-func flattenArmAssignmentAssignmentLockSettings(input *blueprint.AssignmentLockSettings) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["excluded_principals"] = utils.FlattenStringSlice(input.ExcludedPrincipals)
-    result["mode"] = string(input.Mode)
-
-    return []interface{}{result}
-}
-
-func flattenArmAssignmentAssignmentStatus(input *blueprint.AssignmentStatus) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
-}
-
-func flattenArmAssignmentManagedServiceIdentity(input *blueprint.ManagedServiceIdentity) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if principalId := input.PrincipalID; principalId != nil {
-        result["principal_id"] = *principalId
-    }
-    if tenantId := input.TenantID; tenantId != nil {
-        result["tenant_id"] = *tenantId
-    }
-    result["type"] = string(input.Type)
-    result["user_assigned_identities"] = utils.FlattenKeyValuePairs(input.UserAssignedIdentities)
-
-    return []interface{}{result}
 }

@@ -214,11 +214,6 @@ func resourceArmGalleryImage() *schema.Resource {
                 Optional: true,
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -271,14 +266,14 @@ func resourceArmGalleryImageCreate(d *schema.ResourceData, meta interface{}) err
             Disallowed: expandArmGalleryImageDisallowed(disallowed),
             EndOfLifeDate: convertStringToDate(endOfLifeDate),
             Eula: utils.String(eula),
-            HyperVgeneration: compute.HyperVGeneration(hyperVgeneration),
+            HyperVGeneration: compute.HyperVGeneration(hyperVgeneration),
             Identifier: expandArmGalleryImageGalleryImageIdentifier(identifier),
             OsState: compute.OperatingSystemStateTypes(osState),
             OsType: compute.OperatingSystemTypes(osType),
-            PrivacyStatementUri: utils.String(privacyStatementUri),
+            PrivacyStatementURI: utils.String(privacyStatementUri),
             PurchasePlan: expandArmGalleryImageImagePurchasePlan(purchasePlan),
             Recommended: expandArmGalleryImageRecommendedMachineConfiguration(recommended),
-            ReleaseNoteUri: utils.String(releaseNoteUri),
+            ReleaseNoteURI: utils.String(releaseNoteUri),
         },
         Tags: tags.Expand(t),
     }
@@ -331,36 +326,10 @@ func resourceArmGalleryImageRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if galleryImageProperties := resp.GalleryImageProperties; galleryImageProperties != nil {
-        d.Set("description", galleryImageProperties.Description)
-        if err := d.Set("disallowed", flattenArmGalleryImageDisallowed(galleryImageProperties.Disallowed)); err != nil {
-            return fmt.Errorf("Error setting `disallowed`: %+v", err)
-        }
-        d.Set("end_of_life_date", (galleryImageProperties.EndOfLifeDate).String())
-        d.Set("eula", galleryImageProperties.Eula)
-        d.Set("hyper_vgeneration", string(galleryImageProperties.HyperVgeneration))
-        if err := d.Set("identifier", flattenArmGalleryImageGalleryImageIdentifier(galleryImageProperties.Identifier)); err != nil {
-            return fmt.Errorf("Error setting `identifier`: %+v", err)
-        }
-        d.Set("os_state", string(galleryImageProperties.OsState))
-        d.Set("os_type", string(galleryImageProperties.OsType))
-        d.Set("privacy_statement_uri", galleryImageProperties.PrivacyStatementUri)
-        d.Set("provisioning_state", string(galleryImageProperties.ProvisioningState))
-        if err := d.Set("purchase_plan", flattenArmGalleryImageImagePurchasePlan(galleryImageProperties.PurchasePlan)); err != nil {
-            return fmt.Errorf("Error setting `purchase_plan`: %+v", err)
-        }
-        if err := d.Set("recommended", flattenArmGalleryImageRecommendedMachineConfiguration(galleryImageProperties.Recommended)); err != nil {
-            return fmt.Errorf("Error setting `recommended`: %+v", err)
-        }
-        d.Set("release_note_uri", galleryImageProperties.ReleaseNoteUri)
-    }
     d.Set("gallery_name", galleryName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmGalleryImageUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -385,20 +354,19 @@ func resourceArmGalleryImageUpdate(d *schema.ResourceData, meta interface{}) err
     t := d.Get("tags").(map[string]interface{})
 
     galleryImage := compute.GalleryImageUpdate{
-        Location: utils.String(location),
         GalleryImageProperties: &compute.GalleryImageProperties{
             Description: utils.String(description),
             Disallowed: expandArmGalleryImageDisallowed(disallowed),
             EndOfLifeDate: convertStringToDate(endOfLifeDate),
             Eula: utils.String(eula),
-            HyperVgeneration: compute.HyperVGeneration(hyperVgeneration),
+            HyperVGeneration: compute.HyperVGeneration(hyperVgeneration),
             Identifier: expandArmGalleryImageGalleryImageIdentifier(identifier),
             OsState: compute.OperatingSystemStateTypes(osState),
             OsType: compute.OperatingSystemTypes(osType),
-            PrivacyStatementUri: utils.String(privacyStatementUri),
+            PrivacyStatementURI: utils.String(privacyStatementUri),
             PurchasePlan: expandArmGalleryImageImagePurchasePlan(purchasePlan),
             Recommended: expandArmGalleryImageRecommendedMachineConfiguration(recommended),
-            ReleaseNoteUri: utils.String(releaseNoteUri),
+            ReleaseNoteURI: utils.String(releaseNoteUri),
         },
         Tags: tags.Expand(t),
     }
@@ -521,7 +489,7 @@ func expandArmGalleryImageRecommendedMachineConfiguration(input []interface{}) *
 
     result := compute.RecommendedMachineConfiguration{
         Memory: expandArmGalleryImageResourceRange(memory),
-        VCpus: expandArmGalleryImageResourceRange(vCpus),
+        VCPUs: expandArmGalleryImageResourceRange(vCpus),
     }
     return &result
 }
@@ -540,87 +508,4 @@ func expandArmGalleryImageResourceRange(input []interface{}) *compute.ResourceRa
         Min: utils.Int32(int32(min)),
     }
     return &result
-}
-
-
-func flattenArmGalleryImageDisallowed(input *compute.Disallowed) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["disk_types"] = utils.FlattenStringSlice(input.DiskTypes)
-
-    return []interface{}{result}
-}
-
-func flattenArmGalleryImageGalleryImageIdentifier(input *compute.GalleryImageIdentifier) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if offer := input.Offer; offer != nil {
-        result["offer"] = *offer
-    }
-    if publisher := input.Publisher; publisher != nil {
-        result["publisher"] = *publisher
-    }
-    if sku := input.Sku; sku != nil {
-        result["sku"] = *sku
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmGalleryImageImagePurchasePlan(input *compute.ImagePurchasePlan) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
-    if product := input.Product; product != nil {
-        result["product"] = *product
-    }
-    if publisher := input.Publisher; publisher != nil {
-        result["publisher"] = *publisher
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmGalleryImageRecommendedMachineConfiguration(input *compute.RecommendedMachineConfiguration) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["memory"] = flattenArmGalleryImageResourceRange(input.Memory)
-    result["v_cpus"] = flattenArmGalleryImageResourceRange(input.VCpus)
-
-    return []interface{}{result}
-}
-
-func flattenArmGalleryImageResourceRange(input *compute.ResourceRange) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if max := input.Max; max != nil {
-        result["max"] = int(*max)
-    }
-    if min := input.Min; min != nil {
-        result["min"] = int(*min)
-    }
-
-    return []interface{}{result}
 }

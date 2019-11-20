@@ -38,8 +38,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `provisioning_state` - The provisioning state of the association.
-
 * `id` - The association id.
 
 * `name` - The association name.

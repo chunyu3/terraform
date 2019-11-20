@@ -189,11 +189,6 @@ func resourceArmJobTargetGroupRead(d *schema.ResourceData, meta interface{}) err
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("job_agent_name", jobAgentName)
-    if jobTargetGroupProperties := resp.JobTargetGroupProperties; jobTargetGroupProperties != nil {
-        if err := d.Set("members", flattenArmJobTargetGroupJobTarget(jobTargetGroupProperties.Members)); err != nil {
-            return fmt.Errorf("Error setting `members`: %+v", err)
-        }
-    }
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 
@@ -247,38 +242,4 @@ func expandArmJobTargetGroupJobTarget(input []interface{}) *[]sql.JobTarget {
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmJobTargetGroupJobTarget(input *[]sql.JobTarget) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if databaseName := item.DatabaseName; databaseName != nil {
-            v["database_name"] = *databaseName
-        }
-        if elasticPoolName := item.ElasticPoolName; elasticPoolName != nil {
-            v["elastic_pool_name"] = *elasticPoolName
-        }
-        v["membership_type"] = string(item.MembershipType)
-        if refreshCredential := item.RefreshCredential; refreshCredential != nil {
-            v["refresh_credential"] = *refreshCredential
-        }
-        if serverName := item.ServerName; serverName != nil {
-            v["server_name"] = *serverName
-        }
-        if shardMapName := item.ShardMapName; shardMapName != nil {
-            v["shard_map_name"] = *shardMapName
-        }
-        v["type"] = string(item.Type)
-
-        results = append(results, v)
-    }
-
-    return results
 }

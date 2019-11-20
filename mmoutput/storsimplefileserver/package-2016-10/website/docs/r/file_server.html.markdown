@@ -28,7 +28,7 @@ Manage Azure FileServer instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The manager name Changing this forces a new resource to be created.
+* `name` - (Required) The name of the file server. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
@@ -38,7 +38,7 @@ The following arguments are supported:
 
 * `domain_name` - (Required) Domain of the file server
 
-* `file_server_name` - (Required) The name of the file server. Changing this forces a new resource to be created.
+* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `storage_domain_id` - (Required) The storage domain id.
 

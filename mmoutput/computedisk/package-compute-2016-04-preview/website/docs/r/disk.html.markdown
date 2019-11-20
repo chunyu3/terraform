@@ -34,6 +34,10 @@ The following arguments are supported:
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
 
+* `access` - (Required)  Changing this forces a new resource to be created.
+
+* `duration_in_seconds` - (Required) Time duration in seconds until the SAS access expires. Changing this forces a new resource to be created.
+
 * `account_type` - (Optional) the storage account type of the disk. Defaults to `Standard_LRS`.
 
 * `creation_data` - (Optional) One `creation_datum` block defined below.
@@ -113,12 +117,6 @@ The `source_vault` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `time_created` - The time when the disk was created.
-
-* `owner_id` - A relative URI containing the VM id that has the disk attached.
-
-* `provisioning_state` - The disk provisioning state.
 
 * `id` - Resource Id
 

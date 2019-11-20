@@ -156,74 +156,6 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: StorageAccountCredentialProperties
-            go_type_name: StorageAccountCredentialProperties
-          '/properties/alias': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Alias
-          '/alias': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: alias
-          '/properties/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: UserName
-          '/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: user_name
-          '/properties/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AccountKey
-            go_type_name: AsymmetricEncryptedSecret
-          '/properties/accountKey/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/properties/accountKey/encryptionCertThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EncryptionCertThumbprint
-          '/properties/accountKey/encryptionAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: EncryptionAlgorithm
-            go_enum_type_name: EncryptionAlgorithm
-          '/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: account_key
-          '/accountKey/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
-          '/accountKey/encryptionCertThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: encryption_cert_thumbprint
-          '/accountKey/encryptionAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: encryption_algorithm
-          '/properties/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ConnectionString
-          '/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: connection_string
-          '/properties/sslStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: SslStatus
-            go_enum_type_name: SSLStatus
-          '/sslStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: ssl_status
-          '/properties/blobDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: BlobDomainName
-          '/blobDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: blob_domain_name
-          '/properties/accountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: AccountType
-            go_enum_type_name: AccountType
-          '/accountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: account_type
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -254,6 +186,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['deviceName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'The storage account credential name.'
@@ -321,12 +259,6 @@ objects:
         values:
           - :GeneralPurposeStorage
           - :BlobStorage
-      - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
-        description: 'The resource group name.'
-        required: true
-        input: true
-        azure_sdk_references: ['resourceGroupName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

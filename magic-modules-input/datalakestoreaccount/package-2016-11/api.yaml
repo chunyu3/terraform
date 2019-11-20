@@ -35,12 +35,9 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: UpdateDataLakeStoreAccountParameters
+            go_type_name: CheckNameAvailabilityParameters
             python_parameter_name: parameters
             python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -106,10 +103,10 @@ objects:
             go_type_name: UpdateFirewallRuleProperties
           '/properties/firewallRules/properties/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: StartIpAddress
+            go_field_name: StartIPAddress
           '/properties/firewallRules/properties/endIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: EndIpAddress
+            go_field_name: EndIPAddress
           '/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: virtual_network_rules
@@ -184,6 +181,12 @@ objects:
             applicable_to: [go]
             go_field_name: NewTier
             go_enum_type_name: TierType
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -201,12 +204,9 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: UpdateDataLakeStoreAccountParameters
+            go_type_name: CheckNameAvailabilityParameters
             python_parameter_name: parameters
             python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -272,10 +272,10 @@ objects:
             go_type_name: UpdateFirewallRuleProperties
           '/properties/firewallRules/properties/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: StartIpAddress
+            go_field_name: StartIPAddress
           '/properties/firewallRules/properties/endIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: EndIpAddress
+            go_field_name: EndIPAddress
           '/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: virtual_network_rules
@@ -350,6 +350,12 @@ objects:
             applicable_to: [go]
             go_field_name: NewTier
             go_enum_type_name: TierType
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -380,9 +386,11 @@ objects:
             python_parameter_name: account_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -390,9 +398,6 @@ objects:
             go_field_name: Identity
             go_type_name: EncryptionIdentity
             python_field_name: identity
-          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Type
-            python_field_name: type
           '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: PrincipalID
             python_field_name: principal_id
@@ -413,41 +418,9 @@ objects:
             applicable_to: [go]
             go_field_name: EncryptionConfig
             go_type_name: UpdateEncryptionConfig
-          '/properties/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: KeyVaultMetaInfo
-            go_type_name: UpdateKeyVaultMetaInfo
-          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EncryptionKeyVersion
-          '/properties/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: KeyVaultResourceID
-          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EncryptionKeyName
-          '/properties/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Type
-            go_enum_type_name: EncryptionConfigType
           '/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: encryption_config
-          '/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: key_vault_meta_info
-          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: encryption_key_version
-          '/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: key_vault_resource_id
-          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: encryption_key_name
-          '/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: type
           '/properties/firewallRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: FirewallRules
@@ -461,10 +434,10 @@ objects:
             go_type_name: UpdateFirewallRuleProperties
           '/properties/firewallRules/properties/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: StartIpAddress
+            go_field_name: StartIPAddress
           '/properties/firewallRules/properties/endIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: EndIpAddress
+            go_field_name: EndIPAddress
           '/properties/firewallRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ID
@@ -646,19 +619,15 @@ objects:
           '/currentTier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: current_tier
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -668,6 +637,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
 
     description: |
       Manage Azure Account instance.
@@ -686,10 +659,10 @@ objects:
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
-        description: 'The resource location.'
+        description: 'The resource location without whitespace.'
         required: true
         input: true
-        azure_sdk_references: ['/location']
+        azure_sdk_references: ['location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
         description: 'Resource tags'
@@ -826,6 +799,18 @@ objects:
           - :Commitment_1PB
           - :Commitment_5PB
         default_value: :Consumption
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The Data Lake Store name to check availability for.'
+        required: true
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The resource type. Note: This should not be set by the user, as the constant value is Microsoft.DataLakeStore/accounts'
+        required: true
+        input: true
+        azure_sdk_references: ['/type']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'accountId'
@@ -906,13 +891,3 @@ objects:
         description: 'The resource identifier.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The resource name.'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The resource type.'
-        output: true
-        azure_sdk_references: ['/type']

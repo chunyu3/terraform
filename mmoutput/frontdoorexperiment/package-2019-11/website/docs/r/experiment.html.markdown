@@ -46,20 +46,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `endpoint_a_name` - The name of the endpoint
-
-* `endpoint_a_endpoint` - The endpoint URL
-
-* `endpoint_b_name` - The name of the endpoint
-
-* `endpoint_b_endpoint` - The endpoint URL
-
-* `resource_state` - Resource status.
-
-* `status` - The description of Experiment status from the server side
-
-* `script_file_uri` - The uri to the Script used in the Experiment
-
 * `id` - Resource ID.
 
 * `name` - Resource name.

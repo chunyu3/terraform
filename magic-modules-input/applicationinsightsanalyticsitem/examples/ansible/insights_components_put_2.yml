@@ -1,0 +1,39 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_applicationinsightsanalyticsitem
+  description: AnalyticsItemPut
+  code:
+    resource_group: myResourceGroup
+    name: myComponent
+    scope_path: analyticsItems
+    id: 3466c160-4a10-4df8-afdf-0007f3f6dee5
+    item_properties:
+      Scope: shared
+      Type: query
+      Name: Exceptions - New in the last 24 hours
+      Content: >
+        let newExceptionsTimeRange = 1d;
+  
+        let timeRangeToCheckBefore = 7d;
+  
+        exceptions
+  
+        | where timestamp < ago(timeRangeToCheckBefore)
+  
+        | summarize count() by problemId
+  
+        | join kind= rightanti (
+  
+        exceptions
+  
+        | where timestamp >= ago(newExceptionsTimeRange)
+  
+        | extend stack = tostring(details[0].rawStack)
+  
+        | summarize count(), dcount(user_AuthenticatedId), min(timestamp),
+        max(timestamp), any(stack) by problemId  
+  
+        ) on problemId 
+  
+        | order by  count_ desc
+  

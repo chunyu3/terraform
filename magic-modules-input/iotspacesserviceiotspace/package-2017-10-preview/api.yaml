@@ -87,6 +87,9 @@ objects:
             go_field_name: Name
             go_enum_type_name: IoTSpacesSku
             python_field_name: name
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -132,87 +135,15 @@ objects:
             python_parameter_name: resource_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: IoTSpacesProperties
-            go_type_name: IoTSpacesProperties
-          '/properties/storageContainer': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: StorageContainer
-            go_type_name: StorageContainerProperties
-          '/properties/storageContainer/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ConnectionString
-          '/properties/storageContainer/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubscriptionID
-          '/properties/storageContainer/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceGroup
-          '/properties/storageContainer/containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ContainerName
-          '/storageContainer': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: storage_container
-          '/storageContainer/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: connection_string
-          '/storageContainer/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subscription_id
-          '/storageContainer/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_group
-          '/storageContainer/containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: container_name
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/managementApiUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ManagementApiURL
-          '/managementApiUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: management_api_url
-          '/properties/webPortalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: WebPortalURL
-          '/webPortalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: web_portal_url
-          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_field_name: Sku
-            go_type_name: IoTSpacesSkuInfo
-            python_field_name: sku
-          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
-            go_enum_type_name: IoTSpacesSku
             python_field_name: name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: List
-        python_func_name: list
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -222,6 +153,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
 
     description: |
       Manage Azure IoTSpace instance.
@@ -292,38 +227,18 @@ objects:
               - :S1
               - :S2
               - :S3
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the IoTSpaces service instance to check.'
+        required: true
+        input: true
+        azure_sdk_references: ['/name']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The provisioning state.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Provisioning
-          - :Deleting
-          - :Succeeded
-          - :Failed
-          - :Canceled
-      - !ruby/object:Api::Type::String
-        name: 'managementApiUrl'
-        description: 'The management Api endpoint.'
-        output: true
-        azure_sdk_references: ['/managementApiUrl', '/properties/managementApiUrl']
-      - !ruby/object:Api::Type::String
-        name: 'webPortalUrl'
-        description: 'The management UI endpoint.'
-        output: true
-        azure_sdk_references: ['/webPortalUrl', '/properties/webPortalUrl']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource identifier.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The resource name.'
-        output: true
-        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'The resource type.'

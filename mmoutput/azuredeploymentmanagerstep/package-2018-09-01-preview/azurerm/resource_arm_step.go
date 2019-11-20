@@ -31,19 +31,19 @@ func resourceArmStep() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "step_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "type": {
                 Type: schema.TypeString,
@@ -59,14 +59,14 @@ func resourceArmStepCreateUpdate(d *schema.ResourceData, meta interface{}) error
     client := meta.(*ArmClient).stepsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    stepName := d.Get("step_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, stepName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Step (Step Name %q / Resource Group %q): %+v", stepName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Step %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -83,17 +83,17 @@ func resourceArmStepCreateUpdate(d *schema.ResourceData, meta interface{}) error
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, stepName, stepInfo); err != nil {
-        return fmt.Errorf("Error creating Step (Step Name %q / Resource Group %q): %+v", stepName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, stepInfo); err != nil {
+        return fmt.Errorf("Error creating Step %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, stepName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Step (Step Name %q / Resource Group %q): %+v", stepName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Step %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Step (Step Name %q / Resource Group %q) ID", stepName, resourceGroup)
+        return fmt.Errorf("Cannot read Step %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -109,28 +109,25 @@ func resourceArmStepRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    stepName := id.Path["steps"]
+    name := id.Path["steps"]
 
-    resp, err := client.Get(ctx, resourceGroup, stepName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Step %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Step (Step Name %q / Resource Group %q): %+v", stepName, resourceGroup, err)
+        return fmt.Errorf("Error reading Step %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    d.Set("step_name", stepName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -144,10 +141,10 @@ func resourceArmStepDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    stepName := id.Path["steps"]
+    name := id.Path["steps"]
 
-    if _, err := client.Delete(ctx, resourceGroup, stepName); err != nil {
-        return fmt.Errorf("Error deleting Step (Step Name %q / Resource Group %q): %+v", stepName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Step %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

@@ -28,17 +28,17 @@ Manage Azure ReplicationNetworkMapping instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Network mapping name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group where the recovery services vault is present. Changing this forces a new resource to be created.
 
 * `fabric_name` - (Required) Primary fabric name. Changing this forces a new resource to be created.
-
-* `network_mapping_name` - (Required) Network mapping name. Changing this forces a new resource to be created.
 
 * `network_name` - (Required) Primary network name. Changing this forces a new resource to be created.
 
 * `resource_name` - (Required) The name of the recovery services vault. Changing this forces a new resource to be created.
 
-* `recovery_fabric_name` - (Optional) Recovery fabric Name.
+* `recovery_fabric_name` - (Optional) Recovery fabric name.
 
 * `recovery_network_id` - (Optional) Recovery network Id.
 
@@ -46,24 +46,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `state` - The pairing state for network mapping.
-
-* `primary_network_friendly_name` - The primary network friendly name.
-
-* `primary_network_id` - The primary network id for network mapping.
-
-* `primary_fabric_friendly_name` - The primary fabric friendly name.
-
-* `recovery_network_friendly_name` - The recovery network friendly name.
-
-* `recovery_fabric_arm_id` - The recovery fabric ARM id.
-
-* `recovery_fabric_friendly_name` - The recovery fabric friendly name.
-
 * `id` - Resource Id
 
 * `name` - Resource Name
 
 * `type` - Resource Type
-
-* `location` - Resource Location

@@ -39,12 +39,12 @@ objects:
             python_variable_name: project_name
           'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tasks
-            go_variable_name: taskName
+            go_variable_name: name
             python_parameter_name: task_name
-            python_variable_name: task_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ProjectTask
+            go_type_name: CommandProperties
             python_parameter_name: parameters
             python_variable_name: parameters
           '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -81,12 +81,12 @@ objects:
             python_variable_name: project_name
           'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tasks
-            go_variable_name: taskName
+            go_variable_name: name
             python_parameter_name: task_name
-            python_variable_name: task_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ProjectTask
+            go_type_name: CommandProperties
             python_parameter_name: parameters
             python_variable_name: parameters
           '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -123,9 +123,14 @@ objects:
             python_variable_name: project_name
           'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tasks
-            go_variable_name: taskName
+            go_variable_name: name
             python_parameter_name: task_name
-            python_variable_name: task_name
+            python_variable_name: name
+          'deleteRunningTasks': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: deleteRunningTasks
+            python_parameter_name: delete_running_tasks
+            python_variable_name: delete_running_tasks
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -147,44 +152,10 @@ objects:
             python_variable_name: project_name
           'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tasks
-            go_variable_name: taskName
+            go_variable_name: name
             python_parameter_name: task_name
-            python_variable_name: task_name
+            python_variable_name: name
         response:
-          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Etag
-            python_field_name: etag
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ProjectTaskProperties
-            go_type_name: ProjectTaskProperties
-          '/properties/clientData': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: ClientData
-          '/clientData': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: client_data
-          '/properties/errors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Errors
-            go_type_name: ODataError
-          '/errors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: errors
-          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: State
-            go_enum_type_name: TaskState
-          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: state
-          '/properties/commands': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Commands
-            go_type_name: CommandProperties
-          '/commands': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: commands
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -213,21 +184,15 @@ objects:
             go_variable_name: projectName
             python_parameter_name: project_name
             python_variable_name: project_name
+          'taskType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: taskType
+            python_parameter_name: task_type
+            python_variable_name: task_type
 
     description: |
       Manage Azure Task instance.
     properties:
-      - !ruby/object:Api::Type::String
-        name: 'etag'
-        description: 'HTTP strong entity tag value. This is ignored if submitted.'
-        required: false
-        input: true
-        azure_sdk_references: ['/etag']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'clientData'
-        description: 'Key value pairs of client data to attach meta data information to task'
-        required: false
-        azure_sdk_references: ['/clientData', '/properties/clientData']
       - !ruby/object:Api::Type::String
         name: 'groupName'
         description: 'Name of the resource group'
@@ -247,130 +212,35 @@ objects:
         input: true
         azure_sdk_references: ['projectName']
       - !ruby/object:Api::Type::String
-        name: 'taskName'
+        name: 'taskType'
+        description: 'Filter tasks by task type'
+        required: false
+        input: true
+        azure_sdk_references: ['taskType']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'HTTP strong entity tag value. This is ignored if submitted.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'clientData'
+        description: 'Key value pairs of client data to attach meta data information to task'
+        required: false
+        azure_sdk_references: ['/clientData', '/properties/clientData']
+      - !ruby/object:Api::Type::String
+        name: 'name'
         description: 'Name of the Task'
         required: true
         input: true
         azure_sdk_references: ['taskName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'deleteRunningTasks'
+        description: 'Delete the resource even if it contains running tasks'
+        required: false
+        input: true
+        azure_sdk_references: ['deleteRunningTasks']
       # read only values included only in response
-      - !ruby/object:Api::Type::Array
-        name: 'errors'
-        description: 'Array of errors. This is ignored if submitted.'
-        output: true
-        azure_sdk_references: ['/errors', '/properties/errors']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'code'
-              description: 'The machine-readable description of the error, such as ''InvalidRequest'' or ''InternalServerError'''
-              required: false
-              azure_sdk_references: ['/errors/code', '/properties/errors/code']
-            - !ruby/object:Api::Type::String
-              name: 'message'
-              description: 'The human-readable description of the error'
-              required: false
-              azure_sdk_references: ['/errors/message', '/properties/errors/message']
-            - !ruby/object:Api::Type::Array
-              name: 'details'
-              description: 'Inner errors that caused this error'
-              required: false
-              azure_sdk_references: ['/errors/details', '/properties/errors/details']
-              item_type: !ruby/object:Api::Type::NestedObject
-                properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'code'
-                    description: 'The machine-readable description of the error, such as ''InvalidRequest'' or ''InternalServerError'''
-                    required: false
-                    azure_sdk_references: ['/errors/details/code', '/properties/errors/details/code']
-                  - !ruby/object:Api::Type::String
-                    name: 'message'
-                    description: 'The human-readable description of the error'
-                    required: false
-                    azure_sdk_references: ['/errors/details/message', '/properties/errors/details/message']
-                  - !ruby/object:Api::Type::Array
-                    name: 'details'
-                    description: 'Inner errors that caused this error'
-                    required: false
-                    azure_sdk_references: ['/errors/details/details', '/properties/errors/details/details']
-                    item_type: !ruby/object:Api::Type::NestedObject
-                      properties:
-                        - !ruby/object:Api::Type::String
-                          name: 'code'
-                          description: 'The machine-readable description of the error, such as ''InvalidRequest'' or ''InternalServerError'''
-                          required: false
-                          azure_sdk_references: ['/errors/details/details/code', '/properties/errors/details/details/code']
-                        - !ruby/object:Api::Type::String
-                          name: 'message'
-                          description: 'The human-readable description of the error'
-                          required: false
-                          azure_sdk_references: ['/errors/details/details/message', '/properties/errors/details/details/message']
-      - !ruby/object:Api::Type::Enum
-        name: 'state'
-        description: 'The state of the task. This is ignored if submitted.'
-        output: true
-        azure_sdk_references: ['/state', '/properties/state']
-        values:
-          - :Unknown
-          - :Queued
-          - :Running
-          - :Canceled
-          - :Succeeded
-          - :Failed
-          - :FailedInputValidation
-          - :Faulted
-      - !ruby/object:Api::Type::Array
-        name: 'commands'
-        description: 'Array of command properties.'
-        output: true
-        azure_sdk_references: ['/commands', '/properties/commands']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::Array
-              name: 'errors'
-              description: 'Array of errors. This is ignored if submitted.'
-              required: false
-              azure_sdk_references: ['/commands/errors', '/properties/commands/errors']
-              item_type: !ruby/object:Api::Type::NestedObject
-                properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'code'
-                    description: 'The machine-readable description of the error, such as ''InvalidRequest'' or ''InternalServerError'''
-                    required: false
-                    azure_sdk_references: ['/commands/errors/code', '/properties/commands/errors/code']
-                  - !ruby/object:Api::Type::String
-                    name: 'message'
-                    description: 'The human-readable description of the error'
-                    required: false
-                    azure_sdk_references: ['/commands/errors/message', '/properties/commands/errors/message']
-                  - !ruby/object:Api::Type::Array
-                    name: 'details'
-                    description: 'Inner errors that caused this error'
-                    required: false
-                    azure_sdk_references: ['/commands/errors/details', '/properties/commands/errors/details']
-                    item_type: !ruby/object:Api::Type::NestedObject
-                      properties:
-                        - !ruby/object:Api::Type::String
-                          name: 'code'
-                          description: 'The machine-readable description of the error, such as ''InvalidRequest'' or ''InternalServerError'''
-                          required: false
-                          azure_sdk_references: ['/commands/errors/details/code', '/properties/commands/errors/details/code']
-                        - !ruby/object:Api::Type::String
-                          name: 'message'
-                          description: 'The human-readable description of the error'
-                          required: false
-                          azure_sdk_references: ['/commands/errors/details/message', '/properties/commands/errors/details/message']
-            - !ruby/object:Api::Type::Enum
-              name: 'state'
-              description: 'The state of the command. This is ignored if submitted.'
-              required: false
-              azure_sdk_references: ['/commands/state', '/properties/commands/state']
-              values:
-                - :Unknown
-                - :Accepted
-                - :Running
-                - :Succeeded
-                - :Failed
-              default_value: :Unknown
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

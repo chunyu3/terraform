@@ -103,35 +103,6 @@ objects:
             python_parameter_name: trigger_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Trigger
-            go_type_name: Trigger
-          '/properties/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: AdditionalProperties
-          '/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: additional_properties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/annotations': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [go]
-            go_field_name: Annotations
-          '/annotations': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [python]
-            python_field_name: annotations
-          '/properties/runtimeState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: RuntimeState
-            go_enum_type_name: TriggerRuntimeState
-          '/runtimeState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: runtime_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -197,15 +168,6 @@ objects:
         azure_sdk_references: ['/annotations', '/properties/annotations']
         item_type: !ruby/object:Api::Azure::Type::[unknown-primary[object]]
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'runtimeState'
-        description: 'Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger.'
-        output: true
-        azure_sdk_references: ['/runtimeState', '/properties/runtimeState']
-        values:
-          - :Started
-          - :Stopped
-          - :Disabled
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource identifier.'

@@ -34,39 +34,19 @@ The following arguments are supported:
 
 * `location` - (Required) The location of the resource. This cannot be changed after the resource is created. Changing this forces a new resource to be created.
 
-* `key_vault_id` - (Required) The fully qualified arm id of the user key vault.
-
-* `storage_account` - (Required) One `storage_account` block defined below.
-
-* `vso_account_id` - (Required) The fully qualified arm id of the vso account to be used for this team account.
-
----
-
-The `storage_account` block supports the following:
-
-* `storage_account_id` - (Required) The fully qualified arm Id of the storage account.
-
-* `access_key` - (Required) The access key to the storage account.
-
 * `description` - (Optional) The description of this workspace.
 
 * `friendly_name` - (Optional) The friendly name for this workspace. This will be the workspace name in the arm id when the workspace object gets created
 
 * `seats` - (Optional) The no of users/seats who can access this team account. This property defines the charge on the team account.
 
-* `tags` - (Optional) The tags of the resource. Changing this forces a new resource to be created.
+* `storage_account_key` - (Optional) The key for storage account associated with this team account
+
+* `tags` - (Optional) The resource tags for the machine learning team account. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `account_id` - The immutable id associated with this team account.
-
-* `discovery_uri` - The uri for this machine learning team account.
-
-* `creation_date` - The creation date of the machine learning team account in ISO8601 format.
-
-* `provisioning_state` - The current deployment state of team account resource. The provisioningState is to indicate states for resource provisioning.
 
 * `id` - The resource ID.
 

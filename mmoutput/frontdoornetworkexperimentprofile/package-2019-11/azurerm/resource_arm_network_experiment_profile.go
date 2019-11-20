@@ -61,11 +61,6 @@ func resourceArmNetworkExperimentProfile() *schema.Resource {
                 ForceNew: true,
             },
 
-            "resource_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -156,17 +151,9 @@ func resourceArmNetworkExperimentProfileRead(d *schema.ResourceData, meta interf
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if profileUpdateProperties := resp.ProfileUpdateProperties; profileUpdateProperties != nil {
-        d.Set("enabled_state", string(profileUpdateProperties.EnabledState))
-        d.Set("resource_state", string(profileUpdateProperties.ResourceState))
-    }
-    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmNetworkExperimentProfileUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -181,7 +168,6 @@ func resourceArmNetworkExperimentProfileUpdate(d *schema.ResourceData, meta inte
 
     parameters := frontdoor.ProfileUpdateModel{
         Etag: utils.String(etag),
-        Location: utils.String(location),
         ProfileUpdateProperties: &frontdoor.ProfileUpdateProperties{
             EnabledState: frontdoor.State(enabledState),
         },

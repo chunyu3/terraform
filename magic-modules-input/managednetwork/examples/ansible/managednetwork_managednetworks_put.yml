@@ -3,6 +3,8 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_managednetwork
   description: ManagedNetworksPut
   code:
+    resource_group: myResourceGroup
+    name: myManagedNetwork
     managed_network:
       tags: {}
       location: eastus
@@ -34,6 +36,4 @@ task: !ruby/object:Provider::Ansible::Task
                 /subscriptions/{{ subscription_id }}/resourceGroups/{{
                 resource_group }}/providers/Microsoft.Network/virtualNetworks/{{
                 virtual_network_name }}/subnets/{{ subnet_name }}
-    resource_group: myResourceGroup
-    name: myManagedNetwork
   

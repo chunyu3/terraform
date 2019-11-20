@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_applicationinsightscomponentcurrentpricingplan
+  description: ComponentCurrentPricingPlanUpdate
+  code:
+    resource_group: myResourceGroup
+    name: myComponent
+    pricing_plan_properties:
+      id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/microsoft.insights/components/{{ component_name
+        }}/pricingPlans/{{ pricing_plan_name }}
+      name: current
+      type: microsoft.insights/components/pricingPlans
+      properties:
+        planType: Basic
+        cap: '500'
+        warningThreshold: '90'
+        stopSendNotificationWhenHitThreshold: false
+        stopSendNotificationWhenHitCap: false
+  

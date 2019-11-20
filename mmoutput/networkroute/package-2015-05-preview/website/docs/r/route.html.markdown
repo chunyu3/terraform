@@ -49,5 +49,3 @@ The following arguments are supported:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `provisioning_state` - Gets or sets Provisioning state of the resource Updating/Deleting/Failed

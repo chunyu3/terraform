@@ -4,7 +4,9 @@ task: !ruby/object:Provider::Ansible::Task
   description: JobDefinitions_CreateOrUpdatePUT83
   code:
     data_service_name: myDataService
-    job_definition_name: myJobDefinition
+    resource_group: myResourceGroup
+    data_manager_name: myDataManager
+    name: myJobDefinition
     job_definition:
       properties:
         dataSourceId: >-
@@ -29,6 +31,4 @@ task: !ruby/object:Provider::Ansible::Task
           BackupChoice: UseExistingLatest
           IsDirectoryMode: false
           AzureStorageType: Blob
-    resource_group: myResourceGroup
-    name: myDataManager
   

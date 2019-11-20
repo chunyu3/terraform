@@ -38,6 +38,28 @@ The following arguments are supported:
 
 * `location` - (Optional) Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is created, but if an identical geo region is specified on update, the request will succeed. Changing this forces a new resource to be created.
 
+* `azure_file_share` - (Optional) Azure File Share. Changing this forces a new resource to be created.
+
+* `azure_file_share_uri` - (Optional) Post Restore Azure file share uri. Changing this forces a new resource to be created.
+
+* `backup_metadata_property_bag` - (Optional) Pre Restore backup metadata property bag. Changing this forces a new resource to be created.
+
+* `failed_file_list` - (Optional) Post Restore Azure failed file list. Changing this forces a new resource to be created.
+
+* `partition` - (Optional) Post Restore partition. Changing this forces a new resource to be created.
+
+* `pause_wait_for_sync_drain_time_period_in_seconds` - (Optional) Pre Restore pause wait for sync drain time period in seconds. Changing this forces a new resource to be created.
+
+* `replica_group` - (Optional) Post Restore replica group. Changing this forces a new resource to be created.
+
+* `request_id` - (Optional) Post Restore request id. Changing this forces a new resource to be created.
+
+* `restore_file_spec` - (Optional) One or more `restore_file_spec` block defined below.
+
+* `source_azure_file_share_uri` - (Optional) Post Restore Azure source azure file share uri. Changing this forces a new resource to be created.
+
+* `status` - (Optional) Post Restore Azure status. Changing this forces a new resource to be created.
+
 * `storage_account_resource_id` - (Optional) Storage Account Resource Id
 
 * `storage_account_share_name` - (Optional) Storage Account Share name
@@ -46,21 +68,15 @@ The following arguments are supported:
 
 * `tags` - (Optional) Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key with a length no greater than 128 characters and a value with a length no greater than 256 characters. Changing this forces a new resource to be created.
 
+---
+
+The `restore_file_spec` block supports the following:
+
+* `path` - (Optional) Restore file spec path
+
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `partnership_id` - Partnership Id
-
-* `friendly_name` - Friendly Name
-
-* `backup_enabled` - Backup Enabled
-
-* `provisioning_state` - CloudEndpoint Provisioning State
-
-* `last_workflow_id` - CloudEndpoint lastWorkflowId
-
-* `last_operation_name` - Resource Last Operation Name
 
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 

@@ -46,8 +46,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `display_name` - Tag name.
-
 * `id` - Resource ID.
 
 * `name` - Resource name.

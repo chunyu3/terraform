@@ -42,6 +42,9 @@ objects:
             go_type_name: Workbook
             python_parameter_name: workbook_properties
             python_variable_name: workbook_properties
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             go_field_name: Kind
             go_enum_type_name: SharedTypeKind
@@ -125,64 +128,6 @@ objects:
             python_parameter_name: resource_name
             python_variable_name: name
         response:
-          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            go_field_name: Kind
-            go_enum_type_name: SharedTypeKind
-            python_field_name: kind
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          'tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            id_portion: null
-            go_variable_name: tags
-            python_parameter_name: tags
-            python_variable_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: WorkbookPropertiesUpdateParameters
-            go_type_name: WorkbookPropertiesUpdateParameters
-          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DisplayName
-          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: display_name
-          '/properties/serializedData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SerializedData
-          '/serializedData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: serialized_data
-          '/properties/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Category
-          '/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: category
-          '/properties/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: Tags
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: tags
-          '/properties/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TimeModified
-          '/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: time_modified
-          '/properties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Version
-          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: version
-          '/properties/userId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: UserID
-          '/userId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: user_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -201,11 +146,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
-          'tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+          'category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: null
-            go_variable_name: tags
-            python_parameter_name: tags
-            python_variable_name: tags
+            go_variable_name: category
+            python_parameter_name: category
+            python_variable_name: category
           'sourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: null
             go_variable_name: sourceID
@@ -216,12 +161,9 @@ objects:
             go_variable_name: canFetchContent
             python_parameter_name: can_fetch_content
             python_variable_name: can_fetch_content
-          '/properties/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Category
-          '/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: category
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
 
     description: |
       Manage Azure Workbook instance.
@@ -233,17 +175,35 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The name of the Application Insights component resource.'
+        name: 'category'
+        description: 'Category of workbook to return.'
         required: true
         input: true
-        azure_sdk_references: ['resourceName']
+        azure_sdk_references: ['category']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
         name: 'sourceId'
         description: 'Azure Resource Id that will fetch all related workbooks.'
         required: true
         input: true
         azure_sdk_references: ['sourceId']
+      - !ruby/object:Api::Type::Boolean
+        name: 'canFetchContent'
+        description: 'Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks.'
+        required: false
+        input: true
+        azure_sdk_references: ['canFetchContent']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Application Insights component resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
       - !ruby/object:Api::Type::Enum
         name: 'kind'
         description: 'The kind of workbook. Choices are user and shared.'
@@ -260,13 +220,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['/location']
-      - !ruby/object:Api::Type::Array
-        name: 'tags'
-        description: 'Tags presents on each workbook returned.'
-        required: false
-        input: true
-        azure_sdk_references: ['tags']
-        item_type: Api::Type::String
       - !ruby/object:Api::Type::String
         name: 'displayName'
         description: 'The user-defined name (display name) of the workbook.'
@@ -288,34 +241,7 @@ objects:
         required: false
         azure_sdk_references: ['/tags', '/properties/tags']
         item_type: Api::Type::String
-      - !ruby/object:Api::Type::String
-        name: 'category'
-        description: 'Category of workbook to return.'
-        required: true
-        input: true
-        azure_sdk_references: ['category']
-      - !ruby/object:Api::Type::Boolean
-        name: 'canFetchContent'
-        description: 'Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks.'
-        required: false
-        input: true
-        azure_sdk_references: ['canFetchContent']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'timeModified'
-        description: 'Date and time in UTC of the last modification that was made to this workbook definition.'
-        output: true
-        azure_sdk_references: ['/timeModified', '/properties/timeModified']
-      - !ruby/object:Api::Type::String
-        name: 'version'
-        description: 'Workbook version'
-        output: true
-        azure_sdk_references: ['/version', '/properties/version']
-      - !ruby/object:Api::Type::String
-        name: 'userId'
-        description: 'Unique user id of the specific user that owns this workbook.'
-        output: true
-        azure_sdk_references: ['/userId', '/properties/userId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource Id'

@@ -46,18 +46,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `invitation_id` - unique invitation id
-
-* `invitation_status` - The status of the invitation.
-
-* `responded_at` - The time the recipient responded to the invitation.
-
-* `sent_at` - Gets the time at which the invitation was sent.
-
-* `user_email` - Email of the user who created the resource
-
-* `user_name` - Name of the user who created the resource
-
 * `id` - The resource id of the azure resource
 
 * `name` - Name of the azure resource

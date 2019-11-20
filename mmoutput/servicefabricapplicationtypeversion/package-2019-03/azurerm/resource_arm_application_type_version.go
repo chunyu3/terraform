@@ -65,18 +65,7 @@ func resourceArmApplicationTypeVersion() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "default_parameter_list": {
-                Type: schema.TypeMap,
-                Computed: true,
-                Elem: &schema.Schema{Type: schema.TypeString},
-            },
-
             "etag": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -173,20 +162,12 @@ func resourceArmApplicationTypeVersionRead(d *schema.ResourceData, meta interfac
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if applicationTypeVersionResourceProperties := resp.ApplicationTypeVersionResourceProperties; applicationTypeVersionResourceProperties != nil {
-        d.Set("app_package_url", applicationTypeVersionResourceProperties.AppPackageURL)
-        d.Set("default_parameter_list", utils.FlattenKeyValuePairs(applicationTypeVersionResourceProperties.DefaultParameterList))
-        d.Set("provisioning_state", applicationTypeVersionResourceProperties.ProvisioningState)
-    }
     d.Set("cluster_name", clusterName)
     d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
     d.Set("version", version)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 

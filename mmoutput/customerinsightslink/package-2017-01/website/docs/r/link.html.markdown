@@ -74,12 +74,6 @@ The `mapping` block supports the following:
 
 The following attributes are exported:
 
-* `tenant_id` - The hub name.
-
-* `link_name` - The link name.
-
-* `provisioning_state` - Provisioning state.
-
 * `id` - Resource ID.
 
 * `name` - Resource name.

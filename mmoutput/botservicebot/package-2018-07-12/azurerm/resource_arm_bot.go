@@ -38,7 +38,8 @@ func resourceArmBot() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
             },
 
             "location": azure.SchemaLocation(),
@@ -138,30 +139,10 @@ func resourceArmBot() *schema.Resource {
                 },
             },
 
-            "configured_channels": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Schema{
-                    Type: schema.TypeString,
-                },
-            },
-
-            "enabled_channels": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Schema{
-                    Type: schema.TypeString,
-                },
-            },
-
-            "endpoint_version": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
             },
 
             "tags": tags.Schema(),
@@ -188,6 +169,7 @@ func resourceArmBotCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
+    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     description := d.Get("description").(string)
     developerAppInsightKey := d.Get("developer_app_insight_key").(string)
@@ -202,16 +184,18 @@ func resourceArmBotCreate(d *schema.ResourceData, meta interface{}) error {
     luisKey := d.Get("luis_key").(string)
     msaAppId := d.Get("msa_app_id").(string)
     sku := d.Get("sku").([]interface{})
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := botservice.Bot{
+    parameters := botservice.CheckNameAvailabilityRequestBody{
         Etag: utils.String(etag),
         Kind: botservice.Kind(kind),
         Location: utils.String(location),
+        Name: utils.String(name),
         BotProperties: &botservice.BotProperties{
             Description: utils.String(description),
             DeveloperAppInsightKey: utils.String(developerAppInsightKey),
-            DeveloperAppInsightsApiKey: utils.String(developerAppInsightsApiKey),
+            DeveloperAppInsightsAPIKey: utils.String(developerAppInsightsApiKey),
             DeveloperAppInsightsApplicationID: utils.String(developerAppInsightsApplicationId),
             DisplayName: utils.String(displayName),
             Endpoint: utils.String(endpoint),
@@ -222,6 +206,7 @@ func resourceArmBotCreate(d *schema.ResourceData, meta interface{}) error {
         },
         Sku: expandArmBotSku(sku),
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -267,38 +252,16 @@ func resourceArmBotRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if botProperties := resp.BotProperties; botProperties != nil {
-        d.Set("configured_channels", utils.FlattenStringSlice(botProperties.ConfiguredChannels))
-        d.Set("description", botProperties.Description)
-        d.Set("developer_app_insight_key", botProperties.DeveloperAppInsightKey)
-        d.Set("developer_app_insights_api_key", botProperties.DeveloperAppInsightsApiKey)
-        d.Set("developer_app_insights_application_id", botProperties.DeveloperAppInsightsApplicationID)
-        d.Set("display_name", botProperties.DisplayName)
-        d.Set("enabled_channels", utils.FlattenStringSlice(botProperties.EnabledChannels))
-        d.Set("endpoint", botProperties.Endpoint)
-        d.Set("endpoint_version", botProperties.EndpointVersion)
-        d.Set("icon_url", botProperties.IconURL)
-        d.Set("luis_app_ids", utils.FlattenStringSlice(botProperties.LuisAppIds))
-        d.Set("luis_key", botProperties.LuisKey)
-        d.Set("msa_app_id", botProperties.MsaAppID)
-    }
-    d.Set("etag", resp.Etag)
-    d.Set("kind", string(resp.Kind))
-    if err := d.Set("sku", flattenArmBotSku(resp.Sku)); err != nil {
-        return fmt.Errorf("Error setting `sku`: %+v", err)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmBotUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).botsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     description := d.Get("description").(string)
@@ -314,16 +277,17 @@ func resourceArmBotUpdate(d *schema.ResourceData, meta interface{}) error {
     luisKey := d.Get("luis_key").(string)
     msaAppId := d.Get("msa_app_id").(string)
     sku := d.Get("sku").([]interface{})
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := botservice.Bot{
+    parameters := botservice.CheckNameAvailabilityRequestBody{
         Etag: utils.String(etag),
         Kind: botservice.Kind(kind),
-        Location: utils.String(location),
+        Name: utils.String(name),
         BotProperties: &botservice.BotProperties{
             Description: utils.String(description),
             DeveloperAppInsightKey: utils.String(developerAppInsightKey),
-            DeveloperAppInsightsApiKey: utils.String(developerAppInsightsApiKey),
+            DeveloperAppInsightsAPIKey: utils.String(developerAppInsightsApiKey),
             DeveloperAppInsightsApplicationID: utils.String(developerAppInsightsApplicationId),
             DisplayName: utils.String(displayName),
             Endpoint: utils.String(endpoint),
@@ -334,6 +298,7 @@ func resourceArmBotUpdate(d *schema.ResourceData, meta interface{}) error {
         },
         Sku: expandArmBotSku(sku),
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -375,17 +340,4 @@ func expandArmBotSku(input []interface{}) *botservice.Sku {
         Name: botservice.SkuName(name),
     }
     return &result
-}
-
-
-func flattenArmBotSku(input *botservice.Sku) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["name"] = string(input.Name)
-
-    return []interface{}{result}
 }

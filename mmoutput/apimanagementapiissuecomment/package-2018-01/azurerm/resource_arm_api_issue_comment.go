@@ -96,15 +96,15 @@ func resourceArmApiIssueCommentCreateUpdate(d *schema.ResourceData, meta interfa
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    apiID := d.Get("api_id").(string)
+    aPIID := d.Get("api_id").(string)
     commentID := d.Get("comment_id").(string)
     issueID := d.Get("issue_id").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, apiID, issueID, commentID)
+        existing, err := client.Get(ctx, resourceGroup, name, aPIID, issueID, commentID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, apiID, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, aPIID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -125,17 +125,17 @@ func resourceArmApiIssueCommentCreateUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, apiID, issueID, commentID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, apiID, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, aPIID, issueID, commentID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, aPIID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, commentID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, issueID, commentID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, aPIID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q) ID", name, commentID, issueID, apiID, resourceGroup)
+        return fmt.Errorf("Cannot read Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q) ID", name, commentID, issueID, aPIID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -152,31 +152,26 @@ func resourceArmApiIssueCommentRead(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     issueID := id.Path["issues"]
     commentID := id.Path["comments"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, commentID)
+    resp, err := client.Get(ctx, resourceGroup, name, aPIID, issueID, commentID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Issue Comment %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, apiID, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, aPIID, resourceGroup, err)
     }
 
 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("api_id", apiID)
+    d.Set("api_id", aPIID)
     d.Set("comment_id", commentID)
-    if issueCommentContractProperties := resp.IssueCommentContractProperties; issueCommentContractProperties != nil {
-        d.Set("created_date", (issueCommentContractProperties.CreatedDate).String())
-        d.Set("text", issueCommentContractProperties.Text)
-        d.Set("user_id", issueCommentContractProperties.UserID)
-    }
     d.Set("issue_id", issueID)
     d.Set("type", resp.Type)
 
@@ -195,12 +190,12 @@ func resourceArmApiIssueCommentDelete(d *schema.ResourceData, meta interface{}) 
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["service"]
-    apiID := id.Path["apis"]
+    aPIID := id.Path["apis"]
     issueID := id.Path["issues"]
     commentID := id.Path["comments"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, apiID, issueID, commentID); err != nil {
-        return fmt.Errorf("Error deleting Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, apiID, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, aPIID, issueID, commentID); err != nil {
+        return fmt.Errorf("Error deleting Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, aPIID, resourceGroup, err)
     }
 
     return nil

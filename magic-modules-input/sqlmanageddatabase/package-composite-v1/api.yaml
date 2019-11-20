@@ -40,7 +40,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ManagedDatabaseUpdate
+            go_type_name: CompleteDatabaseRestoreDefinition
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -84,7 +84,7 @@ objects:
             python_field_name: storage_container_uri
           '/properties/storageContainerUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: StorageContainerUri
+            go_field_name: StorageContainerURI
           '/sourceDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: source_database_id
@@ -109,6 +109,9 @@ objects:
           '/properties/recoverableDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: RecoverableDatabaseID
+          '/lastBackupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LastBackupName
+            python_field_name: last_backup_name
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -131,7 +134,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ManagedDatabaseUpdate
+            go_type_name: CompleteDatabaseRestoreDefinition
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -175,7 +178,7 @@ objects:
             python_field_name: storage_container_uri
           '/properties/storageContainerUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: StorageContainerUri
+            go_field_name: StorageContainerURI
           '/sourceDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: source_database_id
@@ -200,6 +203,9 @@ objects:
           '/properties/recoverableDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: RecoverableDatabaseID
+          '/lastBackupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LastBackupName
+            python_field_name: last_backup_name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -240,103 +246,6 @@ objects:
             python_parameter_name: database_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ManagedDatabaseProperties
-            go_type_name: ManagedDatabaseProperties
-          '/properties/collation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Collation
-          '/collation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: collation
-          '/properties/restorePointInTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: RestorePointInTime
-          '/restorePointInTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: restore_point_in_time
-          '/properties/catalogCollation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: CatalogCollation
-            go_enum_type_name: CatalogCollationType
-          '/catalogCollation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: catalog_collation
-          '/properties/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: CreateMode
-            go_enum_type_name: ManagedDatabaseCreateMode
-          '/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: create_mode
-          '/properties/storageContainerUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageContainerUri
-          '/storageContainerUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_container_uri
-          '/properties/sourceDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SourceDatabaseID
-          '/sourceDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: source_database_id
-          '/properties/restorableDroppedDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RestorableDroppedDatabaseID
-          '/restorableDroppedDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: restorable_dropped_database_id
-          '/properties/storageContainerSasToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageContainerSasToken
-          '/storageContainerSasToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_container_sas_token
-          '/properties/recoverableDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RecoverableDatabaseID
-          '/recoverableDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: recoverable_database_id
-          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Status
-            go_enum_type_name: ManagedDatabaseStatus
-          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: status
-          '/properties/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreationDate
-          '/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: creation_date
-          '/properties/earliestRestorePoint': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: EarliestRestorePoint
-          '/earliestRestorePoint': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: earliest_restore_point
-          '/properties/defaultSecondaryLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DefaultSecondaryLocation
-          '/defaultSecondaryLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: default_secondary_location
-          '/properties/failoverGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FailoverGroupID
-          '/failoverGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: failover_group_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -449,40 +358,13 @@ objects:
         description: 'The resource identifier of the recoverable database associated with create operation of this database.'
         required: false
         azure_sdk_references: ['/recoverableDatabaseId', '/properties/recoverableDatabaseId']
+      - !ruby/object:Api::Type::String
+        name: 'lastBackupName'
+        description: 'The last backup name to apply'
+        required: true
+        input: true
+        azure_sdk_references: ['/lastBackupName']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'status'
-        description: 'Status of the database.'
-        output: true
-        azure_sdk_references: ['/status', '/properties/status']
-        values:
-          - :Online
-          - :Offline
-          - :Shutdown
-          - :Creating
-          - :Inaccessible
-          - :Restoring
-          - :Updating
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationDate'
-        description: 'Creation date of the database.'
-        output: true
-        azure_sdk_references: ['/creationDate', '/properties/creationDate']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'earliestRestorePoint'
-        description: 'Earliest restore point in time for point in time restore.'
-        output: true
-        azure_sdk_references: ['/earliestRestorePoint', '/properties/earliestRestorePoint']
-      - !ruby/object:Api::Type::String
-        name: 'defaultSecondaryLocation'
-        description: 'Geo paired region.'
-        output: true
-        azure_sdk_references: ['/defaultSecondaryLocation', '/properties/defaultSecondaryLocation']
-      - !ruby/object:Api::Type::String
-        name: 'failoverGroupId'
-        description: 'Instance Failover Group resource identifier that this managed database belongs to.'
-        output: true
-        azure_sdk_references: ['/failoverGroupId', '/properties/failoverGroupId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

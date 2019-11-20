@@ -34,6 +34,8 @@ The following arguments are supported:
 
 * `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
 
+* `current_resource_id` - (Optional) The resource Id of the virtual machine on which the schedule operates Changing this forces a new resource to be created.
+
 * `daily_recurrence` - (Optional) One `daily_recurrence` block defined below.
 
 * `hourly_recurrence` - (Optional) One `hourly_recurrence` block defined below.
@@ -43,6 +45,8 @@ The following arguments are supported:
 * `status` - (Optional) The status of the schedule (i.e. Enabled, Disabled) Defaults to `Enabled`.
 
 * `target_resource_id` - (Optional) The resource ID to which the schedule belongs
+
+* `target_resource_id` - (Optional) The resource Id of the virtual machine that the schedule should be retargeted to Changing this forces a new resource to be created.
 
 * `task_type` - (Optional) The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
 
@@ -87,10 +91,6 @@ The `weekly_recurrence` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `created_date` - The creation date of the schedule.
-
-* `provisioning_state` - The provisioning status of the resource.
 
 * `id` - The identifier of the resource.
 

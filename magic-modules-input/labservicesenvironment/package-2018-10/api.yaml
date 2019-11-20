@@ -77,7 +77,7 @@ objects:
             go_type_name: ResourceSetFragment
           '/properties/resourceSets/vmResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: VmResourceID
+            go_field_name: VMResourceID
           '/properties/resourceSets/resourceSettingId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ResourceSettingID
@@ -87,6 +87,15 @@ objects:
           '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: UniqueIdentifier
+          '/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: EnvironmentID
+            python_field_name: environment_id
+          '/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Username
+            python_field_name: username
+          '/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Password
+            python_field_name: password
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -146,7 +155,7 @@ objects:
             go_type_name: ResourceSetFragment
           '/properties/resourceSets/vmResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: VmResourceID
+            go_field_name: VMResourceID
           '/properties/resourceSets/resourceSettingId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ResourceSettingID
@@ -156,6 +165,15 @@ objects:
           '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: UniqueIdentifier
+          '/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: EnvironmentID
+            python_field_name: environment_id
+          '/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Username
+            python_field_name: username
+          '/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Password
+            python_field_name: password
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -216,163 +234,6 @@ objects:
             python_parameter_name: environment_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: EnvironmentPropertiesFragment
-            go_type_name: EnvironmentPropertiesFragment
-          '/properties/resourceSets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ResourceSets
-            go_type_name: ResourceSetFragment
-          '/properties/resourceSets/vmResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VmResourceID
-          '/properties/resourceSets/resourceSettingId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceSettingID
-          '/resourceSets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: resource_sets
-          '/resourceSets/vmResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vm_resource_id
-          '/resourceSets/resourceSettingId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_setting_id
-          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: UniqueIdentifier
-          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: unique_identifier
-          '/properties/claimedByUserObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClaimedByUserObjectID
-          '/claimedByUserObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: claimed_by_user_object_id
-          '/properties/claimedByUserPrincipalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClaimedByUserPrincipalID
-          '/claimedByUserPrincipalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: claimed_by_user_principal_id
-          '/properties/claimedByUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClaimedByUserName
-          '/claimedByUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: claimed_by_user_name
-          '/properties/isClaimed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsClaimed
-          '/isClaimed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_claimed
-          '/properties/lastKnownPowerState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: LastKnownPowerState
-          '/lastKnownPowerState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: last_known_power_state
-          '/properties/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: NetworkInterface
-            go_type_name: NetworkInterface
-          '/properties/networkInterface/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PrivateIpAddress
-          '/properties/networkInterface/sshAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SshAuthority
-          '/properties/networkInterface/rdpAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RdpAuthority
-          '/properties/networkInterface/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Username
-          '/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: network_interface
-          '/networkInterface/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: private_ip_address
-          '/networkInterface/sshAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: ssh_authority
-          '/networkInterface/rdpAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: rdp_authority
-          '/networkInterface/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: username
-          '/properties/totalUsage': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: TotalUsage
-          '/totalUsage': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: total_usage
-          '/properties/passwordLastReset': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: PasswordLastReset
-          '/passwordLastReset': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: password_last_reset
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/latestOperationResult': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: LatestOperationResult
-            go_type_name: LatestOperationResult
-          '/properties/latestOperationResult/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Status
-          '/properties/latestOperationResult/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ErrorCode
-          '/properties/latestOperationResult/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ErrorMessage
-          '/properties/latestOperationResult/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RequestUri
-          '/properties/latestOperationResult/httpMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HttpMethod
-          '/properties/latestOperationResult/operationUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: OperationURL
-          '/latestOperationResult': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: latest_operation_result
-          '/latestOperationResult/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: status
-          '/latestOperationResult/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: error_code
-          '/latestOperationResult/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: error_message
-          '/latestOperationResult/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: request_uri
-          '/latestOperationResult/httpMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: http_method
-          '/latestOperationResult/operationUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: operation_url
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -473,59 +334,25 @@ objects:
         description: 'The unique immutable identifier of a resource (Guid).'
         required: false
         azure_sdk_references: ['/uniqueIdentifier', '/properties/uniqueIdentifier']
+      - !ruby/object:Api::Type::String
+        name: 'environmentId'
+        description: 'The resourceId of the environment'
+        required: true
+        input: true
+        azure_sdk_references: ['/environmentId']
+      - !ruby/object:Api::Type::String
+        name: 'username'
+        description: 'The username for which the password will be reset.'
+        required: false
+        input: true
+        azure_sdk_references: ['/username']
+      - !ruby/object:Api::Type::String
+        name: 'password'
+        description: 'The password to assign to the user specified in'
+        required: false
+        input: true
+        azure_sdk_references: ['/password']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'claimedByUserObjectId'
-        description: 'The AAD object Id of the user who has claimed the environment'
-        output: true
-        azure_sdk_references: ['/claimedByUserObjectId', '/properties/claimedByUserObjectId']
-      - !ruby/object:Api::Type::String
-        name: 'claimedByUserPrincipalId'
-        description: 'The user principal Id of the user who has claimed the environment'
-        output: true
-        azure_sdk_references: ['/claimedByUserPrincipalId', '/properties/claimedByUserPrincipalId']
-      - !ruby/object:Api::Type::String
-        name: 'claimedByUserName'
-        description: 'The name or email address of the user who has claimed the environment'
-        output: true
-        azure_sdk_references: ['/claimedByUserName', '/properties/claimedByUserName']
-      - !ruby/object:Api::Type::Boolean
-        name: 'isClaimed'
-        description: 'Is the environment claimed or not'
-        output: true
-        azure_sdk_references: ['/isClaimed', '/properties/isClaimed']
-      - !ruby/object:Api::Type::String
-        name: 'lastKnownPowerState'
-        description: 'Last known power state of the environment'
-        output: true
-        azure_sdk_references: ['/lastKnownPowerState', '/properties/lastKnownPowerState']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'networkInterface'
-        description: 'Network details of the environment'
-        output: true
-        azure_sdk_references: ['/networkInterface', '/properties/networkInterface']
-        properties:
-      - !ruby/object:Api::Azure::Type::ISO8601Duration
-        name: 'totalUsage'
-        description: 'How long the environment has been used by a lab user'
-        output: true
-        azure_sdk_references: ['/totalUsage', '/properties/totalUsage']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'passwordLastReset'
-        description: 'When the password was last reset on the environment.'
-        output: true
-        azure_sdk_references: ['/passwordLastReset', '/properties/passwordLastReset']
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The provisioning status of the resource.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'latestOperationResult'
-        description: 'The details of the latest operation. ex: status, error'
-        output: true
-        azure_sdk_references: ['/latestOperationResult', '/properties/latestOperationResult']
-        properties:
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The identifier of the resource.'

@@ -28,11 +28,11 @@ Manage Azure ServiceTopology instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the service topology . Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
-
-* `service_topology_name` - (Required) The name of the service topology . Changing this forces a new resource to be created.
 
 * `artifact_source_id` - (Optional) The resource Id of the artifact source that contains the artifacts that can be referenced in the service units.
 

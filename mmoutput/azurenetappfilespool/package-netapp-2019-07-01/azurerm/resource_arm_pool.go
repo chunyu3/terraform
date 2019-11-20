@@ -68,16 +68,6 @@ func resourceArmPool() *schema.Resource {
                 Optional: true,
             },
 
-            "pool_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -170,19 +160,10 @@ func resourceArmPoolRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
     d.Set("account_name", accountName)
-    if poolPatchProperties := resp.PoolPatchProperties; poolPatchProperties != nil {
-        d.Set("pool_id", poolPatchProperties.PoolID)
-        d.Set("provisioning_state", poolPatchProperties.ProvisioningState)
-        d.Set("service_level", string(poolPatchProperties.ServiceLevel))
-        d.Set("size", int(*poolPatchProperties.Size))
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmPoolUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -197,7 +178,6 @@ func resourceArmPoolUpdate(d *schema.ResourceData, meta interface{}) error {
     t := d.Get("tags").(map[string]interface{})
 
     body := azurenetappfiles.CapacityPoolPatch{
-        Location: utils.String(location),
         PoolPatchProperties: &azurenetappfiles.PoolPatchProperties{
             ServiceLevel: azurenetappfiles.ServiceLevel(serviceLevel),
             Size: utils.Int64(int64(size)),

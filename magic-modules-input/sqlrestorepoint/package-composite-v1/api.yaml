@@ -18,34 +18,6 @@ objects:
       go_client: restorePointsClient
       python_client_namespace: azure.mgmt.sql
       python_client: SqlManagementClient.restore_points
-      create: !ruby/object:Api::Azure::SDKOperationDefinition
-        async: true
-        go_func_name: Create
-        python_func_name: create
-        request:
-          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
-            go_variable_name: resourceGroup
-            python_parameter_name: resource_group_name
-            python_variable_name: resource_group
-          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: servers
-            go_variable_name: serverName
-            python_parameter_name: server_name
-            python_variable_name: server_name
-          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: databases
-            go_variable_name: databaseName
-            python_parameter_name: database_name
-            python_variable_name: database_name
-          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_variable_name: parameters
-            go_type_name: CreateDatabaseRestorePointDefinition
-            python_parameter_name: parameters
-            python_variable_name: parameters
-          '/restorePointLabel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: RestorePointLabel
-            python_field_name: restore_point_label
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -107,34 +79,33 @@ objects:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
             python_field_name: location
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: RestorePointProperties
-            go_type_name: RestorePointProperties
-          '/properties/restorePointType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: RestorePointType
-            go_enum_type_name: RestorePointType
-          '/restorePointType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: restore_point_type
-          '/properties/earliestRestoreDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: EarliestRestoreDate
-          '/earliestRestoreDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: earliest_restore_date
-          '/properties/restorePointCreationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: RestorePointCreationDate
-          '/restorePointCreationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: restore_point_creation_date
-          '/properties/restorePointLabel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RestorePointLabel
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: CreateDatabaseRestorePointDefinition
+            python_parameter_name: parameters
+            python_variable_name: parameters
           '/restorePointLabel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
+            go_field_name: RestorePointLabel
             python_field_name: restore_point_label
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByDatabase
@@ -210,26 +181,3 @@ objects:
         description: 'Resource location.'
         output: true
         azure_sdk_references: ['/location']
-      - !ruby/object:Api::Type::Enum
-        name: 'restorePointType'
-        description: 'The type of restore point'
-        output: true
-        azure_sdk_references: ['/restorePointType', '/properties/restorePointType']
-        values:
-          - :CONTINUOUS
-          - :DISCRETE
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'earliestRestoreDate'
-        description: 'The earliest time to which this database can be restored'
-        output: true
-        azure_sdk_references: ['/earliestRestoreDate', '/properties/earliestRestoreDate']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'restorePointCreationDate'
-        description: 'The time the backup was taken'
-        output: true
-        azure_sdk_references: ['/restorePointCreationDate', '/properties/restorePointCreationDate']
-      - !ruby/object:Api::Type::String
-        name: 'restorePointLabel'
-        description: 'The label of restore point for backup request by user'
-        output: true
-        azure_sdk_references: ['/restorePointLabel', '/properties/restorePointLabel']

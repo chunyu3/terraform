@@ -31,14 +31,33 @@ func resourceArmMediaService() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "media_service_name": {
+            "key_type": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(mediaservices.Primary),
+                    string(mediaservices.Secondary),
+                }, false),
+            },
+
+            "type": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -63,28 +82,6 @@ func resourceArmMediaService() *schema.Resource {
                 },
             },
 
-            "api_endpoints": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "endpoint": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "major_version": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "tags": tags.Schema(),
         },
     }
@@ -94,14 +91,14 @@ func resourceArmMediaServiceCreate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).mediaServiceClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    mediaServiceName := d.Get("media_service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, mediaServiceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Media Service (Media Service Name %q / Resource Group %q): %+v", mediaServiceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Media Service %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -109,30 +106,38 @@ func resourceArmMediaServiceCreate(d *schema.ResourceData, meta interface{}) err
         }
     }
 
+    id := d.Get("id").(string)
+    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
+    keyType := d.Get("key_type").(string)
     storageAccounts := d.Get("storage_accounts").([]interface{})
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := mediaservices.MediaService{
+    parameters := mediaservices.SyncStorageKeysInput{
+        ID: utils.String(id),
+        KeyType: mediaservices.KeyType(keyType),
         Location: utils.String(location),
+        Name: utils.String(name),
         MediaServiceProperties: &mediaservices.MediaServiceProperties{
             StorageAccounts: expandArmMediaServiceStorageAccount(storageAccounts),
         },
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, mediaServiceName, parameters); err != nil {
-        return fmt.Errorf("Error creating Media Service (Media Service Name %q / Resource Group %q): %+v", mediaServiceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Media Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, mediaServiceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Media Service (Media Service Name %q / Resource Group %q): %+v", mediaServiceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Media Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Media Service (Media Service Name %q / Resource Group %q) ID", mediaServiceName, resourceGroup)
+        return fmt.Errorf("Cannot read Media Service %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -148,58 +153,54 @@ func resourceArmMediaServiceRead(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.ResourceGroup
-    mediaServiceName := id.Path["mediaservices"]
+    name := id.Path["mediaservices"]
 
-    resp, err := client.Get(ctx, resourceGroup, mediaServiceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Media Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Media Service (Media Service Name %q / Resource Group %q): %+v", mediaServiceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Media Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
     d.Set("name", resp.Name)
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if mediaServiceProperties := resp.MediaServiceProperties; mediaServiceProperties != nil {
-        if err := d.Set("api_endpoints", flattenArmMediaServiceApiEndpoint(mediaServiceProperties.ApiEndpoints)); err != nil {
-            return fmt.Errorf("Error setting `api_endpoints`: %+v", err)
-        }
-        if err := d.Set("storage_accounts", flattenArmMediaServiceStorageAccount(mediaServiceProperties.StorageAccounts)); err != nil {
-            return fmt.Errorf("Error setting `storage_accounts`: %+v", err)
-        }
-    }
-    d.Set("media_service_name", mediaServiceName)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmMediaServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).mediaServiceClient
     ctx := meta.(*ArmClient).StopContext
 
+    id := d.Get("id").(string)
+    name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    mediaServiceName := d.Get("media_service_name").(string)
+    keyType := d.Get("key_type").(string)
     storageAccounts := d.Get("storage_accounts").([]interface{})
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := mediaservices.MediaService{
-        Location: utils.String(location),
+    parameters := mediaservices.SyncStorageKeysInput{
+        ID: utils.String(id),
+        KeyType: mediaservices.KeyType(keyType),
+        Name: utils.String(name),
         MediaServiceProperties: &mediaservices.MediaServiceProperties{
             StorageAccounts: expandArmMediaServiceStorageAccount(storageAccounts),
         },
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, mediaServiceName, parameters); err != nil {
-        return fmt.Errorf("Error updating Media Service (Media Service Name %q / Resource Group %q): %+v", mediaServiceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Media Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmMediaServiceRead(d, meta)
@@ -215,10 +216,10 @@ func resourceArmMediaServiceDelete(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    mediaServiceName := id.Path["mediaservices"]
+    name := id.Path["mediaservices"]
 
-    if _, err := client.Delete(ctx, resourceGroup, mediaServiceName); err != nil {
-        return fmt.Errorf("Error deleting Media Service (Media Service Name %q / Resource Group %q): %+v", mediaServiceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Media Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil
@@ -239,43 +240,4 @@ func expandArmMediaServiceStorageAccount(input []interface{}) *[]mediaservices.S
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmMediaServiceApiEndpoint(input *[]mediaservices.ApiEndpoint) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmMediaServiceStorageAccount(input *[]mediaservices.StorageAccount) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if isPrimary := item.IsPrimary; isPrimary != nil {
-            v["is_primary"] = *isPrimary
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

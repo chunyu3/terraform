@@ -118,41 +118,6 @@ objects:
             python_parameter_name: dedicated_cloud_service_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DedicatedCloudServiceProperties
-            go_type_name: DedicatedCloudServiceProperties
-          '/properties/gatewaySubnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: GatewaySubnet
-          '/gatewaySubnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: gateway_subnet
-          '/properties/isAccountOnboarded': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: IsAccountOnboarded
-            go_enum_type_name: OnboardingStatus
-          '/isAccountOnboarded': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: is_account_onboarded
-          '/properties/nodes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Nodes
-          '/nodes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: nodes
-          '/properties/serviceURL': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServiceURL
-          '/serviceURL': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: service_url
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -162,10 +127,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscription
-        python_func_name: list_by_subscription
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -175,6 +136,10 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
 
     description: |
       Manage Azure DedicatedCloudService instance.
@@ -187,7 +152,7 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'dedicated cloud Service name'
+        description: 'dedicated cloud service name'
         required: true
         input: true
         azure_sdk_references: ['dedicatedCloudServiceName']
@@ -209,26 +174,6 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'isAccountOnboarded'
-        description: 'indicates whether account onboarded or not in a given region'
-        output: true
-        azure_sdk_references: ['/isAccountOnboarded', '/properties/isAccountOnboarded']
-        values:
-          - :notOnBoarded
-          - :onBoarded
-          - :onBoardingFailed
-          - :onBoarding
-      - !ruby/object:Api::Type::Integer
-        name: 'nodes'
-        description: 'total nodes purchased'
-        output: true
-        azure_sdk_references: ['/nodes', '/properties/nodes']
-      - !ruby/object:Api::Type::String
-        name: 'serviceUrl'
-        description: 'link to a service management web portal'
-        output: true
-        azure_sdk_references: ['/serviceURL', '/properties/serviceURL']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudServices/{dedicatedCloudServiceName}'

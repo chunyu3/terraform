@@ -63,6 +63,9 @@ objects:
             go_field_name: Name
             go_enum_type_name: SkuName
             python_field_name: name
+          '/NotAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: NotAfter
+            python_field_name: not_after
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -108,6 +111,9 @@ objects:
             go_field_name: Name
             go_enum_type_name: SkuName
             python_field_name: name
+          '/NotAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: NotAfter
+            python_field_name: not_after
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -137,36 +143,6 @@ objects:
             python_parameter_name: integration_account_name
             python_variable_name: name
         response:
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Type
-            python_field_name: type
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [go]
-            go_field_name: Object
-          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_field_name: Sku
-            go_type_name: IntegrationAccountSku
-            python_field_name: sku
-          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            go_field_name: Name
-            go_enum_type_name: SkuName
-            python_field_name: name
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscription
-        python_func_name: list_by_subscription
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -176,6 +152,24 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListCallbackUrl
+        python_func_name: list_callback_url
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationAccounts
+            go_variable_name: name
+            python_parameter_name: integration_account_name
+            python_variable_name: name
 
     description: |
       Manage Azure IntegrationAccount instance.
@@ -241,4 +235,10 @@ objects:
               - :Standard
               - :Premium
             default_value: :NotSpecified
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'notAfter'
+        description: 'The expiry time.'
+        required: false
+        input: true
+        azure_sdk_references: ['/NotAfter']
       # read only values included only in response

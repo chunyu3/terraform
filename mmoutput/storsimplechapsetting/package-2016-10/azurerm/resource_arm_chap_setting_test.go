@@ -36,15 +36,15 @@ func testCheckAzureRMChapSettingExists(resourceName string) resource.TestCheckFu
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        chapUserName := rs.Primary.Attributes["chap_user_name"]
         deviceName := rs.Primary.Attributes["device_name"]
+        managerName := rs.Primary.Attributes["manager_name"]
 
         client := testAccProvider.Meta().(*ArmClient).chapSettingsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, chapUserName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Chap Setting %q (Resource Group %q / Chap User Name %q / Device Name %q) does not exist", name, resourceGroup, chapUserName, deviceName)
+                return fmt.Errorf("Bad: Chap Setting %q (Manager Name %q / Resource Group %q / Device Name %q) does not exist", name, managerName, resourceGroup, deviceName)
             }
             return fmt.Errorf("Bad: Get on chapSettingsClient: %+v", err)
         }
@@ -64,10 +64,10 @@ func testCheckAzureRMChapSettingDestroy(s *terraform.State) error {
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        chapUserName := rs.Primary.Attributes["chap_user_name"]
         deviceName := rs.Primary.Attributes["device_name"]
+        managerName := rs.Primary.Attributes["manager_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, chapUserName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managerName, deviceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on chapSettingsClient: %+v", err)
             }

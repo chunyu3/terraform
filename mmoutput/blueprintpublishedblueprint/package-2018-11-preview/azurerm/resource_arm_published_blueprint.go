@@ -31,14 +31,14 @@ func resourceArmPublishedBlueprint() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "blueprint_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "scope": {
@@ -97,25 +97,6 @@ func resourceArmPublishedBlueprint() *schema.Resource {
                 Default: string(blueprint.subscription),
             },
 
-            "status": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "last_modified": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validateRFC3339Date,
-                        },
-                        "time_created": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validateRFC3339Date,
-                        },
-                    },
-                },
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -128,15 +109,15 @@ func resourceArmPublishedBlueprintCreateUpdate(d *schema.ResourceData, meta inte
     client := meta.(*ArmClient).publishedBlueprintsClient
     ctx := meta.(*ArmClient).StopContext
 
-    blueprintName := d.Get("blueprint_name").(string)
+    name := d.Get("name").(string)
     scope := d.Get("scope").(string)
     versionID := d.Get("version_id").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, scope, blueprintName, versionID)
+        existing, err := client.Get(ctx, scope, name, versionID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Published Blueprint (Version %q / Blueprint Name %q / Scope %q): %+v", versionID, blueprintName, scope, err)
+                return fmt.Errorf("Error checking for present of existing Published Blueprint %q (Version %q / Scope %q): %+v", name, versionID, scope, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -165,17 +146,17 @@ func resourceArmPublishedBlueprintCreateUpdate(d *schema.ResourceData, meta inte
     }
 
 
-    if _, err := client.Create(ctx, scope, blueprintName, versionID, publishedBlueprint); err != nil {
-        return fmt.Errorf("Error creating Published Blueprint (Version %q / Blueprint Name %q / Scope %q): %+v", versionID, blueprintName, scope, err)
+    if _, err := client.Create(ctx, scope, name, versionID, publishedBlueprint); err != nil {
+        return fmt.Errorf("Error creating Published Blueprint %q (Version %q / Scope %q): %+v", name, versionID, scope, err)
     }
 
 
-    resp, err := client.Get(ctx, scope, blueprintName, versionID)
+    resp, err := client.Get(ctx, scope, name, versionID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Published Blueprint (Version %q / Blueprint Name %q / Scope %q): %+v", versionID, blueprintName, scope, err)
+        return fmt.Errorf("Error retrieving Published Blueprint %q (Version %q / Scope %q): %+v", name, versionID, scope, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Published Blueprint (Version %q / Blueprint Name %q / Scope %q) ID", versionID, blueprintName, scope)
+        return fmt.Errorf("Cannot read Published Blueprint %q (Version %q / Scope %q) ID", name, versionID, scope)
     }
     d.SetId(*resp.ID)
 
@@ -190,34 +171,22 @@ func resourceArmPublishedBlueprintRead(d *schema.ResourceData, meta interface{})
     if err != nil {
         return err
     }
-    blueprintName := id.Path["blueprints"]
+    name := id.Path["blueprints"]
     versionID := id.Path["versions"]
 
-    resp, err := client.Get(ctx, scope, blueprintName, versionID)
+    resp, err := client.Get(ctx, scope, name, versionID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Published Blueprint %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Published Blueprint (Version %q / Blueprint Name %q / Scope %q): %+v", versionID, blueprintName, scope, err)
+        return fmt.Errorf("Error reading Published Blueprint %q (Version %q / Scope %q): %+v", name, versionID, scope, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
-    d.Set("blueprint_name", blueprintName)
-    if publishedBlueprintProperties := resp.PublishedBlueprintProperties; publishedBlueprintProperties != nil {
-        d.Set("blueprint_name", publishedBlueprintProperties.BlueprintName)
-        d.Set("change_notes", publishedBlueprintProperties.ChangeNotes)
-        d.Set("description", publishedBlueprintProperties.Description)
-        d.Set("display_name", publishedBlueprintProperties.DisplayName)
-        d.Set("parameters", utils.FlattenKeyValuePairs(publishedBlueprintProperties.Parameters))
-        d.Set("resource_groups", utils.FlattenKeyValuePairs(publishedBlueprintProperties.ResourceGroups))
-        if err := d.Set("status", flattenArmPublishedBlueprintStatus(publishedBlueprintProperties.Status)); err != nil {
-            return fmt.Errorf("Error setting `status`: %+v", err)
-        }
-        d.Set("target_scope", string(publishedBlueprintProperties.TargetScope))
-    }
     d.Set("scope", scope)
     d.Set("type", resp.Type)
     d.Set("version_id", versionID)
@@ -235,24 +204,12 @@ func resourceArmPublishedBlueprintDelete(d *schema.ResourceData, meta interface{
     if err != nil {
         return err
     }
-    blueprintName := id.Path["blueprints"]
+    name := id.Path["blueprints"]
     versionID := id.Path["versions"]
 
-    if _, err := client.Delete(ctx, scope, blueprintName, versionID); err != nil {
-        return fmt.Errorf("Error deleting Published Blueprint (Version %q / Blueprint Name %q / Scope %q): %+v", versionID, blueprintName, scope, err)
+    if _, err := client.Delete(ctx, scope, name, versionID); err != nil {
+        return fmt.Errorf("Error deleting Published Blueprint %q (Version %q / Scope %q): %+v", name, versionID, scope, err)
     }
 
     return nil
-}
-
-
-func flattenArmPublishedBlueprintStatus(input *blueprint.Status) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
 }

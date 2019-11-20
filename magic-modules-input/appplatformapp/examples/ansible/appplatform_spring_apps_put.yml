@@ -3,6 +3,9 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_appplatformapp
   description: Apps_CreateOrUpdate
   code:
+    resource_group: myResourceGroup
+    service_name: mySpring
+    name: myApp
     public: true
     active_deployment_name: mydeployment1
     temporary_disk:
@@ -11,8 +14,4 @@ task: !ruby/object:Provider::Ansible::Task
     persistent_disk:
       size_in_gb: '2'
       mount_path: mypersistentdisk
-      used_in_gb: '0'
-    resource_group: myResourceGroup
-    service_name: mySpring
-    name: myApp
   

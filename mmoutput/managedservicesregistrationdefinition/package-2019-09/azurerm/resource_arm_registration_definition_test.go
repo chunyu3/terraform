@@ -42,7 +42,7 @@ func testCheckAzureRMRegistrationDefinitionExists(resourceName string) resource.
 
         if resp, err := client.Get(ctx, scope, registrationDefinitionID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Registration Definition (Scope %q / Registration Definition %q) does not exist", scope, registrationDefinitionID)
+                return fmt.Errorf("Bad: Registration Definition (Registration Definition %q / Scope %q) does not exist", registrationDefinitionID, scope)
             }
             return fmt.Errorf("Bad: Get on registrationDefinitionsClient: %+v", err)
         }

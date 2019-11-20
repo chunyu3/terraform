@@ -28,7 +28,7 @@ Manage Azure DscNodeConfiguration instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The Dsc node configuration name. Changing this forces a new resource to be created.
+* `name` - (Required) The create or update parameters for configuration. Changing this forces a new resource to be created.
 
 * `name` - (Required) Name of the node configuration. Changing this forces a new resource to be created.
 
@@ -76,7 +76,3 @@ The following attributes are exported:
 * `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.
-
-* `last_modified_time` - Gets or sets the last modified time.
-
-* `creation_time` - Gets or sets creation time.

@@ -92,22 +92,6 @@ objects:
             python_parameter_name: communication_link_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ServerCommunicationLinkProperties
-            go_type_name: ServerCommunicationLinkProperties
-          '/properties/partnerServer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PartnerServer
-          '/partnerServer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: partner_server
-          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: State
-          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -165,11 +149,6 @@ objects:
         required: true
         azure_sdk_references: ['/partnerServer', '/properties/partnerServer']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'state'
-        description: 'The state.'
-        output: true
-        azure_sdk_references: ['/state', '/properties/state']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

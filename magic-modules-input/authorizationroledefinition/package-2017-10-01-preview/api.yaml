@@ -28,7 +28,7 @@ objects:
             python_parameter_name: scope
             python_variable_name: scope
           'roleDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: roleDefinitions
+            id_portion: 
             go_variable_name: roleDefinitionID
             python_parameter_name: role_definition_id
             python_variable_name: role_definition_id
@@ -94,7 +94,7 @@ objects:
             python_parameter_name: scope
             python_variable_name: scope
           'roleDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: roleDefinitions
+            id_portion: 
             go_variable_name: roleDefinitionID
             python_parameter_name: role_definition_id
             python_variable_name: role_definition_id
@@ -108,58 +108,11 @@ objects:
             python_parameter_name: scope
             python_variable_name: scope
           'roleDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: roleDefinitions
+            id_portion: 
             go_variable_name: roleDefinitionID
             python_parameter_name: role_definition_id
             python_variable_name: role_definition_id
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: RoleDefinitionProperties
-            go_type_name: RoleDefinitionProperties
-          '/properties/roleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RoleName
-          '/roleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: role_name
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Type
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type
-          '/properties/permissions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Permissions
-            go_type_name: Permission
-          '/properties/permissions/actions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: Actions
-          '/properties/permissions/notActions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: NotActions
-          '/permissions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: permissions
-          '/permissions/actions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: actions
-          '/permissions/notActions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: not_actions
-          '/properties/assignableScopes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: AssignableScopes
-          '/assignableScopes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: assignable_scopes
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -190,7 +143,7 @@ objects:
         azure_sdk_references: ['scope']
       - !ruby/object:Api::Type::String
         name: 'roleDefinitionId'
-        description: 'The ID of the role definition.'
+        description: 'The fully qualified role definition ID. Use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for subscription level role definitions, or /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role definitions.'
         required: true
         input: true
         azure_sdk_references: ['roleDefinitionId']

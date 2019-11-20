@@ -76,10 +76,4 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
-* `endpoint_version` - The bot's endpoint version
-
-* `configured_channels` - Collection of channels for which the bot is configured
-
-* `enabled_channels` - Collection of channels for which the bot is enabled
-
 * `id` - Specifies the resource ID.

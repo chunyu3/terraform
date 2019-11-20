@@ -169,40 +169,6 @@ objects:
             python_parameter_name: sensitivity_label_source
             python_variable_name: sensitivity_label_source
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SensitivityLabelProperties
-            go_type_name: SensitivityLabelProperties
-          '/properties/labelName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: LabelName
-          '/labelName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: label_name
-          '/properties/labelId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: LabelID
-          '/labelId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: label_id
-          '/properties/informationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: InformationType
-          '/informationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: information_type
-          '/properties/informationTypeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: InformationTypeID
-          '/informationTypeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: information_type_id
-          '/properties/isDisabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsDisabled
-          '/isDisabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_disabled
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -297,7 +263,7 @@ objects:
         azure_sdk_references: ['columnName']
       - !ruby/object:Api::Type::String
         name: 'sensitivityLabelSource'
-        description: 'The source of the sensitivity label.'
+        description: ''
         required: true
         input: true
         azure_sdk_references: ['sensitivityLabelSource']
@@ -328,11 +294,6 @@ objects:
         input: true
         azure_sdk_references: ['includeDisabledRecommendations']
       # read only values included only in response
-      - !ruby/object:Api::Type::Boolean
-        name: 'isDisabled'
-        description: 'Is sensitivity recommendation disabled. Applicable for recommended sensitivity label only. Specifies whether the sensitivity recommendation on this column is disabled (dismissed) or not.'
-        output: true
-        azure_sdk_references: ['/isDisabled', '/properties/isDisabled']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

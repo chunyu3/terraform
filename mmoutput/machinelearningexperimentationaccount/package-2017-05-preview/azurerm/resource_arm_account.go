@@ -45,38 +45,6 @@ func resourceArmAccount() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "key_vault_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "storage_account": {
-                Type: schema.TypeList,
-                Required: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "access_key": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
-                        "storage_account_id": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
-                    },
-                },
-            },
-
-            "vso_account_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "description": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -92,24 +60,9 @@ func resourceArmAccount() *schema.Resource {
                 Optional: true,
             },
 
-            "account_id": {
+            "storage_account_key": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "creation_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "discovery_uri": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
             },
 
             "type": {
@@ -144,21 +97,17 @@ func resourceArmAccountCreate(d *schema.ResourceData, meta interface{}) error {
     location := azure.NormalizeLocation(d.Get("location").(string))
     description := d.Get("description").(string)
     friendlyName := d.Get("friendly_name").(string)
-    keyVaultId := d.Get("key_vault_id").(string)
     seats := d.Get("seats").(string)
-    storageAccount := d.Get("storage_account").([]interface{})
-    vsoAccountId := d.Get("vso_account_id").(string)
+    storageAccountKey := d.Get("storage_account_key").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := machinelearningexperimentation.Account{
+    parameters := machinelearningexperimentation.AccountUpdateParameters{
         Location: utils.String(location),
-        AccountProperties: &machinelearningexperimentation.AccountProperties{
+        AccountPropertiesUpdateParameters: &machinelearningexperimentation.AccountPropertiesUpdateParameters{
             Description: utils.String(description),
             FriendlyName: utils.String(friendlyName),
-            KeyVaultID: utils.String(keyVaultId),
             Seats: utils.String(seats),
-            StorageAccount: expandArmAccountStorageAccountProperties(storageAccount),
-            VsoAccountID: utils.String(vsoAccountId),
+            StorageAccountKey: utils.String(storageAccountKey),
         },
         Tags: tags.Expand(t),
     }
@@ -206,26 +155,9 @@ func resourceArmAccountRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if accountProperties := resp.AccountProperties; accountProperties != nil {
-        d.Set("account_id", accountProperties.AccountID)
-        d.Set("creation_date", (accountProperties.CreationDate).String())
-        d.Set("description", accountProperties.Description)
-        d.Set("discovery_uri", accountProperties.DiscoveryUri)
-        d.Set("friendly_name", accountProperties.FriendlyName)
-        d.Set("key_vault_id", accountProperties.KeyVaultID)
-        d.Set("provisioning_state", string(accountProperties.ProvisioningState))
-        d.Set("seats", accountProperties.Seats)
-        if err := d.Set("storage_account", flattenArmAccountStorageAccountProperties(accountProperties.StorageAccount)); err != nil {
-            return fmt.Errorf("Error setting `storage_account`: %+v", err)
-        }
-        d.Set("vso_account_id", accountProperties.VsoAccountID)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -236,21 +168,16 @@ func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := d.Get("resource_group").(string)
     description := d.Get("description").(string)
     friendlyName := d.Get("friendly_name").(string)
-    keyVaultId := d.Get("key_vault_id").(string)
     seats := d.Get("seats").(string)
-    storageAccount := d.Get("storage_account").([]interface{})
-    vsoAccountId := d.Get("vso_account_id").(string)
+    storageAccountKey := d.Get("storage_account_key").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := machinelearningexperimentation.Account{
-        Location: utils.String(location),
-        AccountProperties: &machinelearningexperimentation.AccountProperties{
+    parameters := machinelearningexperimentation.AccountUpdateParameters{
+        AccountPropertiesUpdateParameters: &machinelearningexperimentation.AccountPropertiesUpdateParameters{
             Description: utils.String(description),
             FriendlyName: utils.String(friendlyName),
-            KeyVaultID: utils.String(keyVaultId),
             Seats: utils.String(seats),
-            StorageAccount: expandArmAccountStorageAccountProperties(storageAccount),
-            VsoAccountID: utils.String(vsoAccountId),
+            StorageAccountKey: utils.String(storageAccountKey),
         },
         Tags: tags.Expand(t),
     }
@@ -280,38 +207,4 @@ func resourceArmAccountDelete(d *schema.ResourceData, meta interface{}) error {
     }
 
     return nil
-}
-
-func expandArmAccountStorageAccountProperties(input []interface{}) *machinelearningexperimentation.StorageAccountProperties {
-    if len(input) == 0 {
-        return nil
-    }
-    v := input[0].(map[string]interface{})
-
-    storageAccountId := v["storage_account_id"].(string)
-    accessKey := v["access_key"].(string)
-
-    result := machinelearningexperimentation.StorageAccountProperties{
-        AccessKey: utils.String(accessKey),
-        StorageAccountID: utils.String(storageAccountId),
-    }
-    return &result
-}
-
-
-func flattenArmAccountStorageAccountProperties(input *machinelearningexperimentation.StorageAccountProperties) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if accessKey := input.AccessKey; accessKey != nil {
-        result["access_key"] = *accessKey
-    }
-    if storageAccountId := input.StorageAccountID; storageAccountId != nil {
-        result["storage_account_id"] = *storageAccountId
-    }
-
-    return []interface{}{result}
 }

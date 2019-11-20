@@ -4,7 +4,7 @@ task: !ruby/object:Provider::Ansible::Task
   description: Profile-PUT-WithEndpoints
   code:
     resource_group: myResourceGroup
-    profile_name: myTrafficmanagerprofile
+    name: myTrafficmanagerprofile
     location: global
     profile_status: Enabled
     traffic_routing_method: Performance
@@ -22,6 +22,4 @@ task: !ruby/object:Provider::Ansible::Task
       - target: foobar.contoso.com
         endpoint_status: Enabled
         endpoint_location: North Europe
-        name: My external endpoint
-        type: Microsoft.network/TrafficManagerProfiles/ExternalEndpoints
   

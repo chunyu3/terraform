@@ -80,6 +80,12 @@ func resourceArmRegisteredServer() *schema.Resource {
                 Optional: true,
             },
 
+            "server_certificate": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "server_id": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -93,56 +99,6 @@ func resourceArmRegisteredServer() *schema.Resource {
             "server_role": {
                 Type: schema.TypeString,
                 Optional: true,
-            },
-
-            "discovery_endpoint_uri": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_operation_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "last_workflow_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "management_endpoint_uri": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "monitoring_configuration": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_location": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "server_managementt_error_code": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "service_location": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "storage_sync_service_uid": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "type": {
@@ -179,11 +135,12 @@ func resourceArmRegisteredServerCreateUpdate(d *schema.ResourceData, meta interf
     friendlyName := d.Get("friendly_name").(string)
     lastHeartBeat := d.Get("last_heart_beat").(string)
     serverCertificate := d.Get("server_certificate").(string)
+    serverCertificate := d.Get("server_certificate").(string)
     serverId := d.Get("server_id").(string)
     serverOsversion := d.Get("server_osversion").(string)
     serverRole := d.Get("server_role").(string)
 
-    parameters := storagesync.RegisteredServerCreateParameters{
+    parameters := storagesync.TriggerRolloverRequest{
         RegisteredServerCreateParametersProperties: &storagesync.RegisteredServerCreateParametersProperties{
             AgentVersion: utils.String(agentVersion),
             ClusterID: utils.String(clusterId),
@@ -192,9 +149,11 @@ func resourceArmRegisteredServerCreateUpdate(d *schema.ResourceData, meta interf
             LastHeartBeat: utils.String(lastHeartBeat),
             ServerCertificate: utils.String(serverCertificate),
             ServerID: utils.String(serverId),
-            ServerOsversion: utils.String(serverOsversion),
+            ServerOSVersion: utils.String(serverOsversion),
             ServerRole: utils.String(serverRole),
         },
+        ServerCertificate: utils.String(serverCertificate),
+        ServerCertificate: utils.String(serverCertificate),
     }
 
 
@@ -245,27 +204,6 @@ func resourceArmRegisteredServerRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if registeredServerCreateParametersProperties := resp.RegisteredServerCreateParametersProperties; registeredServerCreateParametersProperties != nil {
-        d.Set("agent_version", registeredServerCreateParametersProperties.AgentVersion)
-        d.Set("cluster_id", registeredServerCreateParametersProperties.ClusterID)
-        d.Set("cluster_name", registeredServerCreateParametersProperties.ClusterName)
-        d.Set("discovery_endpoint_uri", registeredServerCreateParametersProperties.DiscoveryEndpointUri)
-        d.Set("friendly_name", registeredServerCreateParametersProperties.FriendlyName)
-        d.Set("last_heart_beat", registeredServerCreateParametersProperties.LastHeartBeat)
-        d.Set("last_operation_name", registeredServerCreateParametersProperties.LastOperationName)
-        d.Set("last_workflow_id", registeredServerCreateParametersProperties.LastWorkflowID)
-        d.Set("management_endpoint_uri", registeredServerCreateParametersProperties.ManagementEndpointUri)
-        d.Set("monitoring_configuration", registeredServerCreateParametersProperties.MonitoringConfiguration)
-        d.Set("provisioning_state", registeredServerCreateParametersProperties.ProvisioningState)
-        d.Set("resource_location", registeredServerCreateParametersProperties.ResourceLocation)
-        d.Set("server_certificate", registeredServerCreateParametersProperties.ServerCertificate)
-        d.Set("server_id", registeredServerCreateParametersProperties.ServerID)
-        d.Set("server_managementt_error_code", registeredServerCreateParametersProperties.ServerManagementtErrorCode)
-        d.Set("server_osversion", registeredServerCreateParametersProperties.ServerOsversion)
-        d.Set("server_role", registeredServerCreateParametersProperties.ServerRole)
-        d.Set("service_location", registeredServerCreateParametersProperties.ServiceLocation)
-        d.Set("storage_sync_service_uid", registeredServerCreateParametersProperties.StorageSyncServiceUid)
-    }
     d.Set("server_id", serverID)
     d.Set("type", resp.Type)
 

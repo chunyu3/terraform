@@ -28,7 +28,7 @@ Manage Azure DedicatedCloudService instance.
 
 The following arguments are supported:
 
-* `name` - (Required) dedicated cloud Service name Changing this forces a new resource to be created.
+* `name` - (Required) dedicated cloud service name Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group Changing this forces a new resource to be created.
 
@@ -41,12 +41,6 @@ The following arguments are supported:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `is_account_onboarded` - indicates whether account onboarded or not in a given region
-
-* `nodes` - total nodes purchased
-
-* `service_url` - link to a service management web portal
 
 * `id` - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudServices/{dedicatedCloudServiceName}
 

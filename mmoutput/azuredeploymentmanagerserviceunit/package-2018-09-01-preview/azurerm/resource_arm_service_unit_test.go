@@ -34,17 +34,17 @@ func testCheckAzureRMServiceUnitExists(resourceName string) resource.TestCheckFu
             return fmt.Errorf("Service Unit not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         serviceName := rs.Primary.Attributes["service_name"]
         serviceTopologyName := rs.Primary.Attributes["service_topology_name"]
-        serviceUnitName := rs.Primary.Attributes["service_unit_name"]
 
         client := testAccProvider.Meta().(*ArmClient).serviceUnitsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceTopologyName, serviceName, serviceUnitName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serviceTopologyName, serviceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Service Unit (Service Unit Name %q / Service Name %q / Service Topology Name %q / Resource Group %q) does not exist", serviceUnitName, serviceName, serviceTopologyName, resourceGroup)
+                return fmt.Errorf("Bad: Service Unit %q (Service Name %q / Service Topology Name %q / Resource Group %q) does not exist", name, serviceName, serviceTopologyName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on serviceUnitsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMServiceUnitDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         serviceName := rs.Primary.Attributes["service_name"]
         serviceTopologyName := rs.Primary.Attributes["service_topology_name"]
-        serviceUnitName := rs.Primary.Attributes["service_unit_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceTopologyName, serviceName, serviceUnitName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serviceTopologyName, serviceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on serviceUnitsClient: %+v", err)
             }

@@ -1,0 +1,39 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_storsimplebackup
+  description: BackupsClone
+  code:
+    resource_group: myResourceGroup
+    manager_name: myManager
+    device_name: myDevice
+    backup_name: myBackup
+    name: myElement
+    clone_request:
+      properties:
+        targetDeviceId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.StorSimple/managers/{{ manager_name }}/devices/{{
+          device_name }}
+        targetAccessPointId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.StorSimple/managers/{{ manager_name }}/devices/{{
+          device_name }}/fileServers/{{ file_server_name }}
+        newEndpointName: ClonedTieredFileShareForSDKTest
+        share:
+          Client:
+            BaseUri: 'https://management.azure.com/'
+            SubscriptionId: 9eb689cd-7243-43b4-b6f6-5c65cb296641
+            AcceptLanguage: en-US
+            LongRunningOperationRetryTimeout: '30'
+            GenerateClientRequestId: true
+          ResourceGroupName: ResourceGroupForSDKTest
+          ManagerName: hAzureSDKOperations
+          properties:
+            description: Restore file Share
+            shareStatus: Online
+            dataPolicy: Tiered
+            adminUser: HSDK-4XY4FI2IVG\StorSimpleAdmin
+            provisionedCapacityInBytes: '536870912000'
+            monitoringStatus: Enabled
+          name: TieredFileShareForSDKTest
+  

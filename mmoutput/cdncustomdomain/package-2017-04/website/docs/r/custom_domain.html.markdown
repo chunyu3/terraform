@@ -42,16 +42,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `resource_state` - Resource status of the custom domain.
-
-* `custom_https_provisioning_state` - Provisioning status of Custom Https of the custom domain.
-
-* `custom_https_provisioning_substate` - Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
-
-* `validation_data` - Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
-
-* `provisioning_state` - Provisioning status of the custom domain.
-
 * `id` - Resource ID.
 
 * `name` - Resource name.

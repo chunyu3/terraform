@@ -40,6 +40,12 @@ func resourceArmGlobalSchedule() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "current_resource_id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "daily_recurrence": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -110,6 +116,12 @@ func resourceArmGlobalSchedule() *schema.Resource {
                 Optional: true,
             },
 
+            "target_resource_id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "task_type": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -146,16 +158,6 @@ func resourceArmGlobalSchedule() *schema.Resource {
                 },
             },
 
-            "created_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -186,10 +188,12 @@ func resourceArmGlobalScheduleCreate(d *schema.ResourceData, meta interface{}) e
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
+    currentResourceId := d.Get("current_resource_id").(string)
     dailyRecurrence := d.Get("daily_recurrence").([]interface{})
     hourlyRecurrence := d.Get("hourly_recurrence").([]interface{})
     notificationSettings := d.Get("notification_settings").([]interface{})
     status := d.Get("status").(string)
+    targetResourceId := d.Get("target_resource_id").(string)
     targetResourceId := d.Get("target_resource_id").(string)
     taskType := d.Get("task_type").(string)
     timeZoneId := d.Get("time_zone_id").(string)
@@ -198,6 +202,7 @@ func resourceArmGlobalScheduleCreate(d *schema.ResourceData, meta interface{}) e
     t := d.Get("tags").(map[string]interface{})
 
     schedule := devtestlab.ScheduleFragment{
+        CurrentResourceID: utils.String(currentResourceId),
         Location: utils.String(location),
         SchedulePropertiesFragment: &devtestlab.SchedulePropertiesFragment{
             DailyRecurrence: expandArmGlobalScheduleDayDetailsFragment(dailyRecurrence),
@@ -211,6 +216,8 @@ func resourceArmGlobalScheduleCreate(d *schema.ResourceData, meta interface{}) e
             WeeklyRecurrence: expandArmGlobalScheduleWeekDetailsFragment(weeklyRecurrence),
         },
         Tags: tags.Expand(t),
+        TargetResourceID: utils.String(targetResourceId),
+        TargetResourceID: utils.String(targetResourceId),
     }
 
 
@@ -255,33 +262,9 @@ func resourceArmGlobalScheduleRead(d *schema.ResourceData, meta interface{}) err
 
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if schedulePropertiesFragment := resp.SchedulePropertiesFragment; schedulePropertiesFragment != nil {
-        d.Set("created_date", (schedulePropertiesFragment.CreatedDate).String())
-        if err := d.Set("daily_recurrence", flattenArmGlobalScheduleDayDetailsFragment(schedulePropertiesFragment.DailyRecurrence)); err != nil {
-            return fmt.Errorf("Error setting `daily_recurrence`: %+v", err)
-        }
-        if err := d.Set("hourly_recurrence", flattenArmGlobalScheduleHourDetailsFragment(schedulePropertiesFragment.HourlyRecurrence)); err != nil {
-            return fmt.Errorf("Error setting `hourly_recurrence`: %+v", err)
-        }
-        if err := d.Set("notification_settings", flattenArmGlobalScheduleNotificationSettingsFragment(schedulePropertiesFragment.NotificationSettings)); err != nil {
-            return fmt.Errorf("Error setting `notification_settings`: %+v", err)
-        }
-        d.Set("provisioning_state", schedulePropertiesFragment.ProvisioningState)
-        d.Set("status", string(schedulePropertiesFragment.Status))
-        d.Set("target_resource_id", schedulePropertiesFragment.TargetResourceID)
-        d.Set("task_type", schedulePropertiesFragment.TaskType)
-        d.Set("time_zone_id", schedulePropertiesFragment.TimeZoneID)
-        d.Set("unique_identifier", schedulePropertiesFragment.UniqueIdentifier)
-        if err := d.Set("weekly_recurrence", flattenArmGlobalScheduleWeekDetailsFragment(schedulePropertiesFragment.WeeklyRecurrence)); err != nil {
-            return fmt.Errorf("Error setting `weekly_recurrence`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmGlobalScheduleUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -290,10 +273,12 @@ func resourceArmGlobalScheduleUpdate(d *schema.ResourceData, meta interface{}) e
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
+    currentResourceId := d.Get("current_resource_id").(string)
     dailyRecurrence := d.Get("daily_recurrence").([]interface{})
     hourlyRecurrence := d.Get("hourly_recurrence").([]interface{})
     notificationSettings := d.Get("notification_settings").([]interface{})
     status := d.Get("status").(string)
+    targetResourceId := d.Get("target_resource_id").(string)
     targetResourceId := d.Get("target_resource_id").(string)
     taskType := d.Get("task_type").(string)
     timeZoneId := d.Get("time_zone_id").(string)
@@ -302,7 +287,7 @@ func resourceArmGlobalScheduleUpdate(d *schema.ResourceData, meta interface{}) e
     t := d.Get("tags").(map[string]interface{})
 
     schedule := devtestlab.ScheduleFragment{
-        Location: utils.String(location),
+        CurrentResourceID: utils.String(currentResourceId),
         SchedulePropertiesFragment: &devtestlab.SchedulePropertiesFragment{
             DailyRecurrence: expandArmGlobalScheduleDayDetailsFragment(dailyRecurrence),
             HourlyRecurrence: expandArmGlobalScheduleHourDetailsFragment(hourlyRecurrence),
@@ -315,6 +300,8 @@ func resourceArmGlobalScheduleUpdate(d *schema.ResourceData, meta interface{}) e
             WeeklyRecurrence: expandArmGlobalScheduleWeekDetailsFragment(weeklyRecurrence),
         },
         Tags: tags.Expand(t),
+        TargetResourceID: utils.String(targetResourceId),
+        TargetResourceID: utils.String(targetResourceId),
     }
 
 
@@ -404,66 +391,4 @@ func expandArmGlobalScheduleWeekDetailsFragment(input []interface{}) *devtestlab
         Weekdays: utils.ExpandStringSlice(weekdays),
     }
     return &result
-}
-
-
-func flattenArmGlobalScheduleDayDetailsFragment(input *devtestlab.DayDetailsFragment) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if time := input.Time; time != nil {
-        result["time"] = *time
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmGlobalScheduleHourDetailsFragment(input *devtestlab.HourDetailsFragment) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if minute := input.Minute; minute != nil {
-        result["minute"] = int(*minute)
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmGlobalScheduleNotificationSettingsFragment(input *devtestlab.NotificationSettingsFragment) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["status"] = string(input.Status)
-    if timeInMinutes := input.TimeInMinutes; timeInMinutes != nil {
-        result["time_in_minutes"] = int(*timeInMinutes)
-    }
-    if webhookUrl := input.WebhookURL; webhookUrl != nil {
-        result["webhook_url"] = *webhookUrl
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmGlobalScheduleWeekDetailsFragment(input *devtestlab.WeekDetailsFragment) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if time := input.Time; time != nil {
-        result["time"] = *time
-    }
-    result["weekdays"] = utils.FlattenStringSlice(input.Weekdays)
-
-    return []interface{}{result}
 }

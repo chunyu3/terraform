@@ -46,8 +46,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `built_in` - true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
-
 * `id` - Resource ID.
 
 * `name` - Resource name.

@@ -58,8 +58,6 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `sync_state` - Sync state of the sync member.
-
 * `id` - Resource ID.
 
 * `name` - Resource name.

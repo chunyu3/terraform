@@ -28,7 +28,7 @@ Manage Azure PublishedBlueprint instance.
 
 The following arguments are supported:
 
-* `blueprint_name` - (Required) Name of the blueprint definition. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the blueprint definition. Changing this forces a new resource to be created.
 
 * `scope` - (Required) The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'). For blueprint assignments management group scope is reserved for future use. Changing this forces a new resource to be created.
 
@@ -52,19 +52,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `status` - One `status` block defined below.
-
 * `id` - String Id used to locate any resource on Azure.
 
 * `type` - Type of this resource.
 
 * `name` - Name of this resource.
-
-
----
-
-The `status` block contains the following:
-
-* `time_created` - (Optional) Creation time of this blueprint definition.
-
-* `last_modified` - (Optional) Last modified time of this blueprint definition.

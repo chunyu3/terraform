@@ -56,40 +56,25 @@ func resourceArmGroup() *schema.Resource {
                 ForceNew: true,
             },
 
-            "are_assessments_running": {
-                Type: schema.TypeBool,
-                Computed: true,
-            },
-
-            "assessments": {
+            "machines": {
                 Type: schema.TypeList,
-                Computed: true,
+                Optional: true,
                 Elem: &schema.Schema{
                     Type: schema.TypeString,
                 },
             },
 
-            "created_timestamp": {
+            "operation_type": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "group_status": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "machine_count": {
-                Type: schema.TypeInt,
-                Computed: true,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(azuremigrate.Add),
+                    string(azuremigrate.Remove),
+                }, false),
+                Default: string(azuremigrate.Add),
             },
 
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "updated_timestamp": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -118,9 +103,15 @@ func resourceArmGroupCreateUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
     eTag := d.Get("e_tag").(string)
+    machines := d.Get("machines").([]interface{})
+    operationType := d.Get("operation_type").(string)
 
     group := azuremigrate.Group{
         ETag: utils.String(eTag),
+        GroupBodyProperties: &azuremigrate.GroupBodyProperties{
+            Machines: utils.ExpandStringSlice(machines),
+            OperationType: azuremigrate.GroupUpdateOperation(operationType),
+        },
     }
 
 
@@ -167,15 +158,6 @@ func resourceArmGroupRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if groupProperties := resp.GroupProperties; groupProperties != nil {
-        d.Set("are_assessments_running", groupProperties.AreAssessmentsRunning)
-        d.Set("assessments", utils.FlattenStringSlice(groupProperties.Assessments))
-        d.Set("created_timestamp", (groupProperties.CreatedTimestamp).String())
-        d.Set("group_status", string(groupProperties.GroupStatus))
-        d.Set("machine_count", int(*groupProperties.MachineCount))
-        d.Set("updated_timestamp", (groupProperties.UpdatedTimestamp).String())
-    }
-    d.Set("e_tag", resp.ETag)
     d.Set("project_name", projectName)
     d.Set("type", resp.Type)
 

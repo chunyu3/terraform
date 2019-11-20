@@ -158,11 +158,7 @@ func resourceArmIdentityProviderRead(d *schema.ResourceData, meta interface{}) e
 
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    d.Set("allowed_tenants", utils.FlattenStringSlice(resp.AllowedTenants))
-    d.Set("client_id", resp.ClientID)
-    d.Set("client_secret", resp.ClientSecret)
     d.Set("service_name", serviceName)
-    d.Set("type", string(resp.Type))
 
     return nil
 }

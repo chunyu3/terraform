@@ -28,11 +28,11 @@ Manage Azure VirtualNetwork instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the lab. Changing this forces a new resource to be created.
+
 * `name` - (Required) The name of the virtual network. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
-
-* `lab_name` - (Required) The name of the lab. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
 
@@ -92,23 +92,6 @@ The `allowed_port` block supports the following:
 
 The following attributes are exported:
 
-* `external_subnets` - One or more `external_subnet` block defined below.
-
-* `created_date` - The creation date of the virtual network.
-
-* `provisioning_state` - The provisioning status of the resource.
-
-* `unique_identifier` - The unique immutable identifier of a resource (Guid).
-
 * `id` - The identifier of the resource.
 
 * `type` - The type of the resource.
-
-
----
-
-The `external_subnet` block contains the following:
-
-* `id` - (Optional) Gets or sets the identifier.
-
-* `name` - (Optional) Gets or sets the name.

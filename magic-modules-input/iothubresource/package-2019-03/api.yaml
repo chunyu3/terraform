@@ -97,7 +97,7 @@ objects:
             python_field_name: ip_mask
           '/properties/ipFilterRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: IpFilterRules
+            go_field_name: IPFilterRules
             go_type_name: IpFilterRule
           '/properties/ipFilterRules/filterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
@@ -108,7 +108,7 @@ objects:
             go_enum_type_name: IpFilterActionType
           '/properties/ipFilterRules/ipMask': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: IpMask
+            go_field_name: IPMask
           '/eventHubEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [python]
             python_field_name: event_hub_endpoints
@@ -407,7 +407,7 @@ objects:
             go_field_name: MaxDeliveryCount
           '/properties/cloudToDevice/defaultTtlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
             applicable_to: [go]
-            go_field_name: DefaultTtlAsIso8601
+            go_field_name: DefaultTTLAsIso8601
           '/properties/cloudToDevice/feedback': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Feedback
@@ -417,7 +417,7 @@ objects:
             go_field_name: LockDurationAsIso8601
           '/properties/cloudToDevice/feedback/ttlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
             applicable_to: [go]
-            go_field_name: TtlAsIso8601
+            go_field_name: TTLAsIso8601
           '/properties/cloudToDevice/feedback/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: MaxDeliveryCount
@@ -445,6 +445,81 @@ objects:
           '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
             go_field_name: Capacity
             python_field_name: capacity
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/routingSource': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: RoutingSource
+            go_enum_type_name: RoutingSource
+            python_field_name: routing_source
+          '/message': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Message
+            go_type_name: RoutingMessage
+            python_field_name: message
+          '/message/body': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Body
+            python_field_name: body
+          '/message/appProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: AppProperties
+            python_field_name: app_properties
+          '/message/systemProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: SystemProperties
+            python_field_name: system_properties
+          '/twin': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Twin
+            go_type_name: RoutingTwin
+            python_field_name: twin
+          '/twin/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/twin/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RoutingTwin_properties
+            go_type_name: RoutingTwin_properties
+          '/twin/desired': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: desired
+          '/twin/properties/desired': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Desired
+          '/twin/reported': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: reported
+          '/twin/properties/reported': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Reported
+          '/route': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Route
+            go_type_name: RouteProperties
+            python_field_name: route
+          '/route/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/route/source': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Source
+            go_enum_type_name: RoutingSource
+            python_field_name: source
+          '/route/condition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Condition
+            python_field_name: condition
+          '/route/endpointNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: EndpointNames
+            python_field_name: endpoint_names
+          '/route/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: IsEnabled
+            python_field_name: is_enabled
+          '/exportBlobContainerUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ExportBlobContainerURI
+            python_field_name: export_blob_container_uri
+          '/excludeKeys': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: ExcludeKeys
+            python_field_name: exclude_keys
+          '/inputBlobContainerUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: InputBlobContainerURI
+            python_field_name: input_blob_container_uri
+          '/outputBlobContainerUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: OutputBlobContainerURI
+            python_field_name: output_blob_container_uri
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -490,470 +565,15 @@ objects:
             python_parameter_name: resource_name
             python_variable_name: resource_name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Etag
-            python_field_name: etag
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Properties
-            go_type_name: Properties
-          '/properties/authorizationPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: AuthorizationPolicies
-            go_type_name: SharedAccessSignatureAuthorizationRule
-          '/properties/authorizationPolicies/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: KeyName
-          '/properties/authorizationPolicies/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PrimaryKey
-          '/properties/authorizationPolicies/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SecondaryKey
-          '/properties/authorizationPolicies/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Rights
-            go_enum_type_name: AccessRights
-          '/authorizationPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: authorization_policies
-          '/authorizationPolicies/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: key_name
-          '/authorizationPolicies/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: primary_key
-          '/authorizationPolicies/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: secondary_key
-          '/authorizationPolicies/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: rights
-          '/properties/ipFilterRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: IpFilterRules
-            go_type_name: IpFilterRule
-          '/properties/ipFilterRules/filterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FilterName
-          '/properties/ipFilterRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Action
-            go_enum_type_name: IpFilterActionType
-          '/properties/ipFilterRules/ipMask': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: IpMask
-          '/ipFilterRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: ip_filter_rules
-          '/ipFilterRules/filterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: filter_name
-          '/ipFilterRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: action
-          '/ipFilterRules/ipMask': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: ip_mask
-          '/properties/eventHubEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: EventHubEndpoints
-          '/eventHubEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: event_hub_endpoints
-          '/properties/routing': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Routing
-            go_type_name: RoutingProperties
-          '/properties/routing/endpoints': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Endpoints
-            go_type_name: RoutingEndpoints
-          '/properties/routing/endpoints/serviceBusQueues': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: ServiceBusQueues
-            go_type_name: RoutingServiceBusQueueEndpointProperties
-          '/properties/routing/endpoints/serviceBusQueues/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ConnectionString
-          '/properties/routing/endpoints/serviceBusQueues/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
-          '/properties/routing/endpoints/serviceBusQueues/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubscriptionID
-          '/properties/routing/endpoints/serviceBusQueues/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceGroup
-          '/properties/routing/endpoints/serviceBusTopics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: ServiceBusTopics
-            go_type_name: RoutingServiceBusTopicEndpointProperties
-          '/properties/routing/endpoints/serviceBusTopics/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ConnectionString
-          '/properties/routing/endpoints/serviceBusTopics/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/routing/endpoints/serviceBusTopics/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubscriptionID
-          '/properties/routing/endpoints/serviceBusTopics/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceGroup
-          '/properties/routing/endpoints/eventHubs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: EventHubs
-            go_type_name: RoutingEventHubProperties
-          '/properties/routing/endpoints/eventHubs/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ConnectionString
-          '/properties/routing/endpoints/eventHubs/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/routing/endpoints/eventHubs/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubscriptionID
-          '/properties/routing/endpoints/eventHubs/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceGroup
-          '/properties/routing/endpoints/storageContainers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: StorageContainers
-            go_type_name: RoutingStorageContainerProperties
-          '/properties/routing/endpoints/storageContainers/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ConnectionString
-          '/properties/routing/endpoints/storageContainers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/routing/endpoints/storageContainers/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubscriptionID
-          '/properties/routing/endpoints/storageContainers/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceGroup
-          '/properties/routing/endpoints/storageContainers/containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ContainerName
-          '/properties/routing/endpoints/storageContainers/fileNameFormat': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FileNameFormat
-          '/properties/routing/endpoints/storageContainers/batchFrequencyInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: BatchFrequencyInSeconds
-          '/properties/routing/endpoints/storageContainers/maxChunkSizeInBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: MaxChunkSizeInBytes
-          '/properties/routing/endpoints/storageContainers/encoding': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Encoding
-            go_enum_type_name: 
-          '/properties/routing/routes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Routes
-            go_type_name: RouteProperties
-          '/properties/routing/routes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/routing/routes/source': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Source
-            go_enum_type_name: RoutingSource
-          '/properties/routing/routes/condition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Condition
-          '/properties/routing/routes/endpointNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: EndpointNames
-          '/properties/routing/routes/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsEnabled
-          '/properties/routing/fallbackRoute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: FallbackRoute
-            go_type_name: FallbackRouteProperties
-          '/properties/routing/fallbackRoute/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/routing/fallbackRoute/source': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Source
-          '/properties/routing/fallbackRoute/condition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Condition
-          '/properties/routing/fallbackRoute/endpointNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: EndpointNames
-          '/properties/routing/fallbackRoute/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsEnabled
-          '/routing': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: routing
-          '/routing/endpoints': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: endpoints
-          '/routing/endpoints/serviceBusQueues': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: service_bus_queues
-          '/routing/endpoints/serviceBusQueues/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: connection_string
-          '/routing/endpoints/serviceBusQueues/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
             python_field_name: name
-          '/routing/endpoints/serviceBusQueues/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subscription_id
-          '/routing/endpoints/serviceBusQueues/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_group
-          '/routing/endpoints/serviceBusTopics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: service_bus_topics
-          '/routing/endpoints/serviceBusTopics/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: connection_string
-          '/routing/endpoints/serviceBusTopics/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/routing/endpoints/serviceBusTopics/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subscription_id
-          '/routing/endpoints/serviceBusTopics/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_group
-          '/routing/endpoints/eventHubs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: event_hubs
-          '/routing/endpoints/eventHubs/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: connection_string
-          '/routing/endpoints/eventHubs/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/routing/endpoints/eventHubs/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subscription_id
-          '/routing/endpoints/eventHubs/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_group
-          '/routing/endpoints/storageContainers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: storage_containers
-          '/routing/endpoints/storageContainers/connectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: connection_string
-          '/routing/endpoints/storageContainers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/routing/endpoints/storageContainers/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subscription_id
-          '/routing/endpoints/storageContainers/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_group
-          '/routing/endpoints/storageContainers/containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: container_name
-          '/routing/endpoints/storageContainers/fileNameFormat': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: file_name_format
-          '/routing/endpoints/storageContainers/batchFrequencyInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: batch_frequency_in_seconds
-          '/routing/endpoints/storageContainers/maxChunkSizeInBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: max_chunk_size_in_bytes
-          '/routing/endpoints/storageContainers/encoding': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: encoding
-          '/routing/routes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: routes
-          '/routing/routes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/routing/routes/source': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: source
-          '/routing/routes/condition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: condition
-          '/routing/routes/endpointNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: endpoint_names
-          '/routing/routes/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_enabled
-          '/routing/fallbackRoute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: fallback_route
-          '/routing/fallbackRoute/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/routing/fallbackRoute/source': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: source
-          '/routing/fallbackRoute/condition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: condition
-          '/routing/fallbackRoute/endpointNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: endpoint_names
-          '/routing/fallbackRoute/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_enabled
-          '/properties/storageEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: StorageEndpoints
-          '/storageEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: storage_endpoints
-          '/properties/messagingEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: MessagingEndpoints
-          '/messagingEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: messaging_endpoints
-          '/properties/enableFileUploadNotifications': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: EnableFileUploadNotifications
-          '/enableFileUploadNotifications': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enable_file_upload_notifications
-          '/properties/cloudToDevice': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: CloudToDevice
-            go_type_name: CloudToDeviceProperties
-          '/properties/cloudToDevice/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: MaxDeliveryCount
-          '/properties/cloudToDevice/defaultTtlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: DefaultTtlAsIso8601
-          '/properties/cloudToDevice/feedback': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Feedback
-            go_type_name: FeedbackProperties
-          '/properties/cloudToDevice/feedback/lockDurationAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: LockDurationAsIso8601
-          '/properties/cloudToDevice/feedback/ttlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [go]
-            go_field_name: TtlAsIso8601
-          '/properties/cloudToDevice/feedback/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: MaxDeliveryCount
-          '/cloudToDevice': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: cloud_to_device
-          '/cloudToDevice/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: max_delivery_count
-          '/cloudToDevice/defaultTtlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: default_ttl_as_iso8601
-          '/cloudToDevice/feedback': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: feedback
-          '/cloudToDevice/feedback/lockDurationAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: lock_duration_as_iso8601
-          '/cloudToDevice/feedback/ttlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
-            applicable_to: [python]
-            python_field_name: ttl_as_iso8601
-          '/cloudToDevice/feedback/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: max_delivery_count
-          '/properties/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Comments
-          '/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: comments
-          '/properties/features': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Features
-            go_enum_type_name: Capabilities
-          '/features': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: features
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: State
-          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: state
-          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
-          '/properties/locations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Locations
-            go_type_name: LocationDescription
-          '/properties/locations/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Location
-          '/properties/locations/role': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Role
-            go_enum_type_name: ReplicaRoleType
-          '/locations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: locations
-          '/locations/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: location
-          '/locations/role': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: role
-          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_field_name: Sku
-            go_type_name: SkuInfo
-            python_field_name: sku
-          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            go_field_name: Name
-            go_enum_type_name: Sku
-            python_field_name: name
-          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            go_field_name: Capacity
-            python_field_name: capacity
-          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            go_field_name: Tier
-            go_enum_type_name: SkuTier
-            python_field_name: tier
-          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: ConsumerGroups
-            go_variable_name: name
-            python_parameter_name: name
-            python_variable_name: name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListBySubscription
-        python_func_name: list_by_subscription
-        request:
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -963,6 +583,24 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListKeys
+        python_func_name: list_keys
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: IotHubs
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListJobs
         python_func_name: list_jobs
@@ -993,9 +631,9 @@ objects:
             python_variable_name: resource_name
           'eventHubEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventHubEndpoints
-            go_variable_name: name
+            go_variable_name: eventHubEndpointName
             python_parameter_name: event_hub_endpoint_name
-            python_variable_name: name
+            python_variable_name: event_hub_endpoint_name
 
     description: |
       Manage Azure IotHubResource instance.
@@ -1415,6 +1053,18 @@ objects:
             required: false
             azure_sdk_references: ['/sku/capacity']
       - !ruby/object:Api::Type::String
+        name: 'eventHubEndpointName'
+        description: 'The name of the Event Hub-compatible endpoint in the IoT hub.'
+        required: true
+        input: true
+        azure_sdk_references: ['eventHubEndpointName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the IoT hub to check.'
+        required: true
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
         name: 'jobId'
         description: 'The job identifier.'
         required: true
@@ -1422,45 +1072,134 @@ objects:
         azure_sdk_references: ['jobId']
       - !ruby/object:Api::Type::String
         name: 'iotHubName'
-        description: ''
+        description: 'IotHub to be tested'
         required: true
         input: true
         azure_sdk_references: ['iotHubName']
+      - !ruby/object:Api::Type::Enum
+        name: 'routingSource'
+        description: 'Routing source'
+        required: false
+        input: true
+        azure_sdk_references: ['/routingSource']
+        values:
+          - :Invalid
+          - :DeviceMessages
+          - :TwinChangeEvents
+          - :DeviceLifecycleEvents
+          - :DeviceJobLifecycleEvents
+        default_value: :Invalid
+      - !ruby/object:Api::Type::NestedObject
+        name: 'message'
+        description: 'Routing message'
+        required: false
+        azure_sdk_references: ['/message']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'body'
+            description: 'Body of routing message'
+            required: false
+            azure_sdk_references: ['/message/body']
+          - !ruby/object:Api::Type::KeyValuePairs
+            name: 'appProperties'
+            description: 'App properties'
+            required: false
+            azure_sdk_references: ['/message/appProperties']
+          - !ruby/object:Api::Type::KeyValuePairs
+            name: 'systemProperties'
+            description: 'System properties'
+            required: false
+            azure_sdk_references: ['/message/systemProperties']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'twin'
+        description: 'Routing Twin Reference'
+        required: false
+        azure_sdk_references: ['/twin']
+        properties:
+          - !ruby/object:Api::Azure::Type::Tags
+            name: 'tags'
+            description: 'Twin Tags'
+            required: false
+            azure_sdk_references: ['/twin/tags']
+          - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+            name: 'desired'
+            description: 'Twin desired properties'
+            required: false
+            azure_sdk_references: ['/twin/desired', '/twin/properties/desired']
+          - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+            name: 'reported'
+            description: 'Twin desired properties'
+            required: false
+            azure_sdk_references: ['/twin/reported', '/twin/properties/reported']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'route'
+        description: 'Route properties'
+        required: true
+        azure_sdk_references: ['/route']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The name of the route. The name can only include alphanumeric characters, periods, underscores, hyphens, has a maximum length of 64 characters, and must be unique.'
+            required: true
+            azure_sdk_references: ['/route/name']
+          - !ruby/object:Api::Type::Enum
+            name: 'source'
+            description: 'The source that the routing rule is to be applied to, such as DeviceMessages.'
+            required: true
+            azure_sdk_references: ['/route/source']
+            values:
+              - :Invalid
+              - :DeviceMessages
+              - :TwinChangeEvents
+              - :DeviceLifecycleEvents
+              - :DeviceJobLifecycleEvents
+          - !ruby/object:Api::Type::String
+            name: 'condition'
+            description: 'The condition that is evaluated to apply the routing rule. If no condition is provided, it evaluates to true by default. For grammar, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language'
+            required: false
+            azure_sdk_references: ['/route/condition']
+          - !ruby/object:Api::Type::Array
+            name: 'endpointNames'
+            description: 'The list of endpoints to which messages that satisfy the condition are routed. Currently only one endpoint is allowed.'
+            required: true
+            azure_sdk_references: ['/route/endpointNames']
+            item_type: Api::Type::String
+          - !ruby/object:Api::Type::Boolean
+            name: 'isEnabled'
+            description: 'Used to specify whether a route is enabled.'
+            required: true
+            azure_sdk_references: ['/route/isEnabled']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the Event Hub-compatible endpoint in the IoT hub.'
+        description: 'The name of the shared access policy.'
         required: true
         input: true
-        azure_sdk_references: ['eventHubEndpointName']
+        azure_sdk_references: ['keyName']
       - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The name of the consumer group to retrieve.'
+        name: 'exportBlobContainerUri'
+        description: 'The export blob container URI.'
         required: true
         input: true
-        azure_sdk_references: ['name']
+        azure_sdk_references: ['/exportBlobContainerUri']
+      - !ruby/object:Api::Type::Boolean
+        name: 'excludeKeys'
+        description: 'The value indicating whether keys should be excluded during export.'
+        required: true
+        input: true
+        azure_sdk_references: ['/excludeKeys']
+      - !ruby/object:Api::Type::String
+        name: 'inputBlobContainerUri'
+        description: 'The input blob container URI.'
+        required: true
+        input: true
+        azure_sdk_references: ['/inputBlobContainerUri']
+      - !ruby/object:Api::Type::String
+        name: 'outputBlobContainerUri'
+        description: 'The output blob container URI.'
+        required: true
+        input: true
+        azure_sdk_references: ['/outputBlobContainerUri']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The provisioning state.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Type::String
-        name: 'state'
-        description: 'The hub state.'
-        output: true
-        azure_sdk_references: ['/state', '/properties/state']
-      - !ruby/object:Api::Type::String
-        name: 'hostName'
-        description: 'The name of the host.'
-        output: true
-        azure_sdk_references: ['/hostName', '/properties/hostName']
-      - !ruby/object:Api::Type::Array
-        name: 'locations'
-        description: 'Primary and secondary location for iot hub'
-        output: true
-        azure_sdk_references: ['/locations', '/properties/locations']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource identifier.'

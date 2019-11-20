@@ -5,7 +5,7 @@ task: !ruby/object:Provider::Ansible::Task
   code:
     resource_group: myResourceGroup
     account_name: myBatchAccount
-    pool_name: myPool
+    name: myPool
     vm_size: STANDARD_D4
     deployment_configuration:
       virtual_machine_configuration:
@@ -40,15 +40,15 @@ task: !ruby/object:Provider::Ansible::Task
             frontend_port_range_start: '15000'
             frontend_port_range_end: '15100'
             network_security_group_rules:
-              - access: Allow
-                sourceAddressPrefix: 192.100.12.45
-                priority: '150'
-                sourcePortRanges:
+              - priority: '150'
+                access: Allow
+                source_address_prefix: 192.100.12.45
+                source_port_ranges:
                   - '1'
                   - '2'
-              - access: Deny
-                sourceAddressPrefix: '*'
-                priority: '3500'
-                sourcePortRanges:
+              - priority: '3500'
+                access: Deny
+                source_address_prefix: '*'
+                source_port_ranges:
                   - '*'
   

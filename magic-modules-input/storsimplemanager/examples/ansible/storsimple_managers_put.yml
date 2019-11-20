@@ -3,6 +3,8 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_storsimplemanager
   description: ManagersCreateOrUpdate
   code:
+    resource_group: myResourceGroup
+    manager_name: myManager
     manager:
       properties:
         cisIntrinsicSettings:
@@ -11,6 +13,4 @@ task: !ruby/object:Provider::Ansible::Task
           name: Standard
       name: hManagerForSDKTest
       location: westus
-    resource_group: myResourceGroup
-    name: myManager
   

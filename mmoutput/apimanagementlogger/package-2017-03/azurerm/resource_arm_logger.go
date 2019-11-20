@@ -43,26 +43,17 @@ func resourceArmLogger() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "credentials": {
-                Type: schema.TypeMap,
-                Required: true,
-                Elem: &schema.Schema{Type: schema.TypeString},
-            },
-
-            "logger_type": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(apimanagement.azureEventHub),
-                    string(apimanagement.applicationInsights),
-                }, false),
-            },
-
             "loggerid": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "credentials": {
+                Type: schema.TypeMap,
+                Optional: true,
+                Elem: &schema.Schema{Type: schema.TypeString},
             },
 
             "description": {
@@ -75,62 +66,14 @@ func resourceArmLogger() *schema.Resource {
                 Optional: true,
             },
 
-            "sampling": {
-                Type: schema.TypeList,
+            "logger_type": {
+                Type: schema.TypeString,
                 Optional: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "evaluation_interval": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validateIso8601Duration(),
-                        },
-                        "initial_percentage": {
-                            Type: schema.TypeFloat,
-                            Optional: true,
-                        },
-                        "max_percentage": {
-                            Type: schema.TypeFloat,
-                            Optional: true,
-                        },
-                        "max_telemetry_items_per_second": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                        "min_percentage": {
-                            Type: schema.TypeFloat,
-                            Optional: true,
-                        },
-                        "moving_average_ratio": {
-                            Type: schema.TypeFloat,
-                            Optional: true,
-                        },
-                        "percentage": {
-                            Type: schema.TypeFloat,
-                            Optional: true,
-                        },
-                        "percentage_decrease_timeout": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validateIso8601Duration(),
-                        },
-                        "percentage_increase_timeout": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validateIso8601Duration(),
-                        },
-                        "sampling_type": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(apimanagement.fixed),
-                                string(apimanagement.adaptive),
-                            }, false),
-                            Default: string(apimanagement.fixed),
-                        },
-                    },
-                },
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(apimanagement.azureEventHub),
+                    string(apimanagement.applicationInsights),
+                }, false),
+                Default: string(apimanagement.azureEventHub),
             },
 
             "type": {
@@ -165,15 +108,13 @@ func resourceArmLoggerCreate(d *schema.ResourceData, meta interface{}) error {
     description := d.Get("description").(string)
     isBuffered := d.Get("is_buffered").(bool)
     loggerType := d.Get("logger_type").(string)
-    sampling := d.Get("sampling").([]interface{})
 
-    parameters := apimanagement.LoggerContract{
-        LoggerContractProperties: &apimanagement.LoggerContractProperties{
+    parameters := apimanagement.LoggerUpdateContract{
+        LoggerUpdateParameters: &apimanagement.LoggerUpdateParameters{
             Credentials: utils.ExpandKeyValuePairs(credentials),
             Description: utils.String(description),
             IsBuffered: utils.Bool(isBuffered),
             LoggerType: apimanagement.LoggerType(loggerType),
-            Sampling: expandArmLoggerLoggerSamplingContract(sampling),
         },
     }
 
@@ -221,15 +162,6 @@ func resourceArmLoggerRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if loggerContractProperties := resp.LoggerContractProperties; loggerContractProperties != nil {
-        d.Set("credentials", utils.FlattenKeyValuePairs(loggerContractProperties.Credentials))
-        d.Set("description", loggerContractProperties.Description)
-        d.Set("is_buffered", loggerContractProperties.IsBuffered)
-        d.Set("logger_type", string(loggerContractProperties.LoggerType))
-        if err := d.Set("sampling", flattenArmLoggerLoggerSamplingContract(loggerContractProperties.Sampling)); err != nil {
-            return fmt.Errorf("Error setting `sampling`: %+v", err)
-        }
-    }
     d.Set("loggerid", loggerid)
     d.Set("type", resp.Type)
 
@@ -247,15 +179,13 @@ func resourceArmLoggerUpdate(d *schema.ResourceData, meta interface{}) error {
     isBuffered := d.Get("is_buffered").(bool)
     loggerType := d.Get("logger_type").(string)
     loggerid := d.Get("loggerid").(string)
-    sampling := d.Get("sampling").([]interface{})
 
-    parameters := apimanagement.LoggerContract{
-        LoggerContractProperties: &apimanagement.LoggerContractProperties{
+    parameters := apimanagement.LoggerUpdateContract{
+        LoggerUpdateParameters: &apimanagement.LoggerUpdateParameters{
             Credentials: utils.ExpandKeyValuePairs(credentials),
             Description: utils.String(description),
             IsBuffered: utils.Bool(isBuffered),
             LoggerType: apimanagement.LoggerType(loggerType),
-            Sampling: expandArmLoggerLoggerSamplingContract(sampling),
         },
     }
 
@@ -285,80 +215,4 @@ func resourceArmLoggerDelete(d *schema.ResourceData, meta interface{}) error {
     }
 
     return nil
-}
-
-func expandArmLoggerLoggerSamplingContract(input []interface{}) *apimanagement.LoggerSamplingContract {
-    if len(input) == 0 {
-        return nil
-    }
-    v := input[0].(map[string]interface{})
-
-    samplingType := v["sampling_type"].(string)
-    percentage := v["percentage"].(float64)
-    maxTelemetryItemsPerSecond := v["max_telemetry_items_per_second"].(int)
-    evaluationInterval := v["evaluation_interval"].(string)
-    percentageDecreaseTimeout := v["percentage_decrease_timeout"].(string)
-    percentageIncreaseTimeout := v["percentage_increase_timeout"].(string)
-    minPercentage := v["min_percentage"].(float64)
-    maxPercentage := v["max_percentage"].(float64)
-    movingAverageRatio := v["moving_average_ratio"].(float64)
-    initialPercentage := v["initial_percentage"].(float64)
-
-    result := apimanagement.LoggerSamplingContract{
-        LoggerSamplingProperties: &apimanagement.LoggerSamplingProperties{
-            EvaluationInterval: utils.String(evaluationInterval),
-            InitialPercentage: utils.Float(initialPercentage),
-            MaxPercentage: utils.Float(maxPercentage),
-            MaxTelemetryItemsPerSecond: utils.Int32(int32(maxTelemetryItemsPerSecond)),
-            MinPercentage: utils.Float(minPercentage),
-            MovingAverageRatio: utils.Float(movingAverageRatio),
-            Percentage: utils.Float(percentage),
-            PercentageDecreaseTimeout: utils.String(percentageDecreaseTimeout),
-            PercentageIncreaseTimeout: utils.String(percentageIncreaseTimeout),
-            SamplingType: apimanagement.SamplingType(samplingType),
-        },
-    }
-    return &result
-}
-
-
-func flattenArmLoggerLoggerSamplingContract(input *apimanagement.LoggerSamplingContract) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if loggerSamplingProperties := input.LoggerSamplingProperties; loggerSamplingProperties != nil {
-        if evaluationInterval := loggerSamplingProperties.EvaluationInterval; evaluationInterval != nil {
-            result["evaluation_interval"] = *evaluationInterval
-        }
-        if initialPercentage := loggerSamplingProperties.InitialPercentage; initialPercentage != nil {
-            result["initial_percentage"] = *initialPercentage
-        }
-        if maxPercentage := loggerSamplingProperties.MaxPercentage; maxPercentage != nil {
-            result["max_percentage"] = *maxPercentage
-        }
-        if maxTelemetryItemsPerSecond := loggerSamplingProperties.MaxTelemetryItemsPerSecond; maxTelemetryItemsPerSecond != nil {
-            result["max_telemetry_items_per_second"] = int(*maxTelemetryItemsPerSecond)
-        }
-        if minPercentage := loggerSamplingProperties.MinPercentage; minPercentage != nil {
-            result["min_percentage"] = *minPercentage
-        }
-        if movingAverageRatio := loggerSamplingProperties.MovingAverageRatio; movingAverageRatio != nil {
-            result["moving_average_ratio"] = *movingAverageRatio
-        }
-        if percentage := loggerSamplingProperties.Percentage; percentage != nil {
-            result["percentage"] = *percentage
-        }
-        if percentageDecreaseTimeout := loggerSamplingProperties.PercentageDecreaseTimeout; percentageDecreaseTimeout != nil {
-            result["percentage_decrease_timeout"] = *percentageDecreaseTimeout
-        }
-        if percentageIncreaseTimeout := loggerSamplingProperties.PercentageIncreaseTimeout; percentageIncreaseTimeout != nil {
-            result["percentage_increase_timeout"] = *percentageIncreaseTimeout
-        }
-        result["sampling_type"] = string(loggerSamplingProperties.SamplingType)
-    }
-
-    return []interface{}{result}
 }

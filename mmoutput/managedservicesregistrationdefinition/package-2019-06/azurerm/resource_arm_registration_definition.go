@@ -113,16 +113,6 @@ func resourceArmRegistrationDefinition() *schema.Resource {
                 Optional: true,
             },
 
-            "managed_by_tenant_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -142,7 +132,7 @@ func resourceArmRegistrationDefinitionCreateUpdate(d *schema.ResourceData, meta 
         existing, err := client.Get(ctx, scope, registrationDefinitionID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Registration Definition (Scope %q / Registration Definition %q): %+v", scope, registrationDefinitionID, err)
+                return fmt.Errorf("Error checking for present of existing Registration Definition (Registration Definition %q / Scope %q): %+v", registrationDefinitionID, scope, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -169,19 +159,19 @@ func resourceArmRegistrationDefinitionCreateUpdate(d *schema.ResourceData, meta 
 
     future, err := client.CreateOrUpdate(ctx, scope, registrationDefinitionID, requestBody)
     if err != nil {
-        return fmt.Errorf("Error creating Registration Definition (Scope %q / Registration Definition %q): %+v", scope, registrationDefinitionID, err)
+        return fmt.Errorf("Error creating Registration Definition (Registration Definition %q / Scope %q): %+v", registrationDefinitionID, scope, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Registration Definition (Scope %q / Registration Definition %q): %+v", scope, registrationDefinitionID, err)
+        return fmt.Errorf("Error waiting for creation of Registration Definition (Registration Definition %q / Scope %q): %+v", registrationDefinitionID, scope, err)
     }
 
 
     resp, err := client.Get(ctx, scope, registrationDefinitionID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Registration Definition (Scope %q / Registration Definition %q): %+v", scope, registrationDefinitionID, err)
+        return fmt.Errorf("Error retrieving Registration Definition (Registration Definition %q / Scope %q): %+v", registrationDefinitionID, scope, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Registration Definition (Scope %q / Registration Definition %q) ID", scope, registrationDefinitionID)
+        return fmt.Errorf("Cannot read Registration Definition (Registration Definition %q / Scope %q) ID", registrationDefinitionID, scope)
     }
     d.SetId(*resp.ID)
 
@@ -205,24 +195,11 @@ func resourceArmRegistrationDefinitionRead(d *schema.ResourceData, meta interfac
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Registration Definition (Scope %q / Registration Definition %q): %+v", scope, registrationDefinitionID, err)
+        return fmt.Errorf("Error reading Registration Definition (Registration Definition %q / Scope %q): %+v", registrationDefinitionID, scope, err)
     }
 
 
     d.Set("name", resp.Name)
-    if registrationDefinitionProperties := resp.RegistrationDefinitionProperties; registrationDefinitionProperties != nil {
-        if err := d.Set("authorizations", flattenArmRegistrationDefinitionAuthorization(registrationDefinitionProperties.Authorizations)); err != nil {
-            return fmt.Errorf("Error setting `authorizations`: %+v", err)
-        }
-        d.Set("description", registrationDefinitionProperties.Description)
-        d.Set("managed_by_tenant_id", registrationDefinitionProperties.ManagedByTenantID)
-        d.Set("managed_by_tenant_name", registrationDefinitionProperties.ManagedByTenantName)
-        d.Set("provisioning_state", string(registrationDefinitionProperties.ProvisioningState))
-        d.Set("registration_definition_name", registrationDefinitionProperties.RegistrationDefinitionName)
-    }
-    if err := d.Set("plan", flattenArmRegistrationDefinitionPlan(resp.Plan)); err != nil {
-        return fmt.Errorf("Error setting `plan`: %+v", err)
-    }
     d.Set("registration_definition_id", registrationDefinitionID)
     d.Set("scope", scope)
     d.Set("type", resp.Type)
@@ -243,7 +220,7 @@ func resourceArmRegistrationDefinitionDelete(d *schema.ResourceData, meta interf
     registrationDefinitionID := id.Path["registrationDefinitions"]
 
     if _, err := client.Delete(ctx, scope, registrationDefinitionID); err != nil {
-        return fmt.Errorf("Error deleting Registration Definition (Scope %q / Registration Definition %q): %+v", scope, registrationDefinitionID, err)
+        return fmt.Errorf("Error deleting Registration Definition (Registration Definition %q / Scope %q): %+v", registrationDefinitionID, scope, err)
     }
 
     return nil
@@ -284,50 +261,4 @@ func expandArmRegistrationDefinitionAuthorization(input []interface{}) *[]manage
         results = append(results, result)
     }
     return &results
-}
-
-
-func flattenArmRegistrationDefinitionAuthorization(input *[]managedservices.Authorization) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if principalId := item.PrincipalID; principalId != nil {
-            v["principal_id"] = *principalId
-        }
-        if roleDefinitionId := item.RoleDefinitionID; roleDefinitionId != nil {
-            v["role_definition_id"] = *roleDefinitionId
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmRegistrationDefinitionPlan(input *managedservices.Plan) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
-    if product := input.Product; product != nil {
-        result["product"] = *product
-    }
-    if publisher := input.Publisher; publisher != nil {
-        result["publisher"] = *publisher
-    }
-    if version := input.Version; version != nil {
-        result["version"] = *version
-    }
-
-    return []interface{}{result}
 }

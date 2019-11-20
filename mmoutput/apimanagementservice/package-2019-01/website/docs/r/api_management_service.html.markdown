@@ -30,9 +30,19 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
+* `name` - (Required) The name to check for availability. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `location` - (Required) Resource location. Changing this forces a new resource to be created.
+* `access_key` - (Required) Azure Cloud Storage account (used to place/retrieve the backup) access key. Changing this forces a new resource to be created.
+
+* `backup_name` - (Required) The name of the backup file to create. Changing this forces a new resource to be created.
+
+* `container_name` - (Required) Azure Cloud Storage blob container name used to place/retrieve the backup. Changing this forces a new resource to be created.
+
+* `storage_account` - (Required) Azure Cloud Storage account (used to place/retrieve the backup) name. Changing this forces a new resource to be created.
+
+* `location` - (Optional) Location of the Api Management service to update for a multi-region service. For a service deployed in a single region, this parameter is not required. Changing this forces a new resource to be created.
 
 * `additional_locations` - (Optional) One or more `additional_location` block defined below.
 
@@ -163,29 +173,7 @@ The `virtual_network_configuration` block supports the following:
 
 The following attributes are exported:
 
-* `provisioning_state` - The current provisioning state of the API Management service which can be one of the following: Created/Activating/Succeeded/Updating/Failed/Stopped/Terminating/TerminationFailed/Deleted.
-
-* `target_provisioning_state` - The provisioning state of the API Management service, which is targeted by the long running operation started on the service.
-
-* `created_at_utc` - Creation UTC date of the API Management service.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
-
-* `gateway_url` - Gateway URL of the API Management service.
-
-* `gateway_regional_url` - Gateway URL of the API Management service in the Default Region.
-
-* `portal_url` - Publisher portal endpoint Url of the API Management service.
-
-* `management_api_url` - Management API endpoint URL of the API Management service.
-
-* `scm_url` - SCM endpoint URL of the API Management service.
-
-* `public_ip_addresses` - Public Static Load Balanced IP addresses of the API Management service in Primary region. Available only for Basic, Standard and Premium SKU.
-
-* `private_ip_addresses` - Private Static Load Balanced IP addresses of the API Management service in Primary region which is deployed in an Internal Virtual Network. Available only for Basic, Standard and Premium SKU.
-
 * `id` - Resource ID.
-
-* `name` - Resource name.
 
 * `type` - Resource type for API Management resource is set to Microsoft.ApiManagement.
 

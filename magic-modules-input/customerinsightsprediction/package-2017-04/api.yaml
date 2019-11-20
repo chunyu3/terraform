@@ -40,7 +40,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: PredictionResourceFormat
+            go_type_name: PredictionModelStatus
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
@@ -169,6 +169,10 @@ objects:
           '/properties/grades/maxScoreThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: MaxScoreThreshold
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Status
+            go_enum_type_name: PredictionModelLifeCycle
+            python_field_name: status
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -209,170 +213,6 @@ objects:
             python_parameter_name: prediction_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Prediction
-            go_type_name: Prediction
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: DisplayName
-          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: display_name
-          '/properties/involvedInteractionTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: InvolvedInteractionTypes
-          '/involvedInteractionTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: involved_interaction_types
-          '/properties/involvedKpiTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: InvolvedKpiTypes
-          '/involvedKpiTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: involved_kpi_types
-          '/properties/involvedRelationships': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: InvolvedRelationships
-          '/involvedRelationships': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: involved_relationships
-          '/properties/negativeOutcomeExpression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: NegativeOutcomeExpression
-          '/negativeOutcomeExpression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: negative_outcome_expression
-          '/properties/positiveOutcomeExpression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PositiveOutcomeExpression
-          '/positiveOutcomeExpression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: positive_outcome_expression
-          '/properties/primaryProfileType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PrimaryProfileType
-          '/primaryProfileType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: primary_profile_type
-          '/properties/predictionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PredictionName
-          '/predictionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: prediction_name
-          '/properties/scopeExpression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ScopeExpression
-          '/scopeExpression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: scope_expression
-          '/properties/autoAnalyze': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: AutoAnalyze
-          '/autoAnalyze': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: auto_analyze
-          '/properties/mappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Mappings
-            go_type_name: Prediction_mappings
-          '/properties/mappings/score': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Score
-          '/properties/mappings/grade': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Grade
-          '/properties/mappings/reason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Reason
-          '/mappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: mappings
-          '/mappings/score': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: score
-          '/mappings/grade': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: grade
-          '/mappings/reason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: reason
-          '/properties/scoreLabel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ScoreLabel
-          '/scoreLabel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: score_label
-          '/properties/grades': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Grades
-            go_type_name: Prediction_gradesItem
-          '/properties/grades/gradeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: GradeName
-          '/properties/grades/minScoreThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: MinScoreThreshold
-          '/properties/grades/maxScoreThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: MaxScoreThreshold
-          '/grades': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: grades
-          '/grades/gradeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: grade_name
-          '/grades/minScoreThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: min_score_threshold
-          '/grades/maxScoreThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: max_score_threshold
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningStates
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TenantID
-          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: tenant_id
-          '/properties/systemGeneratedEntities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SystemGeneratedEntities
-            go_type_name: Prediction_systemGeneratedEntities
-          '/properties/systemGeneratedEntities/generatedInteractionTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: GeneratedInteractionTypes
-          '/properties/systemGeneratedEntities/generatedLinks': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: GeneratedLinks
-          '/properties/systemGeneratedEntities/generatedKpis': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: GeneratedKpis
-          '/systemGeneratedEntities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: system_generated_entities
-          '/systemGeneratedEntities/generatedInteractionTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: generated_interaction_types
-          '/systemGeneratedEntities/generatedLinks': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: generated_links
-          '/systemGeneratedEntities/generatedKpis': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: generated_kpis
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -524,30 +364,32 @@ objects:
               description: 'Maximum score threshold.'
               required: false
               azure_sdk_references: ['/grades/maxScoreThreshold', '/properties/grades/maxScoreThreshold']
-      # read only values included only in response
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'Provisioning state.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        name: 'status'
+        description: 'Prediction model life cycle.  When prediction is in PendingModelConfirmation status, it is allowed to update the status to PendingFeaturing or Active through API.'
+        required: true
+        input: true
+        azure_sdk_references: ['/status']
         values:
+          - :New
           - :Provisioning
-          - :Succeeded
-          - :Expiring
-          - :Deleting
+          - :ProvisioningFailed
+          - :PendingDiscovering
+          - :Discovering
+          - :PendingFeaturing
+          - :Featuring
+          - :FeaturingFailed
+          - :PendingTraining
+          - :Training
+          - :TrainingFailed
+          - :Evaluating
+          - :EvaluatingFailed
+          - :PendingModelConfirmation
+          - :Active
+          - :Deleted
           - :HumanIntervention
           - :Failed
-      - !ruby/object:Api::Type::String
-        name: 'tenantId'
-        description: 'The hub name.'
-        output: true
-        azure_sdk_references: ['/tenantId', '/properties/tenantId']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'systemGeneratedEntities'
-        description: 'System generated entities.'
-        output: true
-        azure_sdk_references: ['/systemGeneratedEntities', '/properties/systemGeneratedEntities']
-        properties:
+      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

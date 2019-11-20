@@ -28,33 +28,21 @@ Manage Azure Connection instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The parameters supplied to the create or update connection operation. Changing this forces a new resource to be created.
-
-* `name` - (Required) Gets or sets the name of the connection. Changing this forces a new resource to be created.
+* `name` - (Required) The parameters supplied to the update a connection operation. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
 
-* `connection_type` - (Required) One `connection_type` block defined below.
-
----
-
-The `connection_type` block supports the following:
-
-* `name` - (Optional) Gets or sets the name of the connection type.
+* `name` - (Optional) Gets or sets the name of the connection. Changing this forces a new resource to be created.
 
 * `description` - (Optional) Gets or sets the description of the connection.
 
-* `field_definition_values` - (Optional) Gets or sets the field definition properties of the connection.
+* `field_definition_values` - (Optional) Gets or sets the field definition values of the connection.
 
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `creation_time` - Gets the creation time.
-
-* `last_modified_time` - Gets the last modified time.
 
 * `id` - Fully qualified resource Id for the resource
 

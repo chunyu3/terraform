@@ -28,7 +28,7 @@ Manage Azure RelationshipLink instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the relationship link. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the relationship. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
@@ -77,14 +77,6 @@ The `mapping` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `link_name` - The name of the Relationship Link.
-
-* `provisioning_state` - Provisioning state.
-
-* `relationship_guid_id` - The relationship guid id.
-
-* `tenant_id` - The hub name.
 
 * `id` - Resource ID.
 

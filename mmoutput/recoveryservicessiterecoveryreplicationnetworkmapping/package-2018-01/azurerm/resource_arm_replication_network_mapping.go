@@ -31,21 +31,19 @@ func resourceArmReplicationNetworkMapping() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "fabric_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "network_mapping_name": {
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "fabric_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -76,41 +74,6 @@ func resourceArmReplicationNetworkMapping() *schema.Resource {
                 Optional: true,
             },
 
-            "primary_fabric_friendly_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "primary_network_friendly_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "primary_network_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "recovery_fabric_arm_id": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "recovery_fabric_friendly_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "recovery_network_friendly_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -123,17 +86,17 @@ func resourceArmReplicationNetworkMappingCreate(d *schema.ResourceData, meta int
     client := meta.(*ArmClient).replicationNetworkMappingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     fabricName := d.Get("fabric_name").(string)
-    networkMappingName := d.Get("network_mapping_name").(string)
     networkName := d.Get("network_name").(string)
     resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceName, resourceGroup, fabricName, networkName, networkMappingName)
+        existing, err := client.Get(ctx, resourceGroup, resourceName, fabricName, networkName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Replication Network Mapping (Network Mapping Name %q / Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", networkMappingName, networkName, fabricName, resourceGroup, resourceName, err)
+                return fmt.Errorf("Error checking for present of existing Replication Network Mapping %q (Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, networkName, fabricName, resourceGroup, resourceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -144,29 +107,29 @@ func resourceArmReplicationNetworkMappingCreate(d *schema.ResourceData, meta int
     recoveryFabricName := d.Get("recovery_fabric_name").(string)
     recoveryNetworkId := d.Get("recovery_network_id").(string)
 
-    input := recoveryservicessiterecovery.CreateNetworkMappingInput{
-        CreateNetworkMappingInputProperties: &recoveryservicessiterecovery.CreateNetworkMappingInputProperties{
+    input := recoveryservicessiterecovery.UpdateNetworkMappingInput{
+        UpdateNetworkMappingInputProperties: &recoveryservicessiterecovery.UpdateNetworkMappingInputProperties{
             RecoveryFabricName: utils.String(recoveryFabricName),
             RecoveryNetworkID: utils.String(recoveryNetworkId),
         },
     }
 
 
-    future, err := client.Create(ctx, resourceName, resourceGroup, fabricName, networkName, networkMappingName, input)
+    future, err := client.Create(ctx, resourceGroup, resourceName, fabricName, networkName, name, input)
     if err != nil {
-        return fmt.Errorf("Error creating Replication Network Mapping (Network Mapping Name %q / Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", networkMappingName, networkName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error creating Replication Network Mapping %q (Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, networkName, fabricName, resourceGroup, resourceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Replication Network Mapping (Network Mapping Name %q / Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", networkMappingName, networkName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error waiting for creation of Replication Network Mapping %q (Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, networkName, fabricName, resourceGroup, resourceName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, networkName, networkMappingName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, networkName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Replication Network Mapping (Network Mapping Name %q / Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", networkMappingName, networkName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error retrieving Replication Network Mapping %q (Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, networkName, fabricName, resourceGroup, resourceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Replication Network Mapping (Network Mapping Name %q / Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q) ID", networkMappingName, networkName, fabricName, resourceGroup, resourceName)
+        return fmt.Errorf("Cannot read Replication Network Mapping %q (Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q) ID", name, networkName, fabricName, resourceGroup, resourceName)
     }
     d.SetId(*resp.ID)
 
@@ -181,41 +144,28 @@ func resourceArmReplicationNetworkMappingRead(d *schema.ResourceData, meta inter
     if err != nil {
         return err
     }
-    resourceName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
+    resourceName := id.Path["vaults"]
     fabricName := id.Path["replicationFabrics"]
     networkName := id.Path["replicationNetworks"]
-    networkMappingName := id.Path["replicationNetworkMappings"]
+    name := id.Path["replicationNetworkMappings"]
 
-    resp, err := client.Get(ctx, resourceName, resourceGroup, fabricName, networkName, networkMappingName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, fabricName, networkName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Replication Network Mapping %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Replication Network Mapping (Network Mapping Name %q / Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", networkMappingName, networkName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error reading Replication Network Mapping %q (Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, networkName, fabricName, resourceGroup, resourceName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
     d.Set("fabric_name", fabricName)
-    d.Set("network_mapping_name", networkMappingName)
     d.Set("network_name", networkName)
-    if createNetworkMappingInputProperties := resp.CreateNetworkMappingInputProperties; createNetworkMappingInputProperties != nil {
-        d.Set("primary_fabric_friendly_name", createNetworkMappingInputProperties.PrimaryFabricFriendlyName)
-        d.Set("primary_network_friendly_name", createNetworkMappingInputProperties.PrimaryNetworkFriendlyName)
-        d.Set("primary_network_id", createNetworkMappingInputProperties.PrimaryNetworkID)
-        d.Set("recovery_fabric_arm_id", createNetworkMappingInputProperties.RecoveryFabricArmID)
-        d.Set("recovery_fabric_friendly_name", createNetworkMappingInputProperties.RecoveryFabricFriendlyName)
-        d.Set("recovery_network_friendly_name", createNetworkMappingInputProperties.RecoveryNetworkFriendlyName)
-        d.Set("recovery_network_id", createNetworkMappingInputProperties.RecoveryNetworkID)
-        d.Set("state", createNetworkMappingInputProperties.State)
-    }
     d.Set("resource_name", resourceName)
     d.Set("type", resp.Type)
 
@@ -226,28 +176,28 @@ func resourceArmReplicationNetworkMappingUpdate(d *schema.ResourceData, meta int
     client := meta.(*ArmClient).replicationNetworkMappingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     fabricName := d.Get("fabric_name").(string)
-    networkMappingName := d.Get("network_mapping_name").(string)
     networkName := d.Get("network_name").(string)
     recoveryFabricName := d.Get("recovery_fabric_name").(string)
     recoveryNetworkId := d.Get("recovery_network_id").(string)
     resourceName := d.Get("resource_name").(string)
 
-    input := recoveryservicessiterecovery.CreateNetworkMappingInput{
-        CreateNetworkMappingInputProperties: &recoveryservicessiterecovery.CreateNetworkMappingInputProperties{
+    input := recoveryservicessiterecovery.UpdateNetworkMappingInput{
+        UpdateNetworkMappingInputProperties: &recoveryservicessiterecovery.UpdateNetworkMappingInputProperties{
             RecoveryFabricName: utils.String(recoveryFabricName),
             RecoveryNetworkID: utils.String(recoveryNetworkId),
         },
     }
 
 
-    future, err := client.Update(ctx, resourceName, resourceGroup, fabricName, networkName, networkMappingName, input)
+    future, err := client.Update(ctx, resourceGroup, resourceName, fabricName, networkName, name, input)
     if err != nil {
-        return fmt.Errorf("Error updating Replication Network Mapping (Network Mapping Name %q / Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", networkMappingName, networkName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error updating Replication Network Mapping %q (Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, networkName, fabricName, resourceGroup, resourceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Replication Network Mapping (Network Mapping Name %q / Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", networkMappingName, networkName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error waiting for update of Replication Network Mapping %q (Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, networkName, fabricName, resourceGroup, resourceName, err)
     }
 
     return resourceArmReplicationNetworkMappingRead(d, meta)
@@ -262,23 +212,23 @@ func resourceArmReplicationNetworkMappingDelete(d *schema.ResourceData, meta int
     if err != nil {
         return err
     }
-    resourceName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
+    resourceName := id.Path["vaults"]
     fabricName := id.Path["replicationFabrics"]
     networkName := id.Path["replicationNetworks"]
-    networkMappingName := id.Path["replicationNetworkMappings"]
+    name := id.Path["replicationNetworkMappings"]
 
-    future, err := client.Delete(ctx, resourceName, resourceGroup, fabricName, networkName, networkMappingName)
+    future, err := client.Delete(ctx, resourceGroup, resourceName, fabricName, networkName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Replication Network Mapping (Network Mapping Name %q / Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", networkMappingName, networkName, fabricName, resourceGroup, resourceName, err)
+        return fmt.Errorf("Error deleting Replication Network Mapping %q (Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, networkName, fabricName, resourceGroup, resourceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Replication Network Mapping (Network Mapping Name %q / Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", networkMappingName, networkName, fabricName, resourceGroup, resourceName, err)
+            return fmt.Errorf("Error waiting for deleting Replication Network Mapping %q (Network Name %q / Fabric Name %q / Resource Group %q / Resource Name %q): %+v", name, networkName, fabricName, resourceGroup, resourceName, err)
         }
     }
 

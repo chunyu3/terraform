@@ -36,18 +36,18 @@ func resourceArmServiceFabric() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "lab_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "user_name": {
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -64,86 +64,7 @@ func resourceArmServiceFabric() *schema.Resource {
                 Optional: true,
             },
 
-            "applicable_schedule": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "id": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "lab_vms_shutdown": {
-                            Type: schema.TypeList,
-                            Optional: true,
-                            MaxItems: 1,
-                            Elem: &schema.Resource{
-                                Schema: map[string]*schema.Schema{
-                                    "id": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
-                                    "location": azure.SchemaLocation(),
-                                    "name": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
-                                    "tags": tags.Schema(),
-                                    "type": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
-                                },
-                            },
-                        },
-                        "lab_vms_startup": {
-                            Type: schema.TypeList,
-                            Optional: true,
-                            MaxItems: 1,
-                            Elem: &schema.Resource{
-                                Schema: map[string]*schema.Schema{
-                                    "id": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
-                                    "location": azure.SchemaLocation(),
-                                    "name": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
-                                    "tags": tags.Schema(),
-                                    "type": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
-                                },
-                            },
-                        },
-                        "location": azure.SchemaLocation(),
-                        "name": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "tags": tags.Schema(),
-                        "type": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "unique_identifier": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -158,15 +79,15 @@ func resourceArmServiceFabricCreate(d *schema.ResourceData, meta interface{}) er
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     labName := d.Get("lab_name").(string)
-    userName := d.Get("user_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, userName, name)
+        existing, err := client.Get(ctx, resourceGroup, labName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Service Fabric %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Service Fabric %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -179,9 +100,9 @@ func resourceArmServiceFabricCreate(d *schema.ResourceData, meta interface{}) er
     externalServiceFabricId := d.Get("external_service_fabric_id").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    serviceFabric := devtestlab.ServiceFabric{
+    serviceFabric := devtestlab.ServiceFabricFragment{
         Location: utils.String(location),
-        ServiceFabricProperties: &devtestlab.ServiceFabricProperties{
+        ServiceFabricPropertiesFragment: &devtestlab.ServiceFabricPropertiesFragment{
             EnvironmentID: utils.String(environmentId),
             ExternalServiceFabricID: utils.String(externalServiceFabricId),
         },
@@ -189,21 +110,21 @@ func resourceArmServiceFabricCreate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, labName, userName, name, serviceFabric)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, name, serviceFabric)
     if err != nil {
-        return fmt.Errorf("Error creating Service Fabric %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+        return fmt.Errorf("Error creating Service Fabric %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Service Fabric %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Service Fabric %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, userName, name)
+    resp, err := client.Get(ctx, resourceGroup, labName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Service Fabric %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Service Fabric %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Service Fabric %q (User Name %q / Lab Name %q / Resource Group %q) ID", name, userName, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Service Fabric %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -220,39 +141,27 @@ func resourceArmServiceFabricRead(d *schema.ResourceData, meta interface{}) erro
     }
     resourceGroup := id.ResourceGroup
     labName := id.Path["labs"]
-    userName := id.Path["users"]
+    name := id.Path["users"]
     name := id.Path["servicefabrics"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, userName, name)
+    resp, err := client.Get(ctx, resourceGroup, labName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Service Fabric %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Service Fabric %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Service Fabric %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
 
     d.Set("name", name)
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if serviceFabricProperties := resp.ServiceFabricProperties; serviceFabricProperties != nil {
-        if err := d.Set("applicable_schedule", flattenArmServiceFabricApplicableSchedule(serviceFabricProperties.ApplicableSchedule)); err != nil {
-            return fmt.Errorf("Error setting `applicable_schedule`: %+v", err)
-        }
-        d.Set("environment_id", serviceFabricProperties.EnvironmentID)
-        d.Set("external_service_fabric_id", serviceFabricProperties.ExternalServiceFabricID)
-        d.Set("provisioning_state", serviceFabricProperties.ProvisioningState)
-        d.Set("unique_identifier", serviceFabricProperties.UniqueIdentifier)
-    }
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
-    d.Set("user_name", userName)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmServiceFabricUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -260,16 +169,15 @@ func resourceArmServiceFabricUpdate(d *schema.ResourceData, meta interface{}) er
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     environmentId := d.Get("environment_id").(string)
     externalServiceFabricId := d.Get("external_service_fabric_id").(string)
     labName := d.Get("lab_name").(string)
-    userName := d.Get("user_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    serviceFabric := devtestlab.ServiceFabric{
-        Location: utils.String(location),
-        ServiceFabricProperties: &devtestlab.ServiceFabricProperties{
+    serviceFabric := devtestlab.ServiceFabricFragment{
+        ServiceFabricPropertiesFragment: &devtestlab.ServiceFabricPropertiesFragment{
             EnvironmentID: utils.String(environmentId),
             ExternalServiceFabricID: utils.String(externalServiceFabricId),
         },
@@ -277,8 +185,8 @@ func resourceArmServiceFabricUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, userName, name, serviceFabric); err != nil {
-        return fmt.Errorf("Error updating Service Fabric %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, labName, name, name, serviceFabric); err != nil {
+        return fmt.Errorf("Error updating Service Fabric %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
     return resourceArmServiceFabricRead(d, meta)
@@ -295,34 +203,22 @@ func resourceArmServiceFabricDelete(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     labName := id.Path["labs"]
-    userName := id.Path["users"]
+    name := id.Path["users"]
     name := id.Path["servicefabrics"]
 
-    future, err := client.Delete(ctx, resourceGroup, labName, userName, name)
+    future, err := client.Delete(ctx, resourceGroup, labName, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Service Fabric %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Service Fabric %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Service Fabric %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Service Fabric %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
         }
     }
 
     return nil
-}
-
-
-func flattenArmServiceFabricApplicableSchedule(input *devtestlab.ApplicableSchedule) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-
-    return []interface{}{result}
 }

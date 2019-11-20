@@ -106,11 +106,6 @@ func resourceArmStreamingLocator() *schema.Resource {
                 Optional: true,
             },
 
-            "created": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -204,18 +199,6 @@ func resourceArmStreamingLocatorRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    if streamingLocatorProperties := resp.StreamingLocatorProperties; streamingLocatorProperties != nil {
-        d.Set("asset_name", streamingLocatorProperties.AssetName)
-        if err := d.Set("content_keys", flattenArmStreamingLocatorStreamingLocatorUserDefinedContentKey(streamingLocatorProperties.ContentKeys)); err != nil {
-            return fmt.Errorf("Error setting `content_keys`: %+v", err)
-        }
-        d.Set("created", (streamingLocatorProperties.Created).String())
-        d.Set("default_content_key_policy_name", streamingLocatorProperties.DefaultContentKeyPolicyName)
-        d.Set("end_time", (streamingLocatorProperties.EndTime).String())
-        d.Set("start_time", (streamingLocatorProperties.StartTime).String())
-        d.Set("streaming_locator_id", streamingLocatorProperties.StreamingLocatorID)
-        d.Set("streaming_policy_name", streamingLocatorProperties.StreamingPolicyName)
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -274,30 +257,4 @@ func convertStringToDate(input interface{}) *date.Time {
       Time: dateTime,
   }
   return &result
-}
-
-
-func flattenArmStreamingLocatorStreamingLocatorUserDefinedContentKey(input *[]mediaservices.StreamingLocatorUserDefinedContentKey) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if label := item.Label; label != nil {
-            v["label"] = *label
-        }
-        if value := item.Value; value != nil {
-            v["value"] = *value
-        }
-
-        results = append(results, v)
-    }
-
-    return results
 }

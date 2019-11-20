@@ -171,11 +171,6 @@ func resourceArmExpressRouteCircuitPeering() *schema.Resource {
                 Type: schema.TypeInt,
                 Optional: true,
             },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
         },
     }
 }
@@ -221,9 +216,9 @@ func resourceArmExpressRouteCircuitPeeringCreateUpdate(d *schema.ResourceData, m
         ID: utils.String(id),
         Name: utils.String(name),
         ExpressRouteCircuitPeeringPropertiesFormat: &network.ExpressRouteCircuitPeeringPropertiesFormat{
-            AzureAsn: utils.Int32(int32(azureAsn)),
+            AzureASN: utils.Int32(int32(azureAsn)),
             MicrosoftPeeringConfig: expandArmExpressRouteCircuitPeeringExpressRouteCircuitPeeringConfig(microsoftPeeringConfig),
-            PeerAsn: utils.Int32(int32(peerAsn)),
+            PeerASN: utils.Int32(int32(peerAsn)),
             PeeringType: network.ExpressRouteCircuitPeeringType(peeringType),
             PrimaryAzurePort: utils.String(primaryAzurePort),
             PrimaryPeerAddressPrefix: utils.String(primaryPeerAddressPrefix),
@@ -282,29 +277,8 @@ func resourceArmExpressRouteCircuitPeeringRead(d *schema.ResourceData, meta inte
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if expressRouteCircuitPeeringPropertiesFormat := resp.ExpressRouteCircuitPeeringPropertiesFormat; expressRouteCircuitPeeringPropertiesFormat != nil {
-        d.Set("azure_asn", int(*expressRouteCircuitPeeringPropertiesFormat.AzureAsn))
-        if err := d.Set("microsoft_peering_config", flattenArmExpressRouteCircuitPeeringExpressRouteCircuitPeeringConfig(expressRouteCircuitPeeringPropertiesFormat.MicrosoftPeeringConfig)); err != nil {
-            return fmt.Errorf("Error setting `microsoft_peering_config`: %+v", err)
-        }
-        d.Set("peer_asn", int(*expressRouteCircuitPeeringPropertiesFormat.PeerAsn))
-        d.Set("peering_type", string(expressRouteCircuitPeeringPropertiesFormat.PeeringType))
-        d.Set("primary_azure_port", expressRouteCircuitPeeringPropertiesFormat.PrimaryAzurePort)
-        d.Set("primary_peer_address_prefix", expressRouteCircuitPeeringPropertiesFormat.PrimaryPeerAddressPrefix)
-        d.Set("provisioning_state", expressRouteCircuitPeeringPropertiesFormat.ProvisioningState)
-        d.Set("secondary_azure_port", expressRouteCircuitPeeringPropertiesFormat.SecondaryAzurePort)
-        d.Set("secondary_peer_address_prefix", expressRouteCircuitPeeringPropertiesFormat.SecondaryPeerAddressPrefix)
-        d.Set("shared_key", expressRouteCircuitPeeringPropertiesFormat.SharedKey)
-        d.Set("state", string(expressRouteCircuitPeeringPropertiesFormat.State))
-        if err := d.Set("stats", flattenArmExpressRouteCircuitPeeringExpressRouteCircuitStats(expressRouteCircuitPeeringPropertiesFormat.Stats)); err != nil {
-            return fmt.Errorf("Error setting `stats`: %+v", err)
-        }
-        d.Set("vlan_id", int(*expressRouteCircuitPeeringPropertiesFormat.VlanID))
-    }
     d.Set("circuit_name", circuitName)
-    d.Set("etag", resp.Etag)
 
     return nil
 }
@@ -354,7 +328,7 @@ func expandArmExpressRouteCircuitPeeringExpressRouteCircuitPeeringConfig(input [
     result := network.ExpressRouteCircuitPeeringConfig{
         AdvertisedPublicPrefixes: utils.ExpandStringSlice(advertisedPublicPrefixes),
         AdvertisedPublicPrefixesState: network.ExpressRouteCircuitPeeringAdvertisedPublicPrefixState(advertisedPublicPrefixesState),
-        CustomerAsn: utils.Int32(int32(customerAsn)),
+        CustomerASN: utils.Int32(int32(customerAsn)),
         RoutingRegistryName: utils.String(routingRegistryName),
     }
     return &result
@@ -374,41 +348,4 @@ func expandArmExpressRouteCircuitPeeringExpressRouteCircuitStats(input []interfa
         BytesOut: utils.Int32(int32(bytesOut)),
     }
     return &result
-}
-
-
-func flattenArmExpressRouteCircuitPeeringExpressRouteCircuitPeeringConfig(input *network.ExpressRouteCircuitPeeringConfig) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["advertised_public_prefixes"] = utils.FlattenStringSlice(input.AdvertisedPublicPrefixes)
-    result["advertised_public_prefixes_state"] = string(input.AdvertisedPublicPrefixesState)
-    if customerAsn := input.CustomerAsn; customerAsn != nil {
-        result["customer_asn"] = int(*customerAsn)
-    }
-    if routingRegistryName := input.RoutingRegistryName; routingRegistryName != nil {
-        result["routing_registry_name"] = *routingRegistryName
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmExpressRouteCircuitPeeringExpressRouteCircuitStats(input *network.ExpressRouteCircuitStats) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if bytesIn := input.BytesIn; bytesIn != nil {
-        result["bytes_in"] = int(*bytesIn)
-    }
-    if bytesOut := input.BytesOut; bytesOut != nil {
-        result["bytes_out"] = int(*bytesOut)
-    }
-
-    return []interface{}{result}
 }

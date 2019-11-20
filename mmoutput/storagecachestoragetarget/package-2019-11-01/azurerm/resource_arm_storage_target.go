@@ -129,11 +129,6 @@ func resourceArmStorageTarget() *schema.Resource {
                 },
             },
 
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -227,22 +222,6 @@ func resourceArmStorageTargetRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("cache_name", cacheName)
-    if storageTargetProperties := resp.StorageTarget_properties; storageTargetProperties != nil {
-        if err := d.Set("clfs", flattenArmStorageTargetClfs(storageTargetProperties.Clfs)); err != nil {
-            return fmt.Errorf("Error setting `clfs`: %+v", err)
-        }
-        if err := d.Set("junctions", flattenArmStorageTargetNamespaceJunction(storageTargetProperties.Junctions)); err != nil {
-            return fmt.Errorf("Error setting `junctions`: %+v", err)
-        }
-        if err := d.Set("nfs3", flattenArmStorageTargetNfs3(storageTargetProperties.Nfs3)); err != nil {
-            return fmt.Errorf("Error setting `nfs3`: %+v", err)
-        }
-        d.Set("provisioning_state", string(storageTargetProperties.ProvisioningState))
-        d.Set("target_type", string(storageTargetProperties.TargetType))
-        if err := d.Set("unknown", flattenArmStorageTargetUnknown(storageTargetProperties.Unknown)); err != nil {
-            return fmt.Errorf("Error setting `unknown`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
     return nil
@@ -340,73 +319,4 @@ func expandArmStorageTargetUnknown(input []interface{}) *storagecache.Unknown {
         UnknownMap: utils.ExpandKeyValuePairs(unknownMap),
     }
     return &result
-}
-
-
-func flattenArmStorageTargetClfs(input *storagecache.Clfs) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if target := input.Target; target != nil {
-        result["target"] = *target
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmStorageTargetNamespaceJunction(input *[]storagecache.NamespaceJunction) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if namespacePath := item.NamespacePath; namespacePath != nil {
-            v["namespace_path"] = *namespacePath
-        }
-        if nfsExport := item.NfsExport; nfsExport != nil {
-            v["nfs_export"] = *nfsExport
-        }
-        if targetPath := item.TargetPath; targetPath != nil {
-            v["target_path"] = *targetPath
-        }
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmStorageTargetNfs3(input *storagecache.Nfs3) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if target := input.Target; target != nil {
-        result["target"] = *target
-    }
-    if usageModel := input.UsageModel; usageModel != nil {
-        result["usage_model"] = *usageModel
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmStorageTargetUnknown(input *storagecache.Unknown) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["unknown_map"] = utils.FlattenKeyValuePairs(input.UnknownMap)
-
-    return []interface{}{result}
 }

@@ -40,7 +40,11 @@ The following arguments are supported:
 
 * `email_recipient` - (Optional) The email recipient to send notifications to (can be a list of semi-colon separated email addresses).
 
+* `event_name` - (Optional) The type of event (i.e. AutoShutdown, Cost) Defaults to `AutoShutdown`. Changing this forces a new resource to be created.
+
 * `events` - (Optional) One or more `event` block defined below.
+
+* `json_payload` - (Optional) Properties for the notification in json format. Changing this forces a new resource to be created.
 
 * `notification_locale` - (Optional) The locale to use when sending a notification (fallback for unsupported languages is EN).
 
@@ -57,12 +61,6 @@ The `event` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `created_date` - The creation date of the notification channel.
-
-* `provisioning_state` - The provisioning status of the resource.
-
-* `unique_identifier` - The unique immutable identifier of a resource (Guid).
 
 * `id` - The identifier of the resource.
 

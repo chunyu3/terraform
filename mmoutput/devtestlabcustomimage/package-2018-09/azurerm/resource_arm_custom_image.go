@@ -197,22 +197,7 @@ func resourceArmCustomImage() *schema.Resource {
                 },
             },
 
-            "creation_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "unique_identifier": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -265,7 +250,7 @@ func resourceArmCustomImageCreate(d *schema.ResourceData, meta interface{}) erro
             ManagedImageID: utils.String(managedImageId),
             ManagedSnapshotID: utils.String(managedSnapshotId),
             Vhd: expandArmCustomImageCustomImagePropertiesCustomFragment(vhd),
-            Vm: expandArmCustomImageCustomImagePropertiesFromVmFragment(vm),
+            VM: expandArmCustomImageCustomImagePropertiesFromVmFragment(vm),
         },
         Tags: tags.Expand(t),
     }
@@ -318,34 +303,9 @@ func resourceArmCustomImageRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if customImagePropertiesFragment := resp.CustomImagePropertiesFragment; customImagePropertiesFragment != nil {
-        d.Set("author", customImagePropertiesFragment.Author)
-        d.Set("creation_date", (customImagePropertiesFragment.CreationDate).String())
-        if err := d.Set("custom_image_plan", flattenArmCustomImageCustomImagePropertiesFromPlanFragment(customImagePropertiesFragment.CustomImagePlan)); err != nil {
-            return fmt.Errorf("Error setting `custom_image_plan`: %+v", err)
-        }
-        if err := d.Set("data_disk_storage_info", flattenArmCustomImageDataDiskStorageTypeInfoFragment(customImagePropertiesFragment.DataDiskStorageInfo)); err != nil {
-            return fmt.Errorf("Error setting `data_disk_storage_info`: %+v", err)
-        }
-        d.Set("description", customImagePropertiesFragment.Description)
-        d.Set("is_plan_authorized", customImagePropertiesFragment.IsPlanAuthorized)
-        d.Set("managed_image_id", customImagePropertiesFragment.ManagedImageID)
-        d.Set("managed_snapshot_id", customImagePropertiesFragment.ManagedSnapshotID)
-        d.Set("provisioning_state", customImagePropertiesFragment.ProvisioningState)
-        d.Set("unique_identifier", customImagePropertiesFragment.UniqueIdentifier)
-        if err := d.Set("vhd", flattenArmCustomImageCustomImagePropertiesCustomFragment(customImagePropertiesFragment.Vhd)); err != nil {
-            return fmt.Errorf("Error setting `vhd`: %+v", err)
-        }
-        if err := d.Set("vm", flattenArmCustomImageCustomImagePropertiesFromVmFragment(customImagePropertiesFragment.Vm)); err != nil {
-            return fmt.Errorf("Error setting `vm`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmCustomImageUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -367,7 +327,6 @@ func resourceArmCustomImageUpdate(d *schema.ResourceData, meta interface{}) erro
     t := d.Get("tags").(map[string]interface{})
 
     customImage := devtestlab.CustomImageFragment{
-        Location: utils.String(location),
         CustomImagePropertiesFragment: &devtestlab.CustomImagePropertiesFragment{
             Author: utils.String(author),
             CustomImagePlan: expandArmCustomImageCustomImagePropertiesFromPlanFragment(customImagePlan),
@@ -377,7 +336,7 @@ func resourceArmCustomImageUpdate(d *schema.ResourceData, meta interface{}) erro
             ManagedImageID: utils.String(managedImageId),
             ManagedSnapshotID: utils.String(managedSnapshotId),
             Vhd: expandArmCustomImageCustomImagePropertiesCustomFragment(vhd),
-            Vm: expandArmCustomImageCustomImagePropertiesFromVmFragment(vm),
+            VM: expandArmCustomImageCustomImagePropertiesFromVmFragment(vm),
         },
         Tags: tags.Expand(t),
     }
@@ -485,7 +444,7 @@ func expandArmCustomImageCustomImagePropertiesFromVmFragment(input []interface{}
 
     result := devtestlab.CustomImagePropertiesFromVmFragment{
         LinuxOsInfo: expandArmCustomImageLinuxOsInfoFragment(linuxOsInfo),
-        SourceVmID: utils.String(sourceVmId),
+        SourceVMID: utils.String(sourceVmId),
         WindowsOsInfo: expandArmCustomImageWindowsOsInfoFragment(windowsOsInfo),
     }
     return &result
@@ -517,103 +476,4 @@ func expandArmCustomImageWindowsOsInfoFragment(input []interface{}) *devtestlab.
         WindowsOsState: devtestlab.WindowsOsState(windowsOsState),
     }
     return &result
-}
-
-
-func flattenArmCustomImageCustomImagePropertiesFromPlanFragment(input *devtestlab.CustomImagePropertiesFromPlanFragment) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if id := input.ID; id != nil {
-        result["id"] = *id
-    }
-    if offer := input.Offer; offer != nil {
-        result["offer"] = *offer
-    }
-    if publisher := input.Publisher; publisher != nil {
-        result["publisher"] = *publisher
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmCustomImageDataDiskStorageTypeInfoFragment(input *[]devtestlab.DataDiskStorageTypeInfoFragment) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-        if lun := item.Lun; lun != nil {
-            v["lun"] = *lun
-        }
-        v["storage_type"] = string(item.StorageType)
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmCustomImageCustomImagePropertiesCustomFragment(input *devtestlab.CustomImagePropertiesCustomFragment) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if imageName := input.ImageName; imageName != nil {
-        result["image_name"] = *imageName
-    }
-    result["os_type"] = string(input.OsType)
-    if sysPrep := input.SysPrep; sysPrep != nil {
-        result["sys_prep"] = *sysPrep
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmCustomImageCustomImagePropertiesFromVmFragment(input *devtestlab.CustomImagePropertiesFromVmFragment) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["linux_os_info"] = flattenArmCustomImageLinuxOsInfoFragment(input.LinuxOsInfo)
-    if sourceVmId := input.SourceVmID; sourceVmId != nil {
-        result["source_vm_id"] = *sourceVmId
-    }
-    result["windows_os_info"] = flattenArmCustomImageWindowsOsInfoFragment(input.WindowsOsInfo)
-
-    return []interface{}{result}
-}
-
-func flattenArmCustomImageLinuxOsInfoFragment(input *devtestlab.LinuxOsInfoFragment) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["linux_os_state"] = string(input.LinuxOsState)
-
-    return []interface{}{result}
-}
-
-func flattenArmCustomImageWindowsOsInfoFragment(input *devtestlab.WindowsOsInfoFragment) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["windows_os_state"] = string(input.WindowsOsState)
-
-    return []interface{}{result}
 }

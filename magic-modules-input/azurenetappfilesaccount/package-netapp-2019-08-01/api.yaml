@@ -93,7 +93,7 @@ objects:
             go_field_name: Domain
           '/properties/activeDirectories/dns': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: Dns
+            go_field_name: DNS
           '/properties/activeDirectories/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Status
@@ -177,7 +177,7 @@ objects:
             go_field_name: Domain
           '/properties/activeDirectories/dns': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: Dns
+            go_field_name: DNS
           '/properties/activeDirectories/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Status
@@ -217,77 +217,6 @@ objects:
             python_parameter_name: account_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AccountProperties
-            go_type_name: AccountProperties
-          '/properties/activeDirectories': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: ActiveDirectories
-            go_type_name: ActiveDirectory
-          '/properties/activeDirectories/activeDirectoryId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ActiveDirectoryID
-          '/properties/activeDirectories/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Username
-          '/properties/activeDirectories/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Password
-          '/properties/activeDirectories/domain': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Domain
-          '/properties/activeDirectories/dns': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Dns
-          '/properties/activeDirectories/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Status
-          '/properties/activeDirectories/smbServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SmbServerName
-          '/properties/activeDirectories/organizationalUnit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: OrganizationalUnit
-          '/activeDirectories': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: active_directories
-          '/activeDirectories/activeDirectoryId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: active_directory_id
-          '/activeDirectories/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: username
-          '/activeDirectories/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: password
-          '/activeDirectories/domain': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: domain
-          '/activeDirectories/dns': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: dns
-          '/activeDirectories/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: status
-          '/activeDirectories/smbServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: smb_server_name
-          '/activeDirectories/organizationalUnit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: organizational_unit
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -310,6 +239,18 @@ objects:
     description: |
       Manage Azure Account instance.
     properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the NetApp account'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
         description: 'Resource location'
@@ -369,24 +310,7 @@ objects:
               description: 'The Organizational Unit (OU) within the Windows Active Directory'
               required: false
               azure_sdk_references: ['/activeDirectories/organizationalUnit', '/properties/activeDirectories/organizationalUnit']
-      - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
-        description: 'The name of the resource group.'
-        required: true
-        input: true
-        azure_sdk_references: ['resourceGroupName']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The name of the NetApp account'
-        required: true
-        input: true
-        azure_sdk_references: ['accountName']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Azure lifecycle management'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

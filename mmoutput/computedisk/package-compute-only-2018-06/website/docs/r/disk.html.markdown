@@ -34,40 +34,19 @@ The following arguments are supported:
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
 
-* `creation_data` - (Required) One `creation_datum` block defined below.
+* `access` - (Required)  Changing this forces a new resource to be created.
 
----
+* `duration_in_seconds` - (Required) Time duration in seconds until the SAS access expires. Changing this forces a new resource to be created.
 
-The `creation_datum` block supports the following:
+* `disk_iopsread_write` - (Optional) The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes.
 
-* `create_option` - (Required) This enumerates the possible sources of a disk's creation.
-
-* `storage_account_id` - (Optional) If createOption is Import, the Azure Resource Manager identifier of the storage account containing the blob to import as a disk. Required only if the blob is in a different subscription
-
-* `image_reference` - (Optional) One `image_reference` block defined below.
-
-* `source_uri` - (Optional) If createOption is Import, this is the URI of a blob to be imported into a managed disk.
-
-* `source_resource_id` - (Optional) If createOption is Copy, this is the ARM id of the source snapshot or disk.
-
-
----
-
-The `image_reference` block supports the following:
-
-* `id` - (Required) A relative uri containing either a Platform Image Repository or user image reference.
-
-* `lun` - (Optional) If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
-
-* `disk_iopsread_write` - (Optional) The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
-
-* `disk_mbps_read_write` - (Optional) The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+* `disk_mbps_read_write` - (Optional) The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
 
 * `disk_size_gb` - (Optional) If creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
 
 * `encryption_settings` - (Optional) One `encryption_setting` block defined below.
 
-* `os_type` - (Optional) The Operating System type. Defaults to `Windows`.
+* `os_type` - (Optional) the Operating System type. Defaults to `Windows`.
 
 * `sku` - (Optional) One `sku` block defined below.
 
@@ -125,10 +104,6 @@ The `sku` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `time_created` - The time when the disk was created.
-
-* `provisioning_state` - The disk provisioning state.
 
 * `id` - Resource Id
 

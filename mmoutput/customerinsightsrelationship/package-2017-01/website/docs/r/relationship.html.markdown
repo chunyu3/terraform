@@ -112,14 +112,6 @@ The `field_mapping` block supports the following:
 
 The following attributes are exported:
 
-* `provisioning_state` - Provisioning state.
-
-* `relationship_name` - The Relationship name.
-
-* `relationship_guid_id` - The relationship guid id.
-
-* `tenant_id` - The hub name.
-
 * `id` - Resource ID.
 
 * `name` - Resource name.

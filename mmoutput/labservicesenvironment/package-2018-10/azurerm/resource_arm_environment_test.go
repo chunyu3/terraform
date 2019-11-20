@@ -34,8 +34,8 @@ func testCheckAzureRMEnvironmentExists(resourceName string) resource.TestCheckFu
             return fmt.Errorf("Environment not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        environmentName := rs.Primary.Attributes["environment_name"]
         environmentSettingName := rs.Primary.Attributes["environment_setting_name"]
         labAccountName := rs.Primary.Attributes["lab_account_name"]
         labName := rs.Primary.Attributes["lab_name"]
@@ -43,9 +43,9 @@ func testCheckAzureRMEnvironmentExists(resourceName string) resource.TestCheckFu
         client := testAccProvider.Meta().(*ArmClient).environmentsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, environmentSettingName, environmentName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, environmentSettingName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Environment (Environment Name %q / Environment Setting Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q) does not exist", environmentName, environmentSettingName, labName, labAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Environment %q (Environment Setting Name %q / Lab Name %q / Lab Account Name %q / Resource Group %q) does not exist", name, environmentSettingName, labName, labAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on environmentsClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMEnvironmentDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        environmentName := rs.Primary.Attributes["environment_name"]
         environmentSettingName := rs.Primary.Attributes["environment_setting_name"]
         labAccountName := rs.Primary.Attributes["lab_account_name"]
         labName := rs.Primary.Attributes["lab_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, environmentSettingName, environmentName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, labAccountName, labName, environmentSettingName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on environmentsClient: %+v", err)
             }

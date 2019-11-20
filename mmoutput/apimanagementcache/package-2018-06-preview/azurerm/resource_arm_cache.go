@@ -150,11 +150,6 @@ func resourceArmCacheRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("cache_id", cacheID)
-    if cacheUpdateProperties := resp.CacheUpdateProperties; cacheUpdateProperties != nil {
-        d.Set("connection_string", cacheUpdateProperties.ConnectionString)
-        d.Set("description", cacheUpdateProperties.Description)
-        d.Set("resource_id", cacheUpdateProperties.ResourceID)
-    }
     d.Set("type", resp.Type)
 
     return nil

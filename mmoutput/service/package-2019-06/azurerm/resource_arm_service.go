@@ -38,10 +38,10 @@ func resourceArmService() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -69,42 +69,10 @@ func resourceArmService() *schema.Resource {
                 ForceNew: true,
             },
 
-            "admin_domain_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "billing_domain_name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "etag": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "notes": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "quantity": {
-                Type: schema.TypeInt,
-                Computed: true,
-            },
-
-            "start_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
@@ -128,6 +96,7 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
+    name := d.Get("name").(string)
     adminDomainName := d.Get("admin_domain_name").(string)
     billingDomainName := d.Get("billing_domain_name").(string)
     notes := d.Get("notes").(string)
@@ -136,6 +105,7 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
     deviceService := services.DeviceServiceProperties{
         AdminDomainName: utils.String(adminDomainName),
         BillingDomainName: utils.String(billingDomainName),
+        Name: utils.String(name),
         Notes: utils.String(notes),
         Quantity: utils.Int64(int64(quantity)),
     }
@@ -183,26 +153,16 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if deviceServiceProperties := resp.DeviceServiceProperties; deviceServiceProperties != nil {
-        d.Set("admin_domain_name", deviceServiceProperties.AdminDomainName)
-        d.Set("billing_domain_name", deviceServiceProperties.BillingDomainName)
-        d.Set("notes", deviceServiceProperties.Notes)
-        d.Set("quantity", int(*deviceServiceProperties.Quantity))
-        d.Set("start_date", (deviceServiceProperties.StartDate).String())
-    }
-    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).servicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     adminDomainName := d.Get("admin_domain_name").(string)
@@ -213,6 +173,7 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     deviceService := services.DeviceServiceProperties{
         AdminDomainName: utils.String(adminDomainName),
         BillingDomainName: utils.String(billingDomainName),
+        Name: utils.String(name),
         Notes: utils.String(notes),
         Quantity: utils.Int64(int64(quantity)),
     }

@@ -60,8 +60,6 @@ The `plan` block supports the following:
 
 The following attributes are exported:
 
-* `provisioning_state` - The provisioning state for the solution.
-
 * `id` - Resource ID.
 
 * `name` - Resource name.

@@ -31,19 +31,19 @@ func resourceArmService() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "service_topology_name": {
                 Type: schema.TypeString,
@@ -78,15 +78,15 @@ func resourceArmServiceCreateUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).servicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    serviceName := d.Get("service_name").(string)
     serviceTopologyName := d.Get("service_topology_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceTopologyName, serviceName)
+        existing, err := client.Get(ctx, resourceGroup, serviceTopologyName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Service (Service Name %q / Service Topology Name %q / Resource Group %q): %+v", serviceName, serviceTopologyName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Service %q (Service Topology Name %q / Resource Group %q): %+v", name, serviceTopologyName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -109,17 +109,17 @@ func resourceArmServiceCreateUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceTopologyName, serviceName, serviceInfo); err != nil {
-        return fmt.Errorf("Error creating Service (Service Name %q / Service Topology Name %q / Resource Group %q): %+v", serviceName, serviceTopologyName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceTopologyName, name, serviceInfo); err != nil {
+        return fmt.Errorf("Error creating Service %q (Service Topology Name %q / Resource Group %q): %+v", name, serviceTopologyName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceTopologyName, serviceName)
+    resp, err := client.Get(ctx, resourceGroup, serviceTopologyName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Service (Service Name %q / Service Topology Name %q / Resource Group %q): %+v", serviceName, serviceTopologyName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Service %q (Service Topology Name %q / Resource Group %q): %+v", name, serviceTopologyName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Service (Service Name %q / Service Topology Name %q / Resource Group %q) ID", serviceName, serviceTopologyName, resourceGroup)
+        return fmt.Errorf("Cannot read Service %q (Service Topology Name %q / Resource Group %q) ID", name, serviceTopologyName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -136,33 +136,26 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     serviceTopologyName := id.Path["serviceTopologies"]
-    serviceName := id.Path["services"]
+    name := id.Path["services"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceTopologyName, serviceName)
+    resp, err := client.Get(ctx, resourceGroup, serviceTopologyName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Service (Service Name %q / Service Topology Name %q / Resource Group %q): %+v", serviceName, serviceTopologyName, resourceGroup, err)
+        return fmt.Errorf("Error reading Service %q (Service Topology Name %q / Resource Group %q): %+v", name, serviceTopologyName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    d.Set("service_name", serviceName)
     d.Set("service_topology_name", serviceTopologyName)
-    if serviceResourceProperties := resp.ServiceResource_properties; serviceResourceProperties != nil {
-        d.Set("target_location", serviceResourceProperties.TargetLocation)
-        d.Set("target_subscription_id", serviceResourceProperties.TargetSubscriptionID)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -177,10 +170,10 @@ func resourceArmServiceDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     serviceTopologyName := id.Path["serviceTopologies"]
-    serviceName := id.Path["services"]
+    name := id.Path["services"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceTopologyName, serviceName); err != nil {
-        return fmt.Errorf("Error deleting Service (Service Name %q / Service Topology Name %q / Resource Group %q): %+v", serviceName, serviceTopologyName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, serviceTopologyName, name); err != nil {
+        return fmt.Errorf("Error deleting Service %q (Service Topology Name %q / Resource Group %q): %+v", name, serviceTopologyName, resourceGroup, err)
     }
 
     return nil

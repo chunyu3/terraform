@@ -23,13 +23,13 @@ objects:
         python_func_name: create_or_update
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
+            id_portion: resourcegroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Group
+            go_type_name: ExportTemplateRequest
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -48,13 +48,19 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
+          '/resources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: Resources
+            python_field_name: resources
+          '/options': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Options
+            python_field_name: options
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
         python_func_name: delete
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
+            id_portion: resourcegroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
@@ -63,33 +69,11 @@ objects:
         python_func_name: get
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
+            id_portion: resourcegroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
         response:
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: GroupProperties
-            go_type_name: GroupProperties
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/managedBy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ManagedBy
-            python_field_name: managed_by
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -102,7 +86,7 @@ objects:
         python_func_name: list_resources
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
+            id_portion: resourcegroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
@@ -112,7 +96,7 @@ objects:
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
-        description: 'The resource group with the resources to get.'
+        description: 'The name of the resource group to export as a template.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
@@ -140,12 +124,20 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
-      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'resources'
+        description: 'The IDs of the resources to filter the export by. To export all resources, supply an array with single entry ''*''.'
+        required: false
+        input: true
+        azure_sdk_references: ['/resources']
+        item_type: Api::Type::String
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'The provisioning state. '
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        name: 'options'
+        description: 'The export template options. A CSV-formatted list containing zero or more of the following: ''IncludeParameterDefaultValue'', ''IncludeComments'', ''SkipResourceNameParameterization'', ''SkipAllParameterization'''
+        required: false
+        input: true
+        azure_sdk_references: ['/options']
+      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The ID of the resource group.'

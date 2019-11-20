@@ -36,16 +36,16 @@ func testCheckAzureRMApiIssueCommentExists(resourceName string) resource.TestChe
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         commentID := rs.Primary.Attributes["comment_id"]
         issueID := rs.Primary.Attributes["issue_id"]
 
         client := testAccProvider.Meta().(*ArmClient).apiIssueCommentClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, commentID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, issueID, commentID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q) does not exist", name, commentID, issueID, apiID, resourceGroup)
+                return fmt.Errorf("Bad: Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q) does not exist", name, commentID, issueID, aPIID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiIssueCommentClient: %+v", err)
         }
@@ -65,11 +65,11 @@ func testCheckAzureRMApiIssueCommentDestroy(s *terraform.State) error {
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        apiID := rs.Primary.Attributes["api_id"]
+        aPIID := rs.Primary.Attributes["api_id"]
         commentID := rs.Primary.Attributes["comment_id"]
         issueID := rs.Primary.Attributes["issue_id"]
 
-        if resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, commentID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, aPIID, issueID, commentID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiIssueCommentClient: %+v", err)
             }

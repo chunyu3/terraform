@@ -143,16 +143,9 @@ func resourceArmDashboardRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if dashboardProperties := resp.DashboardProperties; dashboardProperties != nil {
-        d.Set("lenses", utils.FlattenKeyValuePairs(dashboardProperties.Lenses))
-        d.Set("metadata", utils.FlattenKeyValuePairs(dashboardProperties.Metadata))
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmDashboardUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -166,7 +159,6 @@ func resourceArmDashboardUpdate(d *schema.ResourceData, meta interface{}) error 
     t := d.Get("tags").(map[string]interface{})
 
     dashboard := portal.PatchableDashboard{
-        Location: utils.String(location),
         DashboardProperties: &portal.DashboardProperties{
             Lenses: utils.ExpandKeyValuePairs(lenses),
             Metadata: utils.ExpandKeyValuePairs(metadata),

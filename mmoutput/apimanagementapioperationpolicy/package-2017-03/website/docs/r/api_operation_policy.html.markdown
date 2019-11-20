@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `api_id` - (Required) API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. Changing this forces a new resource to be created.
+* `api_id` - (Required) API identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
 * `operation_id` - (Required) Operation identifier within an API. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 

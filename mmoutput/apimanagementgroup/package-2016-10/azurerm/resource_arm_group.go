@@ -157,10 +157,8 @@ func resourceArmGroupRead(d *schema.ResourceData, meta interface{}) error {
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("built_in", resp.BuiltIn)
-    d.Set("description", resp.Description)
     d.Set("external_id", resp.ExternalID)
     d.Set("group_id", groupID)
     d.Set("type", string(resp.Type))

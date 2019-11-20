@@ -146,16 +146,6 @@ func resourceArmCustomImage() *schema.Resource {
                 },
             },
 
-            "creation_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -203,7 +193,7 @@ func resourceArmCustomImageCreateUpdate(d *schema.ResourceData, meta interface{}
             ManagedImageID: utils.String(managedImageId),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             Vhd: expandArmCustomImageCustomImagePropertiesCustom(vhd),
-            Vm: expandArmCustomImageCustomImagePropertiesFromVm(vm),
+            VM: expandArmCustomImageCustomImagePropertiesFromVm(vm),
         },
         Tags: tags.Expand(t),
     }
@@ -256,26 +246,9 @@ func resourceArmCustomImageRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if customImageProperties := resp.CustomImageProperties; customImageProperties != nil {
-        d.Set("author", customImageProperties.Author)
-        d.Set("creation_date", (customImageProperties.CreationDate).String())
-        d.Set("description", customImageProperties.Description)
-        d.Set("managed_image_id", customImageProperties.ManagedImageID)
-        d.Set("provisioning_state", customImageProperties.ProvisioningState)
-        d.Set("unique_identifier", customImageProperties.UniqueIdentifier)
-        if err := d.Set("vhd", flattenArmCustomImageCustomImagePropertiesCustom(customImageProperties.Vhd)); err != nil {
-            return fmt.Errorf("Error setting `vhd`: %+v", err)
-        }
-        if err := d.Set("vm", flattenArmCustomImageCustomImagePropertiesFromVm(customImageProperties.Vm)); err != nil {
-            return fmt.Errorf("Error setting `vm`: %+v", err)
-        }
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 
@@ -339,7 +312,7 @@ func expandArmCustomImageCustomImagePropertiesFromVm(input []interface{}) *devte
 
     result := devtestlab.CustomImagePropertiesFromVm{
         LinuxOsInfo: expandArmCustomImageLinuxOsInfo(linuxOsInfo),
-        SourceVmID: utils.String(sourceVmId),
+        SourceVMID: utils.String(sourceVmId),
         WindowsOsInfo: expandArmCustomImageWindowsOsInfo(windowsOsInfo),
     }
     return &result
@@ -371,63 +344,4 @@ func expandArmCustomImageWindowsOsInfo(input []interface{}) *devtestlab.WindowsO
         WindowsOsState: devtestlab.WindowsOsState(windowsOsState),
     }
     return &result
-}
-
-
-func flattenArmCustomImageCustomImagePropertiesCustom(input *devtestlab.CustomImagePropertiesCustom) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if imageName := input.ImageName; imageName != nil {
-        result["image_name"] = *imageName
-    }
-    result["os_type"] = string(input.OsType)
-    if sysPrep := input.SysPrep; sysPrep != nil {
-        result["sys_prep"] = *sysPrep
-    }
-
-    return []interface{}{result}
-}
-
-func flattenArmCustomImageCustomImagePropertiesFromVm(input *devtestlab.CustomImagePropertiesFromVm) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["linux_os_info"] = flattenArmCustomImageLinuxOsInfo(input.LinuxOsInfo)
-    if sourceVmId := input.SourceVmID; sourceVmId != nil {
-        result["source_vm_id"] = *sourceVmId
-    }
-    result["windows_os_info"] = flattenArmCustomImageWindowsOsInfo(input.WindowsOsInfo)
-
-    return []interface{}{result}
-}
-
-func flattenArmCustomImageLinuxOsInfo(input *devtestlab.LinuxOsInfo) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["linux_os_state"] = string(input.LinuxOsState)
-
-    return []interface{}{result}
-}
-
-func flattenArmCustomImageWindowsOsInfo(input *devtestlab.WindowsOsInfo) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["windows_os_state"] = string(input.WindowsOsState)
-
-    return []interface{}{result}
 }

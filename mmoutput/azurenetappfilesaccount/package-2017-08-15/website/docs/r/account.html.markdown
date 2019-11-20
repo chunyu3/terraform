@@ -62,8 +62,6 @@ The `active_directory` block supports the following:
 
 The following attributes are exported:
 
-* `provisioning_state` - Azure lifecycle management
-
 * `id` - Resource Id
 
 * `name` - Resource name

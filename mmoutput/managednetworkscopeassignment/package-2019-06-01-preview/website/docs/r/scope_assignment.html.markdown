@@ -28,7 +28,7 @@ Manage Azure ScopeAssignment instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the scope assignment to get. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the scope assignment to delete. Changing this forces a new resource to be created.
 
 * `scope` - (Required) The base resource of the scope assignment. Changing this forces a new resource to be created.
 

@@ -31,19 +31,19 @@ func resourceArmDiskEncryptionSet() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "disk_encryption_set_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "active_key": {
                 Type: schema.TypeList,
@@ -91,38 +91,6 @@ func resourceArmDiskEncryptionSet() *schema.Resource {
                 },
             },
 
-            "previous_keys": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "key_url": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
-                        "source_vault": {
-                            Type: schema.TypeList,
-                            Required: true,
-                            MaxItems: 1,
-                            Elem: &schema.Resource{
-                                Schema: map[string]*schema.Schema{
-                                    "id": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-
-            "provisioning_state": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -137,14 +105,14 @@ func resourceArmDiskEncryptionSetCreate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).diskEncryptionSetsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    diskEncryptionSetName := d.Get("disk_encryption_set_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, diskEncryptionSetName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Disk Encryption Set (Disk Encryption Set Name %q / Resource Group %q): %+v", diskEncryptionSetName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Disk Encryption Set %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -157,31 +125,31 @@ func resourceArmDiskEncryptionSetCreate(d *schema.ResourceData, meta interface{}
     identity := d.Get("identity").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    diskEncryptionSet := compute.DiskEncryptionSet{
+    diskEncryptionSet := compute.DiskEncryptionSetUpdate{
         Identity: expandArmDiskEncryptionSetEncryptionSetIdentity(identity),
         Location: utils.String(location),
-        EncryptionSetProperties: &compute.EncryptionSetProperties{
+        DiskEncryptionSetUpdateProperties: &compute.DiskEncryptionSetUpdateProperties{
             ActiveKey: expandArmDiskEncryptionSetKeyVaultAndKeyReference(activeKey),
         },
         Tags: tags.Expand(t),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, diskEncryptionSetName, diskEncryptionSet)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, diskEncryptionSet)
     if err != nil {
-        return fmt.Errorf("Error creating Disk Encryption Set (Disk Encryption Set Name %q / Resource Group %q): %+v", diskEncryptionSetName, resourceGroup, err)
+        return fmt.Errorf("Error creating Disk Encryption Set %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Disk Encryption Set (Disk Encryption Set Name %q / Resource Group %q): %+v", diskEncryptionSetName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Disk Encryption Set %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, diskEncryptionSetName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Disk Encryption Set (Disk Encryption Set Name %q / Resource Group %q): %+v", diskEncryptionSetName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Disk Encryption Set %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Disk Encryption Set (Disk Encryption Set Name %q / Resource Group %q) ID", diskEncryptionSetName, resourceGroup)
+        return fmt.Errorf("Cannot read Disk Encryption Set %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -197,68 +165,52 @@ func resourceArmDiskEncryptionSetRead(d *schema.ResourceData, meta interface{}) 
         return err
     }
     resourceGroup := id.ResourceGroup
-    diskEncryptionSetName := id.Path["diskEncryptionSets"]
+    name := id.Path["diskEncryptionSets"]
 
-    resp, err := client.Get(ctx, resourceGroup, diskEncryptionSetName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Disk Encryption Set %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Disk Encryption Set (Disk Encryption Set Name %q / Resource Group %q): %+v", diskEncryptionSetName, resourceGroup, err)
+        return fmt.Errorf("Error reading Disk Encryption Set %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if encryptionSetProperties := resp.EncryptionSetProperties; encryptionSetProperties != nil {
-        if err := d.Set("active_key", flattenArmDiskEncryptionSetKeyVaultAndKeyReference(encryptionSetProperties.ActiveKey)); err != nil {
-            return fmt.Errorf("Error setting `active_key`: %+v", err)
-        }
-        if err := d.Set("previous_keys", flattenArmDiskEncryptionSetKeyVaultAndKeyReference(encryptionSetProperties.PreviousKeys)); err != nil {
-            return fmt.Errorf("Error setting `previous_keys`: %+v", err)
-        }
-        d.Set("provisioning_state", encryptionSetProperties.ProvisioningState)
-    }
-    d.Set("disk_encryption_set_name", diskEncryptionSetName)
-    if err := d.Set("identity", flattenArmDiskEncryptionSetEncryptionSetIdentity(resp.Identity)); err != nil {
-        return fmt.Errorf("Error setting `identity`: %+v", err)
-    }
     d.Set("type", resp.Type)
 
-    return tags.FlattenAndSet(d, resp.Tags)
+    return nil
 }
 
 func resourceArmDiskEncryptionSetUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).diskEncryptionSetsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     activeKey := d.Get("active_key").([]interface{})
-    diskEncryptionSetName := d.Get("disk_encryption_set_name").(string)
     identity := d.Get("identity").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    diskEncryptionSet := compute.DiskEncryptionSet{
+    diskEncryptionSet := compute.DiskEncryptionSetUpdate{
         Identity: expandArmDiskEncryptionSetEncryptionSetIdentity(identity),
-        Location: utils.String(location),
-        EncryptionSetProperties: &compute.EncryptionSetProperties{
+        DiskEncryptionSetUpdateProperties: &compute.DiskEncryptionSetUpdateProperties{
             ActiveKey: expandArmDiskEncryptionSetKeyVaultAndKeyReference(activeKey),
         },
         Tags: tags.Expand(t),
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, diskEncryptionSetName, diskEncryptionSet)
+    future, err := client.Update(ctx, resourceGroup, name, diskEncryptionSet)
     if err != nil {
-        return fmt.Errorf("Error updating Disk Encryption Set (Disk Encryption Set Name %q / Resource Group %q): %+v", diskEncryptionSetName, resourceGroup, err)
+        return fmt.Errorf("Error updating Disk Encryption Set %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Disk Encryption Set (Disk Encryption Set Name %q / Resource Group %q): %+v", diskEncryptionSetName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Disk Encryption Set %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmDiskEncryptionSetRead(d, meta)
@@ -274,19 +226,19 @@ func resourceArmDiskEncryptionSetDelete(d *schema.ResourceData, meta interface{}
         return err
     }
     resourceGroup := id.ResourceGroup
-    diskEncryptionSetName := id.Path["diskEncryptionSets"]
+    name := id.Path["diskEncryptionSets"]
 
-    future, err := client.Delete(ctx, resourceGroup, diskEncryptionSetName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Disk Encryption Set (Disk Encryption Set Name %q / Resource Group %q): %+v", diskEncryptionSetName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Disk Encryption Set %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Disk Encryption Set (Disk Encryption Set Name %q / Resource Group %q): %+v", diskEncryptionSetName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Disk Encryption Set %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 
@@ -335,62 +287,4 @@ func expandArmDiskEncryptionSetSourceVault(input []interface{}) *compute.SourceV
         ID: utils.String(id),
     }
     return &result
-}
-
-
-func flattenArmDiskEncryptionSetKeyVaultAndKeyReference(input *compute.KeyVaultAndKeyReference) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if keyUrl := input.KeyURL; keyUrl != nil {
-        result["key_url"] = *keyUrl
-    }
-    result["source_vault"] = flattenArmDiskEncryptionSetSourceVault(input.SourceVault)
-
-    return []interface{}{result}
-}
-
-func flattenArmDiskEncryptionSetKeyVaultAndKeyReference(input *[]compute.KeyVaultAndKeyReference) []interface{} {
-    results := make([]interface{}, 0)
-    if input == nil {
-        return results
-    }
-
-    for _, item := range *input {
-        v := make(map[string]interface{})
-
-
-        results = append(results, v)
-    }
-
-    return results
-}
-
-func flattenArmDiskEncryptionSetEncryptionSetIdentity(input *compute.EncryptionSetIdentity) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["type"] = string(input.Type)
-
-    return []interface{}{result}
-}
-
-func flattenArmDiskEncryptionSetSourceVault(input *compute.SourceVault) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if id := input.ID; id != nil {
-        result["id"] = *id
-    }
-
-    return []interface{}{result}
 }

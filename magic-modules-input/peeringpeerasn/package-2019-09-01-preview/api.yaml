@@ -52,51 +52,6 @@ objects:
             python_parameter_name: peer_asn_name
             python_variable_name: name
         response:
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PeerAsnProperties
-            go_type_name: PeerAsnProperties
-          '/properties/peerAsn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: PeerAsn
-          '/peerAsn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: peer_asn
-          '/properties/peerContactInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PeerContactInfo
-            go_type_name: ContactInfo
-          '/properties/peerContactInfo/emails': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: emails
-          '/peerContactInfo/emails': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: emails
-          '/properties/peerContactInfo/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: phone
-          '/peerContactInfo/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: phone
-          '/properties/peerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PeerName
-          '/peerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: peer_name
-          '/properties/validationState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ValidationState
-            go_enum_type_name: ValidationState
-          '/validationState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: validation_state
-          '/properties/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ErrorMessage
-          '/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: error_message
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
@@ -154,11 +109,6 @@ objects:
           - :Failed
         default_value: :None
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'errorMessage'
-        description: 'The error message for the validation state'
-        output: true
-        azure_sdk_references: ['/errorMessage', '/properties/errorMessage']
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'The name of the resource.'

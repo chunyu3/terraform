@@ -3,7 +3,9 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_storsimplestoragedomain
   description: StorageDomainsCreateOrUpdate
   code:
-    storage_domain_name: myStorageDomain
+    resource_group: myResourceGroup
+    manager_name: myManager
+    name: myStorageDomain
     storage_domain:
       Client:
         BaseUri: 'https://management.azure.com/'
@@ -19,6 +21,4 @@ task: !ruby/object:Provider::Ansible::Task
             /subscriptions/9eb689cd-7243-43b4-b6f6-5c65cb296641/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/hAzureSDKOperations/storageAccountCredentials/sacforsdktest
         encryptionStatus: Disabled
       name: sd-fs-HSDK-4XY4FI2IVG
-    resource_group: myResourceGroup
-    name: myManager
   

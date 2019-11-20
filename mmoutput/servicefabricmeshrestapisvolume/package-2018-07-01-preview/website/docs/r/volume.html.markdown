@@ -56,8 +56,6 @@ The `azure_file_parameter` block supports the following:
 
 The following attributes are exported:
 
-* `provisioning_state` - State of the resource.
-
 * `id` - Fully qualified identifier for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource

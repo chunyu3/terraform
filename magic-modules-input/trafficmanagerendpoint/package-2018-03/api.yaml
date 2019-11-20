@@ -39,9 +39,9 @@ objects:
             python_variable_name: endpoint_type
           'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: {endpointType}
-            go_variable_name: endpointName
+            go_variable_name: name
             python_parameter_name: endpoint_name
-            python_variable_name: endpoint_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Endpoint
@@ -156,9 +156,9 @@ objects:
             python_variable_name: endpoint_type
           'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: {endpointType}
-            go_variable_name: endpointName
+            go_variable_name: name
             python_parameter_name: endpoint_name
-            python_variable_name: endpoint_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Endpoint
@@ -273,9 +273,9 @@ objects:
             python_variable_name: endpoint_type
           'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: {endpointType}
-            go_variable_name: endpointName
+            go_variable_name: name
             python_parameter_name: endpoint_name
-            python_variable_name: endpoint_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -297,105 +297,17 @@ objects:
             python_variable_name: endpoint_type
           'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: {endpointType}
-            go_variable_name: endpointName
+            go_variable_name: name
             python_parameter_name: endpoint_name
-            python_variable_name: endpoint_name
+            python_variable_name: name
         response:
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Type
-            python_field_name: type
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: EndpointProperties
-            go_type_name: EndpointProperties
-          '/properties/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetResourceID
-          '/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_resource_id
-          '/properties/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Target
-          '/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target
-          '/properties/endpointStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: EndpointStatus
-            go_enum_type_name: EndpointStatus
-          '/endpointStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: endpoint_status
-          '/properties/weight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: Weight
-          '/weight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: weight
-          '/properties/priority': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: Priority
-          '/priority': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: priority
-          '/properties/endpointLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EndpointLocation
-          '/endpointLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: endpoint_location
-          '/properties/endpointMonitorStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: EndpointMonitorStatus
-            go_enum_type_name: EndpointMonitorStatus
-          '/endpointMonitorStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: endpoint_monitor_status
-          '/properties/minChildEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [go]
-            go_field_name: MinChildEndpoints
-          '/minChildEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
-            applicable_to: [python]
-            python_field_name: min_child_endpoints
-          '/properties/geoMapping': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: GeoMapping
-          '/geoMapping': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: geo_mapping
-          '/properties/customHeaders': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: CustomHeaders
-            go_type_name: EndpointProperties_customHeadersItem
-          '/properties/customHeaders/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/customHeaders/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/customHeaders': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: custom_headers
-          '/customHeaders/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/customHeaders/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
 
     description: |
       Manage Azure Endpoint instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
-        description: 'The name of the resource group containing the Traffic Manager endpoint to be created or updated.'
+        description: 'The name of the resource group containing the Traffic Manager endpoint to be deleted.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
@@ -407,13 +319,13 @@ objects:
         azure_sdk_references: ['profileName']
       - !ruby/object:Api::Type::String
         name: 'endpointType'
-        description: 'The type of the Traffic Manager endpoint to be created or updated.'
+        description: 'The type of the Traffic Manager endpoint to be deleted.'
         required: true
         input: true
         azure_sdk_references: ['endpointType']
       - !ruby/object:Api::Type::String
-        name: 'endpointName'
-        description: 'The name of the Traffic Manager endpoint to be created or updated.'
+        name: 'name'
+        description: 'The name of the Traffic Manager endpoint to be deleted.'
         required: true
         input: true
         azure_sdk_references: ['endpointName']

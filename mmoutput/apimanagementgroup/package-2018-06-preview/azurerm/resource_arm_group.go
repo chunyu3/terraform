@@ -76,11 +76,6 @@ func resourceArmGroup() *schema.Resource {
                 Default: string(apimanagement.custom),
             },
 
-            "built_in": {
-                Type: schema.TypeBool,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -167,13 +162,6 @@ func resourceArmGroupRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if groupUpdateParametersProperties := resp.GroupUpdateParametersProperties; groupUpdateParametersProperties != nil {
-        d.Set("built_in", groupUpdateParametersProperties.BuiltIn)
-        d.Set("description", groupUpdateParametersProperties.Description)
-        d.Set("display_name", groupUpdateParametersProperties.DisplayName)
-        d.Set("external_id", groupUpdateParametersProperties.ExternalID)
-        d.Set("type", string(groupUpdateParametersProperties.Type))
-    }
     d.Set("group_id", groupID)
     d.Set("type", resp.Type)
     d.Set("type", resp.Type)

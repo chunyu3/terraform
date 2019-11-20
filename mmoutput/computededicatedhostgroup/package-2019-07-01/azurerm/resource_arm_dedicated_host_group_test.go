@@ -34,15 +34,15 @@ func testCheckAzureRMDedicatedHostGroupExists(resourceName string) resource.Test
             return fmt.Errorf("Dedicated Host Group not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        hostGroupName := rs.Primary.Attributes["host_group_name"]
 
         client := testAccProvider.Meta().(*ArmClient).dedicatedHostGroupsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, hostGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Dedicated Host Group (Host Group Name %q / Resource Group %q) does not exist", hostGroupName, resourceGroup)
+                return fmt.Errorf("Bad: Dedicated Host Group %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on dedicatedHostGroupsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMDedicatedHostGroupDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        hostGroupName := rs.Primary.Attributes["host_group_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, hostGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on dedicatedHostGroupsClient: %+v", err)
             }

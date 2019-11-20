@@ -36,14 +36,14 @@ func testCheckAzureRMAvailabilityGroupListenerExists(resourceName string) resour
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        sqlVirtualMachineGroupName := rs.Primary.Attributes["sql_virtual_machine_group_name"]
+        sQLVirtualMachineGroupName := rs.Primary.Attributes["sql_virtual_machine_group_name"]
 
         client := testAccProvider.Meta().(*ArmClient).availabilityGroupListenersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, name); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, sQLVirtualMachineGroupName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q) does not exist", name, sqlVirtualMachineGroupName, resourceGroup)
+                return fmt.Errorf("Bad: Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q) does not exist", name, sQLVirtualMachineGroupName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on availabilityGroupListenersClient: %+v", err)
         }
@@ -63,9 +63,9 @@ func testCheckAzureRMAvailabilityGroupListenerDestroy(s *terraform.State) error 
 
         name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        sqlVirtualMachineGroupName := rs.Primary.Attributes["sql_virtual_machine_group_name"]
+        sQLVirtualMachineGroupName := rs.Primary.Attributes["sql_virtual_machine_group_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, name); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, sQLVirtualMachineGroupName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on availabilityGroupListenersClient: %+v", err)
             }
