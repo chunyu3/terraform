@@ -36,13 +36,6 @@ func resourceArmAttachedDatabaseConfiguration() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "cluster_name": {
@@ -50,33 +43,6 @@ func resourceArmAttachedDatabaseConfiguration() *schema.Resource {
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "cluster_resource_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "database_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "default_principals_modification_kind": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(kusto.Union),
-                    string(kusto.Replace),
-                    string(kusto.None),
-                }, false),
-            },
-
-            "type": {
-                Type: schema.TypeString,
-                Computed: true,
             },
         },
     }
@@ -102,18 +68,8 @@ func resourceArmAttachedDatabaseConfigurationCreateUpdate(d *schema.ResourceData
         }
     }
 
-    location := azure.NormalizeLocation(d.Get("location").(string))
-    clusterResourceId := d.Get("cluster_resource_id").(string)
-    databaseName := d.Get("database_name").(string)
-    defaultPrincipalsModificationKind := d.Get("default_principals_modification_kind").(string)
 
     parameters := kusto.AttachedDatabaseConfiguration{
-        Location: utils.String(location),
-        AttachedDatabaseConfigurationProperties: &kusto.AttachedDatabaseConfigurationProperties{
-            ClusterResourceID: utils.String(clusterResourceId),
-            DatabaseName: utils.String(databaseName),
-            DefaultPrincipalsModificationKind: kusto.DefaultPrincipalsModificationKind(defaultPrincipalsModificationKind),
-        },
     }
 
 
@@ -162,10 +118,8 @@ func resourceArmAttachedDatabaseConfigurationRead(d *schema.ResourceData, meta i
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("cluster_name", clusterName)
-    d.Set("type", resp.Type)
 
     return nil
 }

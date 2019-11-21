@@ -34,28 +34,8 @@ The following arguments are supported:
 
 * `cluster_name` - (Required) The name of the Kusto cluster. Changing this forces a new resource to be created.
 
-* `consumer_group` - (Required) The event hub consumer group.
-
 * `database_name` - (Required) The name of the database in the Kusto cluster. Changing this forces a new resource to be created.
-
-* `event_hub_resource_id` - (Required) The resource ID of the event hub to be used to create a data connection.
-
-* `location` - (Optional) Resource location. Changing this forces a new resource to be created.
-
-* `data_format` - (Optional) The data format of the message. Optionally the data format can be added to each message. Defaults to `MULTIJSON`.
-
-* `eventhub_connection_name` - (Optional) The name of the event hub connection. Changing this forces a new resource to be created.
-
-* `mapping_rule_name` - (Optional) The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message.
-
-* `table_name` - (Optional) The table where the data should be ingested. Optionally the table information can be added to each message.
 
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-
-* `name` - The name of the resource
-
-* `type` - The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.

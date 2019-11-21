@@ -34,20 +34,6 @@ The following arguments are supported:
 
 * `cluster_name` - (Required) The name of the Kusto cluster. Changing this forces a new resource to be created.
 
-* `cluster_resource_id` - (Required) The resource id of the cluster where the databases you would like to attach reside.
-
-* `database_name` - (Required) The name of the database which you would like to attach, use * if you want to follow all current and future databases.
-
-* `default_principals_modification_kind` - (Required) The default principals modification kind
-
-* `location` - (Optional) Resource location. Changing this forces a new resource to be created.
-
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-
-* `name` - The name of the resource
-
-* `type` - The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.

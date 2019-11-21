@@ -60,19 +60,13 @@ objects:
             applicable_to: [go]
             go_field_name: ClusterProperties
             go_type_name: ClusterProperties
-          '/trustedExternalTenants': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: trusted_external_tenants
-          '/trustedExternalTenants/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
           '/properties/trustedExternalTenants': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: TrustedExternalTenants
             go_type_name: TrustedExternalTenant
-          '/properties/trustedExternalTenants/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/trustedExternalTenants/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: Value
+            go_field_name: TrustedExternalTenantstrusted_external_tenants_value
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
@@ -121,19 +115,13 @@ objects:
             applicable_to: [go]
             go_field_name: ClusterProperties
             go_type_name: ClusterProperties
-          '/trustedExternalTenants': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: trusted_external_tenants
-          '/trustedExternalTenants/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
           '/properties/trustedExternalTenants': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: TrustedExternalTenants
             go_type_name: TrustedExternalTenant
-          '/properties/trustedExternalTenants/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/trustedExternalTenants/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: Value
+            go_field_name: TrustedExternalTenantstrusted_external_tenants_value
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
@@ -226,82 +214,10 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['clusterName']
-      - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
-        description: 'Resource tags.'
-        required: false
-        input: true
-        azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
         description: 'Azure location.'
         required: true
         input: true
         azure_sdk_references: ['location']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'sku'
-        description: 'The SKU of the cluster.'
-        required: false
-        azure_sdk_references: ['/sku']
-        properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'name'
-            description: 'SKU name.'
-            required: true
-            azure_sdk_references: ['/sku/name']
-            values:
-              - :Standard_DS13_v2+1TB_PS
-              - :Standard_DS13_v2+2TB_PS
-              - :Standard_DS14_v2+3TB_PS
-              - :Standard_DS14_v2+4TB_PS
-              - :Standard_D13_v2
-              - :Standard_D14_v2
-              - :Standard_L8s
-              - :Standard_L16s
-              - :Standard_D11_v2
-              - :Standard_D12_v2
-              - :Standard_L4s
-              - :Dev(No SLA)_Standard_D11_v2
-          - !ruby/object:Api::Type::Integer
-            name: 'capacity'
-            description: 'The number of instances of the cluster.'
-            required: false
-            azure_sdk_references: ['/sku/capacity']
-          - !ruby/object:Api::Type::Enum
-            name: 'tier'
-            description: 'SKU tier.'
-            required: true
-            azure_sdk_references: ['/sku/tier']
-            values:
-              - :Basic
-              - :Standard
-      - !ruby/object:Api::Type::Array
-        name: 'trustedExternalTenants'
-        description: 'The cluster''s external tenants.'
-        required: false
-        azure_sdk_references: ['/trustedExternalTenants', '/properties/trustedExternalTenants']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'value'
-              description: 'GUID representing an external tenant.'
-              required: false
-              azure_sdk_references: ['/trustedExternalTenants/value', '/properties/trustedExternalTenants/value']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'Cluster name.'
-        required: true
-        input: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The type of resource, Microsoft.Kusto/clusters.'
-        required: true
-        input: true
-        azure_sdk_references: ['/type']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
-        output: true
-        azure_sdk_references: ['/id']
