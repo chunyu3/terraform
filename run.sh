@@ -55,7 +55,7 @@ if [ ! -d "/generated/magic-modules-input" ];then
 else
   src="/generated/magic-modules-input"
 fi
-echo "END Auto-cli Magic-Moudles input files generation"
+echo "END Auto-cli Magic-Modules input files generation"
 
 #echo $src
 echo "START Magic-Module Generation"
