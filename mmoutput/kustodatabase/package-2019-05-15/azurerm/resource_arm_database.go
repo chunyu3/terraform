@@ -36,15 +36,6 @@ func resourceArmDatabase() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "location": azure.SchemaLocation(),
-
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "cluster_name": {
@@ -52,86 +43,6 @@ func resourceArmDatabase() *schema.Resource {
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "type": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "hot_cache_period": {
-                Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validateIso8601Duration(),
-            },
-
-            "soft_delete_period": {
-                Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validateIso8601Duration(),
-            },
-
-            "statistics": {
-                Type: schema.TypeList,
-                Optional: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "size": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "value": {
-                Type: schema.TypeList,
-                Optional: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "name": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
-                        "role": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(kusto.Admin),
-                                string(kusto.Ingestor),
-                                string(kusto.Monitor),
-                                string(kusto.User),
-                                string(kusto.UnrestrictedViewers),
-                                string(kusto.Viewer),
-                            }, false),
-                        },
-                        "type": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(kusto.App),
-                                string(kusto.Group),
-                                string(kusto.User),
-                            }, false),
-                        },
-                        "app_id": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "email": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "fqn": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
             },
         },
     }
@@ -157,24 +68,8 @@ func resourceArmDatabaseCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
-    name := d.Get("name").(string)
-    location := azure.NormalizeLocation(d.Get("location").(string))
-    hotCachePeriod := d.Get("hot_cache_period").(string)
-    softDeletePeriod := d.Get("soft_delete_period").(string)
-    statistics := d.Get("statistics").([]interface{})
-    type := d.Get("type").(string)
-    value := d.Get("value").([]interface{})
 
     parameters := kusto.DatabaseUpdate{
-        Location: utils.String(location),
-        Name: utils.String(name),
-        DatabaseProperties: &kusto.DatabaseProperties{
-            HotCachePeriod: utils.String(hotCachePeriod),
-            SoftDeletePeriod: utils.String(softDeletePeriod),
-            Statistics: expandArmDatabaseDatabaseStatistics(statistics),
-        },
-        Type: utils.String(type),
-        Value: expandArmDatabaseDatabasePrincipal(value),
     }
 
 
@@ -223,10 +118,8 @@ func resourceArmDatabaseRead(d *schema.ResourceData, meta interface{}) error {
 
 
     d.Set("name", name)
-    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("cluster_name", clusterName)
-    d.Set("type", resp.Type)
 
     return nil
 }
@@ -236,24 +129,10 @@ func resourceArmDatabaseUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     clusterName := d.Get("cluster_name").(string)
-    hotCachePeriod := d.Get("hot_cache_period").(string)
-    softDeletePeriod := d.Get("soft_delete_period").(string)
-    statistics := d.Get("statistics").([]interface{})
-    type := d.Get("type").(string)
-    value := d.Get("value").([]interface{})
 
     parameters := kusto.DatabaseUpdate{
-        Name: utils.String(name),
-        DatabaseProperties: &kusto.DatabaseProperties{
-            HotCachePeriod: utils.String(hotCachePeriod),
-            SoftDeletePeriod: utils.String(softDeletePeriod),
-            Statistics: expandArmDatabaseDatabaseStatistics(statistics),
-        },
-        Type: utils.String(type),
-        Value: expandArmDatabaseDatabasePrincipal(value),
     }
 
 
@@ -296,43 +175,4 @@ func resourceArmDatabaseDelete(d *schema.ResourceData, meta interface{}) error {
     }
 
     return nil
-}
-
-func expandArmDatabaseDatabaseStatistics(input []interface{}) *kusto.DatabaseStatistics {
-    if len(input) == 0 {
-        return nil
-    }
-    v := input[0].(map[string]interface{})
-
-    size := v["size"].(int)
-
-    result := kusto.DatabaseStatistics{
-        Size: utils.Int(size),
-    }
-    return &result
-}
-
-func expandArmDatabaseDatabasePrincipal(input []interface{}) *[]kusto.DatabasePrincipal {
-    results := make([]kusto.DatabasePrincipal, 0)
-    for _, item := range input {
-        v := item.(map[string]interface{})
-        role := v["role"].(string)
-        name := v["name"].(string)
-        type := v["type"].(string)
-        fqn := v["fqn"].(string)
-        email := v["email"].(string)
-        appId := v["app_id"].(string)
-
-        result := kusto.DatabasePrincipal{
-            AppID: utils.String(appId),
-            Email: utils.String(email),
-            Fqn: utils.String(fqn),
-            Name: utils.String(name),
-            Role: kusto.DatabasePrincipalRole(role),
-            Type: kusto.DatabasePrincipalType(type),
-        }
-
-        results = append(results, result)
-    }
-    return &results
 }

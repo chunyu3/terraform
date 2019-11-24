@@ -48,45 +48,27 @@ objects:
             applicable_to: [go]
             go_field_name: ImageTemplateProperties
             go_type_name: ImageTemplateProperties
-          '/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: source
           '/properties/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Source
             go_type_name: ImageTemplateSource
-          '/customize': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: customize
-          '/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
           '/properties/customize': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Customize
             go_type_name: ImageTemplateCustomizer
-          '/properties/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: Name
-          '/distribute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: distribute
-          '/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: run_output_name
-          '/distribute/artifactTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: artifact_tags
+            go_field_name: Customizecustomize_name
           '/properties/distribute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Distribute
             go_type_name: ImageTemplateDistributor
-          '/properties/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: RunOutputName
+            go_field_name: Distributedistribute_run_output_name
           '/properties/distribute/artifactTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
-            go_field_name: ArtifactTags
+            go_field_name: Distributedistribute_artifact_tags
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -116,45 +98,27 @@ objects:
             applicable_to: [go]
             go_field_name: ImageTemplateProperties
             go_type_name: ImageTemplateProperties
-          '/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: source
           '/properties/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Source
             go_type_name: ImageTemplateSource
-          '/customize': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: customize
-          '/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
           '/properties/customize': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Customize
             go_type_name: ImageTemplateCustomizer
-          '/properties/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: Name
-          '/distribute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: distribute
-          '/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: run_output_name
-          '/distribute/artifactTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: artifact_tags
+            go_field_name: Customizecustomize_name
           '/properties/distribute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Distribute
             go_type_name: ImageTemplateDistributor
-          '/properties/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: RunOutputName
+            go_field_name: Distributedistribute_run_output_name
           '/properties/distribute/artifactTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
-            go_field_name: ArtifactTags
+            go_field_name: Distributedistribute_artifact_tags
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -231,47 +195,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
-        description: 'Resource location'
-        required: true
-        input: true
-        azure_sdk_references: ['/location']
-      - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
-        description: 'The user-specified tags associated with the image template.'
-        required: false
-        input: true
-        azure_sdk_references: ['tags', '/tags']
-      - !ruby/object:Api::Type::Array
-        name: 'customize'
-        description: 'Specifies the properties used to describe the customization steps of the image, like Image source etc'
-        required: false
-        azure_sdk_references: ['/customize', '/properties/customize']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Friendly Name to provide context on what this customization step does'
-              required: false
-              azure_sdk_references: ['/customize/name', '/properties/customize/name']
-      - !ruby/object:Api::Type::Array
-        name: 'distribute'
-        description: 'The distribution targets where the image output needs to go to.'
-        required: true
-        azure_sdk_references: ['/distribute', '/properties/distribute']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'runOutputName'
-              description: 'The name to be used for the associated RunOutput.'
-              required: true
-              azure_sdk_references: ['/distribute/runOutputName', '/properties/distribute/runOutputName']
-            - !ruby/object:Api::Type::KeyValuePairs
-              name: 'artifactTags'
-              description: 'Tags that will be applied to the artifact once it has been created/updated by the distributor.'
-              required: false
-              azure_sdk_references: ['/distribute/artifactTags', '/properties/distribute/artifactTags']
       - !ruby/object:Api::Type::String
         name: 'imageTemplateName'
         description: 'The name of the image Template'
@@ -285,18 +208,3 @@ objects:
         input: true
         azure_sdk_references: ['runOutputName']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'Resource Id'
-        output: true
-        azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'Resource name'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'Resource type'
-        output: true
-        azure_sdk_references: ['/type']

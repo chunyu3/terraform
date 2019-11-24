@@ -53,9 +53,6 @@ objects:
             applicable_to: [go]
             go_field_name: DataConnection
             go_type_name: DataConnection
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: location
           '/properties/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Location
@@ -103,9 +100,6 @@ objects:
             applicable_to: [go]
             go_field_name: DataConnection
             go_type_name: DataConnection
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: location
           '/properties/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Location
@@ -215,44 +209,9 @@ objects:
         input: true
         azure_sdk_references: ['databaseName']
       - !ruby/object:Api::Type::String
-        name: 'dataConnectionName'
-        description: 'The name of the data connection.'
-        required: false
-        input: true
-        azure_sdk_references: ['/dataConnectionName']
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
-        description: 'Resource location.'
-        required: false
-        input: true
-        azure_sdk_references: ['/location', '/properties/location']
-      - !ruby/object:Api::Type::String
         name: 'name'
         description: 'The name of the data connection.'
         required: true
         input: true
         azure_sdk_references: ['dataConnectionName']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'Data Connection name.'
-        required: true
-        input: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The type of resource, Microsoft.Kusto/clusters/databases/dataConnections.'
-        required: true
-        input: true
-        azure_sdk_references: ['/type']
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
-        description: 'Resource location.'
-        required: false
-        input: true
-        azure_sdk_references: ['/location']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
-        output: true
-        azure_sdk_references: ['/id']

@@ -4,26 +4,5 @@ task: !ruby/object:Provider::Ansible::Task
   description: Create an Image Template with a user assigned identity configured
   code:
     resource_group: myResourceGroup
-    location: westus
-    tags:
-      imagetemplate_tag1: IT_T1
-      imagetemplate_tag2: IT_T2
-    source:
-      type: ManagedImage
-      imageId: >-
-        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
-        }}/providers/Microsoft.Compute/images/{{ image_name }}
-    customize:
-      - name: Shell Customizer Example
-    distribute:
-      - run_output_name: image_it_pir_1
-        artifact_tags:
-          tagName: value
-    vm_profile:
-      vm_size: Standard_D2s_v3
-    identity:
-      type: UserAssigned
-      user_assigned_identities:
-        /subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity_1: {}
     image_template_name: myImageTemplate
   

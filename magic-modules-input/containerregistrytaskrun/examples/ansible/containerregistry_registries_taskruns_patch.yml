@@ -1,0 +1,22 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_containerregistrytaskrun
+  description: TaskRuns_Update
+  code:
+    resource_group: myResourceGroup
+    registry_name: myRegistry
+    name: myTaskRun
+    update_parameters:
+      properties:
+        forceUpdateTag: test
+        runRequest:
+          type: EncodedTaskRunRequest
+          encodedTaskContent: c3RlcHM6IAogIC0gY21kOiB7eyAuVmFsdWVzLmNvbW1hbmQgfX0K
+          encodedValuesContent: Y29tbWFuZDogYmFzaCBlY2hvIHt7LlJ1bi5SZWdpc3RyeX19Cg==
+          values: []
+          platform:
+            os: Linux
+            architecture: amd64
+          credentials: {}
+          isArchiveEnabled: true
+  
