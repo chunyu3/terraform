@@ -217,6 +217,8 @@ The `gateway_default_site` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Gets or sets Provisioning state of the VirtualNetworkGatewayConnection resource Updating/Deleting/Failed
+
 * `id` - Resource Id
 
 * `name` - Resource name

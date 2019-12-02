@@ -46,6 +46,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `creation_time` - Gets the creation time.
+
+* `last_modified_time` - Gets the last modified time.
+
 * `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.

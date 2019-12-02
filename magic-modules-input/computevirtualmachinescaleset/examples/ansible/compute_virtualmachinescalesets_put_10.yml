@@ -13,13 +13,18 @@ task: !ruby/object:Provider::Ansible::Task
     upgrade_policy:
       mode: Manual
     virtual_machine_profile:
-      os_profile: {}
+      os_profile:
+        computer_name_prefix: '{vmss-name}'
+        admin_username: '{your-username}'
+        admin_password: '{your-password}'
       storage_profile:
         os_disk:
           caching: ReadWrite
           image:
             uri: >-
               http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd
+          name: osDisk
+          create_option: FromImage
       network_profile:
         network_interface_configurations:
           - name: '{vmss-name}'

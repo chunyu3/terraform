@@ -36,6 +36,11 @@ func resourceArmSuppression() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "recommendation_id": {
                 Type: schema.TypeString,
                 Required: true,
@@ -139,8 +144,13 @@ func resourceArmSuppressionRead(d *schema.ResourceData, meta interface{}) error 
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("recommendation_id", recommendationID)
     d.Set("resource_uri", resourceURI)
+    if suppressionProperties := resp.SuppressionProperties; suppressionProperties != nil {
+        d.Set("suppression_id", suppressionProperties.SuppressionID)
+        d.Set("ttl", suppressionProperties.TTL)
+    }
     d.Set("type", resp.Type)
 
     return nil

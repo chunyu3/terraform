@@ -44,6 +44,18 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `user_storage_account_id` - The fully qualified arm id of the storage account associated with this workspace.
+
+* `owner_email` - The email id of the owner for this workspace.
+
+* `workspace_type` - The type of this workspace.
+
+* `workspace_id` - The immutable id associated with this workspace.
+
+* `creation_time` - The creation time for this workspace resource.
+
+* `studio_endpoint` - The regional endpoint for the machine learning studio service which hosts this workspace.
+
 * `id` - The resource ID.
 
 * `name` - The name of the resource.

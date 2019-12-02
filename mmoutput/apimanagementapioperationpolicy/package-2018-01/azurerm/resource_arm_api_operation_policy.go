@@ -169,6 +169,10 @@ func resourceArmApiOperationPolicyRead(d *schema.ResourceData, meta interface{})
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", aPIID)
+    if policyContractProperties := resp.PolicyContractProperties; policyContractProperties != nil {
+        d.Set("content_format", string(policyContractProperties.ContentFormat))
+        d.Set("policy_content", policyContractProperties.PolicyContent)
+    }
     d.Set("operation_id", operationID)
     d.Set("policy_id", policyID)
     d.Set("type", resp.Type)

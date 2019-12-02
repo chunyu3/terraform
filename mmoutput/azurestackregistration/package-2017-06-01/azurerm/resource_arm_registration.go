@@ -64,10 +64,32 @@ func resourceArmRegistration() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "billing_model": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "cloud_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "etag": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "object_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
             },
+
+            "tags": tags.Schema(),
         },
     }
 }
@@ -143,10 +165,17 @@ func resourceArmRegistrationRead(d *schema.ResourceData, meta interface{}) error
 
     d.Set("name", name)
     d.Set("name", resp.Name)
+    if registrationParameterProperties := resp.RegistrationParameterProperties; registrationParameterProperties != nil {
+        d.Set("billing_model", registrationParameterProperties.BillingModel)
+        d.Set("cloud_id", registrationParameterProperties.CloudID)
+        d.Set("object_id", registrationParameterProperties.ObjectID)
+    }
+    d.Set("etag", resp.Etag)
+    d.Set("location", string(resp.Location))
     d.Set("resource_group", resourceGroup)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmRegistrationUpdate(d *schema.ResourceData, meta interface{}) error {

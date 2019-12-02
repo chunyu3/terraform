@@ -99,6 +99,8 @@ The `ip_configuration` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Gets or sets Provisioning state of the PublicIP resource Updating/Deleting/Failed
+
 * `id` - Resource Id
 
 * `name` - Resource name

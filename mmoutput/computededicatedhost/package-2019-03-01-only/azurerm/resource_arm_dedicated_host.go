@@ -95,9 +95,102 @@ func resourceArmDedicatedHost() *schema.Resource {
                 Optional: true,
             },
 
+            "host_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "instance_view": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "asset_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "available_capacity": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "allocatable_vms": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "count": {
+                                                    Type: schema.TypeFloat,
+                                                    Computed: true,
+                                                },
+                                                "vm_size": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        "statuses": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "code": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "display_status": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "level": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "message": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "time": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
+            },
+
+            "virtual_machines": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
             },
 
             "tags": tags.Schema(),
@@ -191,10 +284,30 @@ func resourceArmDedicatedHostRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if dedicatedHostProperties := resp.DedicatedHostProperties; dedicatedHostProperties != nil {
+        d.Set("auto_replace_on_failure", dedicatedHostProperties.AutoReplaceOnFailure)
+        d.Set("host_id", dedicatedHostProperties.HostID)
+        if err := d.Set("instance_view", flattenArmDedicatedHostDedicatedHostInstanceView(dedicatedHostProperties.InstanceView)); err != nil {
+            return fmt.Errorf("Error setting `instance_view`: %+v", err)
+        }
+        d.Set("license_type", string(dedicatedHostProperties.LicenseType))
+        d.Set("platform_fault_domain", int(*dedicatedHostProperties.PlatformFaultDomain))
+        d.Set("provisioning_state", dedicatedHostProperties.ProvisioningState)
+        d.Set("provisioning_time", (dedicatedHostProperties.ProvisioningTime).String())
+        if err := d.Set("virtual_machines", flattenArmDedicatedHostSubResourceReadOnly(dedicatedHostProperties.VirtualMachines)); err != nil {
+            return fmt.Errorf("Error setting `virtual_machines`: %+v", err)
+        }
+    }
     d.Set("host_group_name", hostGroupName)
+    if err := d.Set("sku", flattenArmDedicatedHostSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmDedicatedHostUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -278,4 +391,123 @@ func expandArmDedicatedHostSku(input []interface{}) *compute.Sku {
         Tier: utils.String(tier),
     }
     return &result
+}
+
+
+func flattenArmDedicatedHostDedicatedHostInstanceView(input *compute.DedicatedHostInstanceView) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if assetId := input.AssetID; assetId != nil {
+        result["asset_id"] = *assetId
+    }
+    result["available_capacity"] = flattenArmDedicatedHostDedicatedHostAvailableCapacity(input.AvailableCapacity)
+    result["statuses"] = flattenArmDedicatedHostInstanceViewStatus(input.Statuses)
+
+    return []interface{}{result}
+}
+
+func flattenArmDedicatedHostSubResourceReadOnly(input *[]compute.SubResourceReadOnly) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmDedicatedHostSku(input *compute.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if capacity := input.Capacity; capacity != nil {
+        result["capacity"] = int(*capacity)
+    }
+    if tier := input.Tier; tier != nil {
+        result["tier"] = *tier
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmDedicatedHostDedicatedHostAvailableCapacity(input *compute.DedicatedHostAvailableCapacity) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["allocatable_vms"] = flattenArmDedicatedHostDedicatedHostAllocatableVM(input.AllocatableVMs)
+
+    return []interface{}{result}
+}
+
+func flattenArmDedicatedHostInstanceViewStatus(input *[]compute.InstanceViewStatus) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if code := item.Code; code != nil {
+            v["code"] = *code
+        }
+        if displayStatus := item.DisplayStatus; displayStatus != nil {
+            v["display_status"] = *displayStatus
+        }
+        v["level"] = string(item.Level)
+        if message := item.Message; message != nil {
+            v["message"] = *message
+        }
+        if time := item.Time; time != nil {
+            v["time"] = (*time).String()
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmDedicatedHostDedicatedHostAllocatableVM(input *[]compute.DedicatedHostAllocatableVM) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if count := item.Count; count != nil {
+            v["count"] = *count
+        }
+        if vmSize := item.VMSize; vmSize != nil {
+            v["vm_size"] = *vmSize
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

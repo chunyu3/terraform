@@ -188,6 +188,16 @@ func resourceArmSavedSearcheRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if savedSearchProperties := resp.SavedSearchProperties; savedSearchProperties != nil {
+        d.Set("category", savedSearchProperties.Category)
+        d.Set("display_name", savedSearchProperties.DisplayName)
+        d.Set("query", savedSearchProperties.Query)
+        if err := d.Set("tags", flattenArmSavedSearcheTag(savedSearchProperties.Tags)); err != nil {
+            return fmt.Errorf("Error setting `tags`: %+v", err)
+        }
+        d.Set("version", int(*savedSearchProperties.Version))
+    }
+    d.Set("e_tag", resp.ETag)
     d.Set("saved_search_id", savedSearchID)
     d.Set("type", resp.Type)
 
@@ -230,4 +240,27 @@ func expandArmSavedSearcheTag(input []interface{}) *[]operationalinsights.Tag {
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmSavedSearcheTag(input *[]operationalinsights.Tag) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

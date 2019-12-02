@@ -155,6 +155,10 @@ The `business_document` block supports the following:
 
 The following attributes are exported:
 
+* `created_time` - The created time.
+
+* `changed_time` - The changed time.
+
 * `id` - The resource id.
 
 * `name` - Gets the resource name.

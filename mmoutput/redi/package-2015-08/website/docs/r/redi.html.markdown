@@ -74,6 +74,16 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Redis instance provisioning status.
+
+* `host_name` - Redis host name.
+
+* `port` - Redis non-SSL port.
+
+* `ssl_port` - Redis SSL port.
+
 * `id` - Resource ID.
+
+* `name` - Resource name.
 
 * `type` - Resource type.

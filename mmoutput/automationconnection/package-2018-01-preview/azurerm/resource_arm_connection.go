@@ -62,6 +62,29 @@ func resourceArmConnection() *schema.Resource {
                 Elem: &schema.Schema{Type: schema.TypeString},
             },
 
+            "connection_type": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "name": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "creation_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -147,6 +170,15 @@ func resourceArmConnectionRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
+    if connectionUpdateProperties := resp.ConnectionUpdateProperties; connectionUpdateProperties != nil {
+        if err := d.Set("connection_type", flattenArmConnectionConnectionTypeAssociationProperty(connectionUpdateProperties.ConnectionType)); err != nil {
+            return fmt.Errorf("Error setting `connection_type`: %+v", err)
+        }
+        d.Set("creation_time", (connectionUpdateProperties.CreationTime).String())
+        d.Set("description", connectionUpdateProperties.Description)
+        d.Set("field_definition_values", utils.FlattenKeyValuePairs(connectionUpdateProperties.FieldDefinitionValues))
+        d.Set("last_modified_time", (connectionUpdateProperties.LastModifiedTime).String())
+    }
     d.Set("type", resp.Type)
 
     return nil
@@ -197,4 +229,19 @@ func resourceArmConnectionDelete(d *schema.ResourceData, meta interface{}) error
     }
 
     return nil
+}
+
+
+func flattenArmConnectionConnectionTypeAssociationProperty(input *automation.ConnectionTypeAssociationProperty) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+
+    return []interface{}{result}
 }

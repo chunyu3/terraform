@@ -78,6 +78,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `provisioning_state` - ServerEndpoint Provisioning State
+
 * `id` - The id of the resource.
 
 * `name` - The name of the resource.

@@ -177,10 +177,18 @@ func resourceArmChannelRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    d.Set("etag", resp.Etag)
+    d.Set("kind", string(resp.Kind))
     d.Set("resource_name", resourceName)
+    if err := d.Set("sku", flattenArmChannelSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmChannelUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -242,4 +250,17 @@ func expandArmChannelSku(input []interface{}) *botservice.Sku {
         Name: botservice.SkuName(name),
     }
     return &result
+}
+
+
+func flattenArmChannelSku(input *botservice.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["name"] = string(input.Name)
+
+    return []interface{}{result}
 }

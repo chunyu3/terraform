@@ -55,9 +55,48 @@ func resourceArmProximityPlacementGroup() *schema.Resource {
                 Default: string(compute.Standard),
             },
 
+            "availability_sets": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
+            },
+
+            "virtual_machine_scale_sets": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "virtual_machines": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
             },
 
             "tags": tags.Schema(),
@@ -139,9 +178,24 @@ func resourceArmProximityPlacementGroupRead(d *schema.ResourceData, meta interfa
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if proximityPlacementGroupProperties := resp.ProximityPlacementGroupProperties; proximityPlacementGroupProperties != nil {
+        if err := d.Set("availability_sets", flattenArmProximityPlacementGroupSubResource(proximityPlacementGroupProperties.AvailabilitySets)); err != nil {
+            return fmt.Errorf("Error setting `availability_sets`: %+v", err)
+        }
+        d.Set("proximity_placement_group_type", string(proximityPlacementGroupProperties.ProximityPlacementGroupType))
+        if err := d.Set("virtual_machine_scale_sets", flattenArmProximityPlacementGroupSubResource(proximityPlacementGroupProperties.VirtualMachineScaleSets)); err != nil {
+            return fmt.Errorf("Error setting `virtual_machine_scale_sets`: %+v", err)
+        }
+        if err := d.Set("virtual_machines", flattenArmProximityPlacementGroupSubResource(proximityPlacementGroupProperties.VirtualMachines)); err != nil {
+            return fmt.Errorf("Error setting `virtual_machines`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmProximityPlacementGroupUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -185,4 +239,24 @@ func resourceArmProximityPlacementGroupDelete(d *schema.ResourceData, meta inter
     }
 
     return nil
+}
+
+
+func flattenArmProximityPlacementGroupSubResource(input *[]compute.SubResource) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

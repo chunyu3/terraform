@@ -68,6 +68,21 @@ func resourceArmContentKeyPolicy() *schema.Resource {
                 Optional: true,
             },
 
+            "created": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_modified": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "policy_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -151,6 +166,15 @@ func resourceArmContentKeyPolicyRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
+    if contentKeyPolicyProperties := resp.ContentKeyPolicyProperties; contentKeyPolicyProperties != nil {
+        d.Set("created", (contentKeyPolicyProperties.Created).String())
+        d.Set("description", contentKeyPolicyProperties.Description)
+        d.Set("last_modified", (contentKeyPolicyProperties.LastModified).String())
+        if err := d.Set("options", flattenArmContentKeyPolicyContentKeyPolicyOption(contentKeyPolicyProperties.Options)); err != nil {
+            return fmt.Errorf("Error setting `options`: %+v", err)
+        }
+        d.Set("policy_id", contentKeyPolicyProperties.PolicyID)
+    }
     d.Set("type", resp.Type)
 
     return nil
@@ -214,4 +238,24 @@ func expandArmContentKeyPolicyContentKeyPolicyOption(input []interface{}) *[]med
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmContentKeyPolicyContentKeyPolicyOption(input *[]mediaservices.ContentKeyPolicyOption) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

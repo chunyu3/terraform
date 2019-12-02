@@ -54,6 +54,10 @@ The `virtual_network` block supports the following:
 
 The following attributes are exported:
 
+* `virtual_network_link_state` - The status of the virtual network link to the Private DNS zone. Possible values are 'InProgress' and 'Done'. This is a read-only property and any attempt to set this value will be ignored.
+
+* `provisioning_state` - The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.
+
 * `id` - Fully qualified resource Id for the resource. Example - '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
 
 * `name` - The name of the resource

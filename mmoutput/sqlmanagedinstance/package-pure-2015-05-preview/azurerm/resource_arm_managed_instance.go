@@ -186,6 +186,21 @@ func resourceArmManagedInstance() *schema.Resource {
                 Optional: true,
             },
 
+            "dns_zone": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "fully_qualified_domain_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -306,9 +321,38 @@ func resourceArmManagedInstanceRead(d *schema.ResourceData, meta interface{}) er
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if managedInstanceProperties := resp.ManagedInstanceProperties; managedInstanceProperties != nil {
+        d.Set("administrator_login", managedInstanceProperties.AdministratorLogin)
+        d.Set("administrator_login_password", managedInstanceProperties.AdministratorLoginPassword)
+        d.Set("collation", managedInstanceProperties.Collation)
+        d.Set("dns_zone", managedInstanceProperties.DNSZone)
+        d.Set("dns_zone_partner", managedInstanceProperties.DNSZonePartner)
+        d.Set("fully_qualified_domain_name", managedInstanceProperties.FullyQualifiedDomainName)
+        d.Set("instance_pool_id", managedInstanceProperties.InstancePoolID)
+        d.Set("license_type", string(managedInstanceProperties.LicenseType))
+        d.Set("managed_instance_create_mode", string(managedInstanceProperties.ManagedInstanceCreateMode))
+        d.Set("proxy_override", string(managedInstanceProperties.ProxyOverride))
+        d.Set("public_data_endpoint_enabled", managedInstanceProperties.PublicDataEndpointEnabled)
+        d.Set("restore_point_in_time", (managedInstanceProperties.RestorePointInTime).String())
+        d.Set("source_managed_instance_id", managedInstanceProperties.SourceManagedInstanceID)
+        d.Set("state", managedInstanceProperties.State)
+        d.Set("storage_size_in_gb", int(*managedInstanceProperties.StorageSizeInGB))
+        d.Set("subnet_id", managedInstanceProperties.SubnetID)
+        d.Set("timezone_id", managedInstanceProperties.TimezoneID)
+        d.Set("v_cores", int(*managedInstanceProperties.VCores))
+    }
+    if err := d.Set("identity", flattenArmManagedInstanceResourceIdentity(resp.Identity)); err != nil {
+        return fmt.Errorf("Error setting `identity`: %+v", err)
+    }
+    if err := d.Set("sku", flattenArmManagedInstanceSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmManagedInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -449,4 +493,43 @@ func expandArmManagedInstanceSku(input []interface{}) *sql.Sku {
         Tier: utils.String(tier),
     }
     return &result
+}
+
+
+func flattenArmManagedInstanceResourceIdentity(input *sql.ResourceIdentity) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["type"] = string(input.Type)
+
+    return []interface{}{result}
+}
+
+func flattenArmManagedInstanceSku(input *sql.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if capacity := input.Capacity; capacity != nil {
+        result["capacity"] = int(*capacity)
+    }
+    if family := input.Family; family != nil {
+        result["family"] = *family
+    }
+    if size := input.Size; size != nil {
+        result["size"] = *size
+    }
+    if tier := input.Tier; tier != nil {
+        result["tier"] = *tier
+    }
+
+    return []interface{}{result}
 }

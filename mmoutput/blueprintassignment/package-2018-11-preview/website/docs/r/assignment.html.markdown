@@ -72,8 +72,21 @@ The `lock` block supports the following:
 
 The following attributes are exported:
 
+* `status` - One `status` block defined below.
+
+* `provisioning_state` - State of the blueprint assignment.
+
 * `id` - String Id used to locate any resource on Azure.
 
 * `type` - Type of this resource.
 
 * `name` - Name of this resource.
+
+
+---
+
+The `status` block contains the following:
+
+* `time_created` - Creation time of this blueprint definition.
+
+* `last_modified` - Last modified time of this blueprint definition.

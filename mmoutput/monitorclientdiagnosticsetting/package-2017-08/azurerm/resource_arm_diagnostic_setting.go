@@ -36,6 +36,11 @@ func resourceArmDiagnosticSetting() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "resource_uri": {
                 Type: schema.TypeString,
                 Required: true,
@@ -235,6 +240,21 @@ func resourceArmDiagnosticSettingRead(d *schema.ResourceData, meta interface{}) 
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
+    if diagnosticSettings := resp.DiagnosticSettings; diagnosticSettings != nil {
+        d.Set("event_hub_authorization_rule_id", diagnosticSettings.EventHubAuthorizationRuleID)
+        d.Set("event_hub_name", diagnosticSettings.EventHubName)
+        d.Set("log_analytics_destination_type", diagnosticSettings.LogAnalyticsDestinationType)
+        if err := d.Set("logs", flattenArmDiagnosticSettingLogSettings(diagnosticSettings.Logs)); err != nil {
+            return fmt.Errorf("Error setting `logs`: %+v", err)
+        }
+        if err := d.Set("metrics", flattenArmDiagnosticSettingMetricSettings(diagnosticSettings.Metrics)); err != nil {
+            return fmt.Errorf("Error setting `metrics`: %+v", err)
+        }
+        d.Set("service_bus_rule_id", diagnosticSettings.ServiceBusRuleID)
+        d.Set("storage_account_id", diagnosticSettings.StorageAccountID)
+        d.Set("workspace_id", diagnosticSettings.WorkspaceID)
+    }
     d.Set("resource_uri", resourceURI)
     d.Set("type", resp.Type)
 
@@ -314,4 +334,71 @@ func expandArmDiagnosticSettingRetentionPolicy(input []interface{}) *monitorclie
         Enabled: utils.Bool(enabled),
     }
     return &result
+}
+
+
+func flattenArmDiagnosticSettingLogSettings(input *[]monitorclient.LogSettings) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if category := item.Category; category != nil {
+            v["category"] = *category
+        }
+        if enabled := item.Enabled; enabled != nil {
+            v["enabled"] = *enabled
+        }
+        v["retention_policy"] = flattenArmDiagnosticSettingRetentionPolicy(item.RetentionPolicy)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmDiagnosticSettingMetricSettings(input *[]monitorclient.MetricSettings) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if category := item.Category; category != nil {
+            v["category"] = *category
+        }
+        if enabled := item.Enabled; enabled != nil {
+            v["enabled"] = *enabled
+        }
+        v["retention_policy"] = flattenArmDiagnosticSettingRetentionPolicy(item.RetentionPolicy)
+        if timeGrain := item.TimeGrain; timeGrain != nil {
+            v["time_grain"] = *timeGrain
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmDiagnosticSettingRetentionPolicy(input *monitorclient.RetentionPolicy) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if days := input.Days; days != nil {
+        result["days"] = int(*days)
+    }
+    if enabled := input.Enabled; enabled != nil {
+        result["enabled"] = *enabled
+    }
+
+    return []interface{}{result}
 }

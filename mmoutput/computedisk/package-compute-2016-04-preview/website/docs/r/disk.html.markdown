@@ -118,6 +118,12 @@ The `source_vault` block supports the following:
 
 The following attributes are exported:
 
+* `time_created` - The time when the disk was created.
+
+* `owner_id` - A relative URI containing the VM id that has the disk attached.
+
+* `provisioning_state` - The disk provisioning state.
+
 * `id` - Resource Id
 
 * `name` - Resource name

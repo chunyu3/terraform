@@ -40,6 +40,9 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
+          '/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Key
+            python_field_name: key
 
     description: |
       Manage Azure TrafficManagerUserMetricsKey instance.
@@ -60,3 +63,8 @@ objects:
         description: 'The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'key'
+        description: 'The key returned by the Real User Metrics operation.'
+        output: true
+        azure_sdk_references: ['/key']

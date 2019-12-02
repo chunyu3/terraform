@@ -50,6 +50,14 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `asset_id` - The Asset ID.
+
+* `created` - The creation date of the Asset.
+
+* `last_modified` - The last modified date of the Asset.
+
+* `storage_encryption_format` - The Asset encryption format. One of None or MediaStorageEncryption.
+
 * `id` - Fully qualified resource ID for the resource.
 
 * `name` - The name of the resource.

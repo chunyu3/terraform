@@ -54,6 +54,100 @@ func resourceArmRegistrationAssignment() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "registration_definition": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "authorizations": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "principal_id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "role_definition_id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "description": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "managed_by_tenant_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "managed_by_tenant_name": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "managee_tenant_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "managee_tenant_name": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "name": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "plan": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "name": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "product": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "publisher": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "version": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "provisioning_state": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "registration_definition_name": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -129,6 +223,13 @@ func resourceArmRegistrationAssignmentRead(d *schema.ResourceData, meta interfac
 
 
     d.Set("name", resp.Name)
+    if registrationAssignmentProperties := resp.RegistrationAssignmentProperties; registrationAssignmentProperties != nil {
+        d.Set("provisioning_state", string(registrationAssignmentProperties.ProvisioningState))
+        if err := d.Set("registration_definition", flattenArmRegistrationAssignmentRegistrationAssignmentProperties_registrationDefinition(registrationAssignmentProperties.RegistrationDefinition)); err != nil {
+            return fmt.Errorf("Error setting `registration_definition`: %+v", err)
+        }
+        d.Set("registration_definition_id", registrationAssignmentProperties.RegistrationDefinitionID)
+    }
     d.Set("registration_assignment_id", registrationAssignmentID)
     d.Set("scope", scope)
     d.Set("type", resp.Type)
@@ -153,4 +254,93 @@ func resourceArmRegistrationAssignmentDelete(d *schema.ResourceData, meta interf
     }
 
     return nil
+}
+
+
+func flattenArmRegistrationAssignmentRegistrationAssignmentProperties_registrationDefinition(input *managedservices.RegistrationAssignmentProperties_registrationDefinition) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if registrationAssignmentPropertiesRegistrationdefinitionProperties := input.RegistrationAssignmentProperties_registrationDefinition_properties; registrationAssignmentPropertiesRegistrationdefinitionProperties != nil {
+        result["authorizations"] = flattenArmRegistrationAssignmentAuthorization(registrationAssignmentPropertiesRegistrationdefinitionProperties.Authorizations)
+        if description := registrationAssignmentPropertiesRegistrationdefinitionProperties.Description; description != nil {
+            result["description"] = *description
+        }
+        if managedByTenantId := registrationAssignmentPropertiesRegistrationdefinitionProperties.ManagedByTenantID; managedByTenantId != nil {
+            result["managed_by_tenant_id"] = *managedByTenantId
+        }
+        if managedByTenantName := registrationAssignmentPropertiesRegistrationdefinitionProperties.ManagedByTenantName; managedByTenantName != nil {
+            result["managed_by_tenant_name"] = *managedByTenantName
+        }
+        if manageeTenantId := registrationAssignmentPropertiesRegistrationdefinitionProperties.ManageeTenantID; manageeTenantId != nil {
+            result["managee_tenant_id"] = *manageeTenantId
+        }
+        if manageeTenantName := registrationAssignmentPropertiesRegistrationdefinitionProperties.ManageeTenantName; manageeTenantName != nil {
+            result["managee_tenant_name"] = *manageeTenantName
+        }
+        result["provisioning_state"] = string(registrationAssignmentPropertiesRegistrationdefinitionProperties.ProvisioningState)
+        if registrationDefinitionName := registrationAssignmentPropertiesRegistrationdefinitionProperties.RegistrationDefinitionName; registrationDefinitionName != nil {
+            result["registration_definition_name"] = *registrationDefinitionName
+        }
+    }
+    result["plan"] = flattenArmRegistrationAssignmentPlan(input.Plan)
+    if type := input.Type; type != nil {
+        result["type"] = *type
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmRegistrationAssignmentAuthorization(input *[]managedservices.Authorization) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if principalId := item.PrincipalID; principalId != nil {
+            v["principal_id"] = *principalId
+        }
+        if roleDefinitionId := item.RoleDefinitionID; roleDefinitionId != nil {
+            v["role_definition_id"] = *roleDefinitionId
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmRegistrationAssignmentPlan(input *managedservices.Plan) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if product := input.Product; product != nil {
+        result["product"] = *product
+    }
+    if publisher := input.Publisher; publisher != nil {
+        result["publisher"] = *publisher
+    }
+    if version := input.Version; version != nil {
+        result["version"] = *version
+    }
+
+    return []interface{}{result}
 }

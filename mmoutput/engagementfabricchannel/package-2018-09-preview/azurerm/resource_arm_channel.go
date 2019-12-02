@@ -155,6 +155,11 @@ func resourceArmChannelRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
+    if channelProperties := resp.ChannelProperties; channelProperties != nil {
+        d.Set("channel_functions", utils.FlattenStringSlice(channelProperties.ChannelFunctions))
+        d.Set("channel_type", channelProperties.ChannelType)
+        d.Set("credentials", utils.FlattenKeyValuePairs(channelProperties.Credentials))
+    }
     d.Set("type", resp.Type)
 
     return nil

@@ -48,8 +48,31 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `vso_account_id` - The fully qualified arm id of the vso account to be used for this team account.
+
+* `account_id` - The immutable id associated with this team account.
+
+* `key_vault_id` - The fully qualified arm id of the user key vault.
+
+* `discovery_uri` - The uri for this machine learning team account.
+
+* `creation_date` - The creation date of the machine learning team account in ISO8601 format.
+
+* `storage_account` - One `storage_account` block defined below.
+
+* `provisioning_state` - The current deployment state of team account resource. The provisioningState is to indicate states for resource provisioning.
+
 * `id` - The resource ID.
 
 * `name` - The name of the resource.
 
 * `type` - The type of the resource.
+
+
+---
+
+The `storage_account` block contains the following:
+
+* `storage_account_id` - The fully qualified arm Id of the storage account.
+
+* `access_key` - The access key to the storage account.

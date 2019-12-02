@@ -288,6 +288,16 @@ func resourceArmContainerGroup() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -382,9 +392,30 @@ func resourceArmContainerGroupRead(d *schema.ResourceData, meta interface{}) err
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if containerGroupProperties := resp.ContainerGroup_properties; containerGroupProperties != nil {
+        if err := d.Set("containers", flattenArmContainerGroupContainer(containerGroupProperties.Containers)); err != nil {
+            return fmt.Errorf("Error setting `containers`: %+v", err)
+        }
+        if err := d.Set("image_registry_credentials", flattenArmContainerGroupImageRegistryCredential(containerGroupProperties.ImageRegistryCredentials)); err != nil {
+            return fmt.Errorf("Error setting `image_registry_credentials`: %+v", err)
+        }
+        if err := d.Set("ip_address", flattenArmContainerGroupIpAddress(containerGroupProperties.IPAddress)); err != nil {
+            return fmt.Errorf("Error setting `ip_address`: %+v", err)
+        }
+        d.Set("os_type", string(containerGroupProperties.OsType))
+        d.Set("provisioning_state", containerGroupProperties.ProvisioningState)
+        d.Set("restart_policy", string(containerGroupProperties.RestartPolicy))
+        d.Set("state", containerGroupProperties.State)
+        if err := d.Set("volumes", flattenArmContainerGroupVolume(containerGroupProperties.Volumes)); err != nil {
+            return fmt.Errorf("Error setting `volumes`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -624,4 +655,253 @@ func expandArmContainerGroupResourceRequests(input []interface{}) *containerinst
         MemoryInGB: utils.Float(memoryInGb),
     }
     return &result
+}
+
+
+func flattenArmContainerGroupContainer(input *[]containerinstance.Container) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if containerProperties := item.ContainerProperties; containerProperties != nil {
+            v["command"] = utils.FlattenStringSlice(containerProperties.Command)
+            v["environment_variables"] = flattenArmContainerGroupEnvironmentVariable(containerProperties.EnvironmentVariables)
+            if image := containerProperties.Image; image != nil {
+                v["image"] = *image
+            }
+            v["ports"] = flattenArmContainerGroupContainerPort(containerProperties.Ports)
+            v["resources"] = flattenArmContainerGroupResourceRequirements(containerProperties.Resources)
+            v["volume_mounts"] = flattenArmContainerGroupVolumeMount(containerProperties.VolumeMounts)
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmContainerGroupImageRegistryCredential(input *[]containerinstance.ImageRegistryCredential) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if password := item.Password; password != nil {
+            v["password"] = *password
+        }
+        if server := item.Server; server != nil {
+            v["server"] = *server
+        }
+        if username := item.Username; username != nil {
+            v["username"] = *username
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmContainerGroupIpAddress(input *containerinstance.IpAddress) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if ip := input.IP; ip != nil {
+        result["ip"] = *ip
+    }
+    result["ports"] = flattenArmContainerGroupPort(input.Ports)
+    if type := input.Type; type != nil {
+        result["type"] = *type
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmContainerGroupVolume(input *[]containerinstance.Volume) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        v["azure_file"] = flattenArmContainerGroupAzureFileVolume(item.AzureFile)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmContainerGroupEnvironmentVariable(input *[]containerinstance.EnvironmentVariable) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmContainerGroupContainerPort(input *[]containerinstance.ContainerPort) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if port := item.Port; port != nil {
+            v["port"] = int(*port)
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmContainerGroupResourceRequirements(input *containerinstance.ResourceRequirements) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["limits"] = flattenArmContainerGroupResourceLimits(input.Limits)
+    result["requests"] = flattenArmContainerGroupResourceRequests(input.Requests)
+
+    return []interface{}{result}
+}
+
+func flattenArmContainerGroupVolumeMount(input *[]containerinstance.VolumeMount) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if mountPath := item.MountPath; mountPath != nil {
+            v["mount_path"] = *mountPath
+        }
+        if readOnly := item.ReadOnly; readOnly != nil {
+            v["read_only"] = *readOnly
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmContainerGroupPort(input *[]containerinstance.Port) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if port := item.Port; port != nil {
+            v["port"] = int(*port)
+        }
+        v["protocol"] = string(item.Protocol)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmContainerGroupAzureFileVolume(input *containerinstance.AzureFileVolume) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if readOnly := input.ReadOnly; readOnly != nil {
+        result["read_only"] = *readOnly
+    }
+    if shareName := input.ShareName; shareName != nil {
+        result["share_name"] = *shareName
+    }
+    if storageAccountKey := input.StorageAccountKey; storageAccountKey != nil {
+        result["storage_account_key"] = *storageAccountKey
+    }
+    if storageAccountName := input.StorageAccountName; storageAccountName != nil {
+        result["storage_account_name"] = *storageAccountName
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmContainerGroupResourceLimits(input *containerinstance.ResourceLimits) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if cpu := input.CPU; cpu != nil {
+        result["cpu"] = *cpu
+    }
+    if memoryInGb := input.MemoryInGB; memoryInGb != nil {
+        result["memory_in_gb"] = *memoryInGb
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmContainerGroupResourceRequests(input *containerinstance.ResourceRequests) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if cpu := input.CPU; cpu != nil {
+        result["cpu"] = *cpu
+    }
+    if memoryInGb := input.MemoryInGB; memoryInGb != nil {
+        result["memory_in_gb"] = *memoryInGb
+    }
+
+    return []interface{}{result}
 }

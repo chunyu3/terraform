@@ -41,6 +41,8 @@ func resourceArmPython2Package() *schema.Resource {
                 Computed: true,
             },
 
+            "location": azure.SchemaLocation(),
+
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "automation_account_name": {
@@ -87,7 +89,74 @@ func resourceArmPython2Package() *schema.Resource {
                 },
             },
 
+            "activity_count": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "creation_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "description": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "error": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "code": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "message": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "etag": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "is_composite": {
+                Type: schema.TypeBool,
+                Computed: true,
+            },
+
+            "is_global": {
+                Type: schema.TypeBool,
+                Computed: true,
+            },
+
+            "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "size_in_bytes": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "version": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -171,10 +240,31 @@ func resourceArmPython2PackageRead(d *schema.ResourceData, meta interface{}) err
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if pythonPackageCreateProperties := resp.PythonPackageCreateProperties; pythonPackageCreateProperties != nil {
+        d.Set("activity_count", int(*pythonPackageCreateProperties.ActivityCount))
+        if err := d.Set("content_link", flattenArmPython2PackageContentLink(pythonPackageCreateProperties.ContentLink)); err != nil {
+            return fmt.Errorf("Error setting `content_link`: %+v", err)
+        }
+        d.Set("creation_time", (pythonPackageCreateProperties.CreationTime).String())
+        d.Set("description", pythonPackageCreateProperties.Description)
+        if err := d.Set("error", flattenArmPython2PackageModuleErrorInfo(pythonPackageCreateProperties.Error)); err != nil {
+            return fmt.Errorf("Error setting `error`: %+v", err)
+        }
+        d.Set("is_composite", pythonPackageCreateProperties.IsComposite)
+        d.Set("is_global", pythonPackageCreateProperties.IsGlobal)
+        d.Set("last_modified_time", (pythonPackageCreateProperties.LastModifiedTime).String())
+        d.Set("provisioning_state", string(pythonPackageCreateProperties.ProvisioningState))
+        d.Set("size_in_bytes", int(*pythonPackageCreateProperties.SizeInBytes))
+        d.Set("version", pythonPackageCreateProperties.Version)
+    }
     d.Set("automation_account_name", automationAccountName)
+    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmPython2PackageUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -254,4 +344,57 @@ func expandArmPython2PackageContentHash(input []interface{}) *automation.Content
         Value: utils.String(value),
     }
     return &result
+}
+
+
+func flattenArmPython2PackageContentLink(input *automation.ContentLink) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["content_hash"] = flattenArmPython2PackageContentHash(input.ContentHash)
+    if uri := input.URI; uri != nil {
+        result["uri"] = *uri
+    }
+    if version := input.Version; version != nil {
+        result["version"] = *version
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmPython2PackageModuleErrorInfo(input *automation.ModuleErrorInfo) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if code := input.Code; code != nil {
+        result["code"] = *code
+    }
+    if message := input.Message; message != nil {
+        result["message"] = *message
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmPython2PackageContentHash(input *automation.ContentHash) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if algorithm := input.Algorithm; algorithm != nil {
+        result["algorithm"] = *algorithm
+    }
+    if value := input.Value; value != nil {
+        result["value"] = *value
+    }
+
+    return []interface{}{result}
 }

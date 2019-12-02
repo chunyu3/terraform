@@ -159,6 +159,12 @@ func resourceArmPropertyRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if propertyUpdateParameterProperties := resp.PropertyUpdateParameterProperties; propertyUpdateParameterProperties != nil {
+        d.Set("display_name", propertyUpdateParameterProperties.DisplayName)
+        d.Set("secret", propertyUpdateParameterProperties.Secret)
+        d.Set("tags", utils.FlattenStringSlice(propertyUpdateParameterProperties.Tags))
+        d.Set("value", propertyUpdateParameterProperties.Value)
+    }
     d.Set("prop_id", propID)
     d.Set("type", resp.Type)
 

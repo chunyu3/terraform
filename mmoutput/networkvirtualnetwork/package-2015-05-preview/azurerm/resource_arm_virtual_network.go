@@ -154,6 +154,11 @@ func resourceArmVirtualNetwork() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -250,9 +255,26 @@ func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) err
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if virtualNetworkPropertiesFormat := resp.VirtualNetworkPropertiesFormat; virtualNetworkPropertiesFormat != nil {
+        if err := d.Set("address_space", flattenArmVirtualNetworkAddressSpace(virtualNetworkPropertiesFormat.AddressSpace)); err != nil {
+            return fmt.Errorf("Error setting `address_space`: %+v", err)
+        }
+        if err := d.Set("dhcp_options", flattenArmVirtualNetworkDhcpOptions(virtualNetworkPropertiesFormat.DhcpOptions)); err != nil {
+            return fmt.Errorf("Error setting `dhcp_options`: %+v", err)
+        }
+        d.Set("provisioning_state", virtualNetworkPropertiesFormat.ProvisioningState)
+        d.Set("resource_guid", virtualNetworkPropertiesFormat.ResourceGUID)
+        if err := d.Set("subnets", flattenArmVirtualNetworkSubnet(virtualNetworkPropertiesFormat.Subnets)); err != nil {
+            return fmt.Errorf("Error setting `subnets`: %+v", err)
+        }
+    }
+    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -369,4 +391,95 @@ func expandArmVirtualNetworkSubResource(input []interface{}) *network.SubResourc
         ID: utils.String(id),
     }
     return &result
+}
+
+
+func flattenArmVirtualNetworkAddressSpace(input *network.AddressSpace) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["address_prefixes"] = utils.FlattenStringSlice(input.AddressPrefixes)
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualNetworkDhcpOptions(input *network.DhcpOptions) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["dns_servers"] = utils.FlattenStringSlice(input.DNSServers)
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualNetworkSubnet(input *[]network.Subnet) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if subnetPropertiesFormat := item.SubnetPropertiesFormat; subnetPropertiesFormat != nil {
+            if addressPrefix := subnetPropertiesFormat.AddressPrefix; addressPrefix != nil {
+                v["address_prefix"] = *addressPrefix
+            }
+            v["ip_configurations"] = flattenArmVirtualNetworkSubResource(subnetPropertiesFormat.IPConfigurations)
+            v["network_security_group"] = flattenArmVirtualNetworkSubResource(subnetPropertiesFormat.NetworkSecurityGroup)
+            v["route_table"] = flattenArmVirtualNetworkSubResource(subnetPropertiesFormat.RouteTable)
+        }
+        if etag := item.Etag; etag != nil {
+            v["etag"] = *etag
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualNetworkSubResource(input *[]network.SubResource) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualNetworkSubResource(input *network.SubResource) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+
+    return []interface{}{result}
 }

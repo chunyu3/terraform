@@ -51,6 +51,21 @@ func resourceArmDedicatedCloudService() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "is_account_onboarded": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "nodes": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "service_url": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -135,9 +150,18 @@ func resourceArmDedicatedCloudServiceRead(d *schema.ResourceData, meta interface
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if dedicatedCloudServiceProperties := resp.DedicatedCloudServiceProperties; dedicatedCloudServiceProperties != nil {
+        d.Set("gateway_subnet", dedicatedCloudServiceProperties.GatewaySubnet)
+        d.Set("is_account_onboarded", string(dedicatedCloudServiceProperties.IsAccountOnboarded))
+        d.Set("nodes", dedicatedCloudServiceProperties.Nodes)
+        d.Set("service_url", dedicatedCloudServiceProperties.ServiceURL)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmDedicatedCloudServiceUpdate(d *schema.ResourceData, meta interface{}) error {

@@ -156,6 +156,61 @@ objects:
             python_parameter_name: share_name
             python_variable_name: name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FileShareProperties
+            go_type_name: FileShareProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/shareStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ShareStatus
+            go_enum_type_name: ShareStatus
+          '/shareStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: share_status
+          '/properties/dataPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DataPolicy
+            go_enum_type_name: DataPolicy
+          '/dataPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: data_policy
+          '/properties/adminUser': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminUser
+          '/adminUser': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_user
+          '/properties/provisionedCapacityInBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: ProvisionedCapacityInBytes
+          '/provisionedCapacityInBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: provisioned_capacity_in_bytes
+          '/properties/monitoringStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MonitoringStatus
+            go_enum_type_name: MonitoringStatus
+          '/monitoringStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: monitoring_status
+          '/properties/usedCapacityInBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: UsedCapacityInBytes
+          '/usedCapacityInBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: used_capacity_in_bytes
+          '/properties/localUsedCapacityInBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: LocalUsedCapacityInBytes
+          '/localUsedCapacityInBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: local_used_capacity_in_bytes
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -342,6 +397,16 @@ objects:
           - :Enabled
           - :Disabled
       # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'usedCapacityInBytes'
+        description: 'The used capacity in Bytes.'
+        output: true
+        azure_sdk_references: ['/usedCapacityInBytes', '/properties/usedCapacityInBytes']
+      - !ruby/object:Api::Type::Integer
+        name: 'localUsedCapacityInBytes'
+        description: 'The local used capacity in Bytes.'
+        output: true
+        azure_sdk_references: ['/localUsedCapacityInBytes', '/properties/localUsedCapacityInBytes']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The identifier.'

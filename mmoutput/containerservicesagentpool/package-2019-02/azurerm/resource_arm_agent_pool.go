@@ -299,6 +299,11 @@ func resourceArmAgentPool() *schema.Resource {
                 Optional: true,
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -405,6 +410,21 @@ func resourceArmAgentPoolRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if managedClusterAgentPoolProfileProperties := resp.ManagedClusterAgentPoolProfileProperties; managedClusterAgentPoolProfileProperties != nil {
+        d.Set("availability_zones", utils.FlattenStringSlice(managedClusterAgentPoolProfileProperties.AvailabilityZones))
+        d.Set("count", int(*managedClusterAgentPoolProfileProperties.Count))
+        d.Set("enable_auto_scaling", managedClusterAgentPoolProfileProperties.EnableAutoScaling)
+        d.Set("max_count", int(*managedClusterAgentPoolProfileProperties.MaxCount))
+        d.Set("max_pods", int(*managedClusterAgentPoolProfileProperties.MaxPods))
+        d.Set("min_count", int(*managedClusterAgentPoolProfileProperties.MinCount))
+        d.Set("orchestrator_version", managedClusterAgentPoolProfileProperties.OrchestratorVersion)
+        d.Set("os_disk_size_gb", int(*managedClusterAgentPoolProfileProperties.OsDiskSizeGB))
+        d.Set("os_type", string(managedClusterAgentPoolProfileProperties.OsType))
+        d.Set("provisioning_state", managedClusterAgentPoolProfileProperties.ProvisioningState)
+        d.Set("type", string(managedClusterAgentPoolProfileProperties.Type))
+        d.Set("vm_size", string(managedClusterAgentPoolProfileProperties.VMSize))
+        d.Set("vnet_subnet_id", managedClusterAgentPoolProfileProperties.VnetSubnetID)
+    }
     d.Set("managed_cluster_name", managedClusterName)
     d.Set("type", resp.Type)
     d.Set("type", resp.Type)

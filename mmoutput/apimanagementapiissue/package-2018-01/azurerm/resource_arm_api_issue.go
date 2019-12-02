@@ -189,6 +189,14 @@ func resourceArmApiIssueRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", aPIID)
+    if issueUpdateContractProperties := resp.IssueUpdateContractProperties; issueUpdateContractProperties != nil {
+        d.Set("api_id", issueUpdateContractProperties.APIID)
+        d.Set("created_date", (issueUpdateContractProperties.CreatedDate).String())
+        d.Set("description", issueUpdateContractProperties.Description)
+        d.Set("state", string(issueUpdateContractProperties.State))
+        d.Set("title", issueUpdateContractProperties.Title)
+        d.Set("user_id", issueUpdateContractProperties.UserID)
+    }
     d.Set("issue_id", issueID)
     d.Set("type", resp.Type)
 

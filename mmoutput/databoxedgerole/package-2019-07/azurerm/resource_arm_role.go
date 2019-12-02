@@ -43,6 +43,11 @@ func resourceArmRole() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "type": {
@@ -124,6 +129,7 @@ func resourceArmRoleRead(d *schema.ResourceData, meta interface{}) error {
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("type", resp.Type)
 

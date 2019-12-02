@@ -54,6 +54,12 @@ The `output` block supports the following:
 
 The following attributes are exported:
 
+* `created` - The UTC date and time when the Job was created, in 'YYYY-MM-DDThh:mm:ssZ' format.
+
+* `state` - The current state of the job.
+
+* `last_modified` - The UTC date and time when the Job was last updated, in 'YYYY-MM-DDThh:mm:ssZ' format.
+
 * `id` - Fully qualified resource ID for the resource.
 
 * `name` - The name of the resource.

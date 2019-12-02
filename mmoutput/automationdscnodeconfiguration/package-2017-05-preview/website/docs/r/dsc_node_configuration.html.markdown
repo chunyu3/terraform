@@ -76,3 +76,7 @@ The following attributes are exported:
 * `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.
+
+* `last_modified_time` - Gets or sets the last modified time.
+
+* `creation_time` - Gets or sets creation time.

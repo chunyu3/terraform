@@ -117,6 +117,8 @@ The `memory` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - The provisioning state, which only appears in the response.
+
 * `id` - Resource Id
 
 * `name` - Resource name

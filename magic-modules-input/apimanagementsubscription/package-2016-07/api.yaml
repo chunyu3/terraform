@@ -155,12 +155,46 @@ objects:
             python_parameter_name: sid
             python_variable_name: sid
         response:
+          '/userId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: UserID
+            python_field_name: user_id
+          '/productId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ProductID
+            python_field_name: product_id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrimaryKey
+            python_field_name: primary_key
+          '/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SecondaryKey
+            python_field_name: secondary_key
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: State
+            go_enum_type_name: SubscriptionStateContract
+            python_field_name: state
+          '/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: ExpirationDate
+            python_field_name: expiration_date
+          '/stateComment': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: StateComment
+            python_field_name: state_comment
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
           '/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             go_field_name: CreatedDate
             python_field_name: created_date
+          '/startDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: StartDate
+            python_field_name: start_date
+          '/endDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: EndDate
+            python_field_name: end_date
+          '/notificationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: NotificationDate
+            python_field_name: notification_date
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByService
         python_func_name: list_by_service
@@ -264,3 +298,18 @@ objects:
         description: 'Subscription creation date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
         output: true
         azure_sdk_references: ['/createdDate']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startDate'
+        description: 'Subscription activation date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
+        output: true
+        azure_sdk_references: ['/startDate']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endDate'
+        description: 'Date when subscription was cancelled or expired. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
+        output: true
+        azure_sdk_references: ['/endDate']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'notificationDate'
+        description: 'Upcoming subscription expiration notification date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
+        output: true
+        azure_sdk_references: ['/notificationDate']

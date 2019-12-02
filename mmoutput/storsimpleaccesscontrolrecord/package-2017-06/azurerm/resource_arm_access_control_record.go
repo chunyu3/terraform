@@ -70,6 +70,11 @@ func resourceArmAccessControlRecord() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
+
+            "volume_count": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
         },
     }
 }
@@ -152,6 +157,11 @@ func resourceArmAccessControlRecordRead(d *schema.ResourceData, meta interface{}
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if accessControlRecordProperties := resp.AccessControlRecordProperties; accessControlRecordProperties != nil {
+        d.Set("initiator_name", accessControlRecordProperties.InitiatorName)
+        d.Set("volume_count", int(*accessControlRecordProperties.VolumeCount))
+    }
+    d.Set("kind", string(resp.Kind))
     d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 

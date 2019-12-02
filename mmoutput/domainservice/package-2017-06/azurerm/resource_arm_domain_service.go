@@ -179,7 +179,98 @@ func resourceArmDomainService() *schema.Resource {
                 Optional: true,
             },
 
+            "domain_controller_ip_address": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
+
+            "health_alerts": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "issue": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "last_detected": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "name": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "raised": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "resolution_uri": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "severity": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "health_last_evaluated": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "health_monitors": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "details": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "name": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "service_status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "tenant_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "vnet_site_id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -279,9 +370,39 @@ func resourceArmDomainServiceRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if domainServiceProperties := resp.DomainServiceProperties; domainServiceProperties != nil {
+        d.Set("domain_controller_ip_address", utils.FlattenStringSlice(domainServiceProperties.DomainControllerIPAddress))
+        d.Set("domain_name", domainServiceProperties.DomainName)
+        if err := d.Set("domain_security_settings", flattenArmDomainServiceDomainSecuritySettings(domainServiceProperties.DomainSecuritySettings)); err != nil {
+            return fmt.Errorf("Error setting `domain_security_settings`: %+v", err)
+        }
+        d.Set("filtered_sync", string(domainServiceProperties.FilteredSync))
+        if err := d.Set("health_alerts", flattenArmDomainServiceHealthAlert(domainServiceProperties.HealthAlerts)); err != nil {
+            return fmt.Errorf("Error setting `health_alerts`: %+v", err)
+        }
+        d.Set("health_last_evaluated", (domainServiceProperties.HealthLastEvaluated).String())
+        if err := d.Set("health_monitors", flattenArmDomainServiceHealthMonitor(domainServiceProperties.HealthMonitors)); err != nil {
+            return fmt.Errorf("Error setting `health_monitors`: %+v", err)
+        }
+        if err := d.Set("ldaps_settings", flattenArmDomainServiceLdapsSettings(domainServiceProperties.LdapsSettings)); err != nil {
+            return fmt.Errorf("Error setting `ldaps_settings`: %+v", err)
+        }
+        if err := d.Set("notification_settings", flattenArmDomainServiceNotificationSettings(domainServiceProperties.NotificationSettings)); err != nil {
+            return fmt.Errorf("Error setting `notification_settings`: %+v", err)
+        }
+        d.Set("provisioning_state", domainServiceProperties.ProvisioningState)
+        d.Set("service_status", domainServiceProperties.ServiceStatus)
+        d.Set("subnet_id", domainServiceProperties.SubnetID)
+        d.Set("tenant_id", domainServiceProperties.TenantID)
+        d.Set("vnet_site_id", domainServiceProperties.VnetSiteID)
+    }
+    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmDomainServiceUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -407,4 +528,114 @@ func expandArmDomainServiceNotificationSettings(input []interface{}) *domainserv
         NotifyGlobalAdmins: domainservices.NotifyGlobalAdmins(notifyGlobalAdmins),
     }
     return &result
+}
+
+
+func flattenArmDomainServiceDomainSecuritySettings(input *domainservices.DomainSecuritySettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["ntlm_v1"] = string(input.NtlmV1)
+    result["sync_ntlm_passwords"] = string(input.SyncNtlmPasswords)
+    result["tls_v1"] = string(input.TLSV1)
+
+    return []interface{}{result}
+}
+
+func flattenArmDomainServiceHealthAlert(input *[]domainservices.HealthAlert) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if issue := item.Issue; issue != nil {
+            v["issue"] = *issue
+        }
+        if lastDetected := item.LastDetected; lastDetected != nil {
+            v["last_detected"] = (*lastDetected).String()
+        }
+        if raised := item.Raised; raised != nil {
+            v["raised"] = (*raised).String()
+        }
+        if resolutionUri := item.ResolutionURI; resolutionUri != nil {
+            v["resolution_uri"] = *resolutionUri
+        }
+        if severity := item.Severity; severity != nil {
+            v["severity"] = *severity
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmDomainServiceHealthMonitor(input *[]domainservices.HealthMonitor) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if details := item.Details; details != nil {
+            v["details"] = *details
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmDomainServiceLdapsSettings(input *domainservices.LdapsSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["external_access"] = string(input.ExternalAccess)
+    result["ldaps"] = string(input.Ldaps)
+    if pfxCertificate := input.PfxCertificate; pfxCertificate != nil {
+        result["pfx_certificate"] = *pfxCertificate
+    }
+    if pfxCertificatePassword := input.PfxCertificatePassword; pfxCertificatePassword != nil {
+        result["pfx_certificate_password"] = *pfxCertificatePassword
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmDomainServiceNotificationSettings(input *domainservices.NotificationSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["additional_recipients"] = utils.FlattenStringSlice(input.AdditionalRecipients)
+    result["notify_dc_admins"] = string(input.NotifyDcAdmins)
+    result["notify_global_admins"] = string(input.NotifyGlobalAdmins)
+
+    return []interface{}{result}
 }

@@ -63,7 +63,32 @@ func resourceArmCustomDomain() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "custom_https_provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "custom_https_provisioning_substate": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "validation_data": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -149,6 +174,14 @@ func resourceArmCustomDomainRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if customDomainPropertiesParameters := resp.CustomDomainPropertiesParameters; customDomainPropertiesParameters != nil {
+        d.Set("custom_https_provisioning_state", string(customDomainPropertiesParameters.CustomHTTPSProvisioningState))
+        d.Set("custom_https_provisioning_substate", string(customDomainPropertiesParameters.CustomHTTPSProvisioningSubstate))
+        d.Set("host_name", customDomainPropertiesParameters.HostName)
+        d.Set("provisioning_state", customDomainPropertiesParameters.ProvisioningState)
+        d.Set("resource_state", string(customDomainPropertiesParameters.ResourceState))
+        d.Set("validation_data", customDomainPropertiesParameters.ValidationData)
+    }
     d.Set("endpoint_name", endpointName)
     d.Set("profile_name", profileName)
     d.Set("type", resp.Type)

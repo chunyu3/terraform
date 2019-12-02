@@ -62,7 +62,27 @@ func resourceArmWorkspace() *schema.Resource {
                 Optional: true,
             },
 
+            "account_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "creation_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "workspace_id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -150,10 +170,21 @@ func resourceArmWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if workspacePropertiesUpdateParameters := resp.WorkspacePropertiesUpdateParameters; workspacePropertiesUpdateParameters != nil {
+        d.Set("account_id", workspacePropertiesUpdateParameters.AccountID)
+        d.Set("creation_date", (workspacePropertiesUpdateParameters.CreationDate).String())
+        d.Set("description", workspacePropertiesUpdateParameters.Description)
+        d.Set("friendly_name", workspacePropertiesUpdateParameters.FriendlyName)
+        d.Set("provisioning_state", string(workspacePropertiesUpdateParameters.ProvisioningState))
+        d.Set("workspace_id", workspacePropertiesUpdateParameters.WorkspaceID)
+    }
     d.Set("account_name", accountName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error {

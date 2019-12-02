@@ -140,6 +140,26 @@ func resourceArmRelationshipLink() *schema.Resource {
                 },
             },
 
+            "link_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "relationship_guid_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "tenant_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -236,6 +256,25 @@ func resourceArmRelationshipLinkRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if relationshipLinkDefinition := resp.RelationshipLinkDefinition; relationshipLinkDefinition != nil {
+        d.Set("description", utils.FlattenKeyValuePairs(relationshipLinkDefinition.Description))
+        d.Set("display_name", utils.FlattenKeyValuePairs(relationshipLinkDefinition.DisplayName))
+        d.Set("interaction_type", relationshipLinkDefinition.InteractionType)
+        d.Set("link_name", relationshipLinkDefinition.LinkName)
+        if err := d.Set("mappings", flattenArmRelationshipLinkRelationshipLinkFieldMapping(relationshipLinkDefinition.Mappings)); err != nil {
+            return fmt.Errorf("Error setting `mappings`: %+v", err)
+        }
+        if err := d.Set("profile_property_references", flattenArmRelationshipLinkParticipantProfilePropertyReference(relationshipLinkDefinition.ProfilePropertyReferences)); err != nil {
+            return fmt.Errorf("Error setting `profile_property_references`: %+v", err)
+        }
+        d.Set("provisioning_state", string(relationshipLinkDefinition.ProvisioningState))
+        if err := d.Set("related_profile_property_references", flattenArmRelationshipLinkParticipantProfilePropertyReference(relationshipLinkDefinition.RelatedProfilePropertyReferences)); err != nil {
+            return fmt.Errorf("Error setting `related_profile_property_references`: %+v", err)
+        }
+        d.Set("relationship_guid_id", relationshipLinkDefinition.RelationshipGUIDID)
+        d.Set("relationship_name", relationshipLinkDefinition.RelationshipName)
+        d.Set("tenant_id", relationshipLinkDefinition.TenantID)
+    }
     d.Set("hub_name", hubName)
     d.Set("type", resp.Type)
 
@@ -307,4 +346,50 @@ func expandArmRelationshipLinkParticipantProfilePropertyReference(input []interf
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmRelationshipLinkRelationshipLinkFieldMapping(input *[]customerinsights.RelationshipLinkFieldMapping) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if interactionFieldName := item.InteractionFieldName; interactionFieldName != nil {
+            v["interaction_field_name"] = *interactionFieldName
+        }
+        v["link_type"] = string(item.LinkType)
+        if relationshipFieldName := item.RelationshipFieldName; relationshipFieldName != nil {
+            v["relationship_field_name"] = *relationshipFieldName
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmRelationshipLinkParticipantProfilePropertyReference(input *[]customerinsights.ParticipantProfilePropertyReference) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if interactionPropertyName := item.InteractionPropertyName; interactionPropertyName != nil {
+            v["interaction_property_name"] = *interactionPropertyName
+        }
+        if profilePropertyName := item.ProfilePropertyName; profilePropertyName != nil {
+            v["profile_property_name"] = *profilePropertyName
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

@@ -230,6 +230,11 @@ func resourceArmImage() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -322,9 +327,22 @@ func resourceArmImageRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if imageProperties := resp.ImageProperties; imageProperties != nil {
+        d.Set("hyper_vgeneration", string(imageProperties.HyperVGeneration))
+        d.Set("provisioning_state", imageProperties.ProvisioningState)
+        if err := d.Set("source_virtual_machine", flattenArmImageSubResource(imageProperties.SourceVirtualMachine)); err != nil {
+            return fmt.Errorf("Error setting `source_virtual_machine`: %+v", err)
+        }
+        if err := d.Set("storage_profile", flattenArmImageImageStorageProfile(imageProperties.StorageProfile)); err != nil {
+            return fmt.Errorf("Error setting `storage_profile`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmImageUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -473,4 +491,87 @@ func expandArmImageImageOSDisk(input []interface{}) *compute.ImageOSDisk {
         StorageAccountType: compute.StorageAccountTypes(storageAccountType),
     }
     return &result
+}
+
+
+func flattenArmImageSubResource(input *compute.SubResource) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmImageImageStorageProfile(input *compute.ImageStorageProfile) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["data_disks"] = flattenArmImageImageDataDisk(input.DataDisks)
+    result["os_disk"] = flattenArmImageImageOSDisk(input.OsDisk)
+    if zoneResilient := input.ZoneResilient; zoneResilient != nil {
+        result["zone_resilient"] = *zoneResilient
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmImageImageDataDisk(input *[]compute.ImageDataDisk) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if blobUri := item.BlobURI; blobUri != nil {
+            v["blob_uri"] = *blobUri
+        }
+        v["caching"] = string(item.Caching)
+        if diskSizeGb := item.DiskSizeGB; diskSizeGb != nil {
+            v["disk_size_gb"] = int(*diskSizeGb)
+        }
+        if lun := item.Lun; lun != nil {
+            v["lun"] = int(*lun)
+        }
+        v["managed_disk"] = flattenArmImageSubResource(item.ManagedDisk)
+        v["snapshot"] = flattenArmImageSubResource(item.Snapshot)
+        v["storage_account_type"] = string(item.StorageAccountType)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmImageImageOSDisk(input *compute.ImageOSDisk) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if blobUri := input.BlobURI; blobUri != nil {
+        result["blob_uri"] = *blobUri
+    }
+    result["caching"] = string(input.Caching)
+    if diskSizeGb := input.DiskSizeGB; diskSizeGb != nil {
+        result["disk_size_gb"] = int(*diskSizeGb)
+    }
+    result["managed_disk"] = flattenArmImageSubResource(input.ManagedDisk)
+    result["os_state"] = string(input.OsState)
+    result["os_type"] = string(input.OsType)
+    result["snapshot"] = flattenArmImageSubResource(input.Snapshot)
+    result["storage_account_type"] = string(input.StorageAccountType)
+
+    return []interface{}{result}
 }

@@ -57,3 +57,14 @@ The `storage_account` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
+
+* `api_endpoints` - One or more `api_endpoint` block defined below.
+
+
+---
+
+The `api_endpoint` block contains the following:
+
+* `endpoint` - The Media Services REST endpoint.
+
+* `major_version` - The version of Media Services REST API.

@@ -107,7 +107,7 @@ func resourceArmMaintenanceConfigurationRead(d *schema.ResourceData, meta interf
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 

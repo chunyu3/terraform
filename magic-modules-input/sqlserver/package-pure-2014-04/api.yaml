@@ -161,6 +161,60 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerProperties
+            go_type_name: ServerProperties
+          '/properties/version': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Version
+            go_enum_type_name: ServerVersion
+          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: version
+          '/properties/administratorLogin': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdministratorLogin
+          '/administratorLogin': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: administrator_login
+          '/properties/administratorLoginPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdministratorLoginPassword
+          '/administratorLoginPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: administrator_login_password
+          '/properties/fullyQualifiedDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FullyQualifiedDomainName
+          '/fullyQualifiedDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: fully_qualified_domain_name
+          '/properties/externalAdministratorSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExternalAdministratorSid
+          '/externalAdministratorSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: external_administrator_sid
+          '/properties/externalAdministratorLogin': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExternalAdministratorLogin
+          '/externalAdministratorLogin': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: external_administrator_login
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: ServerState
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -240,6 +294,29 @@ objects:
         required: false
         azure_sdk_references: ['/administratorLoginPassword', '/properties/administratorLoginPassword']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'fullyQualifiedDomainName'
+        description: 'The fully qualified domain name of the server.'
+        output: true
+        azure_sdk_references: ['/fullyQualifiedDomainName', '/properties/fullyQualifiedDomainName']
+      - !ruby/object:Api::Type::String
+        name: 'externalAdministratorSid'
+        description: 'The ID of the Active Azure Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators.'
+        output: true
+        azure_sdk_references: ['/externalAdministratorSid', '/properties/externalAdministratorSid']
+      - !ruby/object:Api::Type::String
+        name: 'externalAdministratorLogin'
+        description: 'The display name of the Azure Active Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators'
+        output: true
+        azure_sdk_references: ['/externalAdministratorLogin', '/properties/externalAdministratorLogin']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'The state of the server.'
+        output: true
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :Ready
+          - :Disabled
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

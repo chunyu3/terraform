@@ -110,6 +110,11 @@ func resourceArmAvailabilityGroupListener() *schema.Resource {
                 Optional: true,
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -200,6 +205,15 @@ func resourceArmAvailabilityGroupListenerRead(d *schema.ResourceData, meta inter
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if availabilityGroupListenerProperties := resp.AvailabilityGroupListenerProperties; availabilityGroupListenerProperties != nil {
+        d.Set("availability_group_name", availabilityGroupListenerProperties.AvailabilityGroupName)
+        d.Set("create_default_availability_group_if_not_exist", availabilityGroupListenerProperties.CreateDefaultAvailabilityGroupIfNotExist)
+        if err := d.Set("load_balancer_configurations", flattenArmAvailabilityGroupListenerLoadBalancerConfiguration(availabilityGroupListenerProperties.LoadBalancerConfigurations)); err != nil {
+            return fmt.Errorf("Error setting `load_balancer_configurations`: %+v", err)
+        }
+        d.Set("port", int(*availabilityGroupListenerProperties.Port))
+        d.Set("provisioning_state", availabilityGroupListenerProperties.ProvisioningState)
+    }
     d.Set("sql_virtual_machine_group_name", sQLVirtualMachineGroupName)
     d.Set("type", resp.Type)
 
@@ -274,4 +288,49 @@ func expandArmAvailabilityGroupListenerPrivateIPAddress(input []interface{}) *sq
         SubnetResourceID: utils.String(subnetResourceId),
     }
     return &result
+}
+
+
+func flattenArmAvailabilityGroupListenerLoadBalancerConfiguration(input *[]sqlvirtualmachine.LoadBalancerConfiguration) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if loadBalancerResourceId := item.LoadBalancerResourceID; loadBalancerResourceId != nil {
+            v["load_balancer_resource_id"] = *loadBalancerResourceId
+        }
+        v["private_ip_address"] = flattenArmAvailabilityGroupListenerPrivateIPAddress(item.PrivateIPAddress)
+        if probePort := item.ProbePort; probePort != nil {
+            v["probe_port"] = int(*probePort)
+        }
+        if publicIpAddressResourceId := item.PublicIPAddressResourceID; publicIpAddressResourceId != nil {
+            v["public_ip_address_resource_id"] = *publicIpAddressResourceId
+        }
+        v["sql_virtual_machine_instances"] = utils.FlattenStringSlice(item.SQLVirtualMachineInstances)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmAvailabilityGroupListenerPrivateIPAddress(input *sqlvirtualmachine.PrivateIPAddress) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if ipAddress := input.IPAddress; ipAddress != nil {
+        result["ip_address"] = *ipAddress
+    }
+    if subnetResourceId := input.SubnetResourceID; subnetResourceId != nil {
+        result["subnet_resource_id"] = *subnetResourceId
+    }
+
+    return []interface{}{result}
 }

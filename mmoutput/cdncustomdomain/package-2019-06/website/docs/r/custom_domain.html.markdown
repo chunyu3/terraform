@@ -40,12 +40,35 @@ The following arguments are supported:
 
 * `protocol_type` - (Required) Defines the TLS extension protocol that is used for secure delivery. Changing this forces a new resource to be created.
 
+* `minimum_tls_version` - (Optional) TLS protocol version that will be used for Https Defaults to `None`. Changing this forces a new resource to be created.
+
 ## Attributes Reference
 
 The following attributes are exported:
+
+* `resource_state` - Resource status of the custom domain.
+
+* `custom_https_provisioning_state` - Provisioning status of Custom Https of the custom domain.
+
+* `custom_https_provisioning_substate` - Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
+
+* `custom_https_parameters` - One `custom_https_parameter` block defined below.
+
+* `validation_data` - Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
+
+* `provisioning_state` - Provisioning status of the custom domain.
 
 * `id` - Resource ID.
 
 * `name` - Resource name.
 
 * `type` - Resource type.
+
+
+---
+
+The `custom_https_parameter` block contains the following:
+
+* `protocol_type` - Defines the TLS extension protocol that is used for secure delivery.
+
+* `minimum_tls_version` - TLS protocol version that will be used for Https

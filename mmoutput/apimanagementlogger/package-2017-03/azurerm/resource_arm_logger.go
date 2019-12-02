@@ -76,6 +76,55 @@ func resourceArmLogger() *schema.Resource {
                 Default: string(apimanagement.azureEventHub),
             },
 
+            "sampling": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "evaluation_interval": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "initial_percentage": {
+                            Type: schema.TypeFloat,
+                            Computed: true,
+                        },
+                        "max_percentage": {
+                            Type: schema.TypeFloat,
+                            Computed: true,
+                        },
+                        "max_telemetry_items_per_second": {
+                            Type: schema.TypeInt,
+                            Computed: true,
+                        },
+                        "min_percentage": {
+                            Type: schema.TypeFloat,
+                            Computed: true,
+                        },
+                        "moving_average_ratio": {
+                            Type: schema.TypeFloat,
+                            Computed: true,
+                        },
+                        "percentage": {
+                            Type: schema.TypeFloat,
+                            Computed: true,
+                        },
+                        "percentage_decrease_timeout": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "percentage_increase_timeout": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "sampling_type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -162,6 +211,15 @@ func resourceArmLoggerRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if loggerUpdateParameters := resp.LoggerUpdateParameters; loggerUpdateParameters != nil {
+        d.Set("credentials", utils.FlattenKeyValuePairs(loggerUpdateParameters.Credentials))
+        d.Set("description", loggerUpdateParameters.Description)
+        d.Set("is_buffered", loggerUpdateParameters.IsBuffered)
+        d.Set("logger_type", string(loggerUpdateParameters.LoggerType))
+        if err := d.Set("sampling", flattenArmLoggerLoggerSamplingContract(loggerUpdateParameters.Sampling)); err != nil {
+            return fmt.Errorf("Error setting `sampling`: %+v", err)
+        }
+    }
     d.Set("loggerid", loggerid)
     d.Set("type", resp.Type)
 
@@ -215,4 +273,46 @@ func resourceArmLoggerDelete(d *schema.ResourceData, meta interface{}) error {
     }
 
     return nil
+}
+
+
+func flattenArmLoggerLoggerSamplingContract(input *apimanagement.LoggerSamplingContract) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if loggerSamplingProperties := input.LoggerSamplingProperties; loggerSamplingProperties != nil {
+        if evaluationInterval := loggerSamplingProperties.EvaluationInterval; evaluationInterval != nil {
+            result["evaluation_interval"] = *evaluationInterval
+        }
+        if initialPercentage := loggerSamplingProperties.InitialPercentage; initialPercentage != nil {
+            result["initial_percentage"] = *initialPercentage
+        }
+        if maxPercentage := loggerSamplingProperties.MaxPercentage; maxPercentage != nil {
+            result["max_percentage"] = *maxPercentage
+        }
+        if maxTelemetryItemsPerSecond := loggerSamplingProperties.MaxTelemetryItemsPerSecond; maxTelemetryItemsPerSecond != nil {
+            result["max_telemetry_items_per_second"] = int(*maxTelemetryItemsPerSecond)
+        }
+        if minPercentage := loggerSamplingProperties.MinPercentage; minPercentage != nil {
+            result["min_percentage"] = *minPercentage
+        }
+        if movingAverageRatio := loggerSamplingProperties.MovingAverageRatio; movingAverageRatio != nil {
+            result["moving_average_ratio"] = *movingAverageRatio
+        }
+        if percentage := loggerSamplingProperties.Percentage; percentage != nil {
+            result["percentage"] = *percentage
+        }
+        if percentageDecreaseTimeout := loggerSamplingProperties.PercentageDecreaseTimeout; percentageDecreaseTimeout != nil {
+            result["percentage_decrease_timeout"] = *percentageDecreaseTimeout
+        }
+        if percentageIncreaseTimeout := loggerSamplingProperties.PercentageIncreaseTimeout; percentageIncreaseTimeout != nil {
+            result["percentage_increase_timeout"] = *percentageIncreaseTimeout
+        }
+        result["sampling_type"] = string(loggerSamplingProperties.SamplingType)
+    }
+
+    return []interface{}{result}
 }

@@ -46,8 +46,39 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `email` - The user email address, as it was specified during registration.
+
+* `family_name` - The user family name, as it was specified during registration.
+
+* `given_name` - The user given name, as it was specified during registration.
+
+* `tenant_id` - The user tenant ID, as it was specified during registration.
+
+* `total_usage` - How long the user has used his VMs in this lab
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `latest_operation_result` - One `latest_operation_result` block defined below.
+
 * `id` - The identifier of the resource.
 
 * `name` - The name of the resource.
 
 * `type` - The type of the resource.
+
+
+---
+
+The `latest_operation_result` block contains the following:
+
+* `status` - The current status of the operation.
+
+* `error_code` - Error code on failure.
+
+* `error_message` - The error message.
+
+* `request_uri` - Request URI of the operation.
+
+* `http_method` - The HttpMethod - PUT/POST/DELETE for the operation.
+
+* `operation_url` - The URL to use to check long-running operation status

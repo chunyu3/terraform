@@ -145,6 +145,36 @@ func resourceArmCloudEndpoint() *schema.Resource {
                 Optional: true,
             },
 
+            "backup_enabled": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "friendly_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_operation_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_workflow_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "partnership_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -257,6 +287,17 @@ func resourceArmCloudEndpointRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if cloudEndpointCreateParametersProperties := resp.CloudEndpointCreateParametersProperties; cloudEndpointCreateParametersProperties != nil {
+        d.Set("azure_file_share_name", cloudEndpointCreateParametersProperties.AzureFileShareName)
+        d.Set("backup_enabled", cloudEndpointCreateParametersProperties.BackupEnabled)
+        d.Set("friendly_name", cloudEndpointCreateParametersProperties.FriendlyName)
+        d.Set("last_operation_name", cloudEndpointCreateParametersProperties.LastOperationName)
+        d.Set("last_workflow_id", cloudEndpointCreateParametersProperties.LastWorkflowID)
+        d.Set("partnership_id", cloudEndpointCreateParametersProperties.PartnershipID)
+        d.Set("provisioning_state", cloudEndpointCreateParametersProperties.ProvisioningState)
+        d.Set("storage_account_resource_id", cloudEndpointCreateParametersProperties.StorageAccountResourceID)
+        d.Set("storage_account_tenant_id", cloudEndpointCreateParametersProperties.StorageAccountTenantID)
+    }
     d.Set("storage_sync_service_name", storageSyncServiceName)
     d.Set("sync_group_name", syncGroupName)
     d.Set("type", resp.Type)

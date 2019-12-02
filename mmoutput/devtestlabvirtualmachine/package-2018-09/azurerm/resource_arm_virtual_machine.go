@@ -43,6 +43,11 @@ func resourceArmVirtualMachine() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -626,7 +631,358 @@ func resourceArmVirtualMachine() *schema.Resource {
                 Default: string(devtestlab.FromCustomImage),
             },
 
+            "applicable_schedule": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "lab_vms_shutdown": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "created_date": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "daily_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "hourly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "minute": {
+                                                    Type: schema.TypeInt,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "location": azure.SchemaLocation(),
+                                    "name": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "notification_settings": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "email_recipient": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "notification_locale": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "status": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "time_in_minutes": {
+                                                    Type: schema.TypeInt,
+                                                    Computed: true,
+                                                },
+                                                "webhook_url": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "provisioning_state": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "status": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "tags": tags.Schema(),
+                                    "target_resource_id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "task_type": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "time_zone_id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "type": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "unique_identifier": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "weekly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "weekdays": {
+                                                    Type: schema.TypeList,
+                                                    Computed: true,
+                                                    Elem: &schema.Schema{
+                                                        Type: schema.TypeString,
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        "lab_vms_startup": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "created_date": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "daily_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "hourly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "minute": {
+                                                    Type: schema.TypeInt,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "location": azure.SchemaLocation(),
+                                    "name": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "notification_settings": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "email_recipient": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "notification_locale": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "status": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "time_in_minutes": {
+                                                    Type: schema.TypeInt,
+                                                    Computed: true,
+                                                },
+                                                "webhook_url": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "provisioning_state": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "status": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "tags": tags.Schema(),
+                                    "target_resource_id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "task_type": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "time_zone_id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "type": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "unique_identifier": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "weekly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "weekdays": {
+                                                    Type: schema.TypeList,
+                                                    Computed: true,
+                                                    Elem: &schema.Schema{
+                                                        Type: schema.TypeString,
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        "location": azure.SchemaLocation(),
+                        "name": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "tags": tags.Schema(),
+                        "type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "compute_vm": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "data_disk_ids": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Schema{
+                                Type: schema.TypeString,
+                            },
+                        },
+                        "data_disks": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "disk_size_gi_b": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "disk_uri": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "managed_disk_id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "name": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "network_interface_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "os_disk_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "os_type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "statuses": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "code": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "display_status": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "message": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "vm_size": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "unique_identifier": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -787,10 +1143,67 @@ func resourceArmVirtualMachineRead(d *schema.ResourceData, meta interface{}) err
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if labVirtualMachinePropertiesFragment := resp.LabVirtualMachinePropertiesFragment; labVirtualMachinePropertiesFragment != nil {
+        d.Set("allow_claim", labVirtualMachinePropertiesFragment.AllowClaim)
+        if err := d.Set("applicable_schedule", flattenArmVirtualMachineApplicableSchedule(labVirtualMachinePropertiesFragment.ApplicableSchedule)); err != nil {
+            return fmt.Errorf("Error setting `applicable_schedule`: %+v", err)
+        }
+        if err := d.Set("artifact_deployment_status", flattenArmVirtualMachineArtifactDeploymentStatusPropertiesFragment(labVirtualMachinePropertiesFragment.ArtifactDeploymentStatus)); err != nil {
+            return fmt.Errorf("Error setting `artifact_deployment_status`: %+v", err)
+        }
+        if err := d.Set("artifacts", flattenArmVirtualMachineArtifactInstallPropertiesFragment(labVirtualMachinePropertiesFragment.Artifacts)); err != nil {
+            return fmt.Errorf("Error setting `artifacts`: %+v", err)
+        }
+        d.Set("compute_id", labVirtualMachinePropertiesFragment.ComputeID)
+        if err := d.Set("compute_vm", flattenArmVirtualMachineComputeVmProperties(labVirtualMachinePropertiesFragment.ComputeVM)); err != nil {
+            return fmt.Errorf("Error setting `compute_vm`: %+v", err)
+        }
+        d.Set("created_by_user", labVirtualMachinePropertiesFragment.CreatedByUser)
+        d.Set("created_by_user_id", labVirtualMachinePropertiesFragment.CreatedByUserID)
+        d.Set("created_date", (labVirtualMachinePropertiesFragment.CreatedDate).String())
+        d.Set("custom_image_id", labVirtualMachinePropertiesFragment.CustomImageID)
+        if err := d.Set("data_disk_parameters", flattenArmVirtualMachineDataDiskPropertiesFragment(labVirtualMachinePropertiesFragment.DataDiskParameters)); err != nil {
+            return fmt.Errorf("Error setting `data_disk_parameters`: %+v", err)
+        }
+        d.Set("disallow_public_ip_address", labVirtualMachinePropertiesFragment.DisallowPublicIPAddress)
+        d.Set("environment_id", labVirtualMachinePropertiesFragment.EnvironmentID)
+        d.Set("expiration_date", (labVirtualMachinePropertiesFragment.ExpirationDate).String())
+        d.Set("fqdn", labVirtualMachinePropertiesFragment.Fqdn)
+        if err := d.Set("gallery_image_reference", flattenArmVirtualMachineGalleryImageReferenceFragment(labVirtualMachinePropertiesFragment.GalleryImageReference)); err != nil {
+            return fmt.Errorf("Error setting `gallery_image_reference`: %+v", err)
+        }
+        d.Set("is_authentication_with_ssh_key", labVirtualMachinePropertiesFragment.IsAuthenticationWithSSHKey)
+        d.Set("lab_subnet_name", labVirtualMachinePropertiesFragment.LabSubnetName)
+        d.Set("lab_virtual_network_id", labVirtualMachinePropertiesFragment.LabVirtualNetworkID)
+        d.Set("last_known_power_state", labVirtualMachinePropertiesFragment.LastKnownPowerState)
+        if err := d.Set("network_interface", flattenArmVirtualMachineNetworkInterfacePropertiesFragment(labVirtualMachinePropertiesFragment.NetworkInterface)); err != nil {
+            return fmt.Errorf("Error setting `network_interface`: %+v", err)
+        }
+        d.Set("notes", labVirtualMachinePropertiesFragment.Notes)
+        d.Set("os_type", labVirtualMachinePropertiesFragment.OsType)
+        d.Set("owner_object_id", labVirtualMachinePropertiesFragment.OwnerObjectID)
+        d.Set("owner_user_principal_name", labVirtualMachinePropertiesFragment.OwnerUserPrincipalName)
+        d.Set("password", labVirtualMachinePropertiesFragment.Password)
+        d.Set("plan_id", labVirtualMachinePropertiesFragment.PlanID)
+        d.Set("provisioning_state", labVirtualMachinePropertiesFragment.ProvisioningState)
+        if err := d.Set("schedule_parameters", flattenArmVirtualMachineScheduleCreationParameterFragment(labVirtualMachinePropertiesFragment.ScheduleParameters)); err != nil {
+            return fmt.Errorf("Error setting `schedule_parameters`: %+v", err)
+        }
+        d.Set("size", labVirtualMachinePropertiesFragment.Size)
+        d.Set("ssh_key", labVirtualMachinePropertiesFragment.SSHKey)
+        d.Set("storage_type", labVirtualMachinePropertiesFragment.StorageType)
+        d.Set("unique_identifier", labVirtualMachinePropertiesFragment.UniqueIdentifier)
+        d.Set("user_name", labVirtualMachinePropertiesFragment.UserName)
+        d.Set("virtual_machine_creation_source", string(labVirtualMachinePropertiesFragment.VirtualMachineCreationSource))
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmVirtualMachineUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -1282,4 +1695,544 @@ func expandArmVirtualMachineInboundNatRuleFragment(input []interface{}) *[]devte
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmVirtualMachineApplicableSchedule(input *devtestlab.ApplicableSchedule) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if location := input.Location; location != nil {
+        result["location"] = azure.NormalizeLocation(*location)
+    }
+    if applicableScheduleProperties := input.ApplicableScheduleProperties; applicableScheduleProperties != nil {
+        result["lab_vms_shutdown"] = flattenArmVirtualMachineSchedule(applicableScheduleProperties.LabVmsShutdown)
+        result["lab_vms_startup"] = flattenArmVirtualMachineSchedule(applicableScheduleProperties.LabVmsStartup)
+    }
+    if type := input.Type; type != nil {
+        result["type"] = *type
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineArtifactDeploymentStatusPropertiesFragment(input *devtestlab.ArtifactDeploymentStatusPropertiesFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if artifactsApplied := input.ArtifactsApplied; artifactsApplied != nil {
+        result["artifacts_applied"] = int(*artifactsApplied)
+    }
+    if deploymentStatus := input.DeploymentStatus; deploymentStatus != nil {
+        result["deployment_status"] = *deploymentStatus
+    }
+    if totalArtifacts := input.TotalArtifacts; totalArtifacts != nil {
+        result["total_artifacts"] = int(*totalArtifacts)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineArtifactInstallPropertiesFragment(input *[]devtestlab.ArtifactInstallPropertiesFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if artifactId := item.ArtifactID; artifactId != nil {
+            v["artifact_id"] = *artifactId
+        }
+        if artifactTitle := item.ArtifactTitle; artifactTitle != nil {
+            v["artifact_title"] = *artifactTitle
+        }
+        if deploymentStatusMessage := item.DeploymentStatusMessage; deploymentStatusMessage != nil {
+            v["deployment_status_message"] = *deploymentStatusMessage
+        }
+        if installTime := item.InstallTime; installTime != nil {
+            v["install_time"] = (*installTime).String()
+        }
+        v["parameters"] = flattenArmVirtualMachineArtifactParameterPropertiesFragment(item.Parameters)
+        if status := item.Status; status != nil {
+            v["status"] = *status
+        }
+        if vmExtensionStatusMessage := item.VMExtensionStatusMessage; vmExtensionStatusMessage != nil {
+            v["vm_extension_status_message"] = *vmExtensionStatusMessage
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualMachineComputeVmProperties(input *devtestlab.ComputeVmProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["data_disk_ids"] = utils.FlattenStringSlice(input.DataDiskIds)
+    result["data_disks"] = flattenArmVirtualMachineComputeDataDisk(input.DataDisks)
+    if networkInterfaceId := input.NetworkInterfaceID; networkInterfaceId != nil {
+        result["network_interface_id"] = *networkInterfaceId
+    }
+    if osDiskId := input.OsDiskID; osDiskId != nil {
+        result["os_disk_id"] = *osDiskId
+    }
+    if osType := input.OsType; osType != nil {
+        result["os_type"] = *osType
+    }
+    result["statuses"] = flattenArmVirtualMachineComputeVmInstanceViewStatus(input.Statuses)
+    if vmSize := input.VMSize; vmSize != nil {
+        result["vm_size"] = *vmSize
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineDataDiskPropertiesFragment(input *[]devtestlab.DataDiskPropertiesFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["attach_new_data_disk_options"] = flattenArmVirtualMachineAttachNewDataDiskOptionsFragment(item.AttachNewDataDiskOptions)
+        if existingLabDiskId := item.ExistingLabDiskID; existingLabDiskId != nil {
+            v["existing_lab_disk_id"] = *existingLabDiskId
+        }
+        v["host_caching"] = string(item.HostCaching)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualMachineGalleryImageReferenceFragment(input *devtestlab.GalleryImageReferenceFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if offer := input.Offer; offer != nil {
+        result["offer"] = *offer
+    }
+    if osType := input.OsType; osType != nil {
+        result["os_type"] = *osType
+    }
+    if publisher := input.Publisher; publisher != nil {
+        result["publisher"] = *publisher
+    }
+    if sku := input.Sku; sku != nil {
+        result["sku"] = *sku
+    }
+    if version := input.Version; version != nil {
+        result["version"] = *version
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineNetworkInterfacePropertiesFragment(input *devtestlab.NetworkInterfacePropertiesFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if dnsName := input.DNSName; dnsName != nil {
+        result["dns_name"] = *dnsName
+    }
+    if privateIpAddress := input.PrivateIPAddress; privateIpAddress != nil {
+        result["private_ip_address"] = *privateIpAddress
+    }
+    if publicIpAddress := input.PublicIPAddress; publicIpAddress != nil {
+        result["public_ip_address"] = *publicIpAddress
+    }
+    if publicIpAddressId := input.PublicIPAddressID; publicIpAddressId != nil {
+        result["public_ip_address_id"] = *publicIpAddressId
+    }
+    if rdpAuthority := input.RdpAuthority; rdpAuthority != nil {
+        result["rdp_authority"] = *rdpAuthority
+    }
+    result["shared_public_ip_address_configuration"] = flattenArmVirtualMachineSharedPublicIpAddressConfigurationFragment(input.SharedPublicIPAddressConfiguration)
+    if sshAuthority := input.SSHAuthority; sshAuthority != nil {
+        result["ssh_authority"] = *sshAuthority
+    }
+    if subnetId := input.SubnetID; subnetId != nil {
+        result["subnet_id"] = *subnetId
+    }
+    if virtualNetworkId := input.VirtualNetworkID; virtualNetworkId != nil {
+        result["virtual_network_id"] = *virtualNetworkId
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineScheduleCreationParameterFragment(input *[]devtestlab.ScheduleCreationParameterFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if location := item.Location; location != nil {
+            v["location"] = azure.NormalizeLocation(*location)
+        }
+        if scheduleCreationParameterPropertiesFragment := item.ScheduleCreationParameterPropertiesFragment; scheduleCreationParameterPropertiesFragment != nil {
+            v["daily_recurrence"] = flattenArmVirtualMachineDayDetailsFragment(scheduleCreationParameterPropertiesFragment.DailyRecurrence)
+            v["hourly_recurrence"] = flattenArmVirtualMachineHourDetailsFragment(scheduleCreationParameterPropertiesFragment.HourlyRecurrence)
+            v["notification_settings"] = flattenArmVirtualMachineNotificationSettingsFragment(scheduleCreationParameterPropertiesFragment.NotificationSettings)
+            v["status"] = string(scheduleCreationParameterPropertiesFragment.Status)
+            if targetResourceId := scheduleCreationParameterPropertiesFragment.TargetResourceID; targetResourceId != nil {
+                v["target_resource_id"] = *targetResourceId
+            }
+            if taskType := scheduleCreationParameterPropertiesFragment.TaskType; taskType != nil {
+                v["task_type"] = *taskType
+            }
+            if timeZoneId := scheduleCreationParameterPropertiesFragment.TimeZoneID; timeZoneId != nil {
+                v["time_zone_id"] = *timeZoneId
+            }
+            v["weekly_recurrence"] = flattenArmVirtualMachineWeekDetailsFragment(scheduleCreationParameterPropertiesFragment.WeeklyRecurrence)
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualMachineSchedule(input *devtestlab.Schedule) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if location := input.Location; location != nil {
+        result["location"] = azure.NormalizeLocation(*location)
+    }
+    if scheduleProperties := input.ScheduleProperties; scheduleProperties != nil {
+        if createdDate := scheduleProperties.CreatedDate; createdDate != nil {
+            result["created_date"] = (*createdDate).String()
+        }
+        result["daily_recurrence"] = flattenArmVirtualMachineDayDetails(scheduleProperties.DailyRecurrence)
+        result["hourly_recurrence"] = flattenArmVirtualMachineHourDetails(scheduleProperties.HourlyRecurrence)
+        result["notification_settings"] = flattenArmVirtualMachineNotificationSettings(scheduleProperties.NotificationSettings)
+        if provisioningState := scheduleProperties.ProvisioningState; provisioningState != nil {
+            result["provisioning_state"] = *provisioningState
+        }
+        result["status"] = string(scheduleProperties.Status)
+        if targetResourceId := scheduleProperties.TargetResourceID; targetResourceId != nil {
+            result["target_resource_id"] = *targetResourceId
+        }
+        if taskType := scheduleProperties.TaskType; taskType != nil {
+            result["task_type"] = *taskType
+        }
+        if timeZoneId := scheduleProperties.TimeZoneID; timeZoneId != nil {
+            result["time_zone_id"] = *timeZoneId
+        }
+        if uniqueIdentifier := scheduleProperties.UniqueIdentifier; uniqueIdentifier != nil {
+            result["unique_identifier"] = *uniqueIdentifier
+        }
+        result["weekly_recurrence"] = flattenArmVirtualMachineWeekDetails(scheduleProperties.WeeklyRecurrence)
+    }
+    if type := input.Type; type != nil {
+        result["type"] = *type
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineArtifactParameterPropertiesFragment(input *[]devtestlab.ArtifactParameterPropertiesFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualMachineComputeDataDisk(input *[]devtestlab.ComputeDataDisk) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if diskSizeGiB := item.DiskSizeGiB; diskSizeGiB != nil {
+            v["disk_size_gi_b"] = int(*diskSizeGiB)
+        }
+        if diskUri := item.DiskURI; diskUri != nil {
+            v["disk_uri"] = *diskUri
+        }
+        if managedDiskId := item.ManagedDiskID; managedDiskId != nil {
+            v["managed_disk_id"] = *managedDiskId
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualMachineComputeVmInstanceViewStatus(input *[]devtestlab.ComputeVmInstanceViewStatus) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if code := item.Code; code != nil {
+            v["code"] = *code
+        }
+        if displayStatus := item.DisplayStatus; displayStatus != nil {
+            v["display_status"] = *displayStatus
+        }
+        if message := item.Message; message != nil {
+            v["message"] = *message
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualMachineAttachNewDataDiskOptionsFragment(input *devtestlab.AttachNewDataDiskOptionsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if diskName := input.DiskName; diskName != nil {
+        result["disk_name"] = *diskName
+    }
+    if diskSizeGiB := input.DiskSizeGiB; diskSizeGiB != nil {
+        result["disk_size_gi_b"] = int(*diskSizeGiB)
+    }
+    result["disk_type"] = string(input.DiskType)
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineSharedPublicIpAddressConfigurationFragment(input *devtestlab.SharedPublicIpAddressConfigurationFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["inbound_nat_rules"] = flattenArmVirtualMachineInboundNatRuleFragment(input.InboundNatRules)
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineDayDetailsFragment(input *devtestlab.DayDetailsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineHourDetailsFragment(input *devtestlab.HourDetailsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if minute := input.Minute; minute != nil {
+        result["minute"] = int(*minute)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineNotificationSettingsFragment(input *devtestlab.NotificationSettingsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if emailRecipient := input.EmailRecipient; emailRecipient != nil {
+        result["email_recipient"] = *emailRecipient
+    }
+    if notificationLocale := input.NotificationLocale; notificationLocale != nil {
+        result["notification_locale"] = *notificationLocale
+    }
+    result["status"] = string(input.Status)
+    if timeInMinutes := input.TimeInMinutes; timeInMinutes != nil {
+        result["time_in_minutes"] = int(*timeInMinutes)
+    }
+    if webhookUrl := input.WebhookURL; webhookUrl != nil {
+        result["webhook_url"] = *webhookUrl
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineWeekDetailsFragment(input *devtestlab.WeekDetailsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+    result["weekdays"] = utils.FlattenStringSlice(input.Weekdays)
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineDayDetails(input *devtestlab.DayDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineHourDetails(input *devtestlab.HourDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if minute := input.Minute; minute != nil {
+        result["minute"] = int(*minute)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineNotificationSettings(input *devtestlab.NotificationSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if emailRecipient := input.EmailRecipient; emailRecipient != nil {
+        result["email_recipient"] = *emailRecipient
+    }
+    if notificationLocale := input.NotificationLocale; notificationLocale != nil {
+        result["notification_locale"] = *notificationLocale
+    }
+    result["status"] = string(input.Status)
+    if timeInMinutes := input.TimeInMinutes; timeInMinutes != nil {
+        result["time_in_minutes"] = int(*timeInMinutes)
+    }
+    if webhookUrl := input.WebhookURL; webhookUrl != nil {
+        result["webhook_url"] = *webhookUrl
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineWeekDetails(input *devtestlab.WeekDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+    result["weekdays"] = utils.FlattenStringSlice(input.Weekdays)
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineInboundNatRuleFragment(input *[]devtestlab.InboundNatRuleFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if backendPort := item.BackendPort; backendPort != nil {
+            v["backend_port"] = int(*backendPort)
+        }
+        if frontendPort := item.FrontendPort; frontendPort != nil {
+            v["frontend_port"] = int(*frontendPort)
+        }
+        v["transport_protocol"] = string(item.TransportProtocol)
+
+        results = append(results, v)
+    }
+
+    return results
 }

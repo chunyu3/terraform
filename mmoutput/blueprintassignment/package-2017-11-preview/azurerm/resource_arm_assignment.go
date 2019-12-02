@@ -116,6 +116,28 @@ func resourceArmAssignment() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "status": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "last_modified": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "time_created": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -205,6 +227,26 @@ func resourceArmAssignmentRead(d *schema.ResourceData, meta interface{}) error {
 
     d.Set("name", name)
     d.Set("name", resp.Name)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if assignmentProperties := resp.AssignmentProperties; assignmentProperties != nil {
+        d.Set("blueprint_id", assignmentProperties.BlueprintID)
+        d.Set("description", assignmentProperties.Description)
+        d.Set("display_name", assignmentProperties.DisplayName)
+        if err := d.Set("locks", flattenArmAssignmentAssignmentLockSettings(assignmentProperties.Locks)); err != nil {
+            return fmt.Errorf("Error setting `locks`: %+v", err)
+        }
+        d.Set("parameters", utils.FlattenKeyValuePairs(assignmentProperties.Parameters))
+        d.Set("provisioning_state", string(assignmentProperties.ProvisioningState))
+        d.Set("resource_groups", utils.FlattenKeyValuePairs(assignmentProperties.ResourceGroups))
+        if err := d.Set("status", flattenArmAssignmentAssignmentStatus(assignmentProperties.Status)); err != nil {
+            return fmt.Errorf("Error setting `status`: %+v", err)
+        }
+    }
+    if err := d.Set("identity", flattenArmAssignmentManagedServiceIdentity(resp.Identity)); err != nil {
+        return fmt.Errorf("Error setting `identity`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
     return nil
@@ -259,4 +301,52 @@ func expandArmAssignmentAssignmentLockSettings(input []interface{}) *blueprint.A
         Mode: blueprint.AssignmentLockMode(mode),
     }
     return &result
+}
+
+
+func flattenArmAssignmentAssignmentLockSettings(input *blueprint.AssignmentLockSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["mode"] = string(input.Mode)
+
+    return []interface{}{result}
+}
+
+func flattenArmAssignmentAssignmentStatus(input *blueprint.AssignmentStatus) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if lastModified := input.LastModified; lastModified != nil {
+        result["last_modified"] = *lastModified
+    }
+    if timeCreated := input.TimeCreated; timeCreated != nil {
+        result["time_created"] = *timeCreated
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmAssignmentManagedServiceIdentity(input *blueprint.ManagedServiceIdentity) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if principalId := input.PrincipalID; principalId != nil {
+        result["principal_id"] = *principalId
+    }
+    if tenantId := input.TenantID; tenantId != nil {
+        result["tenant_id"] = *tenantId
+    }
+    result["type"] = string(input.Type)
+
+    return []interface{}{result}
 }

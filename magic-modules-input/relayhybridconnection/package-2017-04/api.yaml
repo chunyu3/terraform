@@ -98,6 +98,40 @@ objects:
             python_parameter_name: hybrid_connection_name
             python_variable_name: hybrid_connection_name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AuthorizationRule_properties
+            go_type_name: AuthorizationRule_properties
+          '/properties/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedAt
+          '/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_at
+          '/properties/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: UpdatedAt
+          '/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: updated_at
+          '/properties/listenerCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ListenerCount
+          '/listenerCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: listener_count
+          '/properties/requiresClientAuthorization': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: RequiresClientAuthorization
+          '/requiresClientAuthorization': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: requires_client_authorization
+          '/properties/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserMetadata
+          '/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_metadata
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -220,6 +254,31 @@ objects:
         input: true
         azure_sdk_references: ['/key']
       # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdAt'
+        description: 'The time the hybrid connection was created.'
+        output: true
+        azure_sdk_references: ['/createdAt', '/properties/createdAt']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'updatedAt'
+        description: 'The time the namespace was updated.'
+        output: true
+        azure_sdk_references: ['/updatedAt', '/properties/updatedAt']
+      - !ruby/object:Api::Type::Integer
+        name: 'listenerCount'
+        description: 'The number of listeners for this hybrid connection. Note that min : 1 and max:25 are supported.'
+        output: true
+        azure_sdk_references: ['/listenerCount', '/properties/listenerCount']
+      - !ruby/object:Api::Type::Boolean
+        name: 'requiresClientAuthorization'
+        description: 'Returns true if client authorization is needed for this hybrid connection; otherwise, false.'
+        output: true
+        azure_sdk_references: ['/requiresClientAuthorization', '/properties/requiresClientAuthorization']
+      - !ruby/object:Api::Type::String
+        name: 'userMetadata'
+        description: 'The usermetadata is a placeholder to store user-defined string data for the hybrid connection endpoint. For example, it can be used to store descriptive data, such as a list of teams and their contact information. Also, user-defined configuration settings can be stored.'
+        output: true
+        azure_sdk_references: ['/userMetadata', '/properties/userMetadata']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

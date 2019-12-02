@@ -173,6 +173,26 @@ The `virtual_network_configuration` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - The current provisioning state of the API Management service which can be one of the following: Created/Activating/Succeeded/Updating/Failed/Stopped/Terminating/TerminationFailed/Deleted.
+
+* `target_provisioning_state` - The provisioning state of the API Management service, which is targeted by the long running operation started on the service.
+
+* `created_at_utc` - Creation UTC date of the API Management service.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+
+* `gateway_url` - Gateway URL of the API Management service.
+
+* `gateway_regional_url` - Gateway URL of the API Management service in the Default Region.
+
+* `portal_url` - Publisher portal endpoint Url of the API Management service.
+
+* `management_api_url` - Management API endpoint URL of the API Management service.
+
+* `scm_url` - SCM endpoint URL of the API Management service.
+
+* `public_ip_addresses` - Public Static Load Balanced IP addresses of the API Management service in Primary region. Available only for Basic, Standard and Premium SKU.
+
+* `private_ip_addresses` - Private Static Load Balanced IP addresses of the API Management service in Primary region which is deployed in an Internal Virtual Network. Available only for Basic, Standard and Premium SKU.
+
 * `id` - Resource ID.
 
 * `type` - Resource type for API Management resource is set to Microsoft.ApiManagement.

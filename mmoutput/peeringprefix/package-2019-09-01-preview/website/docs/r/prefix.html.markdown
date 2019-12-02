@@ -40,8 +40,33 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `prefix_validation_state` - The prefix validation state
+
+* `learned_type` - The prefix learned type
+
+* `error_message` - The error message for validation state
+
+* `events` - One or more `event` block defined below.
+
+* `provisioning_state` - The provisioning state of the resource.
+
 * `name` - The name of the resource.
 
 * `id` - The ID of the resource.
 
 * `type` - The type of the resource.
+
+
+---
+
+The `event` block contains the following:
+
+* `event_timestamp` - The timestamp of the event associated with a prefix.
+
+* `event_type` - The type of the event associated with a prefix.
+
+* `event_summary` - The summary of the event associated with a prefix.
+
+* `event_level` - The level of the event associated with a prefix.
+
+* `event_description` - The description of the event associated with a prefix.

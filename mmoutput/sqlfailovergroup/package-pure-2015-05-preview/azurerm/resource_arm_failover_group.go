@@ -101,6 +101,34 @@ func resourceArmFailoverGroup() *schema.Resource {
                 },
             },
 
+            "partner_servers": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "location": azure.SchemaLocation(),
+                        "replication_role": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "replication_role": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "replication_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -196,10 +224,24 @@ func resourceArmFailoverGroupRead(d *schema.ResourceData, meta interface{}) erro
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    if failoverGroupUpdateProperties := resp.FailoverGroupUpdateProperties; failoverGroupUpdateProperties != nil {
+        d.Set("databases", utils.FlattenStringSlice(failoverGroupUpdateProperties.Databases))
+        if err := d.Set("partner_servers", flattenArmFailoverGroupPartnerInfo(failoverGroupUpdateProperties.PartnerServers)); err != nil {
+            return fmt.Errorf("Error setting `partner_servers`: %+v", err)
+        }
+        if err := d.Set("read_only_endpoint", flattenArmFailoverGroupFailoverGroupReadOnlyEndpoint(failoverGroupUpdateProperties.ReadOnlyEndpoint)); err != nil {
+            return fmt.Errorf("Error setting `read_only_endpoint`: %+v", err)
+        }
+        if err := d.Set("read_write_endpoint", flattenArmFailoverGroupFailoverGroupReadWriteEndpoint(failoverGroupUpdateProperties.ReadWriteEndpoint)); err != nil {
+            return fmt.Errorf("Error setting `read_write_endpoint`: %+v", err)
+        }
+        d.Set("replication_role", string(failoverGroupUpdateProperties.ReplicationRole))
+        d.Set("replication_state", failoverGroupUpdateProperties.ReplicationState)
+    }
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmFailoverGroupUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -293,4 +335,55 @@ func expandArmFailoverGroupFailoverGroupReadWriteEndpoint(input []interface{}) *
         FailoverWithDataLossGracePeriodMinutes: utils.Int32(int32(failoverWithDataLossGracePeriodMinutes)),
     }
     return &result
+}
+
+
+func flattenArmFailoverGroupPartnerInfo(input *[]sql.PartnerInfo) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if location := item.Location; location != nil {
+            v["location"] = azure.NormalizeLocation(*location)
+        }
+        v["replication_role"] = string(item.ReplicationRole)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmFailoverGroupFailoverGroupReadOnlyEndpoint(input *sql.FailoverGroupReadOnlyEndpoint) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["failover_policy"] = string(input.FailoverPolicy)
+
+    return []interface{}{result}
+}
+
+func flattenArmFailoverGroupFailoverGroupReadWriteEndpoint(input *sql.FailoverGroupReadWriteEndpoint) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["failover_policy"] = string(input.FailoverPolicy)
+    if failoverWithDataLossGracePeriodMinutes := input.FailoverWithDataLossGracePeriodMinutes; failoverWithDataLossGracePeriodMinutes != nil {
+        result["failover_with_data_loss_grace_period_minutes"] = int(*failoverWithDataLossGracePeriodMinutes)
+    }
+
+    return []interface{}{result}
 }

@@ -140,6 +140,9 @@ func resourceArmAccessControlRecordRead(d *schema.ResourceData, meta interface{}
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if accessControlRecordProperties := resp.AccessControlRecordProperties; accessControlRecordProperties != nil {
+        d.Set("initiator_name", accessControlRecordProperties.InitiatorName)
+    }
     d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 

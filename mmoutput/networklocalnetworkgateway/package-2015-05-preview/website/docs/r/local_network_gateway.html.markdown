@@ -54,6 +54,8 @@ The `local_network_address_space` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Gets or sets Provisioning state of the LocalNetworkGateway resource Updating/Deleting/Failed
+
 * `id` - Resource Id
 
 * `name` - Resource name

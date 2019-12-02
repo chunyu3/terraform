@@ -43,6 +43,11 @@ func resourceArmVirtualNetwork() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -177,6 +182,16 @@ func resourceArmVirtualNetwork() *schema.Resource {
                 Optional: true,
             },
 
+            "created_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -276,10 +291,30 @@ func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) err
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if virtualNetworkPropertiesFragment := resp.VirtualNetworkPropertiesFragment; virtualNetworkPropertiesFragment != nil {
+        if err := d.Set("allowed_subnets", flattenArmVirtualNetworkSubnetFragment(virtualNetworkPropertiesFragment.AllowedSubnets)); err != nil {
+            return fmt.Errorf("Error setting `allowed_subnets`: %+v", err)
+        }
+        d.Set("created_date", (virtualNetworkPropertiesFragment.CreatedDate).String())
+        d.Set("description", virtualNetworkPropertiesFragment.Description)
+        d.Set("external_provider_resource_id", virtualNetworkPropertiesFragment.ExternalProviderResourceID)
+        if err := d.Set("external_subnets", flattenArmVirtualNetworkExternalSubnetFragment(virtualNetworkPropertiesFragment.ExternalSubnets)); err != nil {
+            return fmt.Errorf("Error setting `external_subnets`: %+v", err)
+        }
+        d.Set("provisioning_state", virtualNetworkPropertiesFragment.ProvisioningState)
+        if err := d.Set("subnet_overrides", flattenArmVirtualNetworkSubnetOverrideFragment(virtualNetworkPropertiesFragment.SubnetOverrides)); err != nil {
+            return fmt.Errorf("Error setting `subnet_overrides`: %+v", err)
+        }
+        d.Set("unique_identifier", virtualNetworkPropertiesFragment.UniqueIdentifier)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmVirtualNetworkUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -437,4 +472,110 @@ func expandArmVirtualNetworkPortFragment(input []interface{}) *[]devtestlab.Port
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmVirtualNetworkSubnetFragment(input *[]devtestlab.SubnetFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["allow_public_ip"] = string(item.AllowPublicIP)
+        if labSubnetName := item.LabSubnetName; labSubnetName != nil {
+            v["lab_subnet_name"] = *labSubnetName
+        }
+        if resourceId := item.ResourceID; resourceId != nil {
+            v["resource_id"] = *resourceId
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualNetworkExternalSubnetFragment(input *[]devtestlab.ExternalSubnetFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualNetworkSubnetOverrideFragment(input *[]devtestlab.SubnetOverrideFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if labSubnetName := item.LabSubnetName; labSubnetName != nil {
+            v["lab_subnet_name"] = *labSubnetName
+        }
+        if resourceId := item.ResourceID; resourceId != nil {
+            v["resource_id"] = *resourceId
+        }
+        v["shared_public_ip_address_configuration"] = flattenArmVirtualNetworkSubnetSharedPublicIpAddressConfigurationFragment(item.SharedPublicIPAddressConfiguration)
+        v["use_in_vm_creation_permission"] = string(item.UseInVMCreationPermission)
+        v["use_public_ip_address_permission"] = string(item.UsePublicIPAddressPermission)
+        if virtualNetworkPoolName := item.VirtualNetworkPoolName; virtualNetworkPoolName != nil {
+            v["virtual_network_pool_name"] = *virtualNetworkPoolName
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualNetworkSubnetSharedPublicIpAddressConfigurationFragment(input *devtestlab.SubnetSharedPublicIpAddressConfigurationFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["allowed_ports"] = flattenArmVirtualNetworkPortFragment(input.AllowedPorts)
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualNetworkPortFragment(input *[]devtestlab.PortFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if backendPort := item.BackendPort; backendPort != nil {
+            v["backend_port"] = int(*backendPort)
+        }
+        v["transport_protocol"] = string(item.TransportProtocol)
+
+        results = append(results, v)
+    }
+
+    return results
 }

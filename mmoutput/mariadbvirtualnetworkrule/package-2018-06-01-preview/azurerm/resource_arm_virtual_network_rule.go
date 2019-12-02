@@ -61,6 +61,11 @@ func resourceArmVirtualNetworkRule() *schema.Resource {
                 Optional: true,
             },
 
+            "state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -147,6 +152,11 @@ func resourceArmVirtualNetworkRuleRead(d *schema.ResourceData, meta interface{})
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if virtualNetworkRuleProperties := resp.VirtualNetworkRuleProperties; virtualNetworkRuleProperties != nil {
+        d.Set("ignore_missing_vnet_service_endpoint", virtualNetworkRuleProperties.IgnoreMissingVnetServiceEndpoint)
+        d.Set("state", string(virtualNetworkRuleProperties.State))
+        d.Set("virtual_network_subnet_id", virtualNetworkRuleProperties.VirtualNetworkSubnetID)
+    }
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 

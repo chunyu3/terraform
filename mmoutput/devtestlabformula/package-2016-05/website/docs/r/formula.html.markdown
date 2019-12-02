@@ -394,6 +394,12 @@ The `vm` block supports the following:
 
 The following attributes are exported:
 
+* `creation_date` - The creation date of the formula.
+
+* `provisioning_state` - The provisioning status of the resource.
+
 * `id` - The identifier of the resource.
+
+* `name` - The name of the resource.
 
 * `type` - The type of the resource.

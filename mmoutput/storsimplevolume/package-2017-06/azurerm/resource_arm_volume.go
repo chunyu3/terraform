@@ -115,7 +115,30 @@ func resourceArmVolume() *schema.Resource {
                 Default: string(storsimple.Series8000),
             },
 
+            "backup_policy_ids": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
+
+            "backup_status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "operation_status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "volume_container_id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -213,7 +236,19 @@ func resourceArmVolumeRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if volumeProperties := resp.VolumeProperties; volumeProperties != nil {
+        d.Set("access_control_record_ids", utils.FlattenStringSlice(volumeProperties.AccessControlRecordIds))
+        d.Set("backup_policy_ids", utils.FlattenStringSlice(volumeProperties.BackupPolicyIds))
+        d.Set("backup_status", string(volumeProperties.BackupStatus))
+        d.Set("monitoring_status", string(volumeProperties.MonitoringStatus))
+        d.Set("operation_status", string(volumeProperties.OperationStatus))
+        d.Set("size_in_bytes", int(*volumeProperties.SizeInBytes))
+        d.Set("volume_container_id", volumeProperties.VolumeContainerID)
+        d.Set("volume_status", string(volumeProperties.VolumeStatus))
+        d.Set("volume_type", string(volumeProperties.VolumeType))
+    }
     d.Set("device_name", deviceName)
+    d.Set("kind", string(resp.Kind))
     d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
     d.Set("volume_container_name", volumeContainerName)

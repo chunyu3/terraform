@@ -54,8 +54,179 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `server_local_path` - Server Local path.
+
+* `friendly_name` - Friendly Name
+
+* `server_resource_id` - Server Resource Id.
+
+* `provisioning_state` - ServerEndpoint Provisioning State
+
+* `last_workflow_id` - ServerEndpoint lastWorkflowId
+
+* `last_operation_name` - Resource Last Operation Name
+
+* `sync_status` - One `sync_status` block defined below.
+
+* `offline_data_transfer_storage_account_resource_id` - Offline data transfer storage account resource ID
+
+* `offline_data_transfer_storage_account_tenant_id` - Offline data transfer storage account tenant ID
+
+* `cloud_tiering_status` - One `cloud_tiering_status` block defined below.
+
+* `recall_status` - One `recall_status` block defined below.
+
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource
 
 * `type` - The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+
+
+---
+
+The `sync_status` block contains the following:
+
+* `download_health` - Download Health Status.
+
+* `upload_health` - Upload Health Status.
+
+* `combined_health` - Combined Health Status.
+
+* `sync_activity` - Sync activity
+
+* `total_persistent_files_not_syncing_count` - Total count of persistent files not syncing (combined upload + download).
+
+* `last_updated_timestamp` - Last Updated Timestamp
+
+* `upload_status` - One `upload_status` block defined below.
+
+* `download_status` - One `download_status` block defined below.
+
+* `upload_activity` - One `upload_activity` block defined below.
+
+* `download_activity` - One `download_activity` block defined below.
+
+* `offline_data_transfer_status` - Offline Data Transfer State
+
+
+---
+
+The `upload_status` block contains the following:
+
+* `last_sync_result` - Last sync result (HResult)
+
+* `last_sync_timestamp` - Last sync timestamp
+
+* `last_sync_success_timestamp` - Last sync success timestamp
+
+* `last_sync_per_item_error_count` - Last sync per item error count.
+
+* `persistent_files_not_syncing_count` - Count of persistent files not syncing.
+
+* `transient_files_not_syncing_count` - Count of transient files not syncing.
+
+* `files_not_syncing_errors` - One or more `files_not_syncing_error` block defined below.
+
+
+---
+
+The `files_not_syncing_error` block contains the following:
+
+* `error_code` - Error code (HResult)
+
+* `persistent_count` - Count of persistent files not syncing with the specified error code
+
+* `transient_count` - Count of transient files not syncing with the specified error code
+
+---
+
+The `download_status` block contains the following:
+
+* `last_sync_result` - Last sync result (HResult)
+
+* `last_sync_timestamp` - Last sync timestamp
+
+* `last_sync_success_timestamp` - Last sync success timestamp
+
+* `last_sync_per_item_error_count` - Last sync per item error count.
+
+* `persistent_files_not_syncing_count` - Count of persistent files not syncing.
+
+* `transient_files_not_syncing_count` - Count of transient files not syncing.
+
+* `files_not_syncing_errors` - One or more `files_not_syncing_error` block defined below.
+
+
+---
+
+The `files_not_syncing_error` block contains the following:
+
+* `error_code` - Error code (HResult)
+
+* `persistent_count` - Count of persistent files not syncing with the specified error code
+
+* `transient_count` - Count of transient files not syncing with the specified error code
+
+---
+
+The `upload_activity` block contains the following:
+
+* `timestamp` - Timestamp when properties were updated
+
+* `per_item_error_count` - Per item error count
+
+* `applied_item_count` - Applied item count.
+
+* `total_item_count` - Total item count (if available)
+
+* `applied_bytes` - Applied bytes
+
+* `total_bytes` - Total bytes (if available)
+
+---
+
+The `download_activity` block contains the following:
+
+* `timestamp` - Timestamp when properties were updated
+
+* `per_item_error_count` - Per item error count
+
+* `applied_item_count` - Applied item count.
+
+* `total_item_count` - Total item count (if available)
+
+* `applied_bytes` - Applied bytes
+
+* `total_bytes` - Total bytes (if available)
+
+---
+
+The `cloud_tiering_status` block contains the following:
+
+* `health` - Cloud tiering health state.
+
+* `last_updated_timestamp` - Last updated timestamp
+
+* `last_cloud_tiering_result` - Last cloud tiering result (HResult)
+
+* `last_success_timestamp` - Last cloud tiering success timestamp
+
+---
+
+The `recall_status` block contains the following:
+
+* `last_updated_timestamp` - Last updated timestamp
+
+* `total_recall_errors_count` - Total count of recall errors.
+
+* `recall_errors` - One or more `recall_error` block defined below.
+
+
+---
+
+The `recall_error` block contains the following:
+
+* `error_code` - Error code (HResult)
+
+* `count` - Count of occurences of the error

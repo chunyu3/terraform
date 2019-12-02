@@ -48,6 +48,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `subregion` - Subregion of the server key.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

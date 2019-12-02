@@ -80,8 +80,51 @@ The `current_status` block supports the following:
 
 The following attributes are exported:
 
+* `order_history` - One or more `order_history` block defined below.
+
+* `serial_number` - Serial number of the device.
+
+* `delivery_tracking_info` - One or more `delivery_tracking_info` block defined below.
+
+* `return_tracking_info` - One or more `return_tracking_info` block defined below.
+
 * `id` - The path ID that uniquely identifies the object.
 
 * `name` - The object name.
 
 * `type` - The hierarchical type of the object.
+
+
+---
+
+The `order_history` block contains the following:
+
+* `status` - Status of the order as per the allowed status types.
+
+* `update_date_time` - Time of status update.
+
+* `comments` - Comments related to this status change.
+
+---
+
+The `delivery_tracking_info` block contains the following:
+
+* `serial_number` - Serial number of the device being tracked.
+
+* `carrier_name` - Name of the carrier used in the delivery.
+
+* `tracking_id` - Tracking ID of the shipment.
+
+* `tracking_url` - Tracking URL of the shipment.
+
+---
+
+The `return_tracking_info` block contains the following:
+
+* `serial_number` - Serial number of the device being tracked.
+
+* `carrier_name` - Name of the carrier used in the delivery.
+
+* `tracking_id` - Tracking ID of the shipment.
+
+* `tracking_url` - Tracking URL of the shipment.

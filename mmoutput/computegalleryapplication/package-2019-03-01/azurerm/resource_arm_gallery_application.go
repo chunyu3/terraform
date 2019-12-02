@@ -187,10 +187,21 @@ func resourceArmGalleryApplicationRead(d *schema.ResourceData, meta interface{})
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if galleryApplicationProperties := resp.GalleryApplicationProperties; galleryApplicationProperties != nil {
+        d.Set("description", galleryApplicationProperties.Description)
+        d.Set("end_of_life_date", (galleryApplicationProperties.EndOfLifeDate).String())
+        d.Set("eula", galleryApplicationProperties.Eula)
+        d.Set("privacy_statement_uri", galleryApplicationProperties.PrivacyStatementURI)
+        d.Set("release_note_uri", galleryApplicationProperties.ReleaseNoteURI)
+        d.Set("supported_ostype", string(galleryApplicationProperties.SupportedOSType))
+    }
     d.Set("gallery_name", galleryName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 

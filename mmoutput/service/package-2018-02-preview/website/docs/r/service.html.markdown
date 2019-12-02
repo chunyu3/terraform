@@ -50,6 +50,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `start_date` - Windows IoT Device Service start date,
+
+* `billing_domain_name` - Windows IoT Device Service ODM AAD domain
+
 * `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.

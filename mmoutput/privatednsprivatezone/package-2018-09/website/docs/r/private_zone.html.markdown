@@ -42,6 +42,20 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `max_number_of_record_sets` - The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.
+
+* `number_of_record_sets` - The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.
+
+* `max_number_of_virtual_network_links` - The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.
+
+* `number_of_virtual_network_links` - The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.
+
+* `max_number_of_virtual_network_links_with_registration` - The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.
+
+* `number_of_virtual_network_links_with_registration` - The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.
+
+* `provisioning_state` - The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.
+
 * `id` - Fully qualified resource Id for the resource. Example - '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
 
 * `name` - The name of the resource

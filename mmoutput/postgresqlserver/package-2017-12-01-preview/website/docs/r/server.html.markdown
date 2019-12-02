@@ -78,6 +78,18 @@ The `storage_profile` block supports the following:
 
 The following attributes are exported:
 
+* `administrator_login` - The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).
+
+* `user_visible_state` - A state of a server that is visible to user.
+
+* `fully_qualified_domain_name` - The fully qualified domain name of a server.
+
+* `earliest_restore_date` - Earliest restore point creation time (ISO8601 format)
+
+* `master_server_id` - The master server id of a replica server.
+
+* `replica_capacity` - The maximum number of replicas that a master server can have.
+
 * `id` - Resource ID
 
 * `name` - Resource name.

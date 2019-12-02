@@ -45,6 +45,26 @@ func resourceArmQueryPack() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "query_pack_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "time_created": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "time_modified": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -125,9 +145,18 @@ func resourceArmQueryPackRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if logAnalyticsQueryPackProperties := resp.LogAnalyticsQueryPackProperties; logAnalyticsQueryPackProperties != nil {
+        d.Set("provisioning_state", logAnalyticsQueryPackProperties.ProvisioningState)
+        d.Set("query_pack_id", logAnalyticsQueryPackProperties.QueryPackID)
+        d.Set("time_created", (logAnalyticsQueryPackProperties.TimeCreated).String())
+        d.Set("time_modified", (logAnalyticsQueryPackProperties.TimeModified).String())
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 

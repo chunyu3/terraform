@@ -172,6 +172,11 @@ func resourceArmApiIssueCommentRead(d *schema.ResourceData, meta interface{}) er
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", aPIID)
     d.Set("comment_id", commentID)
+    if issueCommentContractProperties := resp.IssueCommentContractProperties; issueCommentContractProperties != nil {
+        d.Set("created_date", (issueCommentContractProperties.CreatedDate).String())
+        d.Set("text", issueCommentContractProperties.Text)
+        d.Set("user_id", issueCommentContractProperties.UserID)
+    }
     d.Set("issue_id", issueID)
     d.Set("type", resp.Type)
 

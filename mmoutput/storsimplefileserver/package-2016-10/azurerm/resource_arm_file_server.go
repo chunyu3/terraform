@@ -172,6 +172,12 @@ func resourceArmFileServerRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if fileServerProperties := resp.FileServerProperties; fileServerProperties != nil {
+        d.Set("backup_schedule_group_id", fileServerProperties.BackupScheduleGroupID)
+        d.Set("description", fileServerProperties.Description)
+        d.Set("domain_name", fileServerProperties.DomainName)
+        d.Set("storage_domain_id", fileServerProperties.StorageDomainID)
+    }
     d.Set("device_name", deviceName)
     d.Set("manager_name", managerName)
     d.Set("type", resp.Type)

@@ -44,6 +44,18 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `group_status` - Whether the group has been created and is valid.
+
+* `machine_count` - Number of machines part of this group.
+
+* `assessments` - List of References to Assessments created on this group.
+
+* `are_assessments_running` - If the assessments are in running state.
+
+* `created_timestamp` - Time when this group was created. Date-Time represented in ISO-8601 format.
+
+* `updated_timestamp` - Time when this group was last updated. Date-Time represented in ISO-8601 format.
+
 * `id` - Path reference to this group. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}
 
 * `name` - Name of the group.

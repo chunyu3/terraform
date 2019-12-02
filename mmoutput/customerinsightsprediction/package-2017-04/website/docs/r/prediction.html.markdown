@@ -88,8 +88,25 @@ The `grade` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Provisioning state.
+
+* `tenant_id` - The hub name.
+
+* `system_generated_entities` - One `system_generated_entity` block defined below.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.
 
 * `type` - Resource type.
+
+
+---
+
+The `system_generated_entity` block contains the following:
+
+* `generated_interaction_types` - Generated interaction types.
+
+* `generated_links` - Generated links.
+
+* `generated_kpis` - Generated KPIs.

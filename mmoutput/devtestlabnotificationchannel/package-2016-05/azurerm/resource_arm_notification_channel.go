@@ -43,6 +43,11 @@ func resourceArmNotificationChannel() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -95,6 +100,16 @@ func resourceArmNotificationChannel() *schema.Resource {
             "web_hook_url": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "created_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "type": {
@@ -192,10 +207,24 @@ func resourceArmNotificationChannelRead(d *schema.ResourceData, meta interface{}
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if notificationChannelPropertiesFragment := resp.NotificationChannelPropertiesFragment; notificationChannelPropertiesFragment != nil {
+        d.Set("created_date", (notificationChannelPropertiesFragment.CreatedDate).String())
+        d.Set("description", notificationChannelPropertiesFragment.Description)
+        if err := d.Set("events", flattenArmNotificationChannelEventFragment(notificationChannelPropertiesFragment.Events)); err != nil {
+            return fmt.Errorf("Error setting `events`: %+v", err)
+        }
+        d.Set("provisioning_state", notificationChannelPropertiesFragment.ProvisioningState)
+        d.Set("unique_identifier", notificationChannelPropertiesFragment.UniqueIdentifier)
+        d.Set("web_hook_url", notificationChannelPropertiesFragment.WebHookURL)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmNotificationChannelUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -266,4 +295,22 @@ func expandArmNotificationChannelEventFragment(input []interface{}) *[]devtestla
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmNotificationChannelEventFragment(input *[]devtestlab.EventFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["event_name"] = string(item.EventName)
+
+        results = append(results, v)
+    }
+
+    return results
 }

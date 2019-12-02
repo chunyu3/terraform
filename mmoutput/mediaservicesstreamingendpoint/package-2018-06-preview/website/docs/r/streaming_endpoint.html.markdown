@@ -117,6 +117,18 @@ The `cross_site_access_policy` block supports the following:
 
 The following attributes are exported:
 
+* `host_name` - The StreamingEndpoint host name.
+
+* `provisioning_state` - The provisioning state of the StreamingEndpoint.
+
+* `resource_state` - The resource state of the StreamingEndpoint.
+
+* `free_trial_end_time` - The free trial expiration time.
+
+* `created` - The exact time the StreamingEndpoint was created.
+
+* `last_modified` - The exact time the StreamingEndpoint was last modified.
+
 * `id` - Fully qualified resource ID for the resource.
 
 * `name` - The name of the resource.

@@ -50,8 +50,55 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `author` - The author of the gallery image.
+
+* `created_date` - The creation date of the gallery image.
+
+* `description` - The description of the gallery image.
+
+* `image_reference` - One `image_reference` block defined below.
+
+* `icon` - The icon of the gallery image.
+
+* `plan_id` - The third party plan that applies to this image
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `latest_operation_result` - One `latest_operation_result` block defined below.
+
 * `id` - The identifier of the resource.
 
 * `name` - The name of the resource.
 
 * `type` - The type of the resource.
+
+
+---
+
+The `image_reference` block contains the following:
+
+* `offer` - The offer of the gallery image.
+
+* `publisher` - The publisher of the gallery image.
+
+* `sku` - The SKU of the gallery image.
+
+* `os_type` - The OS type of the gallery image.
+
+* `version` - The version of the gallery image.
+
+---
+
+The `latest_operation_result` block contains the following:
+
+* `status` - The current status of the operation.
+
+* `error_code` - Error code on failure.
+
+* `error_message` - The error message.
+
+* `request_uri` - Request URI of the operation.
+
+* `http_method` - The HttpMethod - PUT/POST/DELETE for the operation.
+
+* `operation_url` - The URL to use to check long-running operation status

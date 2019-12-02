@@ -163,6 +163,11 @@ func resourceArmBackupScheduleGroupRead(d *schema.ResourceData, meta interface{}
     d.Set("resource_group", resourceGroup)
     d.Set("device_name", deviceName)
     d.Set("manager_name", managerName)
+    if backupScheduleGroupProperties := resp.BackupScheduleGroupProperties; backupScheduleGroupProperties != nil {
+        if err := d.Set("start_time", flattenArmBackupScheduleGroupTime(backupScheduleGroupProperties.StartTime)); err != nil {
+            return fmt.Errorf("Error setting `start_time`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
     return nil
@@ -214,4 +219,22 @@ func expandArmBackupScheduleGroupTime(input []interface{}) *storsimple.Time {
         Minute: utils.Int32(int32(minute)),
     }
     return &result
+}
+
+
+func flattenArmBackupScheduleGroupTime(input *storsimple.Time) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if hour := input.Hour; hour != nil {
+        result["hour"] = int(*hour)
+    }
+    if minute := input.Minute; minute != nil {
+        result["minute"] = int(*minute)
+    }
+
+    return []interface{}{result}
 }

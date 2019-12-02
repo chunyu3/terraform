@@ -51,6 +51,16 @@ func resourceArmRemoteRenderingAccount() *schema.Resource {
                 ForceNew: true,
             },
 
+            "account_domain": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "account_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -133,9 +143,16 @@ func resourceArmRemoteRenderingAccountRead(d *schema.ResourceData, meta interfac
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if accountProperties := resp.AccountProperties; accountProperties != nil {
+        d.Set("account_domain", accountProperties.AccountDomain)
+        d.Set("account_id", accountProperties.AccountID)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmRemoteRenderingAccountUpdate(d *schema.ResourceData, meta interface{}) error {

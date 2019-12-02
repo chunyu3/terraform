@@ -50,6 +50,12 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `generated_properties` - The generated Spring Boot property file for this binding. The secret will be deducted.
+
+* `created_at` - Creation time of the Binding resource
+
+* `updated_at` - Update time of the Binding resource
+
 * `id` - Fully qualified resource Id for the resource.
 
 * `name` - The name of the resource.

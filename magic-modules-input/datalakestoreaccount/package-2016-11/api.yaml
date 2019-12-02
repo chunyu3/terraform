@@ -386,11 +386,6 @@ objects:
             python_parameter_name: account_name
             python_variable_name: name
         response:
-          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: locations
-            go_variable_name: location
-            python_parameter_name: location
-            python_variable_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -398,6 +393,9 @@ objects:
             go_field_name: Identity
             go_type_name: EncryptionIdentity
             python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
           '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: PrincipalID
             python_field_name: principal_id
@@ -418,9 +416,41 @@ objects:
             applicable_to: [go]
             go_field_name: EncryptionConfig
             go_type_name: UpdateEncryptionConfig
+          '/properties/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVaultMetaInfo
+            go_type_name: UpdateKeyVaultMetaInfo
+          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionKeyVersion
+          '/properties/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVaultResourceID
+          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionKeyName
+          '/properties/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: EncryptionConfigType
           '/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: encryption_config
+          '/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key_vault_meta_info
+          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encryption_key_version
+          '/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_vault_resource_id
+          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encryption_key_name
+          '/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
           '/properties/firewallRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: FirewallRules
@@ -628,6 +658,9 @@ objects:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -891,3 +924,8 @@ objects:
         description: 'The resource identifier.'
         output: true
         azure_sdk_references: ['/id']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The resource location.'
+        output: true
+        azure_sdk_references: ['/location']

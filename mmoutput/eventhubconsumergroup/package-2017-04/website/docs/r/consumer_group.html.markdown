@@ -42,6 +42,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `created_at` - Exact time the message was created.
+
+* `updated_at` - The exact time the message was updated.
+
 * `id` - Resource Id
 
 * `name` - Resource name

@@ -58,6 +58,8 @@ The `private_link_service_connection_state` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - State of the private endpoint connection.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

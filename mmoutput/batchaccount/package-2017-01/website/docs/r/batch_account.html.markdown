@@ -50,8 +50,31 @@ The `auto_storage` block supports the following:
 
 The following attributes are exported:
 
+* `account_endpoint` - The endpoint used by this account to interact with the Batch services.
+
+* `provisioning_state` - The provisioned state of the resource
+
+* `pool_allocation_mode` - 
+
+* `key_vault_reference` - One `key_vault_reference` block defined below.
+
+* `core_quota` - 
+
+* `pool_quota` - 
+
+* `active_job_and_job_schedule_quota` - 
+
 * `id` - The ID of the resource
 
 * `name` - The name of the resource
 
 * `type` - The type of the resource
+
+
+---
+
+The `key_vault_reference` block contains the following:
+
+* `id` - The resource ID of the Azure key vault associated with the Batch account.
+
+* `url` - The Url of the Azure key vault associated with the Batch account.

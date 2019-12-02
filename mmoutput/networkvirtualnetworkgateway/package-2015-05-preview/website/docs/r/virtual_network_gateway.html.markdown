@@ -91,6 +91,8 @@ The `public_ip_address` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Gets or sets Provisioning state of the VirtualNetworkGateway resource Updating/Deleting/Failed
+
 * `id` - Resource Id
 
 * `name` - Resource name

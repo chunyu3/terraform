@@ -46,6 +46,14 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `account_id` - The immutable id of the team account which contains this workspace.
+
+* `workspace_id` - The immutable id of this workspace.
+
+* `creation_date` - The creation date of the machine learning workspace in ISO8601 format.
+
+* `provisioning_state` - The current deployment state of team account workspace resource. The provisioningState is to indicate states for resource provisioning.
+
 * `id` - The resource ID.
 
 * `name` - The name of the resource.

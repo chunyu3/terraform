@@ -40,6 +40,18 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `name` - Name of the sync agent.
+
+* `last_alive_time` - Last alive time of the sync agent.
+
+* `state` - State of the sync agent.
+
+* `is_up_to_date` - If the sync agent version is up to date.
+
+* `expiry_time` - Expiration time of the sync agent version.
+
+* `version` - Version of the sync agent.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

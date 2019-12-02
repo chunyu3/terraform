@@ -66,6 +66,11 @@ func resourceArmFileShare() *schema.Resource {
                 Computed: true,
             },
 
+            "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -150,6 +155,11 @@ func resourceArmFileShareRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
     d.Set("etag", resp.Etag)
+    if fileShareProperties := resp.FileShareProperties; fileShareProperties != nil {
+        d.Set("last_modified_time", (fileShareProperties.LastModifiedTime).String())
+        d.Set("metadata", utils.FlattenKeyValuePairs(fileShareProperties.Metadata))
+        d.Set("share_quota", fileShareProperties.ShareQuota)
+    }
     d.Set("type", resp.Type)
 
     return nil

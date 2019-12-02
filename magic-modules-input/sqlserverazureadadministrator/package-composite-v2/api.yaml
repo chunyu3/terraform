@@ -38,10 +38,39 @@ objects:
             go_variable_name: name
             python_parameter_name: administrator_name
             python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ServerAzureADAdministrator
+            python_parameter_name: parameters
+            python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServerAdministratorProperties
-            go_type_name: ServerAdministratorProperties
+            go_field_name: AdministratorProperties
+            go_type_name: AdministratorProperties
+          '/administratorType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: administrator_type
+          '/properties/administratorType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdministratorType
+          '/login': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: login
+          '/properties/login': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Login
+          '/sid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sid
+          '/properties/sid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Sid
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -82,6 +111,34 @@ objects:
             python_parameter_name: administrator_name
             python_variable_name: name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdministratorProperties
+            go_type_name: AdministratorProperties
+          '/properties/administratorType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdministratorType
+          '/administratorType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: administrator_type
+          '/properties/login': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Login
+          '/login': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: login
+          '/properties/sid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Sid
+          '/sid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sid
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -123,29 +180,29 @@ objects:
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'Name of the server administrator resource.'
+        description: 'The name of server active directory administrator.'
         required: true
         input: true
         azure_sdk_references: ['administratorName']
       - !ruby/object:Api::Type::String
         name: 'administratorType'
-        description: 'The type of administrator.'
+        description: 'Type of the sever administrator.'
         required: true
         azure_sdk_references: ['/administratorType', '/properties/administratorType']
       - !ruby/object:Api::Type::String
         name: 'login'
-        description: 'The server administrator login value.'
+        description: 'Login name of the server administrator.'
         required: true
         azure_sdk_references: ['/login', '/properties/login']
       - !ruby/object:Api::Type::String
         name: 'sid'
-        description: 'The server administrator Sid (Secure ID).'
+        description: 'SID (object ID) of the server administrator.'
         required: true
         azure_sdk_references: ['/sid', '/properties/sid']
       - !ruby/object:Api::Type::String
         name: 'tenantId'
-        description: 'The server Active Directory Administrator tenant id.'
-        required: true
+        description: 'Tenant ID of the administrator.'
+        required: false
         azure_sdk_references: ['/tenantId', '/properties/tenantId']
       # read only values included only in response
       - !ruby/object:Api::Type::String

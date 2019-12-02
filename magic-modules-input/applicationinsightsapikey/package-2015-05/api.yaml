@@ -57,12 +57,24 @@ objects:
             python_parameter_name: key_id
             python_variable_name: key_id
         response:
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/linkedReadProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: LinkedReadProperties
+            python_field_name: linked_read_properties
+          '/linkedWriteProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: LinkedWriteProperties
+            python_field_name: linked_write_properties
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
           '/apiKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: APIKey
             python_field_name: api_key
+          '/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: CreatedDate
+            python_field_name: created_date
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Create
         python_func_name: create
@@ -158,3 +170,8 @@ objects:
         description: 'The API key value. It will be only return once when the API Key was created.'
         output: true
         azure_sdk_references: ['/apiKey']
+      - !ruby/object:Api::Type::String
+        name: 'createdDate'
+        description: 'The create date of this API key.'
+        output: true
+        azure_sdk_references: ['/createdDate']

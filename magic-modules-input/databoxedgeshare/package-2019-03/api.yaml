@@ -218,14 +218,179 @@ objects:
             python_parameter_name: name
             python_variable_name: name
         response:
-          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: shares
-            go_variable_name: name
-            python_parameter_name: name
-            python_variable_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ShareProperties
+            go_type_name: ShareProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/shareStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ShareStatus
+            go_enum_type_name: ShareStatus
+          '/shareStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: share_status
+          '/properties/monitoringStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MonitoringStatus
+            go_enum_type_name: MonitoringStatus
+          '/monitoringStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: monitoring_status
+          '/properties/azureContainerInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AzureContainerInfo
+            go_type_name: AzureContainerInfo
+          '/properties/azureContainerInfo/storageAccountCredentialId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountCredentialID
+          '/properties/azureContainerInfo/containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContainerName
+          '/properties/azureContainerInfo/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DataFormat
+            go_enum_type_name: AzureContainerDataFormat
+          '/azureContainerInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: azure_container_info
+          '/azureContainerInfo/storageAccountCredentialId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_credential_id
+          '/azureContainerInfo/containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: container_name
+          '/azureContainerInfo/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: data_format
+          '/properties/accessProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AccessProtocol
+            go_enum_type_name: ShareAccessProtocol
+          '/accessProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: access_protocol
+          '/properties/userAccessRights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: UserAccessRights
+            go_type_name: UserAccessRight
+          '/properties/userAccessRights/userId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserID
+          '/properties/userAccessRights/accessType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AccessType
+            go_enum_type_name: ShareAccessType
+          '/userAccessRights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: user_access_rights
+          '/userAccessRights/userId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_id
+          '/userAccessRights/accessType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: access_type
+          '/properties/clientAccessRights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ClientAccessRights
+            go_type_name: ClientAccessRight
+          '/properties/clientAccessRights/client': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Client
+          '/properties/clientAccessRights/accessPermission': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AccessPermission
+            go_enum_type_name: ClientPermissionType
+          '/clientAccessRights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: client_access_rights
+          '/clientAccessRights/client': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: client
+          '/clientAccessRights/accessPermission': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: access_permission
+          '/properties/refreshDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RefreshDetails
+            go_type_name: RefreshDetails
+          '/properties/refreshDetails/inProgressRefreshJobId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InProgressRefreshJobID
+          '/properties/refreshDetails/lastCompletedRefreshJobTimeInUTC': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastCompletedRefreshJobTimeInUTC
+          '/properties/refreshDetails/errorManifestFile': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorManifestFile
+          '/properties/refreshDetails/lastJob': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastJob
+          '/refreshDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: refresh_details
+          '/refreshDetails/inProgressRefreshJobId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: in_progress_refresh_job_id
+          '/refreshDetails/lastCompletedRefreshJobTimeInUTC': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_completed_refresh_job_time_in_utc
+          '/refreshDetails/errorManifestFile': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_manifest_file
+          '/refreshDetails/lastJob': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_job
+          '/properties/dataPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DataPolicy
+            go_enum_type_name: DataPolicy
+          '/dataPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: data_policy
+          '/properties/shareMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ShareMappings
+            go_type_name: MountPointMap
+          '/properties/shareMappings/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ShareID
+          '/properties/shareMappings/roleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RoleID
+          '/properties/shareMappings/mountPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MountPoint
+          '/properties/shareMappings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RoleType
+            go_enum_type_name: RoleTypes
+          '/shareMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: share_mappings
+          '/shareMappings/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: share_id
+          '/shareMappings/roleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: role_id
+          '/shareMappings/mountPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mount_point
+          '/shareMappings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: role_type
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -397,11 +562,48 @@ objects:
           - :Local
         default_value: :Cloud
       # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'shareMappings'
+        description: 'Share mount point to the role.'
+        output: true
+        azure_sdk_references: ['/shareMappings', '/properties/shareMappings']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'shareId'
+              description: 'ID of the share mounted to the role VM.'
+              output: true
+              azure_sdk_references: ['/shareMappings/shareId', '/properties/shareMappings/shareId']
+            - !ruby/object:Api::Type::String
+              name: 'roleId'
+              description: 'ID of the role to which share is mounted.'
+              output: true
+              azure_sdk_references: ['/shareMappings/roleId', '/properties/shareMappings/roleId']
+            - !ruby/object:Api::Type::String
+              name: 'mountPoint'
+              description: 'Mount point for the share.'
+              output: true
+              azure_sdk_references: ['/shareMappings/mountPoint', '/properties/shareMappings/mountPoint']
+            - !ruby/object:Api::Type::Enum
+              name: 'roleType'
+              description: 'Role type.'
+              output: true
+              azure_sdk_references: ['/shareMappings/roleType', '/properties/shareMappings/roleType']
+              values:
+                - :IOT
+                - :ASA
+                - :Functions
+                - :Cognitive
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The path ID that uniquely identifies the object.'
         output: true
         azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The object name.'
+        output: true
+        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'The hierarchical type of the object.'

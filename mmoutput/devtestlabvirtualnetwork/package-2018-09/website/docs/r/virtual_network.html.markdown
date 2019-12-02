@@ -92,6 +92,25 @@ The `allowed_port` block supports the following:
 
 The following attributes are exported:
 
+* `external_subnets` - One or more `external_subnet` block defined below.
+
+* `created_date` - The creation date of the virtual network.
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `unique_identifier` - The unique immutable identifier of a resource (Guid).
+
 * `id` - The identifier of the resource.
 
+* `name` - The name of the resource.
+
 * `type` - The type of the resource.
+
+
+---
+
+The `external_subnet` block contains the following:
+
+* `id` - Gets or sets the identifier.
+
+* `name` - Gets or sets the name.

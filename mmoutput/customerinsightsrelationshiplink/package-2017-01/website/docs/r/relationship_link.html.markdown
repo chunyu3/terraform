@@ -78,6 +78,14 @@ The `mapping` block supports the following:
 
 The following attributes are exported:
 
+* `link_name` - The name of the Relationship Link.
+
+* `provisioning_state` - Provisioning state.
+
+* `relationship_guid_id` - The relationship guid id.
+
+* `tenant_id` - The hub name.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

@@ -59,6 +59,19 @@ func resourceArmDedicatedHostGroup() *schema.Resource {
                 },
             },
 
+            "hosts": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -145,9 +158,19 @@ func resourceArmDedicatedHostGroupRead(d *schema.ResourceData, meta interface{})
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if dedicatedHostGroupProperties := resp.DedicatedHostGroupProperties; dedicatedHostGroupProperties != nil {
+        if err := d.Set("hosts", flattenArmDedicatedHostGroupSubResourceReadOnly(dedicatedHostGroupProperties.Hosts)); err != nil {
+            return fmt.Errorf("Error setting `hosts`: %+v", err)
+        }
+        d.Set("platform_fault_domain_count", int(*dedicatedHostGroupProperties.PlatformFaultDomainCount))
+    }
     d.Set("type", resp.Type)
+    d.Set("zones", utils.FlattenStringSlice(resp.Zones))
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmDedicatedHostGroupUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -193,4 +216,24 @@ func resourceArmDedicatedHostGroupDelete(d *schema.ResourceData, meta interface{
     }
 
     return nil
+}
+
+
+func flattenArmDedicatedHostGroupSubResourceReadOnly(input *[]compute.SubResourceReadOnly) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

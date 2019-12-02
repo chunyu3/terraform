@@ -43,6 +43,11 @@ func resourceArmVirtualMachine() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -739,6 +744,16 @@ func resourceArmVirtualMachine() *schema.Resource {
                 Default: string(devtestlab.FromCustomImage),
             },
 
+            "compute_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -893,10 +908,59 @@ func resourceArmVirtualMachineRead(d *schema.ResourceData, meta interface{}) err
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if labVirtualMachinePropertiesFragment := resp.LabVirtualMachinePropertiesFragment; labVirtualMachinePropertiesFragment != nil {
+        d.Set("allow_claim", labVirtualMachinePropertiesFragment.AllowClaim)
+        if err := d.Set("applicable_schedule", flattenArmVirtualMachineApplicableScheduleFragment(labVirtualMachinePropertiesFragment.ApplicableSchedule)); err != nil {
+            return fmt.Errorf("Error setting `applicable_schedule`: %+v", err)
+        }
+        if err := d.Set("artifact_deployment_status", flattenArmVirtualMachineArtifactDeploymentStatusPropertiesFragment(labVirtualMachinePropertiesFragment.ArtifactDeploymentStatus)); err != nil {
+            return fmt.Errorf("Error setting `artifact_deployment_status`: %+v", err)
+        }
+        if err := d.Set("artifacts", flattenArmVirtualMachineArtifactInstallPropertiesFragment(labVirtualMachinePropertiesFragment.Artifacts)); err != nil {
+            return fmt.Errorf("Error setting `artifacts`: %+v", err)
+        }
+        d.Set("compute_id", labVirtualMachinePropertiesFragment.ComputeID)
+        if err := d.Set("compute_vm", flattenArmVirtualMachineComputeVmPropertiesFragment(labVirtualMachinePropertiesFragment.ComputeVM)); err != nil {
+            return fmt.Errorf("Error setting `compute_vm`: %+v", err)
+        }
+        d.Set("created_by_user", labVirtualMachinePropertiesFragment.CreatedByUser)
+        d.Set("created_by_user_id", labVirtualMachinePropertiesFragment.CreatedByUserID)
+        d.Set("created_date", (labVirtualMachinePropertiesFragment.CreatedDate).String())
+        d.Set("custom_image_id", labVirtualMachinePropertiesFragment.CustomImageID)
+        d.Set("disallow_public_ip_address", labVirtualMachinePropertiesFragment.DisallowPublicIPAddress)
+        d.Set("environment_id", labVirtualMachinePropertiesFragment.EnvironmentID)
+        d.Set("expiration_date", (labVirtualMachinePropertiesFragment.ExpirationDate).String())
+        d.Set("fqdn", labVirtualMachinePropertiesFragment.Fqdn)
+        if err := d.Set("gallery_image_reference", flattenArmVirtualMachineGalleryImageReferenceFragment(labVirtualMachinePropertiesFragment.GalleryImageReference)); err != nil {
+            return fmt.Errorf("Error setting `gallery_image_reference`: %+v", err)
+        }
+        d.Set("is_authentication_with_ssh_key", labVirtualMachinePropertiesFragment.IsAuthenticationWithSSHKey)
+        d.Set("lab_subnet_name", labVirtualMachinePropertiesFragment.LabSubnetName)
+        d.Set("lab_virtual_network_id", labVirtualMachinePropertiesFragment.LabVirtualNetworkID)
+        if err := d.Set("network_interface", flattenArmVirtualMachineNetworkInterfacePropertiesFragment(labVirtualMachinePropertiesFragment.NetworkInterface)); err != nil {
+            return fmt.Errorf("Error setting `network_interface`: %+v", err)
+        }
+        d.Set("notes", labVirtualMachinePropertiesFragment.Notes)
+        d.Set("os_type", labVirtualMachinePropertiesFragment.OsType)
+        d.Set("owner_object_id", labVirtualMachinePropertiesFragment.OwnerObjectID)
+        d.Set("owner_user_principal_name", labVirtualMachinePropertiesFragment.OwnerUserPrincipalName)
+        d.Set("password", labVirtualMachinePropertiesFragment.Password)
+        d.Set("provisioning_state", labVirtualMachinePropertiesFragment.ProvisioningState)
+        d.Set("size", labVirtualMachinePropertiesFragment.Size)
+        d.Set("ssh_key", labVirtualMachinePropertiesFragment.SSHKey)
+        d.Set("storage_type", labVirtualMachinePropertiesFragment.StorageType)
+        d.Set("unique_identifier", labVirtualMachinePropertiesFragment.UniqueIdentifier)
+        d.Set("user_name", labVirtualMachinePropertiesFragment.UserName)
+        d.Set("virtual_machine_creation_source", string(labVirtualMachinePropertiesFragment.VirtualMachineCreationSource))
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmVirtualMachineUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -1423,4 +1487,367 @@ func expandArmVirtualMachineInboundNatRuleFragment(input []interface{}) *[]devte
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmVirtualMachineApplicableScheduleFragment(input *devtestlab.ApplicableScheduleFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if location := input.Location; location != nil {
+        result["location"] = azure.NormalizeLocation(*location)
+    }
+    if applicableSchedulePropertiesFragment := input.ApplicableSchedulePropertiesFragment; applicableSchedulePropertiesFragment != nil {
+        result["lab_vms_shutdown"] = flattenArmVirtualMachineScheduleFragment(applicableSchedulePropertiesFragment.LabVmsShutdown)
+        result["lab_vms_startup"] = flattenArmVirtualMachineScheduleFragment(applicableSchedulePropertiesFragment.LabVmsStartup)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineArtifactDeploymentStatusPropertiesFragment(input *devtestlab.ArtifactDeploymentStatusPropertiesFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if artifactsApplied := input.ArtifactsApplied; artifactsApplied != nil {
+        result["artifacts_applied"] = int(*artifactsApplied)
+    }
+    if deploymentStatus := input.DeploymentStatus; deploymentStatus != nil {
+        result["deployment_status"] = *deploymentStatus
+    }
+    if totalArtifacts := input.TotalArtifacts; totalArtifacts != nil {
+        result["total_artifacts"] = int(*totalArtifacts)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineArtifactInstallPropertiesFragment(input *[]devtestlab.ArtifactInstallPropertiesFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if artifactId := item.ArtifactID; artifactId != nil {
+            v["artifact_id"] = *artifactId
+        }
+        if deploymentStatusMessage := item.DeploymentStatusMessage; deploymentStatusMessage != nil {
+            v["deployment_status_message"] = *deploymentStatusMessage
+        }
+        if installTime := item.InstallTime; installTime != nil {
+            v["install_time"] = (*installTime).String()
+        }
+        v["parameters"] = flattenArmVirtualMachineArtifactParameterPropertiesFragment(item.Parameters)
+        if status := item.Status; status != nil {
+            v["status"] = *status
+        }
+        if vmExtensionStatusMessage := item.VMExtensionStatusMessage; vmExtensionStatusMessage != nil {
+            v["vm_extension_status_message"] = *vmExtensionStatusMessage
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualMachineComputeVmPropertiesFragment(input *devtestlab.ComputeVmPropertiesFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["data_disk_ids"] = utils.FlattenStringSlice(input.DataDiskIds)
+    result["data_disks"] = flattenArmVirtualMachineComputeDataDiskFragment(input.DataDisks)
+    if networkInterfaceId := input.NetworkInterfaceID; networkInterfaceId != nil {
+        result["network_interface_id"] = *networkInterfaceId
+    }
+    if osDiskId := input.OsDiskID; osDiskId != nil {
+        result["os_disk_id"] = *osDiskId
+    }
+    if osType := input.OsType; osType != nil {
+        result["os_type"] = *osType
+    }
+    result["statuses"] = flattenArmVirtualMachineComputeVmInstanceViewStatusFragment(input.Statuses)
+    if vmSize := input.VMSize; vmSize != nil {
+        result["vm_size"] = *vmSize
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineGalleryImageReferenceFragment(input *devtestlab.GalleryImageReferenceFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if offer := input.Offer; offer != nil {
+        result["offer"] = *offer
+    }
+    if osType := input.OsType; osType != nil {
+        result["os_type"] = *osType
+    }
+    if publisher := input.Publisher; publisher != nil {
+        result["publisher"] = *publisher
+    }
+    if sku := input.Sku; sku != nil {
+        result["sku"] = *sku
+    }
+    if version := input.Version; version != nil {
+        result["version"] = *version
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineNetworkInterfacePropertiesFragment(input *devtestlab.NetworkInterfacePropertiesFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if dnsName := input.DNSName; dnsName != nil {
+        result["dns_name"] = *dnsName
+    }
+    if privateIpAddress := input.PrivateIPAddress; privateIpAddress != nil {
+        result["private_ip_address"] = *privateIpAddress
+    }
+    if publicIpAddress := input.PublicIPAddress; publicIpAddress != nil {
+        result["public_ip_address"] = *publicIpAddress
+    }
+    if publicIpAddressId := input.PublicIPAddressID; publicIpAddressId != nil {
+        result["public_ip_address_id"] = *publicIpAddressId
+    }
+    if rdpAuthority := input.RdpAuthority; rdpAuthority != nil {
+        result["rdp_authority"] = *rdpAuthority
+    }
+    result["shared_public_ip_address_configuration"] = flattenArmVirtualMachineSharedPublicIpAddressConfigurationFragment(input.SharedPublicIPAddressConfiguration)
+    if sshAuthority := input.SSHAuthority; sshAuthority != nil {
+        result["ssh_authority"] = *sshAuthority
+    }
+    if subnetId := input.SubnetID; subnetId != nil {
+        result["subnet_id"] = *subnetId
+    }
+    if virtualNetworkId := input.VirtualNetworkID; virtualNetworkId != nil {
+        result["virtual_network_id"] = *virtualNetworkId
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineScheduleFragment(input *devtestlab.ScheduleFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if location := input.Location; location != nil {
+        result["location"] = azure.NormalizeLocation(*location)
+    }
+    if schedulePropertiesFragment := input.SchedulePropertiesFragment; schedulePropertiesFragment != nil {
+        result["daily_recurrence"] = flattenArmVirtualMachineDayDetailsFragment(schedulePropertiesFragment.DailyRecurrence)
+        result["hourly_recurrence"] = flattenArmVirtualMachineHourDetailsFragment(schedulePropertiesFragment.HourlyRecurrence)
+        result["notification_settings"] = flattenArmVirtualMachineNotificationSettingsFragment(schedulePropertiesFragment.NotificationSettings)
+        result["status"] = string(schedulePropertiesFragment.Status)
+        if targetResourceId := schedulePropertiesFragment.TargetResourceID; targetResourceId != nil {
+            result["target_resource_id"] = *targetResourceId
+        }
+        if taskType := schedulePropertiesFragment.TaskType; taskType != nil {
+            result["task_type"] = *taskType
+        }
+        if timeZoneId := schedulePropertiesFragment.TimeZoneID; timeZoneId != nil {
+            result["time_zone_id"] = *timeZoneId
+        }
+        if uniqueIdentifier := schedulePropertiesFragment.UniqueIdentifier; uniqueIdentifier != nil {
+            result["unique_identifier"] = *uniqueIdentifier
+        }
+        result["weekly_recurrence"] = flattenArmVirtualMachineWeekDetailsFragment(schedulePropertiesFragment.WeeklyRecurrence)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineArtifactParameterPropertiesFragment(input *[]devtestlab.ArtifactParameterPropertiesFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualMachineComputeDataDiskFragment(input *[]devtestlab.ComputeDataDiskFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if diskSizeGiB := item.DiskSizeGiB; diskSizeGiB != nil {
+            v["disk_size_gi_b"] = int(*diskSizeGiB)
+        }
+        if diskUri := item.DiskURI; diskUri != nil {
+            v["disk_uri"] = *diskUri
+        }
+        if managedDiskId := item.ManagedDiskID; managedDiskId != nil {
+            v["managed_disk_id"] = *managedDiskId
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualMachineComputeVmInstanceViewStatusFragment(input *[]devtestlab.ComputeVmInstanceViewStatusFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if code := item.Code; code != nil {
+            v["code"] = *code
+        }
+        if displayStatus := item.DisplayStatus; displayStatus != nil {
+            v["display_status"] = *displayStatus
+        }
+        if message := item.Message; message != nil {
+            v["message"] = *message
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmVirtualMachineSharedPublicIpAddressConfigurationFragment(input *devtestlab.SharedPublicIpAddressConfigurationFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["inbound_nat_rules"] = flattenArmVirtualMachineInboundNatRuleFragment(input.InboundNatRules)
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineDayDetailsFragment(input *devtestlab.DayDetailsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineHourDetailsFragment(input *devtestlab.HourDetailsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if minute := input.Minute; minute != nil {
+        result["minute"] = int(*minute)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineNotificationSettingsFragment(input *devtestlab.NotificationSettingsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["status"] = string(input.Status)
+    if timeInMinutes := input.TimeInMinutes; timeInMinutes != nil {
+        result["time_in_minutes"] = int(*timeInMinutes)
+    }
+    if webhookUrl := input.WebhookURL; webhookUrl != nil {
+        result["webhook_url"] = *webhookUrl
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineWeekDetailsFragment(input *devtestlab.WeekDetailsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+    result["weekdays"] = utils.FlattenStringSlice(input.Weekdays)
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineInboundNatRuleFragment(input *[]devtestlab.InboundNatRuleFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if backendPort := item.BackendPort; backendPort != nil {
+            v["backend_port"] = int(*backendPort)
+        }
+        if frontendPort := item.FrontendPort; frontendPort != nil {
+            v["frontend_port"] = int(*frontendPort)
+        }
+        v["transport_protocol"] = string(item.TransportProtocol)
+
+        results = append(results, v)
+    }
+
+    return results
 }

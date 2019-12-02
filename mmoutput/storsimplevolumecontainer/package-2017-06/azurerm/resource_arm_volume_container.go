@@ -111,8 +111,28 @@ func resourceArmVolumeContainer() *schema.Resource {
                 Default: string(storsimple.Series8000),
             },
 
+            "encryption_status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "owner_ship_status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "total_cloud_storage_usage_in_bytes": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "volume_count": {
+                Type: schema.TypeInt,
                 Computed: true,
             },
         },
@@ -205,7 +225,20 @@ func resourceArmVolumeContainerRead(d *schema.ResourceData, meta interface{}) er
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if volumeContainerProperties := resp.VolumeContainerProperties; volumeContainerProperties != nil {
+        d.Set("band_width_rate_in_mbps", int(*volumeContainerProperties.BandWidthRateInMbps))
+        d.Set("bandwidth_setting_id", volumeContainerProperties.BandwidthSettingID)
+        if err := d.Set("encryption_key", flattenArmVolumeContainerAsymmetricEncryptedSecret(volumeContainerProperties.EncryptionKey)); err != nil {
+            return fmt.Errorf("Error setting `encryption_key`: %+v", err)
+        }
+        d.Set("encryption_status", string(volumeContainerProperties.EncryptionStatus))
+        d.Set("owner_ship_status", string(volumeContainerProperties.OwnerShipStatus))
+        d.Set("storage_account_credential_id", volumeContainerProperties.StorageAccountCredentialID)
+        d.Set("total_cloud_storage_usage_in_bytes", int(*volumeContainerProperties.TotalCloudStorageUsageInBytes))
+        d.Set("volume_count", int(*volumeContainerProperties.VolumeCount))
+    }
     d.Set("device_name", deviceName)
+    d.Set("kind", string(resp.Kind))
     d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
@@ -260,4 +293,23 @@ func expandArmVolumeContainerAsymmetricEncryptedSecret(input []interface{}) *sto
         Value: utils.String(value),
     }
     return &result
+}
+
+
+func flattenArmVolumeContainerAsymmetricEncryptedSecret(input *storsimple.AsymmetricEncryptedSecret) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["encryption_algorithm"] = string(input.EncryptionAlgorithm)
+    if encryptionCertThumbprint := input.EncryptionCertThumbprint; encryptionCertThumbprint != nil {
+        result["encryption_cert_thumbprint"] = *encryptionCertThumbprint
+    }
+    if value := input.Value; value != nil {
+        result["value"] = *value
+    }
+
+    return []interface{}{result}
 }

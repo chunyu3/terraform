@@ -176,6 +176,15 @@ func resourceArmRoleDefinitionRead(d *schema.ResourceData, meta interface{}) err
 
 
     d.Set("name", resp.Name)
+    if roleDefinitionProperties := resp.RoleDefinitionProperties; roleDefinitionProperties != nil {
+        d.Set("assignable_scopes", utils.FlattenStringSlice(roleDefinitionProperties.AssignableScopes))
+        d.Set("description", roleDefinitionProperties.Description)
+        if err := d.Set("permissions", flattenArmRoleDefinitionPermission(roleDefinitionProperties.Permissions)); err != nil {
+            return fmt.Errorf("Error setting `permissions`: %+v", err)
+        }
+        d.Set("role_name", roleDefinitionProperties.RoleName)
+        d.Set("type", roleDefinitionProperties.Type)
+    }
     d.Set("role_definition_id", roleDefinitionID)
     d.Set("scope", scope)
     d.Set("type", resp.Type)
@@ -219,4 +228,23 @@ func expandArmRoleDefinitionPermission(input []interface{}) *[]authorization.Per
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmRoleDefinitionPermission(input *[]authorization.Permission) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["actions"] = utils.FlattenStringSlice(item.Actions)
+        v["not_actions"] = utils.FlattenStringSlice(item.NotActions)
+
+        results = append(results, v)
+    }
+
+    return results
 }

@@ -131,6 +131,66 @@ objects:
             python_parameter_name: workspace_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkspacePropertiesUpdateParameters
+            go_type_name: WorkspacePropertiesUpdateParameters
+          '/properties/workspaceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: WorkspaceState
+            go_enum_type_name: WorkspaceState
+          '/workspaceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: workspace_state
+          '/properties/keyVaultIdentifierId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVaultIdentifierID
+          '/keyVaultIdentifierId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_vault_identifier_id
+          '/properties/userStorageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserStorageAccountID
+          '/userStorageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_storage_account_id
+          '/properties/ownerEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OwnerEmail
+          '/ownerEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: owner_email
+          '/properties/workspaceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: WorkspaceType
+            go_enum_type_name: WorkspaceType
+          '/workspaceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: workspace_type
+          '/properties/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkspaceID
+          '/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace_id
+          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CreationTime
+          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: creation_time
+          '/properties/studioEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StudioEndpoint
+          '/studioEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: studio_endpoint
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -215,6 +275,42 @@ objects:
         required: false
         azure_sdk_references: ['/keyVaultIdentifierId', '/properties/keyVaultIdentifierId']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'userStorageAccountId'
+        description: 'The fully qualified arm id of the storage account associated with this workspace.'
+        output: true
+        azure_sdk_references: ['/userStorageAccountId', '/properties/userStorageAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'ownerEmail'
+        description: 'The email id of the owner for this workspace.'
+        output: true
+        azure_sdk_references: ['/ownerEmail', '/properties/ownerEmail']
+      - !ruby/object:Api::Type::Enum
+        name: 'workspaceType'
+        description: 'The type of this workspace.'
+        output: true
+        azure_sdk_references: ['/workspaceType', '/properties/workspaceType']
+        values:
+          - :Production
+          - :Free
+          - :Anonymous
+          - :PaidStandard
+          - :PaidPremium
+      - !ruby/object:Api::Type::String
+        name: 'workspaceId'
+        description: 'The immutable id associated with this workspace.'
+        output: true
+        azure_sdk_references: ['/workspaceId', '/properties/workspaceId']
+      - !ruby/object:Api::Type::String
+        name: 'creationTime'
+        description: 'The creation time for this workspace resource.'
+        output: true
+        azure_sdk_references: ['/creationTime', '/properties/creationTime']
+      - !ruby/object:Api::Type::String
+        name: 'studioEndpoint'
+        description: 'The regional endpoint for the machine learning studio service which hosts this workspace.'
+        output: true
+        azure_sdk_references: ['/studioEndpoint', '/properties/studioEndpoint']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource ID.'

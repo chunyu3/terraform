@@ -104,6 +104,11 @@ func resourceArmRouteTable() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -196,9 +201,22 @@ func resourceArmRouteTableRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    d.Set("etag", resp.Etag)
+    if routeTablePropertiesFormat := resp.RouteTablePropertiesFormat; routeTablePropertiesFormat != nil {
+        d.Set("provisioning_state", routeTablePropertiesFormat.ProvisioningState)
+        if err := d.Set("routes", flattenArmRouteTableRoute(routeTablePropertiesFormat.Routes)); err != nil {
+            return fmt.Errorf("Error setting `routes`: %+v", err)
+        }
+        if err := d.Set("subnets", flattenArmRouteTableSubResource(routeTablePropertiesFormat.Subnets)); err != nil {
+            return fmt.Errorf("Error setting `subnets`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -271,4 +289,58 @@ func expandArmRouteTableSubResource(input []interface{}) *[]network.SubResource 
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmRouteTableRoute(input *[]network.Route) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if routePropertiesFormat := item.RoutePropertiesFormat; routePropertiesFormat != nil {
+            if addressPrefix := routePropertiesFormat.AddressPrefix; addressPrefix != nil {
+                v["address_prefix"] = *addressPrefix
+            }
+            if nextHopIpAddress := routePropertiesFormat.NextHopIPAddress; nextHopIpAddress != nil {
+                v["next_hop_ip_address"] = *nextHopIpAddress
+            }
+            v["next_hop_type"] = string(routePropertiesFormat.NextHopType)
+        }
+        if etag := item.Etag; etag != nil {
+            v["etag"] = *etag
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmRouteTableSubResource(input *[]network.SubResource) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

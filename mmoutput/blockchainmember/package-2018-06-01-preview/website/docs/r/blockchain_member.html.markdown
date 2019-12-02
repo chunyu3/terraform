@@ -70,8 +70,37 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `protocol` - Gets or sets the blockchain protocol.
+
+* `validator_nodes_sku` - One `validator_nodes_sku` block defined below.
+
+* `provisioning_state` - Gets or sets the blockchain member provision state.
+
+* `dns` - Gets the dns endpoint of the blockchain member.
+
+* `user_name` - Gets the auth user name of the blockchain member.
+
+* `consortium` - Gets or sets the consortium for the blockchain member.
+
+* `consortium_management_account_address` - Gets the managed consortium management account address.
+
+* `consortium_role` - Gets the role of the member in the consortium.
+
+* `consortium_member_display_name` - Gets the display name of the member in the consortium.
+
+* `root_contract_address` - Gets the Ethereum root contract address of the blockchain.
+
+* `public_key` - Gets the public key of the blockchain member (default transaction node).
+
 * `id` - Fully qualified resource Id of the resource.
 
 * `name` - The name of the resource.
 
 * `type` - The type of the service - e.g. "Microsoft.Blockchain"
+
+
+---
+
+The `validator_nodes_sku` block contains the following:
+
+* `capacity` - Gets or sets the nodes capacity.

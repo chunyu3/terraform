@@ -65,8 +65,28 @@ The `identity` block supports the following:
 
 The following attributes are exported:
 
+* `previous_keys` - One or more `previous_key` block defined below.
+
+* `provisioning_state` - The disk encryption set provisioning state.
+
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
+
+
+---
+
+The `previous_key` block contains the following:
+
+* `source_vault` - One `source_vault` block defined below.
+
+* `key_url` - Url pointing to a key or secret in KeyVault
+
+
+---
+
+The `source_vault` block contains the following:
+
+* `id` - Resource Id

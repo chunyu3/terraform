@@ -223,6 +223,20 @@ func resourceArmBackendRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     d.Set("backendid", backendid)
+    d.Set("certificate", utils.FlattenStringSlice(resp.Certificate))
+    d.Set("description", resp.Description)
+    d.Set("header", utils.FlattenKeyValuePairs(resp.Header))
+    d.Set("password", resp.Password)
+    d.Set("protocol", string(resp.Protocol))
+    d.Set("query", utils.FlattenKeyValuePairs(resp.Query))
+    d.Set("resource_id", resp.ResourceID)
+    if backendProperties := resp.BackendProperties; backendProperties != nil {
+        d.Set("skip_certificate_chain_validation", backendProperties.SkipCertificateChainValidation)
+        d.Set("skip_certificate_name_validation", backendProperties.SkipCertificateNameValidation)
+    }
+    d.Set("title", resp.Title)
+    d.Set("url", resp.URL)
+    d.Set("username", resp.Username)
 
     return nil
 }

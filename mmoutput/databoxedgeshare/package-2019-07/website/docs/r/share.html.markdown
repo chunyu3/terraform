@@ -94,6 +94,23 @@ The `user_access_right` block supports the following:
 
 The following attributes are exported:
 
+* `share_mappings` - One or more `share_mapping` block defined below.
+
 * `id` - The path ID that uniquely identifies the object.
 
+* `name` - The object name.
+
 * `type` - The hierarchical type of the object.
+
+
+---
+
+The `share_mapping` block contains the following:
+
+* `share_id` - ID of the share mounted to the role VM.
+
+* `role_id` - ID of the role to which share is mounted.
+
+* `mount_point` - Mount point for the share.
+
+* `role_type` - Role type.

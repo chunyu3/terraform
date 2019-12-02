@@ -60,6 +60,8 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `state` - The state of the job agent.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

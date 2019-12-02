@@ -84,6 +84,10 @@ The `restore_file_spec` block supports the following:
 
 The following attributes are exported:
 
+* `backup_enabled` - Backup Enabled
+
+* `provisioning_state` - CloudEndpoint Provisioning State
+
 * `id` - The id of the resource.
 
 * `name` - The name of the resource.

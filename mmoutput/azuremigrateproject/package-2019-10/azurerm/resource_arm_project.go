@@ -76,7 +76,47 @@ func resourceArmProject() *schema.Resource {
                 Default: string(azuremigrate.Active),
             },
 
+            "created_timestamp": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_assessment_timestamp": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "number_of_assessments": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "number_of_groups": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "number_of_machines": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "service_endpoint": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "updated_timestamp": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -168,9 +208,27 @@ func resourceArmProjectRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if projectProperties := resp.ProjectProperties; projectProperties != nil {
+        d.Set("assessment_solution_id", projectProperties.AssessmentSolutionID)
+        d.Set("created_timestamp", (projectProperties.CreatedTimestamp).String())
+        d.Set("customer_workspace_id", projectProperties.CustomerWorkspaceID)
+        d.Set("customer_workspace_location", projectProperties.CustomerWorkspaceLocation)
+        d.Set("last_assessment_timestamp", (projectProperties.LastAssessmentTimestamp).String())
+        d.Set("number_of_assessments", int(*projectProperties.NumberOfAssessments))
+        d.Set("number_of_groups", int(*projectProperties.NumberOfGroups))
+        d.Set("number_of_machines", int(*projectProperties.NumberOfMachines))
+        d.Set("project_status", string(projectProperties.ProjectStatus))
+        d.Set("provisioning_state", string(projectProperties.ProvisioningState))
+        d.Set("service_endpoint", projectProperties.ServiceEndpoint)
+        d.Set("updated_timestamp", (projectProperties.UpdatedTimestamp).String())
+    }
+    d.Set("e_tag", resp.ETag)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmProjectUpdate(d *schema.ResourceData, meta interface{}) error {

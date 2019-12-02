@@ -168,6 +168,65 @@ objects:
             python_parameter_name: hub_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HubPropertiesFormat
+            go_type_name: HubPropertiesFormat
+          '/properties/tenantFeatures': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TenantFeatures
+          '/tenantFeatures': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: tenant_features
+          '/properties/hubBillingInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HubBillingInfo
+            go_type_name: HubBillingInfoFormat
+          '/properties/hubBillingInfo/skuName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SkuName
+          '/properties/hubBillingInfo/minUnits': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MinUnits
+          '/properties/hubBillingInfo/maxUnits': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxUnits
+          '/hubBillingInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: hub_billing_info
+          '/hubBillingInfo/skuName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sku_name
+          '/hubBillingInfo/minUnits': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: min_units
+          '/hubBillingInfo/maxUnits': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_units
+          '/properties/apiEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: APIEndpoint
+          '/apiEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: api_endpoint
+          '/properties/webEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WebEndpoint
+          '/webEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: web_endpoint
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -245,6 +304,21 @@ objects:
             required: false
             azure_sdk_references: ['/hubBillingInfo/maxUnits', '/properties/hubBillingInfo/maxUnits']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'apiEndpoint'
+        description: 'API endpoint URL of the hub.'
+        output: true
+        azure_sdk_references: ['/apiEndpoint', '/properties/apiEndpoint']
+      - !ruby/object:Api::Type::String
+        name: 'webEndpoint'
+        description: 'Web endpoint URL of the hub.'
+        output: true
+        azure_sdk_references: ['/webEndpoint', '/properties/webEndpoint']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Provisioning state of the hub.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

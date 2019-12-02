@@ -111,6 +111,11 @@ func resourceArmPublicIpAddresse() *schema.Resource {
                 Optional: true,
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -211,9 +216,26 @@ func resourceArmPublicIpAddresseRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if publicIpAddressPropertiesFormat := resp.PublicIpAddressPropertiesFormat; publicIpAddressPropertiesFormat != nil {
+        if err := d.Set("dns_settings", flattenArmPublicIpAddressePublicIpAddressDnsSettings(publicIpAddressPropertiesFormat.DNSSettings)); err != nil {
+            return fmt.Errorf("Error setting `dns_settings`: %+v", err)
+        }
+        d.Set("idle_timeout_in_minutes", int(*publicIpAddressPropertiesFormat.IdleTimeoutInMinutes))
+        d.Set("ip_address", publicIpAddressPropertiesFormat.IPAddress)
+        if err := d.Set("ip_configuration", flattenArmPublicIpAddresseSubResource(publicIpAddressPropertiesFormat.IPConfiguration)); err != nil {
+            return fmt.Errorf("Error setting `ip_configuration`: %+v", err)
+        }
+        d.Set("provisioning_state", publicIpAddressPropertiesFormat.ProvisioningState)
+        d.Set("public_ipallocation_method", string(publicIpAddressPropertiesFormat.PublicIPAllocationMethod))
+        d.Set("resource_guid", publicIpAddressPropertiesFormat.ResourceGUID)
+    }
+    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -276,4 +298,39 @@ func expandArmPublicIpAddresseSubResource(input []interface{}) *network.SubResou
         ID: utils.String(id),
     }
     return &result
+}
+
+
+func flattenArmPublicIpAddressePublicIpAddressDnsSettings(input *network.PublicIpAddressDnsSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if domainNameLabel := input.DomainNameLabel; domainNameLabel != nil {
+        result["domain_name_label"] = *domainNameLabel
+    }
+    if fqdn := input.Fqdn; fqdn != nil {
+        result["fqdn"] = *fqdn
+    }
+    if reverseFqdn := input.ReverseFqdn; reverseFqdn != nil {
+        result["reverse_fqdn"] = *reverseFqdn
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmPublicIpAddresseSubResource(input *network.SubResource) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+
+    return []interface{}{result}
 }

@@ -36,6 +36,11 @@ func resourceArmRedi() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -138,6 +143,26 @@ func resourceArmRedi() *schema.Resource {
             "virtual_network": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "host_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "port": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "ssl_port": {
+                Type: schema.TypeInt,
+                Computed: true,
             },
 
             "type": {
@@ -244,10 +269,31 @@ func resourceArmRediRead(d *schema.ResourceData, meta interface{}) error {
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if properties := resp.Properties; properties != nil {
+        d.Set("enable_non_ssl_port", properties.EnableNonSslPort)
+        d.Set("host_name", properties.HostName)
+        d.Set("port", int(*properties.Port))
+        d.Set("provisioning_state", properties.ProvisioningState)
+        d.Set("redis_configuration", utils.FlattenKeyValuePairs(properties.RedisConfiguration))
+        d.Set("redis_version", properties.RedisVersion)
+        d.Set("shard_count", int(*properties.ShardCount))
+        if err := d.Set("sku", flattenArmRediSku(properties.Sku)); err != nil {
+            return fmt.Errorf("Error setting `sku`: %+v", err)
+        }
+        d.Set("ssl_port", int(*properties.SslPort))
+        d.Set("static_ip", properties.StaticIP)
+        d.Set("subnet", properties.Subnet)
+        d.Set("tenant_settings", utils.FlattenKeyValuePairs(properties.TenantSettings))
+        d.Set("virtual_network", properties.VirtualNetwork)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -286,4 +332,21 @@ func expandArmRediSku(input []interface{}) *redis.Sku {
         Name: redis.SkuName(name),
     }
     return &result
+}
+
+
+func flattenArmRediSku(input *redis.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["name"] = string(input.Name)
+    if capacity := input.Capacity; capacity != nil {
+        result["capacity"] = int(*capacity)
+    }
+    result["family"] = string(input.Family)
+
+    return []interface{}{result}
 }

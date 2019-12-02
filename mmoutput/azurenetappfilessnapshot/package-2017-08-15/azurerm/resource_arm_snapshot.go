@@ -72,6 +72,21 @@ func resourceArmSnapshot() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "creation_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "snapshot_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -166,12 +181,21 @@ func resourceArmSnapshotRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
     d.Set("account_name", accountName)
+    if snapshotProperties := resp.SnapshotProperties; snapshotProperties != nil {
+        d.Set("creation_date", (snapshotProperties.CreationDate).String())
+        d.Set("file_system_id", snapshotProperties.FileSystemID)
+        d.Set("provisioning_state", snapshotProperties.ProvisioningState)
+        d.Set("snapshot_id", snapshotProperties.SnapshotID)
+    }
     d.Set("pool_name", poolName)
     d.Set("type", resp.Type)
     d.Set("volume_name", volumeName)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {

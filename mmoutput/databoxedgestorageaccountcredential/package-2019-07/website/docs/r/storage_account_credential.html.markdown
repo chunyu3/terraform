@@ -66,4 +66,6 @@ The following attributes are exported:
 
 * `id` - The path ID that uniquely identifies the object.
 
+* `name` - The object name.
+
 * `type` - The hierarchical type of the object.

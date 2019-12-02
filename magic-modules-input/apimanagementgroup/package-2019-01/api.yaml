@@ -163,6 +163,41 @@ objects:
             python_parameter_name: group_id
             python_variable_name: group_id
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GroupUpdateParametersProperties
+            go_type_name: GroupUpdateParametersProperties
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: GroupType
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/properties/externalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExternalID
+          '/externalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: external_id
+          '/properties/builtIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: BuiltIn
+          '/builtIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: built_in
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -234,6 +269,11 @@ objects:
         required: false
         azure_sdk_references: ['/externalId', '/properties/externalId']
       # read only values included only in response
+      - !ruby/object:Api::Type::Boolean
+        name: 'builtIn'
+        description: 'true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.'
+        output: true
+        azure_sdk_references: ['/builtIn', '/properties/builtIn']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

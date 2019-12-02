@@ -207,6 +207,18 @@ func resourceArmStorageAccountCredentialRead(d *schema.ResourceData, meta interf
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if storageAccountCredentialProperties := resp.StorageAccountCredentialProperties; storageAccountCredentialProperties != nil {
+        if location := storageAccountCredentialProperties.Location; location != nil {
+            d.Set("location", azure.NormalizeLocation(*location))
+        }
+        if err := d.Set("access_key", flattenArmStorageAccountCredentialAsymmetricEncryptedSecret(storageAccountCredentialProperties.AccessKey)); err != nil {
+            return fmt.Errorf("Error setting `access_key`: %+v", err)
+        }
+        d.Set("cloud_type", string(storageAccountCredentialProperties.CloudType))
+        d.Set("enable_ssl", string(storageAccountCredentialProperties.EnableSSL))
+        d.Set("end_point", storageAccountCredentialProperties.EndPoint)
+        d.Set("login", storageAccountCredentialProperties.Login)
+    }
     d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
@@ -260,4 +272,23 @@ func expandArmStorageAccountCredentialAsymmetricEncryptedSecret(input []interfac
         Value: utils.String(value),
     }
     return &result
+}
+
+
+func flattenArmStorageAccountCredentialAsymmetricEncryptedSecret(input *storsimple.AsymmetricEncryptedSecret) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["encryption_algorithm"] = string(input.EncryptionAlgorithm)
+    if encryptionCertificateThumbprint := input.EncryptionCertificateThumbprint; encryptionCertificateThumbprint != nil {
+        result["encryption_certificate_thumbprint"] = *encryptionCertificateThumbprint
+    }
+    if value := input.Value; value != nil {
+        result["value"] = *value
+    }
+
+    return []interface{}{result}
 }

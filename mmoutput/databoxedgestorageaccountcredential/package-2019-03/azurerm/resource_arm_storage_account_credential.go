@@ -43,6 +43,11 @@ func resourceArmStorageAccountCredential() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_type": {
@@ -207,7 +212,19 @@ func resourceArmStorageAccountCredentialRead(d *schema.ResourceData, meta interf
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if storageAccountCredentialProperties := resp.StorageAccountCredentialProperties; storageAccountCredentialProperties != nil {
+        if err := d.Set("account_key", flattenArmStorageAccountCredentialAsymmetricEncryptedSecret(storageAccountCredentialProperties.AccountKey)); err != nil {
+            return fmt.Errorf("Error setting `account_key`: %+v", err)
+        }
+        d.Set("account_type", string(storageAccountCredentialProperties.AccountType))
+        d.Set("alias", storageAccountCredentialProperties.Alias)
+        d.Set("blob_domain_name", storageAccountCredentialProperties.BlobDomainName)
+        d.Set("connection_string", storageAccountCredentialProperties.ConnectionString)
+        d.Set("ssl_status", string(storageAccountCredentialProperties.SslStatus))
+        d.Set("user_name", storageAccountCredentialProperties.UserName)
+    }
     d.Set("type", resp.Type)
 
     return nil
@@ -260,4 +277,23 @@ func expandArmStorageAccountCredentialAsymmetricEncryptedSecret(input []interfac
         Value: utils.String(value),
     }
     return &result
+}
+
+
+func flattenArmStorageAccountCredentialAsymmetricEncryptedSecret(input *databoxedge.AsymmetricEncryptedSecret) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["encryption_algorithm"] = string(input.EncryptionAlgorithm)
+    if encryptionCertThumbprint := input.EncryptionCertThumbprint; encryptionCertThumbprint != nil {
+        result["encryption_cert_thumbprint"] = *encryptionCertThumbprint
+    }
+    if value := input.Value; value != nil {
+        result["value"] = *value
+    }
+
+    return []interface{}{result}
 }

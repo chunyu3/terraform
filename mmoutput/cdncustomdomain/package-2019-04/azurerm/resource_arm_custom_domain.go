@@ -85,7 +85,49 @@ func resourceArmCustomDomain() *schema.Resource {
                 Default: string(cdn.None),
             },
 
+            "custom_https_parameters": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "minimum_tls_version": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "protocol_type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "custom_https_provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "custom_https_provisioning_substate": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "validation_data": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -175,6 +217,17 @@ func resourceArmCustomDomainRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if customDomainPropertiesParameters := resp.CustomDomainPropertiesParameters; customDomainPropertiesParameters != nil {
+        if err := d.Set("custom_https_parameters", flattenArmCustomDomainCustomDomainHttpsParameters(customDomainPropertiesParameters.CustomHTTPSParameters)); err != nil {
+            return fmt.Errorf("Error setting `custom_https_parameters`: %+v", err)
+        }
+        d.Set("custom_https_provisioning_state", string(customDomainPropertiesParameters.CustomHTTPSProvisioningState))
+        d.Set("custom_https_provisioning_substate", string(customDomainPropertiesParameters.CustomHTTPSProvisioningSubstate))
+        d.Set("host_name", customDomainPropertiesParameters.HostName)
+        d.Set("provisioning_state", customDomainPropertiesParameters.ProvisioningState)
+        d.Set("resource_state", string(customDomainPropertiesParameters.ResourceState))
+        d.Set("validation_data", customDomainPropertiesParameters.ValidationData)
+    }
     d.Set("endpoint_name", endpointName)
     d.Set("profile_name", profileName)
     d.Set("type", resp.Type)
@@ -212,4 +265,18 @@ func resourceArmCustomDomainDelete(d *schema.ResourceData, meta interface{}) err
     }
 
     return nil
+}
+
+
+func flattenArmCustomDomainCustomDomainHttpsParameters(input *cdn.CustomDomainHttpsParameters) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["minimum_tls_version"] = string(input.MinimumTLSVersion)
+    result["protocol_type"] = string(input.ProtocolType)
+
+    return []interface{}{result}
 }

@@ -76,14 +76,307 @@ objects:
             python_parameter_name: certificate_order_name
             python_variable_name: name
         response:
-          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: certificateOrders
-            go_variable_name: name
-            python_parameter_name: name
-            python_variable_name: name
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RenewCertificateOrderRequest_properties
+            go_type_name: RenewCertificateOrderRequest_properties
+          '/properties/keySize': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: KeySize
+          '/keySize': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: key_size
+          '/properties/csr': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Csr
+          '/csr': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: csr
+          '/properties/isPrivateKeyExternal': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsPrivateKeyExternal
+          '/isPrivateKeyExternal': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_private_key_external
+          '/properties/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Certificates
+          '/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: certificates
+          '/properties/distinguishedName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DistinguishedName
+          '/distinguishedName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: distinguished_name
+          '/properties/domainVerificationToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DomainVerificationToken
+          '/domainVerificationToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: domain_verification_token
+          '/properties/validityInYears': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ValidityInYears
+          '/validityInYears': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: validity_in_years
+          '/properties/productType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProductType
+            go_enum_type_name: CertificateProductType
+          '/productType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: product_type
+          '/properties/autoRenew': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AutoRenew
+          '/autoRenew': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: auto_renew
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: CertificateOrderStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/signedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SignedCertificate
+            go_type_name: CertificateDetails
+          '/properties/signedCertificate/version': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/signedCertificate/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SerialNumber
+          '/properties/signedCertificate/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Thumbprint
+          '/properties/signedCertificate/subject': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Subject
+          '/properties/signedCertificate/notBefore': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: NotBefore
+          '/properties/signedCertificate/notAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: NotAfter
+          '/properties/signedCertificate/signatureAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SignatureAlgorithm
+          '/properties/signedCertificate/issuer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Issuer
+          '/properties/signedCertificate/rawData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RawData
+          '/signedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: signed_certificate
+          '/signedCertificate/version': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: version
+          '/signedCertificate/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: serial_number
+          '/signedCertificate/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: thumbprint
+          '/signedCertificate/subject': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subject
+          '/signedCertificate/notBefore': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: not_before
+          '/signedCertificate/notAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: not_after
+          '/signedCertificate/signatureAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: signature_algorithm
+          '/signedCertificate/issuer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: issuer
+          '/signedCertificate/rawData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: raw_data
+          '/properties/intermediate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Intermediate
+            go_type_name: CertificateDetails
+          '/properties/intermediate/version': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/intermediate/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SerialNumber
+          '/properties/intermediate/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Thumbprint
+          '/properties/intermediate/subject': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Subject
+          '/properties/intermediate/notBefore': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: NotBefore
+          '/properties/intermediate/notAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: NotAfter
+          '/properties/intermediate/signatureAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SignatureAlgorithm
+          '/properties/intermediate/issuer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Issuer
+          '/properties/intermediate/rawData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RawData
+          '/intermediate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: intermediate
+          '/intermediate/version': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: version
+          '/intermediate/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: serial_number
+          '/intermediate/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: thumbprint
+          '/intermediate/subject': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subject
+          '/intermediate/notBefore': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: not_before
+          '/intermediate/notAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: not_after
+          '/intermediate/signatureAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: signature_algorithm
+          '/intermediate/issuer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: issuer
+          '/intermediate/rawData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: raw_data
+          '/properties/root': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Root
+            go_type_name: CertificateDetails
+          '/properties/root/version': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/root/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SerialNumber
+          '/properties/root/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Thumbprint
+          '/properties/root/subject': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Subject
+          '/properties/root/notBefore': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: NotBefore
+          '/properties/root/notAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: NotAfter
+          '/properties/root/signatureAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SignatureAlgorithm
+          '/properties/root/issuer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Issuer
+          '/properties/root/rawData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RawData
+          '/root': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: root
+          '/root/version': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: version
+          '/root/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: serial_number
+          '/root/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: thumbprint
+          '/root/subject': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subject
+          '/root/notBefore': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: not_before
+          '/root/notAfter': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: not_after
+          '/root/signatureAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: signature_algorithm
+          '/root/issuer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: issuer
+          '/root/rawData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: raw_data
+          '/properties/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SerialNumber
+          '/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: serial_number
+          '/properties/lastCertificateIssuanceTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastCertificateIssuanceTime
+          '/lastCertificateIssuanceTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_certificate_issuance_time
+          '/properties/expirationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExpirationTime
+          '/expirationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiration_time
+          '/properties/appServiceCertificateNotRenewableReasons': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: AppServiceCertificateNotRenewableReasons
+          '/appServiceCertificateNotRenewableReasons': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: app_service_certificate_not_renewable_reasons
+          '/properties/nextAutoRenewalTimeStamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: NextAutoRenewalTimeStamp
+          '/nextAutoRenewalTimeStamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: next_auto_renewal_time_stamp
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -182,11 +475,261 @@ objects:
         input: true
         azure_sdk_references: ['/locale']
       # read only values included only in response
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'certificates'
+        description: 'State of the Key Vault secret.'
+        output: true
+        azure_sdk_references: ['/certificates', '/properties/certificates']
+      - !ruby/object:Api::Type::String
+        name: 'distinguishedName'
+        description: 'Certificate distinguished name.'
+        output: true
+        azure_sdk_references: ['/distinguishedName', '/properties/distinguishedName']
+      - !ruby/object:Api::Type::String
+        name: 'domainVerificationToken'
+        description: 'Domain verification token.'
+        output: true
+        azure_sdk_references: ['/domainVerificationToken', '/properties/domainVerificationToken']
+      - !ruby/object:Api::Type::Integer
+        name: 'validityInYears'
+        description: 'Duration in years (must be between 1 and 3).'
+        output: true
+        azure_sdk_references: ['/validityInYears', '/properties/validityInYears']
+      - !ruby/object:Api::Type::Enum
+        name: 'productType'
+        description: 'Certificate product type.'
+        output: true
+        azure_sdk_references: ['/productType', '/properties/productType']
+        values:
+          - :StandardDomainValidatedSsl
+          - :StandardDomainValidatedWildCardSsl
+      - !ruby/object:Api::Type::Boolean
+        name: 'autoRenew'
+        description: '<code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>.'
+        output: true
+        azure_sdk_references: ['/autoRenew', '/properties/autoRenew']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Status of certificate order.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Failed
+          - :Canceled
+          - :InProgress
+          - :Deleting
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'Current order status.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Pendingissuance
+          - :Issued
+          - :Revoked
+          - :Canceled
+          - :Denied
+          - :Pendingrevocation
+          - :PendingRekey
+          - :Unused
+          - :Expired
+          - :NotSubmitted
+      - !ruby/object:Api::Type::NestedObject
+        name: 'signedCertificate'
+        description: 'Signed certificate.'
+        output: true
+        azure_sdk_references: ['/signedCertificate', '/properties/signedCertificate']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'version'
+            description: 'Certificate Version.'
+            output: true
+            azure_sdk_references: ['/signedCertificate/version', '/properties/signedCertificate/version']
+          - !ruby/object:Api::Type::String
+            name: 'serialNumber'
+            description: 'Certificate Serial Number.'
+            output: true
+            azure_sdk_references: ['/signedCertificate/serialNumber', '/properties/signedCertificate/serialNumber']
+          - !ruby/object:Api::Type::String
+            name: 'thumbprint'
+            description: 'Certificate Thumbprint.'
+            output: true
+            azure_sdk_references: ['/signedCertificate/thumbprint', '/properties/signedCertificate/thumbprint']
+          - !ruby/object:Api::Type::String
+            name: 'subject'
+            description: 'Certificate Subject.'
+            output: true
+            azure_sdk_references: ['/signedCertificate/subject', '/properties/signedCertificate/subject']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'notBefore'
+            description: 'Date Certificate is valid from.'
+            output: true
+            azure_sdk_references: ['/signedCertificate/notBefore', '/properties/signedCertificate/notBefore']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'notAfter'
+            description: 'Date Certificate is valid to.'
+            output: true
+            azure_sdk_references: ['/signedCertificate/notAfter', '/properties/signedCertificate/notAfter']
+          - !ruby/object:Api::Type::String
+            name: 'signatureAlgorithm'
+            description: 'Certificate Signature algorithm.'
+            output: true
+            azure_sdk_references: ['/signedCertificate/signatureAlgorithm', '/properties/signedCertificate/signatureAlgorithm']
+          - !ruby/object:Api::Type::String
+            name: 'issuer'
+            description: 'Certificate Issuer.'
+            output: true
+            azure_sdk_references: ['/signedCertificate/issuer', '/properties/signedCertificate/issuer']
+          - !ruby/object:Api::Type::String
+            name: 'rawData'
+            description: 'Raw certificate data.'
+            output: true
+            azure_sdk_references: ['/signedCertificate/rawData', '/properties/signedCertificate/rawData']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'intermediate'
+        description: 'Intermediate certificate.'
+        output: true
+        azure_sdk_references: ['/intermediate', '/properties/intermediate']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'version'
+            description: 'Certificate Version.'
+            output: true
+            azure_sdk_references: ['/intermediate/version', '/properties/intermediate/version']
+          - !ruby/object:Api::Type::String
+            name: 'serialNumber'
+            description: 'Certificate Serial Number.'
+            output: true
+            azure_sdk_references: ['/intermediate/serialNumber', '/properties/intermediate/serialNumber']
+          - !ruby/object:Api::Type::String
+            name: 'thumbprint'
+            description: 'Certificate Thumbprint.'
+            output: true
+            azure_sdk_references: ['/intermediate/thumbprint', '/properties/intermediate/thumbprint']
+          - !ruby/object:Api::Type::String
+            name: 'subject'
+            description: 'Certificate Subject.'
+            output: true
+            azure_sdk_references: ['/intermediate/subject', '/properties/intermediate/subject']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'notBefore'
+            description: 'Date Certificate is valid from.'
+            output: true
+            azure_sdk_references: ['/intermediate/notBefore', '/properties/intermediate/notBefore']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'notAfter'
+            description: 'Date Certificate is valid to.'
+            output: true
+            azure_sdk_references: ['/intermediate/notAfter', '/properties/intermediate/notAfter']
+          - !ruby/object:Api::Type::String
+            name: 'signatureAlgorithm'
+            description: 'Certificate Signature algorithm.'
+            output: true
+            azure_sdk_references: ['/intermediate/signatureAlgorithm', '/properties/intermediate/signatureAlgorithm']
+          - !ruby/object:Api::Type::String
+            name: 'issuer'
+            description: 'Certificate Issuer.'
+            output: true
+            azure_sdk_references: ['/intermediate/issuer', '/properties/intermediate/issuer']
+          - !ruby/object:Api::Type::String
+            name: 'rawData'
+            description: 'Raw certificate data.'
+            output: true
+            azure_sdk_references: ['/intermediate/rawData', '/properties/intermediate/rawData']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'root'
+        description: 'Root certificate.'
+        output: true
+        azure_sdk_references: ['/root', '/properties/root']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'version'
+            description: 'Certificate Version.'
+            output: true
+            azure_sdk_references: ['/root/version', '/properties/root/version']
+          - !ruby/object:Api::Type::String
+            name: 'serialNumber'
+            description: 'Certificate Serial Number.'
+            output: true
+            azure_sdk_references: ['/root/serialNumber', '/properties/root/serialNumber']
+          - !ruby/object:Api::Type::String
+            name: 'thumbprint'
+            description: 'Certificate Thumbprint.'
+            output: true
+            azure_sdk_references: ['/root/thumbprint', '/properties/root/thumbprint']
+          - !ruby/object:Api::Type::String
+            name: 'subject'
+            description: 'Certificate Subject.'
+            output: true
+            azure_sdk_references: ['/root/subject', '/properties/root/subject']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'notBefore'
+            description: 'Date Certificate is valid from.'
+            output: true
+            azure_sdk_references: ['/root/notBefore', '/properties/root/notBefore']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'notAfter'
+            description: 'Date Certificate is valid to.'
+            output: true
+            azure_sdk_references: ['/root/notAfter', '/properties/root/notAfter']
+          - !ruby/object:Api::Type::String
+            name: 'signatureAlgorithm'
+            description: 'Certificate Signature algorithm.'
+            output: true
+            azure_sdk_references: ['/root/signatureAlgorithm', '/properties/root/signatureAlgorithm']
+          - !ruby/object:Api::Type::String
+            name: 'issuer'
+            description: 'Certificate Issuer.'
+            output: true
+            azure_sdk_references: ['/root/issuer', '/properties/root/issuer']
+          - !ruby/object:Api::Type::String
+            name: 'rawData'
+            description: 'Raw certificate data.'
+            output: true
+            azure_sdk_references: ['/root/rawData', '/properties/root/rawData']
+      - !ruby/object:Api::Type::String
+        name: 'serialNumber'
+        description: 'Current serial number of the certificate.'
+        output: true
+        azure_sdk_references: ['/serialNumber', '/properties/serialNumber']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastCertificateIssuanceTime'
+        description: 'Certificate last issuance time.'
+        output: true
+        azure_sdk_references: ['/lastCertificateIssuanceTime', '/properties/lastCertificateIssuanceTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'expirationTime'
+        description: 'Certificate expiration time.'
+        output: true
+        azure_sdk_references: ['/expirationTime', '/properties/expirationTime']
+      - !ruby/object:Api::Type::Array
+        name: 'appServiceCertificateNotRenewableReasons'
+        description: 'Reasons why App Service Certificate is not renewable at the current moment.'
+        output: true
+        azure_sdk_references: ['/appServiceCertificateNotRenewableReasons', '/properties/appServiceCertificateNotRenewableReasons']
+        item_type: !ruby/object:Api::Type::Enum
+          name: 'TBD'
+          description: 'TBD'
+          values:
+            - :RegistrationStatusNotSupportedForRenewal
+            - :ExpirationNotInRenewalTimeRange
+            - :SubscriptionNotActive
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'nextAutoRenewalTimeStamp'
+        description: 'Time stamp when the certificate would be auto renewed next'
+        output: true
+        azure_sdk_references: ['/nextAutoRenewalTimeStamp', '/properties/nextAutoRenewalTimeStamp']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id.'
         output: true
         azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource Name.'
+        output: true
+        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'Resource type.'

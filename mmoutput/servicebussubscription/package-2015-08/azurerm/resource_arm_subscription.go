@@ -139,6 +139,55 @@ func resourceArmSubscription() *schema.Resource {
                 Optional: true,
                 ForceNew: true,
             },
+
+            "accessed_at": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "count_details": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "active_message_count": {
+                            Type: schema.TypeInt,
+                            Computed: true,
+                        },
+                        "dead_letter_message_count": {
+                            Type: schema.TypeInt,
+                            Computed: true,
+                        },
+                        "scheduled_message_count": {
+                            Type: schema.TypeInt,
+                            Computed: true,
+                        },
+                        "transfer_dead_letter_message_count": {
+                            Type: schema.TypeInt,
+                            Computed: true,
+                        },
+                        "transfer_message_count": {
+                            Type: schema.TypeInt,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "created_at": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "message_count": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "updated_at": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
         },
     }
 }
@@ -241,6 +290,29 @@ func resourceArmSubscriptionRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if subscriptionProperties := resp.SubscriptionProperties; subscriptionProperties != nil {
+        d.Set("accessed_at", (subscriptionProperties.AccessedAt).String())
+        d.Set("auto_delete_on_idle", subscriptionProperties.AutoDeleteOnIdle)
+        if err := d.Set("count_details", flattenArmSubscriptionMessageCountDetails(subscriptionProperties.CountDetails)); err != nil {
+            return fmt.Errorf("Error setting `count_details`: %+v", err)
+        }
+        d.Set("created_at", (subscriptionProperties.CreatedAt).String())
+        d.Set("dead_lettering_on_filter_evaluation_exceptions", subscriptionProperties.DeadLetteringOnFilterEvaluationExceptions)
+        d.Set("dead_lettering_on_message_expiration", subscriptionProperties.DeadLetteringOnMessageExpiration)
+        d.Set("default_message_time_to_live", subscriptionProperties.DefaultMessageTimeToLive)
+        d.Set("enable_batched_operations", subscriptionProperties.EnableBatchedOperations)
+        d.Set("entity_availability_status", string(subscriptionProperties.EntityAvailabilityStatus))
+        d.Set("is_read_only", subscriptionProperties.IsReadOnly)
+        d.Set("lock_duration", subscriptionProperties.LockDuration)
+        d.Set("max_delivery_count", int(*subscriptionProperties.MaxDeliveryCount))
+        d.Set("message_count", int(*subscriptionProperties.MessageCount))
+        d.Set("requires_session", subscriptionProperties.RequiresSession)
+        d.Set("status", string(subscriptionProperties.Status))
+        d.Set("updated_at", (subscriptionProperties.UpdatedAt).String())
+    }
     d.Set("namespace_name", namespaceName)
     d.Set("topic_name", topicName)
     d.Set("type", resp.Type)
@@ -268,4 +340,31 @@ func resourceArmSubscriptionDelete(d *schema.ResourceData, meta interface{}) err
     }
 
     return nil
+}
+
+
+func flattenArmSubscriptionMessageCountDetails(input *servicebus.MessageCountDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if activeMessageCount := input.ActiveMessageCount; activeMessageCount != nil {
+        result["active_message_count"] = int(*activeMessageCount)
+    }
+    if deadLetterMessageCount := input.DeadLetterMessageCount; deadLetterMessageCount != nil {
+        result["dead_letter_message_count"] = int(*deadLetterMessageCount)
+    }
+    if scheduledMessageCount := input.ScheduledMessageCount; scheduledMessageCount != nil {
+        result["scheduled_message_count"] = int(*scheduledMessageCount)
+    }
+    if transferDeadLetterMessageCount := input.TransferDeadLetterMessageCount; transferDeadLetterMessageCount != nil {
+        result["transfer_dead_letter_message_count"] = int(*transferDeadLetterMessageCount)
+    }
+    if transferMessageCount := input.TransferMessageCount; transferMessageCount != nil {
+        result["transfer_message_count"] = int(*transferMessageCount)
+    }
+
+    return []interface{}{result}
 }

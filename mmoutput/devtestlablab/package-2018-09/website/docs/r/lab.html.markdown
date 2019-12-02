@@ -293,6 +293,73 @@ The `notification_setting` block supports the following:
 
 The following attributes are exported:
 
+* `default_storage_account` - The lab's default storage account.
+
+* `default_premium_storage_account` - The lab's default premium storage account.
+
+* `artifacts_storage_account` - The lab's artifact storage account.
+
+* `premium_data_disk_storage_account` - The lab's premium data disk storage account.
+
+* `vault_name` - The lab's Key vault.
+
+* `lab_storage_type` - Type of storage used by the lab. It can be either Premium or Standard. Default is Premium.
+
+* `mandatory_artifacts_resource_ids_linux` - The ordered list of artifact resource IDs that should be applied on all Linux VM creations by default, prior to the artifacts specified by the user.
+
+* `mandatory_artifacts_resource_ids_windows` - The ordered list of artifact resource IDs that should be applied on all Windows VM creations by default, prior to the artifacts specified by the user.
+
+* `premium_data_disks` - The setting to enable usage of premium data disks.<br>When its value is 'Enabled', creation of standard or premium data disks is allowed.<br>When its value is 'Disabled', only creation of standard data disks is allowed.
+
+* `environment_permission` - The access rights to be granted to the user when provisioning an environment
+
+* `announcement` - One `announcement` block defined below.
+
+* `support` - One `support` block defined below.
+
+* `vm_creation_resource_group` - The resource group in which all new lab virtual machines will be created. To let DevTest Labs manage resource group creation, set this value to null.
+
+* `public_ip_id` - The public IP address for the lab's load balancer.
+
+* `load_balancer_id` - The load balancer used to for lab VMs that use shared IP address.
+
+* `network_security_group_id` - The Network Security Group attached to the lab VMs Network interfaces to restrict open ports.
+
+* `extended_properties` - Extended properties of the lab used for experimental features
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `unique_identifier` - The unique immutable identifier of a resource (Guid).
+
 * `id` - The identifier of the resource.
 
+* `name` - The name of the resource.
+
 * `type` - The type of the resource.
+
+
+---
+
+The `announcement` block contains the following:
+
+* `title` - The plain text title for the lab announcement
+
+* `markdown` - The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown.
+
+* `enabled` - Is the lab announcement active/enabled at this time?
+
+* `expiration_date` - The time at which the announcement expires (null for never)
+
+* `expired` - Has this announcement expired?
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `unique_identifier` - The unique immutable identifier of a resource (Guid).
+
+---
+
+The `support` block contains the following:
+
+* `enabled` - Is the lab support banner active/enabled at this time?
+
+* `markdown` - The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown.

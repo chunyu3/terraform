@@ -146,6 +146,9 @@ func resourceArmApiPolicyRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", aPIID)
+    if policyContractProperties := resp.PolicyContractProperties; policyContractProperties != nil {
+        d.Set("policy_content", policyContractProperties.PolicyContent)
+    }
     d.Set("policy_id", policyID)
     d.Set("type", resp.Type)
 

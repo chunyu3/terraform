@@ -34,6 +34,22 @@ The following arguments are supported:
 
 * `managed_network_name` - (Required) The name of the Managed Network. Changing this forces a new resource to be created.
 
+* `mesh` - (Optional) One or more `mesh` block defined below.
+
+* `spokes` - (Optional) One or more `spoke` block defined below.
+
+---
+
+The `mesh` block supports the following:
+
+* `id` - (Optional) Resource Id
+
+---
+
+The `spoke` block supports the following:
+
+* `id` - (Optional) Resource Id
+
 ## Attributes Reference
 
 The following attributes are exported:

@@ -126,7 +126,27 @@ func resourceArmShare() *schema.Resource {
                 Optional: true,
             },
 
+            "created_at": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "user_email": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "user_name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -229,6 +249,15 @@ func resourceArmShareRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
+    if shareProperties := resp.ShareProperties; shareProperties != nil {
+        d.Set("created_at", (shareProperties.CreatedAt).String())
+        d.Set("description", shareProperties.Description)
+        d.Set("provisioning_state", string(shareProperties.ProvisioningState))
+        d.Set("share_kind", string(shareProperties.ShareKind))
+        d.Set("terms", shareProperties.Terms)
+        d.Set("user_email", shareProperties.UserEmail)
+        d.Set("user_name", shareProperties.UserName)
+    }
     d.Set("type", resp.Type)
 
     return nil

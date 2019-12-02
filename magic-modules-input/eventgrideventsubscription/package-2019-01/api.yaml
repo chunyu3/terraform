@@ -194,6 +194,93 @@ objects:
             python_parameter_name: event_subscription_name
             python_variable_name: event_subscription_name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EventSubscriptionProperties
+            go_type_name: EventSubscriptionProperties
+          '/properties/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Destination
+            go_type_name: EventSubscriptionDestination
+          '/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination
+          '/properties/filter': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Filter
+            go_type_name: EventSubscriptionFilter
+          '/properties/filter/subjectBeginsWith': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubjectBeginsWith
+          '/properties/filter/subjectEndsWith': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubjectEndsWith
+          '/properties/filter/includedEventTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: IncludedEventTypes
+          '/properties/filter/isSubjectCaseSensitive': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsSubjectCaseSensitive
+          '/filter': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: filter
+          '/filter/subjectBeginsWith': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subject_begins_with
+          '/filter/subjectEndsWith': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subject_ends_with
+          '/filter/includedEventTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: included_event_types
+          '/filter/isSubjectCaseSensitive': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_subject_case_sensitive
+          '/properties/labels': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Labels
+          '/labels': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: labels
+          '/properties/retryPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RetryPolicy
+            go_type_name: RetryPolicy
+          '/properties/retryPolicy/maxDeliveryAttempts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxDeliveryAttempts
+          '/properties/retryPolicy/eventTimeToLiveInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: EventTimeToLiveInMinutes
+          '/retryPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: retry_policy
+          '/retryPolicy/maxDeliveryAttempts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_delivery_attempts
+          '/retryPolicy/eventTimeToLiveInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: event_time_to_live_in_minutes
+          '/properties/deadLetterDestination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DeadLetterDestination
+            go_type_name: DeadLetterDestination
+          '/deadLetterDestination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: dead_letter_destination
+          '/properties/topic': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Topic
+          '/topic': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: topic
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: EventSubscriptionProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -471,6 +558,24 @@ objects:
         input: true
         azure_sdk_references: ['resourceName']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'topic'
+        description: 'Name of the topic of the event subscription.'
+        output: true
+        azure_sdk_references: ['/topic', '/properties/topic']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning state of the event subscription.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Updating
+          - :Deleting
+          - :Succeeded
+          - :Canceled
+          - :Failed
+          - :AwaitingManualAction
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified identifier of the resource'

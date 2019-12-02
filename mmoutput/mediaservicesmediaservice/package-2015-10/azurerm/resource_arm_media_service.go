@@ -82,6 +82,23 @@ func resourceArmMediaService() *schema.Resource {
                 },
             },
 
+            "api_endpoints": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "endpoint": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "major_version": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "tags": tags.Schema(),
         },
     }
@@ -169,9 +186,20 @@ func resourceArmMediaServiceRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", resp.Name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if mediaServiceProperties := resp.MediaServiceProperties; mediaServiceProperties != nil {
+        if err := d.Set("api_endpoints", flattenArmMediaServiceApiEndpoint(mediaServiceProperties.APIEndpoints)); err != nil {
+            return fmt.Errorf("Error setting `api_endpoints`: %+v", err)
+        }
+        if err := d.Set("storage_accounts", flattenArmMediaServiceStorageAccount(mediaServiceProperties.StorageAccounts)); err != nil {
+            return fmt.Errorf("Error setting `storage_accounts`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmMediaServiceUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -240,4 +268,49 @@ func expandArmMediaServiceStorageAccount(input []interface{}) *[]mediaservices.S
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmMediaServiceApiEndpoint(input *[]mediaservices.ApiEndpoint) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if endpoint := item.Endpoint; endpoint != nil {
+            v["endpoint"] = *endpoint
+        }
+        if majorVersion := item.MajorVersion; majorVersion != nil {
+            v["major_version"] = *majorVersion
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmMediaServiceStorageAccount(input *[]mediaservices.StorageAccount) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if isPrimary := item.IsPrimary; isPrimary != nil {
+            v["is_primary"] = *isPrimary
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

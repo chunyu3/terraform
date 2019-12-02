@@ -66,6 +66,16 @@ func resourceArmCredential() *schema.Resource {
                 Optional: true,
             },
 
+            "creation_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -153,6 +163,12 @@ func resourceArmCredentialRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
+    if credentialUpdateProperties := resp.CredentialUpdateProperties; credentialUpdateProperties != nil {
+        d.Set("creation_time", (credentialUpdateProperties.CreationTime).String())
+        d.Set("description", credentialUpdateProperties.Description)
+        d.Set("last_modified_time", (credentialUpdateProperties.LastModifiedTime).String())
+        d.Set("user_name", credentialUpdateProperties.UserName)
+    }
     d.Set("type", resp.Type)
 
     return nil

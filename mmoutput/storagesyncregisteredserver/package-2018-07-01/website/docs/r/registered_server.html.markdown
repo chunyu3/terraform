@@ -58,6 +58,26 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `server_managementt_error_code` - Registered Server Management Error Code
+
+* `provisioning_state` - Registered Server Provisioning State
+
+* `storage_sync_service_uid` - Registered Server storageSyncServiceUid
+
+* `last_workflow_id` - Registered Server lastWorkflowId
+
+* `last_operation_name` - Resource Last Operation Name
+
+* `discovery_endpoint_uri` - Resource discoveryEndpointUri
+
+* `resource_location` - Resource Location
+
+* `service_location` - Service Location
+
+* `management_endpoint_uri` - Management Endpoint Uri
+
+* `monitoring_configuration` - Monitoring Configuration
+
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource

@@ -66,6 +66,24 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `confidence_rating_in_percentage` - Confidence rating percentage for assessment. Can be in the range [0, 100].
+
+* `prices_timestamp` - Time when the Azure Prices were queried. Date-Time represented in ISO-8601 format.
+
+* `created_timestamp` - Time when this project was created. Date-Time represented in ISO-8601 format.
+
+* `updated_timestamp` - Time when this project was last updated. Date-Time represented in ISO-8601 format.
+
+* `monthly_compute_cost` - Monthly compute cost estimate for the machines that are part of this assessment as a group, for a 31-day month.
+
+* `monthly_bandwidth_cost` - Monthly network cost estimate for the machines that are part of this assessment as a group, for a 31-day month.
+
+* `monthly_storage_cost` - Monthly storage cost estimate for the machines that are part of this assessment as a group, for a 31-day month.
+
+* `status` - Whether the assessment has been created and is valid.
+
+* `number_of_machines` - Number of assessed machines part of this assessment.
+
 * `id` - Path reference to this assessment. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessment/{assessmentName}
 
 * `name` - Unique name of an assessment.

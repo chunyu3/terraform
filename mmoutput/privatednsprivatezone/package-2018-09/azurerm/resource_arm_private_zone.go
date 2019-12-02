@@ -51,6 +51,41 @@ func resourceArmPrivateZone() *schema.Resource {
                 ForceNew: true,
             },
 
+            "max_number_of_record_sets": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "max_number_of_virtual_network_links": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "max_number_of_virtual_network_links_with_registration": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "number_of_record_sets": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "number_of_virtual_network_links": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "number_of_virtual_network_links_with_registration": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -137,9 +172,22 @@ func resourceArmPrivateZoneRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    d.Set("etag", resp.Etag)
+    if privateZoneProperties := resp.PrivateZoneProperties; privateZoneProperties != nil {
+        d.Set("max_number_of_record_sets", int(*privateZoneProperties.MaxNumberOfRecordSets))
+        d.Set("max_number_of_virtual_network_links", int(*privateZoneProperties.MaxNumberOfVirtualNetworkLinks))
+        d.Set("max_number_of_virtual_network_links_with_registration", int(*privateZoneProperties.MaxNumberOfVirtualNetworkLinksWithRegistration))
+        d.Set("number_of_record_sets", int(*privateZoneProperties.NumberOfRecordSets))
+        d.Set("number_of_virtual_network_links", int(*privateZoneProperties.NumberOfVirtualNetworkLinks))
+        d.Set("number_of_virtual_network_links_with_registration", int(*privateZoneProperties.NumberOfVirtualNetworkLinksWithRegistration))
+        d.Set("provisioning_state", string(privateZoneProperties.ProvisioningState))
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmPrivateZoneUpdate(d *schema.ResourceData, meta interface{}) error {

@@ -62,6 +62,16 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `status` - Status of the database.
+
+* `creation_date` - Creation date of the database.
+
+* `earliest_restore_point` - Earliest restore point in time for point in time restore.
+
+* `default_secondary_location` - Geo paired region.
+
+* `failover_group_id` - Instance Failover Group resource identifier that this managed database belongs to.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

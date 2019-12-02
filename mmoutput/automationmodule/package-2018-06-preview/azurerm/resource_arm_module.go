@@ -90,7 +90,74 @@ func resourceArmModule() *schema.Resource {
                 },
             },
 
+            "activity_count": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "creation_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "description": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "error": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "code": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "message": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "etag": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "is_composite": {
+                Type: schema.TypeBool,
+                Computed: true,
+            },
+
+            "is_global": {
+                Type: schema.TypeBool,
+                Computed: true,
+            },
+
+            "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "size_in_bytes": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "version": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -178,10 +245,31 @@ func resourceArmModuleRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if moduleUpdateProperties := resp.ModuleUpdateProperties; moduleUpdateProperties != nil {
+        d.Set("activity_count", int(*moduleUpdateProperties.ActivityCount))
+        if err := d.Set("content_link", flattenArmModuleContentLink(moduleUpdateProperties.ContentLink)); err != nil {
+            return fmt.Errorf("Error setting `content_link`: %+v", err)
+        }
+        d.Set("creation_time", (moduleUpdateProperties.CreationTime).String())
+        d.Set("description", moduleUpdateProperties.Description)
+        if err := d.Set("error", flattenArmModuleModuleErrorInfo(moduleUpdateProperties.Error)); err != nil {
+            return fmt.Errorf("Error setting `error`: %+v", err)
+        }
+        d.Set("is_composite", moduleUpdateProperties.IsComposite)
+        d.Set("is_global", moduleUpdateProperties.IsGlobal)
+        d.Set("last_modified_time", (moduleUpdateProperties.LastModifiedTime).String())
+        d.Set("provisioning_state", string(moduleUpdateProperties.ProvisioningState))
+        d.Set("size_in_bytes", int(*moduleUpdateProperties.SizeInBytes))
+        d.Set("version", moduleUpdateProperties.Version)
+    }
     d.Set("automation_account_name", automationAccountName)
+    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmModuleUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -263,4 +351,57 @@ func expandArmModuleContentHash(input []interface{}) *automation.ContentHash {
         Value: utils.String(value),
     }
     return &result
+}
+
+
+func flattenArmModuleContentLink(input *automation.ContentLink) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["content_hash"] = flattenArmModuleContentHash(input.ContentHash)
+    if uri := input.URI; uri != nil {
+        result["uri"] = *uri
+    }
+    if version := input.Version; version != nil {
+        result["version"] = *version
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmModuleModuleErrorInfo(input *automation.ModuleErrorInfo) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if code := input.Code; code != nil {
+        result["code"] = *code
+    }
+    if message := input.Message; message != nil {
+        result["message"] = *message
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmModuleContentHash(input *automation.ContentHash) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if algorithm := input.Algorithm; algorithm != nil {
+        result["algorithm"] = *algorithm
+    }
+    if value := input.Value; value != nil {
+        result["value"] = *value
+    }
+
+    return []interface{}{result}
 }

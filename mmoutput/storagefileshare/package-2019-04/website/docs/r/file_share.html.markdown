@@ -42,6 +42,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `last_modified_time` - Returns the date and time the share was last modified.
+
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource

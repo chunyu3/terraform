@@ -140,6 +140,21 @@ func resourceArmLink() *schema.Resource {
                 Optional: true,
             },
 
+            "link_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "tenant_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -238,6 +253,23 @@ func resourceArmLinkRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if linkDefinition := resp.LinkDefinition; linkDefinition != nil {
+        d.Set("description", utils.FlattenKeyValuePairs(linkDefinition.Description))
+        d.Set("display_name", utils.FlattenKeyValuePairs(linkDefinition.DisplayName))
+        d.Set("link_name", linkDefinition.LinkName)
+        if err := d.Set("mappings", flattenArmLinkTypePropertiesMapping(linkDefinition.Mappings)); err != nil {
+            return fmt.Errorf("Error setting `mappings`: %+v", err)
+        }
+        d.Set("operation_type", string(linkDefinition.OperationType))
+        if err := d.Set("participant_property_references", flattenArmLinkParticipantPropertyReference(linkDefinition.ParticipantPropertyReferences)); err != nil {
+            return fmt.Errorf("Error setting `participant_property_references`: %+v", err)
+        }
+        d.Set("provisioning_state", string(linkDefinition.ProvisioningState))
+        d.Set("reference_only", linkDefinition.ReferenceOnly)
+        d.Set("source_interaction_type", linkDefinition.SourceInteractionType)
+        d.Set("target_profile_type", linkDefinition.TargetProfileType)
+        d.Set("tenant_id", linkDefinition.TenantID)
+    }
     d.Set("hub_name", hubName)
     d.Set("type", resp.Type)
 
@@ -301,4 +333,53 @@ func expandArmLinkParticipantPropertyReference(input []interface{}) *[]customeri
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmLinkTypePropertiesMapping(input *[]customerinsights.TypePropertiesMapping) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if interactionTypePropertyName := item.InteractionTypePropertyName; interactionTypePropertyName != nil {
+            v["interaction_type_property_name"] = *interactionTypePropertyName
+        }
+        if isProfileTypeId := item.IsProfileTypeID; isProfileTypeId != nil {
+            v["is_profile_type_id"] = *isProfileTypeId
+        }
+        v["link_type"] = string(item.LinkType)
+        if profileTypePropertyName := item.ProfileTypePropertyName; profileTypePropertyName != nil {
+            v["profile_type_property_name"] = *profileTypePropertyName
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmLinkParticipantPropertyReference(input *[]customerinsights.ParticipantPropertyReference) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if interactionPropertyName := item.InteractionPropertyName; interactionPropertyName != nil {
+            v["interaction_property_name"] = *interactionPropertyName
+        }
+        if profilePropertyName := item.ProfilePropertyName; profilePropertyName != nil {
+            v["profile_property_name"] = *profilePropertyName
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

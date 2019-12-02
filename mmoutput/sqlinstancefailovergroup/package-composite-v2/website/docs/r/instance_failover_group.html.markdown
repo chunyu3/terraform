@@ -74,6 +74,10 @@ The `read_only_endpoint` block supports the following:
 
 The following attributes are exported:
 
+* `replication_role` - Local replication role of the failover group instance.
+
+* `replication_state` - Replication state of the failover group instance.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

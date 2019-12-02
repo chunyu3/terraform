@@ -37,3 +37,5 @@ The following arguments are supported:
 ## Attributes Reference
 
 The following attributes are exported:
+
+* `attached_database_names` - The list of databases from the clusterResourceId which are currently attached to the cluster.

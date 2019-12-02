@@ -70,6 +70,58 @@ func resourceArmBatchAccount() *schema.Resource {
                 },
             },
 
+            "account_endpoint": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "active_job_and_job_schedule_quota": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "dedicated_core_quota": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "key_vault_reference": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "url": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "low_priority_core_quota": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "pool_allocation_mode": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "pool_quota": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -163,6 +215,21 @@ func resourceArmBatchAccountRead(d *schema.ResourceData, meta interface{}) error
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    if accountUpdateProperties := resp.AccountUpdateProperties; accountUpdateProperties != nil {
+        d.Set("account_endpoint", accountUpdateProperties.AccountEndpoint)
+        d.Set("active_job_and_job_schedule_quota", int(*accountUpdateProperties.ActiveJobAndJobScheduleQuota))
+        if err := d.Set("auto_storage", flattenArmBatchAccountAutoStorageBaseProperties(accountUpdateProperties.AutoStorage)); err != nil {
+            return fmt.Errorf("Error setting `auto_storage`: %+v", err)
+        }
+        d.Set("dedicated_core_quota", int(*accountUpdateProperties.DedicatedCoreQuota))
+        if err := d.Set("key_vault_reference", flattenArmBatchAccountKeyVaultReference(accountUpdateProperties.KeyVaultReference)); err != nil {
+            return fmt.Errorf("Error setting `key_vault_reference`: %+v", err)
+        }
+        d.Set("low_priority_core_quota", int(*accountUpdateProperties.LowPriorityCoreQuota))
+        d.Set("pool_allocation_mode", string(accountUpdateProperties.PoolAllocationMode))
+        d.Set("pool_quota", int(*accountUpdateProperties.PoolQuota))
+        d.Set("provisioning_state", string(accountUpdateProperties.ProvisioningState))
+    }
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -235,4 +302,36 @@ func expandArmBatchAccountAutoStorageBaseProperties(input []interface{}) *batch.
         StorageAccountID: utils.String(storageAccountId),
     }
     return &result
+}
+
+
+func flattenArmBatchAccountAutoStorageBaseProperties(input *batch.AutoStorageBaseProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if storageAccountId := input.StorageAccountID; storageAccountId != nil {
+        result["storage_account_id"] = *storageAccountId
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmBatchAccountKeyVaultReference(input *batch.KeyVaultReference) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+    if url := input.URL; url != nil {
+        result["url"] = *url
+    }
+
+    return []interface{}{result}
 }

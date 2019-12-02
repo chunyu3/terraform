@@ -64,8 +64,25 @@ The `virtual_machine` block supports the following:
 
 The following attributes are exported:
 
+* `statuses` - One or more `status` block defined below.
+
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
+
+
+---
+
+The `status` block contains the following:
+
+* `code` - The status code.
+
+* `level` - The level code.
+
+* `display_status` - The short localizable label for the status.
+
+* `message` - The detailed status message, including for alerts and error messages.
+
+* `time` - The time of the status.

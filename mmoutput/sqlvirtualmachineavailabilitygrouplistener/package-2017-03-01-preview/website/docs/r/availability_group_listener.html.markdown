@@ -69,6 +69,8 @@ The `private_ip_address` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Provisioning state to track the async operation status.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

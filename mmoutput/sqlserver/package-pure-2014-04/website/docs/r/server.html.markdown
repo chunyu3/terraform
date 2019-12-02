@@ -50,6 +50,14 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `fully_qualified_domain_name` - The fully qualified domain name of the server.
+
+* `external_administrator_sid` - The ID of the Active Azure Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators.
+
+* `external_administrator_login` - The display name of the Azure Active Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators
+
+* `state` - The state of the server.
+
 * `id` - Resource ID.
 
 * `kind` - Kind of sql server.  This is metadata used for the Azure portal experience.

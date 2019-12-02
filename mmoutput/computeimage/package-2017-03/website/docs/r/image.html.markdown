@@ -123,6 +123,8 @@ The `managed_disk` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - The provisioning state.
+
 * `id` - Resource Id
 
 * `name` - Resource name

@@ -90,6 +90,21 @@ func resourceArmMediaGraph() *schema.Resource {
                 Optional: true,
             },
 
+            "created": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_modified": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -175,6 +190,18 @@ func resourceArmMediaGraphRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
+    if mediaGraphProperties := resp.MediaGraphProperties; mediaGraphProperties != nil {
+        d.Set("created", (mediaGraphProperties.Created).String())
+        d.Set("description", mediaGraphProperties.Description)
+        d.Set("last_modified", (mediaGraphProperties.LastModified).String())
+        if err := d.Set("sinks", flattenArmMediaGraphMediaGraphSink(mediaGraphProperties.Sinks)); err != nil {
+            return fmt.Errorf("Error setting `sinks`: %+v", err)
+        }
+        if err := d.Set("sources", flattenArmMediaGraphMediaGraphSource(mediaGraphProperties.Sources)); err != nil {
+            return fmt.Errorf("Error setting `sources`: %+v", err)
+        }
+        d.Set("state", string(mediaGraphProperties.State))
+    }
     d.Set("type", resp.Type)
 
     return nil
@@ -231,4 +258,44 @@ func expandArmMediaGraphMediaGraphSource(input []interface{}) *[]mediaservices.M
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmMediaGraphMediaGraphSink(input *[]mediaservices.MediaGraphSink) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        v["inputs"] = utils.FlattenStringSlice(item.Inputs)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmMediaGraphMediaGraphSource(input *[]mediaservices.MediaGraphSource) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

@@ -154,6 +154,10 @@ func resourceArmFirewallRuleRead(d *schema.ResourceData, meta interface{}) error
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    if firewallRuleProperties := resp.FirewallRuleProperties; firewallRuleProperties != nil {
+        d.Set("end_ip_address", firewallRuleProperties.EndIPAddress)
+        d.Set("start_ip_address", firewallRuleProperties.StartIPAddress)
+    }
     d.Set("kind", resp.Kind)
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)

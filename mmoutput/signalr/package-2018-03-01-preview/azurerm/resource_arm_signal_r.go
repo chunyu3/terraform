@@ -108,6 +108,36 @@ func resourceArmSignalR() *schema.Resource {
                 },
             },
 
+            "external_ip": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "host_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "public_port": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "server_port": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "version": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "tags": tags.Schema(),
         },
     }
@@ -199,9 +229,24 @@ func resourceArmSignalRRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if createOrUpdateProperties := resp.CreateOrUpdateProperties; createOrUpdateProperties != nil {
+        d.Set("external_ip", createOrUpdateProperties.ExternalIP)
+        d.Set("host_name", createOrUpdateProperties.HostName)
+        d.Set("host_name_prefix", createOrUpdateProperties.HostNamePrefix)
+        d.Set("provisioning_state", string(createOrUpdateProperties.ProvisioningState))
+        d.Set("public_port", int(*createOrUpdateProperties.PublicPort))
+        d.Set("server_port", int(*createOrUpdateProperties.ServerPort))
+        d.Set("version", createOrUpdateProperties.Version)
+    }
+    if err := d.Set("sku", flattenArmSignalRResourceSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmSignalRUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -289,4 +334,29 @@ func expandArmSignalRResourceSku(input []interface{}) *signalr.ResourceSku {
         Tier: signalr.SkuTier(tier),
     }
     return &result
+}
+
+
+func flattenArmSignalRResourceSku(input *signalr.ResourceSku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if capacity := input.Capacity; capacity != nil {
+        result["capacity"] = int(*capacity)
+    }
+    if family := input.Family; family != nil {
+        result["family"] = *family
+    }
+    if size := input.Size; size != nil {
+        result["size"] = *size
+    }
+    result["tier"] = string(input.Tier)
+
+    return []interface{}{result}
 }

@@ -56,6 +56,8 @@ The `access_key` block supports the following:
 
 The following attributes are exported:
 
+* `volumes_count` - The count of volumes using this storage account credential.
+
 * `id` - The path ID that uniquely identifies the object.
 
 * `name` - The name of the object.

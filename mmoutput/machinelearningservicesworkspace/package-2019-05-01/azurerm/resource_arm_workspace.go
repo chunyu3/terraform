@@ -55,6 +55,26 @@ func resourceArmWorkspace() *schema.Resource {
                 Optional: true,
             },
 
+            "application_insights": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "container_registry": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "creation_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "discovery_url": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "identity": {
                 Type: schema.TypeList,
                 Computed: true,
@@ -68,11 +88,35 @@ func resourceArmWorkspace() *schema.Resource {
                             Type: schema.TypeString,
                             Computed: true,
                         },
+                        "type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
                     },
                 },
             },
 
+            "key_vault": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "storage_account": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "workspace_id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -158,12 +202,27 @@ func resourceArmWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if workspacePropertiesUpdateParameters := resp.WorkspacePropertiesUpdateParameters; workspacePropertiesUpdateParameters != nil {
+        d.Set("application_insights", workspacePropertiesUpdateParameters.ApplicationInsights)
+        d.Set("container_registry", workspacePropertiesUpdateParameters.ContainerRegistry)
+        d.Set("creation_time", (workspacePropertiesUpdateParameters.CreationTime).String())
+        d.Set("description", workspacePropertiesUpdateParameters.Description)
+        d.Set("discovery_url", workspacePropertiesUpdateParameters.DiscoveryURL)
+        d.Set("friendly_name", workspacePropertiesUpdateParameters.FriendlyName)
+        d.Set("key_vault", workspacePropertiesUpdateParameters.KeyVault)
+        d.Set("provisioning_state", string(workspacePropertiesUpdateParameters.ProvisioningState))
+        d.Set("storage_account", workspacePropertiesUpdateParameters.StorageAccount)
+        d.Set("workspace_id", workspacePropertiesUpdateParameters.WorkspaceID)
+    }
     if err := d.Set("identity", flattenArmWorkspaceIdentity(resp.Identity)); err != nil {
         return fmt.Errorf("Error setting `identity`: %+v", err)
     }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -225,6 +284,7 @@ func flattenArmWorkspaceIdentity(input *machinelearningservices.Identity) []inte
     if tenantId := input.TenantID; tenantId != nil {
         result["tenant_id"] = *tenantId
     }
+    result["type"] = string(input.Type)
 
     return []interface{}{result}
 }

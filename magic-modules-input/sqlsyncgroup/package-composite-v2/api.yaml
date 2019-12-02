@@ -300,17 +300,114 @@ objects:
             python_parameter_name: sync_group_name
             python_variable_name: name
         response:
-          'type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: null
-            go_variable_name: type
-            python_parameter_name: type
-            python_variable_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SyncGroupProperties
+            go_type_name: SyncGroupProperties
+          '/properties/interval': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Interval
+          '/interval': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: interval
+          '/properties/conflictResolutionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConflictResolutionPolicy
+            go_enum_type_name: SyncConflictResolutionPolicy
+          '/conflictResolutionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: conflict_resolution_policy
+          '/properties/syncDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SyncDatabaseID
+          '/syncDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sync_database_id
+          '/properties/hubDatabaseUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HubDatabaseUserName
+          '/hubDatabaseUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hub_database_user_name
+          '/properties/hubDatabasePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HubDatabasePassword
+          '/hubDatabasePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hub_database_password
+          '/properties/schema': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Schema
+            go_type_name: SyncGroupSchema
+          '/properties/schema/tables': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Tables
+            go_type_name: SyncGroupSchemaTable
+          '/properties/schema/tables/columns': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Columns
+            go_type_name: SyncGroupSchemaTableColumn
+          '/properties/schema/tables/columns/quotedName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: QuotedName
+          '/properties/schema/tables/columns/dataSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DataSize
+          '/properties/schema/tables/columns/dataType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DataType
+          '/properties/schema/tables/quotedName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: QuotedName
+          '/properties/schema/masterSyncMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MasterSyncMemberName
+          '/schema': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: schema
+          '/schema/tables': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: tables
+          '/schema/tables/columns': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: columns
+          '/schema/tables/columns/quotedName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: quoted_name
+          '/schema/tables/columns/dataSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: data_size
+          '/schema/tables/columns/dataType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: data_type
+          '/schema/tables/quotedName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: quoted_name
+          '/schema/masterSyncMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: master_sync_member_name
+          '/properties/lastSyncTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastSyncTime
+          '/lastSyncTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_sync_time
+          '/properties/syncState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SyncState
+            go_enum_type_name: SyncGroupState
+          '/syncState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sync_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByDatabase
         python_func_name: list_by_database
@@ -540,6 +637,22 @@ objects:
             required: false
             azure_sdk_references: ['/schema/masterSyncMemberName', '/properties/schema/masterSyncMemberName']
       # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastSyncTime'
+        description: 'Last sync time of the sync group.'
+        output: true
+        azure_sdk_references: ['/lastSyncTime', '/properties/lastSyncTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'syncState'
+        description: 'Sync state of the sync group.'
+        output: true
+        azure_sdk_references: ['/syncState', '/properties/syncState']
+        values:
+          - :NotReady
+          - :Error
+          - :Warning
+          - :Progressing
+          - :Good
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'
@@ -550,3 +663,8 @@ objects:
         description: 'Resource name.'
         output: true
         azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

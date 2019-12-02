@@ -55,6 +55,66 @@ func resourceArmScheduledQueryRule() *schema.Resource {
                 Default: string(monitorclient.true),
             },
 
+            "description": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_updated_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "schedule": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "frequency_in_minutes": {
+                            Type: schema.TypeInt,
+                            Computed: true,
+                        },
+                        "time_window_in_minutes": {
+                            Type: schema.TypeInt,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "source": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "authorized_resources": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Schema{
+                                Type: schema.TypeString,
+                            },
+                        },
+                        "data_source_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "query": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "query_type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -139,9 +199,24 @@ func resourceArmScheduledQueryRuleRead(d *schema.ResourceData, meta interface{})
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if logSearchRulePatch := resp.LogSearchRulePatch; logSearchRulePatch != nil {
+        d.Set("description", logSearchRulePatch.Description)
+        d.Set("enabled", string(logSearchRulePatch.Enabled))
+        d.Set("last_updated_time", (logSearchRulePatch.LastUpdatedTime).String())
+        d.Set("provisioning_state", string(logSearchRulePatch.ProvisioningState))
+        if err := d.Set("schedule", flattenArmScheduledQueryRuleSchedule(logSearchRulePatch.Schedule)); err != nil {
+            return fmt.Errorf("Error setting `schedule`: %+v", err)
+        }
+        if err := d.Set("source", flattenArmScheduledQueryRuleSource(logSearchRulePatch.Source)); err != nil {
+            return fmt.Errorf("Error setting `source`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmScheduledQueryRuleUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -185,4 +260,41 @@ func resourceArmScheduledQueryRuleDelete(d *schema.ResourceData, meta interface{
     }
 
     return nil
+}
+
+
+func flattenArmScheduledQueryRuleSchedule(input *monitorclient.Schedule) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if frequencyInMinutes := input.FrequencyInMinutes; frequencyInMinutes != nil {
+        result["frequency_in_minutes"] = int(*frequencyInMinutes)
+    }
+    if timeWindowInMinutes := input.TimeWindowInMinutes; timeWindowInMinutes != nil {
+        result["time_window_in_minutes"] = int(*timeWindowInMinutes)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmScheduledQueryRuleSource(input *monitorclient.Source) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["authorized_resources"] = utils.FlattenStringSlice(input.AuthorizedResources)
+    if dataSourceId := input.DataSourceID; dataSourceId != nil {
+        result["data_source_id"] = *dataSourceId
+    }
+    if query := input.Query; query != nil {
+        result["query"] = *query
+    }
+    result["query_type"] = string(input.QueryType)
+
+    return []interface{}{result}
 }

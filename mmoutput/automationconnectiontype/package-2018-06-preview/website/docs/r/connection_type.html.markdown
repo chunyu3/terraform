@@ -44,6 +44,12 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `creation_time` - Gets the creation time.
+
+* `last_modified_time` - Gets or sets the last modified time.
+
+* `description` - Gets or sets the description.
+
 * `id` - Gets the id of the resource.
 
 * `type` - Resource type

@@ -44,6 +44,12 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `is_encrypted` - Gets or sets the encrypted flag of the variable.
+
+* `creation_time` - Gets or sets the creation time.
+
+* `last_modified_time` - Gets or sets the last modified time.
+
 * `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.

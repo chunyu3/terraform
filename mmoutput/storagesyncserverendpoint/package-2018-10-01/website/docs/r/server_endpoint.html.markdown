@@ -54,8 +54,90 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `server_local_path` - Server Local path.
+
+* `friendly_name` - Friendly Name
+
+* `server_resource_id` - Server Resource Id.
+
+* `provisioning_state` - ServerEndpoint Provisioning State
+
+* `last_workflow_id` - ServerEndpoint lastWorkflowId
+
+* `last_operation_name` - Resource Last Operation Name
+
+* `sync_status` - One `sync_status` block defined below.
+
+* `offline_data_transfer_storage_account_resource_id` - Offline data transfer storage account resource ID
+
+* `offline_data_transfer_storage_account_tenant_id` - Offline data transfer storage account tenant ID
+
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource
 
 * `type` - The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+
+
+---
+
+The `sync_status` block contains the following:
+
+* `download_health` - Download Health Status.
+
+* `upload_health` - Upload Health Status.
+
+* `combined_health` - Combined Health Status.
+
+* `last_updated_timestamp` - Last Updated Timestamp
+
+* `upload_status` - One `upload_status` block defined below.
+
+* `download_status` - One `download_status` block defined below.
+
+* `current_progress` - One `current_progress` block defined below.
+
+* `offline_data_transfer_status` - Offline Data Transfer State
+
+
+---
+
+The `upload_status` block contains the following:
+
+* `last_sync_result` - Last sync status
+
+* `last_sync_timestamp` - Last sync timestamp
+
+* `last_sync_success_timestamp` - Last sync success timestamp
+
+* `last_sync_per_item_error_count` - Last sync per item error count.
+
+---
+
+The `download_status` block contains the following:
+
+* `last_sync_result` - Last sync status
+
+* `last_sync_timestamp` - Last sync timestamp
+
+* `last_sync_success_timestamp` - Last sync success timestamp
+
+* `last_sync_per_item_error_count` - Last sync per item error count.
+
+---
+
+The `current_progress` block contains the following:
+
+* `progress_timestamp` - Progress timestamp
+
+* `sync_direction` - Sync direction.
+
+* `per_item_error_count` - Per item error count
+
+* `applied_item_count` - Applied item count.
+
+* `total_item_count` - Total item count
+
+* `applied_bytes` - Applied bytes
+
+* `total_bytes` - Total bytes

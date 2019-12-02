@@ -60,6 +60,14 @@ The `encryption_key` block supports the following:
 
 The following attributes are exported:
 
+* `encryption_status` - The flag to denote whether encryption is enabled or not.
+
+* `volume_count` - The number of volumes in the volume Container.
+
+* `owner_ship_status` - The owner ship status of the volume container. Only when the status is "NotOwned", the delete operation on the volume container is permitted.
+
+* `total_cloud_storage_usage_in_bytes` - The total cloud storage for the volume container.
+
 * `id` - The path ID that uniquely identifies the object.
 
 * `name` - The name of the object.

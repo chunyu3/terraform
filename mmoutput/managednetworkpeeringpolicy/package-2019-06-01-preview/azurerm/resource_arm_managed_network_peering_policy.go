@@ -44,6 +44,32 @@ func resourceArmManagedNetworkPeeringPolicy() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "mesh": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
+
+            "spokes": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
         },
     }
 }
@@ -68,8 +94,14 @@ func resourceArmManagedNetworkPeeringPolicyCreateUpdate(d *schema.ResourceData, 
         }
     }
 
+    mesh := d.Get("mesh").([]interface{})
+    spokes := d.Get("spokes").([]interface{})
 
     managedNetworkPolicy := managednetwork.PeeringPolicy{
+        PeeringPolicyProperties: &managednetwork.PeeringPolicyProperties{
+            Mesh: expandArmManagedNetworkPeeringPolicyResourceId(mesh),
+            Spokes: expandArmManagedNetworkPeeringPolicyResourceId(spokes),
+        },
     }
 
 
@@ -120,6 +152,14 @@ func resourceArmManagedNetworkPeeringPolicyRead(d *schema.ResourceData, meta int
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     d.Set("managed_network_name", managedNetworkName)
+    if peeringPolicyProperties := resp.PeeringPolicyProperties; peeringPolicyProperties != nil {
+        if err := d.Set("mesh", flattenArmManagedNetworkPeeringPolicyResourceId(peeringPolicyProperties.Mesh)); err != nil {
+            return fmt.Errorf("Error setting `mesh`: %+v", err)
+        }
+        if err := d.Set("spokes", flattenArmManagedNetworkPeeringPolicyResourceId(peeringPolicyProperties.Spokes)); err != nil {
+            return fmt.Errorf("Error setting `spokes`: %+v", err)
+        }
+    }
 
     return nil
 }
@@ -153,4 +193,39 @@ func resourceArmManagedNetworkPeeringPolicyDelete(d *schema.ResourceData, meta i
     }
 
     return nil
+}
+
+func expandArmManagedNetworkPeeringPolicyResourceId(input []interface{}) *[]managednetwork.ResourceId {
+    results := make([]managednetwork.ResourceId, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        id := v["id"].(string)
+
+        result := managednetwork.ResourceId{
+            ID: utils.String(id),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+
+func flattenArmManagedNetworkPeeringPolicyResourceId(input *[]managednetwork.ResourceId) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

@@ -175,6 +175,11 @@ func resourceArmServerEndpoint() *schema.Resource {
                 Optional: true,
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -297,6 +302,28 @@ func resourceArmServerEndpointRead(d *schema.ResourceData, meta interface{}) err
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if serverEndpointProperties := resp.ServerEndpointProperties; serverEndpointProperties != nil {
+        d.Set("byte_progress", serverEndpointProperties.ByteProgress)
+        d.Set("byte_total", serverEndpointProperties.ByteTotal)
+        d.Set("cloud_tiering", string(serverEndpointProperties.CloudTiering))
+        d.Set("current_progress_type", string(serverEndpointProperties.CurrentProgressType))
+        d.Set("friendly_name", serverEndpointProperties.FriendlyName)
+        d.Set("item_download_error_count", serverEndpointProperties.ItemDownloadErrorCount)
+        d.Set("item_progress_count", serverEndpointProperties.ItemProgressCount)
+        d.Set("item_total_count", serverEndpointProperties.ItemTotalCount)
+        d.Set("item_upload_error_count", serverEndpointProperties.ItemUploadErrorCount)
+        d.Set("last_sync_success", (serverEndpointProperties.LastSyncSuccess).String())
+        d.Set("last_workflow_id", serverEndpointProperties.LastWorkflowID)
+        d.Set("provisioning_state", serverEndpointProperties.ProvisioningState)
+        d.Set("server_local_path", serverEndpointProperties.ServerLocalPath)
+        d.Set("server_resource_id", serverEndpointProperties.ServerResourceID)
+        d.Set("sync_error_context", serverEndpointProperties.SyncErrorContext)
+        d.Set("sync_error_direction", string(serverEndpointProperties.SyncErrorDirection))
+        d.Set("sync_error_state", serverEndpointProperties.SyncErrorState)
+        d.Set("sync_error_state_timestamp", (serverEndpointProperties.SyncErrorStateTimestamp).String())
+        d.Set("total_progress", serverEndpointProperties.TotalProgress)
+        d.Set("volume_free_space_percent", serverEndpointProperties.VolumeFreeSpacePercent)
+    }
     d.Set("storage_sync_service_name", storageSyncServiceName)
     d.Set("sync_group_name", syncGroupName)
     d.Set("type", resp.Type)

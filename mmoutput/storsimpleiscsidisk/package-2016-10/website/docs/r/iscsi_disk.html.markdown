@@ -54,6 +54,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `used_capacity_in_bytes` - The used capacity in bytes.
+
+* `local_used_capacity_in_bytes` - The local used capacity in bytes.
+
 * `id` - The identifier.
 
 * `name` - The name.

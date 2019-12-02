@@ -121,7 +121,17 @@ func resourceArmElasticPool() *schema.Resource {
                 Optional: true,
             },
 
+            "creation_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "kind": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "state": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -224,11 +234,27 @@ func resourceArmElasticPoolRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if elasticPoolUpdateProperties := resp.ElasticPoolUpdateProperties; elasticPoolUpdateProperties != nil {
+        d.Set("creation_date", (elasticPoolUpdateProperties.CreationDate).String())
+        d.Set("license_type", string(elasticPoolUpdateProperties.LicenseType))
+        d.Set("max_size_bytes", int(*elasticPoolUpdateProperties.MaxSizeBytes))
+        if err := d.Set("per_database_settings", flattenArmElasticPoolElasticPoolPerDatabaseSettings(elasticPoolUpdateProperties.PerDatabaseSettings)); err != nil {
+            return fmt.Errorf("Error setting `per_database_settings`: %+v", err)
+        }
+        d.Set("state", string(elasticPoolUpdateProperties.State))
+        d.Set("zone_redundant", elasticPoolUpdateProperties.ZoneRedundant)
+    }
     d.Set("kind", resp.Kind)
     d.Set("server_name", serverName)
+    if err := d.Set("sku", flattenArmElasticPoolSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmElasticPoolUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -334,4 +360,48 @@ func expandArmElasticPoolSku(input []interface{}) *sql.Sku {
         Tier: utils.String(tier),
     }
     return &result
+}
+
+
+func flattenArmElasticPoolElasticPoolPerDatabaseSettings(input *sql.ElasticPoolPerDatabaseSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if maxCapacity := input.MaxCapacity; maxCapacity != nil {
+        result["max_capacity"] = *maxCapacity
+    }
+    if minCapacity := input.MinCapacity; minCapacity != nil {
+        result["min_capacity"] = *minCapacity
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmElasticPoolSku(input *sql.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if capacity := input.Capacity; capacity != nil {
+        result["capacity"] = int(*capacity)
+    }
+    if family := input.Family; family != nil {
+        result["family"] = *family
+    }
+    if size := input.Size; size != nil {
+        result["size"] = *size
+    }
+    if tier := input.Tier; tier != nil {
+        result["tier"] = *tier
+    }
+
+    return []interface{}{result}
 }

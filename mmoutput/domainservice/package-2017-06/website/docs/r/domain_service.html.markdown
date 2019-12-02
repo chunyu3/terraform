@@ -86,8 +86,53 @@ The `notification_setting` block supports the following:
 
 The following attributes are exported:
 
+* `tenant_id` - Azure Active Directory tenant id
+
+* `vnet_site_id` - Virtual network site id
+
+* `health_last_evaluated` - Last domain evaluation run DateTime
+
+* `health_monitors` - One or more `health_monitor` block defined below.
+
+* `health_alerts` - One or more `health_alert` block defined below.
+
+* `domain_controller_ip_address` - List of Domain Controller IP Address
+
+* `service_status` - Status of Domain Service instance
+
+* `provisioning_state` - the current deployment or provisioning state, which only appears in the response.
+
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
+
+
+---
+
+The `health_monitor` block contains the following:
+
+* `id` - Health Monitor Id
+
+* `name` - Health Monitor Name
+
+* `details` - Health Monitor Details
+
+---
+
+The `health_alert` block contains the following:
+
+* `id` - Health Alert Id
+
+* `name` - Health Alert Name
+
+* `issue` - Health Alert Issue
+
+* `severity` - Health Alert Severity
+
+* `raised` - Health Alert Raised DateTime
+
+* `last_detected` - Health Alert Last Detected DateTime
+
+* `resolution_uri` - Health Alert TSG Link

@@ -100,7 +100,17 @@ func resourceArmHyperVCollector() *schema.Resource {
                 ForceNew: true,
             },
 
+            "created_timestamp": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "updated_timestamp": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -184,6 +194,15 @@ func resourceArmHyperVCollectorRead(d *schema.ResourceData, meta interface{}) er
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if collectorProperties := resp.CollectorProperties; collectorProperties != nil {
+        if err := d.Set("agent_properties", flattenArmHyperVCollectorCollectorAgentProperties(collectorProperties.AgentProperties)); err != nil {
+            return fmt.Errorf("Error setting `agent_properties`: %+v", err)
+        }
+        d.Set("created_timestamp", collectorProperties.CreatedTimestamp)
+        d.Set("discovery_site_id", collectorProperties.DiscoverySiteID)
+        d.Set("updated_timestamp", collectorProperties.UpdatedTimestamp)
+    }
+    d.Set("e_tag", resp.ETag)
     d.Set("project_name", projectName)
     d.Set("type", resp.Type)
 
@@ -245,4 +264,43 @@ func expandArmHyperVCollectorCollectorBodyAgentSpnProperties(input []interface{}
         TenantID: utils.String(tenantId),
     }
     return &result
+}
+
+
+func flattenArmHyperVCollectorCollectorAgentProperties(input *azuremigrate.CollectorAgentProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["spn_details"] = flattenArmHyperVCollectorCollectorBodyAgentSpnProperties(input.SpnDetails)
+
+    return []interface{}{result}
+}
+
+func flattenArmHyperVCollectorCollectorBodyAgentSpnProperties(input *azuremigrate.CollectorBodyAgentSpnProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if applicationId := input.ApplicationID; applicationId != nil {
+        result["application_id"] = *applicationId
+    }
+    if audience := input.Audience; audience != nil {
+        result["audience"] = *audience
+    }
+    if authority := input.Authority; authority != nil {
+        result["authority"] = *authority
+    }
+    if objectId := input.ObjectID; objectId != nil {
+        result["object_id"] = *objectId
+    }
+    if tenantId := input.TenantID; tenantId != nil {
+        result["tenant_id"] = *tenantId
+    }
+
+    return []interface{}{result}
 }

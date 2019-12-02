@@ -163,6 +163,13 @@ func resourceArmSqlServerRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if sqlServerProperties := resp.SqlServerProperties; sqlServerProperties != nil {
+        d.Set("cores", int(*sqlServerProperties.Cores))
+        d.Set("edition", sqlServerProperties.Edition)
+        d.Set("property_bag", sqlServerProperties.PropertyBag)
+        d.Set("registration_id", sqlServerProperties.RegistrationID)
+        d.Set("version", sqlServerProperties.Version)
+    }
     d.Set("sql_server_registration_name", sQLServerRegistrationName)
     d.Set("type", resp.Type)
 

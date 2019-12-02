@@ -104,6 +104,35 @@ func resourceArmAvailabilitySet() *schema.Resource {
                 },
             },
 
+            "statuses": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "code": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "display_status": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "level": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "message": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "time": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -196,9 +225,28 @@ func resourceArmAvailabilitySetRead(d *schema.ResourceData, meta interface{}) er
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if availabilitySetProperties := resp.AvailabilitySetProperties; availabilitySetProperties != nil {
+        d.Set("platform_fault_domain_count", int(*availabilitySetProperties.PlatformFaultDomainCount))
+        d.Set("platform_update_domain_count", int(*availabilitySetProperties.PlatformUpdateDomainCount))
+        if err := d.Set("proximity_placement_group", flattenArmAvailabilitySetSubResource(availabilitySetProperties.ProximityPlacementGroup)); err != nil {
+            return fmt.Errorf("Error setting `proximity_placement_group`: %+v", err)
+        }
+        if err := d.Set("statuses", flattenArmAvailabilitySetInstanceViewStatus(availabilitySetProperties.Statuses)); err != nil {
+            return fmt.Errorf("Error setting `statuses`: %+v", err)
+        }
+        if err := d.Set("virtual_machines", flattenArmAvailabilitySetSubResource(availabilitySetProperties.VirtualMachines)); err != nil {
+            return fmt.Errorf("Error setting `virtual_machines`: %+v", err)
+        }
+    }
+    if err := d.Set("sku", flattenArmAvailabilitySetSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmAvailabilitySetUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -297,4 +345,87 @@ func expandArmAvailabilitySetSku(input []interface{}) *compute.Sku {
         Tier: utils.String(tier),
     }
     return &result
+}
+
+
+func flattenArmAvailabilitySetSubResource(input *compute.SubResource) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmAvailabilitySetInstanceViewStatus(input *[]compute.InstanceViewStatus) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if code := item.Code; code != nil {
+            v["code"] = *code
+        }
+        if displayStatus := item.DisplayStatus; displayStatus != nil {
+            v["display_status"] = *displayStatus
+        }
+        v["level"] = string(item.Level)
+        if message := item.Message; message != nil {
+            v["message"] = *message
+        }
+        if time := item.Time; time != nil {
+            v["time"] = (*time).String()
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmAvailabilitySetSubResource(input *[]compute.SubResource) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmAvailabilitySetSku(input *compute.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if capacity := input.Capacity; capacity != nil {
+        result["capacity"] = int(*capacity)
+    }
+    if tier := input.Tier; tier != nil {
+        result["tier"] = *tier
+    }
+
+    return []interface{}{result}
 }

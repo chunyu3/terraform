@@ -97,6 +97,51 @@ func resourceArmRegisteredServer() *schema.Resource {
                 Optional: true,
             },
 
+            "discovery_endpoint_uri": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_operation_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_workflow_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "management_endpoint_uri": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_location": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "server_managementt_error_code": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "service_location": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "storage_sync_service_uid": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -203,6 +248,26 @@ func resourceArmRegisteredServerRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if registeredServerCreateParametersProperties := resp.RegisteredServerCreateParametersProperties; registeredServerCreateParametersProperties != nil {
+        d.Set("agent_version", registeredServerCreateParametersProperties.AgentVersion)
+        d.Set("cluster_id", registeredServerCreateParametersProperties.ClusterID)
+        d.Set("cluster_name", registeredServerCreateParametersProperties.ClusterName)
+        d.Set("discovery_endpoint_uri", registeredServerCreateParametersProperties.DiscoveryEndpointURI)
+        d.Set("friendly_name", registeredServerCreateParametersProperties.FriendlyName)
+        d.Set("last_heart_beat", registeredServerCreateParametersProperties.LastHeartBeat)
+        d.Set("last_operation_name", registeredServerCreateParametersProperties.LastOperationName)
+        d.Set("last_workflow_id", registeredServerCreateParametersProperties.LastWorkflowID)
+        d.Set("management_endpoint_uri", registeredServerCreateParametersProperties.ManagementEndpointURI)
+        d.Set("provisioning_state", registeredServerCreateParametersProperties.ProvisioningState)
+        d.Set("resource_location", registeredServerCreateParametersProperties.ResourceLocation)
+        d.Set("server_certificate", registeredServerCreateParametersProperties.ServerCertificate)
+        d.Set("server_id", registeredServerCreateParametersProperties.ServerID)
+        d.Set("server_managementt_error_code", registeredServerCreateParametersProperties.ServerManagementtErrorCode)
+        d.Set("server_osversion", registeredServerCreateParametersProperties.ServerOSVersion)
+        d.Set("server_role", registeredServerCreateParametersProperties.ServerRole)
+        d.Set("service_location", registeredServerCreateParametersProperties.ServiceLocation)
+        d.Set("storage_sync_service_uid", registeredServerCreateParametersProperties.StorageSyncServiceUID)
+    }
     d.Set("server_id", serverID)
     d.Set("type", resp.Type)
 

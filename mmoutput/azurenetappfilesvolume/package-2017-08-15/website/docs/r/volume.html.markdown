@@ -75,6 +75,14 @@ The `rule` block supports the following:
 
 The following attributes are exported:
 
+* `file_system_id` - Unique FileSystem Identifier.
+
+* `creation_token` - A unique file path for the volume. Used when creating mount targets
+
+* `provisioning_state` - Azure lifecycle management
+
+* `subnet_id` - The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes
+
 * `id` - Resource Id
 
 * `name` - Resource name

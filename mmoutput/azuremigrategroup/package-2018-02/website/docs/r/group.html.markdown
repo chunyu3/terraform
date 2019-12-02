@@ -42,6 +42,12 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `assessments` - List of References to Assessments created on this group.
+
+* `created_timestamp` - Time when this project was created. Date-Time represented in ISO-8601 format.
+
+* `updated_timestamp` - Time when this project was last updated. Date-Time represented in ISO-8601 format.
+
 * `id` - Path reference to this group. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}
 
 * `name` - Name of the group.

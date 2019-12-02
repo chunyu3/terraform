@@ -170,6 +170,16 @@ func resourceArmCloudEndpoint() *schema.Resource {
                 Optional: true,
             },
 
+            "backup_enabled": {
+                Type: schema.TypeBool,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -292,6 +302,18 @@ func resourceArmCloudEndpointRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if cloudEndpointProperties := resp.CloudEndpointProperties; cloudEndpointProperties != nil {
+        d.Set("backup_enabled", cloudEndpointProperties.BackupEnabled)
+        d.Set("friendly_name", cloudEndpointProperties.FriendlyName)
+        d.Set("last_workflow_id", cloudEndpointProperties.LastWorkflowID)
+        d.Set("partnership_id", cloudEndpointProperties.PartnershipID)
+        d.Set("provisioning_state", cloudEndpointProperties.ProvisioningState)
+        d.Set("storage_account", cloudEndpointProperties.StorageAccount)
+        d.Set("storage_account_key", cloudEndpointProperties.StorageAccountKey)
+        d.Set("storage_account_resource_id", cloudEndpointProperties.StorageAccountResourceID)
+        d.Set("storage_account_share_name", cloudEndpointProperties.StorageAccountShareName)
+        d.Set("storage_account_tenant_id", cloudEndpointProperties.StorageAccountTenantID)
+    }
     d.Set("storage_sync_service_name", storageSyncServiceName)
     d.Set("sync_group_name", syncGroupName)
     d.Set("type", resp.Type)

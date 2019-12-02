@@ -260,7 +260,52 @@ func resourceArmAssessment() *schema.Resource {
                 ForceNew: true,
             },
 
+            "confidence_rating_in_percentage": {
+                Type: schema.TypeFloat,
+                Computed: true,
+            },
+
+            "created_timestamp": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "monthly_bandwidth_cost": {
+                Type: schema.TypeFloat,
+                Computed: true,
+            },
+
+            "monthly_compute_cost": {
+                Type: schema.TypeFloat,
+                Computed: true,
+            },
+
+            "monthly_storage_cost": {
+                Type: schema.TypeFloat,
+                Computed: true,
+            },
+
+            "number_of_machines": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "prices_timestamp": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "updated_timestamp": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -366,6 +411,30 @@ func resourceArmAssessmentRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if assessmentProperties := resp.AssessmentProperties; assessmentProperties != nil {
+        d.Set("azure_hybrid_use_benefit", string(assessmentProperties.AzureHybridUseBenefit))
+        d.Set("azure_location", string(assessmentProperties.AzureLocation))
+        d.Set("azure_offer_code", string(assessmentProperties.AzureOfferCode))
+        d.Set("azure_pricing_tier", string(assessmentProperties.AzurePricingTier))
+        d.Set("azure_storage_redundancy", string(assessmentProperties.AzureStorageRedundancy))
+        d.Set("confidence_rating_in_percentage", assessmentProperties.ConfidenceRatingInPercentage)
+        d.Set("created_timestamp", (assessmentProperties.CreatedTimestamp).String())
+        d.Set("currency", string(assessmentProperties.Currency))
+        d.Set("discount_percentage", assessmentProperties.DiscountPercentage)
+        d.Set("monthly_bandwidth_cost", assessmentProperties.MonthlyBandwidthCost)
+        d.Set("monthly_compute_cost", assessmentProperties.MonthlyComputeCost)
+        d.Set("monthly_storage_cost", assessmentProperties.MonthlyStorageCost)
+        d.Set("number_of_machines", int(*assessmentProperties.NumberOfMachines))
+        d.Set("percentile", string(assessmentProperties.Percentile))
+        d.Set("prices_timestamp", (assessmentProperties.PricesTimestamp).String())
+        d.Set("scaling_factor", assessmentProperties.ScalingFactor)
+        d.Set("sizing_criterion", string(assessmentProperties.SizingCriterion))
+        d.Set("stage", string(assessmentProperties.Stage))
+        d.Set("status", string(assessmentProperties.Status))
+        d.Set("time_range", string(assessmentProperties.TimeRange))
+        d.Set("updated_timestamp", (assessmentProperties.UpdatedTimestamp).String())
+    }
+    d.Set("e_tag", resp.ETag)
     d.Set("group_name", groupName)
     d.Set("project_name", projectName)
     d.Set("type", resp.Type)

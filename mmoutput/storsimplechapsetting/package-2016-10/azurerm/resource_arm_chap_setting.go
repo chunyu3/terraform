@@ -173,6 +173,11 @@ func resourceArmChapSettingRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("resource_group", resourceGroup)
     d.Set("device_name", deviceName)
     d.Set("manager_name", managerName)
+    if chapProperties := resp.ChapProperties; chapProperties != nil {
+        if err := d.Set("password", flattenArmChapSettingAsymmetricEncryptedSecret(chapProperties.Password)); err != nil {
+            return fmt.Errorf("Error setting `password`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
     return nil
@@ -226,4 +231,23 @@ func expandArmChapSettingAsymmetricEncryptedSecret(input []interface{}) *storsim
         Value: utils.String(value),
     }
     return &result
+}
+
+
+func flattenArmChapSettingAsymmetricEncryptedSecret(input *storsimple.AsymmetricEncryptedSecret) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["encryption_algorithm"] = string(input.EncryptionAlgorithm)
+    if encryptionCertificateThumbprint := input.EncryptionCertificateThumbprint; encryptionCertificateThumbprint != nil {
+        result["encryption_certificate_thumbprint"] = *encryptionCertificateThumbprint
+    }
+    if value := input.Value; value != nil {
+        result["value"] = *value
+    }
+
+    return []interface{}{result}
 }

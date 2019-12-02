@@ -70,6 +70,21 @@ func resourceArmConsumerGroup() *schema.Resource {
                 Type: schema.TypeString,
                 Optional: true,
             },
+
+            "created_at": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "event_hub_path": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "updated_at": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
         },
     }
 }
@@ -154,6 +169,15 @@ func resourceArmConsumerGroupRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if consumerGroupProperties := resp.ConsumerGroupProperties; consumerGroupProperties != nil {
+        d.Set("created_at", (consumerGroupProperties.CreatedAt).String())
+        d.Set("event_hub_path", consumerGroupProperties.EventHubPath)
+        d.Set("updated_at", (consumerGroupProperties.UpdatedAt).String())
+        d.Set("user_metadata", consumerGroupProperties.UserMetadata)
+    }
     d.Set("event_hub_name", eventHubName)
     d.Set("namespace_name", namespaceName)
     d.Set("type", resp.Type)

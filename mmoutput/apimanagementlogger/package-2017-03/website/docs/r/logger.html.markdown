@@ -46,8 +46,35 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `sampling` - One `sampling` block defined below.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.
 
 * `type` - Resource type for API Management resource.
+
+
+---
+
+The `sampling` block contains the following:
+
+* `sampling_type` - Sampling type.
+
+* `percentage` - Rate of sampling for fixed-rate sampling.
+
+* `max_telemetry_items_per_second` - Target rate of telemetry items per second.
+
+* `evaluation_interval` - Rate re-evaluation interval in ISO8601 format.
+
+* `percentage_decrease_timeout` - Duration in ISO8601 format after which it's allowed to lower the sampling rate.
+
+* `percentage_increase_timeout` - Duration in ISO8601 format after which it's allowed to increase the sampling rate.
+
+* `min_percentage` - Minimum allowed rate of sampling.
+
+* `max_percentage` - Maximum allowed rate of sampling.
+
+* `moving_average_ratio` - Moving average ration assigned to most recent value.
+
+* `initial_percentage` - Initial sampling rate.

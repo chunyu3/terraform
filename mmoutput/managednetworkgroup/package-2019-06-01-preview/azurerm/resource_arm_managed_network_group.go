@@ -44,6 +44,58 @@ func resourceArmManagedNetworkGroup() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "management_groups": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
+
+            "subnets": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
+
+            "subscriptions": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
+
+            "virtual_networks": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
         },
     }
 }
@@ -68,8 +120,18 @@ func resourceArmManagedNetworkGroupCreateUpdate(d *schema.ResourceData, meta int
         }
     }
 
+    managementGroups := d.Get("management_groups").([]interface{})
+    subnets := d.Get("subnets").([]interface{})
+    subscriptions := d.Get("subscriptions").([]interface{})
+    virtualNetworks := d.Get("virtual_networks").([]interface{})
 
     managedNetworkGroup := managednetwork.Group{
+        GroupProperties: &managednetwork.GroupProperties{
+            ManagementGroups: expandArmManagedNetworkGroupResourceId(managementGroups),
+            Subnets: expandArmManagedNetworkGroupResourceId(subnets),
+            Subscriptions: expandArmManagedNetworkGroupResourceId(subscriptions),
+            VirtualNetworks: expandArmManagedNetworkGroupResourceId(virtualNetworks),
+        },
     }
 
 
@@ -120,6 +182,20 @@ func resourceArmManagedNetworkGroupRead(d *schema.ResourceData, meta interface{}
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     d.Set("managed_network_name", managedNetworkName)
+    if groupProperties := resp.GroupProperties; groupProperties != nil {
+        if err := d.Set("management_groups", flattenArmManagedNetworkGroupResourceId(groupProperties.ManagementGroups)); err != nil {
+            return fmt.Errorf("Error setting `management_groups`: %+v", err)
+        }
+        if err := d.Set("subnets", flattenArmManagedNetworkGroupResourceId(groupProperties.Subnets)); err != nil {
+            return fmt.Errorf("Error setting `subnets`: %+v", err)
+        }
+        if err := d.Set("subscriptions", flattenArmManagedNetworkGroupResourceId(groupProperties.Subscriptions)); err != nil {
+            return fmt.Errorf("Error setting `subscriptions`: %+v", err)
+        }
+        if err := d.Set("virtual_networks", flattenArmManagedNetworkGroupResourceId(groupProperties.VirtualNetworks)); err != nil {
+            return fmt.Errorf("Error setting `virtual_networks`: %+v", err)
+        }
+    }
 
     return nil
 }
@@ -153,4 +229,39 @@ func resourceArmManagedNetworkGroupDelete(d *schema.ResourceData, meta interface
     }
 
     return nil
+}
+
+func expandArmManagedNetworkGroupResourceId(input []interface{}) *[]managednetwork.ResourceId {
+    results := make([]managednetwork.ResourceId, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        id := v["id"].(string)
+
+        result := managednetwork.ResourceId{
+            ID: utils.String(id),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+
+func flattenArmManagedNetworkGroupResourceId(input *[]managednetwork.ResourceId) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

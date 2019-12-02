@@ -44,6 +44,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `resource_state` - Resource status.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

@@ -87,6 +87,56 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DisasterRecoveryConfigurationProperties
+            go_type_name: DisasterRecoveryConfigurationProperties
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: DisasterRecoveryConfigurationStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/autoFailover': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AutoFailover
+            go_enum_type_name: DisasterRecoveryConfigurationAutoFailover
+          '/autoFailover': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: auto_failover
+          '/properties/failoverPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FailoverPolicy
+            go_enum_type_name: DisasterRecoveryConfigurationFailoverPolicy
+          '/failoverPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: failover_policy
+          '/properties/partnerServerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PartnerServerID
+          '/partnerServerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: partner_server_id
+          '/properties/logicalServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LogicalServerName
+          '/logicalServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: logical_server_name
+          '/properties/partnerLogicalServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PartnerLogicalServerName
+          '/partnerLogicalServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: partner_logical_server_name
+          '/properties/role': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Role
+            go_enum_type_name: DisasterRecoveryConfigurationRole
+          '/role': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: role
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
             python_field_name: location
@@ -142,6 +192,56 @@ objects:
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'The status of the disaster recovery configuration.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Creating
+          - :Ready
+          - :FailingOver
+          - :Dropping
+      - !ruby/object:Api::Type::Enum
+        name: 'autoFailover'
+        description: 'Whether or not failover can be done automatically.'
+        output: true
+        azure_sdk_references: ['/autoFailover', '/properties/autoFailover']
+        values:
+          - :Off
+          - :On
+      - !ruby/object:Api::Type::Enum
+        name: 'failoverPolicy'
+        description: 'How aggressive the automatic failover should be.'
+        output: true
+        azure_sdk_references: ['/failoverPolicy', '/properties/failoverPolicy']
+        values:
+          - :Manual
+          - :Automatic
+      - !ruby/object:Api::Type::String
+        name: 'partnerServerId'
+        description: 'Id of the partner server.'
+        output: true
+        azure_sdk_references: ['/partnerServerId', '/properties/partnerServerId']
+      - !ruby/object:Api::Type::String
+        name: 'logicalServerName'
+        description: 'Logical name of the server.'
+        output: true
+        azure_sdk_references: ['/logicalServerName', '/properties/logicalServerName']
+      - !ruby/object:Api::Type::String
+        name: 'partnerLogicalServerName'
+        description: 'Logical name of the partner server.'
+        output: true
+        azure_sdk_references: ['/partnerLogicalServerName', '/properties/partnerLogicalServerName']
+      - !ruby/object:Api::Type::Enum
+        name: 'role'
+        description: 'The role of the current server in the disaster recovery configuration.'
+        output: true
+        azure_sdk_references: ['/role', '/properties/role']
+        values:
+          - :None
+          - :Primary
+          - :Secondary
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
         description: 'Location of the server that contains this disaster recovery configuration.'

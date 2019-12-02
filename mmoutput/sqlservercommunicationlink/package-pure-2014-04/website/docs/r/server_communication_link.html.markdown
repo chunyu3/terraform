@@ -40,6 +40,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `state` - The state.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

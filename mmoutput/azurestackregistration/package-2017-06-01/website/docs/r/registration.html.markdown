@@ -40,8 +40,18 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `object_id` - The object identifier associated with the Azure Stack connecting to Azure.
+
+* `cloud_id` - The identifier of the registered Azure Stack.
+
+* `billing_model` - Specifies the billing mode for the Azure Stack registration.
+
 * `id` - ID of the resource.
 
 * `name` - Name of the resource.
 
 * `type` - Type of Resource.
+
+* `tags` - Custom tags for the resource.
+
+* `etag` - The entity tag used for optimistic concurrency when modifying the resource.

@@ -115,6 +115,121 @@ objects:
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuName
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Size
+            python_field_name: size
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Family
+            python_field_name: family
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SharedAccessAuthorizationRuleProperties
+            go_type_name: SharedAccessAuthorizationRuleProperties
+          '/properties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Region
+          '/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: region
+          '/properties/metricId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MetricID
+          '/metricId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: metric_id
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedAt
+          '/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_at
+          '/properties/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: UpdatedAt
+          '/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: updated_at
+          '/properties/serviceBusEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceBusEndpoint
+          '/serviceBusEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_bus_endpoint
+          '/properties/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionID
+          '/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscription_id
+          '/properties/scaleUnit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ScaleUnit
+          '/scaleUnit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scale_unit
+          '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/properties/critical': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Critical
+          '/critical': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: critical
+          '/properties/dataCenter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DataCenter
+          '/dataCenter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: data_center
+          '/properties/namespaceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: NamespaceType
+            go_enum_type_name: NamespaceType
+          '/namespaceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: namespace_type
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -268,6 +383,79 @@ objects:
         input: true
         azure_sdk_references: ['/policyKey']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the namespace.'
+        output: true
+        azure_sdk_references: ['/name', '/properties/name']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Provisioning state of the Namespace.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'region'
+        description: 'Specifies the targeted region in which the namespace should be created. It can be any of the following values: Australia East, Australia Southeast, Central US, East US, East US 2, West US, North Central US, South Central US, East Asia, Southeast Asia, Brazil South, Japan East, Japan West, North Europe, West Europe'
+        output: true
+        azure_sdk_references: ['/region', '/properties/region']
+      - !ruby/object:Api::Type::String
+        name: 'metricId'
+        description: 'Identifier for Azure Insights metrics'
+        output: true
+        azure_sdk_references: ['/metricId', '/properties/metricId']
+      - !ruby/object:Api::Type::String
+        name: 'status'
+        description: 'Status of the namespace. It can be any of these values:1 = Created/Active2 = Creating3 = Suspended4 = Deleting'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdAt'
+        description: 'The time the namespace was created.'
+        output: true
+        azure_sdk_references: ['/createdAt', '/properties/createdAt']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'updatedAt'
+        description: 'The time the namespace was updated.'
+        output: true
+        azure_sdk_references: ['/updatedAt', '/properties/updatedAt']
+      - !ruby/object:Api::Type::String
+        name: 'serviceBusEndpoint'
+        description: 'Endpoint you can use to perform NotificationHub operations.'
+        output: true
+        azure_sdk_references: ['/serviceBusEndpoint', '/properties/serviceBusEndpoint']
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionId'
+        description: 'The Id of the Azure subscription associated with the namespace.'
+        output: true
+        azure_sdk_references: ['/subscriptionId', '/properties/subscriptionId']
+      - !ruby/object:Api::Type::String
+        name: 'scaleUnit'
+        description: 'ScaleUnit where the namespace gets created'
+        output: true
+        azure_sdk_references: ['/scaleUnit', '/properties/scaleUnit']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enabled'
+        description: 'Whether or not the namespace is currently enabled.'
+        output: true
+        azure_sdk_references: ['/enabled', '/properties/enabled']
+      - !ruby/object:Api::Type::Boolean
+        name: 'critical'
+        description: 'Whether or not the namespace is set as Critical.'
+        output: true
+        azure_sdk_references: ['/critical', '/properties/critical']
+      - !ruby/object:Api::Type::String
+        name: 'dataCenter'
+        description: 'Data center for the namespace'
+        output: true
+        azure_sdk_references: ['/dataCenter', '/properties/dataCenter']
+      - !ruby/object:Api::Type::Enum
+        name: 'namespaceType'
+        description: 'The namespace type.'
+        output: true
+        azure_sdk_references: ['/namespaceType', '/properties/namespaceType']
+        values:
+          - :Messaging
+          - :NotificationHub
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

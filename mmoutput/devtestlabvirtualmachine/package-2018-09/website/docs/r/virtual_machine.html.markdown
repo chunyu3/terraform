@@ -324,6 +324,219 @@ The `notification_setting` block supports the following:
 
 The following attributes are exported:
 
+* `compute_vm` - One `compute_vm` block defined below.
+
+* `applicable_schedule` - One `applicable_schedule` block defined below.
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `unique_identifier` - The unique immutable identifier of a resource (Guid).
+
 * `id` - The identifier of the resource.
 
+* `name` - The name of the resource.
+
 * `type` - The type of the resource.
+
+
+---
+
+The `compute_vm` block contains the following:
+
+* `statuses` - One or more `status` block defined below.
+
+* `os_type` - Gets the OS type of the virtual machine.
+
+* `vm_size` - Gets the size of the virtual machine.
+
+* `network_interface_id` - Gets the network interface ID of the virtual machine.
+
+* `os_disk_id` - Gets OS disk blob uri for the virtual machine.
+
+* `data_disk_ids` - Gets data disks blob uri for the virtual machine.
+
+* `data_disks` - One or more `data_disk` block defined below.
+
+
+---
+
+The `status` block contains the following:
+
+* `code` - Gets the status Code.
+
+* `display_status` - Gets the short localizable label for the status.
+
+* `message` - Gets the message associated with the status.
+
+---
+
+The `data_disk` block contains the following:
+
+* `name` - Gets data disk name.
+
+* `disk_uri` - When backed by a blob, the URI of underlying blob.
+
+* `managed_disk_id` - When backed by managed disk, this is the ID of the compute disk resource.
+
+* `disk_size_gi_b` - Gets data disk size in GiB.
+
+---
+
+The `applicable_schedule` block contains the following:
+
+* `id` - The identifier of the resource.
+
+* `name` - The name of the resource.
+
+* `type` - The type of the resource.
+
+* `location` - The location of the resource.
+
+* `tags` - The tags of the resource.
+
+* `lab_vms_shutdown` - One `lab_vms_shutdown` block defined below.
+
+* `lab_vms_startup` - One `lab_vms_startup` block defined below.
+
+
+---
+
+The `lab_vms_shutdown` block contains the following:
+
+* `id` - The identifier of the resource.
+
+* `name` - The name of the resource.
+
+* `type` - The type of the resource.
+
+* `location` - The location of the resource.
+
+* `tags` - The tags of the resource.
+
+* `status` - The status of the schedule (i.e. Enabled, Disabled)
+
+* `task_type` - The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+
+* `weekly_recurrence` - One `weekly_recurrence` block defined below.
+
+* `daily_recurrence` - One `daily_recurrence` block defined below.
+
+* `hourly_recurrence` - One `hourly_recurrence` block defined below.
+
+* `time_zone_id` - The time zone ID (e.g. Pacific Standard time).
+
+* `notification_settings` - One `notification_setting` block defined below.
+
+* `created_date` - The creation date of the schedule.
+
+* `target_resource_id` - The resource ID to which the schedule belongs
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `unique_identifier` - The unique immutable identifier of a resource (Guid).
+
+
+---
+
+The `weekly_recurrence` block contains the following:
+
+* `weekdays` - The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+
+* `time` - The time of the day the schedule will occur.
+
+---
+
+The `daily_recurrence` block contains the following:
+
+* `time` - The time of day the schedule will occur.
+
+---
+
+The `hourly_recurrence` block contains the following:
+
+* `minute` - Minutes of the hour the schedule will run.
+
+---
+
+The `notification_setting` block contains the following:
+
+* `status` - If notifications are enabled for this schedule (i.e. Enabled, Disabled).
+
+* `time_in_minutes` - Time in minutes before event at which notification will be sent.
+
+* `webhook_url` - The webhook URL to which the notification will be sent.
+
+* `email_recipient` - The email recipient to send notifications to (can be a list of semi-colon separated email addresses).
+
+* `notification_locale` - The locale to use when sending a notification (fallback for unsupported languages is EN).
+
+---
+
+The `lab_vms_startup` block contains the following:
+
+* `id` - The identifier of the resource.
+
+* `name` - The name of the resource.
+
+* `type` - The type of the resource.
+
+* `location` - The location of the resource.
+
+* `tags` - The tags of the resource.
+
+* `status` - The status of the schedule (i.e. Enabled, Disabled)
+
+* `task_type` - The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+
+* `weekly_recurrence` - One `weekly_recurrence` block defined below.
+
+* `daily_recurrence` - One `daily_recurrence` block defined below.
+
+* `hourly_recurrence` - One `hourly_recurrence` block defined below.
+
+* `time_zone_id` - The time zone ID (e.g. Pacific Standard time).
+
+* `notification_settings` - One `notification_setting` block defined below.
+
+* `created_date` - The creation date of the schedule.
+
+* `target_resource_id` - The resource ID to which the schedule belongs
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `unique_identifier` - The unique immutable identifier of a resource (Guid).
+
+
+---
+
+The `weekly_recurrence` block contains the following:
+
+* `weekdays` - The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+
+* `time` - The time of the day the schedule will occur.
+
+---
+
+The `daily_recurrence` block contains the following:
+
+* `time` - The time of day the schedule will occur.
+
+---
+
+The `hourly_recurrence` block contains the following:
+
+* `minute` - Minutes of the hour the schedule will run.
+
+---
+
+The `notification_setting` block contains the following:
+
+* `status` - If notifications are enabled for this schedule (i.e. Enabled, Disabled).
+
+* `time_in_minutes` - Time in minutes before event at which notification will be sent.
+
+* `webhook_url` - The webhook URL to which the notification will be sent.
+
+* `email_recipient` - The email recipient to send notifications to (can be a list of semi-colon separated email addresses).
+
+* `notification_locale` - The locale to use when sending a notification (fallback for unsupported languages is EN).

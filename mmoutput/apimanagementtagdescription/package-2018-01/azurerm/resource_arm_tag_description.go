@@ -72,6 +72,11 @@ func resourceArmTagDescription() *schema.Resource {
                 Optional: true,
             },
 
+            "display_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -159,6 +164,12 @@ func resourceArmTagDescriptionRead(d *schema.ResourceData, meta interface{}) err
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", aPIID)
+    if tagDescriptionBaseProperties := resp.TagDescriptionBaseProperties; tagDescriptionBaseProperties != nil {
+        d.Set("description", tagDescriptionBaseProperties.Description)
+        d.Set("display_name", tagDescriptionBaseProperties.DisplayName)
+        d.Set("external_docs_description", tagDescriptionBaseProperties.ExternalDocsDescription)
+        d.Set("external_docs_url", tagDescriptionBaseProperties.ExternalDocsURL)
+    }
     d.Set("tag_id", tagID)
     d.Set("type", resp.Type)
 

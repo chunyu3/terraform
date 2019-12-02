@@ -67,6 +67,28 @@ objects:
             python_parameter_name: link_id
             python_variable_name: link_id
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LinkProperties
+            go_type_name: LinkProperties
+          '/properties/targetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetID
+          '/targetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_id
+          '/properties/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Notes
+          '/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: notes
+          '/properties/sourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceID
+          '/sourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -116,6 +138,11 @@ objects:
         input: true
         azure_sdk_references: ['scope']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'sourceId'
+        description: 'The fully qualified ID of the source resource in the link. '
+        output: true
+        azure_sdk_references: ['/sourceId', '/properties/sourceId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The fully qualified ID of the resource link.'

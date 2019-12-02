@@ -57,6 +57,11 @@ func resourceArmApplicationType() *schema.Resource {
                 Computed: true,
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -139,11 +144,17 @@ func resourceArmApplicationTypeRead(d *schema.ResourceData, meta interface{}) er
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
     d.Set("cluster_name", clusterName)
     d.Set("etag", resp.Etag)
+    if applicationTypeResourceProperties := resp.ApplicationTypeResourceProperties; applicationTypeResourceProperties != nil {
+        d.Set("provisioning_state", applicationTypeResourceProperties.ProvisioningState)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 

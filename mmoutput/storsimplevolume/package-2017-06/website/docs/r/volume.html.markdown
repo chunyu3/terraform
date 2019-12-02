@@ -54,6 +54,14 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `volume_container_id` - The ID of the volume container, in which this volume is created.
+
+* `operation_status` - The operation status on the volume.
+
+* `backup_status` - The backup status of the volume.
+
+* `backup_policy_ids` - The IDs of the backup policies, in which this volume is part of.
+
 * `id` - The path ID that uniquely identifies the object.
 
 * `name` - The name of the object.

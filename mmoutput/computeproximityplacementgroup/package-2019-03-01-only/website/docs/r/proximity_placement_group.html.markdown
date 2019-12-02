@@ -42,8 +42,33 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `virtual_machines` - One or more `virtual_machine` block defined below.
+
+* `virtual_machine_scale_sets` - One or more `virtual_machine_scale_set` block defined below.
+
+* `availability_sets` - One or more `availability_set` block defined below.
+
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
+
+
+---
+
+The `virtual_machine` block contains the following:
+
+* `id` - Resource Id
+
+---
+
+The `virtual_machine_scale_set` block contains the following:
+
+* `id` - Resource Id
+
+---
+
+The `availability_set` block contains the following:
+
+* `id` - Resource Id

@@ -8,4 +8,15 @@ task: !ruby/object:Provider::Ansible::Task
     location: West Europe
     tags: {}
     enabled: 'true'
+    description: log to metric description
+    source:
+      data_source_id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.OperationalInsights/workspaces/{{ workspace_name }}
+    action:
+      criteria:
+        - metricName: Average_% Idle Time
+          dimensions: []
+      odata.type: >-
+        Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction
   

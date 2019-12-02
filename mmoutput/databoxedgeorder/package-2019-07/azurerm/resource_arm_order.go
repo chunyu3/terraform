@@ -152,6 +152,82 @@ func resourceArmOrder() *schema.Resource {
                 },
             },
 
+            "delivery_tracking_info": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "carrier_name": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "serial_number": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "tracking_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "tracking_url": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "order_history": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "comments": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "status": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "update_date_time": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "return_tracking_info": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "carrier_name": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "serial_number": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "tracking_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "tracking_url": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "serial_number": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -238,6 +314,27 @@ func resourceArmOrderRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if orderProperties := resp.OrderProperties; orderProperties != nil {
+        if err := d.Set("contact_information", flattenArmOrderContactDetails(orderProperties.ContactInformation)); err != nil {
+            return fmt.Errorf("Error setting `contact_information`: %+v", err)
+        }
+        if err := d.Set("current_status", flattenArmOrderOrderStatus(orderProperties.CurrentStatus)); err != nil {
+            return fmt.Errorf("Error setting `current_status`: %+v", err)
+        }
+        if err := d.Set("delivery_tracking_info", flattenArmOrderTrackingInfo(orderProperties.DeliveryTrackingInfo)); err != nil {
+            return fmt.Errorf("Error setting `delivery_tracking_info`: %+v", err)
+        }
+        if err := d.Set("order_history", flattenArmOrderOrderStatus(orderProperties.OrderHistory)); err != nil {
+            return fmt.Errorf("Error setting `order_history`: %+v", err)
+        }
+        if err := d.Set("return_tracking_info", flattenArmOrderTrackingInfo(orderProperties.ReturnTrackingInfo)); err != nil {
+            return fmt.Errorf("Error setting `return_tracking_info`: %+v", err)
+        }
+        d.Set("serial_number", orderProperties.SerialNumber)
+        if err := d.Set("shipping_address", flattenArmOrderAddress(orderProperties.ShippingAddress)); err != nil {
+            return fmt.Errorf("Error setting `shipping_address`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
     return nil
@@ -333,4 +430,124 @@ func expandArmOrderAddress(input []interface{}) *databoxedge.Address {
         State: utils.String(state),
     }
     return &result
+}
+
+
+func flattenArmOrderContactDetails(input *databoxedge.ContactDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if companyName := input.CompanyName; companyName != nil {
+        result["company_name"] = *companyName
+    }
+    if contactPerson := input.ContactPerson; contactPerson != nil {
+        result["contact_person"] = *contactPerson
+    }
+    result["email_list"] = utils.FlattenStringSlice(input.EmailList)
+    if phone := input.Phone; phone != nil {
+        result["phone"] = *phone
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmOrderOrderStatus(input *databoxedge.OrderStatus) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if comments := input.Comments; comments != nil {
+        result["comments"] = *comments
+    }
+    result["status"] = string(input.Status)
+
+    return []interface{}{result}
+}
+
+func flattenArmOrderTrackingInfo(input *[]databoxedge.TrackingInfo) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if carrierName := item.CarrierName; carrierName != nil {
+            v["carrier_name"] = *carrierName
+        }
+        if serialNumber := item.SerialNumber; serialNumber != nil {
+            v["serial_number"] = *serialNumber
+        }
+        if trackingId := item.TrackingID; trackingId != nil {
+            v["tracking_id"] = *trackingId
+        }
+        if trackingUrl := item.TrackingURL; trackingUrl != nil {
+            v["tracking_url"] = *trackingUrl
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmOrderOrderStatus(input *[]databoxedge.OrderStatus) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if comments := item.Comments; comments != nil {
+            v["comments"] = *comments
+        }
+        v["status"] = string(item.Status)
+        if updateDateTime := item.UpdateDateTime; updateDateTime != nil {
+            v["update_date_time"] = (*updateDateTime).String()
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmOrderAddress(input *databoxedge.Address) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if addressLine1 := input.AddressLine1; addressLine1 != nil {
+        result["address_line1"] = *addressLine1
+    }
+    if addressLine2 := input.AddressLine2; addressLine2 != nil {
+        result["address_line2"] = *addressLine2
+    }
+    if addressLine3 := input.AddressLine3; addressLine3 != nil {
+        result["address_line3"] = *addressLine3
+    }
+    if city := input.City; city != nil {
+        result["city"] = *city
+    }
+    if country := input.Country; country != nil {
+        result["country"] = *country
+    }
+    if postalCode := input.PostalCode; postalCode != nil {
+        result["postal_code"] = *postalCode
+    }
+    if state := input.State; state != nil {
+        result["state"] = *state
+    }
+
+    return []interface{}{result}
 }

@@ -108,6 +108,104 @@ func resourceArmEnvironment() *schema.Resource {
                 ForceNew: true,
             },
 
+            "claimed_by_user_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "claimed_by_user_object_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "claimed_by_user_principal_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "is_claimed": {
+                Type: schema.TypeBool,
+                Computed: true,
+            },
+
+            "last_known_power_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "latest_operation_result": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "error_code": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "error_message": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "http_method": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "operation_url": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "request_uri": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "status": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "network_interface": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "private_ip_address": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "rdp_authority": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "ssh_authority": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "username": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "password_last_reset": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "total_usage": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -206,12 +304,35 @@ func resourceArmEnvironmentRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if environmentPropertiesFragment := resp.EnvironmentPropertiesFragment; environmentPropertiesFragment != nil {
+        d.Set("claimed_by_user_name", environmentPropertiesFragment.ClaimedByUserName)
+        d.Set("claimed_by_user_object_id", environmentPropertiesFragment.ClaimedByUserObjectID)
+        d.Set("claimed_by_user_principal_id", environmentPropertiesFragment.ClaimedByUserPrincipalID)
+        d.Set("is_claimed", environmentPropertiesFragment.IsClaimed)
+        d.Set("last_known_power_state", environmentPropertiesFragment.LastKnownPowerState)
+        if err := d.Set("latest_operation_result", flattenArmEnvironmentLatestOperationResult(environmentPropertiesFragment.LatestOperationResult)); err != nil {
+            return fmt.Errorf("Error setting `latest_operation_result`: %+v", err)
+        }
+        if err := d.Set("network_interface", flattenArmEnvironmentNetworkInterface(environmentPropertiesFragment.NetworkInterface)); err != nil {
+            return fmt.Errorf("Error setting `network_interface`: %+v", err)
+        }
+        d.Set("password_last_reset", (environmentPropertiesFragment.PasswordLastReset).String())
+        d.Set("provisioning_state", environmentPropertiesFragment.ProvisioningState)
+        if err := d.Set("resource_sets", flattenArmEnvironmentResourceSetFragment(environmentPropertiesFragment.ResourceSets)); err != nil {
+            return fmt.Errorf("Error setting `resource_sets`: %+v", err)
+        }
+        d.Set("total_usage", environmentPropertiesFragment.TotalUsage)
+        d.Set("unique_identifier", environmentPropertiesFragment.UniqueIdentifier)
+    }
     d.Set("environment_setting_name", environmentSettingName)
     d.Set("lab_account_name", labAccountName)
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmEnvironmentUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -295,4 +416,74 @@ func expandArmEnvironmentResourceSetFragment(input []interface{}) *labservices.R
         VMResourceID: utils.String(vmResourceId),
     }
     return &result
+}
+
+
+func flattenArmEnvironmentLatestOperationResult(input *labservices.LatestOperationResult) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if errorCode := input.ErrorCode; errorCode != nil {
+        result["error_code"] = *errorCode
+    }
+    if errorMessage := input.ErrorMessage; errorMessage != nil {
+        result["error_message"] = *errorMessage
+    }
+    if httpMethod := input.HTTPMethod; httpMethod != nil {
+        result["http_method"] = *httpMethod
+    }
+    if operationUrl := input.OperationURL; operationUrl != nil {
+        result["operation_url"] = *operationUrl
+    }
+    if requestUri := input.RequestURI; requestUri != nil {
+        result["request_uri"] = *requestUri
+    }
+    if status := input.Status; status != nil {
+        result["status"] = *status
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmEnvironmentNetworkInterface(input *labservices.NetworkInterface) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if privateIpAddress := input.PrivateIPAddress; privateIpAddress != nil {
+        result["private_ip_address"] = *privateIpAddress
+    }
+    if rdpAuthority := input.RdpAuthority; rdpAuthority != nil {
+        result["rdp_authority"] = *rdpAuthority
+    }
+    if sshAuthority := input.SSHAuthority; sshAuthority != nil {
+        result["ssh_authority"] = *sshAuthority
+    }
+    if username := input.Username; username != nil {
+        result["username"] = *username
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmEnvironmentResourceSetFragment(input *labservices.ResourceSetFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if resourceSettingId := input.ResourceSettingID; resourceSettingId != nil {
+        result["resource_setting_id"] = *resourceSettingId
+    }
+    if vmResourceId := input.VMResourceID; vmResourceId != nil {
+        result["vm_resource_id"] = *vmResourceId
+    }
+
+    return []interface{}{result}
 }

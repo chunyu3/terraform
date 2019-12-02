@@ -262,6 +262,18 @@ The `auto_scaling_policy` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - State of the resource.
+
+* `service_names` - Names of the services in the application.
+
+* `status` - Status of the application.
+
+* `status_details` - Gives additional information about the current status of the application.
+
+* `health_state` - Describes the health state of an application resource.
+
+* `unhealthy_evaluation` - When the application's health state is not 'Ok', this additional details from service fabric Health Manager for the user to know why the application is marked unhealthy.
+
 * `id` - Fully qualified identifier for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource

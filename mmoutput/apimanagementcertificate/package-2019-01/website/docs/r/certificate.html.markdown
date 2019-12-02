@@ -42,6 +42,12 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `subject` - Subject attribute of the certificate.
+
+* `thumbprint` - Thumbprint of the certificate.
+
+* `expiration_date` - Expiration date of the certificate. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

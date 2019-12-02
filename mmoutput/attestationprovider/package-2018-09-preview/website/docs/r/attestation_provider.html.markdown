@@ -90,3 +90,7 @@ The following attributes are exported:
 * `name` - The name of the resource
 
 * `type` - The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+
+* `status` - Status of attestation service.
+
+* `attest_uri` - Gets the uri of attestation service

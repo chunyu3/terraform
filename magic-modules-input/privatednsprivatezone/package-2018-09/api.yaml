@@ -114,6 +114,62 @@ objects:
             python_parameter_name: private_zone_name
             python_variable_name: name
         response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateZoneProperties
+            go_type_name: PrivateZoneProperties
+          '/properties/maxNumberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaxNumberOfRecordSets
+          '/maxNumberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: max_number_of_record_sets
+          '/properties/numberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: NumberOfRecordSets
+          '/numberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: number_of_record_sets
+          '/properties/maxNumberOfVirtualNetworkLinks': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaxNumberOfVirtualNetworkLinks
+          '/maxNumberOfVirtualNetworkLinks': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: max_number_of_virtual_network_links
+          '/properties/numberOfVirtualNetworkLinks': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: NumberOfVirtualNetworkLinks
+          '/numberOfVirtualNetworkLinks': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: number_of_virtual_network_links
+          '/properties/maxNumberOfVirtualNetworkLinksWithRegistration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaxNumberOfVirtualNetworkLinksWithRegistration
+          '/maxNumberOfVirtualNetworkLinksWithRegistration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: max_number_of_virtual_network_links_with_registration
+          '/properties/numberOfVirtualNetworkLinksWithRegistration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: NumberOfVirtualNetworkLinksWithRegistration
+          '/numberOfVirtualNetworkLinksWithRegistration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: number_of_virtual_network_links_with_registration
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -171,6 +227,48 @@ objects:
         input: true
         azure_sdk_references: ['/etag']
       # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'maxNumberOfRecordSets'
+        description: 'The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/maxNumberOfRecordSets', '/properties/maxNumberOfRecordSets']
+      - !ruby/object:Api::Type::Integer
+        name: 'numberOfRecordSets'
+        description: 'The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/numberOfRecordSets', '/properties/numberOfRecordSets']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxNumberOfVirtualNetworkLinks'
+        description: 'The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/maxNumberOfVirtualNetworkLinks', '/properties/maxNumberOfVirtualNetworkLinks']
+      - !ruby/object:Api::Type::Integer
+        name: 'numberOfVirtualNetworkLinks'
+        description: 'The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/numberOfVirtualNetworkLinks', '/properties/numberOfVirtualNetworkLinks']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxNumberOfVirtualNetworkLinksWithRegistration'
+        description: 'The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/maxNumberOfVirtualNetworkLinksWithRegistration', '/properties/maxNumberOfVirtualNetworkLinksWithRegistration']
+      - !ruby/object:Api::Type::Integer
+        name: 'numberOfVirtualNetworkLinksWithRegistration'
+        description: 'The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/numberOfVirtualNetworkLinksWithRegistration', '/properties/numberOfVirtualNetworkLinksWithRegistration']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Updating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+          - :Canceled
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Example - ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}''.'

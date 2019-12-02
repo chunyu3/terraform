@@ -111,6 +111,28 @@ objects:
             python_parameter_name: spatial_anchors_account_name
             python_variable_name: name
         response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SpatialAnchorsAccountProperties
+            go_type_name: SpatialAnchorsAccountProperties
+          '/properties/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountID
+          '/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_id
+          '/properties/accountDomain': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountDomain
+          '/accountDomain': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_domain
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -168,6 +190,16 @@ objects:
         input: true
         azure_sdk_references: ['/serial']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'accountId'
+        description: 'unique id of certain Spatial Anchors Account data contract.'
+        output: true
+        azure_sdk_references: ['/accountId', '/properties/accountId']
+      - !ruby/object:Api::Type::String
+        name: 'accountDomain'
+        description: 'Correspond domain name of certain Spatial Anchors Account'
+        output: true
+        azure_sdk_references: ['/accountDomain', '/properties/accountDomain']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'

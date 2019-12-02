@@ -43,6 +43,11 @@ func resourceArmDisk() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -103,6 +108,16 @@ func resourceArmDisk() *schema.Resource {
             "unique_identifier": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "created_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "type": {
@@ -213,11 +228,27 @@ func resourceArmDiskRead(d *schema.ResourceData, meta interface{}) error {
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if diskProperties := resp.DiskProperties; diskProperties != nil {
+        d.Set("created_date", (diskProperties.CreatedDate).String())
+        d.Set("disk_blob_name", diskProperties.DiskBlobName)
+        d.Set("disk_size_gi_b", int(*diskProperties.DiskSizeGiB))
+        d.Set("disk_type", string(diskProperties.DiskType))
+        d.Set("disk_uri", diskProperties.DiskURI)
+        d.Set("host_caching", diskProperties.HostCaching)
+        d.Set("leased_by_lab_vm_id", diskProperties.LeasedByLabVMID)
+        d.Set("managed_disk_id", diskProperties.ManagedDiskID)
+        d.Set("provisioning_state", diskProperties.ProvisioningState)
+        d.Set("unique_identifier", diskProperties.UniqueIdentifier)
+    }
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 

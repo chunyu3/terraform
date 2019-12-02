@@ -163,6 +163,64 @@ objects:
             python_parameter_name: cloud_endpoint_name
             python_variable_name: name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CloudEndpointCreateParametersProperties
+            go_type_name: CloudEndpointCreateParametersProperties
+          '/properties/storageAccountResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountResourceID
+          '/storageAccountResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_resource_id
+          '/properties/storageAccountShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountShareName
+          '/storageAccountShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_share_name
+          '/properties/storageAccountTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountTenantID
+          '/storageAccountTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_tenant_id
+          '/properties/partnershipId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PartnershipID
+          '/partnershipId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: partnership_id
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/backupEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: BackupEnabled
+          '/backupEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: backup_enabled
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastWorkflowID
+          '/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_workflow_id
+          '/properties/lastOperationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastOperationName
+          '/lastOperationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_operation_name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -319,6 +377,36 @@ objects:
         input: true
         azure_sdk_references: ['/failedFileList']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'partnershipId'
+        description: 'Partnership Id'
+        output: true
+        azure_sdk_references: ['/partnershipId', '/properties/partnershipId']
+      - !ruby/object:Api::Type::String
+        name: 'friendlyName'
+        description: 'Friendly Name'
+        output: true
+        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'backupEnabled'
+        description: 'Backup Enabled'
+        output: true
+        azure_sdk_references: ['/backupEnabled', '/properties/backupEnabled']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'CloudEndpoint Provisioning State'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'lastWorkflowId'
+        description: 'CloudEndpoint lastWorkflowId'
+        output: true
+        azure_sdk_references: ['/lastWorkflowId', '/properties/lastWorkflowId']
+      - !ruby/object:Api::Type::String
+        name: 'lastOperationName'
+        description: 'Resource Last Operation Name'
+        output: true
+        azure_sdk_references: ['/lastOperationName', '/properties/lastOperationName']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'

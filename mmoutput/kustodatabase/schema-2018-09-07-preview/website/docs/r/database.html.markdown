@@ -34,6 +34,24 @@ The following arguments are supported:
 
 * `cluster_name` - (Required) The name of the Kusto cluster. Changing this forces a new resource to be created.
 
+* `value` - (Optional) One or more `value` block defined below.
+
+---
+
+The `value` block supports the following:
+
+* `role` - (Required) Database principal role.
+
+* `name` - (Required) Database principal name.
+
+* `type` - (Required) Database principal type.
+
+* `fqn` - (Optional) Database principal fully qualified name.
+
+* `email` - (Optional) Database principal email if exists.
+
+* `app_id` - (Optional) Application id - relevant only for application principal type.
+
 ## Attributes Reference
 
 The following attributes are exported:
