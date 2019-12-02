@@ -103,6 +103,11 @@ func resourceArmSubnet() *schema.Resource {
                     },
                 },
             },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
         },
     }
 }
@@ -193,7 +198,22 @@ func resourceArmSubnetRead(d *schema.ResourceData, meta interface{}) error {
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if subnetPropertiesFormat := resp.SubnetPropertiesFormat; subnetPropertiesFormat != nil {
+        d.Set("address_prefix", subnetPropertiesFormat.AddressPrefix)
+        if err := d.Set("ip_configurations", flattenArmSubnetSubResource(subnetPropertiesFormat.IPConfigurations)); err != nil {
+            return fmt.Errorf("Error setting `ip_configurations`: %+v", err)
+        }
+        if err := d.Set("network_security_group", flattenArmSubnetSubResource(subnetPropertiesFormat.NetworkSecurityGroup)); err != nil {
+            return fmt.Errorf("Error setting `network_security_group`: %+v", err)
+        }
+        d.Set("provisioning_state", subnetPropertiesFormat.ProvisioningState)
+        if err := d.Set("route_table", flattenArmSubnetSubResource(subnetPropertiesFormat.RouteTable)); err != nil {
+            return fmt.Errorf("Error setting `route_table`: %+v", err)
+        }
+    }
+    d.Set("etag", resp.Etag)
     d.Set("virtual_network_name", virtualNetworkName)
 
     return nil
@@ -257,4 +277,38 @@ func expandArmSubnetSubResource(input []interface{}) *network.SubResource {
         ID: utils.String(id),
     }
     return &result
+}
+
+
+func flattenArmSubnetSubResource(input *[]network.SubResource) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmSubnetSubResource(input *network.SubResource) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+
+    return []interface{}{result}
 }

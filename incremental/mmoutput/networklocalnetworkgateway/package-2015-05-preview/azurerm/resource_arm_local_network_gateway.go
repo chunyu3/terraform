@@ -78,6 +78,11 @@ func resourceArmLocalNetworkGateway() *schema.Resource {
                 Optional: true,
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -172,9 +177,21 @@ func resourceArmLocalNetworkGatewayRead(d *schema.ResourceData, meta interface{}
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    d.Set("etag", resp.Etag)
+    if localNetworkGatewayPropertiesFormat := resp.LocalNetworkGatewayPropertiesFormat; localNetworkGatewayPropertiesFormat != nil {
+        d.Set("gateway_ip_address", localNetworkGatewayPropertiesFormat.GatewayIPAddress)
+        if err := d.Set("local_network_address_space", flattenArmLocalNetworkGatewayAddressSpace(localNetworkGatewayPropertiesFormat.LocalNetworkAddressSpace)); err != nil {
+            return fmt.Errorf("Error setting `local_network_address_space`: %+v", err)
+        }
+        d.Set("provisioning_state", localNetworkGatewayPropertiesFormat.ProvisioningState)
+        d.Set("resource_guid", localNetworkGatewayPropertiesFormat.ResourceGUID)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -219,4 +236,17 @@ func expandArmLocalNetworkGatewayAddressSpace(input []interface{}) *network.Addr
         AddressPrefixes: utils.ExpandStringSlice(addressPrefixes),
     }
     return &result
+}
+
+
+func flattenArmLocalNetworkGatewayAddressSpace(input *network.AddressSpace) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["address_prefixes"] = utils.FlattenStringSlice(input.AddressPrefixes)
+
+    return []interface{}{result}
 }

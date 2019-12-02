@@ -71,4 +71,21 @@ task: !ruby/object:Provider::Ansible::Task
               myServiceType1:
                 maxPercentDeltaUnhealthyServices: '0'
     upgrade_mode: Manual
+    azure_active_directory:
+      tenant_id: 6abcc6a0-8666-43f1-87b8-172cf86a9f9c
+      cluster_application: 5886372e-7bf4-4878-a497-8098aba608ae
+      client_application: d151ad89-4bce-4ae8-b3d1-1dc79679fa75
+    diagnostics_storage_account_config:
+      storage_account_name: diag
+      protected_account_key_name: StorageAccountKey1
+      blob_endpoint: 'https://diag.blob.core.windows.net/'
+      queue_endpoint: 'https://diag.queue.core.windows.net/'
+      table_endpoint: 'https://diag.table.core.windows.net/'
+    management_endpoint: 'https://myCluster.eastus.cloudapp.azure.com:19080'
+    reverse_proxy_certificate_common_names:
+      common_names:
+        - certificate_common_name: abc.com
+          certificate_issuer_thumbprint: 12599211F8F14C90AFA9532AD79A6F2CA1C00622
+      x509store_name: My
+    vm_image: Windows
   

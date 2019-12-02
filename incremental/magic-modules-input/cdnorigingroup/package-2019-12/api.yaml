@@ -218,6 +218,114 @@ objects:
             python_parameter_name: origin_group_name
             python_variable_name: name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OriginGroupUpdatePropertiesParameters
+            go_type_name: OriginGroupUpdatePropertiesParameters
+          '/properties/healthProbeSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HealthProbeSettings
+            go_type_name: HealthProbeParameters
+          '/properties/healthProbeSettings/probePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProbePath
+          '/properties/healthProbeSettings/probeRequestType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProbeRequestType
+            go_enum_type_name: HealthProbeRequestType
+          '/properties/healthProbeSettings/probeProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProbeProtocol
+            go_enum_type_name: ProbeProtocol
+          '/properties/healthProbeSettings/probeIntervalInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ProbeIntervalInSeconds
+          '/healthProbeSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: health_probe_settings
+          '/healthProbeSettings/probePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: probe_path
+          '/healthProbeSettings/probeRequestType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: probe_request_type
+          '/healthProbeSettings/probeProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: probe_protocol
+          '/healthProbeSettings/probeIntervalInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: probe_interval_in_seconds
+          '/properties/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Origins
+            go_type_name: ResourceReference
+          '/properties/origins/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: origins
+          '/origins/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/trafficRestorationTimeToHealedOrNewEndpointsInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+          '/trafficRestorationTimeToHealedOrNewEndpointsInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: traffic_restoration_time_to_healed_or_new_endpoints_in_minutes
+          '/properties/responseBasedOriginErrorDetectionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ResponseBasedOriginErrorDetectionSettings
+            go_type_name: ResponseBasedOriginErrorDetectionParameters
+          '/properties/responseBasedOriginErrorDetectionSettings/responseBasedDetectedErrorTypes': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResponseBasedDetectedErrorTypes
+            go_enum_type_name: ResponseBasedDetectedErrorTypes
+          '/properties/responseBasedOriginErrorDetectionSettings/responseBasedFailoverThresholdPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ResponseBasedFailoverThresholdPercentage
+          '/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: HTTPErrorRanges
+            go_type_name: HttpErrorRangeParameters
+          '/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Begin
+          '/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: End
+          '/responseBasedOriginErrorDetectionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: response_based_origin_error_detection_settings
+          '/responseBasedOriginErrorDetectionSettings/responseBasedDetectedErrorTypes': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: response_based_detected_error_types
+          '/responseBasedOriginErrorDetectionSettings/responseBasedFailoverThresholdPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: response_based_failover_threshold_percentage
+          '/responseBasedOriginErrorDetectionSettings/httpErrorRanges': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: http_error_ranges
+          '/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: begin
+          '/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: end
+          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResourceState
+            go_enum_type_name: OriginGroupResourceState
+          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: resource_state
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -366,6 +474,20 @@ objects:
                   required: false
                   azure_sdk_references: ['/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end', '/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end']
       # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'resourceState'
+        description: 'Resource status of the origin group.'
+        output: true
+        azure_sdk_references: ['/resourceState', '/properties/resourceState']
+        values:
+          - :Creating
+          - :Active
+          - :Deleting
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Provisioning status of the origin group.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

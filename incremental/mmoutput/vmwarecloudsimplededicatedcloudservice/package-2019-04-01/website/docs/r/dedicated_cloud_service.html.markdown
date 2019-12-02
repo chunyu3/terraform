@@ -42,6 +42,12 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `is_account_onboarded` - indicates whether account onboarded or not in a given region
+
+* `nodes` - total nodes purchased
+
+* `service_url` - link to a service management web portal
+
 * `id` - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudServices/{dedicatedCloudServiceName}
 
 * `name` - {dedicatedCloudServiceName}

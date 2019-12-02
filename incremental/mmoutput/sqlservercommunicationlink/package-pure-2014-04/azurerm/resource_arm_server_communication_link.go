@@ -63,6 +63,11 @@ func resourceArmServerCommunicationLink() *schema.Resource {
                 Computed: true,
             },
 
+            "state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -151,6 +156,10 @@ func resourceArmServerCommunicationLinkRead(d *schema.ResourceData, meta interfa
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("kind", resp.Kind)
+    if serverCommunicationLinkProperties := resp.ServerCommunicationLinkProperties; serverCommunicationLinkProperties != nil {
+        d.Set("partner_server", serverCommunicationLinkProperties.PartnerServer)
+        d.Set("state", serverCommunicationLinkProperties.State)
+    }
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 

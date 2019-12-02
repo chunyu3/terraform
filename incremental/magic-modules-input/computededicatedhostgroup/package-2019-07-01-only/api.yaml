@@ -123,6 +123,38 @@ objects:
             python_parameter_name: host_group_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DedicatedHostGroupProperties
+            go_type_name: DedicatedHostGroupProperties
+          '/properties/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PlatformFaultDomainCount
+          '/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: platform_fault_domain_count
+          '/properties/hosts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Hosts
+            go_type_name: SubResourceReadOnly
+          '/properties/hosts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/hosts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: hosts
+          '/hosts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: Zones
+            python_field_name: zones
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -186,6 +218,18 @@ objects:
         azure_sdk_references: ['/zones']
         item_type: Api::Type::String
       # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'hosts'
+        description: 'A list of references to all dedicated hosts in the dedicated host group.'
+        output: true
+        azure_sdk_references: ['/hosts', '/properties/hosts']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id'
+              output: true
+              azure_sdk_references: ['/hosts/id', '/properties/hosts/id']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

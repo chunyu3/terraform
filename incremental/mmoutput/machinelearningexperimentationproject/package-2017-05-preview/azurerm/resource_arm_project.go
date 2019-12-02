@@ -74,7 +74,32 @@ func resourceArmProject() *schema.Resource {
                 Optional: true,
             },
 
+            "account_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "creation_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "project_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "workspace_id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -165,11 +190,24 @@ func resourceArmProjectRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if projectPropertiesUpdateParameters := resp.ProjectPropertiesUpdateParameters; projectPropertiesUpdateParameters != nil {
+        d.Set("account_id", projectPropertiesUpdateParameters.AccountID)
+        d.Set("creation_date", (projectPropertiesUpdateParameters.CreationDate).String())
+        d.Set("description", projectPropertiesUpdateParameters.Description)
+        d.Set("friendly_name", projectPropertiesUpdateParameters.FriendlyName)
+        d.Set("gitrepo", projectPropertiesUpdateParameters.Gitrepo)
+        d.Set("project_id", projectPropertiesUpdateParameters.ProjectID)
+        d.Set("provisioning_state", string(projectPropertiesUpdateParameters.ProvisioningState))
+        d.Set("workspace_id", projectPropertiesUpdateParameters.WorkspaceID)
+    }
     d.Set("account_name", accountName)
     d.Set("type", resp.Type)
     d.Set("workspace_name", workspaceName)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmProjectUpdate(d *schema.ResourceData, meta interface{}) error {

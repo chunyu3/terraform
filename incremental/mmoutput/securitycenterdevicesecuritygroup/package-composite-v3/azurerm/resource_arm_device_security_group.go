@@ -238,6 +238,20 @@ func resourceArmDeviceSecurityGroupRead(d *schema.ResourceData, meta interface{}
 
     d.Set("name", name)
     d.Set("name", resp.Name)
+    if deviceSecurityGroupProperties := resp.DeviceSecurityGroupProperties; deviceSecurityGroupProperties != nil {
+        if err := d.Set("allowlist_rules", flattenArmDeviceSecurityGroupAllowlistCustomAlertRule(deviceSecurityGroupProperties.AllowlistRules)); err != nil {
+            return fmt.Errorf("Error setting `allowlist_rules`: %+v", err)
+        }
+        if err := d.Set("denylist_rules", flattenArmDeviceSecurityGroupDenylistCustomAlertRule(deviceSecurityGroupProperties.DenylistRules)); err != nil {
+            return fmt.Errorf("Error setting `denylist_rules`: %+v", err)
+        }
+        if err := d.Set("threshold_rules", flattenArmDeviceSecurityGroupThresholdCustomAlertRule(deviceSecurityGroupProperties.ThresholdRules)); err != nil {
+            return fmt.Errorf("Error setting `threshold_rules`: %+v", err)
+        }
+        if err := d.Set("time_window_rules", flattenArmDeviceSecurityGroupTimeWindowCustomAlertRule(deviceSecurityGroupProperties.TimeWindowRules)); err != nil {
+            return fmt.Errorf("Error setting `time_window_rules`: %+v", err)
+        }
+    }
     d.Set("resource_id", resourceID)
     d.Set("type", resp.Type)
 
@@ -343,4 +357,110 @@ func expandArmDeviceSecurityGroupTimeWindowCustomAlertRule(input []interface{}) 
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmDeviceSecurityGroupAllowlistCustomAlertRule(input *[]securitycenter.AllowlistCustomAlertRule) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["allowlist_values"] = utils.FlattenStringSlice(item.AllowlistValues)
+        if isEnabled := item.IsEnabled; isEnabled != nil {
+            v["is_enabled"] = *isEnabled
+        }
+        if ruleType := item.RuleType; ruleType != nil {
+            v["rule_type"] = *ruleType
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmDeviceSecurityGroupDenylistCustomAlertRule(input *[]securitycenter.DenylistCustomAlertRule) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["denylist_values"] = utils.FlattenStringSlice(item.DenylistValues)
+        if isEnabled := item.IsEnabled; isEnabled != nil {
+            v["is_enabled"] = *isEnabled
+        }
+        if ruleType := item.RuleType; ruleType != nil {
+            v["rule_type"] = *ruleType
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmDeviceSecurityGroupThresholdCustomAlertRule(input *[]securitycenter.ThresholdCustomAlertRule) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if isEnabled := item.IsEnabled; isEnabled != nil {
+            v["is_enabled"] = *isEnabled
+        }
+        if maxThreshold := item.MaxThreshold; maxThreshold != nil {
+            v["max_threshold"] = *maxThreshold
+        }
+        if minThreshold := item.MinThreshold; minThreshold != nil {
+            v["min_threshold"] = *minThreshold
+        }
+        if ruleType := item.RuleType; ruleType != nil {
+            v["rule_type"] = *ruleType
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmDeviceSecurityGroupTimeWindowCustomAlertRule(input *[]securitycenter.TimeWindowCustomAlertRule) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if isEnabled := item.IsEnabled; isEnabled != nil {
+            v["is_enabled"] = *isEnabled
+        }
+        if maxThreshold := item.MaxThreshold; maxThreshold != nil {
+            v["max_threshold"] = *maxThreshold
+        }
+        if minThreshold := item.MinThreshold; minThreshold != nil {
+            v["min_threshold"] = *minThreshold
+        }
+        if ruleType := item.RuleType; ruleType != nil {
+            v["rule_type"] = *ruleType
+        }
+        if timeWindowSize := item.TimeWindowSize; timeWindowSize != nil {
+            v["time_window_size"] = *timeWindowSize
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

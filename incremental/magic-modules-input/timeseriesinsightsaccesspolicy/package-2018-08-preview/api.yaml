@@ -116,6 +116,28 @@ objects:
             python_parameter_name: access_policy_name
             python_variable_name: name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccessPolicyMutableProperties
+            go_type_name: AccessPolicyMutableProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/roles': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Roles
+          '/roles': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: roles
+          '/properties/principalObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrincipalObjectID
+          '/principalObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: principal_object_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -179,6 +201,11 @@ objects:
             - :Contributor
           default_value: :Reader
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'principalObjectId'
+        description: 'The objectId of the principal in Azure Active Directory.'
+        output: true
+        azure_sdk_references: ['/principalObjectId', '/properties/principalObjectId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

@@ -45,6 +45,26 @@ func resourceArmUserAssignedIdentity() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "client_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "client_secret_url": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "principal_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "tenant_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -125,9 +145,18 @@ func resourceArmUserAssignedIdentityRead(d *schema.ResourceData, meta interface{
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if identityProperties := resp.IdentityProperties; identityProperties != nil {
+        d.Set("client_id", identityProperties.ClientID)
+        d.Set("client_secret_url", identityProperties.ClientSecretURL)
+        d.Set("principal_id", identityProperties.PrincipalID)
+        d.Set("tenant_id", identityProperties.TenantID)
+    }
     d.Set("type", string(resp.Type))
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmUserAssignedIdentityUpdate(d *schema.ResourceData, meta interface{}) error {

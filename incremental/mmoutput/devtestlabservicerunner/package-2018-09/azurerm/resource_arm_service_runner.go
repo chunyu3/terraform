@@ -43,6 +43,11 @@ func resourceArmServiceRunner() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -156,10 +161,17 @@ func resourceArmServiceRunnerRead(d *schema.ResourceData, meta interface{}) erro
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if err := d.Set("identity", flattenArmServiceRunnerIdentityProperties(resp.Identity)); err != nil {
+        return fmt.Errorf("Error setting `identity`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -201,4 +213,28 @@ func expandArmServiceRunnerIdentityProperties(input []interface{}) *devtestlab.I
         Type: utils.String(type),
     }
     return &result
+}
+
+
+func flattenArmServiceRunnerIdentityProperties(input *devtestlab.IdentityProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if clientSecretUrl := input.ClientSecretURL; clientSecretUrl != nil {
+        result["client_secret_url"] = *clientSecretUrl
+    }
+    if principalId := input.PrincipalID; principalId != nil {
+        result["principal_id"] = *principalId
+    }
+    if tenantId := input.TenantID; tenantId != nil {
+        result["tenant_id"] = *tenantId
+    }
+    if type := input.Type; type != nil {
+        result["type"] = *type
+    }
+
+    return []interface{}{result}
 }

@@ -46,6 +46,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `provisioning_state` - The current deployment or provisioning state, which only appears in the response
+
+* `default_parameter_list` - List of application type parameters that can be overridden when creating or updating the application.
+
 * `id` - Azure resource identifier.
 
 * `name` - Azure resource name.

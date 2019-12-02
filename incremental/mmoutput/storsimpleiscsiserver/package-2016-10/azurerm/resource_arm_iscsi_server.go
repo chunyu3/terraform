@@ -178,6 +178,13 @@ func resourceArmIscsiServerRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if iSCSIServerProperties := resp.ISCSIServerProperties; iSCSIServerProperties != nil {
+        d.Set("backup_schedule_group_id", iSCSIServerProperties.BackupScheduleGroupID)
+        d.Set("chap_id", iSCSIServerProperties.ChapID)
+        d.Set("description", iSCSIServerProperties.Description)
+        d.Set("reverse_chap_id", iSCSIServerProperties.ReverseChapID)
+        d.Set("storage_domain_id", iSCSIServerProperties.StorageDomainID)
+    }
     d.Set("device_name", deviceName)
     d.Set("manager_name", managerName)
     d.Set("type", resp.Type)

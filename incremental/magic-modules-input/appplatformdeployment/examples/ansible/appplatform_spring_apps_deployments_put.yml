@@ -7,18 +7,21 @@ task: !ruby/object:Provider::Ansible::Task
     service_name: mySpring
     app_name: myApp
     name: myDeployment
-    source:
-      type: Source
-      relative_path: >-
-        resources/a172cedcae47474b615c54d510a5d84a8dea3032e958587430b413538be3f333-2019082605-e3095339-1723-44b7-8b5e-31b1003978bc
-      version: '1.0'
-      artifact_selector: sub-module-1
-    deployment_settings:
-      cpu: '1'
-      memory_in_gb: '3'
-      jvm_options: '-Xms1G -Xmx3G'
-      instance_count: '1'
-      environment_variables:
-        env: test
-      runtime_version: Java_8
+    deployment_resource:
+      properties:
+        source:
+          type: Source
+          relativePath: >-
+            resources/a172cedcae47474b615c54d510a5d84a8dea3032e958587430b413538be3f333-2019082605-e3095339-1723-44b7-8b5e-31b1003978bc
+          version: '1.0'
+          artifactSelector: sub-module-1
+        deploymentSettings:
+          cpu: '1'
+          memoryInGB: '3'
+          jvmOptions: '-Xms1G -Xmx3G'
+          instanceCount: '1'
+          environmentVariables:
+            env: test
+          runtimeVersion: Java_8
+        instances: null
   

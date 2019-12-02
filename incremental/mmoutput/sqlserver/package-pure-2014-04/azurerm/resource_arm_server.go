@@ -74,7 +74,27 @@ func resourceArmServer() *schema.Resource {
                 Default: string(sql.2.0),
             },
 
+            "external_administrator_login": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "external_administrator_sid": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "fully_qualified_domain_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "kind": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "state": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -166,10 +186,22 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if serverProperties := resp.ServerProperties; serverProperties != nil {
+        d.Set("administrator_login", serverProperties.AdministratorLogin)
+        d.Set("administrator_login_password", serverProperties.AdministratorLoginPassword)
+        d.Set("external_administrator_login", serverProperties.ExternalAdministratorLogin)
+        d.Set("external_administrator_sid", serverProperties.ExternalAdministratorSid)
+        d.Set("fully_qualified_domain_name", serverProperties.FullyQualifiedDomainName)
+        d.Set("state", string(serverProperties.State))
+        d.Set("version", string(serverProperties.Version))
+    }
     d.Set("kind", resp.Kind)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {

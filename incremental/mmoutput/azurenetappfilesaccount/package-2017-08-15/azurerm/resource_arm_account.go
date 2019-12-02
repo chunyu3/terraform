@@ -86,6 +86,11 @@ func resourceArmAccount() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -174,9 +179,18 @@ func resourceArmAccountRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if accountProperties := resp.AccountProperties; accountProperties != nil {
+        if err := d.Set("active_directories", flattenArmAccountActiveDirectory(accountProperties.ActiveDirectories)); err != nil {
+            return fmt.Errorf("Error setting `active_directories`: %+v", err)
+        }
+        d.Set("provisioning_state", accountProperties.ProvisioningState)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -259,4 +273,45 @@ func expandArmAccountActiveDirectory(input []interface{}) *[]azurenetappfiles.Ac
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmAccountActiveDirectory(input *[]azurenetappfiles.ActiveDirectory) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if activeDirectoryId := item.ActiveDirectoryID; activeDirectoryId != nil {
+            v["active_directory_id"] = *activeDirectoryId
+        }
+        if dNs := item.DNS; dNs != nil {
+            v["d_ns"] = *dNs
+        }
+        if domain := item.Domain; domain != nil {
+            v["domain"] = *domain
+        }
+        if organizationalUnit := item.OrganizationalUnit; organizationalUnit != nil {
+            v["organizational_unit"] = *organizationalUnit
+        }
+        if password := item.Password; password != nil {
+            v["password"] = *password
+        }
+        if sMbserverName := item.SMBServerName; sMbserverName != nil {
+            v["s_mbserver_name"] = *sMbserverName
+        }
+        if status := item.Status; status != nil {
+            v["status"] = *status
+        }
+        if username := item.Username; username != nil {
+            v["username"] = *username
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

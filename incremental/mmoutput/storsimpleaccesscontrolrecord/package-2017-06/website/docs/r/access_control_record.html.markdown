@@ -42,6 +42,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `volume_count` - The number of volumes using the access control record.
+
 * `id` - The path ID that uniquely identifies the object.
 
 * `name` - The name of the object.

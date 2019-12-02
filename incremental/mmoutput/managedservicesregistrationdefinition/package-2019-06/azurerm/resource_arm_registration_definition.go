@@ -113,6 +113,16 @@ func resourceArmRegistrationDefinition() *schema.Resource {
                 Optional: true,
             },
 
+            "managed_by_tenant_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -200,6 +210,19 @@ func resourceArmRegistrationDefinitionRead(d *schema.ResourceData, meta interfac
 
 
     d.Set("name", resp.Name)
+    if registrationDefinitionProperties := resp.RegistrationDefinitionProperties; registrationDefinitionProperties != nil {
+        if err := d.Set("authorizations", flattenArmRegistrationDefinitionAuthorization(registrationDefinitionProperties.Authorizations)); err != nil {
+            return fmt.Errorf("Error setting `authorizations`: %+v", err)
+        }
+        d.Set("description", registrationDefinitionProperties.Description)
+        d.Set("managed_by_tenant_id", registrationDefinitionProperties.ManagedByTenantID)
+        d.Set("managed_by_tenant_name", registrationDefinitionProperties.ManagedByTenantName)
+        d.Set("provisioning_state", string(registrationDefinitionProperties.ProvisioningState))
+        d.Set("registration_definition_name", registrationDefinitionProperties.RegistrationDefinitionName)
+    }
+    if err := d.Set("plan", flattenArmRegistrationDefinitionPlan(resp.Plan)); err != nil {
+        return fmt.Errorf("Error setting `plan`: %+v", err)
+    }
     d.Set("registration_definition_id", registrationDefinitionID)
     d.Set("scope", scope)
     d.Set("type", resp.Type)
@@ -261,4 +284,50 @@ func expandArmRegistrationDefinitionAuthorization(input []interface{}) *[]manage
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmRegistrationDefinitionAuthorization(input *[]managedservices.Authorization) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if principalId := item.PrincipalID; principalId != nil {
+            v["principal_id"] = *principalId
+        }
+        if roleDefinitionId := item.RoleDefinitionID; roleDefinitionId != nil {
+            v["role_definition_id"] = *roleDefinitionId
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmRegistrationDefinitionPlan(input *managedservices.Plan) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if product := input.Product; product != nil {
+        result["product"] = *product
+    }
+    if publisher := input.Publisher; publisher != nil {
+        result["publisher"] = *publisher
+    }
+    if version := input.Version; version != nil {
+        result["version"] = *version
+    }
+
+    return []interface{}{result}
 }

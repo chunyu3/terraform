@@ -240,9 +240,23 @@ func resourceArmEnterpriseChannelRead(d *schema.ResourceData, meta interface{}) 
     d.Set("name", resp.Name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    d.Set("etag", resp.Etag)
+    d.Set("kind", string(resp.Kind))
+    if enterpriseChannelProperties := resp.EnterpriseChannelProperties; enterpriseChannelProperties != nil {
+        if err := d.Set("nodes", flattenArmEnterpriseChannelEnterpriseChannelNode(enterpriseChannelProperties.Nodes)); err != nil {
+            return fmt.Errorf("Error setting `nodes`: %+v", err)
+        }
+        d.Set("state", string(enterpriseChannelProperties.State))
+    }
+    if err := d.Set("sku", flattenArmEnterpriseChannelSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmEnterpriseChannelUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -345,4 +359,43 @@ func expandArmEnterpriseChannelSku(input []interface{}) *botservice.Sku {
         Name: botservice.SkuName(name),
     }
     return &result
+}
+
+
+func flattenArmEnterpriseChannelEnterpriseChannelNode(input *[]botservice.EnterpriseChannelNode) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if azureLocation := item.AzureLocation; azureLocation != nil {
+            v["azure_location"] = *azureLocation
+        }
+        if azureSku := item.AzureSku; azureSku != nil {
+            v["azure_sku"] = *azureSku
+        }
+        v["state"] = string(item.State)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmEnterpriseChannelSku(input *botservice.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["name"] = string(input.Name)
+
+    return []interface{}{result}
 }

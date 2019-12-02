@@ -111,8 +111,18 @@ func resourceArmIscsiDisk() *schema.Resource {
                 Optional: true,
             },
 
+            "local_used_capacity_in_bytes": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "used_capacity_in_bytes": {
+                Type: schema.TypeInt,
                 Computed: true,
             },
         },
@@ -209,6 +219,16 @@ func resourceArmIscsiDiskRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if iSCSIDiskProperties := resp.ISCSIDiskProperties; iSCSIDiskProperties != nil {
+        d.Set("access_control_records", utils.FlattenStringSlice(iSCSIDiskProperties.AccessControlRecords))
+        d.Set("data_policy", string(iSCSIDiskProperties.DataPolicy))
+        d.Set("description", iSCSIDiskProperties.Description)
+        d.Set("disk_status", string(iSCSIDiskProperties.DiskStatus))
+        d.Set("local_used_capacity_in_bytes", int(*iSCSIDiskProperties.LocalUsedCapacityInBytes))
+        d.Set("monitoring_status", string(iSCSIDiskProperties.MonitoringStatus))
+        d.Set("provisioned_capacity_in_bytes", int(*iSCSIDiskProperties.ProvisionedCapacityInBytes))
+        d.Set("used_capacity_in_bytes", int(*iSCSIDiskProperties.UsedCapacityInBytes))
+    }
     d.Set("device_name", deviceName)
     d.Set("iscsi_server_name", iscsiServerName)
     d.Set("manager_name", managerName)

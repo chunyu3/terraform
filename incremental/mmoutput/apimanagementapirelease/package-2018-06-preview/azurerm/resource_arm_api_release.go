@@ -67,7 +67,17 @@ func resourceArmApiRelease() *schema.Resource {
                 Optional: true,
             },
 
+            "created_date_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "updated_date_time": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -152,6 +162,12 @@ func resourceArmApiReleaseRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", aPIID)
+    if apiReleaseContractProperties := resp.ApiReleaseContractProperties; apiReleaseContractProperties != nil {
+        d.Set("api_id", apiReleaseContractProperties.APIID)
+        d.Set("created_date_time", (apiReleaseContractProperties.CreatedDateTime).String())
+        d.Set("notes", apiReleaseContractProperties.Notes)
+        d.Set("updated_date_time", (apiReleaseContractProperties.UpdatedDateTime).String())
+    }
     d.Set("release_id", releaseID)
     d.Set("type", resp.Type)
 

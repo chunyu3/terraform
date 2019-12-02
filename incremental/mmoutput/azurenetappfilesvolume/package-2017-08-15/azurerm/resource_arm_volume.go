@@ -121,6 +121,26 @@ func resourceArmVolume() *schema.Resource {
                 Optional: true,
             },
 
+            "creation_token": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "file_system_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "subnet_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -217,11 +237,25 @@ func resourceArmVolumeRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
     d.Set("account_name", accountName)
+    if volumePatchProperties := resp.VolumePatchProperties; volumePatchProperties != nil {
+        d.Set("creation_token", volumePatchProperties.CreationToken)
+        if err := d.Set("export_policy", flattenArmVolumeVolumePatchProperties_exportPolicy(volumePatchProperties.ExportPolicy)); err != nil {
+            return fmt.Errorf("Error setting `export_policy`: %+v", err)
+        }
+        d.Set("file_system_id", volumePatchProperties.FileSystemID)
+        d.Set("provisioning_state", volumePatchProperties.ProvisioningState)
+        d.Set("service_level", string(volumePatchProperties.ServiceLevel))
+        d.Set("subnet_id", volumePatchProperties.SubnetID)
+        d.Set("usage_threshold", int(*volumePatchProperties.UsageThreshold))
+    }
     d.Set("pool_name", poolName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmVolumeUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -324,4 +358,54 @@ func expandArmVolumeExportPolicyRule(input []interface{}) *[]azurenetappfiles.Ex
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmVolumeVolumePatchProperties_exportPolicy(input *azurenetappfiles.VolumePatchProperties_exportPolicy) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["rules"] = flattenArmVolumeExportPolicyRule(input.Rules)
+
+    return []interface{}{result}
+}
+
+func flattenArmVolumeExportPolicyRule(input *[]azurenetappfiles.ExportPolicyRule) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if allowedClients := item.AllowedClients; allowedClients != nil {
+            v["allowed_clients"] = *allowedClients
+        }
+        if cifs := item.Cifs; cifs != nil {
+            v["cifs"] = *cifs
+        }
+        if nfsv3 := item.Nfsv3; nfsv3 != nil {
+            v["nfsv3"] = *nfsv3
+        }
+        if nfsv4 := item.Nfsv4; nfsv4 != nil {
+            v["nfsv4"] = *nfsv4
+        }
+        if ruleIndex := item.RuleIndex; ruleIndex != nil {
+            v["rule_index"] = *ruleIndex
+        }
+        if unixReadOnly := item.UnixReadOnly; unixReadOnly != nil {
+            v["unix_read_only"] = *unixReadOnly
+        }
+        if unixReadWrite := item.UnixReadWrite; unixReadWrite != nil {
+            v["unix_read_write"] = *unixReadWrite
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

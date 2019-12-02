@@ -160,6 +160,10 @@ func resourceArmWorkflowAccessKeyRead(d *schema.ResourceData, meta interface{}) 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if workflowAccessKeyProperties := resp.WorkflowAccessKeyProperties; workflowAccessKeyProperties != nil {
+        d.Set("not_after", (workflowAccessKeyProperties.NotAfter).String())
+        d.Set("not_before", (workflowAccessKeyProperties.NotBefore).String())
+    }
     d.Set("type", resp.Type)
     d.Set("workflow_name", workflowName)
 

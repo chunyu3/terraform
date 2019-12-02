@@ -104,6 +104,159 @@ func resourceArmServerEndpoint() *schema.Resource {
                 Optional: true,
             },
 
+            "friendly_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_operation_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_workflow_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "offline_data_transfer_storage_account_resource_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "offline_data_transfer_storage_account_tenant_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "server_local_path": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "server_resource_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "sync_status": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "combined_health": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "current_progress": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "applied_bytes": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "applied_item_count": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "per_item_error_count": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "progress_timestamp": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "sync_direction": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "total_bytes": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "total_item_count": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "download_health": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "download_status": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "last_sync_per_item_error_count": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "last_sync_result": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "last_sync_success_timestamp": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "last_sync_timestamp": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "last_updated_timestamp": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "offline_data_transfer_status": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "upload_health": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "upload_status": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "last_sync_per_item_error_count": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "last_sync_result": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "last_sync_success_timestamp": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "last_sync_timestamp": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -202,6 +355,24 @@ func resourceArmServerEndpointRead(d *schema.ResourceData, meta interface{}) err
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if serverEndpointUpdateProperties := resp.ServerEndpointUpdateProperties; serverEndpointUpdateProperties != nil {
+        d.Set("cloud_tiering", string(serverEndpointUpdateProperties.CloudTiering))
+        d.Set("friendly_name", serverEndpointUpdateProperties.FriendlyName)
+        d.Set("last_operation_name", serverEndpointUpdateProperties.LastOperationName)
+        d.Set("last_workflow_id", serverEndpointUpdateProperties.LastWorkflowID)
+        d.Set("offline_data_transfer", string(serverEndpointUpdateProperties.OfflineDataTransfer))
+        d.Set("offline_data_transfer_share_name", serverEndpointUpdateProperties.OfflineDataTransferShareName)
+        d.Set("offline_data_transfer_storage_account_resource_id", serverEndpointUpdateProperties.OfflineDataTransferStorageAccountResourceID)
+        d.Set("offline_data_transfer_storage_account_tenant_id", serverEndpointUpdateProperties.OfflineDataTransferStorageAccountTenantID)
+        d.Set("provisioning_state", serverEndpointUpdateProperties.ProvisioningState)
+        d.Set("server_local_path", serverEndpointUpdateProperties.ServerLocalPath)
+        d.Set("server_resource_id", serverEndpointUpdateProperties.ServerResourceID)
+        if err := d.Set("sync_status", flattenArmServerEndpointServerEndpointHealth(serverEndpointUpdateProperties.SyncStatus)); err != nil {
+            return fmt.Errorf("Error setting `sync_status`: %+v", err)
+        }
+        d.Set("tier_files_older_than_days", serverEndpointUpdateProperties.TierFilesOlderThanDays)
+        d.Set("volume_free_space_percent", serverEndpointUpdateProperties.VolumeFreeSpacePercent)
+    }
     d.Set("storage_sync_service_name", storageSyncServiceName)
     d.Set("sync_group_name", syncGroupName)
     d.Set("type", resp.Type)
@@ -278,4 +449,79 @@ func resourceArmServerEndpointDelete(d *schema.ResourceData, meta interface{}) e
     }
 
     return nil
+}
+
+
+func flattenArmServerEndpointServerEndpointHealth(input *storagesync.ServerEndpointHealth) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["combined_health"] = string(input.CombinedHealth)
+    result["current_progress"] = flattenArmServerEndpointSyncProgressStatus(input.CurrentProgress)
+    result["download_health"] = string(input.DownloadHealth)
+    result["download_status"] = flattenArmServerEndpointSyncSessionStatus(input.DownloadStatus)
+    if lastUpdatedTimestamp := input.LastUpdatedTimestamp; lastUpdatedTimestamp != nil {
+        result["last_updated_timestamp"] = (*lastUpdatedTimestamp).String()
+    }
+    result["offline_data_transfer_status"] = string(input.OfflineDataTransferStatus)
+    result["upload_health"] = string(input.UploadHealth)
+    result["upload_status"] = flattenArmServerEndpointSyncSessionStatus(input.UploadStatus)
+
+    return []interface{}{result}
+}
+
+func flattenArmServerEndpointSyncProgressStatus(input *storagesync.SyncProgressStatus) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if appliedBytes := input.AppliedBytes; appliedBytes != nil {
+        result["applied_bytes"] = *appliedBytes
+    }
+    if appliedItemCount := input.AppliedItemCount; appliedItemCount != nil {
+        result["applied_item_count"] = *appliedItemCount
+    }
+    if perItemErrorCount := input.PerItemErrorCount; perItemErrorCount != nil {
+        result["per_item_error_count"] = *perItemErrorCount
+    }
+    if progressTimestamp := input.ProgressTimestamp; progressTimestamp != nil {
+        result["progress_timestamp"] = (*progressTimestamp).String()
+    }
+    result["sync_direction"] = string(input.SyncDirection)
+    if totalBytes := input.TotalBytes; totalBytes != nil {
+        result["total_bytes"] = *totalBytes
+    }
+    if totalItemCount := input.TotalItemCount; totalItemCount != nil {
+        result["total_item_count"] = *totalItemCount
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmServerEndpointSyncSessionStatus(input *storagesync.SyncSessionStatus) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if lastSyncPerItemErrorCount := input.LastSyncPerItemErrorCount; lastSyncPerItemErrorCount != nil {
+        result["last_sync_per_item_error_count"] = *lastSyncPerItemErrorCount
+    }
+    if lastSyncResult := input.LastSyncResult; lastSyncResult != nil {
+        result["last_sync_result"] = *lastSyncResult
+    }
+    if lastSyncSuccessTimestamp := input.LastSyncSuccessTimestamp; lastSyncSuccessTimestamp != nil {
+        result["last_sync_success_timestamp"] = (*lastSyncSuccessTimestamp).String()
+    }
+    if lastSyncTimestamp := input.LastSyncTimestamp; lastSyncTimestamp != nil {
+        result["last_sync_timestamp"] = (*lastSyncTimestamp).String()
+    }
+
+    return []interface{}{result}
 }

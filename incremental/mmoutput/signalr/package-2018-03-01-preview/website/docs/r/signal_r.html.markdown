@@ -64,4 +64,16 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Provisioning state of the resource.
+
+* `external_ip` - The publicly accessible IP of the SignalR service.
+
+* `host_name` - FQDN of the SignalR service instance. Format: xxx.service.signalr.net
+
+* `public_port` - The publicly accessibly port of the SignalR service which is designed for browser/client side usage.
+
+* `server_port` - The publicly accessibly port of the SignalR service which is designed for customer server side usage.
+
+* `version` - Version of the SignalR resource. Probably you need the same or higher version of client SDKs.
+
 * `id` - Fully qualified resource Id for the resource.

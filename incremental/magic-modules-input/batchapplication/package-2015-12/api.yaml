@@ -123,6 +123,44 @@ objects:
             python_parameter_name: application_id
             python_variable_name: application_id
         response:
+          '/allowUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: AllowUpdates
+            python_field_name: allow_updates
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DisplayName
+            python_field_name: display_name
+          '/defaultVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DefaultVersion
+            python_field_name: default_version
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/packages': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Packages
+            go_type_name: ApplicationPackage
+            python_field_name: packages
+          '/packages/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/packages/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Version
+            python_field_name: version
+          '/packages/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: State
+            go_enum_type_name: PackageState
+            python_field_name: state
+          '/packages/format': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Format
+            python_field_name: format
+          '/packages/storageUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: StorageURL
+            python_field_name: storage_url
+          '/packages/storageUrlExpiry': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: StorageURLExpiry
+            python_field_name: storage_url_expiry
+          '/packages/lastActivationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: LastActivationTime
+            python_field_name: last_activation_time
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -189,3 +227,54 @@ objects:
         input: true
         azure_sdk_references: ['maxresults']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'A string that uniquely identifies the application within the account.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::Array
+        name: 'packages'
+        description: 'The list of packages under this application.'
+        output: true
+        azure_sdk_references: ['/packages']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'The ID of the application.'
+              output: true
+              azure_sdk_references: ['/packages/id']
+            - !ruby/object:Api::Type::String
+              name: 'version'
+              description: 'The version of the application package. '
+              output: true
+              azure_sdk_references: ['/packages/version']
+            - !ruby/object:Api::Type::Enum
+              name: 'state'
+              description: 'The current state of the application package.'
+              output: true
+              azure_sdk_references: ['/packages/state']
+              values:
+                - :pending
+                - :active
+                - :unmapped
+            - !ruby/object:Api::Type::String
+              name: 'format'
+              description: 'The format of the application package, if the package is active.'
+              output: true
+              azure_sdk_references: ['/packages/format']
+            - !ruby/object:Api::Type::String
+              name: 'storageUrl'
+              description: 'The storage URL at which the application package is stored.'
+              output: true
+              azure_sdk_references: ['/packages/storageUrl']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'storageUrlExpiry'
+              description: 'The UTC time at which the storage URL will expire.'
+              output: true
+              azure_sdk_references: ['/packages/storageUrlExpiry']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastActivationTime'
+              description: 'The time at which the package was last activated, if the package is active.'
+              output: true
+              azure_sdk_references: ['/packages/lastActivationTime']

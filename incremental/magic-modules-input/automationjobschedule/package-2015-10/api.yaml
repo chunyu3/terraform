@@ -82,6 +82,54 @@ objects:
             python_parameter_name: job_schedule_id
             python_variable_name: job_schedule_id
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: JobScheduleCreateProperties
+            go_type_name: JobScheduleCreateProperties
+          '/properties/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Schedule
+            go_type_name: ScheduleAssociationProperty
+          '/properties/schedule/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: schedule
+          '/schedule/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/runbook': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Runbook
+            go_type_name: RunbookAssociationProperty
+          '/properties/runbook/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/runbook': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: runbook
+          '/runbook/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/runOn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RunOn
+          '/runOn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: run_on
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: parameters
+          '/properties/jobScheduleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: JobScheduleID
+          '/jobScheduleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: job_schedule_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -160,6 +208,11 @@ objects:
         required: false
         azure_sdk_references: ['/parameters', '/properties/parameters']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'jobScheduleId'
+        description: 'Gets or sets the id of job schedule.'
+        output: true
+        azure_sdk_references: ['/jobScheduleId', '/properties/jobScheduleId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Gets the id of the resource.'

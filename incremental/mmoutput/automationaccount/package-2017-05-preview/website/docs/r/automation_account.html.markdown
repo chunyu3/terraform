@@ -54,6 +54,18 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `last_modified_by` - Gets or sets the last modified by.
+
+* `state` - Gets status of account.
+
+* `creation_time` - Gets the creation time.
+
+* `last_modified_time` - Gets the last modified time.
+
+* `description` - Gets or sets the description.
+
 * `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.
+
+* `etag` - Gets or sets the etag of the resource.

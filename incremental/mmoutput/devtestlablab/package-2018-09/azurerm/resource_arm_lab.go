@@ -36,6 +36,11 @@ func resourceArmLab() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -562,7 +567,153 @@ func resourceArmLab() *schema.Resource {
                 Default: string(devtestlab.FromCustomImage),
             },
 
+            "announcement": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "enabled": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "expiration_date": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "expired": {
+                            Type: schema.TypeBool,
+                            Computed: true,
+                        },
+                        "markdown": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "provisioning_state": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "title": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "unique_identifier": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "artifacts_storage_account": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "default_premium_storage_account": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "default_storage_account": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "environment_permission": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "extended_properties": {
+                Type: schema.TypeMap,
+                Computed: true,
+                Elem: &schema.Schema{Type: schema.TypeString},
+            },
+
+            "lab_storage_type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "load_balancer_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "mandatory_artifacts_resource_ids_linux": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
+
+            "mandatory_artifacts_resource_ids_windows": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
+
+            "network_security_group_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "premium_data_disk_storage_account": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "premium_data_disks": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "public_ip_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "support": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "enabled": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "markdown": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "unique_identifier": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "vault_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "vm_creation_resource_group": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -720,10 +871,40 @@ func resourceArmLabRead(d *schema.ResourceData, meta interface{}) error {
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if labVirtualMachineCreationParameterProperties := resp.LabVirtualMachineCreationParameterProperties; labVirtualMachineCreationParameterProperties != nil {
+        if err := d.Set("announcement", flattenArmLabLabAnnouncementProperties(labVirtualMachineCreationParameterProperties.Announcement)); err != nil {
+            return fmt.Errorf("Error setting `announcement`: %+v", err)
+        }
+        d.Set("artifacts_storage_account", labVirtualMachineCreationParameterProperties.ArtifactsStorageAccount)
+        d.Set("created_date", (labVirtualMachineCreationParameterProperties.CreatedDate).String())
+        d.Set("default_premium_storage_account", labVirtualMachineCreationParameterProperties.DefaultPremiumStorageAccount)
+        d.Set("default_storage_account", labVirtualMachineCreationParameterProperties.DefaultStorageAccount)
+        d.Set("environment_permission", string(labVirtualMachineCreationParameterProperties.EnvironmentPermission))
+        d.Set("extended_properties", utils.FlattenKeyValuePairs(labVirtualMachineCreationParameterProperties.ExtendedProperties))
+        d.Set("lab_storage_type", string(labVirtualMachineCreationParameterProperties.LabStorageType))
+        d.Set("load_balancer_id", labVirtualMachineCreationParameterProperties.LoadBalancerID)
+        d.Set("mandatory_artifacts_resource_ids_linux", utils.FlattenStringSlice(labVirtualMachineCreationParameterProperties.MandatoryArtifactsResourceIdsLinux))
+        d.Set("mandatory_artifacts_resource_ids_windows", utils.FlattenStringSlice(labVirtualMachineCreationParameterProperties.MandatoryArtifactsResourceIdsWindows))
+        d.Set("network_security_group_id", labVirtualMachineCreationParameterProperties.NetworkSecurityGroupID)
+        d.Set("premium_data_disk_storage_account", labVirtualMachineCreationParameterProperties.PremiumDataDiskStorageAccount)
+        d.Set("premium_data_disks", string(labVirtualMachineCreationParameterProperties.PremiumDataDisks))
+        d.Set("provisioning_state", labVirtualMachineCreationParameterProperties.ProvisioningState)
+        d.Set("public_ip_id", labVirtualMachineCreationParameterProperties.PublicIPID)
+        if err := d.Set("support", flattenArmLabLabSupportProperties(labVirtualMachineCreationParameterProperties.Support)); err != nil {
+            return fmt.Errorf("Error setting `support`: %+v", err)
+        }
+        d.Set("unique_identifier", labVirtualMachineCreationParameterProperties.UniqueIdentifier)
+        d.Set("vault_name", labVirtualMachineCreationParameterProperties.VaultName)
+        d.Set("vm_creation_resource_group", labVirtualMachineCreationParameterProperties.VMCreationResourceGroup)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmLabUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -1165,4 +1346,50 @@ func expandArmLabInboundNatRule(input []interface{}) *[]devtestlab.InboundNatRul
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmLabLabAnnouncementProperties(input *devtestlab.LabAnnouncementProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["enabled"] = string(input.Enabled)
+    if expirationDate := input.ExpirationDate; expirationDate != nil {
+        result["expiration_date"] = (*expirationDate).String()
+    }
+    if expired := input.Expired; expired != nil {
+        result["expired"] = *expired
+    }
+    if markdown := input.Markdown; markdown != nil {
+        result["markdown"] = *markdown
+    }
+    if provisioningState := input.ProvisioningState; provisioningState != nil {
+        result["provisioning_state"] = *provisioningState
+    }
+    if title := input.Title; title != nil {
+        result["title"] = *title
+    }
+    if uniqueIdentifier := input.UniqueIdentifier; uniqueIdentifier != nil {
+        result["unique_identifier"] = *uniqueIdentifier
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmLabLabSupportProperties(input *devtestlab.LabSupportProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["enabled"] = string(input.Enabled)
+    if markdown := input.Markdown; markdown != nil {
+        result["markdown"] = *markdown
+    }
+
+    return []interface{}{result}
 }

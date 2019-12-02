@@ -166,7 +166,12 @@ func resourceArmFirewallRuleRead(d *schema.ResourceData, meta interface{}) error
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if serverFirewallRuleProperties := resp.ServerFirewallRuleProperties; serverFirewallRuleProperties != nil {
+        d.Set("end_ip_address", serverFirewallRuleProperties.EndIPAddress)
+        d.Set("start_ip_address", serverFirewallRuleProperties.StartIPAddress)
+    }
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 

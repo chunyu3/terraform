@@ -105,6 +105,28 @@ objects:
             python_parameter_name: storage_sync_service_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceProperties
+            go_type_name: ServiceProperties
+          '/properties/storageSyncServiceStatus': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: StorageSyncServiceStatus
+          '/storageSyncServiceStatus': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: storage_sync_service_status
+          '/properties/storageSyncServiceUid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageSyncServiceUID
+          '/storageSyncServiceUid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_sync_service_uid
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -156,6 +178,16 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'storageSyncServiceStatus'
+        description: 'Storage Sync service status.'
+        output: true
+        azure_sdk_references: ['/storageSyncServiceStatus', '/properties/storageSyncServiceStatus']
+      - !ruby/object:Api::Type::String
+        name: 'storageSyncServiceUid'
+        description: 'Storage Sync service Uid'
+        output: true
+        azure_sdk_references: ['/storageSyncServiceUid', '/properties/storageSyncServiceUid']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The id of the resource.'

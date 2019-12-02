@@ -67,6 +67,11 @@ func resourceArmMachineLearningCompute() *schema.Resource {
                 Optional: true,
             },
 
+            "created_on": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "identity": {
                 Type: schema.TypeList,
                 Computed: true,
@@ -80,8 +85,63 @@ func resourceArmMachineLearningCompute() *schema.Resource {
                             Type: schema.TypeString,
                             Computed: true,
                         },
+                        "type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
                     },
                 },
+            },
+
+            "modified_on": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_errors": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "error": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "code": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "details": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "code": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "message": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "message": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "type": {
@@ -178,13 +238,27 @@ func resourceArmMachineLearningComputeRead(d *schema.ResourceData, meta interfac
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if compute := resp.Compute; compute != nil {
+        d.Set("compute_location", compute.ComputeLocation)
+        d.Set("created_on", (compute.CreatedOn).String())
+        d.Set("description", compute.Description)
+        d.Set("modified_on", (compute.ModifiedOn).String())
+        if err := d.Set("provisioning_errors", flattenArmMachineLearningComputeMachineLearningServiceError(compute.ProvisioningErrors)); err != nil {
+            return fmt.Errorf("Error setting `provisioning_errors`: %+v", err)
+        }
+        d.Set("provisioning_state", string(compute.ProvisioningState))
+        d.Set("resource_id", compute.ResourceID)
+    }
     if err := d.Set("identity", flattenArmMachineLearningComputeIdentity(resp.Identity)); err != nil {
         return fmt.Errorf("Error setting `identity`: %+v", err)
     }
     d.Set("type", resp.Type)
     d.Set("workspace_name", workspaceName)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -219,6 +293,23 @@ func resourceArmMachineLearningComputeDelete(d *schema.ResourceData, meta interf
 }
 
 
+func flattenArmMachineLearningComputeMachineLearningServiceError(input *[]machinelearningservices.MachineLearningServiceError) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["error"] = flattenArmMachineLearningComputeErrorResponse(item.Error)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
 func flattenArmMachineLearningComputeIdentity(input *machinelearningservices.Identity) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
@@ -232,6 +323,47 @@ func flattenArmMachineLearningComputeIdentity(input *machinelearningservices.Ide
     if tenantId := input.TenantID; tenantId != nil {
         result["tenant_id"] = *tenantId
     }
+    result["type"] = string(input.Type)
 
     return []interface{}{result}
+}
+
+func flattenArmMachineLearningComputeErrorResponse(input *machinelearningservices.ErrorResponse) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if code := input.Code; code != nil {
+        result["code"] = *code
+    }
+    result["details"] = flattenArmMachineLearningComputeErrorDetail(input.Details)
+    if message := input.Message; message != nil {
+        result["message"] = *message
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmMachineLearningComputeErrorDetail(input *[]machinelearningservices.ErrorDetail) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if code := item.Code; code != nil {
+            v["code"] = *code
+        }
+        if message := item.Message; message != nil {
+            v["message"] = *message
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

@@ -82,8 +82,63 @@ The `managed_image` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - The provisioning state, which only appears in the response.
+
+* `storage_profile` - One `storage_profile` block defined below.
+
+* `replication_status` - One `replication_status` block defined below.
+
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
+
+
+---
+
+The `storage_profile` block contains the following:
+
+* `os_disk_image` - One `os_disk_image` block defined below.
+
+* `data_disk_images` - One or more `data_disk_image` block defined below.
+
+
+---
+
+The `os_disk_image` block contains the following:
+
+* `size_in_gb` - This property indicates the size of the VHD to be created.
+
+* `host_caching` - The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
+
+---
+
+The `data_disk_image` block contains the following:
+
+* `size_in_gb` - This property indicates the size of the VHD to be created.
+
+* `host_caching` - The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
+
+* `lun` - This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine.
+
+---
+
+The `replication_status` block contains the following:
+
+* `aggregated_state` - This is the aggregated replication status based on all the regional replication status flags.
+
+* `summary` - One or more `summary` block defined below.
+
+
+---
+
+The `summary` block contains the following:
+
+* `region` - The region to which the gallery Image Version is being replicated to.
+
+* `state` - This is the regional replication state.
+
+* `details` - The details of the replication status.
+
+* `progress` - It indicates progress of the replication job.

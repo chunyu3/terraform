@@ -149,7 +149,11 @@ func resourceArmLoggerRead(d *schema.ResourceData, meta interface{}) error {
 
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
+    d.Set("credentials", utils.FlattenKeyValuePairs(resp.Credentials))
+    d.Set("description", resp.Description)
+    d.Set("is_buffered", resp.IsBuffered)
     d.Set("loggerid", loggerid)
+    d.Set("type", resp.Type)
 
     return nil
 }

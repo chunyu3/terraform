@@ -116,6 +116,21 @@ func resourceArmService() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "status_details": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "tags": tags.Schema(),
         },
     }
@@ -211,9 +226,26 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if searchServiceProperties := resp.SearchServiceProperties; searchServiceProperties != nil {
+        d.Set("hosting_mode", string(searchServiceProperties.HostingMode))
+        d.Set("partition_count", int(*searchServiceProperties.PartitionCount))
+        d.Set("provisioning_state", string(searchServiceProperties.ProvisioningState))
+        d.Set("replica_count", int(*searchServiceProperties.ReplicaCount))
+        d.Set("status", string(searchServiceProperties.Status))
+        d.Set("status_details", searchServiceProperties.StatusDetails)
+    }
+    if err := d.Set("identity", flattenArmServiceIdentity(resp.Identity)); err != nil {
+        return fmt.Errorf("Error setting `identity`: %+v", err)
+    }
+    if err := d.Set("sku", flattenArmServiceSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -297,4 +329,29 @@ func expandArmServiceSku(input []interface{}) *searchmanagementclient.Sku {
         Name: searchmanagementclient.SkuName(name),
     }
     return &result
+}
+
+
+func flattenArmServiceIdentity(input *searchmanagementclient.Identity) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["type"] = string(input.Type)
+
+    return []interface{}{result}
+}
+
+func flattenArmServiceSku(input *searchmanagementclient.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["name"] = string(input.Name)
+
+    return []interface{}{result}
 }

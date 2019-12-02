@@ -60,6 +60,12 @@ The `read_write_endpoint` block supports the following:
 
 The following attributes are exported:
 
+* `replication_role` - Local replication role of the failover group instance.
+
+* `replication_state` - Replication state of the failover group instance.
+
+* `partner_servers` - One or more `partner_server` block defined below.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.
@@ -67,3 +73,14 @@ The following attributes are exported:
 * `type` - Resource type.
 
 * `location` - Resource location.
+
+
+---
+
+The `partner_server` block contains the following:
+
+* `id` - Resource identifier of the partner server.
+
+* `location` - Geo location of the partner server.
+
+* `replication_role` - Replication role of the partner server.

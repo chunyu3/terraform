@@ -101,6 +101,50 @@ objects:
             python_parameter_name: group_name
             python_variable_name: name
         response:
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GroupBodyProperties
+            go_type_name: GroupBodyProperties
+          '/properties/groupStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: GroupStatus
+            go_enum_type_name: GroupStatus
+          '/groupStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: group_status
+          '/properties/machineCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MachineCount
+          '/machineCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: machine_count
+          '/properties/assessments': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Assessments
+          '/assessments': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: assessments
+          '/properties/areAssessmentsRunning': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AreAssessmentsRunning
+          '/areAssessmentsRunning': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: are_assessments_running
+          '/properties/createdTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedTimestamp
+          '/createdTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_timestamp
+          '/properties/updatedTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: UpdatedTimestamp
+          '/updatedTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: updated_timestamp
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -168,6 +212,43 @@ objects:
         azure_sdk_references: ['/machines', '/properties/machines']
         item_type: Api::Type::String
       # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'groupStatus'
+        description: 'Whether the group has been created and is valid.'
+        output: true
+        azure_sdk_references: ['/groupStatus', '/properties/groupStatus']
+        values:
+          - :Created
+          - :Updated
+          - :Running
+          - :Completed
+          - :Invalid
+      - !ruby/object:Api::Type::Integer
+        name: 'machineCount'
+        description: 'Number of machines part of this group.'
+        output: true
+        azure_sdk_references: ['/machineCount', '/properties/machineCount']
+      - !ruby/object:Api::Type::Array
+        name: 'assessments'
+        description: 'List of References to Assessments created on this group.'
+        output: true
+        azure_sdk_references: ['/assessments', '/properties/assessments']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Boolean
+        name: 'areAssessmentsRunning'
+        description: 'If the assessments are in running state.'
+        output: true
+        azure_sdk_references: ['/areAssessmentsRunning', '/properties/areAssessmentsRunning']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdTimestamp'
+        description: 'Time when this group was created. Date-Time represented in ISO-8601 format.'
+        output: true
+        azure_sdk_references: ['/createdTimestamp', '/properties/createdTimestamp']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'updatedTimestamp'
+        description: 'Time when this group was last updated. Date-Time represented in ISO-8601 format.'
+        output: true
+        azure_sdk_references: ['/updatedTimestamp', '/properties/updatedTimestamp']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Path reference to this group. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}'

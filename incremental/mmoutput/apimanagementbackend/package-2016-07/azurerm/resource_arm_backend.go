@@ -132,6 +132,8 @@ func resourceArmBackendRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     d.Set("backendid", backendid)
+    d.Set("host", resp.Host)
+    d.Set("skip_certificate_chain_validation", resp.SkipCertificateChainValidation)
 
     return nil
 }

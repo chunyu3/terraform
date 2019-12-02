@@ -78,6 +78,11 @@ func resourceArmRoute() *schema.Resource {
                 Type: schema.TypeString,
                 Optional: true,
             },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
         },
     }
 }
@@ -166,7 +171,15 @@ func resourceArmRouteRead(d *schema.ResourceData, meta interface{}) error {
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if routePropertiesFormat := resp.RoutePropertiesFormat; routePropertiesFormat != nil {
+        d.Set("address_prefix", routePropertiesFormat.AddressPrefix)
+        d.Set("next_hop_ip_address", routePropertiesFormat.NextHopIPAddress)
+        d.Set("next_hop_type", string(routePropertiesFormat.NextHopType))
+        d.Set("provisioning_state", routePropertiesFormat.ProvisioningState)
+    }
+    d.Set("etag", resp.Etag)
     d.Set("route_table_name", routeTableName)
 
     return nil

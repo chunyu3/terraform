@@ -44,6 +44,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `created_date_time` - The time the API was released. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
+
+* `updated_date_time` - The time the API release was updated.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

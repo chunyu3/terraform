@@ -43,6 +43,11 @@ func resourceArmPolicy() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -108,6 +113,16 @@ func resourceArmPolicy() *schema.Resource {
             "unique_identifier": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "created_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "type": {
@@ -209,11 +224,26 @@ func resourceArmPolicyRead(d *schema.ResourceData, meta interface{}) error {
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if policyPropertiesFragment := resp.PolicyPropertiesFragment; policyPropertiesFragment != nil {
+        d.Set("created_date", (policyPropertiesFragment.CreatedDate).String())
+        d.Set("description", policyPropertiesFragment.Description)
+        d.Set("evaluator_type", string(policyPropertiesFragment.EvaluatorType))
+        d.Set("fact_data", policyPropertiesFragment.FactData)
+        d.Set("fact_name", string(policyPropertiesFragment.FactName))
+        d.Set("provisioning_state", policyPropertiesFragment.ProvisioningState)
+        d.Set("status", string(policyPropertiesFragment.Status))
+        d.Set("threshold", policyPropertiesFragment.Threshold)
+        d.Set("unique_identifier", policyPropertiesFragment.UniqueIdentifier)
+    }
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmPolicyUpdate(d *schema.ResourceData, meta interface{}) error {

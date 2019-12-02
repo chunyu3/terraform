@@ -101,9 +101,66 @@ func resourceArmJitRequest() *schema.Resource {
                 },
             },
 
+            "created_by": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "application_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "oid": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "puid": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "jit_request_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "publisher_tenant_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
+            },
+
+            "updated_by": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "application_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "oid": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "puid": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
             },
 
             "tags": tags.Schema(),
@@ -193,9 +250,30 @@ func resourceArmJitRequestRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if jitRequestProperties := resp.JitRequestProperties; jitRequestProperties != nil {
+        d.Set("application_resource_id", jitRequestProperties.ApplicationResourceID)
+        if err := d.Set("created_by", flattenArmJitRequestApplicationClientDetails(jitRequestProperties.CreatedBy)); err != nil {
+            return fmt.Errorf("Error setting `created_by`: %+v", err)
+        }
+        if err := d.Set("jit_authorization_policies", flattenArmJitRequestJitAuthorizationPolicies(jitRequestProperties.JitAuthorizationPolicies)); err != nil {
+            return fmt.Errorf("Error setting `jit_authorization_policies`: %+v", err)
+        }
+        d.Set("jit_request_state", string(jitRequestProperties.JitRequestState))
+        if err := d.Set("jit_scheduling_policy", flattenArmJitRequestJitSchedulingPolicy(jitRequestProperties.JitSchedulingPolicy)); err != nil {
+            return fmt.Errorf("Error setting `jit_scheduling_policy`: %+v", err)
+        }
+        d.Set("provisioning_state", string(jitRequestProperties.ProvisioningState))
+        d.Set("publisher_tenant_id", jitRequestProperties.PublisherTenantID)
+        if err := d.Set("updated_by", flattenArmJitRequestApplicationClientDetails(jitRequestProperties.UpdatedBy)); err != nil {
+            return fmt.Errorf("Error setting `updated_by`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmJitRequestUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -293,4 +371,65 @@ func convertStringToDate(input interface{}) *date.Time {
       Time: dateTime,
   }
   return &result
+}
+
+
+func flattenArmJitRequestApplicationClientDetails(input *resource.ApplicationClientDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if applicationId := input.ApplicationID; applicationId != nil {
+        result["application_id"] = *applicationId
+    }
+    if oid := input.Oid; oid != nil {
+        result["oid"] = *oid
+    }
+    if puid := input.Puid; puid != nil {
+        result["puid"] = *puid
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmJitRequestJitAuthorizationPolicies(input *[]resource.JitAuthorizationPolicies) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if principalId := item.PrincipalID; principalId != nil {
+            v["principal_id"] = *principalId
+        }
+        if roleDefinitionId := item.RoleDefinitionID; roleDefinitionId != nil {
+            v["role_definition_id"] = *roleDefinitionId
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmJitRequestJitSchedulingPolicy(input *resource.JitSchedulingPolicy) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if duration := input.Duration; duration != nil {
+        result["duration"] = *duration
+    }
+    if startTime := input.StartTime; startTime != nil {
+        result["start_time"] = (*startTime).String()
+    }
+    result["type"] = string(input.Type)
+
+    return []interface{}{result}
 }

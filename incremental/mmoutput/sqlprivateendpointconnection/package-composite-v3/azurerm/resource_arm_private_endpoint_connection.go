@@ -84,6 +84,11 @@ func resourceArmPrivateEndpointConnection() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -170,6 +175,15 @@ func resourceArmPrivateEndpointConnectionRead(d *schema.ResourceData, meta inter
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if privateEndpointConnectionProperties := resp.PrivateEndpointConnectionProperties; privateEndpointConnectionProperties != nil {
+        if err := d.Set("private_endpoint", flattenArmPrivateEndpointConnectionPrivateEndpointProperty(privateEndpointConnectionProperties.PrivateEndpoint)); err != nil {
+            return fmt.Errorf("Error setting `private_endpoint`: %+v", err)
+        }
+        if err := d.Set("private_link_service_connection_state", flattenArmPrivateEndpointConnectionPrivateLinkServiceConnectionStateProperty(privateEndpointConnectionProperties.PrivateLinkServiceConnectionState)); err != nil {
+            return fmt.Errorf("Error setting `private_link_service_connection_state`: %+v", err)
+        }
+        d.Set("provisioning_state", privateEndpointConnectionProperties.ProvisioningState)
+    }
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 
@@ -235,4 +249,36 @@ func expandArmPrivateEndpointConnectionPrivateLinkServiceConnectionStateProperty
         Status: utils.String(status),
     }
     return &result
+}
+
+
+func flattenArmPrivateEndpointConnectionPrivateEndpointProperty(input *sql.PrivateEndpointProperty) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmPrivateEndpointConnectionPrivateLinkServiceConnectionStateProperty(input *sql.PrivateLinkServiceConnectionStateProperty) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if description := input.Description; description != nil {
+        result["description"] = *description
+    }
+    if status := input.Status; status != nil {
+        result["status"] = *status
+    }
+
+    return []interface{}{result}
 }

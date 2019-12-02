@@ -72,6 +72,98 @@ func resourceArmGalleryImage() *schema.Resource {
                 Optional: true,
             },
 
+            "author": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "created_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "description": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "icon": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "image_reference": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "offer": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "os_type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "publisher": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "sku": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "version": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "latest_operation_result": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "error_code": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "error_message": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "http_method": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "operation_url": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "request_uri": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "status": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "plan_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -164,10 +256,31 @@ func resourceArmGalleryImageRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if galleryImagePropertiesFragment := resp.GalleryImagePropertiesFragment; galleryImagePropertiesFragment != nil {
+        d.Set("author", galleryImagePropertiesFragment.Author)
+        d.Set("created_date", (galleryImagePropertiesFragment.CreatedDate).String())
+        d.Set("description", galleryImagePropertiesFragment.Description)
+        d.Set("icon", galleryImagePropertiesFragment.Icon)
+        if err := d.Set("image_reference", flattenArmGalleryImageGalleryImageReference(galleryImagePropertiesFragment.ImageReference)); err != nil {
+            return fmt.Errorf("Error setting `image_reference`: %+v", err)
+        }
+        d.Set("is_enabled", galleryImagePropertiesFragment.IsEnabled)
+        d.Set("is_override", galleryImagePropertiesFragment.IsOverride)
+        d.Set("is_plan_authorized", galleryImagePropertiesFragment.IsPlanAuthorized)
+        if err := d.Set("latest_operation_result", flattenArmGalleryImageLatestOperationResult(galleryImagePropertiesFragment.LatestOperationResult)); err != nil {
+            return fmt.Errorf("Error setting `latest_operation_result`: %+v", err)
+        }
+        d.Set("plan_id", galleryImagePropertiesFragment.PlanID)
+        d.Set("provisioning_state", galleryImagePropertiesFragment.ProvisioningState)
+        d.Set("unique_identifier", galleryImagePropertiesFragment.UniqueIdentifier)
+    }
     d.Set("lab_account_name", labAccountName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmGalleryImageUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -219,4 +332,60 @@ func resourceArmGalleryImageDelete(d *schema.ResourceData, meta interface{}) err
     }
 
     return nil
+}
+
+
+func flattenArmGalleryImageGalleryImageReference(input *labservices.GalleryImageReference) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if offer := input.Offer; offer != nil {
+        result["offer"] = *offer
+    }
+    if osType := input.OsType; osType != nil {
+        result["os_type"] = *osType
+    }
+    if publisher := input.Publisher; publisher != nil {
+        result["publisher"] = *publisher
+    }
+    if sku := input.Sku; sku != nil {
+        result["sku"] = *sku
+    }
+    if version := input.Version; version != nil {
+        result["version"] = *version
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmGalleryImageLatestOperationResult(input *labservices.LatestOperationResult) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if errorCode := input.ErrorCode; errorCode != nil {
+        result["error_code"] = *errorCode
+    }
+    if errorMessage := input.ErrorMessage; errorMessage != nil {
+        result["error_message"] = *errorMessage
+    }
+    if httpMethod := input.HTTPMethod; httpMethod != nil {
+        result["http_method"] = *httpMethod
+    }
+    if operationUrl := input.OperationURL; operationUrl != nil {
+        result["operation_url"] = *operationUrl
+    }
+    if requestUri := input.RequestURI; requestUri != nil {
+        result["request_uri"] = *requestUri
+    }
+    if status := input.Status; status != nil {
+        result["status"] = *status
+    }
+
+    return []interface{}{result}
 }

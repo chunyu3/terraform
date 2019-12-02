@@ -168,6 +168,41 @@ objects:
             python_parameter_name: logger_id
             python_variable_name: logger_id
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LoggerUpdateParameters
+            go_type_name: LoggerUpdateParameters
+          '/properties/loggerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LoggerType
+            go_enum_type_name: LoggerType
+          '/loggerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: logger_type
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Credentials
+          '/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: credentials
+          '/properties/isBuffered': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsBuffered
+          '/isBuffered': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_buffered
+          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -244,6 +279,11 @@ objects:
         input: true
         azure_sdk_references: ['force']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'resourceId'
+        description: 'Azure Resource Id of a log target (either Azure Event Hub resource or Azure Application Insights resource).'
+        output: true
+        azure_sdk_references: ['/resourceId', '/properties/resourceId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

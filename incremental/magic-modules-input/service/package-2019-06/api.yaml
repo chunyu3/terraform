@@ -124,6 +124,49 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DeviceServiceProperties
+            go_type_name: DeviceServiceProperties
+          '/properties/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Notes
+          '/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: notes
+          '/properties/startDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartDate
+          '/startDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_date
+          '/properties/quantity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: Quantity
+          '/quantity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: quantity
+          '/properties/billingDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BillingDomainName
+          '/billingDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: billing_domain_name
+          '/properties/adminDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminDomainName
+          '/adminDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_domain_name
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -194,3 +237,43 @@ objects:
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        output: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The Azure Region where the resource lives'
+        output: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention.'
+        output: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::String
+        name: 'notes'
+        description: 'Windows IoT Device Service notes.'
+        output: true
+        azure_sdk_references: ['/notes', '/properties/notes']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startDate'
+        description: 'Windows IoT Device Service start date,'
+        output: true
+        azure_sdk_references: ['/startDate', '/properties/startDate']
+      - !ruby/object:Api::Type::Integer
+        name: 'quantity'
+        description: 'Windows IoT Device Service device allocation,'
+        output: true
+        azure_sdk_references: ['/quantity', '/properties/quantity']
+      - !ruby/object:Api::Type::String
+        name: 'billingDomainName'
+        description: 'Windows IoT Device Service ODM AAD domain'
+        output: true
+        azure_sdk_references: ['/billingDomainName', '/properties/billingDomainName']
+      - !ruby/object:Api::Type::String
+        name: 'adminDomainName'
+        description: 'Windows IoT Device Service OEM AAD domain'
+        output: true
+        azure_sdk_references: ['/adminDomainName', '/properties/adminDomainName']

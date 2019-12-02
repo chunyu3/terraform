@@ -67,6 +67,14 @@ The `parameter` block supports the following:
 
 The following attributes are exported:
 
+* `resource_group_id` - The identifier of the resource group containing the environment's resources.
+
+* `created_by_user` - The creator of the environment.
+
+* `provisioning_state` - The provisioning status of the resource.
+
 * `id` - The identifier of the resource.
+
+* `name` - The name of the resource.
 
 * `type` - The type of the resource.

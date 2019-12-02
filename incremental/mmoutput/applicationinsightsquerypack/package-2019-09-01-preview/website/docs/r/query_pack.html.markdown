@@ -40,6 +40,14 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `query_pack_id` - The unique ID of your application. This field cannot be changed.
+
+* `time_created` - Creation Date for the Log Analytics QueryPack, in ISO 8601 format.
+
+* `time_modified` - Last modified date of the Log Analytics QueryPack, in ISO 8601 format.
+
+* `provisioning_state` - Current state of this QueryPack: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying, Canceled, and Failed.
+
 * `id` - Azure resource Id
 
 * `name` - Azure resource name

@@ -64,6 +64,69 @@ func resourceArmUser() *schema.Resource {
                 Optional: true,
             },
 
+            "email": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "family_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "given_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "latest_operation_result": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "error_code": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "error_message": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "http_method": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "operation_url": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "request_uri": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "status": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "tenant_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "total_usage": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -152,11 +215,26 @@ func resourceArmUserRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if userPropertiesFragment := resp.UserPropertiesFragment; userPropertiesFragment != nil {
+        d.Set("email", userPropertiesFragment.Email)
+        d.Set("family_name", userPropertiesFragment.FamilyName)
+        d.Set("given_name", userPropertiesFragment.GivenName)
+        if err := d.Set("latest_operation_result", flattenArmUserLatestOperationResult(userPropertiesFragment.LatestOperationResult)); err != nil {
+            return fmt.Errorf("Error setting `latest_operation_result`: %+v", err)
+        }
+        d.Set("provisioning_state", userPropertiesFragment.ProvisioningState)
+        d.Set("tenant_id", userPropertiesFragment.TenantID)
+        d.Set("total_usage", userPropertiesFragment.TotalUsage)
+        d.Set("unique_identifier", userPropertiesFragment.UniqueIdentifier)
+    }
     d.Set("lab_account_name", labAccountName)
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmUserUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -214,4 +292,34 @@ func resourceArmUserDelete(d *schema.ResourceData, meta interface{}) error {
     }
 
     return nil
+}
+
+
+func flattenArmUserLatestOperationResult(input *labservices.LatestOperationResult) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if errorCode := input.ErrorCode; errorCode != nil {
+        result["error_code"] = *errorCode
+    }
+    if errorMessage := input.ErrorMessage; errorMessage != nil {
+        result["error_message"] = *errorMessage
+    }
+    if httpMethod := input.HTTPMethod; httpMethod != nil {
+        result["http_method"] = *httpMethod
+    }
+    if operationUrl := input.OperationURL; operationUrl != nil {
+        result["operation_url"] = *operationUrl
+    }
+    if requestUri := input.RequestURI; requestUri != nil {
+        result["request_uri"] = *requestUri
+    }
+    if status := input.Status; status != nil {
+        result["status"] = *status
+    }
+
+    return []interface{}{result}
 }

@@ -327,6 +327,20 @@ func resourceArmApiDiagnosticRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if diagnosticContractProperties := resp.DiagnosticContractProperties; diagnosticContractProperties != nil {
+        d.Set("always_log", string(diagnosticContractProperties.AlwaysLog))
+        if err := d.Set("backend", flattenArmApiDiagnosticPipelineDiagnosticSettings(diagnosticContractProperties.Backend)); err != nil {
+            return fmt.Errorf("Error setting `backend`: %+v", err)
+        }
+        d.Set("enable_http_correlation_headers", diagnosticContractProperties.EnableHTTPCorrelationHeaders)
+        if err := d.Set("frontend", flattenArmApiDiagnosticPipelineDiagnosticSettings(diagnosticContractProperties.Frontend)); err != nil {
+            return fmt.Errorf("Error setting `frontend`: %+v", err)
+        }
+        d.Set("logger_id", diagnosticContractProperties.LoggerID)
+        if err := d.Set("sampling", flattenArmApiDiagnosticSamplingSettings(diagnosticContractProperties.Sampling)); err != nil {
+            return fmt.Errorf("Error setting `sampling`: %+v", err)
+        }
+    }
     d.Set("api_id", aPIID)
     d.Set("diagnostic_id", diagnosticID)
     d.Set("type", resp.Type)
@@ -449,4 +463,60 @@ func expandArmApiDiagnosticBodyDiagnosticSettings(input []interface{}) *apimanag
         Bytes: utils.Int32(int32(bytes)),
     }
     return &result
+}
+
+
+func flattenArmApiDiagnosticPipelineDiagnosticSettings(input *apimanagement.PipelineDiagnosticSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["request"] = flattenArmApiDiagnosticHttpMessageDiagnostic(input.Request)
+    result["response"] = flattenArmApiDiagnosticHttpMessageDiagnostic(input.Response)
+
+    return []interface{}{result}
+}
+
+func flattenArmApiDiagnosticSamplingSettings(input *apimanagement.SamplingSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if percentage := input.Percentage; percentage != nil {
+        result["percentage"] = *percentage
+    }
+    result["sampling_type"] = string(input.SamplingType)
+
+    return []interface{}{result}
+}
+
+func flattenArmApiDiagnosticHttpMessageDiagnostic(input *apimanagement.HttpMessageDiagnostic) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["body"] = flattenArmApiDiagnosticBodyDiagnosticSettings(input.Body)
+    result["headers"] = utils.FlattenStringSlice(input.Headers)
+
+    return []interface{}{result}
+}
+
+func flattenArmApiDiagnosticBodyDiagnosticSettings(input *apimanagement.BodyDiagnosticSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if bytes := input.Bytes; bytes != nil {
+        result["bytes"] = int(*bytes)
+    }
+
+    return []interface{}{result}
 }

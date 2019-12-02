@@ -195,6 +195,69 @@ objects:
             python_parameter_name: transaction_node_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TransactionNodePropertiesUpdate
+            go_type_name: TransactionNodePropertiesUpdate
+          '/properties/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/properties/firewallRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: FirewallRules
+            go_type_name: FirewallRule
+          '/properties/firewallRules/ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleName
+          '/properties/firewallRules/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StartIPAddress
+          '/properties/firewallRules/endIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EndIPAddress
+          '/firewallRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: firewall_rules
+          '/firewallRules/ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_name
+          '/firewallRules/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: start_ip_address
+          '/firewallRules/endIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: end_ip_address
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: NodeProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/dns': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DNS
+          '/dns': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: dns
+          '/properties/publicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicKey
+          '/publicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_key
+          '/properties/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserName
+          '/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -324,6 +387,32 @@ objects:
         input: true
         azure_sdk_references: ['/value']
       # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Gets or sets the blockchain member provision state.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :NotSpecified
+          - :Updating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'dns'
+        description: 'Gets or sets the transaction node dns endpoint.'
+        output: true
+        azure_sdk_references: ['/dns', '/properties/dns']
+      - !ruby/object:Api::Type::String
+        name: 'publicKey'
+        description: 'Gets or sets the transaction node public key.'
+        output: true
+        azure_sdk_references: ['/publicKey', '/properties/publicKey']
+      - !ruby/object:Api::Type::String
+        name: 'userName'
+        description: 'Gets or sets the transaction node dns endpoint basic auth user name.'
+        output: true
+        azure_sdk_references: ['/userName', '/properties/userName']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id of the resource.'

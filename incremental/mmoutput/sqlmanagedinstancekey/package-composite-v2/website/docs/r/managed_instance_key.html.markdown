@@ -42,6 +42,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `thumbprint` - Thumbprint of the key.
+
+* `creation_date` - The key creation date.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

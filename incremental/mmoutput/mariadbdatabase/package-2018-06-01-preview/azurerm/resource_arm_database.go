@@ -146,6 +146,10 @@ func resourceArmDatabaseRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if databaseProperties := resp.DatabaseProperties; databaseProperties != nil {
+        d.Set("charset", databaseProperties.Charset)
+        d.Set("collation", databaseProperties.Collation)
+    }
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 

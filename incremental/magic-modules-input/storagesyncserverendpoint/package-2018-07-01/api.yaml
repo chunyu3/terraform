@@ -186,6 +186,71 @@ objects:
             python_parameter_name: server_endpoint_name
             python_variable_name: name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerEndpointUpdateProperties
+            go_type_name: ServerEndpointUpdateProperties
+          '/properties/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CloudTiering
+            go_enum_type_name: 
+          '/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: cloud_tiering
+          '/properties/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: VolumeFreeSpacePercent
+          '/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: volume_free_space_percent
+          '/properties/tierFilesOlderThanDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TierFilesOlderThanDays
+          '/tierFilesOlderThanDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: tier_files_older_than_days
+          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerLocalPath
+          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_local_path
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerResourceID
+          '/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_resource_id
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastWorkflowID
+          '/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_workflow_id
+          '/properties/lastOperationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastOperationName
+          '/lastOperationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_operation_name
+          '/properties/syncStatus': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: SyncStatus
+          '/syncStatus': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: sync_status
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -274,6 +339,41 @@ objects:
         input: true
         azure_sdk_references: ['/recallPath']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'serverLocalPath'
+        description: 'Server Local path.'
+        output: true
+        azure_sdk_references: ['/serverLocalPath', '/properties/serverLocalPath']
+      - !ruby/object:Api::Type::String
+        name: 'friendlyName'
+        description: 'Friendly Name'
+        output: true
+        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
+      - !ruby/object:Api::Type::String
+        name: 'serverResourceId'
+        description: 'Server Resource Id.'
+        output: true
+        azure_sdk_references: ['/serverResourceId', '/properties/serverResourceId']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'ServerEndpoint Provisioning State'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'lastWorkflowId'
+        description: 'ServerEndpoint lastWorkflowId'
+        output: true
+        azure_sdk_references: ['/lastWorkflowId', '/properties/lastWorkflowId']
+      - !ruby/object:Api::Type::String
+        name: 'lastOperationName'
+        description: 'Resource Last Operation Name'
+        output: true
+        azure_sdk_references: ['/lastOperationName', '/properties/lastOperationName']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'syncStatus'
+        description: 'Sync Health Status'
+        output: true
+        azure_sdk_references: ['/syncStatus', '/properties/syncStatus']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'

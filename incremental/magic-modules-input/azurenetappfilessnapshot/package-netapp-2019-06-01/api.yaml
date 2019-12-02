@@ -179,6 +179,40 @@ objects:
             python_parameter_name: snapshot_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SnapshotProperties
+            go_type_name: SnapshotProperties
+          '/properties/fileSystemId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FileSystemID
+          '/fileSystemId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: file_system_id
+          '/properties/snapshotId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SnapshotID
+          '/snapshotId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: snapshot_id
+          '/properties/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreationDate
+          '/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: creation_date
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -264,6 +298,21 @@ objects:
         required: false
         azure_sdk_references: ['/fileSystemId', '/properties/fileSystemId']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'snapshotId'
+        description: 'UUID v4 used to identify the Snapshot'
+        output: true
+        azure_sdk_references: ['/snapshotId', '/properties/snapshotId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationDate'
+        description: 'The creation date of the snapshot'
+        output: true
+        azure_sdk_references: ['/creationDate', '/properties/creationDate']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Azure lifecycle management'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

@@ -93,6 +93,53 @@ objects:
             python_parameter_name: sync_agent_name
             python_variable_name: name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SyncAgentProperties
+            go_type_name: SyncAgentProperties
+          '/properties/syncDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SyncDatabaseID
+          '/syncDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sync_database_id
+          '/properties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/lastAliveTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastAliveTime
+          '/lastAliveTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_alive_time
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: SyncAgentState
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/isUpToDate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsUpToDate
+          '/isUpToDate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_up_to_date
+          '/properties/expiryTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExpiryTime
+          '/expiryTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiry_time
+          '/properties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -163,6 +210,40 @@ objects:
         required: false
         azure_sdk_references: ['/syncDatabaseId', '/properties/syncDatabaseId']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the sync agent.'
+        output: true
+        azure_sdk_references: ['/name', '/properties/name']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastAliveTime'
+        description: 'Last alive time of the sync agent.'
+        output: true
+        azure_sdk_references: ['/lastAliveTime', '/properties/lastAliveTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'State of the sync agent.'
+        output: true
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :Online
+          - :Offline
+          - :NeverConnected
+      - !ruby/object:Api::Type::Boolean
+        name: 'isUpToDate'
+        description: 'If the sync agent version is up to date.'
+        output: true
+        azure_sdk_references: ['/isUpToDate', '/properties/isUpToDate']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'expiryTime'
+        description: 'Expiration time of the sync agent version.'
+        output: true
+        azure_sdk_references: ['/expiryTime', '/properties/expiryTime']
+      - !ruby/object:Api::Type::String
+        name: 'version'
+        description: 'Version of the sync agent.'
+        output: true
+        azure_sdk_references: ['/version', '/properties/version']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

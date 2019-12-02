@@ -79,6 +79,35 @@ objects:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
             python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RestorePointProperties
+            go_type_name: RestorePointProperties
+          '/properties/restorePointType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RestorePointType
+            go_enum_type_name: RestorePointType
+          '/restorePointType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: restore_point_type
+          '/properties/earliestRestoreDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EarliestRestoreDate
+          '/earliestRestoreDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: earliest_restore_date
+          '/properties/restorePointCreationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: RestorePointCreationDate
+          '/restorePointCreationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: restore_point_creation_date
+          '/properties/restorePointLabel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RestorePointLabel
+          '/restorePointLabel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: restore_point_label
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Create
@@ -181,3 +210,26 @@ objects:
         description: 'Resource location.'
         output: true
         azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::Enum
+        name: 'restorePointType'
+        description: 'The type of restore point'
+        output: true
+        azure_sdk_references: ['/restorePointType', '/properties/restorePointType']
+        values:
+          - :CONTINUOUS
+          - :DISCRETE
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'earliestRestoreDate'
+        description: 'The earliest time to which this database can be restored'
+        output: true
+        azure_sdk_references: ['/earliestRestoreDate', '/properties/earliestRestoreDate']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'restorePointCreationDate'
+        description: 'The time the backup was taken'
+        output: true
+        azure_sdk_references: ['/restorePointCreationDate', '/properties/restorePointCreationDate']
+      - !ruby/object:Api::Type::String
+        name: 'restorePointLabel'
+        description: 'The label of restore point for backup request by user'
+        output: true
+        azure_sdk_references: ['/restorePointLabel', '/properties/restorePointLabel']

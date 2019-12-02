@@ -105,6 +105,9 @@ objects:
             go_field_name: Type
             go_enum_type_name: Type
             python_field_name: type
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -163,4 +166,52 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of Kusto database principals.'
+        required: false
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'role'
+              description: 'Database principal role.'
+              required: true
+              azure_sdk_references: ['/value/role']
+              values:
+                - :Admin
+                - :Ingestor
+                - :Monitor
+                - :User
+                - :UnrestrictedViewers
+                - :Viewer
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Database principal name.'
+              required: true
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::Enum
+              name: 'type'
+              description: 'Database principal type.'
+              required: true
+              azure_sdk_references: ['/value/type']
+              values:
+                - :App
+                - :Group
+                - :User
+            - !ruby/object:Api::Type::String
+              name: 'fqn'
+              description: 'Database principal fully qualified name.'
+              required: false
+              azure_sdk_references: ['/value/fqn']
+            - !ruby/object:Api::Type::String
+              name: 'email'
+              description: 'Database principal email if exists.'
+              required: false
+              azure_sdk_references: ['/value/email']
+            - !ruby/object:Api::Type::String
+              name: 'appId'
+              description: 'Application id - relevant only for application principal type.'
+              required: false
+              azure_sdk_references: ['/value/appId']
       # read only values included only in response

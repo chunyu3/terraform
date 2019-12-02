@@ -108,6 +108,22 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `time_created` - The time when the disk was created.
+
+* `hyper_vgeneration` - The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+
+* `creation_data` - One `creation_datum` block defined below.
+
+* `disk_size_bytes` - The size of the disk in bytes. This field is read only.
+
+* `unique_id` - Unique Guid identifying the resource.
+
+* `provisioning_state` - The disk provisioning state.
+
+* `incremental` - Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.
+
+* `encryption` - One `encryption` block defined below.
+
 * `id` - Resource Id
 
 * `name` - Resource name
@@ -115,3 +131,39 @@ The following attributes are exported:
 * `type` - Resource type
 
 * `managed_by` - Unused. Always Null.
+
+
+---
+
+The `creation_datum` block contains the following:
+
+* `create_option` - This enumerates the possible sources of a disk's creation.
+
+* `storage_account_id` - If createOption is Import, the Azure Resource Manager identifier of the storage account containing the blob to import as a disk. Required only if the blob is in a different subscription
+
+* `image_reference` - One `image_reference` block defined below.
+
+* `source_uri` - If createOption is Import, this is the URI of a blob to be imported into a managed disk.
+
+* `source_resource_id` - If createOption is Copy, this is the ARM id of the source snapshot or disk.
+
+* `source_unique_id` - If this field is set, this is the unique id identifying the source of this resource.
+
+* `upload_size_bytes` - If createOption is Upload, this is the size of the contents of the upload including the VHD footer. This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512 bytes for the VHD footer).
+
+
+---
+
+The `image_reference` block contains the following:
+
+* `id` - A relative uri containing either a Platform Image Repository or user image reference.
+
+* `lun` - If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
+
+---
+
+The `encryption` block contains the following:
+
+* `disk_encryption_set_id` - ResourceId of the disk encryption set to use for enabling encryption at rest.
+
+* `type` - The type of key used to encrypt the data of the disk.

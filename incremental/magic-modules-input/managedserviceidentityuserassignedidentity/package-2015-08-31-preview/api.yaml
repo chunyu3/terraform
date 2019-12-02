@@ -105,6 +105,40 @@ objects:
             python_parameter_name: resource_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IdentityProperties
+            go_type_name: IdentityProperties
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrincipalID
+          '/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: principal_id
+          '/properties/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClientID
+          '/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: client_id
+          '/properties/clientSecretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClientSecretURL
+          '/clientSecretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: client_secret_url
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -157,6 +191,26 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'The id of the tenant which the identity belongs to.'
+        output: true
+        azure_sdk_references: ['/tenantId', '/properties/tenantId']
+      - !ruby/object:Api::Type::String
+        name: 'principalId'
+        description: 'The id of the service principal object associated with the created identity.'
+        output: true
+        azure_sdk_references: ['/principalId', '/properties/principalId']
+      - !ruby/object:Api::Type::String
+        name: 'clientId'
+        description: 'The id of the app associated with the identity. This is a random generated UUID by MSI.'
+        output: true
+        azure_sdk_references: ['/clientId', '/properties/clientId']
+      - !ruby/object:Api::Type::String
+        name: 'clientSecretUrl'
+        description: ' The ManagedServiceIdentity DataPlane URL that can be queried to obtain the identity credentials.'
+        output: true
+        azure_sdk_references: ['/clientSecretUrl', '/properties/clientSecretUrl']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The id of the created identity.'

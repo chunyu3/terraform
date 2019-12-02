@@ -141,6 +141,66 @@ objects:
             python_parameter_name: account_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccountBaseProperties
+            go_type_name: AccountBaseProperties
+          '/properties/autoStorage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoStorage
+            go_type_name: AutoStorageBaseProperties
+          '/properties/autoStorage/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountID
+          '/properties/autoStorage/lastKeySync': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastKeySync
+          '/autoStorage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_storage
+          '/autoStorage/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_id
+          '/autoStorage/lastKeySync': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_key_sync
+          '/properties/accountEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountEndpoint
+          '/accountEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_endpoint
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/coreQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: CoreQuota
+          '/coreQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: core_quota
+          '/properties/poolQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PoolQuota
+          '/poolQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: pool_quota
+          '/properties/activeJobAndJobScheduleQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ActiveJobAndJobScheduleQuota
+          '/activeJobAndJobScheduleQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: active_job_and_job_schedule_quota
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -212,6 +272,38 @@ objects:
           - :Primary
           - :Secondary
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'accountEndpoint'
+        description: 'The endpoint used by this account to interact with the Batch services.'
+        output: true
+        azure_sdk_references: ['/accountEndpoint', '/properties/accountEndpoint']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioned state of the resource'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Invalid
+          - :Creating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+          - :Cancelled
+      - !ruby/object:Api::Type::Integer
+        name: 'coreQuota'
+        description: 'The core quota for this Batch account.'
+        output: true
+        azure_sdk_references: ['/coreQuota', '/properties/coreQuota']
+      - !ruby/object:Api::Type::Integer
+        name: 'poolQuota'
+        description: 'The pool quota for this Batch account.'
+        output: true
+        azure_sdk_references: ['/poolQuota', '/properties/poolQuota']
+      - !ruby/object:Api::Type::Integer
+        name: 'activeJobAndJobScheduleQuota'
+        description: 'The active job and job schedule quota for this Batch account.'
+        output: true
+        azure_sdk_references: ['/activeJobAndJobScheduleQuota', '/properties/activeJobAndJobScheduleQuota']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The ID of the resource'

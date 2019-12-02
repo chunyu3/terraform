@@ -120,6 +120,98 @@ objects:
             python_parameter_name: availability_set_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AvailabilitySetProperties
+            go_type_name: AvailabilitySetProperties
+          '/properties/platformUpdateDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PlatformUpdateDomainCount
+          '/platformUpdateDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: platform_update_domain_count
+          '/properties/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PlatformFaultDomainCount
+          '/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: platform_fault_domain_count
+          '/properties/virtualMachines': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualMachines
+            go_type_name: SubResource
+          '/properties/virtualMachines/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/virtualMachines': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_machines
+          '/virtualMachines/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/managed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Managed
+          '/managed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: managed
+          '/properties/statuses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Statuses
+            go_type_name: InstanceViewStatus
+          '/properties/statuses/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Code
+          '/properties/statuses/level': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Level
+            go_enum_type_name: StatusLevelTypes
+          '/properties/statuses/displayStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayStatus
+          '/properties/statuses/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
+          '/properties/statuses/time': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/statuses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: statuses
+          '/statuses/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code
+          '/statuses/level': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: level
+          '/statuses/displayStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_status
+          '/statuses/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
+          '/statuses/time': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: time
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            go_field_name: Capacity
+            python_field_name: capacity
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -233,6 +325,42 @@ objects:
             required: false
             azure_sdk_references: ['/sku/capacity']
       # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'statuses'
+        description: 'The resource status information.'
+        output: true
+        azure_sdk_references: ['/statuses', '/properties/statuses']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'code'
+              description: 'The status code.'
+              output: true
+              azure_sdk_references: ['/statuses/code', '/properties/statuses/code']
+            - !ruby/object:Api::Type::Enum
+              name: 'level'
+              description: 'The level code.'
+              output: true
+              azure_sdk_references: ['/statuses/level', '/properties/statuses/level']
+              values:
+                - :Info
+                - :Warning
+                - :Error
+            - !ruby/object:Api::Type::String
+              name: 'displayStatus'
+              description: 'The short localizable label for the status.'
+              output: true
+              azure_sdk_references: ['/statuses/displayStatus', '/properties/statuses/displayStatus']
+            - !ruby/object:Api::Type::String
+              name: 'message'
+              description: 'The detailed status message, including for alerts and error messages.'
+              output: true
+              azure_sdk_references: ['/statuses/message', '/properties/statuses/message']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'time'
+              description: 'The time of the status.'
+              output: true
+              azure_sdk_references: ['/statuses/time', '/properties/statuses/time']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

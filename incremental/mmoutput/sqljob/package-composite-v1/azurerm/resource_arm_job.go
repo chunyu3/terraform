@@ -103,6 +103,11 @@ func resourceArmJob() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
+
+            "version": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
         },
     }
 }
@@ -183,6 +188,13 @@ func resourceArmJobRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if jobProperties := resp.JobProperties; jobProperties != nil {
+        d.Set("description", jobProperties.Description)
+        if err := d.Set("schedule", flattenArmJobJobSchedule(jobProperties.Schedule)); err != nil {
+            return fmt.Errorf("Error setting `schedule`: %+v", err)
+        }
+        d.Set("version", int(*jobProperties.Version))
+    }
     d.Set("job_agent_name", jobAgentName)
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
@@ -247,4 +259,29 @@ func convertStringToDate(input interface{}) *date.Time {
       Time: dateTime,
   }
   return &result
+}
+
+
+func flattenArmJobJobSchedule(input *sql.JobSchedule) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if enabled := input.Enabled; enabled != nil {
+        result["enabled"] = *enabled
+    }
+    if endTime := input.EndTime; endTime != nil {
+        result["end_time"] = (*endTime).String()
+    }
+    if interval := input.Interval; interval != nil {
+        result["interval"] = *interval
+    }
+    if startTime := input.StartTime; startTime != nil {
+        result["start_time"] = (*startTime).String()
+    }
+    result["type"] = string(input.Type)
+
+    return []interface{}{result}
 }

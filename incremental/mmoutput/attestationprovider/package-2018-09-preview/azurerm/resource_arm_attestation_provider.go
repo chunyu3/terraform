@@ -142,6 +142,16 @@ func resourceArmAttestationProvider() *schema.Resource {
                 },
             },
 
+            "attest_uri": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -220,6 +230,10 @@ func resourceArmAttestationProviderRead(d *schema.ResourceData, meta interface{}
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if statusResult := resp.StatusResult; statusResult != nil {
+        d.Set("attest_uri", statusResult.AttestURI)
+        d.Set("status", string(statusResult.Status))
+    }
     d.Set("type", resp.Type)
 
     return nil

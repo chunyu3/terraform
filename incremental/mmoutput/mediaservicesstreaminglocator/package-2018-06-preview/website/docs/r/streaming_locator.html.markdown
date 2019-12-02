@@ -84,6 +84,8 @@ The `track_selection` block supports the following:
 
 The following attributes are exported:
 
+* `created` - Creation time of Streaming Locator
+
 * `id` - Fully qualified resource ID for the resource.
 
 * `name` - The name of the resource.

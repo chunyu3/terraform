@@ -462,11 +462,6 @@ objects:
             python_parameter_name: account_name
             python_variable_name: name
         response:
-          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: locations
-            go_variable_name: location
-            python_parameter_name: location
-            python_variable_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -762,6 +757,9 @@ objects:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -1053,3 +1051,8 @@ objects:
         description: 'The resource identifer.'
         output: true
         azure_sdk_references: ['/id']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The resource location.'
+        output: true
+        azure_sdk_references: ['/location']

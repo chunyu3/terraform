@@ -43,6 +43,11 @@ func resourceArmArtifactSource() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -97,7 +102,22 @@ func resourceArmArtifactSource() *schema.Resource {
                 Optional: true,
             },
 
+            "created_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "unique_identifier": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -196,10 +216,27 @@ func resourceArmArtifactSourceRead(d *schema.ResourceData, meta interface{}) err
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if artifactSourcePropertiesFragment := resp.ArtifactSourcePropertiesFragment; artifactSourcePropertiesFragment != nil {
+        d.Set("arm_template_folder_path", artifactSourcePropertiesFragment.ArmTemplateFolderPath)
+        d.Set("branch_ref", artifactSourcePropertiesFragment.BranchRef)
+        d.Set("created_date", (artifactSourcePropertiesFragment.CreatedDate).String())
+        d.Set("display_name", artifactSourcePropertiesFragment.DisplayName)
+        d.Set("folder_path", artifactSourcePropertiesFragment.FolderPath)
+        d.Set("provisioning_state", artifactSourcePropertiesFragment.ProvisioningState)
+        d.Set("security_token", artifactSourcePropertiesFragment.SecurityToken)
+        d.Set("source_type", string(artifactSourcePropertiesFragment.SourceType))
+        d.Set("status", string(artifactSourcePropertiesFragment.Status))
+        d.Set("unique_identifier", artifactSourcePropertiesFragment.UniqueIdentifier)
+        d.Set("uri", artifactSourcePropertiesFragment.URI)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmArtifactSourceUpdate(d *schema.ResourceData, meta interface{}) error {

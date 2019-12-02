@@ -92,6 +92,23 @@ func resourceArmStorageInsight() *schema.Resource {
                 },
             },
 
+            "status": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "description": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "state": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -182,10 +199,21 @@ func resourceArmStorageInsightRead(d *schema.ResourceData, meta interface{}) err
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if storageInsightProperties := resp.StorageInsightProperties; storageInsightProperties != nil {
+        d.Set("containers", utils.FlattenStringSlice(storageInsightProperties.Containers))
+        if err := d.Set("status", flattenArmStorageInsightStorageInsightStatus(storageInsightProperties.Status)); err != nil {
+            return fmt.Errorf("Error setting `status`: %+v", err)
+        }
+        if err := d.Set("storage_account", flattenArmStorageInsightStorageAccount(storageInsightProperties.StorageAccount)); err != nil {
+            return fmt.Errorf("Error setting `storage_account`: %+v", err)
+        }
+        d.Set("tables", utils.FlattenStringSlice(storageInsightProperties.Tables))
+    }
+    d.Set("e_tag", resp.ETag)
     d.Set("type", resp.Type)
     d.Set("workspace_name", workspaceName)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -223,4 +251,37 @@ func expandArmStorageInsightStorageAccount(input []interface{}) *operationalinsi
         Key: utils.String(key),
     }
     return &result
+}
+
+
+func flattenArmStorageInsightStorageInsightStatus(input *operationalinsights.StorageInsightStatus) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if description := input.Description; description != nil {
+        result["description"] = *description
+    }
+    result["state"] = string(input.State)
+
+    return []interface{}{result}
+}
+
+func flattenArmStorageInsightStorageAccount(input *operationalinsights.StorageAccount) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+    if key := input.Key; key != nil {
+        result["key"] = *key
+    }
+
+    return []interface{}{result}
 }

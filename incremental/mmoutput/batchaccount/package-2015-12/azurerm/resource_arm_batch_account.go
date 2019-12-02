@@ -70,6 +70,31 @@ func resourceArmBatchAccount() *schema.Resource {
                 },
             },
 
+            "account_endpoint": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "active_job_and_job_schedule_quota": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "core_quota": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "pool_quota": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -160,9 +185,22 @@ func resourceArmBatchAccountRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if accountBaseProperties := resp.AccountBaseProperties; accountBaseProperties != nil {
+        d.Set("account_endpoint", accountBaseProperties.AccountEndpoint)
+        d.Set("active_job_and_job_schedule_quota", int(*accountBaseProperties.ActiveJobAndJobScheduleQuota))
+        if err := d.Set("auto_storage", flattenArmBatchAccountAutoStorageBaseProperties(accountBaseProperties.AutoStorage)); err != nil {
+            return fmt.Errorf("Error setting `auto_storage`: %+v", err)
+        }
+        d.Set("core_quota", int(*accountBaseProperties.CoreQuota))
+        d.Set("pool_quota", int(*accountBaseProperties.PoolQuota))
+        d.Set("provisioning_state", string(accountBaseProperties.ProvisioningState))
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmBatchAccountUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -232,4 +270,19 @@ func expandArmBatchAccountAutoStorageBaseProperties(input []interface{}) *batch.
         StorageAccountID: utils.String(storageAccountId),
     }
     return &result
+}
+
+
+func flattenArmBatchAccountAutoStorageBaseProperties(input *batch.AutoStorageBaseProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if storageAccountId := input.StorageAccountID; storageAccountId != nil {
+        result["storage_account_id"] = *storageAccountId
+    }
+
+    return []interface{}{result}
 }

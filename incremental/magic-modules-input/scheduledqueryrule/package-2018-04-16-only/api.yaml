@@ -119,6 +119,100 @@ objects:
             python_parameter_name: rule_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LogSearchRulePatch
+            go_type_name: LogSearchRulePatch
+          '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Enabled
+            go_enum_type_name: Enabled
+          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/lastUpdatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastUpdatedTime
+          '/lastUpdatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_updated_time
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Source
+            go_type_name: Source
+          '/properties/source/query': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Query
+          '/properties/source/authorizedResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AuthorizedResources
+          '/properties/source/dataSourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DataSourceID
+          '/properties/source/queryType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: QueryType
+            go_enum_type_name: QueryType
+          '/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source
+          '/source/query': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: query
+          '/source/authorizedResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: authorized_resources
+          '/source/dataSourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: data_source_id
+          '/source/queryType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: query_type
+          '/properties/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Schedule
+            go_type_name: Schedule
+          '/properties/schedule/frequencyInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FrequencyInMinutes
+          '/properties/schedule/timeWindowInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: TimeWindowInMinutes
+          '/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: schedule
+          '/schedule/frequencyInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: frequency_in_minutes
+          '/schedule/timeWindowInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: time_window_in_minutes
+          '/properties/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_type_name: Action
+          '/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: action
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -179,6 +273,71 @@ objects:
           - :false
         default_value: :true
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of the Log Search rule.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastUpdatedTime'
+        description: 'Last time the rule was updated in IS08601 format.'
+        output: true
+        azure_sdk_references: ['/lastUpdatedTime', '/properties/lastUpdatedTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning state of the scheduled query rule'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Deploying
+          - :Canceled
+          - :Failed
+      - !ruby/object:Api::Type::NestedObject
+        name: 'source'
+        description: 'Data Source against which rule will Query Data'
+        output: true
+        azure_sdk_references: ['/source', '/properties/source']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'query'
+            description: 'Log search query. Required for action type - AlertingAction'
+            output: true
+            azure_sdk_references: ['/source/query', '/properties/source/query']
+          - !ruby/object:Api::Type::Array
+            name: 'authorizedResources'
+            description: 'List of  Resource referred into query'
+            output: true
+            azure_sdk_references: ['/source/authorizedResources', '/properties/source/authorizedResources']
+            item_type: Api::Type::String
+          - !ruby/object:Api::Type::String
+            name: 'dataSourceId'
+            description: 'The resource uri over which log search query is to be run.'
+            output: true
+            azure_sdk_references: ['/source/dataSourceId', '/properties/source/dataSourceId']
+          - !ruby/object:Api::Type::Enum
+            name: 'queryType'
+            description: 'Set value to ''ResultCount'' .'
+            output: true
+            azure_sdk_references: ['/source/queryType', '/properties/source/queryType']
+            values:
+              - :ResultCount
+      - !ruby/object:Api::Type::NestedObject
+        name: 'schedule'
+        description: 'Schedule (Frequency, Time Window) for rule. Required for action type - AlertingAction'
+        output: true
+        azure_sdk_references: ['/schedule', '/properties/schedule']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'frequencyInMinutes'
+            description: 'frequency (in minutes) at which rule condition should be evaluated.'
+            output: true
+            azure_sdk_references: ['/schedule/frequencyInMinutes', '/properties/schedule/frequencyInMinutes']
+          - !ruby/object:Api::Type::Integer
+            name: 'timeWindowInMinutes'
+            description: 'Time window for which data needs to be fetched for query (should be greater than or equal to frequencyInMinutes).'
+            output: true
+            azure_sdk_references: ['/schedule/timeWindowInMinutes', '/properties/schedule/timeWindowInMinutes']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource Id'

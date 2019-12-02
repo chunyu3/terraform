@@ -55,6 +55,55 @@ func resourceArmPrefix() *schema.Resource {
                 Optional: true,
             },
 
+            "error_message": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "events": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "event_description": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "event_level": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "event_summary": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "event_timestamp": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "event_type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "learned_type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "prefix_validation_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -135,6 +184,16 @@ func resourceArmPrefixRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if servicePrefixProperties := resp.ServicePrefixProperties; servicePrefixProperties != nil {
+        d.Set("error_message", servicePrefixProperties.ErrorMessage)
+        if err := d.Set("events", flattenArmPrefixServicePrefixEvent(servicePrefixProperties.Events)); err != nil {
+            return fmt.Errorf("Error setting `events`: %+v", err)
+        }
+        d.Set("learned_type", string(servicePrefixProperties.LearnedType))
+        d.Set("prefix", servicePrefixProperties.Prefix)
+        d.Set("prefix_validation_state", string(servicePrefixProperties.PrefixValidationState))
+        d.Set("provisioning_state", string(servicePrefixProperties.ProvisioningState))
+    }
     d.Set("peering_service_name", peeringServiceName)
     d.Set("type", resp.Type)
 
@@ -160,4 +219,36 @@ func resourceArmPrefixDelete(d *schema.ResourceData, meta interface{}) error {
     }
 
     return nil
+}
+
+
+func flattenArmPrefixServicePrefixEvent(input *[]peering.ServicePrefixEvent) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if eventDescription := item.EventDescription; eventDescription != nil {
+            v["event_description"] = *eventDescription
+        }
+        if eventLevel := item.EventLevel; eventLevel != nil {
+            v["event_level"] = *eventLevel
+        }
+        if eventSummary := item.EventSummary; eventSummary != nil {
+            v["event_summary"] = *eventSummary
+        }
+        if eventTimestamp := item.EventTimestamp; eventTimestamp != nil {
+            v["event_timestamp"] = (*eventTimestamp).String()
+        }
+        if eventType := item.EventType; eventType != nil {
+            v["event_type"] = *eventType
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

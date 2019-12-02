@@ -145,6 +145,27 @@ func resourceArmBot() *schema.Resource {
                 ForceNew: true,
             },
 
+            "configured_channels": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
+
+            "enabled_channels": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
+
+            "endpoint_version": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "tags": tags.Schema(),
         },
     }
@@ -252,9 +273,32 @@ func resourceArmBotRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if botProperties := resp.BotProperties; botProperties != nil {
+        d.Set("configured_channels", utils.FlattenStringSlice(botProperties.ConfiguredChannels))
+        d.Set("description", botProperties.Description)
+        d.Set("developer_app_insight_key", botProperties.DeveloperAppInsightKey)
+        d.Set("developer_app_insights_api_key", botProperties.DeveloperAppInsightsAPIKey)
+        d.Set("developer_app_insights_application_id", botProperties.DeveloperAppInsightsApplicationID)
+        d.Set("display_name", botProperties.DisplayName)
+        d.Set("enabled_channels", utils.FlattenStringSlice(botProperties.EnabledChannels))
+        d.Set("endpoint", botProperties.Endpoint)
+        d.Set("endpoint_version", botProperties.EndpointVersion)
+        d.Set("icon_url", botProperties.IconURL)
+        d.Set("luis_app_ids", utils.FlattenStringSlice(botProperties.LuisAppIds))
+        d.Set("luis_key", botProperties.LuisKey)
+        d.Set("msa_app_id", botProperties.MsaAppID)
+    }
+    d.Set("etag", resp.Etag)
+    d.Set("kind", string(resp.Kind))
+    if err := d.Set("sku", flattenArmBotSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmBotUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -340,4 +384,17 @@ func expandArmBotSku(input []interface{}) *botservice.Sku {
         Name: botservice.SkuName(name),
     }
     return &result
+}
+
+
+func flattenArmBotSku(input *botservice.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["name"] = string(input.Name)
+
+    return []interface{}{result}
 }

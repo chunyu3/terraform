@@ -269,6 +269,10 @@ The `ssl_certificate` block supports the following:
 
 The following attributes are exported:
 
+* `operational_state` - Gets operational state of application gateway resource
+
+* `provisioning_state` - Gets or sets Provisioning state of the ApplicationGateway resource Updating/Deleting/Failed
+
 * `id` - Resource Id
 
 * `name` - Resource name

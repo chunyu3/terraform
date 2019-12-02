@@ -198,6 +198,44 @@ func resourceArmPrediction() *schema.Resource {
                 Optional: true,
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "system_generated_entities": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "generated_interaction_types": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Schema{
+                                Type: schema.TypeString,
+                            },
+                        },
+                        "generated_kpis": {
+                            Type: schema.TypeMap,
+                            Computed: true,
+                            Elem: &schema.Schema{Type: schema.TypeString},
+                        },
+                        "generated_links": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Schema{
+                                Type: schema.TypeString,
+                            },
+                        },
+                    },
+                },
+            },
+
+            "tenant_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -310,6 +348,31 @@ func resourceArmPredictionRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if prediction := resp.Prediction; prediction != nil {
+        d.Set("auto_analyze", prediction.AutoAnalyze)
+        d.Set("description", utils.FlattenKeyValuePairs(prediction.Description))
+        d.Set("display_name", utils.FlattenKeyValuePairs(prediction.DisplayName))
+        if err := d.Set("grades", flattenArmPredictionPrediction_gradesItem(prediction.Grades)); err != nil {
+            return fmt.Errorf("Error setting `grades`: %+v", err)
+        }
+        d.Set("involved_interaction_types", utils.FlattenStringSlice(prediction.InvolvedInteractionTypes))
+        d.Set("involved_kpi_types", utils.FlattenStringSlice(prediction.InvolvedKpiTypes))
+        d.Set("involved_relationships", utils.FlattenStringSlice(prediction.InvolvedRelationships))
+        if err := d.Set("mappings", flattenArmPredictionPrediction_mappings(prediction.Mappings)); err != nil {
+            return fmt.Errorf("Error setting `mappings`: %+v", err)
+        }
+        d.Set("negative_outcome_expression", prediction.NegativeOutcomeExpression)
+        d.Set("positive_outcome_expression", prediction.PositiveOutcomeExpression)
+        d.Set("prediction_name", prediction.PredictionName)
+        d.Set("primary_profile_type", prediction.PrimaryProfileType)
+        d.Set("provisioning_state", string(prediction.ProvisioningState))
+        d.Set("scope_expression", prediction.ScopeExpression)
+        d.Set("score_label", prediction.ScoreLabel)
+        if err := d.Set("system_generated_entities", flattenArmPredictionPrediction_systemGeneratedEntities(prediction.SystemGeneratedEntities)); err != nil {
+            return fmt.Errorf("Error setting `system_generated_entities`: %+v", err)
+        }
+        d.Set("tenant_id", prediction.TenantID)
+    }
     d.Set("hub_name", hubName)
     d.Set("type", resp.Type)
 
@@ -382,4 +445,64 @@ func expandArmPredictionPrediction_mappings(input []interface{}) *customerinsigh
         Score: utils.String(score),
     }
     return &result
+}
+
+
+func flattenArmPredictionPrediction_gradesItem(input *[]customerinsights.Prediction_gradesItem) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if gradeName := item.GradeName; gradeName != nil {
+            v["grade_name"] = *gradeName
+        }
+        if maxScoreThreshold := item.MaxScoreThreshold; maxScoreThreshold != nil {
+            v["max_score_threshold"] = *maxScoreThreshold
+        }
+        if minScoreThreshold := item.MinScoreThreshold; minScoreThreshold != nil {
+            v["min_score_threshold"] = *minScoreThreshold
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmPredictionPrediction_mappings(input *customerinsights.Prediction_mappings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if grade := input.Grade; grade != nil {
+        result["grade"] = *grade
+    }
+    if reason := input.Reason; reason != nil {
+        result["reason"] = *reason
+    }
+    if score := input.Score; score != nil {
+        result["score"] = *score
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmPredictionPrediction_systemGeneratedEntities(input *customerinsights.Prediction_systemGeneratedEntities) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["generated_interaction_types"] = utils.FlattenStringSlice(input.GeneratedInteractionTypes)
+    result["generated_kpis"] = utils.FlattenKeyValuePairs(input.GeneratedKpis)
+    result["generated_links"] = utils.FlattenStringSlice(input.GeneratedLinks)
+
+    return []interface{}{result}
 }

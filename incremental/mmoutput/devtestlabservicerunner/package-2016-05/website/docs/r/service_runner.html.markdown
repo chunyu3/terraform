@@ -58,4 +58,6 @@ The following attributes are exported:
 
 * `id` - The identifier of the resource.
 
+* `name` - The name of the resource.
+
 * `type` - The type of the resource.

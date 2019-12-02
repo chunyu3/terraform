@@ -58,6 +58,12 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `created_date` - The creation date of the policy.
+
+* `provisioning_state` - The provisioning status of the resource.
+
 * `id` - The identifier of the resource.
+
+* `name` - The name of the resource.
 
 * `type` - The type of the resource.

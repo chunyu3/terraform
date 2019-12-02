@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_sqlworkloadgroup
+  description: Create a workload group with the required properties specified.
+  code:
+    resource_group: myResourceGroup
+    server_name: myServer
+    database_name: myDatabase
+    name: myWorkloadGroup
+    min_resource_percent: '0'
+    max_resource_percent: '100'
+    min_resource_percent_per_request: '3'
+  

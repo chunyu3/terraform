@@ -99,6 +99,26 @@ func resourceArmLiveOutput() *schema.Resource {
                 Optional: true,
             },
 
+            "created": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_modified": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -196,6 +216,20 @@ func resourceArmLiveOutputRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
+    if liveOutputProperties := resp.LiveOutputProperties; liveOutputProperties != nil {
+        d.Set("archive_window_length", liveOutputProperties.ArchiveWindowLength)
+        d.Set("asset_name", liveOutputProperties.AssetName)
+        d.Set("created", (liveOutputProperties.Created).String())
+        d.Set("description", liveOutputProperties.Description)
+        if err := d.Set("hls", flattenArmLiveOutputHls(liveOutputProperties.Hls)); err != nil {
+            return fmt.Errorf("Error setting `hls`: %+v", err)
+        }
+        d.Set("last_modified", (liveOutputProperties.LastModified).String())
+        d.Set("manifest_name", liveOutputProperties.ManifestName)
+        d.Set("output_snap_time", int(*liveOutputProperties.OutputSnapTime))
+        d.Set("provisioning_state", liveOutputProperties.ProvisioningState)
+        d.Set("resource_state", string(liveOutputProperties.ResourceState))
+    }
     d.Set("live_event_name", liveEventName)
     d.Set("type", resp.Type)
 
@@ -246,4 +280,19 @@ func expandArmLiveOutputHls(input []interface{}) *mediaservices.Hls {
         FragmentsPerTsSegment: utils.Int32(int32(fragmentsPerTsSegment)),
     }
     return &result
+}
+
+
+func flattenArmLiveOutputHls(input *mediaservices.Hls) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if fragmentsPerTsSegment := input.FragmentsPerTsSegment; fragmentsPerTsSegment != nil {
+        result["fragments_per_ts_segment"] = int(*fragmentsPerTsSegment)
+    }
+
+    return []interface{}{result}
 }

@@ -154,7 +154,12 @@ func resourceArmOpenIdConnectProviderRead(d *schema.ResourceData, meta interface
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    d.Set("client_id", resp.ClientID)
+    d.Set("client_secret", resp.ClientSecret)
+    d.Set("description", resp.Description)
+    d.Set("metadata_endpoint", resp.MetadataEndpoint)
     d.Set("opid", opid)
 
     return nil

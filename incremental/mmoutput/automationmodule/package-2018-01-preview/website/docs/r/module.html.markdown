@@ -65,6 +65,37 @@ The `content_hash` block supports the following:
 
 The following attributes are exported:
 
+* `is_global` - Gets or sets the isGlobal flag of the module.
+
+* `version` - Gets or sets the version of the module.
+
+* `size_in_bytes` - Gets or sets the size in bytes of the module.
+
+* `activity_count` - Gets or sets the activity count of the module.
+
+* `provisioning_state` - Gets or sets the provisioning state of the module.
+
+* `error` - One `error` block defined below.
+
+* `creation_time` - Gets or sets the creation time.
+
+* `last_modified_time` - Gets or sets the last modified time.
+
+* `description` - Gets or sets the description.
+
+* `is_composite` - Gets or sets type of module, if its composite or not.
+
 * `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.
+
+* `etag` - Gets or sets the etag of the resource.
+
+
+---
+
+The `error` block contains the following:
+
+* `code` - Gets or sets the error code.
+
+* `message` - Gets or sets the error message.

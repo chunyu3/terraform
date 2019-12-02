@@ -13,7 +13,10 @@ task: !ruby/object:Provider::Ansible::Task
     upgrade_policy:
       mode: Manual
     virtual_machine_profile:
-      os_profile: {}
+      os_profile:
+        computer_name_prefix: '{vmss-name}'
+        admin_username: '{your-username}'
+        admin_password: '{your-password}'
       storage_profile:
         image_reference:
           id: >-
@@ -29,6 +32,7 @@ task: !ruby/object:Provider::Ansible::Task
                 resource_group
                 }}/providers/Microsoft.Compute/diskEncryptionSets/{{
                 disk_encryption_set_name }}
+          create_option: FromImage
         data_disks:
           - lun: '0'
             caching: ReadWrite

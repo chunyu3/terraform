@@ -163,7 +163,58 @@ func resourceArmSnapshot() *schema.Resource {
                 },
             },
 
+            "creation_data": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "create_option": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "image_reference": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "lun": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "source_resource_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "source_uri": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "storage_account_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "managed_by": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "time_created": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -266,10 +317,28 @@ func resourceArmSnapshotRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if diskUpdateProperties := resp.DiskUpdateProperties; diskUpdateProperties != nil {
+        if err := d.Set("creation_data", flattenArmSnapshotCreationData(diskUpdateProperties.CreationData)); err != nil {
+            return fmt.Errorf("Error setting `creation_data`: %+v", err)
+        }
+        d.Set("disk_size_gb", int(*diskUpdateProperties.DiskSizeGB))
+        if err := d.Set("encryption_settings", flattenArmSnapshotEncryptionSettings(diskUpdateProperties.EncryptionSettings)); err != nil {
+            return fmt.Errorf("Error setting `encryption_settings`: %+v", err)
+        }
+        d.Set("os_type", string(diskUpdateProperties.OsType))
+        d.Set("provisioning_state", diskUpdateProperties.ProvisioningState)
+        d.Set("time_created", (diskUpdateProperties.TimeCreated).String())
+    }
     d.Set("managed_by", resp.ManagedBy)
+    if err := d.Set("sku", flattenArmSnapshotDiskSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -415,4 +484,116 @@ func expandArmSnapshotSourceVault(input []interface{}) *compute.SourceVault {
         ID: utils.String(id),
     }
     return &result
+}
+
+
+func flattenArmSnapshotCreationData(input *compute.CreationData) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["create_option"] = string(input.CreateOption)
+    result["image_reference"] = flattenArmSnapshotImageDiskReference(input.ImageReference)
+    if sourceResourceId := input.SourceResourceID; sourceResourceId != nil {
+        result["source_resource_id"] = *sourceResourceId
+    }
+    if sourceUri := input.SourceURI; sourceUri != nil {
+        result["source_uri"] = *sourceUri
+    }
+    if storageAccountId := input.StorageAccountID; storageAccountId != nil {
+        result["storage_account_id"] = *storageAccountId
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmSnapshotEncryptionSettings(input *compute.EncryptionSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["disk_encryption_key"] = flattenArmSnapshotKeyVaultAndSecretReference(input.DiskEncryptionKey)
+    if enabled := input.Enabled; enabled != nil {
+        result["enabled"] = *enabled
+    }
+    result["key_encryption_key"] = flattenArmSnapshotKeyVaultAndKeyReference(input.KeyEncryptionKey)
+
+    return []interface{}{result}
+}
+
+func flattenArmSnapshotDiskSku(input *compute.DiskSku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["name"] = string(input.Name)
+
+    return []interface{}{result}
+}
+
+func flattenArmSnapshotImageDiskReference(input *compute.ImageDiskReference) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+    if lun := input.Lun; lun != nil {
+        result["lun"] = int(*lun)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmSnapshotKeyVaultAndSecretReference(input *compute.KeyVaultAndSecretReference) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if secretUrl := input.SecretURL; secretUrl != nil {
+        result["secret_url"] = *secretUrl
+    }
+    result["source_vault"] = flattenArmSnapshotSourceVault(input.SourceVault)
+
+    return []interface{}{result}
+}
+
+func flattenArmSnapshotKeyVaultAndKeyReference(input *compute.KeyVaultAndKeyReference) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if keyUrl := input.KeyURL; keyUrl != nil {
+        result["key_url"] = *keyUrl
+    }
+    result["source_vault"] = flattenArmSnapshotSourceVault(input.SourceVault)
+
+    return []interface{}{result}
+}
+
+func flattenArmSnapshotSourceVault(input *compute.SourceVault) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+
+    return []interface{}{result}
 }

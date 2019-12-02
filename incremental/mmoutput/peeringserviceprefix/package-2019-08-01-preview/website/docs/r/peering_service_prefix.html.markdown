@@ -44,6 +44,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `provisioning_state` - The provisioning state of the resource.
+
 * `name` - The name of the resource.
 
 * `id` - The ID of the resource.

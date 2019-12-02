@@ -68,6 +68,16 @@ func resourceArmService() *schema.Resource {
                 Optional: true,
             },
 
+            "billing_domain_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "start_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -160,9 +170,20 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if deviceServiceProperties := resp.DeviceServiceProperties; deviceServiceProperties != nil {
+        d.Set("admin_domain_name", deviceServiceProperties.AdminDomainName)
+        d.Set("billing_domain_name", deviceServiceProperties.BillingDomainName)
+        d.Set("notes", deviceServiceProperties.Notes)
+        d.Set("quantity", int(*deviceServiceProperties.Quantity))
+        d.Set("start_date", (deviceServiceProperties.StartDate).String())
+    }
+    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {

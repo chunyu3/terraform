@@ -333,7 +333,63 @@ func resourceArmApiManagementService() *schema.Resource {
                 Default: string(apimanagement.None),
             },
 
+            "created_at_utc": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "etag": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "gateway_regional_url": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "gateway_url": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "management_api_url": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "portal_url": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "private_ip_addresses": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "public_ip_addresses": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
+
+            "scm_url": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "target_provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -458,10 +514,49 @@ func resourceArmApiManagementServiceRead(d *schema.ResourceData, meta interface{
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if serviceUpdateProperties := resp.ServiceUpdateProperties; serviceUpdateProperties != nil {
+        if err := d.Set("additional_locations", flattenArmApiManagementServiceAdditionalLocation(serviceUpdateProperties.AdditionalLocations)); err != nil {
+            return fmt.Errorf("Error setting `additional_locations`: %+v", err)
+        }
+        if err := d.Set("certificates", flattenArmApiManagementServiceCertificateConfiguration(serviceUpdateProperties.Certificates)); err != nil {
+            return fmt.Errorf("Error setting `certificates`: %+v", err)
+        }
+        d.Set("created_at_utc", (serviceUpdateProperties.CreatedAtUtc).String())
+        d.Set("custom_properties", utils.FlattenKeyValuePairs(serviceUpdateProperties.CustomProperties))
+        d.Set("enable_client_certificate", serviceUpdateProperties.EnableClientCertificate)
+        d.Set("gateway_regional_url", serviceUpdateProperties.GatewayRegionalURL)
+        d.Set("gateway_url", serviceUpdateProperties.GatewayURL)
+        if err := d.Set("hostname_configurations", flattenArmApiManagementServiceHostnameConfiguration(serviceUpdateProperties.HostnameConfigurations)); err != nil {
+            return fmt.Errorf("Error setting `hostname_configurations`: %+v", err)
+        }
+        d.Set("management_api_url", serviceUpdateProperties.ManagementAPIURL)
+        d.Set("notification_sender_email", serviceUpdateProperties.NotificationSenderEmail)
+        d.Set("portal_url", serviceUpdateProperties.PortalURL)
+        d.Set("private_ip_addresses", utils.FlattenStringSlice(serviceUpdateProperties.PrivateIPAddresses))
+        d.Set("provisioning_state", serviceUpdateProperties.ProvisioningState)
+        d.Set("public_ip_addresses", utils.FlattenStringSlice(serviceUpdateProperties.PublicIPAddresses))
+        d.Set("publisher_email", serviceUpdateProperties.PublisherEmail)
+        d.Set("publisher_name", serviceUpdateProperties.PublisherName)
+        d.Set("scm_url", serviceUpdateProperties.ScmURL)
+        d.Set("target_provisioning_state", serviceUpdateProperties.TargetProvisioningState)
+        if err := d.Set("virtual_network_configuration", flattenArmApiManagementServiceVirtualNetworkConfiguration(serviceUpdateProperties.VirtualNetworkConfiguration)); err != nil {
+            return fmt.Errorf("Error setting `virtual_network_configuration`: %+v", err)
+        }
+        d.Set("virtual_network_type", string(serviceUpdateProperties.VirtualNetworkType))
+    }
     d.Set("etag", resp.Etag)
+    if err := d.Set("identity", flattenArmApiManagementServiceServiceIdentity(resp.Identity)); err != nil {
+        return fmt.Errorf("Error setting `identity`: %+v", err)
+    }
+    if err := d.Set("sku", flattenArmApiManagementServiceServiceSkuProperties(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmApiManagementServiceUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -697,4 +792,149 @@ func convertStringToDate(input interface{}) *date.Time {
       Time: dateTime,
   }
   return &result
+}
+
+
+func flattenArmApiManagementServiceAdditionalLocation(input *[]apimanagement.AdditionalLocation) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if location := item.Location; location != nil {
+            v["location"] = azure.NormalizeLocation(*location)
+        }
+        v["sku"] = flattenArmApiManagementServiceServiceSkuProperties(item.Sku)
+        v["virtual_network_configuration"] = flattenArmApiManagementServiceVirtualNetworkConfiguration(item.VirtualNetworkConfiguration)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApiManagementServiceCertificateConfiguration(input *[]apimanagement.CertificateConfiguration) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["certificate"] = flattenArmApiManagementServiceCertificateInformation(item.Certificate)
+        if certificatePassword := item.CertificatePassword; certificatePassword != nil {
+            v["certificate_password"] = *certificatePassword
+        }
+        if encodedCertificate := item.EncodedCertificate; encodedCertificate != nil {
+            v["encoded_certificate"] = *encodedCertificate
+        }
+        v["store_name"] = string(item.StoreName)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApiManagementServiceHostnameConfiguration(input *[]apimanagement.HostnameConfiguration) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["certificate"] = flattenArmApiManagementServiceCertificateInformation(item.Certificate)
+        if certificatePassword := item.CertificatePassword; certificatePassword != nil {
+            v["certificate_password"] = *certificatePassword
+        }
+        if defaultSslBinding := item.DefaultSslBinding; defaultSslBinding != nil {
+            v["default_ssl_binding"] = *defaultSslBinding
+        }
+        if encodedCertificate := item.EncodedCertificate; encodedCertificate != nil {
+            v["encoded_certificate"] = *encodedCertificate
+        }
+        if hostName := item.HostName; hostName != nil {
+            v["host_name"] = *hostName
+        }
+        if keyVaultId := item.KeyVaultID; keyVaultId != nil {
+            v["key_vault_id"] = *keyVaultId
+        }
+        if negotiateClientCertificate := item.NegotiateClientCertificate; negotiateClientCertificate != nil {
+            v["negotiate_client_certificate"] = *negotiateClientCertificate
+        }
+        v["type"] = string(item.Type)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApiManagementServiceVirtualNetworkConfiguration(input *apimanagement.VirtualNetworkConfiguration) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if subnetResourceId := input.SubnetResourceID; subnetResourceId != nil {
+        result["subnet_resource_id"] = *subnetResourceId
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmApiManagementServiceServiceIdentity(input *apimanagement.ServiceIdentity) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if type := input.Type; type != nil {
+        result["type"] = *type
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmApiManagementServiceServiceSkuProperties(input *apimanagement.ServiceSkuProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["name"] = string(input.Name)
+    if capacity := input.Capacity; capacity != nil {
+        result["capacity"] = int(*capacity)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmApiManagementServiceCertificateInformation(input *apimanagement.CertificateInformation) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if expiry := input.Expiry; expiry != nil {
+        result["expiry"] = (*expiry).String()
+    }
+    if subject := input.Subject; subject != nil {
+        result["subject"] = *subject
+    }
+    if thumbprint := input.Thumbprint; thumbprint != nil {
+        result["thumbprint"] = *thumbprint
+    }
+
+    return []interface{}{result}
 }

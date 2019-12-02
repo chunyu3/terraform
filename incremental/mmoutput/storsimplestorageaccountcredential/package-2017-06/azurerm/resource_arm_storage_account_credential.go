@@ -107,6 +107,11 @@ func resourceArmStorageAccountCredential() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
+
+            "volumes_count": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
         },
     }
 }
@@ -193,6 +198,15 @@ func resourceArmStorageAccountCredentialRead(d *schema.ResourceData, meta interf
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if storageAccountCredentialProperties := resp.StorageAccountCredentialProperties; storageAccountCredentialProperties != nil {
+        if err := d.Set("access_key", flattenArmStorageAccountCredentialAsymmetricEncryptedSecret(storageAccountCredentialProperties.AccessKey)); err != nil {
+            return fmt.Errorf("Error setting `access_key`: %+v", err)
+        }
+        d.Set("end_point", storageAccountCredentialProperties.EndPoint)
+        d.Set("ssl_status", string(storageAccountCredentialProperties.SslStatus))
+        d.Set("volumes_count", int(*storageAccountCredentialProperties.VolumesCount))
+    }
+    d.Set("kind", string(resp.Kind))
     d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
@@ -246,4 +260,23 @@ func expandArmStorageAccountCredentialAsymmetricEncryptedSecret(input []interfac
         Value: utils.String(value),
     }
     return &result
+}
+
+
+func flattenArmStorageAccountCredentialAsymmetricEncryptedSecret(input *storsimple.AsymmetricEncryptedSecret) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["encryption_algorithm"] = string(input.EncryptionAlgorithm)
+    if encryptionCertThumbprint := input.EncryptionCertThumbprint; encryptionCertThumbprint != nil {
+        result["encryption_cert_thumbprint"] = *encryptionCertThumbprint
+    }
+    if value := input.Value; value != nil {
+        result["value"] = *value
+    }
+
+    return []interface{}{result}
 }

@@ -312,6 +312,16 @@ func resourceArmRosettaNetProcessConfiguration() *schema.Resource {
                 Elem: &schema.Schema{Type: schema.TypeString},
             },
 
+            "changed_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "created_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -412,10 +422,31 @@ func resourceArmRosettaNetProcessConfigurationRead(d *schema.ResourceData, meta 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if integrationAccountRosettaNetProcessConfigurationProperties := resp.IntegrationAccountRosettaNetProcessConfigurationProperties; integrationAccountRosettaNetProcessConfigurationProperties != nil {
+        if err := d.Set("activity_settings", flattenArmRosettaNetProcessConfigurationRosettaNetPipActivitySettings(integrationAccountRosettaNetProcessConfigurationProperties.ActivitySettings)); err != nil {
+            return fmt.Errorf("Error setting `activity_settings`: %+v", err)
+        }
+        d.Set("changed_time", (integrationAccountRosettaNetProcessConfigurationProperties.ChangedTime).String())
+        d.Set("created_time", (integrationAccountRosettaNetProcessConfigurationProperties.CreatedTime).String())
+        d.Set("description", integrationAccountRosettaNetProcessConfigurationProperties.Description)
+        if err := d.Set("initiator_role_settings", flattenArmRosettaNetProcessConfigurationRosettaNetPipRoleSettings(integrationAccountRosettaNetProcessConfigurationProperties.InitiatorRoleSettings)); err != nil {
+            return fmt.Errorf("Error setting `initiator_role_settings`: %+v", err)
+        }
+        d.Set("metadata", utils.FlattenKeyValuePairs(integrationAccountRosettaNetProcessConfigurationProperties.Metadata))
+        d.Set("process_code", integrationAccountRosettaNetProcessConfigurationProperties.ProcessCode)
+        d.Set("process_name", integrationAccountRosettaNetProcessConfigurationProperties.ProcessName)
+        d.Set("process_version", integrationAccountRosettaNetProcessConfigurationProperties.ProcessVersion)
+        if err := d.Set("responder_role_settings", flattenArmRosettaNetProcessConfigurationRosettaNetPipRoleSettings(integrationAccountRosettaNetProcessConfigurationProperties.ResponderRoleSettings)); err != nil {
+            return fmt.Errorf("Error setting `responder_role_settings`: %+v", err)
+        }
+    }
     d.Set("integration_account_name", integrationAccountName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -543,4 +574,113 @@ func expandArmRosettaNetProcessConfigurationRosettaNetPipBusinessDocument(input 
         Version: utils.String(version),
     }
     return &result
+}
+
+
+func flattenArmRosettaNetProcessConfigurationRosettaNetPipActivitySettings(input *logic.RosettaNetPipActivitySettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["acknowledgment_of_receipt_settings"] = flattenArmRosettaNetProcessConfigurationRosettaNetPipAcknowledgmentOfReceiptSettings(input.AcknowledgmentOfReceiptSettings)
+    result["activity_behavior"] = flattenArmRosettaNetProcessConfigurationRosettaNetPipActivityBehavior(input.ActivityBehavior)
+    result["activity_type"] = string(input.ActivityType)
+
+    return []interface{}{result}
+}
+
+func flattenArmRosettaNetProcessConfigurationRosettaNetPipRoleSettings(input *logic.RosettaNetPipRoleSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if action := input.Action; action != nil {
+        result["action"] = *action
+    }
+    result["business_document"] = flattenArmRosettaNetProcessConfigurationRosettaNetPipBusinessDocument(input.BusinessDocument)
+    if description := input.Description; description != nil {
+        result["description"] = *description
+    }
+    if role := input.Role; role != nil {
+        result["role"] = *role
+    }
+    result["role_type"] = string(input.RoleType)
+    if service := input.Service; service != nil {
+        result["service"] = *service
+    }
+    if serviceClassification := input.ServiceClassification; serviceClassification != nil {
+        result["service_classification"] = *serviceClassification
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmRosettaNetProcessConfigurationRosettaNetPipAcknowledgmentOfReceiptSettings(input *logic.RosettaNetPipAcknowledgmentOfReceiptSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if isNonRepudiationRequired := input.IsNonRepudiationRequired; isNonRepudiationRequired != nil {
+        result["is_non_repudiation_required"] = *isNonRepudiationRequired
+    }
+    if timeToAcknowledgeInSeconds := input.TimeToAcknowledgeInSeconds; timeToAcknowledgeInSeconds != nil {
+        result["time_to_acknowledge_in_seconds"] = *timeToAcknowledgeInSeconds
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmRosettaNetProcessConfigurationRosettaNetPipActivityBehavior(input *logic.RosettaNetPipActivityBehavior) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["action_type"] = string(input.ActionType)
+    if isAuthorizationRequired := input.IsAuthorizationRequired; isAuthorizationRequired != nil {
+        result["is_authorization_required"] = *isAuthorizationRequired
+    }
+    if isSecuredTransportRequired := input.IsSecuredTransportRequired; isSecuredTransportRequired != nil {
+        result["is_secured_transport_required"] = *isSecuredTransportRequired
+    }
+    if nonRepudiationOfOriginAndContent := input.NonRepudiationOfOriginAndContent; nonRepudiationOfOriginAndContent != nil {
+        result["non_repudiation_of_origin_and_content"] = *nonRepudiationOfOriginAndContent
+    }
+    result["persistent_confidentiality_scope"] = string(input.PersistentConfidentialityScope)
+    result["response_type"] = string(input.ResponseType)
+    if retryCount := input.RetryCount; retryCount != nil {
+        result["retry_count"] = *retryCount
+    }
+    if timeToPerformInSeconds := input.TimeToPerformInSeconds; timeToPerformInSeconds != nil {
+        result["time_to_perform_in_seconds"] = *timeToPerformInSeconds
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmRosettaNetProcessConfigurationRosettaNetPipBusinessDocument(input *logic.RosettaNetPipBusinessDocument) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if description := input.Description; description != nil {
+        result["description"] = *description
+    }
+    if version := input.Version; version != nil {
+        result["version"] = *version
+    }
+
+    return []interface{}{result}
 }

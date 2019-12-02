@@ -58,6 +58,10 @@ The `identity` block supports the following:
 
 The following attributes are exported:
 
+* `state` - The state of the server.
+
+* `fully_qualified_domain_name` - The fully qualified domain name of the server.
+
 * `id` - Resource ID.
 
 * `kind` - Kind of sql server. This is metadata used for the Azure portal experience.

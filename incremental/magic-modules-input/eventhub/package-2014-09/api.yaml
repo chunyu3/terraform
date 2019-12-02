@@ -100,12 +100,56 @@ objects:
             python_parameter_name: event_hub_name
             python_variable_name: event_hub_name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SharedAccessAuthorizationRuleProperties
+            go_type_name: SharedAccessAuthorizationRuleProperties
+          '/properties/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedAt
+          '/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_at
+          '/properties/messageRetentionInDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MessageRetentionInDays
+          '/messageRetentionInDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: message_retention_in_days
+          '/properties/partitionCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: PartitionCount
+          '/partitionCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: partition_count
+          '/properties/partitionIds': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: PartitionIds
+          '/partitionIds': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: partition_ids
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: EntityStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: UpdatedAt
+          '/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: updated_at
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -201,6 +245,47 @@ objects:
         input: true
         azure_sdk_references: ['authorizationRuleName']
       # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdAt'
+        description: 'Exact time the Event Hub was created.'
+        output: true
+        azure_sdk_references: ['/createdAt', '/properties/createdAt']
+      - !ruby/object:Api::Type::Integer
+        name: 'messageRetentionInDays'
+        description: 'Number of days to retain the events for this Event Hub.'
+        output: true
+        azure_sdk_references: ['/messageRetentionInDays', '/properties/messageRetentionInDays']
+      - !ruby/object:Api::Type::Integer
+        name: 'partitionCount'
+        description: 'Number of partitions created for the Event Hub.'
+        output: true
+        azure_sdk_references: ['/partitionCount', '/properties/partitionCount']
+      - !ruby/object:Api::Type::Array
+        name: 'partitionIds'
+        description: 'Current number of shards on the Event Hub.'
+        output: true
+        azure_sdk_references: ['/partitionIds', '/properties/partitionIds']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'Enumerates the possible values for the status of the Event Hub.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Active
+          - :Disabled
+          - :Restoring
+          - :SendDisabled
+          - :ReceiveDisabled
+          - :Creating
+          - :Deleting
+          - :Renaming
+          - :Unknown
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'updatedAt'
+        description: 'The exact time the message was updated.'
+        output: true
+        azure_sdk_references: ['/updatedAt', '/properties/updatedAt']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

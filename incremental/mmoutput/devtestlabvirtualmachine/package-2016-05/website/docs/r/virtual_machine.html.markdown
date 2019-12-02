@@ -400,6 +400,12 @@ The `inbound_nat_rule` block supports the following:
 
 The following attributes are exported:
 
+* `compute_id` - The resource identifier (Microsoft.Compute) of the virtual machine.
+
+* `provisioning_state` - The provisioning status of the resource.
+
 * `id` - The identifier of the resource.
+
+* `name` - The name of the resource.
 
 * `type` - The type of the resource.

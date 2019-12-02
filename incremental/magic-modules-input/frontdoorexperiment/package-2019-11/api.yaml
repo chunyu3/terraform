@@ -154,6 +154,80 @@ objects:
             python_parameter_name: experiment_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExperimentUpdateProperties
+            go_type_name: ExperimentUpdateProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnabledState
+            go_enum_type_name: State
+          '/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled_state
+          '/properties/endpointA': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EndpointA
+            go_type_name: Endpoint
+          '/properties/endpointA/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: endpointA_Name
+          '/endpointA/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/endpointA/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: endpointA_Endpoint
+          '/endpointA/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint
+          '/properties/endpointB': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EndpointB
+            go_type_name: Endpoint
+          '/properties/endpointB/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: endpointB_Name
+          '/endpointB/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/endpointB/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: endpointB_Endpoint
+          '/endpointB/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint
+          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResourceState
+            go_enum_type_name: NetworkExperimentResourceState
+          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: resource_state
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/scriptFileUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ScriptFileURI
+          '/scriptFileUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: script_file_uri
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -226,6 +300,48 @@ objects:
           - :Disabled
         default_value: :Enabled
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'endpointAName'
+        description: 'The name of the endpoint'
+        output: true
+        azure_sdk_references: ['/endpointA/name', '/properties/endpointA/name']
+      - !ruby/object:Api::Type::String
+        name: 'endpointAEndpoint'
+        description: 'The endpoint URL'
+        output: true
+        azure_sdk_references: ['/endpointA/endpoint', '/properties/endpointA/endpoint']
+      - !ruby/object:Api::Type::String
+        name: 'endpointBName'
+        description: 'The name of the endpoint'
+        output: true
+        azure_sdk_references: ['/endpointB/name', '/properties/endpointB/name']
+      - !ruby/object:Api::Type::String
+        name: 'endpointBEndpoint'
+        description: 'The endpoint URL'
+        output: true
+        azure_sdk_references: ['/endpointB/endpoint', '/properties/endpointB/endpoint']
+      - !ruby/object:Api::Type::Enum
+        name: 'resourceState'
+        description: 'Resource status.'
+        output: true
+        azure_sdk_references: ['/resourceState', '/properties/resourceState']
+        values:
+          - :Creating
+          - :Enabling
+          - :Enabled
+          - :Disabling
+          - :Disabled
+          - :Deleting
+      - !ruby/object:Api::Type::String
+        name: 'status'
+        description: 'The description of Experiment status from the server side'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+      - !ruby/object:Api::Type::String
+        name: 'scriptFileUri'
+        description: 'The uri to the Script used in the Experiment'
+        output: true
+        azure_sdk_references: ['/scriptFileUri', '/properties/scriptFileUri']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

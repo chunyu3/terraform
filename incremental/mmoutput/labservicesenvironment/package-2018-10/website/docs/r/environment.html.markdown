@@ -64,8 +64,57 @@ The `resource_set` block supports the following:
 
 The following attributes are exported:
 
+* `claimed_by_user_object_id` - The AAD object Id of the user who has claimed the environment
+
+* `claimed_by_user_principal_id` - The user principal Id of the user who has claimed the environment
+
+* `claimed_by_user_name` - The name or email address of the user who has claimed the environment
+
+* `is_claimed` - Is the environment claimed or not
+
+* `last_known_power_state` - Last known power state of the environment
+
+* `network_interface` - One `network_interface` block defined below.
+
+* `total_usage` - How long the environment has been used by a lab user
+
+* `password_last_reset` - When the password was last reset on the environment.
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `latest_operation_result` - One `latest_operation_result` block defined below.
+
 * `id` - The identifier of the resource.
 
 * `name` - The name of the resource.
 
 * `type` - The type of the resource.
+
+
+---
+
+The `network_interface` block contains the following:
+
+* `private_ip_address` - PrivateIp address of the Compute VM
+
+* `ssh_authority` - Connection information for Linux
+
+* `rdp_authority` - Connection information for Windows
+
+* `username` - Username of the VM
+
+---
+
+The `latest_operation_result` block contains the following:
+
+* `status` - The current status of the operation.
+
+* `error_code` - Error code on failure.
+
+* `error_message` - The error message.
+
+* `request_uri` - Request URI of the operation.
+
+* `http_method` - The HttpMethod - PUT/POST/DELETE for the operation.
+
+* `operation_url` - The URL to use to check long-running operation status

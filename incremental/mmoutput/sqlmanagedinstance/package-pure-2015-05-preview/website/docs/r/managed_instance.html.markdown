@@ -94,6 +94,12 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `fully_qualified_domain_name` - The fully qualified domain name of the managed instance.
+
+* `state` - The state of the managed instance.
+
+* `dns_zone` - The Dns Zone that the managed instance is in.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

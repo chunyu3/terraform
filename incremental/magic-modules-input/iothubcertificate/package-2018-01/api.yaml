@@ -84,6 +84,46 @@ objects:
             python_parameter_name: certificate_name
             python_variable_name: name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CertificateProperties
+            go_type_name: CertificateProperties
+          '/properties/subject': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Subject
+          '/subject': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subject
+          '/properties/expiry': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[dateTimeRfc1123]]
+            applicable_to: [go]
+            go_field_name: Expiry
+          '/expiry': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[dateTimeRfc1123]]
+            applicable_to: [python]
+            python_field_name: expiry
+          '/properties/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Thumbprint
+          '/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: thumbprint
+          '/properties/isVerified': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsVerified
+          '/isVerified': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_verified
+          '/properties/created': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[dateTimeRfc1123]]
+            applicable_to: [go]
+            go_field_name: Created
+          '/created': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[dateTimeRfc1123]]
+            applicable_to: [python]
+            python_field_name: created
+          '/properties/updated': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[dateTimeRfc1123]]
+            applicable_to: [go]
+            go_field_name: Updated
+          '/updated': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[dateTimeRfc1123]]
+            applicable_to: [python]
+            python_field_name: updated
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -139,6 +179,36 @@ objects:
         input: true
         azure_sdk_references: ['/certificate']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'subject'
+        description: 'The certificate''s subject name.'
+        output: true
+        azure_sdk_references: ['/subject', '/properties/subject']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[dateTimeRfc1123]]
+        name: 'expiry'
+        description: 'The certificate''s expiration date and time.'
+        output: true
+        azure_sdk_references: ['/expiry', '/properties/expiry']
+      - !ruby/object:Api::Type::String
+        name: 'thumbprint'
+        description: 'The certificate''s thumbprint.'
+        output: true
+        azure_sdk_references: ['/thumbprint', '/properties/thumbprint']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isVerified'
+        description: 'Determines whether certificate has been verified.'
+        output: true
+        azure_sdk_references: ['/isVerified', '/properties/isVerified']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[dateTimeRfc1123]]
+        name: 'created'
+        description: 'The certificate''s create date and time.'
+        output: true
+        azure_sdk_references: ['/created', '/properties/created']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[dateTimeRfc1123]]
+        name: 'updated'
+        description: 'The certificate''s last update date and time.'
+        output: true
+        azure_sdk_references: ['/updated', '/properties/updated']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource identifier.'

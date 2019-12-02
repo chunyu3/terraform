@@ -52,6 +52,8 @@ The `storage_account` block supports the following:
 
 The following attributes are exported:
 
+* `media_service_id` - The Media Services account ID.
+
 * `name` - The name of the resource.
 
 * `type` - The type of the resource.

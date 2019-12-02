@@ -62,8 +62,23 @@ func resourceArmHybridUseBenefit() *schema.Resource {
                 },
             },
 
+            "created_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "etag": {
                 Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "last_updated_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -140,9 +155,17 @@ func resourceArmHybridUseBenefitRead(d *schema.ResourceData, meta interface{}) e
 
 
     d.Set("name", resp.Name)
+    if hybridUseBenefitProperties := resp.HybridUseBenefitProperties; hybridUseBenefitProperties != nil {
+        d.Set("created_date", (hybridUseBenefitProperties.CreatedDate).String())
+        d.Set("last_updated_date", (hybridUseBenefitProperties.LastUpdatedDate).String())
+        d.Set("provisioning_state", string(hybridUseBenefitProperties.ProvisioningState))
+    }
     d.Set("etag", int(*resp.Etag))
     d.Set("plan_id", planID)
     d.Set("scope", scope)
+    if err := d.Set("sku", flattenArmHybridUseBenefitSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
     return nil
@@ -198,4 +221,19 @@ func expandArmHybridUseBenefitSku(input []interface{}) *softwareplan.Sku {
         Name: utils.String(name),
     }
     return &result
+}
+
+
+func flattenArmHybridUseBenefitSku(input *softwareplan.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+
+    return []interface{}{result}
 }

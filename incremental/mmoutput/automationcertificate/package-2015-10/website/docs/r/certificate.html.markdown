@@ -42,6 +42,16 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `thumbprint` - Gets the thumbprint of the certificate.
+
+* `expiry_time` - Gets the expiry time of the certificate.
+
+* `is_exportable` - Gets the is exportable flag of the certificate.
+
+* `creation_time` - Gets the creation time.
+
+* `last_modified_time` - Gets the last modified time.
+
 * `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.

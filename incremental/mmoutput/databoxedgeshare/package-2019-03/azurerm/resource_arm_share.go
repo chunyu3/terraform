@@ -43,6 +43,11 @@ func resourceArmShare() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "access_protocol": {
@@ -189,6 +194,31 @@ func resourceArmShare() *schema.Resource {
                 },
             },
 
+            "share_mappings": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "mount_point": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "role_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "role_type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "share_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -288,7 +318,30 @@ func resourceArmShareRead(d *schema.ResourceData, meta interface{}) error {
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if shareProperties := resp.ShareProperties; shareProperties != nil {
+        d.Set("access_protocol", string(shareProperties.AccessProtocol))
+        if err := d.Set("azure_container_info", flattenArmShareAzureContainerInfo(shareProperties.AzureContainerInfo)); err != nil {
+            return fmt.Errorf("Error setting `azure_container_info`: %+v", err)
+        }
+        if err := d.Set("client_access_rights", flattenArmShareClientAccessRight(shareProperties.ClientAccessRights)); err != nil {
+            return fmt.Errorf("Error setting `client_access_rights`: %+v", err)
+        }
+        d.Set("data_policy", string(shareProperties.DataPolicy))
+        d.Set("description", shareProperties.Description)
+        d.Set("monitoring_status", string(shareProperties.MonitoringStatus))
+        if err := d.Set("refresh_details", flattenArmShareRefreshDetails(shareProperties.RefreshDetails)); err != nil {
+            return fmt.Errorf("Error setting `refresh_details`: %+v", err)
+        }
+        if err := d.Set("share_mappings", flattenArmShareMountPointMap(shareProperties.ShareMappings)); err != nil {
+            return fmt.Errorf("Error setting `share_mappings`: %+v", err)
+        }
+        d.Set("share_status", string(shareProperties.ShareStatus))
+        if err := d.Set("user_access_rights", flattenArmShareUserAccessRight(shareProperties.UserAccessRights)); err != nil {
+            return fmt.Errorf("Error setting `user_access_rights`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
     return nil
@@ -410,4 +463,112 @@ func convertStringToDate(input interface{}) *date.Time {
       Time: dateTime,
   }
   return &result
+}
+
+
+func flattenArmShareAzureContainerInfo(input *databoxedge.AzureContainerInfo) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if containerName := input.ContainerName; containerName != nil {
+        result["container_name"] = *containerName
+    }
+    result["data_format"] = string(input.DataFormat)
+    if storageAccountCredentialId := input.StorageAccountCredentialID; storageAccountCredentialId != nil {
+        result["storage_account_credential_id"] = *storageAccountCredentialId
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmShareClientAccessRight(input *[]databoxedge.ClientAccessRight) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["access_permission"] = string(item.AccessPermission)
+        if client := item.Client; client != nil {
+            v["client"] = *client
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmShareRefreshDetails(input *databoxedge.RefreshDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if errorManifestFile := input.ErrorManifestFile; errorManifestFile != nil {
+        result["error_manifest_file"] = *errorManifestFile
+    }
+    if inProgressRefreshJobId := input.InProgressRefreshJobID; inProgressRefreshJobId != nil {
+        result["in_progress_refresh_job_id"] = *inProgressRefreshJobId
+    }
+    if lastCompletedRefreshJobTimeInUtc := input.LastCompletedRefreshJobTimeInUTC; lastCompletedRefreshJobTimeInUtc != nil {
+        result["last_completed_refresh_job_time_in_utc"] = (*lastCompletedRefreshJobTimeInUtc).String()
+    }
+    if lastJob := input.LastJob; lastJob != nil {
+        result["last_job"] = *lastJob
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmShareMountPointMap(input *[]databoxedge.MountPointMap) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if mountPoint := item.MountPoint; mountPoint != nil {
+            v["mount_point"] = *mountPoint
+        }
+        if roleId := item.RoleID; roleId != nil {
+            v["role_id"] = *roleId
+        }
+        v["role_type"] = string(item.RoleType)
+        if shareId := item.ShareID; shareId != nil {
+            v["share_id"] = *shareId
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmShareUserAccessRight(input *[]databoxedge.UserAccessRight) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["access_type"] = string(item.AccessType)
+        if userId := item.UserID; userId != nil {
+            v["user_id"] = *userId
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

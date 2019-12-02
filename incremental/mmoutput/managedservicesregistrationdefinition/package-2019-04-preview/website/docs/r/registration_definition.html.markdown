@@ -66,6 +66,10 @@ The `plan` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Current state of the registration definition.
+
+* `managed_by_tenant_name` - Name of the managedBy tenant.
+
 * `id` - Fully qualified path of the registration definition.
 
 * `type` - Type of the resource.

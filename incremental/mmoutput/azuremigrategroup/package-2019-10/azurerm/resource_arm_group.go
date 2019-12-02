@@ -74,7 +74,40 @@ func resourceArmGroup() *schema.Resource {
                 Default: string(azuremigrate.Add),
             },
 
+            "are_assessments_running": {
+                Type: schema.TypeBool,
+                Computed: true,
+            },
+
+            "assessments": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
+
+            "created_timestamp": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "group_status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "machine_count": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "updated_timestamp": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -158,6 +191,15 @@ func resourceArmGroupRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if groupBodyProperties := resp.GroupBodyProperties; groupBodyProperties != nil {
+        d.Set("are_assessments_running", groupBodyProperties.AreAssessmentsRunning)
+        d.Set("assessments", utils.FlattenStringSlice(groupBodyProperties.Assessments))
+        d.Set("created_timestamp", (groupBodyProperties.CreatedTimestamp).String())
+        d.Set("group_status", string(groupBodyProperties.GroupStatus))
+        d.Set("machine_count", int(*groupBodyProperties.MachineCount))
+        d.Set("updated_timestamp", (groupBodyProperties.UpdatedTimestamp).String())
+    }
+    d.Set("e_tag", resp.ETag)
     d.Set("project_name", projectName)
     d.Set("type", resp.Type)
 

@@ -36,6 +36,11 @@ func resourceArmGlobalSchedule() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -161,7 +166,22 @@ func resourceArmGlobalSchedule() *schema.Resource {
                 },
             },
 
+            "created_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "unique_identifier": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -262,10 +282,35 @@ func resourceArmGlobalScheduleRead(d *schema.ResourceData, meta interface{}) err
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if schedulePropertiesFragment := resp.SchedulePropertiesFragment; schedulePropertiesFragment != nil {
+        d.Set("created_date", (schedulePropertiesFragment.CreatedDate).String())
+        if err := d.Set("daily_recurrence", flattenArmGlobalScheduleDayDetailsFragment(schedulePropertiesFragment.DailyRecurrence)); err != nil {
+            return fmt.Errorf("Error setting `daily_recurrence`: %+v", err)
+        }
+        if err := d.Set("hourly_recurrence", flattenArmGlobalScheduleHourDetailsFragment(schedulePropertiesFragment.HourlyRecurrence)); err != nil {
+            return fmt.Errorf("Error setting `hourly_recurrence`: %+v", err)
+        }
+        if err := d.Set("notification_settings", flattenArmGlobalScheduleNotificationSettingsFragment(schedulePropertiesFragment.NotificationSettings)); err != nil {
+            return fmt.Errorf("Error setting `notification_settings`: %+v", err)
+        }
+        d.Set("provisioning_state", schedulePropertiesFragment.ProvisioningState)
+        d.Set("status", string(schedulePropertiesFragment.Status))
+        d.Set("target_resource_id", schedulePropertiesFragment.TargetResourceID)
+        d.Set("task_type", schedulePropertiesFragment.TaskType)
+        d.Set("time_zone_id", schedulePropertiesFragment.TimeZoneID)
+        d.Set("unique_identifier", schedulePropertiesFragment.UniqueIdentifier)
+        if err := d.Set("weekly_recurrence", flattenArmGlobalScheduleWeekDetailsFragment(schedulePropertiesFragment.WeeklyRecurrence)); err != nil {
+            return fmt.Errorf("Error setting `weekly_recurrence`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmGlobalScheduleUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -394,4 +439,72 @@ func expandArmGlobalScheduleWeekDetailsFragment(input []interface{}) *devtestlab
         Weekdays: utils.ExpandStringSlice(weekdays),
     }
     return &result
+}
+
+
+func flattenArmGlobalScheduleDayDetailsFragment(input *devtestlab.DayDetailsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmGlobalScheduleHourDetailsFragment(input *devtestlab.HourDetailsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if minute := input.Minute; minute != nil {
+        result["minute"] = int(*minute)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmGlobalScheduleNotificationSettingsFragment(input *devtestlab.NotificationSettingsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if emailRecipient := input.EmailRecipient; emailRecipient != nil {
+        result["email_recipient"] = *emailRecipient
+    }
+    if notificationLocale := input.NotificationLocale; notificationLocale != nil {
+        result["notification_locale"] = *notificationLocale
+    }
+    result["status"] = string(input.Status)
+    if timeInMinutes := input.TimeInMinutes; timeInMinutes != nil {
+        result["time_in_minutes"] = int(*timeInMinutes)
+    }
+    if webhookUrl := input.WebhookURL; webhookUrl != nil {
+        result["webhook_url"] = *webhookUrl
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmGlobalScheduleWeekDetailsFragment(input *devtestlab.WeekDetailsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+    result["weekdays"] = utils.FlattenStringSlice(input.Weekdays)
+
+    return []interface{}{result}
 }

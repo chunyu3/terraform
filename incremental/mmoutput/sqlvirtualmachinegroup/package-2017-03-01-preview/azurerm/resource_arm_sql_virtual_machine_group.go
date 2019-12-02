@@ -102,6 +102,26 @@ func resourceArmSqlVirtualMachineGroup() *schema.Resource {
                 },
             },
 
+            "cluster_configuration": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "cluster_manager_type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "scale_type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -194,9 +214,23 @@ func resourceArmSqlVirtualMachineGroupRead(d *schema.ResourceData, meta interfac
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if groupProperties := resp.GroupProperties; groupProperties != nil {
+        d.Set("cluster_configuration", string(groupProperties.ClusterConfiguration))
+        d.Set("cluster_manager_type", string(groupProperties.ClusterManagerType))
+        d.Set("provisioning_state", groupProperties.ProvisioningState)
+        d.Set("scale_type", string(groupProperties.ScaleType))
+        d.Set("sql_image_offer", groupProperties.SQLImageOffer)
+        d.Set("sql_image_sku", string(groupProperties.SQLImageSku))
+        if err := d.Set("wsfc_domain_profile", flattenArmSqlVirtualMachineGroupWsfcDomainProfile(groupProperties.WsfcDomainProfile)); err != nil {
+            return fmt.Errorf("Error setting `wsfc_domain_profile`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmSqlVirtualMachineGroupUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -286,4 +320,40 @@ func expandArmSqlVirtualMachineGroupWsfcDomainProfile(input []interface{}) *sqlv
         StorageAccountURL: utils.String(storageAccountUrl),
     }
     return &result
+}
+
+
+func flattenArmSqlVirtualMachineGroupWsfcDomainProfile(input *sqlvirtualmachine.WsfcDomainProfile) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if clusterBootstrapAccount := input.ClusterBootstrapAccount; clusterBootstrapAccount != nil {
+        result["cluster_bootstrap_account"] = *clusterBootstrapAccount
+    }
+    if clusterOperatorAccount := input.ClusterOperatorAccount; clusterOperatorAccount != nil {
+        result["cluster_operator_account"] = *clusterOperatorAccount
+    }
+    if domainFqdn := input.DomainFqdn; domainFqdn != nil {
+        result["domain_fqdn"] = *domainFqdn
+    }
+    if fileShareWitnessPath := input.FileShareWitnessPath; fileShareWitnessPath != nil {
+        result["file_share_witness_path"] = *fileShareWitnessPath
+    }
+    if ouPath := input.OuPath; ouPath != nil {
+        result["ou_path"] = *ouPath
+    }
+    if sqlServiceAccount := input.SQLServiceAccount; sqlServiceAccount != nil {
+        result["sql_service_account"] = *sqlServiceAccount
+    }
+    if storageAccountPrimaryKey := input.StorageAccountPrimaryKey; storageAccountPrimaryKey != nil {
+        result["storage_account_primary_key"] = *storageAccountPrimaryKey
+    }
+    if storageAccountUrl := input.StorageAccountURL; storageAccountUrl != nil {
+        result["storage_account_url"] = *storageAccountUrl
+    }
+
+    return []interface{}{result}
 }

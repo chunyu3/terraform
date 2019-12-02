@@ -170,6 +170,167 @@ objects:
             python_parameter_name: hana_instance_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HanaInstanceProperties
+            go_type_name: HanaInstanceProperties
+          '/properties/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HardwareProfile
+            go_type_name: HardwareProfile
+          '/properties/hardwareProfile/hardwareType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: HardwareType
+            go_enum_type_name: HanaHardwareTypeNamesEnum
+          '/properties/hardwareProfile/hanaInstanceSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: HanaInstanceSize
+            go_enum_type_name: HanaInstanceSizeNamesEnum
+          '/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: hardware_profile
+          '/hardwareProfile/hardwareType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: hardware_type
+          '/hardwareProfile/hanaInstanceSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: hana_instance_size
+          '/properties/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageProfile
+            go_type_name: StorageProfile
+          '/properties/storageProfile/osDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: OsDisks
+            go_type_name: Disk
+          '/properties/storageProfile/osDisks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/storageProfile/osDisks/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskSizeGB
+          '/properties/storageProfile/osDisks/lun': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Lun
+          '/properties/storageProfile/nfsIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: NfsIPAddress
+          '/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_profile
+          '/storageProfile/osDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: os_disks
+          '/storageProfile/osDisks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/storageProfile/osDisks/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_size_gb
+          '/storageProfile/osDisks/lun': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: lun
+          '/storageProfile/nfsIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: nfs_ip_address
+          '/properties/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OsProfile
+            go_type_name: OSProfile
+          '/properties/osProfile/computerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ComputerName
+          '/properties/osProfile/sshPublicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SSHPublicKey
+          '/properties/osProfile/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OsType
+          '/properties/osProfile/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: os_profile
+          '/osProfile/computerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: computer_name
+          '/osProfile/sshPublicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ssh_public_key
+          '/osProfile/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: os_type
+          '/osProfile/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/properties/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkProfile
+            go_type_name: NetworkProfile
+          '/properties/networkProfile/networkInterfaces': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: NetworkInterfaces
+            go_type_name: IpAddress
+          '/properties/networkProfile/networkInterfaces/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IPAddress
+          '/properties/networkProfile/circuitId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CircuitID
+          '/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_profile
+          '/networkProfile/networkInterfaces': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: network_interfaces
+          '/networkProfile/networkInterfaces/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ip_address
+          '/networkProfile/circuitId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: circuit_id
+          '/properties/partnerNodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PartnerNodeID
+          '/partnerNodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: partner_node_id
+          '/properties/hanaInstanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HanaInstanceID
+          '/hanaInstanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hana_instance_id
+          '/properties/powerState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PowerState
+            go_enum_type_name: HanaInstancePowerStateEnum
+          '/powerState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: power_state
+          '/properties/proximityPlacementGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProximityPlacementGroup
+          '/proximityPlacementGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: proximity_placement_group
+          '/properties/hwRevision': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HwRevision
+          '/hwRevision': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hw_revision
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: HanaProvisioningStatesEnum
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -217,6 +378,12 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'hardwareProfile'
+        description: 'Specifies the hardware settings for the HANA instance.'
+        required: false
+        azure_sdk_references: ['/hardwareProfile', '/properties/hardwareProfile']
+        properties:
       - !ruby/object:Api::Type::NestedObject
         name: 'storageProfile'
         description: 'Specifies the storage settings for the HANA instance disks.'
@@ -286,6 +453,46 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'hanaInstanceId'
+        description: 'Specifies the HANA instance unique ID.'
+        output: true
+        azure_sdk_references: ['/hanaInstanceId', '/properties/hanaInstanceId']
+      - !ruby/object:Api::Type::Enum
+        name: 'powerState'
+        description: 'Resource power state'
+        output: true
+        azure_sdk_references: ['/powerState', '/properties/powerState']
+        values:
+          - :starting
+          - :started
+          - :stopping
+          - :stopped
+          - :restarting
+          - :unknown
+      - !ruby/object:Api::Type::String
+        name: 'proximityPlacementGroup'
+        description: 'Resource proximity placement group'
+        output: true
+        azure_sdk_references: ['/proximityPlacementGroup', '/properties/proximityPlacementGroup']
+      - !ruby/object:Api::Type::String
+        name: 'hwRevision'
+        description: 'Hardware revision of a HANA instance'
+        output: true
+        azure_sdk_references: ['/hwRevision', '/properties/hwRevision']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'State of provisioning of the HanaInstance'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Accepted
+          - :Creating
+          - :Updating
+          - :Failed
+          - :Succeeded
+          - :Deleting
+          - :Migrating
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID'

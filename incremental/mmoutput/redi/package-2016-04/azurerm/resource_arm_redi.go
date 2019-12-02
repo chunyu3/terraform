@@ -36,6 +36,11 @@ func resourceArmRedi() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -159,6 +164,48 @@ func resourceArmRedi() *schema.Resource {
                 Elem: &schema.Schema{Type: schema.TypeString},
             },
 
+            "access_keys": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "primary_key": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "secondary_key": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "host_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "port": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "redis_version": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "ssl_port": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -271,10 +318,33 @@ func resourceArmRediRead(d *schema.ResourceData, meta interface{}) error {
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if updateProperties := resp.UpdateProperties; updateProperties != nil {
+        if err := d.Set("access_keys", flattenArmRediAccessKeys(updateProperties.AccessKeys)); err != nil {
+            return fmt.Errorf("Error setting `access_keys`: %+v", err)
+        }
+        d.Set("enable_non_ssl_port", updateProperties.EnableNonSslPort)
+        d.Set("host_name", updateProperties.HostName)
+        d.Set("port", int(*updateProperties.Port))
+        d.Set("provisioning_state", updateProperties.ProvisioningState)
+        d.Set("redis_configuration", utils.FlattenKeyValuePairs(updateProperties.RedisConfiguration))
+        d.Set("redis_version", updateProperties.RedisVersion)
+        d.Set("shard_count", int(*updateProperties.ShardCount))
+        if err := d.Set("sku", flattenArmRediSku(updateProperties.Sku)); err != nil {
+            return fmt.Errorf("Error setting `sku`: %+v", err)
+        }
+        d.Set("ssl_port", int(*updateProperties.SslPort))
+        d.Set("static_ip", updateProperties.StaticIP)
+        d.Set("subnet_id", updateProperties.SubnetID)
+        d.Set("tenant_settings", utils.FlattenKeyValuePairs(updateProperties.TenantSettings))
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmRediUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -372,4 +442,38 @@ func expandArmRediSku(input []interface{}) *redis.Sku {
         Name: redis.SkuName(name),
     }
     return &result
+}
+
+
+func flattenArmRediAccessKeys(input *redis.AccessKeys) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if primaryKey := input.PrimaryKey; primaryKey != nil {
+        result["primary_key"] = *primaryKey
+    }
+    if secondaryKey := input.SecondaryKey; secondaryKey != nil {
+        result["secondary_key"] = *secondaryKey
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmRediSku(input *redis.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["name"] = string(input.Name)
+    if capacity := input.Capacity; capacity != nil {
+        result["capacity"] = int(*capacity)
+    }
+    result["family"] = string(input.Family)
+
+    return []interface{}{result}
 }

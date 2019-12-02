@@ -1,0 +1,308 @@
+--- !ruby/object:Api::Product
+name: Azure WorkloadClassifier Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: WorkloadClassifier
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: workloadClassifiersClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.workload_classifiers
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'workloadGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workloadGroups
+            go_variable_name: workloadGroupName
+            python_parameter_name: workload_group_name
+            python_variable_name: workload_group_name
+          'workloadClassifierName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workloadClassifiers
+            go_variable_name: name
+            python_parameter_name: workload_classifier_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: WorkloadClassifier
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkloadClassifierProperties
+            go_type_name: WorkloadClassifierProperties
+          '/memberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: member_name
+          '/properties/memberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MemberName
+          '/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label
+          '/properties/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Label
+          '/context': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: context
+          '/properties/context': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Context
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/properties/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: end_time
+          '/properties/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EndTime
+          '/importance': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: importance
+          '/properties/importance': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Importance
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'workloadGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workloadGroups
+            go_variable_name: workloadGroupName
+            python_parameter_name: workload_group_name
+            python_variable_name: workload_group_name
+          'workloadClassifierName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workloadClassifiers
+            go_variable_name: name
+            python_parameter_name: workload_classifier_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'workloadGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workloadGroups
+            go_variable_name: workloadGroupName
+            python_parameter_name: workload_group_name
+            python_variable_name: workload_group_name
+          'workloadClassifierName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workloadClassifiers
+            go_variable_name: name
+            python_parameter_name: workload_classifier_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkloadClassifierProperties
+            go_type_name: WorkloadClassifierProperties
+          '/properties/memberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MemberName
+          '/memberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: member_name
+          '/properties/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Label
+          '/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label
+          '/properties/context': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Context
+          '/context': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: context
+          '/properties/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/properties/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EndTime
+          '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: end_time
+          '/properties/importance': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Importance
+          '/importance': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: importance
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByWorkloadGroup
+        python_func_name: list_by_workload_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'workloadGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workloadGroups
+            go_variable_name: workloadGroupName
+            python_parameter_name: workload_group_name
+            python_variable_name: workload_group_name
+
+    description: |
+      Manage Azure WorkloadClassifier instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'databaseName'
+        description: 'The name of the database.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'workloadGroupName'
+        description: 'The name of the workload group from which to receive the classifiers from.'
+        required: true
+        input: true
+        azure_sdk_references: ['workloadGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the workload classifier to delete.'
+        required: true
+        input: true
+        azure_sdk_references: ['workloadClassifierName']
+      - !ruby/object:Api::Type::String
+        name: 'memberName'
+        description: 'The workload classifier member name.'
+        required: true
+        azure_sdk_references: ['/memberName', '/properties/memberName']
+      - !ruby/object:Api::Type::String
+        name: 'label'
+        description: 'The workload classifier label.'
+        required: false
+        azure_sdk_references: ['/label', '/properties/label']
+      - !ruby/object:Api::Type::String
+        name: 'context'
+        description: 'The workload classifier context.'
+        required: false
+        azure_sdk_references: ['/context', '/properties/context']
+      - !ruby/object:Api::Type::String
+        name: 'startTime'
+        description: 'The workload classifier start time for classification.'
+        required: false
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+      - !ruby/object:Api::Type::String
+        name: 'endTime'
+        description: 'The workload classifier end time for classification.'
+        required: false
+        azure_sdk_references: ['/endTime', '/properties/endTime']
+      - !ruby/object:Api::Type::String
+        name: 'importance'
+        description: 'The workload classifier importance.'
+        required: false
+        azure_sdk_references: ['/importance', '/properties/importance']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

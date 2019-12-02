@@ -44,6 +44,12 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Provisioning state
+
+* `created_date` - Created date
+
+* `last_updated_date` - Last updated date
+
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource

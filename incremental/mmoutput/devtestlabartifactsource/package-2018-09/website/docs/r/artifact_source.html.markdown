@@ -58,6 +58,14 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `created_date` - The artifact source's creation date.
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `unique_identifier` - The unique immutable identifier of a resource (Guid).
+
 * `id` - The identifier of the resource.
+
+* `name` - The name of the resource.
 
 * `type` - The type of the resource.

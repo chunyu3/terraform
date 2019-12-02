@@ -72,7 +72,37 @@ func resourceArmInvitation() *schema.Resource {
                 Optional: true,
             },
 
+            "invitation_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "invitation_status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "responded_at": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "sent_at": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "user_email": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "user_name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -159,6 +189,17 @@ func resourceArmInvitationRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
+    if invitationProperties := resp.InvitationProperties; invitationProperties != nil {
+        d.Set("invitation_id", invitationProperties.InvitationID)
+        d.Set("invitation_status", string(invitationProperties.InvitationStatus))
+        d.Set("responded_at", (invitationProperties.RespondedAt).String())
+        d.Set("sent_at", (invitationProperties.SentAt).String())
+        d.Set("target_active_directory_id", invitationProperties.TargetActiveDirectoryID)
+        d.Set("target_email", invitationProperties.TargetEmail)
+        d.Set("target_object_id", invitationProperties.TargetObjectID)
+        d.Set("user_email", invitationProperties.UserEmail)
+        d.Set("user_name", invitationProperties.UserName)
+    }
     d.Set("share_name", shareName)
     d.Set("type", resp.Type)
 

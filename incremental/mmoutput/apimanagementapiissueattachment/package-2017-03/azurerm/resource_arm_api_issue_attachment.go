@@ -172,6 +172,11 @@ func resourceArmApiIssueAttachmentRead(d *schema.ResourceData, meta interface{})
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", aPIID)
     d.Set("attachment_id", attachmentID)
+    if issueAttachmentContractProperties := resp.IssueAttachmentContractProperties; issueAttachmentContractProperties != nil {
+        d.Set("content", issueAttachmentContractProperties.Content)
+        d.Set("content_format", issueAttachmentContractProperties.ContentFormat)
+        d.Set("title", issueAttachmentContractProperties.Title)
+    }
     d.Set("issue_id", issueID)
     d.Set("type", resp.Type)
 

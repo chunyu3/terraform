@@ -50,6 +50,12 @@ The `identity` block supports the following:
 
 The following attributes are exported:
 
+* `next_link` - The link used to get the next page of recommendations.
+
+* `cluster_id` - The ID associated with the cluster.
+
+* `provisioning_state` - The provisioning state of the cluster.
+
 * `id` - Resource Id
 
 * `name` - Resource name

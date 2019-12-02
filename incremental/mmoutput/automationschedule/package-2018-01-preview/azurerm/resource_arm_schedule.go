@@ -61,6 +61,100 @@ func resourceArmSchedule() *schema.Resource {
                 Optional: true,
             },
 
+            "advanced_schedule": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "month_days": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Schema{
+                                Type: schema.TypeInt,
+                            },
+                        },
+                        "monthly_occurrences": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "day": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "occurrence": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "week_days": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Schema{
+                                Type: schema.TypeString,
+                            },
+                        },
+                    },
+                },
+            },
+
+            "creation_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "expiry_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "expiry_time_offset_minutes": {
+                Type: schema.TypeFloat,
+                Computed: true,
+            },
+
+            "frequency": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "interval": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
+            "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "next_run": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "next_run_offset_minutes": {
+                Type: schema.TypeFloat,
+                Computed: true,
+            },
+
+            "start_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "start_time_offset_minutes": {
+                Type: schema.TypeFloat,
+                Computed: true,
+            },
+
+            "time_zone": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -145,6 +239,24 @@ func resourceArmScheduleRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if scheduleUpdateProperties := resp.ScheduleUpdateProperties; scheduleUpdateProperties != nil {
+        if err := d.Set("advanced_schedule", flattenArmScheduleAdvancedSchedule(scheduleUpdateProperties.AdvancedSchedule)); err != nil {
+            return fmt.Errorf("Error setting `advanced_schedule`: %+v", err)
+        }
+        d.Set("creation_time", (scheduleUpdateProperties.CreationTime).String())
+        d.Set("description", scheduleUpdateProperties.Description)
+        d.Set("expiry_time", (scheduleUpdateProperties.ExpiryTime).String())
+        d.Set("expiry_time_offset_minutes", scheduleUpdateProperties.ExpiryTimeOffsetMinutes)
+        d.Set("frequency", string(scheduleUpdateProperties.Frequency))
+        d.Set("interval", scheduleUpdateProperties.Interval)
+        d.Set("is_enabled", scheduleUpdateProperties.IsEnabled)
+        d.Set("last_modified_time", (scheduleUpdateProperties.LastModifiedTime).String())
+        d.Set("next_run", (scheduleUpdateProperties.NextRun).String())
+        d.Set("next_run_offset_minutes", scheduleUpdateProperties.NextRunOffsetMinutes)
+        d.Set("start_time", (scheduleUpdateProperties.StartTime).String())
+        d.Set("start_time_offset_minutes", scheduleUpdateProperties.StartTimeOffsetMinutes)
+        d.Set("time_zone", scheduleUpdateProperties.TimeZone)
+    }
     d.Set("automation_account_name", automationAccountName)
     d.Set("type", resp.Type)
 
@@ -196,4 +308,39 @@ func resourceArmScheduleDelete(d *schema.ResourceData, meta interface{}) error {
     }
 
     return nil
+}
+
+
+func flattenArmScheduleAdvancedSchedule(input *automation.AdvancedSchedule) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["month_days"] = utils.FlattenInteger32Slice(input.MonthDays)
+    result["monthly_occurrences"] = flattenArmScheduleAdvancedScheduleMonthlyOccurrence(input.MonthlyOccurrences)
+    result["week_days"] = utils.FlattenStringSlice(input.WeekDays)
+
+    return []interface{}{result}
+}
+
+func flattenArmScheduleAdvancedScheduleMonthlyOccurrence(input *[]automation.AdvancedScheduleMonthlyOccurrence) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["day"] = string(item.Day)
+        if occurrence := item.Occurrence; occurrence != nil {
+            v["occurrence"] = int(*occurrence)
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

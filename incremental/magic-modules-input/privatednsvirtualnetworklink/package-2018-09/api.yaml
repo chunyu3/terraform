@@ -172,6 +172,52 @@ objects:
             python_parameter_name: virtual_network_link_name
             python_variable_name: name
         response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkLinkProperties
+            go_type_name: VirtualNetworkLinkProperties
+          '/properties/virtualNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetwork
+            go_type_name: SubResource
+          '/properties/virtualNetwork/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/virtualNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_network
+          '/virtualNetwork/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/registrationEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: RegistrationEnabled
+          '/registrationEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: registration_enabled
+          '/properties/virtualNetworkLinkState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkLinkState
+            go_enum_type_name: VirtualNetworkLinkState
+          '/virtualNetworkLinkState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: virtual_network_link_state
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -252,6 +298,26 @@ objects:
         required: false
         azure_sdk_references: ['/registrationEnabled', '/properties/registrationEnabled']
       # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'virtualNetworkLinkState'
+        description: 'The status of the virtual network link to the Private DNS zone. Possible values are ''InProgress'' and ''Done''. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/virtualNetworkLinkState', '/properties/virtualNetworkLinkState']
+        values:
+          - :InProgress
+          - :Completed
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Updating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+          - :Canceled
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Example - ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}''.'

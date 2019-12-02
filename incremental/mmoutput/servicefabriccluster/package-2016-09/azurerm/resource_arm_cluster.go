@@ -455,6 +455,47 @@ func resourceArmCluster() *schema.Resource {
                 Optional: true,
             },
 
+            "available_cluster_versions": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "code_version": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "environment": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "support_expiry_utc": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "cluster_endpoint": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "cluster_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "cluster_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -569,9 +610,53 @@ func resourceArmClusterRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if clusterProperties := resp.ClusterProperties; clusterProperties != nil {
+        if err := d.Set("available_cluster_versions", flattenArmClusterClusterVersionDetails(clusterProperties.AvailableClusterVersions)); err != nil {
+            return fmt.Errorf("Error setting `available_cluster_versions`: %+v", err)
+        }
+        if err := d.Set("azure_active_directory", flattenArmClusterAzureActiveDirectory(clusterProperties.AzureActiveDirectory)); err != nil {
+            return fmt.Errorf("Error setting `azure_active_directory`: %+v", err)
+        }
+        if err := d.Set("certificate", flattenArmClusterCertificateDescription(clusterProperties.Certificate)); err != nil {
+            return fmt.Errorf("Error setting `certificate`: %+v", err)
+        }
+        if err := d.Set("client_certificate_common_names", flattenArmClusterClientCertificateCommonName(clusterProperties.ClientCertificateCommonNames)); err != nil {
+            return fmt.Errorf("Error setting `client_certificate_common_names`: %+v", err)
+        }
+        if err := d.Set("client_certificate_thumbprints", flattenArmClusterClientCertificateThumbprint(clusterProperties.ClientCertificateThumbprints)); err != nil {
+            return fmt.Errorf("Error setting `client_certificate_thumbprints`: %+v", err)
+        }
+        d.Set("cluster_code_version", clusterProperties.ClusterCodeVersion)
+        d.Set("cluster_endpoint", clusterProperties.ClusterEndpoint)
+        d.Set("cluster_id", clusterProperties.ClusterID)
+        d.Set("cluster_state", string(clusterProperties.ClusterState))
+        if err := d.Set("diagnostics_storage_account_config", flattenArmClusterDiagnosticsStorageAccountConfig(clusterProperties.DiagnosticsStorageAccountConfig)); err != nil {
+            return fmt.Errorf("Error setting `diagnostics_storage_account_config`: %+v", err)
+        }
+        if err := d.Set("fabric_settings", flattenArmClusterSettingsSectionDescription(clusterProperties.FabricSettings)); err != nil {
+            return fmt.Errorf("Error setting `fabric_settings`: %+v", err)
+        }
+        d.Set("management_endpoint", clusterProperties.ManagementEndpoint)
+        if err := d.Set("node_types", flattenArmClusterNodeTypeDescription(clusterProperties.NodeTypes)); err != nil {
+            return fmt.Errorf("Error setting `node_types`: %+v", err)
+        }
+        d.Set("provisioning_state", string(clusterProperties.ProvisioningState))
+        d.Set("reliability_level", string(clusterProperties.ReliabilityLevel))
+        if err := d.Set("reverse_proxy_certificate", flattenArmClusterCertificateDescription(clusterProperties.ReverseProxyCertificate)); err != nil {
+            return fmt.Errorf("Error setting `reverse_proxy_certificate`: %+v", err)
+        }
+        if err := d.Set("upgrade_description", flattenArmClusterClusterUpgradePolicy(clusterProperties.UpgradeDescription)); err != nil {
+            return fmt.Errorf("Error setting `upgrade_description`: %+v", err)
+        }
+        d.Set("upgrade_mode", string(clusterProperties.UpgradeMode))
+        d.Set("vm_image", clusterProperties.VMImage)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmClusterUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -890,4 +975,311 @@ func expandArmClusterClusterHealthPolicy(input []interface{}) *servicefabric.Clu
         MaxPercentUnhealthyNodes: utils.Int(maxPercentUnhealthyNodes),
     }
     return &result
+}
+
+
+func flattenArmClusterClusterVersionDetails(input *[]servicefabric.ClusterVersionDetails) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if codeVersion := item.CodeVersion; codeVersion != nil {
+            v["code_version"] = *codeVersion
+        }
+        v["environment"] = string(item.Environment)
+        if supportExpiryUtc := item.SupportExpiryUtc; supportExpiryUtc != nil {
+            v["support_expiry_utc"] = *supportExpiryUtc
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmClusterAzureActiveDirectory(input *servicefabric.AzureActiveDirectory) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if clientApplication := input.ClientApplication; clientApplication != nil {
+        result["client_application"] = *clientApplication
+    }
+    if clusterApplication := input.ClusterApplication; clusterApplication != nil {
+        result["cluster_application"] = *clusterApplication
+    }
+    if tenantId := input.TenantID; tenantId != nil {
+        result["tenant_id"] = *tenantId
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmClusterCertificateDescription(input *servicefabric.CertificateDescription) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if thumbprint := input.Thumbprint; thumbprint != nil {
+        result["thumbprint"] = *thumbprint
+    }
+    if thumbprintSecondary := input.ThumbprintSecondary; thumbprintSecondary != nil {
+        result["thumbprint_secondary"] = *thumbprintSecondary
+    }
+    result["x509store_name"] = string(input.X509StoreName)
+
+    return []interface{}{result}
+}
+
+func flattenArmClusterClientCertificateCommonName(input *[]servicefabric.ClientCertificateCommonName) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if certificateCommonName := item.CertificateCommonName; certificateCommonName != nil {
+            v["certificate_common_name"] = *certificateCommonName
+        }
+        if certificateIssuerThumbprint := item.CertificateIssuerThumbprint; certificateIssuerThumbprint != nil {
+            v["certificate_issuer_thumbprint"] = *certificateIssuerThumbprint
+        }
+        if isAdmin := item.IsAdmin; isAdmin != nil {
+            v["is_admin"] = *isAdmin
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmClusterClientCertificateThumbprint(input *[]servicefabric.ClientCertificateThumbprint) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if certificateThumbprint := item.CertificateThumbprint; certificateThumbprint != nil {
+            v["certificate_thumbprint"] = *certificateThumbprint
+        }
+        if isAdmin := item.IsAdmin; isAdmin != nil {
+            v["is_admin"] = *isAdmin
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmClusterDiagnosticsStorageAccountConfig(input *servicefabric.DiagnosticsStorageAccountConfig) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if blobEndpoint := input.BlobEndpoint; blobEndpoint != nil {
+        result["blob_endpoint"] = *blobEndpoint
+    }
+    if protectedAccountKeyName := input.ProtectedAccountKeyName; protectedAccountKeyName != nil {
+        result["protected_account_key_name"] = *protectedAccountKeyName
+    }
+    if queueEndpoint := input.QueueEndpoint; queueEndpoint != nil {
+        result["queue_endpoint"] = *queueEndpoint
+    }
+    if storageAccountName := input.StorageAccountName; storageAccountName != nil {
+        result["storage_account_name"] = *storageAccountName
+    }
+    if tableEndpoint := input.TableEndpoint; tableEndpoint != nil {
+        result["table_endpoint"] = *tableEndpoint
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmClusterSettingsSectionDescription(input *[]servicefabric.SettingsSectionDescription) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        v["parameters"] = flattenArmClusterSettingsParameterDescription(item.Parameters)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmClusterNodeTypeDescription(input *[]servicefabric.NodeTypeDescription) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        v["application_ports"] = flattenArmClusterEndpointRangeDescription(item.ApplicationPorts)
+        v["capacities"] = utils.FlattenKeyValuePairs(item.Capacities)
+        if clientConnectionEndpointPort := item.ClientConnectionEndpointPort; clientConnectionEndpointPort != nil {
+            v["client_connection_endpoint_port"] = *clientConnectionEndpointPort
+        }
+        v["durability_level"] = string(item.DurabilityLevel)
+        v["ephemeral_ports"] = flattenArmClusterEndpointRangeDescription(item.EphemeralPorts)
+        if httpGatewayEndpointPort := item.HTTPGatewayEndpointPort; httpGatewayEndpointPort != nil {
+            v["http_gateway_endpoint_port"] = *httpGatewayEndpointPort
+        }
+        if isPrimary := item.IsPrimary; isPrimary != nil {
+            v["is_primary"] = *isPrimary
+        }
+        v["placement_properties"] = utils.FlattenKeyValuePairs(item.PlacementProperties)
+        if reverseProxyEndpointPort := item.ReverseProxyEndpointPort; reverseProxyEndpointPort != nil {
+            v["reverse_proxy_endpoint_port"] = *reverseProxyEndpointPort
+        }
+        if vmInstanceCount := item.VMInstanceCount; vmInstanceCount != nil {
+            v["vm_instance_count"] = *vmInstanceCount
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmClusterClusterUpgradePolicy(input *servicefabric.ClusterUpgradePolicy) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["delta_health_policy"] = flattenArmClusterClusterUpgradeDeltaHealthPolicy(input.DeltaHealthPolicy)
+    if forceRestart := input.ForceRestart; forceRestart != nil {
+        result["force_restart"] = *forceRestart
+    }
+    if healthCheckRetryTimeout := input.HealthCheckRetryTimeout; healthCheckRetryTimeout != nil {
+        result["health_check_retry_timeout"] = *healthCheckRetryTimeout
+    }
+    if healthCheckStableDuration := input.HealthCheckStableDuration; healthCheckStableDuration != nil {
+        result["health_check_stable_duration"] = *healthCheckStableDuration
+    }
+    if healthCheckWaitDuration := input.HealthCheckWaitDuration; healthCheckWaitDuration != nil {
+        result["health_check_wait_duration"] = *healthCheckWaitDuration
+    }
+    result["health_policy"] = flattenArmClusterClusterHealthPolicy(input.HealthPolicy)
+    if overrideUserUpgradePolicy := input.OverrideUserUpgradePolicy; overrideUserUpgradePolicy != nil {
+        result["override_user_upgrade_policy"] = *overrideUserUpgradePolicy
+    }
+    if upgradeDomainTimeout := input.UpgradeDomainTimeout; upgradeDomainTimeout != nil {
+        result["upgrade_domain_timeout"] = *upgradeDomainTimeout
+    }
+    if upgradeReplicaSetCheckTimeout := input.UpgradeReplicaSetCheckTimeout; upgradeReplicaSetCheckTimeout != nil {
+        result["upgrade_replica_set_check_timeout"] = *upgradeReplicaSetCheckTimeout
+    }
+    if upgradeTimeout := input.UpgradeTimeout; upgradeTimeout != nil {
+        result["upgrade_timeout"] = *upgradeTimeout
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmClusterSettingsParameterDescription(input *[]servicefabric.SettingsParameterDescription) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmClusterEndpointRangeDescription(input *servicefabric.EndpointRangeDescription) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if endPort := input.EndPort; endPort != nil {
+        result["end_port"] = *endPort
+    }
+    if startPort := input.StartPort; startPort != nil {
+        result["start_port"] = *startPort
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmClusterClusterUpgradeDeltaHealthPolicy(input *servicefabric.ClusterUpgradeDeltaHealthPolicy) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if maxPercentDeltaUnhealthyApplications := input.MaxPercentDeltaUnhealthyApplications; maxPercentDeltaUnhealthyApplications != nil {
+        result["max_percent_delta_unhealthy_applications"] = *maxPercentDeltaUnhealthyApplications
+    }
+    if maxPercentDeltaUnhealthyNodes := input.MaxPercentDeltaUnhealthyNodes; maxPercentDeltaUnhealthyNodes != nil {
+        result["max_percent_delta_unhealthy_nodes"] = *maxPercentDeltaUnhealthyNodes
+    }
+    if maxPercentUpgradeDomainDeltaUnhealthyNodes := input.MaxPercentUpgradeDomainDeltaUnhealthyNodes; maxPercentUpgradeDomainDeltaUnhealthyNodes != nil {
+        result["max_percent_upgrade_domain_delta_unhealthy_nodes"] = *maxPercentUpgradeDomainDeltaUnhealthyNodes
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmClusterClusterHealthPolicy(input *servicefabric.ClusterHealthPolicy) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if maxPercentUnhealthyApplications := input.MaxPercentUnhealthyApplications; maxPercentUnhealthyApplications != nil {
+        result["max_percent_unhealthy_applications"] = *maxPercentUnhealthyApplications
+    }
+    if maxPercentUnhealthyNodes := input.MaxPercentUnhealthyNodes; maxPercentUnhealthyNodes != nil {
+        result["max_percent_unhealthy_nodes"] = *maxPercentUnhealthyNodes
+    }
+
+    return []interface{}{result}
 }

@@ -54,6 +54,12 @@ The `hub_billing_info` block supports the following:
 
 The following attributes are exported:
 
+* `api_endpoint` - API endpoint URL of the hub.
+
+* `web_endpoint` - Web endpoint URL of the hub.
+
+* `provisioning_state` - Provisioning state of the hub.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

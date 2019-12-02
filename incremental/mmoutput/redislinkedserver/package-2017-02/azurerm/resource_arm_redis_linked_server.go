@@ -43,6 +43,11 @@ func resourceArmRedisLinkedServer() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "linked_redis_cache_id": {
@@ -64,6 +69,11 @@ func resourceArmRedisLinkedServer() *schema.Resource {
                     string(redis.Primary),
                     string(redis.Secondary),
                 }, false),
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "type": {
@@ -153,7 +163,14 @@ func resourceArmRedisLinkedServerRead(d *schema.ResourceData, meta interface{}) 
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if linkedServerCreateProperties := resp.LinkedServerCreateProperties; linkedServerCreateProperties != nil {
+        d.Set("linked_redis_cache_id", linkedServerCreateProperties.LinkedRedisCacheID)
+        d.Set("linked_redis_cache_location", linkedServerCreateProperties.LinkedRedisCacheLocation)
+        d.Set("provisioning_state", linkedServerCreateProperties.ProvisioningState)
+        d.Set("server_role", string(linkedServerCreateProperties.ServerRole))
+    }
     d.Set("type", resp.Type)
 
     return nil

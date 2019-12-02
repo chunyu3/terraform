@@ -122,6 +122,67 @@ objects:
             python_parameter_name: storage_insight_name
             python_variable_name: name
         response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageInsightProperties
+            go_type_name: StorageInsightProperties
+          '/properties/containers': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Containers
+          '/containers': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: containers
+          '/properties/tables': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Tables
+          '/tables': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: tables
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+            go_type_name: StorageAccount
+          '/properties/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/storageAccount/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Key
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/storageAccount/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_type_name: StorageInsightStatus
+          '/properties/status/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: StorageInsightState
+          '/properties/status/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: status
+          '/status/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/status/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -208,6 +269,25 @@ objects:
         input: true
         azure_sdk_references: ['/eTag']
       # read only values included only in response
+      - !ruby/object:Api::Type::NestedObject
+        name: 'status'
+        description: 'The status of the storage insight'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'state'
+            description: 'The state of the storage insight connection to the workspace'
+            output: true
+            azure_sdk_references: ['/status/state', '/properties/status/state']
+            values:
+              - :OK
+              - :ERROR
+          - !ruby/object:Api::Type::String
+            name: 'description'
+            description: 'Description of the state of the storage insight.'
+            output: true
+            azure_sdk_references: ['/status/description', '/properties/status/description']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

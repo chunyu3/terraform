@@ -48,6 +48,12 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `snapshot_id` - UUID v4 used to identify the Snapshot
+
+* `created` - The creation date of the snapshot
+
+* `provisioning_state` - Azure lifecycle management
+
 * `id` - Resource Id
 
 * `name` - Resource name

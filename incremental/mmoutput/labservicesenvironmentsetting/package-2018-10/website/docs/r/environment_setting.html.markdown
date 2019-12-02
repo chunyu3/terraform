@@ -75,8 +75,35 @@ The `reference_vm` block supports the following:
 
 The following attributes are exported:
 
+* `publishing_state` - Describes the readiness of this environment setting
+
+* `last_changed` - Time when the template VM was last changed.
+
+* `last_published` - Time when the template VM was last sent for publishing.
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `latest_operation_result` - One `latest_operation_result` block defined below.
+
 * `id` - The identifier of the resource.
 
 * `name` - The name of the resource.
 
 * `type` - The type of the resource.
+
+
+---
+
+The `latest_operation_result` block contains the following:
+
+* `status` - The current status of the operation.
+
+* `error_code` - Error code on failure.
+
+* `error_message` - The error message.
+
+* `request_uri` - Request URI of the operation.
+
+* `http_method` - The HttpMethod - PUT/POST/DELETE for the operation.
+
+* `operation_url` - The URL to use to check long-running operation status

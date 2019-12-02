@@ -43,6 +43,11 @@ func resourceArmDisk() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -101,7 +106,22 @@ func resourceArmDisk() *schema.Resource {
                 Optional: true,
             },
 
+            "created_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "unique_identifier": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -207,11 +227,27 @@ func resourceArmDiskRead(d *schema.ResourceData, meta interface{}) error {
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if diskPropertiesFragment := resp.DiskPropertiesFragment; diskPropertiesFragment != nil {
+        d.Set("created_date", (diskPropertiesFragment.CreatedDate).String())
+        d.Set("disk_blob_name", diskPropertiesFragment.DiskBlobName)
+        d.Set("disk_size_gi_b", int(*diskPropertiesFragment.DiskSizeGiB))
+        d.Set("disk_type", string(diskPropertiesFragment.DiskType))
+        d.Set("disk_uri", diskPropertiesFragment.DiskURI)
+        d.Set("host_caching", diskPropertiesFragment.HostCaching)
+        d.Set("leased_by_lab_vm_id", diskPropertiesFragment.LeasedByLabVMID)
+        d.Set("managed_disk_id", diskPropertiesFragment.ManagedDiskID)
+        d.Set("provisioning_state", diskPropertiesFragment.ProvisioningState)
+        d.Set("unique_identifier", diskPropertiesFragment.UniqueIdentifier)
+    }
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmDiskUpdate(d *schema.ResourceData, meta interface{}) error {

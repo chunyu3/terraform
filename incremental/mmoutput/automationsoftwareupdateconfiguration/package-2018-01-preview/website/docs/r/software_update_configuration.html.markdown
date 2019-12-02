@@ -210,6 +210,16 @@ The `post_task` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Provisioning state for the software update configuration, which only appears in the response.
+
+* `creation_time` - Creation time of the resource, which only appears in the response.
+
+* `created_by` - CreatedBy property, which only appears in the response.
+
+* `last_modified_time` - Last time resource was modified, which only appears in the response.
+
+* `last_modified_by` - LastModifiedBy property, which only appears in the response.
+
 * `name` - Resource name.
 
 * `id` - Resource Id.

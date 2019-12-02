@@ -338,9 +338,22 @@ func resourceArmApiOperationRead(d *schema.ResourceData, meta interface{}) error
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", aPIID)
+    d.Set("description", resp.Description)
+    d.Set("method", resp.Method)
     d.Set("operation_id", operationID)
+    if err := d.Set("request", flattenArmApiOperationRequestContract(resp.Request)); err != nil {
+        return fmt.Errorf("Error setting `request`: %+v", err)
+    }
+    if err := d.Set("responses", flattenArmApiOperationResultContract(resp.Responses)); err != nil {
+        return fmt.Errorf("Error setting `responses`: %+v", err)
+    }
+    if err := d.Set("template_parameters", flattenArmApiOperationParameterContract(resp.TemplateParameters)); err != nil {
+        return fmt.Errorf("Error setting `template_parameters`: %+v", err)
+    }
+    d.Set("url_template", resp.URLTemplate)
 
     return nil
 }
@@ -479,4 +492,99 @@ func expandArmApiOperationRepresentationContract(input []interface{}) *[]apimana
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmApiOperationRequestContract(input *apimanagement.RequestContract) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if description := input.Description; description != nil {
+        result["description"] = *description
+    }
+    result["headers"] = flattenArmApiOperationParameterContract(input.Headers)
+    result["query_parameters"] = flattenArmApiOperationParameterContract(input.QueryParameters)
+    result["representations"] = flattenArmApiOperationRepresentationContract(input.Representations)
+
+    return []interface{}{result}
+}
+
+func flattenArmApiOperationResultContract(input *[]apimanagement.ResultContract) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if description := item.Description; description != nil {
+            v["description"] = *description
+        }
+        v["representations"] = flattenArmApiOperationRepresentationContract(item.Representations)
+        if statusCode := item.StatusCode; statusCode != nil {
+            v["status_code"] = int(*statusCode)
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApiOperationParameterContract(input *[]apimanagement.ParameterContract) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if defaultValue := item.DefaultValue; defaultValue != nil {
+            v["default_value"] = *defaultValue
+        }
+        if description := item.Description; description != nil {
+            v["description"] = *description
+        }
+        if required := item.Required; required != nil {
+            v["required"] = *required
+        }
+        if type := item.Type; type != nil {
+            v["type"] = *type
+        }
+        v["values"] = utils.FlattenStringSlice(item.Values)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApiOperationRepresentationContract(input *[]apimanagement.RepresentationContract) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if contentType := item.ContentType; contentType != nil {
+            v["content_type"] = *contentType
+        }
+        if sample := item.Sample; sample != nil {
+            v["sample"] = *sample
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

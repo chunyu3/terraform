@@ -122,8 +122,34 @@ The `target_region` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - The provisioning state, which only appears in the response.
+
+* `replication_status` - One `replication_status` block defined below.
+
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
+
+
+---
+
+The `replication_status` block contains the following:
+
+* `aggregated_state` - This is the aggregated replication status based on all the regional replication status flags.
+
+* `summary` - One or more `summary` block defined below.
+
+
+---
+
+The `summary` block contains the following:
+
+* `region` - The region to which the gallery Image Version is being replicated to.
+
+* `state` - This is the regional replication state.
+
+* `details` - The details of the replication status.
+
+* `progress` - It indicates progress of the replication job.

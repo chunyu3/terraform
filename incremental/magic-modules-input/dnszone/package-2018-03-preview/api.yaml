@@ -178,6 +178,70 @@ objects:
             python_parameter_name: zone_name
             python_variable_name: name
         response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ZoneProperties
+            go_type_name: ZoneProperties
+          '/properties/zoneType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ZoneType
+            go_enum_type_name: ZoneType
+          '/zoneType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: zone_type
+          '/properties/registrationVirtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: RegistrationVirtualNetworks
+            go_type_name: SubResource
+          '/properties/registrationVirtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/registrationVirtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: registration_virtual_networks
+          '/registrationVirtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/resolutionVirtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ResolutionVirtualNetworks
+            go_type_name: SubResource
+          '/properties/resolutionVirtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/resolutionVirtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: resolution_virtual_networks
+          '/resolutionVirtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/maxNumberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaxNumberOfRecordSets
+          '/maxNumberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: max_number_of_record_sets
+          '/properties/numberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: NumberOfRecordSets
+          '/numberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: number_of_record_sets
+          '/properties/nameServers': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: NameServers
+          '/nameServers': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: name_servers
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -268,6 +332,22 @@ objects:
               required: false
               azure_sdk_references: ['/resolutionVirtualNetworks/id', '/properties/resolutionVirtualNetworks/id']
       # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'maxNumberOfRecordSets'
+        description: 'The maximum number of record sets that can be created in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/maxNumberOfRecordSets', '/properties/maxNumberOfRecordSets']
+      - !ruby/object:Api::Type::Integer
+        name: 'numberOfRecordSets'
+        description: 'The current number of record sets in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/numberOfRecordSets', '/properties/numberOfRecordSets']
+      - !ruby/object:Api::Type::Array
+        name: 'nameServers'
+        description: 'The name servers for this DNS zone. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/nameServers', '/properties/nameServers']
+        item_type: Api::Type::String
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'

@@ -304,6 +304,120 @@ objects:
             python_parameter_name: service_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceResourceUpdateProperties
+            go_type_name: ServiceResourceUpdateProperties
+          '/properties/placementConstraints': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PlacementConstraints
+          '/placementConstraints': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: placement_constraints
+          '/properties/correlationScheme': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: CorrelationScheme
+            go_type_name: ServiceCorrelationDescription
+          '/properties/correlationScheme/scheme': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Scheme
+            go_enum_type_name: ServiceCorrelationScheme
+          '/properties/correlationScheme/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceName
+          '/correlationScheme': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: correlation_scheme
+          '/correlationScheme/scheme': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: scheme
+          '/correlationScheme/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_name
+          '/properties/serviceLoadMetrics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ServiceLoadMetrics
+            go_type_name: ServiceLoadMetricDescription
+          '/properties/serviceLoadMetrics/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/serviceLoadMetrics/weight': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Weight
+            go_enum_type_name: ServiceLoadMetricWeight
+          '/properties/serviceLoadMetrics/primaryDefaultLoad': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: PrimaryDefaultLoad
+          '/properties/serviceLoadMetrics/secondaryDefaultLoad': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: SecondaryDefaultLoad
+          '/properties/serviceLoadMetrics/defaultLoad': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: DefaultLoad
+          '/serviceLoadMetrics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: service_load_metrics
+          '/serviceLoadMetrics/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/serviceLoadMetrics/weight': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: weight
+          '/serviceLoadMetrics/primaryDefaultLoad': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: primary_default_load
+          '/serviceLoadMetrics/secondaryDefaultLoad': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: secondary_default_load
+          '/serviceLoadMetrics/defaultLoad': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: default_load
+          '/properties/servicePlacementPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ServicePlacementPolicies
+            go_type_name: ServicePlacementPolicyDescription
+          '/servicePlacementPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: service_placement_policies
+          '/properties/defaultMoveCost': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DefaultMoveCost
+            go_enum_type_name: MoveCost
+          '/defaultMoveCost': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: default_move_cost
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/serviceTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceTypeName
+          '/serviceTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_type_name
+          '/properties/partitionDescription': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PartitionDescription
+            go_type_name: PartitionSchemeDescription
+          '/partitionDescription': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: partition_description
+          '/properties/servicePackageActivationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ServicePackageActivationMode
+            go_enum_type_name: ArmServicePackageActivationMode
+          '/servicePackageActivationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: service_package_activation_mode
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -452,6 +566,24 @@ objects:
           - :High
         default_value: :Zero
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The current deployment or provisioning state, which only appears in the response'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'serviceTypeName'
+        description: 'The name of the service type'
+        output: true
+        azure_sdk_references: ['/serviceTypeName', '/properties/serviceTypeName']
+      - !ruby/object:Api::Type::Enum
+        name: 'servicePackageActivationMode'
+        description: 'The activation Mode of the service package'
+        output: true
+        azure_sdk_references: ['/servicePackageActivationMode', '/properties/servicePackageActivationMode']
+        values:
+          - :SharedProcess
+          - :ExclusiveProcess
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource identifier.'

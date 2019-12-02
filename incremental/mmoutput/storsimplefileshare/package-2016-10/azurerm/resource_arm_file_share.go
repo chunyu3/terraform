@@ -109,8 +109,18 @@ func resourceArmFileShare() *schema.Resource {
                 Optional: true,
             },
 
+            "local_used_capacity_in_bytes": {
+                Type: schema.TypeInt,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "used_capacity_in_bytes": {
+                Type: schema.TypeInt,
                 Computed: true,
             },
         },
@@ -207,6 +217,16 @@ func resourceArmFileShareRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if fileShareProperties := resp.FileShareProperties; fileShareProperties != nil {
+        d.Set("admin_user", fileShareProperties.AdminUser)
+        d.Set("data_policy", string(fileShareProperties.DataPolicy))
+        d.Set("description", fileShareProperties.Description)
+        d.Set("local_used_capacity_in_bytes", int(*fileShareProperties.LocalUsedCapacityInBytes))
+        d.Set("monitoring_status", string(fileShareProperties.MonitoringStatus))
+        d.Set("provisioned_capacity_in_bytes", int(*fileShareProperties.ProvisionedCapacityInBytes))
+        d.Set("share_status", string(fileShareProperties.ShareStatus))
+        d.Set("used_capacity_in_bytes", int(*fileShareProperties.UsedCapacityInBytes))
+    }
     d.Set("device_name", deviceName)
     d.Set("file_server_name", fileServerName)
     d.Set("manager_name", managerName)

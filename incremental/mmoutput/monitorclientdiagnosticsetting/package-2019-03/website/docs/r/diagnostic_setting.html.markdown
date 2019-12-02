@@ -94,4 +94,6 @@ The following attributes are exported:
 
 * `id` - Azure resource Id
 
+* `name` - Azure resource name
+
 * `type` - Azure resource type

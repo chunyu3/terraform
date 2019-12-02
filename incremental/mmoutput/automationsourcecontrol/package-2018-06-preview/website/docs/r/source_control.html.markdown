@@ -60,6 +60,14 @@ The `security_token` block supports the following:
 
 The following attributes are exported:
 
+* `repo_url` - The repo url of the source control.
+
+* `source_type` - The source type. Must be one of VsoGit, VsoTfvc, GitHub.
+
+* `creation_time` - The creation time.
+
+* `last_modified_time` - The last modified time.
+
 * `id` - Fully qualified resource Id for the resource
 
 * `name` - The name of the resource

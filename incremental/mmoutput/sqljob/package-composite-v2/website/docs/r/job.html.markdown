@@ -58,6 +58,8 @@ The `schedule` block supports the following:
 
 The following attributes are exported:
 
+* `version` - The job version number.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

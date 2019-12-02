@@ -13,7 +13,10 @@ task: !ruby/object:Provider::Ansible::Task
     upgrade_policy:
       mode: Automatic
     virtual_machine_profile:
-      os_profile: {}
+      os_profile:
+        computer_name_prefix: '{vmss-name}'
+        admin_username: '{your-username}'
+        admin_password: '{your-password}'
       storage_profile:
         image_reference:
           publisher: MicrosoftWindowsServer
@@ -25,6 +28,7 @@ task: !ruby/object:Provider::Ansible::Task
           disk_size_gb: '512'
           managed_disk:
             storage_account_type: Standard_LRS
+          create_option: FromImage
         data_disks:
           - lun: '0'
             create_option: Empty

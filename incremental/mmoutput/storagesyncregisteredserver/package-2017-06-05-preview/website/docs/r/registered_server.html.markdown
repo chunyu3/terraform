@@ -60,6 +60,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `provisioning_state` - Registered Server Provisioning State
+
 * `id` - Resource Id
 
 * `name` - Resource name

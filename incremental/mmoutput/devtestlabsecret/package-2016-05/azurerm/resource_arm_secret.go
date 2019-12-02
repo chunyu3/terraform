@@ -43,6 +43,11 @@ func resourceArmSecret() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -62,6 +67,11 @@ func resourceArmSecret() *schema.Resource {
             "value": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "type": {
@@ -153,11 +163,20 @@ func resourceArmSecretRead(d *schema.ResourceData, meta interface{}) error {
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
     d.Set("lab_name", labName)
+    if secretProperties := resp.SecretProperties; secretProperties != nil {
+        d.Set("provisioning_state", secretProperties.ProvisioningState)
+        d.Set("unique_identifier", secretProperties.UniqueIdentifier)
+        d.Set("value", secretProperties.Value)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 

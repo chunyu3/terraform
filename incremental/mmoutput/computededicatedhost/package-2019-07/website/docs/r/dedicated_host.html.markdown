@@ -60,8 +60,65 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `host_id` - A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not change throughout the lifetime of the host.
+
+* `virtual_machines` - One or more `virtual_machine` block defined below.
+
+* `provisioning_time` - The date when the host was first provisioned.
+
+* `provisioning_state` - The provisioning state, which only appears in the response.
+
+* `instance_view` - One `instance_view` block defined below.
+
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
+
+
+---
+
+The `virtual_machine` block contains the following:
+
+* `id` - Resource Id
+
+---
+
+The `instance_view` block contains the following:
+
+* `asset_id` - Specifies the unique id of the dedicated physical machine on which the dedicated host resides.
+
+* `available_capacity` - One `available_capacity` block defined below.
+
+* `statuses` - One or more `status` block defined below.
+
+
+---
+
+The `available_capacity` block contains the following:
+
+* `allocatable_vms` - One or more `allocatable_vm` block defined below.
+
+
+---
+
+The `allocatable_vm` block contains the following:
+
+* `vm_size` - VM size in terms of which the unutilized capacity is represented.
+
+* `count` - Maximum number of VMs of size vmSize that can fit in the dedicated host's remaining capacity.
+
+---
+
+The `status` block contains the following:
+
+* `code` - The status code.
+
+* `level` - The level code.
+
+* `display_status` - The short localizable label for the status.
+
+* `message` - The detailed status message, including for alerts and error messages.
+
+* `time` - The time of the status.

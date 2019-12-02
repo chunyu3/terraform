@@ -64,7 +64,25 @@ func resourceArmGroup() *schema.Resource {
                 ForceNew: true,
             },
 
+            "assessments": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
+
+            "created_timestamp": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "updated_timestamp": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -146,6 +164,13 @@ func resourceArmGroupRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if groupProperties := resp.GroupProperties; groupProperties != nil {
+        d.Set("assessments", utils.FlattenStringSlice(groupProperties.Assessments))
+        d.Set("created_timestamp", (groupProperties.CreatedTimestamp).String())
+        d.Set("machines", utils.FlattenStringSlice(groupProperties.Machines))
+        d.Set("updated_timestamp", (groupProperties.UpdatedTimestamp).String())
+    }
+    d.Set("e_tag", resp.ETag)
     d.Set("project_name", projectName)
     d.Set("type", resp.Type)
 

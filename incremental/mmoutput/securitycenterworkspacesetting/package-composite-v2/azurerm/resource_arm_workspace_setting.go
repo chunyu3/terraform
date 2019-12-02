@@ -130,6 +130,10 @@ func resourceArmWorkspaceSettingRead(d *schema.ResourceData, meta interface{}) e
 
     d.Set("name", name)
     d.Set("name", resp.Name)
+    if workspaceSettingProperties := resp.WorkspaceSettingProperties; workspaceSettingProperties != nil {
+        d.Set("scope", workspaceSettingProperties.Scope)
+        d.Set("workspace_id", workspaceSettingProperties.WorkspaceID)
+    }
     d.Set("type", resp.Type)
 
     return nil

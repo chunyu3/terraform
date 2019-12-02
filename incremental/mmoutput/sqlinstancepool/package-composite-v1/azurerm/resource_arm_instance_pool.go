@@ -190,9 +190,20 @@ func resourceArmInstancePoolRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if instancePoolProperties := resp.InstancePoolProperties; instancePoolProperties != nil {
+        d.Set("license_type", string(instancePoolProperties.LicenseType))
+        d.Set("subnet_id", instancePoolProperties.SubnetID)
+        d.Set("v_cores", int(*instancePoolProperties.VCores))
+    }
+    if err := d.Set("sku", flattenArmInstancePoolSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmInstancePoolUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -278,4 +289,31 @@ func expandArmInstancePoolSku(input []interface{}) *sql.Sku {
         Tier: utils.String(tier),
     }
     return &result
+}
+
+
+func flattenArmInstancePoolSku(input *sql.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if capacity := input.Capacity; capacity != nil {
+        result["capacity"] = int(*capacity)
+    }
+    if family := input.Family; family != nil {
+        result["family"] = *family
+    }
+    if size := input.Size; size != nil {
+        result["size"] = *size
+    }
+    if tier := input.Tier; tier != nil {
+        result["tier"] = *tier
+    }
+
+    return []interface{}{result}
 }

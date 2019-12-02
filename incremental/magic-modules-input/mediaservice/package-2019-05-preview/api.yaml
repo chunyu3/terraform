@@ -151,6 +151,42 @@ objects:
             python_parameter_name: account_name
             python_variable_name: name
         response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MediaServiceProperties
+            go_type_name: MediaServiceProperties
+          '/properties/storageAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: StorageAccounts
+            go_type_name: StorageAccount
+          '/properties/storageAccounts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/storageAccounts/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: StorageAccountType
+          '/storageAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: storage_accounts
+          '/storageAccounts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/storageAccounts/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/properties/mediaServiceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MediaServiceID
+          '/mediaServiceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: media_service_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -228,6 +264,11 @@ objects:
         input: true
         azure_sdk_references: ['/id']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'mediaServiceId'
+        description: 'The Media Services account ID.'
+        output: true
+        azure_sdk_references: ['/mediaServiceId', '/properties/mediaServiceId']
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'The name of the resource.'

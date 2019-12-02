@@ -369,6 +369,24 @@ The `inbound_nat_rule` block supports the following:
 
 The following attributes are exported:
 
+* `default_storage_account` - The lab's default storage account.
+
+* `default_premium_storage_account` - The lab's default premium storage account.
+
+* `artifacts_storage_account` - The lab's artifact storage account.
+
+* `premium_data_disk_storage_account` - The lab's premium data disk storage account.
+
+* `vault_name` - The lab's Key vault.
+
+* `lab_storage_type` - Type of storage used by the lab. It can be either Premium or Standard. Default is Premium.
+
+* `premium_data_disks` - The setting to enable usage of premium data disks.<br>When its value is 'Enabled', creation of standard or premium data disks is allowed.<br>When its value is 'Disabled', only creation of standard data disks is allowed.
+
+* `provisioning_state` - The provisioning status of the resource.
+
 * `id` - The identifier of the resource.
+
+* `name` - The name of the resource.
 
 * `type` - The type of the resource.

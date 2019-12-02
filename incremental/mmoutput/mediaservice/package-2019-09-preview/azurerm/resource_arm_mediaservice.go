@@ -66,6 +66,11 @@ func resourceArmMediaservice() *schema.Resource {
                 },
             },
 
+            "media_service_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -152,9 +157,18 @@ func resourceArmMediaserviceRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if mediaServiceProperties := resp.MediaServiceProperties; mediaServiceProperties != nil {
+        d.Set("media_service_id", mediaServiceProperties.MediaServiceID)
+        if err := d.Set("storage_accounts", flattenArmMediaserviceStorageAccount(mediaServiceProperties.StorageAccounts)); err != nil {
+            return fmt.Errorf("Error setting `storage_accounts`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmMediaserviceUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -217,4 +231,25 @@ func expandArmMediaserviceStorageAccount(input []interface{}) *[]mediaservices.S
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmMediaserviceStorageAccount(input *[]mediaservices.StorageAccount) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        v["type"] = string(item.Type)
+
+        results = append(results, v)
+    }
+
+    return results
 }

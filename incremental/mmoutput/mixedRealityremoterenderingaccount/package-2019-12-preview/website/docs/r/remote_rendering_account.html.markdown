@@ -42,6 +42,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `account_id` - unique id of certain account.
+
+* `account_domain` - Correspond domain name of certain Spatial Anchors Account
+
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource

@@ -44,6 +44,14 @@ func resourceArmAttachedDatabaseConfiguration() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "attached_database_names": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Schema{
+                    Type: schema.TypeString,
+                },
+            },
         },
     }
 }
@@ -119,6 +127,9 @@ func resourceArmAttachedDatabaseConfigurationRead(d *schema.ResourceData, meta i
 
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
+    if attachedDatabaseConfigurationProperties := resp.AttachedDatabaseConfigurationProperties; attachedDatabaseConfigurationProperties != nil {
+        d.Set("attached_database_names", utils.FlattenStringSlice(attachedDatabaseConfigurationProperties.AttachedDatabaseNames))
+    }
     d.Set("cluster_name", clusterName)
 
     return nil

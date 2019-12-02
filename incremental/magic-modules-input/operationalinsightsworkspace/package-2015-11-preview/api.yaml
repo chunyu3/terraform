@@ -152,6 +152,64 @@ objects:
             python_parameter_name: workspace_name
             python_variable_name: workspace_name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkspaceProperties
+            go_type_name: WorkspaceProperties
+          '/properties/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: Sku
+          '/properties/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Name
+            go_enum_type_name: SkuNameEnum
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/retentionInDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RetentionInDays
+          '/retentionInDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: retention_in_days
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: EntityStatus
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/source': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Source
+          '/source': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source
+          '/properties/customerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomerID
+          '/customerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: customer_id
+          '/properties/portalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PortalURL
+          '/portalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: portal_url
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -280,6 +338,33 @@ objects:
         input: true
         azure_sdk_references: ['/eTag']
       # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the workspace.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Succeeded
+          - :Failed
+          - :Canceled
+          - :Deleting
+          - :ProvisioningAccount
+      - !ruby/object:Api::Type::String
+        name: 'source'
+        description: 'This is a read-only legacy property. It is always set to ''Azure'' by the service. Kept here for backward compatibility.'
+        output: true
+        azure_sdk_references: ['/source', '/properties/source']
+      - !ruby/object:Api::Type::String
+        name: 'customerId'
+        description: 'This is a read-only property. Represents the ID associated with the workspace.'
+        output: true
+        azure_sdk_references: ['/customerId', '/properties/customerId']
+      - !ruby/object:Api::Type::String
+        name: 'portalUrl'
+        description: 'This is a legacy property and is not used anymore. Kept here for backward compatibility.'
+        output: true
+        azure_sdk_references: ['/portalUrl', '/properties/portalUrl']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

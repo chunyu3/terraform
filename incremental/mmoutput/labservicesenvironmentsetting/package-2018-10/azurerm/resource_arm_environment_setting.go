@@ -131,6 +131,59 @@ func resourceArmEnvironmentSetting() *schema.Resource {
                 ForceNew: true,
             },
 
+            "last_changed": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_published": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "latest_operation_result": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "error_code": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "error_message": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "http_method": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "operation_url": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "request_uri": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "status": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "publishing_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -233,11 +286,30 @@ func resourceArmEnvironmentSettingRead(d *schema.ResourceData, meta interface{})
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if environmentSettingPropertiesFragment := resp.EnvironmentSettingPropertiesFragment; environmentSettingPropertiesFragment != nil {
+        d.Set("configuration_state", string(environmentSettingPropertiesFragment.ConfigurationState))
+        d.Set("description", environmentSettingPropertiesFragment.Description)
+        d.Set("last_changed", (environmentSettingPropertiesFragment.LastChanged).String())
+        d.Set("last_published", (environmentSettingPropertiesFragment.LastPublished).String())
+        if err := d.Set("latest_operation_result", flattenArmEnvironmentSettingLatestOperationResult(environmentSettingPropertiesFragment.LatestOperationResult)); err != nil {
+            return fmt.Errorf("Error setting `latest_operation_result`: %+v", err)
+        }
+        d.Set("provisioning_state", environmentSettingPropertiesFragment.ProvisioningState)
+        d.Set("publishing_state", string(environmentSettingPropertiesFragment.PublishingState))
+        if err := d.Set("resource_settings", flattenArmEnvironmentSettingResourceSettingsFragment(environmentSettingPropertiesFragment.ResourceSettings)); err != nil {
+            return fmt.Errorf("Error setting `resource_settings`: %+v", err)
+        }
+        d.Set("title", environmentSettingPropertiesFragment.Title)
+        d.Set("unique_identifier", environmentSettingPropertiesFragment.UniqueIdentifier)
+    }
     d.Set("lab_account_name", labAccountName)
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmEnvironmentSettingUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -339,4 +411,67 @@ func expandArmEnvironmentSettingReferenceVmFragment(input []interface{}) *labser
         UserName: utils.String(userName),
     }
     return &result
+}
+
+
+func flattenArmEnvironmentSettingLatestOperationResult(input *labservices.LatestOperationResult) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if errorCode := input.ErrorCode; errorCode != nil {
+        result["error_code"] = *errorCode
+    }
+    if errorMessage := input.ErrorMessage; errorMessage != nil {
+        result["error_message"] = *errorMessage
+    }
+    if httpMethod := input.HTTPMethod; httpMethod != nil {
+        result["http_method"] = *httpMethod
+    }
+    if operationUrl := input.OperationURL; operationUrl != nil {
+        result["operation_url"] = *operationUrl
+    }
+    if requestUri := input.RequestURI; requestUri != nil {
+        result["request_uri"] = *requestUri
+    }
+    if status := input.Status; status != nil {
+        result["status"] = *status
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmEnvironmentSettingResourceSettingsFragment(input *labservices.ResourceSettingsFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if galleryImageResourceId := input.GalleryImageResourceID; galleryImageResourceId != nil {
+        result["gallery_image_resource_id"] = *galleryImageResourceId
+    }
+    result["reference_vm"] = flattenArmEnvironmentSettingReferenceVmFragment(input.ReferenceVM)
+    result["size"] = string(input.Size)
+
+    return []interface{}{result}
+}
+
+func flattenArmEnvironmentSettingReferenceVmFragment(input *labservices.ReferenceVmFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if password := input.Password; password != nil {
+        result["password"] = *password
+    }
+    if userName := input.UserName; userName != nil {
+        result["user_name"] = *userName
+    }
+
+    return []interface{}{result}
 }

@@ -170,6 +170,10 @@ The `azure_file` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - The provisioning state of the container group. This only appears in the response.
+
+* `state` - The current state of the container group. This is only valid for the response.
+
 * `id` - The resource id.
 
 * `name` - The resource name.

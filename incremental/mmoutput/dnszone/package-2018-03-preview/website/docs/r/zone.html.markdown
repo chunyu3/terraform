@@ -60,6 +60,12 @@ The `resolution_virtual_network` block supports the following:
 
 The following attributes are exported:
 
+* `max_number_of_record_sets` - The maximum number of record sets that can be created in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.
+
+* `number_of_record_sets` - The current number of record sets in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.
+
+* `name_servers` - The name servers for this DNS zone. This is a read-only property and any attempt to set this value will be ignored.
+
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource

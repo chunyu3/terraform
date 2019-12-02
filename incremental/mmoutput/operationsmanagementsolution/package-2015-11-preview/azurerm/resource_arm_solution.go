@@ -93,6 +93,11 @@ func resourceArmSolution() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -187,9 +192,21 @@ func resourceArmSolutionRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if solutionProperties := resp.SolutionProperties; solutionProperties != nil {
+        d.Set("contained_resources", utils.FlattenStringSlice(solutionProperties.ContainedResources))
+        d.Set("provisioning_state", solutionProperties.ProvisioningState)
+        d.Set("referenced_resources", utils.FlattenStringSlice(solutionProperties.ReferencedResources))
+        d.Set("workspace_resource_id", solutionProperties.WorkspaceResourceID)
+    }
+    if err := d.Set("plan", flattenArmSolutionSolutionPlan(resp.Plan)); err != nil {
+        return fmt.Errorf("Error setting `plan`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmSolutionUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -273,4 +290,28 @@ func expandArmSolutionSolutionPlan(input []interface{}) *operationsmanagement.So
         Publisher: utils.String(publisher),
     }
     return &result
+}
+
+
+func flattenArmSolutionSolutionPlan(input *operationsmanagement.SolutionPlan) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if product := input.Product; product != nil {
+        result["product"] = *product
+    }
+    if promotionCode := input.PromotionCode; promotionCode != nil {
+        result["promotion_code"] = *promotionCode
+    }
+    if publisher := input.Publisher; publisher != nil {
+        result["publisher"] = *publisher
+    }
+
+    return []interface{}{result}
 }

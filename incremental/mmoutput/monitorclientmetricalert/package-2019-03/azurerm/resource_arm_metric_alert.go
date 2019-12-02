@@ -131,6 +131,11 @@ func resourceArmMetricAlert() *schema.Resource {
                 Optional: true,
             },
 
+            "last_updated_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -235,9 +240,30 @@ func resourceArmMetricAlertRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if metricAlertProperties := resp.MetricAlertProperties; metricAlertProperties != nil {
+        if err := d.Set("actions", flattenArmMetricAlertMetricAlertAction(metricAlertProperties.Actions)); err != nil {
+            return fmt.Errorf("Error setting `actions`: %+v", err)
+        }
+        d.Set("auto_mitigate", metricAlertProperties.AutoMitigate)
+        if err := d.Set("criteria", flattenArmMetricAlertMetricAlertCriteria(metricAlertProperties.Criteria)); err != nil {
+            return fmt.Errorf("Error setting `criteria`: %+v", err)
+        }
+        d.Set("description", metricAlertProperties.Description)
+        d.Set("enabled", metricAlertProperties.Enabled)
+        d.Set("evaluation_frequency", metricAlertProperties.EvaluationFrequency)
+        d.Set("last_updated_time", (metricAlertProperties.LastUpdatedTime).String())
+        d.Set("scopes", utils.FlattenStringSlice(metricAlertProperties.Scopes))
+        d.Set("severity", metricAlertProperties.Severity)
+        d.Set("target_resource_region", metricAlertProperties.TargetResourceRegion)
+        d.Set("target_resource_type", metricAlertProperties.TargetResourceType)
+        d.Set("window_size", metricAlertProperties.WindowSize)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmMetricAlertUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -332,4 +358,37 @@ func expandArmMetricAlertMetricAlertCriteria(input []interface{}) *monitorclient
         AdditionalProperties: utils.ExpandKeyValuePairs(additionalProperties),
     }
     return &result
+}
+
+
+func flattenArmMetricAlertMetricAlertAction(input *[]monitorclient.MetricAlertAction) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if actionGroupId := item.ActionGroupID; actionGroupId != nil {
+            v["action_group_id"] = *actionGroupId
+        }
+        v["webhook_properties"] = utils.FlattenKeyValuePairs(item.WebhookProperties)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmMetricAlertMetricAlertCriteria(input *monitorclient.MetricAlertCriteria) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["additional_properties"] = utils.FlattenKeyValuePairs(input.AdditionalProperties)
+
+    return []interface{}{result}
 }

@@ -89,6 +89,26 @@ func resourceArmAsset() *schema.Resource {
                 Optional: true,
             },
 
+            "asset_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "created": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_modified": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "storage_encryption_format": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -180,6 +200,16 @@ func resourceArmAssetRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
+    if assetProperties := resp.AssetProperties; assetProperties != nil {
+        d.Set("alternate_id", assetProperties.AlternateID)
+        d.Set("asset_id", assetProperties.AssetID)
+        d.Set("container", assetProperties.Container)
+        d.Set("created", (assetProperties.Created).String())
+        d.Set("description", assetProperties.Description)
+        d.Set("last_modified", (assetProperties.LastModified).String())
+        d.Set("storage_account_name", assetProperties.StorageAccountName)
+        d.Set("storage_encryption_format", string(assetProperties.StorageEncryptionFormat))
+    }
     d.Set("type", resp.Type)
 
     return nil

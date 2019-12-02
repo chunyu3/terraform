@@ -91,6 +91,36 @@ func resourceArmDiskEncryptionSet() *schema.Resource {
                 },
             },
 
+            "previous_keys": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "key_url": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "source_vault": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -181,9 +211,24 @@ func resourceArmDiskEncryptionSetRead(d *schema.ResourceData, meta interface{}) 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if diskEncryptionSetUpdateProperties := resp.DiskEncryptionSetUpdateProperties; diskEncryptionSetUpdateProperties != nil {
+        if err := d.Set("active_key", flattenArmDiskEncryptionSetKeyVaultAndKeyReference(diskEncryptionSetUpdateProperties.ActiveKey)); err != nil {
+            return fmt.Errorf("Error setting `active_key`: %+v", err)
+        }
+        if err := d.Set("previous_keys", flattenArmDiskEncryptionSetKeyVaultAndKeyReference(diskEncryptionSetUpdateProperties.PreviousKeys)); err != nil {
+            return fmt.Errorf("Error setting `previous_keys`: %+v", err)
+        }
+        d.Set("provisioning_state", diskEncryptionSetUpdateProperties.ProvisioningState)
+    }
+    if err := d.Set("identity", flattenArmDiskEncryptionSetEncryptionSetIdentity(resp.Identity)); err != nil {
+        return fmt.Errorf("Error setting `identity`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmDiskEncryptionSetUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -287,4 +332,66 @@ func expandArmDiskEncryptionSetSourceVault(input []interface{}) *compute.SourceV
         ID: utils.String(id),
     }
     return &result
+}
+
+
+func flattenArmDiskEncryptionSetKeyVaultAndKeyReference(input *compute.KeyVaultAndKeyReference) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if keyUrl := input.KeyURL; keyUrl != nil {
+        result["key_url"] = *keyUrl
+    }
+    result["source_vault"] = flattenArmDiskEncryptionSetSourceVault(input.SourceVault)
+
+    return []interface{}{result}
+}
+
+func flattenArmDiskEncryptionSetKeyVaultAndKeyReference(input *[]compute.KeyVaultAndKeyReference) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if keyUrl := item.KeyURL; keyUrl != nil {
+            v["key_url"] = *keyUrl
+        }
+        v["source_vault"] = flattenArmDiskEncryptionSetSourceVault(item.SourceVault)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmDiskEncryptionSetEncryptionSetIdentity(input *compute.EncryptionSetIdentity) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["type"] = string(input.Type)
+
+    return []interface{}{result}
+}
+
+func flattenArmDiskEncryptionSetSourceVault(input *compute.SourceVault) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+
+    return []interface{}{result}
 }

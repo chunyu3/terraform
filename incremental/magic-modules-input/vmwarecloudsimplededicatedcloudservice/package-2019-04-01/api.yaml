@@ -118,6 +118,41 @@ objects:
             python_parameter_name: dedicated_cloud_service_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DedicatedCloudServiceProperties
+            go_type_name: DedicatedCloudServiceProperties
+          '/properties/gatewaySubnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GatewaySubnet
+          '/gatewaySubnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: gateway_subnet
+          '/properties/isAccountOnboarded': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IsAccountOnboarded
+            go_enum_type_name: OnboardingStatus
+          '/isAccountOnboarded': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: is_account_onboarded
+          '/properties/nodes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Nodes
+          '/nodes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: nodes
+          '/properties/serviceURL': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceURL
+          '/serviceURL': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_url
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -174,6 +209,26 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'isAccountOnboarded'
+        description: 'indicates whether account onboarded or not in a given region'
+        output: true
+        azure_sdk_references: ['/isAccountOnboarded', '/properties/isAccountOnboarded']
+        values:
+          - :notOnBoarded
+          - :onBoarded
+          - :onBoardingFailed
+          - :onBoarding
+      - !ruby/object:Api::Type::Integer
+        name: 'nodes'
+        description: 'total nodes purchased'
+        output: true
+        azure_sdk_references: ['/nodes', '/properties/nodes']
+      - !ruby/object:Api::Type::String
+        name: 'serviceUrl'
+        description: 'link to a service management web portal'
+        output: true
+        azure_sdk_references: ['/serviceURL', '/properties/serviceURL']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudServices/{dedicatedCloudServiceName}'

@@ -162,6 +162,12 @@ func resourceArmApiSchemaRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", aPIID)
+    if schemaContractProperties := resp.SchemaContractProperties; schemaContractProperties != nil {
+        d.Set("content_type", schemaContractProperties.ContentType)
+        if err := d.Set("document", flattenArmApiSchemaSchemaDocumentProperties(schemaContractProperties.Document)); err != nil {
+            return fmt.Errorf("Error setting `document`: %+v", err)
+        }
+    }
     d.Set("schema_id", schemaID)
     d.Set("type", resp.Type)
 
@@ -202,4 +208,19 @@ func expandArmApiSchemaSchemaDocumentProperties(input []interface{}) *apimanagem
         Value: utils.String(value),
     }
     return &result
+}
+
+
+func flattenArmApiSchemaSchemaDocumentProperties(input *apimanagement.SchemaDocumentProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if value := input.Value; value != nil {
+        result["value"] = *value
+    }
+
+    return []interface{}{result}
 }

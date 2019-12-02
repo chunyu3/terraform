@@ -270,14 +270,428 @@ objects:
             python_parameter_name: name
             python_variable_name: name
         response:
-          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: hostingEnvironments
-            go_variable_name: name
-            python_parameter_name: name
-            python_variable_name: name
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkerPool
+            go_type_name: WorkerPool
+          '/properties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: HostingEnvironmentStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/vnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VnetName
+          '/vnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vnet_name
+          '/properties/vnetResourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VnetResourceGroupName
+          '/vnetResourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vnet_resource_group_name
+          '/properties/vnetSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VnetSubnetName
+          '/vnetSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vnet_subnet_name
+          '/properties/virtualNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetwork
+            go_type_name: VirtualNetworkProfile
+          '/properties/virtualNetwork/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/virtualNetwork/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/virtualNetwork/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/virtualNetwork/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Subnet
+          '/virtualNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_network
+          '/virtualNetwork/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/virtualNetwork/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/virtualNetwork/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/virtualNetwork/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet
+          '/properties/internalLoadBalancingMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: InternalLoadBalancingMode
+            go_enum_type_name: InternalLoadBalancingMode
+          '/internalLoadBalancingMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: internal_load_balancing_mode
+          '/properties/multiSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MultiSize
+          '/multiSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: multi_size
+          '/properties/multiRoleCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MultiRoleCount
+          '/multiRoleCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: multi_role_count
+          '/properties/workerPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: WorkerPools
+            go_type_name: WorkerPool
+          '/properties/workerPools/workerSizeId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: WorkerSizeID
+          '/properties/workerPools/computeMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ComputeMode
+            go_enum_type_name: ComputeModeOptions
+          '/properties/workerPools/workerSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkerSize
+          '/properties/workerPools/workerCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: WorkerCount
+          '/properties/workerPools/instanceNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: InstanceNames
+          '/workerPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: worker_pools
+          '/workerPools/workerSizeId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: worker_size_id
+          '/workerPools/computeMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: compute_mode
+          '/workerPools/workerSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: worker_size
+          '/workerPools/workerCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: worker_count
+          '/workerPools/instanceNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: instance_names
+          '/properties/ipsslAddressCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: IpsslAddressCount
+          '/ipsslAddressCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: ipssl_address_count
+          '/properties/databaseEdition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DatabaseEdition
+          '/databaseEdition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: database_edition
+          '/properties/databaseServiceObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DatabaseServiceObjective
+          '/databaseServiceObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: database_service_objective
+          '/properties/upgradeDomains': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: UpgradeDomains
+          '/upgradeDomains': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: upgrade_domains
+          '/properties/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionID
+          '/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscription_id
+          '/properties/dnsSuffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DNSSuffix
+          '/dnsSuffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: dns_suffix
+          '/properties/lastAction': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastAction
+          '/lastAction': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_action
+          '/properties/lastActionResult': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastActionResult
+          '/lastActionResult': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_action_result
+          '/properties/allowedMultiSizes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AllowedMultiSizes
+          '/allowedMultiSizes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: allowed_multi_sizes
+          '/properties/allowedWorkerSizes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AllowedWorkerSizes
+          '/allowedWorkerSizes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: allowed_worker_sizes
+          '/properties/maximumNumberOfMachines': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaximumNumberOfMachines
+          '/maximumNumberOfMachines': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: maximum_number_of_machines
+          '/properties/vipMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VipMappings
+            go_type_name: VirtualIPMapping
+          '/properties/vipMappings/virtualIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualIP
+          '/properties/vipMappings/internalHttpPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: InternalHTTPPort
+          '/properties/vipMappings/internalHttpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: InternalHTTPSPort
+          '/properties/vipMappings/inUse': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: InUse
+          '/vipMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: vip_mappings
+          '/vipMappings/virtualIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_ip
+          '/vipMappings/internalHttpPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: internal_http_port
+          '/vipMappings/internalHttpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: internal_https_port
+          '/vipMappings/inUse': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: in_use
+          '/properties/environmentCapacities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: EnvironmentCapacities
+            go_type_name: StampCapacity
+          '/properties/environmentCapacities/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/environmentCapacities/availableCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: AvailableCapacity
+          '/properties/environmentCapacities/totalCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: TotalCapacity
+          '/properties/environmentCapacities/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Unit
+          '/properties/environmentCapacities/computeMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ComputeMode
+            go_enum_type_name: ComputeModeOptions
+          '/properties/environmentCapacities/workerSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: WorkerSize
+            go_enum_type_name: WorkerSizeOptions
+          '/properties/environmentCapacities/workerSizeId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: WorkerSizeID
+          '/properties/environmentCapacities/excludeFromCapacityAllocation': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ExcludeFromCapacityAllocation
+          '/properties/environmentCapacities/isApplicableForAllComputeModes': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsApplicableForAllComputeModes
+          '/properties/environmentCapacities/siteMode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SiteMode
+          '/environmentCapacities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: environment_capacities
+          '/environmentCapacities/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/environmentCapacities/availableCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: available_capacity
+          '/environmentCapacities/totalCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: total_capacity
+          '/environmentCapacities/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unit
+          '/environmentCapacities/computeMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: compute_mode
+          '/environmentCapacities/workerSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: worker_size
+          '/environmentCapacities/workerSizeId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: worker_size_id
+          '/environmentCapacities/excludeFromCapacityAllocation': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: exclude_from_capacity_allocation
+          '/environmentCapacities/isApplicableForAllComputeModes': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_applicable_for_all_compute_modes
+          '/environmentCapacities/siteMode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: site_mode
+          '/properties/networkAccessControlList': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: NetworkAccessControlList
+            go_type_name: NetworkAccessControlEntry
+          '/properties/networkAccessControlList/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: AccessControlEntryAction
+          '/properties/networkAccessControlList/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/networkAccessControlList/order': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Order
+          '/properties/networkAccessControlList/remoteSubnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RemoteSubnet
+          '/networkAccessControlList': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: network_access_control_list
+          '/networkAccessControlList/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/networkAccessControlList/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/networkAccessControlList/order': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: order
+          '/networkAccessControlList/remoteSubnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: remote_subnet
+          '/properties/environmentIsHealthy': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnvironmentIsHealthy
+          '/environmentIsHealthy': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: environment_is_healthy
+          '/properties/environmentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EnvironmentStatus
+          '/environmentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: environment_status
+          '/properties/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceGroup
+          '/resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_group
+          '/properties/frontEndScaleFactor': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FrontEndScaleFactor
+          '/frontEndScaleFactor': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: front_end_scale_factor
+          '/properties/defaultFrontEndScaleFactor': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DefaultFrontEndScaleFactor
+          '/defaultFrontEndScaleFactor': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: default_front_end_scale_factor
+          '/properties/apiManagementAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: APIManagementAccountID
+          '/apiManagementAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: api_management_account_id
+          '/properties/suspended': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Suspended
+          '/suspended': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: suspended
+          '/properties/dynamicCacheEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DynamicCacheEnabled
+          '/dynamicCacheEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: dynamic_cache_enabled
+          '/properties/clusterSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ClusterSettings
+            go_type_name: NameValuePair
+          '/properties/clusterSettings/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/clusterSettings/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/clusterSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: cluster_settings
+          '/clusterSettings/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/clusterSettings/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/userWhitelistedIpRanges': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: UserWhitelistedIPRanges
+          '/userWhitelistedIpRanges': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: user_whitelisted_ip_ranges
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -911,10 +1325,387 @@ objects:
         azure_sdk_references: ['workerPoolName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/name', '/properties/name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Location of the App Service Environment, e.g. "West US".'
+        output: true
+        azure_sdk_references: ['/location', '/properties/location']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning state of the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Failed
+          - :Canceled
+          - :InProgress
+          - :Deleting
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'Current status of the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Preparing
+          - :Ready
+          - :Scaling
+          - :Deleting
+      - !ruby/object:Api::Type::String
+        name: 'vnetName'
+        description: 'Name of the Virtual Network for the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/vnetName', '/properties/vnetName']
+      - !ruby/object:Api::Type::String
+        name: 'vnetResourceGroupName'
+        description: 'Resource group of the Virtual Network.'
+        output: true
+        azure_sdk_references: ['/vnetResourceGroupName', '/properties/vnetResourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'vnetSubnetName'
+        description: 'Subnet of the Virtual Network.'
+        output: true
+        azure_sdk_references: ['/vnetSubnetName', '/properties/vnetSubnetName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'virtualNetwork'
+        description: 'Description of the Virtual Network.'
+        output: true
+        azure_sdk_references: ['/virtualNetwork', '/properties/virtualNetwork']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource id of the Virtual Network.'
+            output: true
+            azure_sdk_references: ['/virtualNetwork/id', '/properties/virtualNetwork/id']
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'Name of the Virtual Network (read-only).'
+            output: true
+            azure_sdk_references: ['/virtualNetwork/name', '/properties/virtualNetwork/name']
+          - !ruby/object:Api::Type::String
+            name: 'type'
+            description: 'Resource type of the Virtual Network (read-only).'
+            output: true
+            azure_sdk_references: ['/virtualNetwork/type', '/properties/virtualNetwork/type']
+          - !ruby/object:Api::Type::String
+            name: 'subnet'
+            description: 'Subnet within the Virtual Network.'
+            output: true
+            azure_sdk_references: ['/virtualNetwork/subnet', '/properties/virtualNetwork/subnet']
+      - !ruby/object:Api::Type::Enum
+        name: 'internalLoadBalancingMode'
+        description: 'Specifies which endpoints to serve internally in the Virtual Network for the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/internalLoadBalancingMode', '/properties/internalLoadBalancingMode']
+        values:
+          - :None
+          - :Web
+          - :Publishing
+      - !ruby/object:Api::Type::String
+        name: 'multiSize'
+        description: 'Front-end VM size, e.g. "Medium", "Large".'
+        output: true
+        azure_sdk_references: ['/multiSize', '/properties/multiSize']
+      - !ruby/object:Api::Type::Integer
+        name: 'multiRoleCount'
+        description: 'Number of front-end instances.'
+        output: true
+        azure_sdk_references: ['/multiRoleCount', '/properties/multiRoleCount']
+      - !ruby/object:Api::Type::Array
+        name: 'workerPools'
+        description: 'Description of worker pools with worker size IDs, VM sizes, and number of workers in each pool.'
+        output: true
+        azure_sdk_references: ['/workerPools', '/properties/workerPools']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Integer
+              name: 'workerSizeId'
+              description: 'Worker size ID for referencing this worker pool.'
+              output: true
+              azure_sdk_references: ['/workerPools/workerSizeId', '/properties/workerPools/workerSizeId']
+            - !ruby/object:Api::Type::Enum
+              name: 'computeMode'
+              description: 'Shared or dedicated app hosting.'
+              output: true
+              azure_sdk_references: ['/workerPools/computeMode', '/properties/workerPools/computeMode']
+              values:
+                - :Shared
+                - :Dedicated
+                - :Dynamic
+            - !ruby/object:Api::Type::String
+              name: 'workerSize'
+              description: 'VM size of the worker pool instances.'
+              output: true
+              azure_sdk_references: ['/workerPools/workerSize', '/properties/workerPools/workerSize']
+            - !ruby/object:Api::Type::Integer
+              name: 'workerCount'
+              description: 'Number of instances in the worker pool.'
+              output: true
+              azure_sdk_references: ['/workerPools/workerCount', '/properties/workerPools/workerCount']
+            - !ruby/object:Api::Type::Array
+              name: 'instanceNames'
+              description: 'Names of all instances in the worker pool (read only).'
+              output: true
+              azure_sdk_references: ['/workerPools/instanceNames', '/properties/workerPools/instanceNames']
+              item_type: Api::Type::String
+      - !ruby/object:Api::Type::Integer
+        name: 'ipsslAddressCount'
+        description: 'Number of IP SSL addresses reserved for the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/ipsslAddressCount', '/properties/ipsslAddressCount']
+      - !ruby/object:Api::Type::String
+        name: 'databaseEdition'
+        description: 'Edition of the metadata database for the App Service Environment, e.g. "Standard".'
+        output: true
+        azure_sdk_references: ['/databaseEdition', '/properties/databaseEdition']
+      - !ruby/object:Api::Type::String
+        name: 'databaseServiceObjective'
+        description: 'Service objective of the metadata database for the App Service Environment, e.g. "S0".'
+        output: true
+        azure_sdk_references: ['/databaseServiceObjective', '/properties/databaseServiceObjective']
+      - !ruby/object:Api::Type::Integer
+        name: 'upgradeDomains'
+        description: 'Number of upgrade domains of the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/upgradeDomains', '/properties/upgradeDomains']
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionId'
+        description: 'Subscription of the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/subscriptionId', '/properties/subscriptionId']
+      - !ruby/object:Api::Type::String
+        name: 'dnsSuffix'
+        description: 'DNS suffix of the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/dnsSuffix', '/properties/dnsSuffix']
+      - !ruby/object:Api::Type::String
+        name: 'lastAction'
+        description: 'Last deployment action on the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/lastAction', '/properties/lastAction']
+      - !ruby/object:Api::Type::String
+        name: 'lastActionResult'
+        description: 'Result of the last deployment action on the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/lastActionResult', '/properties/lastActionResult']
+      - !ruby/object:Api::Type::String
+        name: 'allowedMultiSizes'
+        description: 'List of comma separated strings describing which VM sizes are allowed for front-ends.'
+        output: true
+        azure_sdk_references: ['/allowedMultiSizes', '/properties/allowedMultiSizes']
+      - !ruby/object:Api::Type::String
+        name: 'allowedWorkerSizes'
+        description: 'List of comma separated strings describing which VM sizes are allowed for workers.'
+        output: true
+        azure_sdk_references: ['/allowedWorkerSizes', '/properties/allowedWorkerSizes']
+      - !ruby/object:Api::Type::Integer
+        name: 'maximumNumberOfMachines'
+        description: 'Maximum number of VMs in the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/maximumNumberOfMachines', '/properties/maximumNumberOfMachines']
+      - !ruby/object:Api::Type::Array
+        name: 'vipMappings'
+        description: 'Description of IP SSL mapping for the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/vipMappings', '/properties/vipMappings']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'virtualIp'
+              description: 'Virtual IP address.'
+              output: true
+              azure_sdk_references: ['/vipMappings/virtualIP', '/properties/vipMappings/virtualIP']
+            - !ruby/object:Api::Type::Integer
+              name: 'internalHttpPort'
+              description: 'Internal HTTP port.'
+              output: true
+              azure_sdk_references: ['/vipMappings/internalHttpPort', '/properties/vipMappings/internalHttpPort']
+            - !ruby/object:Api::Type::Integer
+              name: 'internalHttpsPort'
+              description: 'Internal HTTPS port.'
+              output: true
+              azure_sdk_references: ['/vipMappings/internalHttpsPort', '/properties/vipMappings/internalHttpsPort']
+            - !ruby/object:Api::Type::Boolean
+              name: 'inUse'
+              description: 'Is virtual IP mapping in use.'
+              output: true
+              azure_sdk_references: ['/vipMappings/inUse', '/properties/vipMappings/inUse']
+      - !ruby/object:Api::Type::Array
+        name: 'environmentCapacities'
+        description: 'Current total, used, and available worker capacities.'
+        output: true
+        azure_sdk_references: ['/environmentCapacities', '/properties/environmentCapacities']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Name of the stamp.'
+              output: true
+              azure_sdk_references: ['/environmentCapacities/name', '/properties/environmentCapacities/name']
+            - !ruby/object:Api::Type::Integer
+              name: 'availableCapacity'
+              description: 'Available capacity (# of machines, bytes of storage etc...).'
+              output: true
+              azure_sdk_references: ['/environmentCapacities/availableCapacity', '/properties/environmentCapacities/availableCapacity']
+            - !ruby/object:Api::Type::Integer
+              name: 'totalCapacity'
+              description: 'Total capacity (# of machines, bytes of storage etc...).'
+              output: true
+              azure_sdk_references: ['/environmentCapacities/totalCapacity', '/properties/environmentCapacities/totalCapacity']
+            - !ruby/object:Api::Type::String
+              name: 'unit'
+              description: 'Name of the unit.'
+              output: true
+              azure_sdk_references: ['/environmentCapacities/unit', '/properties/environmentCapacities/unit']
+            - !ruby/object:Api::Type::Enum
+              name: 'computeMode'
+              description: 'Shared/dedicated workers.'
+              output: true
+              azure_sdk_references: ['/environmentCapacities/computeMode', '/properties/environmentCapacities/computeMode']
+              values:
+                - :Shared
+                - :Dedicated
+                - :Dynamic
+            - !ruby/object:Api::Type::Enum
+              name: 'workerSize'
+              description: 'Size of the machines.'
+              output: true
+              azure_sdk_references: ['/environmentCapacities/workerSize', '/properties/environmentCapacities/workerSize']
+              values:
+                - :Default
+                - :Small
+                - :Medium
+                - :Large
+                - :D1
+                - :D2
+                - :D3
+            - !ruby/object:Api::Type::Integer
+              name: 'workerSizeId'
+              description: 'Size ID of machines: <br>0 - Small<br>1 - Medium<br>2 - Large'
+              output: true
+              azure_sdk_references: ['/environmentCapacities/workerSizeId', '/properties/environmentCapacities/workerSizeId']
+            - !ruby/object:Api::Type::Boolean
+              name: 'excludeFromCapacityAllocation'
+              description: 'If <code>true</code>, it includes basic apps.<br>Basic apps are not used for capacity allocation.'
+              output: true
+              azure_sdk_references: ['/environmentCapacities/excludeFromCapacityAllocation', '/properties/environmentCapacities/excludeFromCapacityAllocation']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isApplicableForAllComputeModes'
+              description: '<code>true</code> if capacity is applicable for all apps; otherwise, <code>false</code>.'
+              output: true
+              azure_sdk_references: ['/environmentCapacities/isApplicableForAllComputeModes', '/properties/environmentCapacities/isApplicableForAllComputeModes']
+            - !ruby/object:Api::Type::String
+              name: 'siteMode'
+              description: 'Shared or Dedicated.'
+              output: true
+              azure_sdk_references: ['/environmentCapacities/siteMode', '/properties/environmentCapacities/siteMode']
+      - !ruby/object:Api::Type::Array
+        name: 'networkAccessControlList'
+        description: 'Access control list for controlling traffic to the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/networkAccessControlList', '/properties/networkAccessControlList']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'action'
+              description: 'Action object.'
+              output: true
+              azure_sdk_references: ['/networkAccessControlList/action', '/properties/networkAccessControlList/action']
+              values:
+                - :Permit
+                - :Deny
+            - !ruby/object:Api::Type::String
+              name: 'description'
+              description: 'Description of network access control entry.'
+              output: true
+              azure_sdk_references: ['/networkAccessControlList/description', '/properties/networkAccessControlList/description']
+            - !ruby/object:Api::Type::Integer
+              name: 'order'
+              description: 'Order of precedence.'
+              output: true
+              azure_sdk_references: ['/networkAccessControlList/order', '/properties/networkAccessControlList/order']
+            - !ruby/object:Api::Type::String
+              name: 'remoteSubnet'
+              description: 'Remote subnet.'
+              output: true
+              azure_sdk_references: ['/networkAccessControlList/remoteSubnet', '/properties/networkAccessControlList/remoteSubnet']
+      - !ruby/object:Api::Type::Boolean
+        name: 'environmentIsHealthy'
+        description: 'True/false indicating whether the App Service Environment is healthy.'
+        output: true
+        azure_sdk_references: ['/environmentIsHealthy', '/properties/environmentIsHealthy']
+      - !ruby/object:Api::Type::String
+        name: 'environmentStatus'
+        description: 'Detailed message about with results of the last check of the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/environmentStatus', '/properties/environmentStatus']
+      - !ruby/object:Api::Type::String
+        name: 'resourceGroup'
+        description: 'Resource group of the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/resourceGroup', '/properties/resourceGroup']
+      - !ruby/object:Api::Type::Integer
+        name: 'frontEndScaleFactor'
+        description: 'Scale factor for front-ends.'
+        output: true
+        azure_sdk_references: ['/frontEndScaleFactor', '/properties/frontEndScaleFactor']
+      - !ruby/object:Api::Type::Integer
+        name: 'defaultFrontEndScaleFactor'
+        description: 'Default Scale Factor for FrontEnds.'
+        output: true
+        azure_sdk_references: ['/defaultFrontEndScaleFactor', '/properties/defaultFrontEndScaleFactor']
+      - !ruby/object:Api::Type::String
+        name: 'apiManagementAccountId'
+        description: 'API Management Account associated with the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/apiManagementAccountId', '/properties/apiManagementAccountId']
+      - !ruby/object:Api::Type::Boolean
+        name: 'suspended'
+        description: '<code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>. The environment can be suspended, e.g. when the management endpoint is no longer available<br> (most likely because NSG blocked the incoming traffic).'
+        output: true
+        azure_sdk_references: ['/suspended', '/properties/suspended']
+      - !ruby/object:Api::Type::Boolean
+        name: 'dynamicCacheEnabled'
+        description: 'True/false indicating whether the App Service Environment is suspended. The environment can be suspended e.g. when the management endpoint is no longer available<br>(most likely because NSG blocked the incoming traffic).'
+        output: true
+        azure_sdk_references: ['/dynamicCacheEnabled', '/properties/dynamicCacheEnabled']
+      - !ruby/object:Api::Type::Array
+        name: 'clusterSettings'
+        description: 'Custom settings for changing the behavior of the App Service Environment.'
+        output: true
+        azure_sdk_references: ['/clusterSettings', '/properties/clusterSettings']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Pair name.'
+              output: true
+              azure_sdk_references: ['/clusterSettings/name', '/properties/clusterSettings/name']
+            - !ruby/object:Api::Type::String
+              name: 'value'
+              description: 'Pair value.'
+              output: true
+              azure_sdk_references: ['/clusterSettings/value', '/properties/clusterSettings/value']
+      - !ruby/object:Api::Type::Array
+        name: 'userWhitelistedIpRanges'
+        description: 'User added ip ranges to whitelist on ASE db'
+        output: true
+        azure_sdk_references: ['/userWhitelistedIpRanges', '/properties/userWhitelistedIpRanges']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id.'
         output: true
         azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource Name.'
+        output: true
+        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'Resource type.'

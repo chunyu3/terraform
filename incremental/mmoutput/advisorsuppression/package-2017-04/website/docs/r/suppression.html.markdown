@@ -44,4 +44,6 @@ The following attributes are exported:
 
 * `id` - The resource ID.
 
+* `name` - The name of the resource.
+
 * `type` - The type of the resource.

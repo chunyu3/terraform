@@ -122,6 +122,93 @@ func resourceArmGalleryImageVersion() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "replication_status": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "aggregated_state": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "summary": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "details": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "progress": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "region": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "state": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+
+            "storage_profile": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "data_disk_images": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "host_caching": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "lun": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "size_in_gb": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "os_disk_image": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "host_caching": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "size_in_gb": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -214,11 +301,26 @@ func resourceArmGalleryImageVersionRead(d *schema.ResourceData, meta interface{}
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
     d.Set("gallery_image_name", galleryImageName)
     d.Set("gallery_name", galleryName)
+    if galleryImageVersionProperties := resp.GalleryImageVersionProperties; galleryImageVersionProperties != nil {
+        d.Set("provisioning_state", string(galleryImageVersionProperties.ProvisioningState))
+        if err := d.Set("publishing_profile", flattenArmGalleryImageVersionGalleryImageVersionPublishingProfile(galleryImageVersionProperties.PublishingProfile)); err != nil {
+            return fmt.Errorf("Error setting `publishing_profile`: %+v", err)
+        }
+        if err := d.Set("replication_status", flattenArmGalleryImageVersionReplicationStatus(galleryImageVersionProperties.ReplicationStatus)); err != nil {
+            return fmt.Errorf("Error setting `replication_status`: %+v", err)
+        }
+        if err := d.Set("storage_profile", flattenArmGalleryImageVersionGalleryImageVersionStorageProfile(galleryImageVersionProperties.StorageProfile)); err != nil {
+            return fmt.Errorf("Error setting `storage_profile`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -333,4 +435,165 @@ func expandArmGalleryImageVersionManagedArtifact(input []interface{}) *compute.M
         ID: utils.String(id),
     }
     return &result
+}
+
+
+func flattenArmGalleryImageVersionGalleryImageVersionPublishingProfile(input *compute.GalleryImageVersionPublishingProfile) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if endOfLifeDate := input.EndOfLifeDate; endOfLifeDate != nil {
+        result["end_of_life_date"] = (*endOfLifeDate).String()
+    }
+    if excludeFromLatest := input.ExcludeFromLatest; excludeFromLatest != nil {
+        result["exclude_from_latest"] = *excludeFromLatest
+    }
+    if replicaCount := input.ReplicaCount; replicaCount != nil {
+        result["replica_count"] = int(*replicaCount)
+    }
+    result["source"] = flattenArmGalleryImageVersionGalleryArtifactSource(input.Source)
+    result["target_regions"] = flattenArmGalleryImageVersionTargetRegion(input.TargetRegions)
+
+    return []interface{}{result}
+}
+
+func flattenArmGalleryImageVersionReplicationStatus(input *compute.ReplicationStatus) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["aggregated_state"] = string(input.AggregatedState)
+    result["summary"] = flattenArmGalleryImageVersionRegionalReplicationStatus(input.Summary)
+
+    return []interface{}{result}
+}
+
+func flattenArmGalleryImageVersionGalleryImageVersionStorageProfile(input *compute.GalleryImageVersionStorageProfile) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["data_disk_images"] = flattenArmGalleryImageVersionGalleryDataDiskImage(input.DataDiskImages)
+    result["os_disk_image"] = flattenArmGalleryImageVersionGalleryOSDiskImage(input.OsDiskImage)
+
+    return []interface{}{result}
+}
+
+func flattenArmGalleryImageVersionGalleryArtifactSource(input *compute.GalleryArtifactSource) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["managed_image"] = flattenArmGalleryImageVersionManagedArtifact(input.ManagedImage)
+
+    return []interface{}{result}
+}
+
+func flattenArmGalleryImageVersionTargetRegion(input *[]compute.TargetRegion) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if regionalReplicaCount := item.RegionalReplicaCount; regionalReplicaCount != nil {
+            v["regional_replica_count"] = int(*regionalReplicaCount)
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmGalleryImageVersionRegionalReplicationStatus(input *[]compute.RegionalReplicationStatus) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if details := item.Details; details != nil {
+            v["details"] = *details
+        }
+        if progress := item.Progress; progress != nil {
+            v["progress"] = int(*progress)
+        }
+        if region := item.Region; region != nil {
+            v["region"] = *region
+        }
+        v["state"] = string(item.State)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmGalleryImageVersionGalleryDataDiskImage(input *[]compute.GalleryDataDiskImage) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        v["host_caching"] = string(item.HostCaching)
+        if lun := item.Lun; lun != nil {
+            v["lun"] = int(*lun)
+        }
+        if sizeInGb := item.SizeInGB; sizeInGb != nil {
+            v["size_in_gb"] = int(*sizeInGb)
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmGalleryImageVersionGalleryOSDiskImage(input *compute.GalleryOSDiskImage) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["host_caching"] = string(input.HostCaching)
+    if sizeInGb := input.SizeInGB; sizeInGb != nil {
+        result["size_in_gb"] = int(*sizeInGb)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmGalleryImageVersionManagedArtifact(input *compute.ManagedArtifact) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+
+    return []interface{}{result}
 }

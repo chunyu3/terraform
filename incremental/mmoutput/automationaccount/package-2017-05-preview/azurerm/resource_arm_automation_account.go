@@ -72,6 +72,36 @@ func resourceArmAutomationAccount() *schema.Resource {
                 },
             },
 
+            "creation_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "description": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "etag": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_modified_by": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -158,9 +188,23 @@ func resourceArmAutomationAccountRead(d *schema.ResourceData, meta interface{}) 
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if accountCreateOrUpdateProperties := resp.AccountCreateOrUpdateProperties; accountCreateOrUpdateProperties != nil {
+        d.Set("creation_time", (accountCreateOrUpdateProperties.CreationTime).String())
+        d.Set("description", accountCreateOrUpdateProperties.Description)
+        d.Set("last_modified_by", accountCreateOrUpdateProperties.LastModifiedBy)
+        d.Set("last_modified_time", (accountCreateOrUpdateProperties.LastModifiedTime).String())
+        if err := d.Set("sku", flattenArmAutomationAccountSku(accountCreateOrUpdateProperties.Sku)); err != nil {
+            return fmt.Errorf("Error setting `sku`: %+v", err)
+        }
+        d.Set("state", string(accountCreateOrUpdateProperties.State))
+    }
+    d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmAutomationAccountUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -224,4 +268,23 @@ func expandArmAutomationAccountSku(input []interface{}) *automation.Sku {
         Name: automation.SkuNameEnum(name),
     }
     return &result
+}
+
+
+func flattenArmAutomationAccountSku(input *automation.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["name"] = string(input.Name)
+    if capacity := input.Capacity; capacity != nil {
+        result["capacity"] = int(*capacity)
+    }
+    if family := input.Family; family != nil {
+        result["family"] = *family
+    }
+
+    return []interface{}{result}
 }

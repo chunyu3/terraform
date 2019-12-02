@@ -106,9 +106,72 @@ func resourceArmBlockchainMember() *schema.Resource {
                 ForceNew: true,
             },
 
+            "consortium": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "consortium_management_account_address": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "consortium_member_display_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "consortium_role": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "dns": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "protocol": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "public_key": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "root_contract_address": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
+            },
+
+            "user_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "validator_nodes_sku": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "capacity": {
+                            Type: schema.TypeInt,
+                            Computed: true,
+                        },
+                    },
+                },
             },
 
             "tags": tags.Schema(),
@@ -204,9 +267,35 @@ func resourceArmBlockchainMemberRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if memberPropertiesUpdate := resp.MemberPropertiesUpdate; memberPropertiesUpdate != nil {
+        d.Set("consortium", memberPropertiesUpdate.Consortium)
+        d.Set("consortium_management_account_address", memberPropertiesUpdate.ConsortiumManagementAccountAddress)
+        d.Set("consortium_management_account_password", memberPropertiesUpdate.ConsortiumManagementAccountPassword)
+        d.Set("consortium_member_display_name", memberPropertiesUpdate.ConsortiumMemberDisplayName)
+        d.Set("consortium_role", memberPropertiesUpdate.ConsortiumRole)
+        d.Set("dns", memberPropertiesUpdate.DNS)
+        if err := d.Set("firewall_rules", flattenArmBlockchainMemberFirewallRule(memberPropertiesUpdate.FirewallRules)); err != nil {
+            return fmt.Errorf("Error setting `firewall_rules`: %+v", err)
+        }
+        d.Set("password", memberPropertiesUpdate.Password)
+        d.Set("protocol", string(memberPropertiesUpdate.Protocol))
+        d.Set("provisioning_state", string(memberPropertiesUpdate.ProvisioningState))
+        d.Set("public_key", memberPropertiesUpdate.PublicKey)
+        d.Set("root_contract_address", memberPropertiesUpdate.RootContractAddress)
+        d.Set("user_name", memberPropertiesUpdate.UserName)
+        if err := d.Set("validator_nodes_sku", flattenArmBlockchainMemberMemberNodesSku(memberPropertiesUpdate.ValidatorNodesSku)); err != nil {
+            return fmt.Errorf("Error setting `validator_nodes_sku`: %+v", err)
+        }
+    }
+    if err := d.Set("sku", flattenArmBlockchainMemberSku(resp.Sku)); err != nil {
+        return fmt.Errorf("Error setting `sku`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmBlockchainMemberUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -305,4 +394,61 @@ func expandArmBlockchainMemberSku(input []interface{}) *blockchain.Sku {
         Tier: utils.String(tier),
     }
     return &result
+}
+
+
+func flattenArmBlockchainMemberFirewallRule(input *[]blockchain.FirewallRule) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if endIpAddress := item.EndIPAddress; endIpAddress != nil {
+            v["end_ip_address"] = *endIpAddress
+        }
+        if ruleName := item.RuleName; ruleName != nil {
+            v["rule_name"] = *ruleName
+        }
+        if startIpAddress := item.StartIPAddress; startIpAddress != nil {
+            v["start_ip_address"] = *startIpAddress
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmBlockchainMemberMemberNodesSku(input *blockchain.MemberNodesSku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if capacity := input.Capacity; capacity != nil {
+        result["capacity"] = int(*capacity)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmBlockchainMemberSku(input *blockchain.Sku) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if tier := input.Tier; tier != nil {
+        result["tier"] = *tier
+    }
+
+    return []interface{}{result}
 }

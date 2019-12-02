@@ -133,14 +133,62 @@ objects:
             python_parameter_name: name
             python_variable_name: name
         response:
-          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: users
-            go_variable_name: name
-            python_parameter_name: name
-            python_variable_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UserProperties
+            go_type_name: UserProperties
+          '/properties/encryptedPassword': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EncryptedPassword
+            go_type_name: AsymmetricEncryptedSecret
+          '/properties/encryptedPassword/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/encryptedPassword/encryptionCertThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionCertThumbprint
+          '/properties/encryptedPassword/encryptionAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EncryptionAlgorithm
+            go_enum_type_name: EncryptionAlgorithm
+          '/encryptedPassword': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: encrypted_password
+          '/encryptedPassword/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/encryptedPassword/encryptionCertThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encryption_cert_thumbprint
+          '/encryptedPassword/encryptionAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: encryption_algorithm
+          '/properties/shareAccessRights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ShareAccessRights
+            go_type_name: ShareAccessRight
+          '/properties/shareAccessRights/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ShareID
+          '/properties/shareAccessRights/accessType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AccessType
+            go_enum_type_name: ShareAccessType
+          '/shareAccessRights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: share_access_rights
+          '/shareAccessRights/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: share_id
+          '/shareAccessRights/accessType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: access_type
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -232,6 +280,11 @@ objects:
         description: 'The path ID that uniquely identifies the object.'
         output: true
         azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The object name.'
+        output: true
+        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'The hierarchical type of the object.'

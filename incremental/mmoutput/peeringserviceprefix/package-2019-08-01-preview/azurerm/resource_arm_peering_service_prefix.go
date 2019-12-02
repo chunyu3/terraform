@@ -80,6 +80,11 @@ func resourceArmPeeringServicePrefix() *schema.Resource {
                 Default: string(peering.None),
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -164,6 +169,12 @@ func resourceArmPeeringServicePrefixRead(d *schema.ResourceData, meta interface{
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if servicePrefixProperties := resp.ServicePrefixProperties; servicePrefixProperties != nil {
+        d.Set("learned_type", string(servicePrefixProperties.LearnedType))
+        d.Set("prefix", servicePrefixProperties.Prefix)
+        d.Set("prefix_validation_state", string(servicePrefixProperties.PrefixValidationState))
+        d.Set("provisioning_state", string(servicePrefixProperties.ProvisioningState))
+    }
     d.Set("peering_service_name", peeringServiceName)
     d.Set("type", resp.Type)
 

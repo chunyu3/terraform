@@ -43,6 +43,11 @@ func resourceArmEnvironment() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -89,7 +94,27 @@ func resourceArmEnvironment() *schema.Resource {
                 },
             },
 
+            "created_by_user": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "unique_identifier": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -182,11 +207,25 @@ func resourceArmEnvironmentRead(d *schema.ResourceData, meta interface{}) error 
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if environmentPropertiesFragment := resp.EnvironmentPropertiesFragment; environmentPropertiesFragment != nil {
+        d.Set("arm_template_display_name", environmentPropertiesFragment.ArmTemplateDisplayName)
+        d.Set("created_by_user", environmentPropertiesFragment.CreatedByUser)
+        if err := d.Set("deployment_properties", flattenArmEnvironmentEnvironmentDeploymentPropertiesFragment(environmentPropertiesFragment.DeploymentProperties)); err != nil {
+            return fmt.Errorf("Error setting `deployment_properties`: %+v", err)
+        }
+        d.Set("provisioning_state", environmentPropertiesFragment.ProvisioningState)
+        d.Set("resource_group_id", environmentPropertiesFragment.ResourceGroupID)
+        d.Set("unique_identifier", environmentPropertiesFragment.UniqueIdentifier)
+    }
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmEnvironmentUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -279,4 +318,42 @@ func expandArmEnvironmentArmTemplateParameterPropertiesFragment(input []interfac
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmEnvironmentEnvironmentDeploymentPropertiesFragment(input *devtestlab.EnvironmentDeploymentPropertiesFragment) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if armTemplateId := input.ArmTemplateID; armTemplateId != nil {
+        result["arm_template_id"] = *armTemplateId
+    }
+    result["parameters"] = flattenArmEnvironmentArmTemplateParameterPropertiesFragment(input.Parameters)
+
+    return []interface{}{result}
+}
+
+func flattenArmEnvironmentArmTemplateParameterPropertiesFragment(input *[]devtestlab.ArmTemplateParameterPropertiesFragment) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

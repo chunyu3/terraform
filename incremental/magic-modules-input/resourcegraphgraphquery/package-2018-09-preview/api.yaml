@@ -23,7 +23,7 @@ objects:
         python_func_name: create_or_update
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroup
+            id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
@@ -41,7 +41,7 @@ objects:
         python_func_name: update
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroup
+            id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
@@ -71,13 +71,9 @@ objects:
           '/properties/query': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Query
-          '/resultKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: result_kind
-          '/properties/resultKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResultKind
-            go_enum_type_name: ResultKind
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -86,7 +82,7 @@ objects:
         python_func_name: delete
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroup
+            id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
@@ -100,7 +96,7 @@ objects:
         python_func_name: get
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroup
+            id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
@@ -110,6 +106,41 @@ objects:
             python_parameter_name: resource_name
             python_variable_name: name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GraphQueryPropertiesUpdateParameters
+            go_type_name: GraphQueryPropertiesUpdateParameters
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/query': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Query
+          '/query': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: query
+          '/properties/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: TimeModified
+          '/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: time_modified
+          '/properties/resultKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResultKind
+            go_enum_type_name: ResultKind
+          '/resultKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: result_kind
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -119,15 +150,12 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ETag
-            python_field_name: e_tag
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroup
+            id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
@@ -157,14 +185,12 @@ objects:
         description: 'KQL query that will be graph.'
         required: false
         azure_sdk_references: ['/query', '/properties/query']
-      - !ruby/object:Api::Type::Enum
-        name: 'resultKind'
-        description: 'Enum indicating a type of graph query.'
+      - !ruby/object:Api::Type::String
+        name: 'eTag'
+        description: 'This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict.'
         required: false
-        azure_sdk_references: ['/resultKind', '/properties/resultKind']
-        values:
-          - :basic
-        default_value: :basic
+        input: true
+        azure_sdk_references: ['/eTag']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
         description: 'Resource tags'
@@ -172,6 +198,18 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'timeModified'
+        description: 'Date and time in UTC of the last modification that was made to this graph query definition.'
+        output: true
+        azure_sdk_references: ['/timeModified', '/properties/timeModified']
+      - !ruby/object:Api::Type::Enum
+        name: 'resultKind'
+        description: 'Enum indicating a type of graph query.'
+        output: true
+        azure_sdk_references: ['/resultKind', '/properties/resultKind']
+        values:
+          - :basic
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource Id'
@@ -187,8 +225,3 @@ objects:
         description: 'Azure resource type'
         output: true
         azure_sdk_references: ['/type']
-      - !ruby/object:Api::Type::String
-        name: 'eTag'
-        description: 'This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict.'
-        output: true
-        azure_sdk_references: ['/eTag']

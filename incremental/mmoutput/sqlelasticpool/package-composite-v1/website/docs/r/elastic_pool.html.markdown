@@ -54,6 +54,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `creation_date` - The creation date of the elastic pool (ISO8601 format).
+
+* `state` - The state of the elastic pool.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

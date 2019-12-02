@@ -7,14 +7,19 @@ task: !ruby/object:Provider::Ansible::Task
     service_name: mySpring
     app_name: myApp
     name: myBinding
-    resource_name: my-cosmosdb-1
-    resource_type: Microsoft.DocumentDB
-    resource_id: >-
-      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
-      }}/providers/Microsoft.DocumentDB/databaseAccounts/{{ database_account_name
-      }}
-    key: xxxx
-    binding_parameters:
-      databaseName: db1
-      apiType: SQL
+    binding_resource:
+      properties:
+        resourceName: my-cosmosdb-1
+        resourceType: Microsoft.DocumentDB
+        resourceId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.DocumentDB/databaseAccounts/{{
+          database_account_name }}
+        key: xxxx
+        bindingParameters:
+          databaseName: db1
+          apiType: SQL
+        generatedProperties: null
+        createdAt: null
+        updatedAt: null
   

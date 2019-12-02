@@ -44,6 +44,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `provisioning_state` - Terminal state of the link between primary and secondary redis cache.
+
 * `id` - Resource ID.
+
+* `name` - Resource name.
 
 * `type` - Resource type.

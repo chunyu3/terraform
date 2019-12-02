@@ -50,6 +50,8 @@ The following attributes are exported:
 
 * `id` - Resource ID.
 
+* `name` - Resource name.
+
 * `type` - Resource type.
 
 * `location` - Resource location.

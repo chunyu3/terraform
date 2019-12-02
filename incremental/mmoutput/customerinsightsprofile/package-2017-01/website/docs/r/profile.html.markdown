@@ -123,6 +123,12 @@ The `strong_id` block supports the following:
 
 The following attributes are exported:
 
+* `last_changed_utc` - The last changed time for the type definition.
+
+* `provisioning_state` - Provisioning state.
+
+* `tenant_id` - The hub name.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

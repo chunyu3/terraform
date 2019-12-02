@@ -140,10 +140,13 @@ func resourceArmLinkedServiceRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if linkedServiceProperties := resp.LinkedServiceProperties; linkedServiceProperties != nil {
+        d.Set("resource_id", linkedServiceProperties.ResourceID)
+    }
     d.Set("type", resp.Type)
     d.Set("workspace_name", workspaceName)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 

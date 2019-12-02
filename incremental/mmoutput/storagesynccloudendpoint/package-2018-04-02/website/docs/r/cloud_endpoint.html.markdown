@@ -78,6 +78,18 @@ The `restore_file_spec` block supports the following:
 
 The following attributes are exported:
 
+* `partnership_id` - Partnership Id
+
+* `friendly_name` - Friendly Name
+
+* `backup_enabled` - Backup Enabled
+
+* `provisioning_state` - CloudEndpoint Provisioning State
+
+* `last_workflow_id` - CloudEndpoint lastWorkflowId
+
+* `last_operation_name` - Resource Last Operation Name
+
 * `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 
 * `name` - The name of the resource

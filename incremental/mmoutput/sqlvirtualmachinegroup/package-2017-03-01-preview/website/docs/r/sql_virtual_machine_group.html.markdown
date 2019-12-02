@@ -66,6 +66,14 @@ The `wsfc_domain_profile` block supports the following:
 
 The following attributes are exported:
 
+* `provisioning_state` - Provisioning state to track the async operation status.
+
+* `scale_type` - Scale type.
+
+* `cluster_manager_type` - Type of cluster manager: Windows Server Failover Cluster (WSFC), implied by the scale type of the group and the OS type.
+
+* `cluster_configuration` - Cluster type.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

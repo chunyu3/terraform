@@ -74,6 +74,10 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `state` - The state of the elastic pool.
+
+* `creation_date` - The creation date of the elastic pool (ISO8601 format).
+
 * `id` - Resource ID.
 
 * `name` - Resource name.

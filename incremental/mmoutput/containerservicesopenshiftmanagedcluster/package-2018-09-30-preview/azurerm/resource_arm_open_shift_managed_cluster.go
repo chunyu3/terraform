@@ -293,6 +293,11 @@ func resourceArmOpenShiftManagedCluster() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -397,9 +402,36 @@ func resourceArmOpenShiftManagedClusterRead(d *schema.ResourceData, meta interfa
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if openShiftManagedClusterProperties := resp.OpenShiftManagedClusterProperties; openShiftManagedClusterProperties != nil {
+        if err := d.Set("agent_pool_profiles", flattenArmOpenShiftManagedClusterOpenShiftManagedClusterAgentPoolProfile(openShiftManagedClusterProperties.AgentPoolProfiles)); err != nil {
+            return fmt.Errorf("Error setting `agent_pool_profiles`: %+v", err)
+        }
+        if err := d.Set("auth_profile", flattenArmOpenShiftManagedClusterOpenShiftManagedClusterAuthProfile(openShiftManagedClusterProperties.AuthProfile)); err != nil {
+            return fmt.Errorf("Error setting `auth_profile`: %+v", err)
+        }
+        d.Set("fqdn", openShiftManagedClusterProperties.Fqdn)
+        if err := d.Set("master_pool_profile", flattenArmOpenShiftManagedClusterOpenShiftManagedClusterMasterPoolProfile(openShiftManagedClusterProperties.MasterPoolProfile)); err != nil {
+            return fmt.Errorf("Error setting `master_pool_profile`: %+v", err)
+        }
+        if err := d.Set("network_profile", flattenArmOpenShiftManagedClusterNetworkProfile(openShiftManagedClusterProperties.NetworkProfile)); err != nil {
+            return fmt.Errorf("Error setting `network_profile`: %+v", err)
+        }
+        d.Set("open_shift_version", openShiftManagedClusterProperties.OpenShiftVersion)
+        d.Set("provisioning_state", openShiftManagedClusterProperties.ProvisioningState)
+        d.Set("public_hostname", openShiftManagedClusterProperties.PublicHostname)
+        if err := d.Set("router_profiles", flattenArmOpenShiftManagedClusterOpenShiftRouterProfile(openShiftManagedClusterProperties.RouterProfiles)); err != nil {
+            return fmt.Errorf("Error setting `router_profiles`: %+v", err)
+        }
+    }
+    if err := d.Set("plan", flattenArmOpenShiftManagedClusterPurchasePlan(resp.Plan)); err != nil {
+        return fmt.Errorf("Error setting `plan`: %+v", err)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -559,4 +591,148 @@ func expandArmOpenShiftManagedClusterOpenShiftManagedClusterIdentityProvider(inp
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmOpenShiftManagedClusterOpenShiftManagedClusterAgentPoolProfile(input *[]containerservices.OpenShiftManagedClusterAgentPoolProfile) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if count := item.Count; count != nil {
+            v["count"] = int(*count)
+        }
+        v["os_type"] = string(item.OsType)
+        v["role"] = string(item.Role)
+        if subnetCidr := item.SubnetCidr; subnetCidr != nil {
+            v["subnet_cidr"] = *subnetCidr
+        }
+        v["vm_size"] = string(item.VMSize)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmOpenShiftManagedClusterOpenShiftManagedClusterAuthProfile(input *containerservices.OpenShiftManagedClusterAuthProfile) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["identity_providers"] = flattenArmOpenShiftManagedClusterOpenShiftManagedClusterIdentityProvider(input.IdentityProviders)
+
+    return []interface{}{result}
+}
+
+func flattenArmOpenShiftManagedClusterOpenShiftManagedClusterMasterPoolProfile(input *containerservices.OpenShiftManagedClusterMasterPoolProfile) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if count := input.Count; count != nil {
+        result["count"] = int(*count)
+    }
+    result["os_type"] = string(input.OsType)
+    if subnetCidr := input.SubnetCidr; subnetCidr != nil {
+        result["subnet_cidr"] = *subnetCidr
+    }
+    result["vm_size"] = string(input.VMSize)
+
+    return []interface{}{result}
+}
+
+func flattenArmOpenShiftManagedClusterNetworkProfile(input *containerservices.NetworkProfile) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if peerVnetId := input.PeerVnetID; peerVnetId != nil {
+        result["peer_vnet_id"] = *peerVnetId
+    }
+    if vnetCidr := input.VnetCidr; vnetCidr != nil {
+        result["vnet_cidr"] = *vnetCidr
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmOpenShiftManagedClusterOpenShiftRouterProfile(input *[]containerservices.OpenShiftRouterProfile) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if publicSubdomain := item.PublicSubdomain; publicSubdomain != nil {
+            v["public_subdomain"] = *publicSubdomain
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmOpenShiftManagedClusterPurchasePlan(input *containerservices.PurchasePlan) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if product := input.Product; product != nil {
+        result["product"] = *product
+    }
+    if promotionCode := input.PromotionCode; promotionCode != nil {
+        result["promotion_code"] = *promotionCode
+    }
+    if publisher := input.Publisher; publisher != nil {
+        result["publisher"] = *publisher
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmOpenShiftManagedClusterOpenShiftManagedClusterIdentityProvider(input *[]containerservices.OpenShiftManagedClusterIdentityProvider) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

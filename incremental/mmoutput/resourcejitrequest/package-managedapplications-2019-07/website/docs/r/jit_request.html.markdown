@@ -64,8 +64,39 @@ The `jit_scheduling_policy` block supports the following:
 
 The following attributes are exported:
 
+* `publisher_tenant_id` - The publisher tenant id.
+
+* `provisioning_state` - The JIT request provisioning state.
+
+* `jit_request_state` - The JIT request state.
+
+* `created_by` - One `created_by` block defined below.
+
+* `updated_by` - One `updated_by` block defined below.
+
 * `id` - Resource ID
 
 * `name` - Resource name
 
 * `type` - Resource type
+
+
+---
+
+The `created_by` block contains the following:
+
+* `oid` - The client Oid.
+
+* `puid` - The client Puid
+
+* `application_id` - The client application Id.
+
+---
+
+The `updated_by` block contains the following:
+
+* `oid` - The client Oid.
+
+* `puid` - The client Puid
+
+* `application_id` - The client application Id.

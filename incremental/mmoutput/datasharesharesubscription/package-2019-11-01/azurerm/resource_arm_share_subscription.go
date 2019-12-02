@@ -80,7 +80,67 @@ func resourceArmShareSubscription() *schema.Resource {
                 Default: string(datashare.Incremental),
             },
 
+            "created_at": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provider_email": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provider_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provider_tenant_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "share_description": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "share_kind": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "share_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "share_subscription_status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "share_terms": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "user_email": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "user_name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -167,6 +227,22 @@ func resourceArmShareSubscriptionRead(d *schema.ResourceData, meta interface{}) 
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
+    if shareSubscriptionProperties := resp.ShareSubscriptionProperties; shareSubscriptionProperties != nil {
+        d.Set("created_at", (shareSubscriptionProperties.CreatedAt).String())
+        d.Set("invitation_id", shareSubscriptionProperties.InvitationID)
+        d.Set("provider_email", shareSubscriptionProperties.ProviderEmail)
+        d.Set("provider_name", shareSubscriptionProperties.ProviderName)
+        d.Set("provider_tenant_name", shareSubscriptionProperties.ProviderTenantName)
+        d.Set("provisioning_state", string(shareSubscriptionProperties.ProvisioningState))
+        d.Set("share_description", shareSubscriptionProperties.ShareDescription)
+        d.Set("share_kind", string(shareSubscriptionProperties.ShareKind))
+        d.Set("share_name", shareSubscriptionProperties.ShareName)
+        d.Set("share_subscription_status", string(shareSubscriptionProperties.ShareSubscriptionStatus))
+        d.Set("share_terms", shareSubscriptionProperties.ShareTerms)
+        d.Set("source_share_location", shareSubscriptionProperties.SourceShareLocation)
+        d.Set("user_email", shareSubscriptionProperties.UserEmail)
+        d.Set("user_name", shareSubscriptionProperties.UserName)
+    }
     d.Set("type", resp.Type)
 
     return nil

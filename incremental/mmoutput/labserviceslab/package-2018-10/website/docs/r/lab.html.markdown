@@ -52,8 +52,39 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `user_quota` - Maximum value MaxUsersInLab can be set to, as specified by the service
+
+* `invitation_code` - Invitation code that users can use to join a lab.
+
+* `created_by_object_id` - Object id of the user that created the lab.
+
+* `created_by_user_principal_name` - Lab creator name
+
+* `created_date` - Creation date for the lab
+
+* `provisioning_state` - The provisioning status of the resource.
+
+* `latest_operation_result` - One `latest_operation_result` block defined below.
+
 * `id` - The identifier of the resource.
 
 * `name` - The name of the resource.
 
 * `type` - The type of the resource.
+
+
+---
+
+The `latest_operation_result` block contains the following:
+
+* `status` - The current status of the operation.
+
+* `error_code` - Error code on failure.
+
+* `error_message` - The error message.
+
+* `request_uri` - Request URI of the operation.
+
+* `http_method` - The HttpMethod - PUT/POST/DELETE for the operation.
+
+* `operation_url` - The URL to use to check long-running operation status

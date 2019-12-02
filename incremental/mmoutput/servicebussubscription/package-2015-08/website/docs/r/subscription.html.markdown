@@ -66,6 +66,31 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `accessed_at` - Last time there was a receive request to this subscription.
+
+* `count_details` - One `count_detail` block defined below.
+
+* `created_at` - Exact time the message was created.
+
+* `message_count` - Number of messages.
+
+* `updated_at` - The exact time the message was updated.
+
 * `id` - Resource Id
 
 * `name` - Resource name
+
+
+---
+
+The `count_detail` block contains the following:
+
+* `active_message_count` - Number of active messages in the queue, topic, or subscription.
+
+* `dead_letter_message_count` - Number of messages that are dead lettered.
+
+* `scheduled_message_count` - Number of scheduled messages.
+
+* `transfer_dead_letter_message_count` - Number of messages transferred into dead letters.
+
+* `transfer_message_count` - Number of messages transferred to another queue, topic, or subscription.

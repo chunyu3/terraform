@@ -233,8 +233,29 @@ The `delta_health_policy` block supports the following:
 
 The following attributes are exported:
 
+* `available_cluster_versions` - One or more `available_cluster_version` block defined below.
+
+* `cluster_id` - The unique identifier for the cluster resource
+
+* `cluster_state` - The state for the cluster
+
+* `cluster_endpoint` - The endpoint for the cluster connecting to servicefabric resource provider
+
+* `provisioning_state` - The provisioning state of the cluster resource
+
 * `id` - Resource ID.
 
 * `name` - Resource name.
 
 * `type` - Resource type.
+
+
+---
+
+The `available_cluster_version` block contains the following:
+
+* `code_version` - The ServiceFabric runtime version of the cluster
+
+* `support_expiry_utc` - The date of expiry of support of the version
+
+* `environment` - Cluster operating system

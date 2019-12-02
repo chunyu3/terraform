@@ -34,6 +34,38 @@ The following arguments are supported:
 
 * `managed_network_name` - (Required) The name of the Managed Network. Changing this forces a new resource to be created.
 
+* `management_groups` - (Optional) One or more `management_group` block defined below.
+
+* `subnets` - (Optional) One or more `subnet` block defined below.
+
+* `subscriptions` - (Optional) One or more `subscription` block defined below.
+
+* `virtual_networks` - (Optional) One or more `virtual_network` block defined below.
+
+---
+
+The `management_group` block supports the following:
+
+* `id` - (Optional) Resource Id
+
+---
+
+The `subnet` block supports the following:
+
+* `id` - (Optional) Resource Id
+
+---
+
+The `subscription` block supports the following:
+
+* `id` - (Optional) Resource Id
+
+---
+
+The `virtual_network` block supports the following:
+
+* `id` - (Optional) Resource Id
+
 ## Attributes Reference
 
 The following attributes are exported:

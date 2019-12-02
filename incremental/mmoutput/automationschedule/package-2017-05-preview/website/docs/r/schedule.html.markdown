@@ -44,6 +44,50 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `start_time` - Gets or sets the start time of the schedule.
+
+* `start_time_offset_minutes` - Gets the start time's offset in minutes.
+
+* `expiry_time` - Gets or sets the end time of the schedule.
+
+* `expiry_time_offset_minutes` - Gets or sets the expiry time's offset in minutes.
+
+* `next_run` - Gets or sets the next run time of the schedule.
+
+* `next_run_offset_minutes` - Gets or sets the next run time's offset in minutes.
+
+* `interval` - Gets or sets the interval of the schedule.
+
+* `frequency` - Gets or sets the frequency of the schedule.
+
+* `time_zone` - Gets or sets the time zone of the schedule.
+
+* `advanced_schedule` - One `advanced_schedule` block defined below.
+
+* `creation_time` - Gets or sets the creation time.
+
+* `last_modified_time` - Gets or sets the last modified time.
+
 * `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.
+
+
+---
+
+The `advanced_schedule` block contains the following:
+
+* `week_days` - Days of the week that the job should execute on.
+
+* `month_days` - Days of the month that the job should execute on. Must be between 1 and 31.
+
+* `monthly_occurrences` - One or more `monthly_occurrence` block defined below.
+
+
+---
+
+The `monthly_occurrence` block contains the following:
+
+* `occurrence` - Occurrence of the week within the month. Must be between 1 and 5
+
+* `day` - Day of the occurrence. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday.

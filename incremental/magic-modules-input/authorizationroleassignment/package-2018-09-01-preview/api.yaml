@@ -95,6 +95,41 @@ objects:
             python_parameter_name: role_assignment_name
             python_variable_name: name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RoleAssignmentProperties
+            go_type_name: RoleAssignmentProperties
+          '/properties/roleDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RoleDefinitionID
+          '/roleDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: role_definition_id
+          '/properties/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrincipalID
+          '/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: principal_id
+          '/properties/principalType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PrincipalType
+            go_enum_type_name: PrincipalType
+          '/principalType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: principal_type
+          '/properties/canDelegate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: CanDelegate
+          '/canDelegate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: can_delegate
+          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -240,6 +275,11 @@ objects:
         input: true
         azure_sdk_references: ['roleId']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The role assignment scope.'
+        output: true
+        azure_sdk_references: ['/scope', '/properties/scope']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The role assignment ID.'

@@ -46,6 +46,26 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `created_timestamp` - Time when this project was created. Date-Time represented in ISO-8601 format.
+
+* `updated_timestamp` - Time when this project was last updated. Date-Time represented in ISO-8601 format.
+
+* `discovery_status` - Reports whether project is under discovery.
+
+* `last_discovery_timestamp` - Time when this project was created. Date-Time represented in ISO-8601 format. This value will be null until discovery is complete.
+
+* `last_discovery_session_id` - Session id of the last discovery.
+
+* `number_of_groups` - Number of groups created in the project.
+
+* `number_of_machines` - Number of machines in the project.
+
+* `number_of_assessments` - Number of assessments created in the project.
+
+* `last_assessment_timestamp` - Time when last assessment was created. Date-Time represented in ISO-8601 format. This value will be null until assessment is created.
+
+* `provisioning_state` - Provisioning state of the project.
+
 * `id` - Path reference to this project /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}
 
 * `name` - Name of the project.

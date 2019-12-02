@@ -97,6 +97,23 @@ func resourceArmPublishedBlueprint() *schema.Resource {
                 Default: string(blueprint.subscription),
             },
 
+            "status": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "last_modified": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "time_created": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -187,6 +204,18 @@ func resourceArmPublishedBlueprintRead(d *schema.ResourceData, meta interface{})
 
     d.Set("name", name)
     d.Set("name", resp.Name)
+    if publishedBlueprintProperties := resp.PublishedBlueprintProperties; publishedBlueprintProperties != nil {
+        d.Set("blueprint_name", publishedBlueprintProperties.BlueprintName)
+        d.Set("change_notes", publishedBlueprintProperties.ChangeNotes)
+        d.Set("description", publishedBlueprintProperties.Description)
+        d.Set("display_name", publishedBlueprintProperties.DisplayName)
+        d.Set("parameters", utils.FlattenKeyValuePairs(publishedBlueprintProperties.Parameters))
+        d.Set("resource_groups", utils.FlattenKeyValuePairs(publishedBlueprintProperties.ResourceGroups))
+        if err := d.Set("status", flattenArmPublishedBlueprintStatus(publishedBlueprintProperties.Status)); err != nil {
+            return fmt.Errorf("Error setting `status`: %+v", err)
+        }
+        d.Set("target_scope", string(publishedBlueprintProperties.TargetScope))
+    }
     d.Set("scope", scope)
     d.Set("type", resp.Type)
     d.Set("version_id", versionID)
@@ -212,4 +241,22 @@ func resourceArmPublishedBlueprintDelete(d *schema.ResourceData, meta interface{
     }
 
     return nil
+}
+
+
+func flattenArmPublishedBlueprintStatus(input *blueprint.Status) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if lastModified := input.LastModified; lastModified != nil {
+        result["last_modified"] = (*lastModified).String()
+    }
+    if timeCreated := input.TimeCreated; timeCreated != nil {
+        result["time_created"] = (*timeCreated).String()
+    }
+
+    return []interface{}{result}
 }

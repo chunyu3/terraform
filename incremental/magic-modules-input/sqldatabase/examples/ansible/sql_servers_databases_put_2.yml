@@ -7,4 +7,9 @@ task: !ruby/object:Provider::Ansible::Task
     server_name: myServer
     database_name: myDatabase
     location: Japan East
+    create_mode: Copy
+    source_database_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Sql/servers/{{ server_name }}/databases/{{
+      database_name }}
   

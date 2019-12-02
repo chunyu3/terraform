@@ -144,6 +144,48 @@ func resourceArmGalleryApplicationVersion() *schema.Resource {
                 },
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "replication_status": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "aggregated_state": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "summary": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "details": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "progress": {
+                                        Type: schema.TypeInt,
+                                        Computed: true,
+                                    },
+                                    "region": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "state": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -236,11 +278,23 @@ func resourceArmGalleryApplicationVersionRead(d *schema.ResourceData, meta inter
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
     d.Set("gallery_application_name", galleryApplicationName)
     d.Set("gallery_name", galleryName)
+    if galleryApplicationVersionProperties := resp.GalleryApplicationVersionProperties; galleryApplicationVersionProperties != nil {
+        d.Set("provisioning_state", string(galleryApplicationVersionProperties.ProvisioningState))
+        if err := d.Set("publishing_profile", flattenArmGalleryApplicationVersionGalleryApplicationVersionPublishingProfile(galleryApplicationVersionProperties.PublishingProfile)); err != nil {
+            return fmt.Errorf("Error setting `publishing_profile`: %+v", err)
+        }
+        if err := d.Set("replication_status", flattenArmGalleryApplicationVersionReplicationStatus(galleryApplicationVersionProperties.ReplicationStatus)); err != nil {
+            return fmt.Errorf("Error setting `replication_status`: %+v", err)
+        }
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 
@@ -351,4 +405,113 @@ func expandArmGalleryApplicationVersionTargetRegion(input []interface{}) *[]comp
         results = append(results, result)
     }
     return &results
+}
+
+
+func flattenArmGalleryApplicationVersionGalleryApplicationVersionPublishingProfile(input *compute.GalleryApplicationVersionPublishingProfile) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if contentType := input.ContentType; contentType != nil {
+        result["content_type"] = *contentType
+    }
+    if enableHealthCheck := input.EnableHealthCheck; enableHealthCheck != nil {
+        result["enable_health_check"] = *enableHealthCheck
+    }
+    if endOfLifeDate := input.EndOfLifeDate; endOfLifeDate != nil {
+        result["end_of_life_date"] = (*endOfLifeDate).String()
+    }
+    if excludeFromLatest := input.ExcludeFromLatest; excludeFromLatest != nil {
+        result["exclude_from_latest"] = *excludeFromLatest
+    }
+    if replicaCount := input.ReplicaCount; replicaCount != nil {
+        result["replica_count"] = int(*replicaCount)
+    }
+    result["source"] = flattenArmGalleryApplicationVersionUserArtifactSource(input.Source)
+    result["storage_account_type"] = string(input.StorageAccountType)
+    result["target_regions"] = flattenArmGalleryApplicationVersionTargetRegion(input.TargetRegions)
+
+    return []interface{}{result}
+}
+
+func flattenArmGalleryApplicationVersionReplicationStatus(input *compute.ReplicationStatus) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["aggregated_state"] = string(input.AggregatedState)
+    result["summary"] = flattenArmGalleryApplicationVersionRegionalReplicationStatus(input.Summary)
+
+    return []interface{}{result}
+}
+
+func flattenArmGalleryApplicationVersionUserArtifactSource(input *compute.UserArtifactSource) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if fileName := input.FileName; fileName != nil {
+        result["file_name"] = *fileName
+    }
+    if mediaLink := input.MediaLink; mediaLink != nil {
+        result["media_link"] = *mediaLink
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmGalleryApplicationVersionTargetRegion(input *[]compute.TargetRegion) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if regionalReplicaCount := item.RegionalReplicaCount; regionalReplicaCount != nil {
+            v["regional_replica_count"] = int(*regionalReplicaCount)
+        }
+        v["storage_account_type"] = string(item.StorageAccountType)
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmGalleryApplicationVersionRegionalReplicationStatus(input *[]compute.RegionalReplicationStatus) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if details := item.Details; details != nil {
+            v["details"] = *details
+        }
+        if progress := item.Progress; progress != nil {
+            v["progress"] = int(*progress)
+        }
+        if region := item.Region; region != nil {
+            v["region"] = *region
+        }
+        v["state"] = string(item.State)
+
+        results = append(results, v)
+    }
+
+    return results
 }

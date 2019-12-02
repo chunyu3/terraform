@@ -91,17 +91,15 @@ objects:
             python_parameter_name: version
             python_variable_name: version
         response:
-          'version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: versions
-            go_variable_name: version
-            python_parameter_name: version
-            python_variable_name: version
           '/format': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Format
             python_field_name: format
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
+          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Version
+            python_field_name: version
           '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             go_field_name: State
             go_enum_type_name: PackageState
@@ -155,6 +153,11 @@ objects:
         description: 'The ID of the application.'
         output: true
         azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'version'
+        description: 'The version of the application package. '
+        output: true
+        azure_sdk_references: ['/version']
       - !ruby/object:Api::Type::Enum
         name: 'state'
         description: 'The current state of the application package.'

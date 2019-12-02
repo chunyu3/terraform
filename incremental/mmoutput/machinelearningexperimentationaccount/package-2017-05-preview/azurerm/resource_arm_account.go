@@ -65,7 +65,54 @@ func resourceArmAccount() *schema.Resource {
                 Optional: true,
             },
 
+            "account_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "creation_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "discovery_uri": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "key_vault_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "storage_account": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "access_key": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "storage_account_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "vso_account_id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -155,9 +202,26 @@ func resourceArmAccountRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if accountPropertiesUpdateParameters := resp.AccountPropertiesUpdateParameters; accountPropertiesUpdateParameters != nil {
+        d.Set("account_id", accountPropertiesUpdateParameters.AccountID)
+        d.Set("creation_date", (accountPropertiesUpdateParameters.CreationDate).String())
+        d.Set("description", accountPropertiesUpdateParameters.Description)
+        d.Set("discovery_uri", accountPropertiesUpdateParameters.DiscoveryURI)
+        d.Set("friendly_name", accountPropertiesUpdateParameters.FriendlyName)
+        d.Set("key_vault_id", accountPropertiesUpdateParameters.KeyVaultID)
+        d.Set("provisioning_state", string(accountPropertiesUpdateParameters.ProvisioningState))
+        d.Set("seats", accountPropertiesUpdateParameters.Seats)
+        if err := d.Set("storage_account", flattenArmAccountStorageAccountProperties(accountPropertiesUpdateParameters.StorageAccount)); err != nil {
+            return fmt.Errorf("Error setting `storage_account`: %+v", err)
+        }
+        d.Set("vso_account_id", accountPropertiesUpdateParameters.VsoAccountID)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -207,4 +271,22 @@ func resourceArmAccountDelete(d *schema.ResourceData, meta interface{}) error {
     }
 
     return nil
+}
+
+
+func flattenArmAccountStorageAccountProperties(input *machinelearningexperimentation.StorageAccountProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if accessKey := input.AccessKey; accessKey != nil {
+        result["access_key"] = *accessKey
+    }
+    if storageAccountId := input.StorageAccountID; storageAccountId != nil {
+        result["storage_account_id"] = *storageAccountId
+    }
+
+    return []interface{}{result}
 }

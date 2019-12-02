@@ -48,6 +48,22 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `script_name` - Gets or sets the name of the script the watcher is attached to, i.e. the name of an existing runbook.
+
+* `script_parameters` - Gets or sets the parameters of the script.
+
+* `script_run_on` - Gets or sets the name of the hybrid worker group the watcher will run on.
+
+* `status` - Gets the current status of the watcher.
+
+* `creation_time` - Gets or sets the creation time.
+
+* `last_modified_time` - Gets or sets the last modified time.
+
+* `last_modified_by` - Details of the user who last modified the watcher.
+
+* `description` - Gets or sets the description.
+
 * `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.

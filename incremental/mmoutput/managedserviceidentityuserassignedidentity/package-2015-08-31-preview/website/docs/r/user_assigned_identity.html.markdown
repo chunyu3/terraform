@@ -40,6 +40,14 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `tenant_id` - The id of the tenant which the identity belongs to.
+
+* `principal_id` - The id of the service principal object associated with the created identity.
+
+* `client_id` - The id of the app associated with the identity. This is a random generated UUID by MSI.
+
+* `client_secret_url` - The ManagedServiceIdentity DataPlane URL that can be queried to obtain the identity credentials.
+
 * `id` - The id of the created identity.
 
 * `name` - The name of the created identity.

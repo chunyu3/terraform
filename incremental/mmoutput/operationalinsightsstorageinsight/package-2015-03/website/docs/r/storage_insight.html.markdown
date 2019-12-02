@@ -56,8 +56,19 @@ The `storage_account` block supports the following:
 
 The following attributes are exported:
 
+* `status` - One `status` block defined below.
+
 * `id` - Resource ID.
 
 * `name` - Resource name.
 
 * `type` - Resource type.
+
+
+---
+
+The `status` block contains the following:
+
+* `state` - The state of the storage insight connection to the workspace
+
+* `description` - Description of the state of the storage insight.

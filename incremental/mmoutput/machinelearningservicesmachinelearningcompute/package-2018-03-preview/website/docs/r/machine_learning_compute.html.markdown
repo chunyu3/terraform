@@ -48,6 +48,14 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `provisioning_state` - The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed.
+
+* `created_on` - The date and time when the compute was created.
+
+* `modified_on` - The date and time when the compute was last modified.
+
+* `provisioning_errors` - One or more `provisioning_error` block defined below.
+
 * `id` - Specifies the resource ID.
 
 * `name` - Specifies the name of the resource.
@@ -59,8 +67,36 @@ The following attributes are exported:
 
 ---
 
+The `provisioning_error` block contains the following:
+
+* `error` - One `error` block defined below.
+
+
+---
+
+The `error` block contains the following:
+
+* `code` - Error code.
+
+* `message` - Error message.
+
+* `details` - One or more `detail` block defined below.
+
+
+---
+
+The `detail` block contains the following:
+
+* `code` - Error code.
+
+* `message` - Error message.
+
+---
+
 The `identity` block contains the following:
 
 * `principal_id` - The principal ID of resource identity.
 
 * `tenant_id` - The tenant ID of resource.
+
+* `type` - The identity type.

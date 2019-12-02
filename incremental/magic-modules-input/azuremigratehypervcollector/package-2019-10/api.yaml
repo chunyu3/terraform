@@ -138,6 +138,93 @@ objects:
             python_parameter_name: hyper_vcollector_name
             python_variable_name: name
         response:
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CollectorProperties
+            go_type_name: CollectorProperties
+          '/properties/discoverySiteId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DiscoverySiteID
+          '/discoverySiteId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: discovery_site_id
+          '/properties/agentProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AgentProperties
+            go_type_name: CollectorAgentProperties
+          '/properties/agentProperties/spnDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SpnDetails
+            go_type_name: CollectorBodyAgentSpnProperties
+          '/properties/agentProperties/spnDetails/authority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Authority
+          '/properties/agentProperties/spnDetails/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationID
+          '/properties/agentProperties/spnDetails/audience': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Audience
+          '/properties/agentProperties/spnDetails/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ObjectID
+          '/properties/agentProperties/spnDetails/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/properties/agentProperties/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/agentProperties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/agentProperties/lastHeartbeatUtc': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastHeartbeatUtc
+          '/agentProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: agent_properties
+          '/agentProperties/spnDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: spn_details
+          '/agentProperties/spnDetails/authority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: authority
+          '/agentProperties/spnDetails/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_id
+          '/agentProperties/spnDetails/audience': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: audience
+          '/agentProperties/spnDetails/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: object_id
+          '/agentProperties/spnDetails/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/agentProperties/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/agentProperties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/agentProperties/lastHeartbeatUtc': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_heartbeat_utc
+          '/properties/createdTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CreatedTimestamp
+          '/createdTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: created_timestamp
+          '/properties/updatedTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UpdatedTimestamp
+          '/updatedTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: updated_timestamp
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -232,6 +319,16 @@ objects:
                 required: false
                 azure_sdk_references: ['/agentProperties/spnDetails/tenantId', '/properties/agentProperties/spnDetails/tenantId']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'createdTimestamp'
+        description: 'Time when this collector was created. Date-Time represented in ISO-8601 format.'
+        output: true
+        azure_sdk_references: ['/createdTimestamp', '/properties/createdTimestamp']
+      - !ruby/object:Api::Type::String
+        name: 'updatedTimestamp'
+        description: 'Time when this collector was updated. Date-Time represented in ISO-8601 format.'
+        output: true
+        azure_sdk_references: ['/updatedTimestamp', '/properties/updatedTimestamp']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: ''

@@ -36,6 +36,11 @@ func resourceArmSuppression() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "recommendation_id": {
@@ -147,11 +152,17 @@ func resourceArmSuppressionRead(d *schema.ResourceData, meta interface{}) error 
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
     d.Set("recommendation_id", recommendationID)
     d.Set("resource_uri", resourceURI)
+    d.Set("suppression_id", resp.SuppressionID)
+    d.Set("ttl", resp.TTL)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 

@@ -62,6 +62,14 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `created_at` - Time at which the share was created.
+
+* `provisioning_state` - Gets or sets the provisioning state
+
+* `user_email` - Email of the user who created the resource
+
+* `user_name` - Name of the user who created the resource
+
 * `id` - The resource id of the azure resource
 
 * `name` - Name of the azure resource

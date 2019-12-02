@@ -78,6 +78,44 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `redis_version` - Redis version.
+
+* `provisioning_state` - Redis instance provisioning status.
+
+* `host_name` - Redis host name.
+
+* `port` - Redis non-SSL port.
+
+* `ssl_port` - Redis SSL port.
+
+* `access_keys` - One `access_key` block defined below.
+
+* `linked_servers` - One `linked_server` block defined below.
+
 * `id` - Resource ID.
 
+* `name` - Resource name.
+
 * `type` - Resource type.
+
+
+---
+
+The `access_key` block contains the following:
+
+* `primary_key` - The current primary key that clients can use to authenticate with Redis cache.
+
+* `secondary_key` - The current secondary key that clients can use to authenticate with Redis cache.
+
+---
+
+The `linked_server` block contains the following:
+
+* `value` - One or more `value` block defined below.
+
+
+---
+
+The `value` block contains the following:
+
+* `id` - Linked server Id.

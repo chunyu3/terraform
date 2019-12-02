@@ -44,8 +44,17 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `hosts` - One or more `host` block defined below.
+
 * `id` - Resource Id
 
 * `name` - Resource name
 
 * `type` - Resource type
+
+
+---
+
+The `host` block contains the following:
+
+* `id` - Resource Id

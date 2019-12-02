@@ -64,7 +64,17 @@ func resourceArmManagedInstanceKey() *schema.Resource {
                 Optional: true,
             },
 
+            "creation_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "kind": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "thumbprint": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -155,6 +165,12 @@ func resourceArmManagedInstanceKeyRead(d *schema.ResourceData, meta interface{})
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if managedInstanceKeyProperties := resp.ManagedInstanceKeyProperties; managedInstanceKeyProperties != nil {
+        d.Set("creation_date", (managedInstanceKeyProperties.CreationDate).String())
+        d.Set("server_key_type", string(managedInstanceKeyProperties.ServerKeyType))
+        d.Set("thumbprint", managedInstanceKeyProperties.Thumbprint)
+        d.Set("uri", managedInstanceKeyProperties.URI)
+    }
     d.Set("kind", resp.Kind)
     d.Set("managed_instance_name", managedInstanceName)
     d.Set("type", resp.Type)

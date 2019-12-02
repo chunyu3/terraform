@@ -5,17 +5,19 @@ task: !ruby/object:Provider::Ansible::Task
   code:
     resource_group: myResourceGroup
     name: mySpring
-    tags:
-      key1: value1
-    config_server_properties:
-      config_server:
-        git_property:
-          uri: 'https://github.com/fake-user/fake-repository.git'
-          label: master
-          search_paths:
-            - /
-    trace:
-      enabled: true
-      app_insight_instrumentation_key: 00000000-0000-0000-0000-000000000000
-    type: Microsoft.AppPlatform/Spring
+    resource:
+      properties:
+        configServerProperties:
+          configServer:
+            gitProperty:
+              uri: 'https://github.com/fake-user/fake-repository.git'
+              label: master
+              searchPaths:
+                - /
+        trace:
+          enabled: true
+          appInsightInstrumentationKey: 00000000-0000-0000-0000-000000000000
+      location: eastus
+      tags:
+        key1: value1
   

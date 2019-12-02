@@ -158,6 +158,101 @@ objects:
             python_parameter_name: user_name
             python_variable_name: name
         response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UserPropertiesFragment
+            go_type_name: UserPropertiesFragment
+          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UniqueIdentifier
+          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unique_identifier
+          '/properties/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Email
+          '/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email
+          '/properties/familyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FamilyName
+          '/familyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: family_name
+          '/properties/givenName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GivenName
+          '/givenName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: given_name
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/totalUsage': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: TotalUsage
+          '/totalUsage': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: total_usage
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/latestOperationResult': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LatestOperationResult
+            go_type_name: LatestOperationResult
+          '/properties/latestOperationResult/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/properties/latestOperationResult/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorCode
+          '/properties/latestOperationResult/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorMessage
+          '/properties/latestOperationResult/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RequestURI
+          '/properties/latestOperationResult/httpMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HTTPMethod
+          '/properties/latestOperationResult/operationUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OperationURL
+          '/latestOperationResult': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: latest_operation_result
+          '/latestOperationResult/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/latestOperationResult/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_code
+          '/latestOperationResult/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_message
+          '/latestOperationResult/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: request_uri
+          '/latestOperationResult/httpMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: http_method
+          '/latestOperationResult/operationUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: operation_url
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -232,6 +327,72 @@ objects:
         required: false
         azure_sdk_references: ['/uniqueIdentifier', '/properties/uniqueIdentifier']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'email'
+        description: 'The user email address, as it was specified during registration.'
+        output: true
+        azure_sdk_references: ['/email', '/properties/email']
+      - !ruby/object:Api::Type::String
+        name: 'familyName'
+        description: 'The user family name, as it was specified during registration.'
+        output: true
+        azure_sdk_references: ['/familyName', '/properties/familyName']
+      - !ruby/object:Api::Type::String
+        name: 'givenName'
+        description: 'The user given name, as it was specified during registration.'
+        output: true
+        azure_sdk_references: ['/givenName', '/properties/givenName']
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'The user tenant ID, as it was specified during registration.'
+        output: true
+        azure_sdk_references: ['/tenantId', '/properties/tenantId']
+      - !ruby/object:Api::Azure::Type::ISO8601Duration
+        name: 'totalUsage'
+        description: 'How long the user has used his VMs in this lab'
+        output: true
+        azure_sdk_references: ['/totalUsage', '/properties/totalUsage']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning status of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'latestOperationResult'
+        description: 'The details of the latest operation. ex: status, error'
+        output: true
+        azure_sdk_references: ['/latestOperationResult', '/properties/latestOperationResult']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'status'
+            description: 'The current status of the operation.'
+            output: true
+            azure_sdk_references: ['/latestOperationResult/status', '/properties/latestOperationResult/status']
+          - !ruby/object:Api::Type::String
+            name: 'errorCode'
+            description: 'Error code on failure.'
+            output: true
+            azure_sdk_references: ['/latestOperationResult/errorCode', '/properties/latestOperationResult/errorCode']
+          - !ruby/object:Api::Type::String
+            name: 'errorMessage'
+            description: 'The error message.'
+            output: true
+            azure_sdk_references: ['/latestOperationResult/errorMessage', '/properties/latestOperationResult/errorMessage']
+          - !ruby/object:Api::Type::String
+            name: 'requestUri'
+            description: 'Request URI of the operation.'
+            output: true
+            azure_sdk_references: ['/latestOperationResult/requestUri', '/properties/latestOperationResult/requestUri']
+          - !ruby/object:Api::Type::String
+            name: 'httpMethod'
+            description: 'The HttpMethod - PUT/POST/DELETE for the operation.'
+            output: true
+            azure_sdk_references: ['/latestOperationResult/httpMethod', '/properties/latestOperationResult/httpMethod']
+          - !ruby/object:Api::Type::String
+            name: 'operationUrl'
+            description: 'The URL to use to check long-running operation status'
+            output: true
+            azure_sdk_references: ['/latestOperationResult/operationUrl', '/properties/latestOperationResult/operationUrl']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The identifier of the resource.'

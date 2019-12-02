@@ -36,6 +36,11 @@ func resourceArmLab() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -674,7 +679,47 @@ func resourceArmLab() *schema.Resource {
                 Default: string(devtestlab.FromCustomImage),
             },
 
+            "artifacts_storage_account": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "default_premium_storage_account": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "default_storage_account": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "lab_storage_type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "premium_data_disk_storage_account": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "premium_data_disks": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "vault_name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -824,10 +869,26 @@ func resourceArmLabRead(d *schema.ResourceData, meta interface{}) error {
 
 
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if labVirtualMachineCreationParameterProperties := resp.LabVirtualMachineCreationParameterProperties; labVirtualMachineCreationParameterProperties != nil {
+        d.Set("artifacts_storage_account", labVirtualMachineCreationParameterProperties.ArtifactsStorageAccount)
+        d.Set("created_date", (labVirtualMachineCreationParameterProperties.CreatedDate).String())
+        d.Set("default_premium_storage_account", labVirtualMachineCreationParameterProperties.DefaultPremiumStorageAccount)
+        d.Set("default_storage_account", labVirtualMachineCreationParameterProperties.DefaultStorageAccount)
+        d.Set("lab_storage_type", string(labVirtualMachineCreationParameterProperties.LabStorageType))
+        d.Set("premium_data_disk_storage_account", labVirtualMachineCreationParameterProperties.PremiumDataDiskStorageAccount)
+        d.Set("premium_data_disks", string(labVirtualMachineCreationParameterProperties.PremiumDataDisks))
+        d.Set("provisioning_state", labVirtualMachineCreationParameterProperties.ProvisioningState)
+        d.Set("unique_identifier", labVirtualMachineCreationParameterProperties.UniqueIdentifier)
+        d.Set("vault_name", labVirtualMachineCreationParameterProperties.VaultName)
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmLabUpdate(d *schema.ResourceData, meta interface{}) error {

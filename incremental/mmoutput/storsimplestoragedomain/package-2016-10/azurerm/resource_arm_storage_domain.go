@@ -183,6 +183,13 @@ func resourceArmStorageDomainRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if storageDomainProperties := resp.StorageDomainProperties; storageDomainProperties != nil {
+        if err := d.Set("encryption_key", flattenArmStorageDomainAsymmetricEncryptedSecret(storageDomainProperties.EncryptionKey)); err != nil {
+            return fmt.Errorf("Error setting `encryption_key`: %+v", err)
+        }
+        d.Set("encryption_status", string(storageDomainProperties.EncryptionStatus))
+        d.Set("storage_account_credential_ids", utils.FlattenStringSlice(storageDomainProperties.StorageAccountCredentialIds))
+    }
     d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
@@ -236,4 +243,23 @@ func expandArmStorageDomainAsymmetricEncryptedSecret(input []interface{}) *stors
         Value: utils.String(value),
     }
     return &result
+}
+
+
+func flattenArmStorageDomainAsymmetricEncryptedSecret(input *storsimple.AsymmetricEncryptedSecret) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["encryption_algorithm"] = string(input.EncryptionAlgorithm)
+    if encryptionCertificateThumbprint := input.EncryptionCertificateThumbprint; encryptionCertificateThumbprint != nil {
+        result["encryption_certificate_thumbprint"] = *encryptionCertificateThumbprint
+    }
+    if value := input.Value; value != nil {
+        result["value"] = *value
+    }
+
+    return []interface{}{result}
 }

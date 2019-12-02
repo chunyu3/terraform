@@ -69,3 +69,5 @@ The `route_table` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
+
+* `provisioning_state` - Gets or sets Provisioning state of the PublicIP resource Updating/Deleting/Failed

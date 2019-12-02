@@ -149,9 +149,17 @@ func resourceArmZoneRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    d.Set("etag", resp.Etag)
+    if zoneProperties := resp.ZoneProperties; zoneProperties != nil {
+        d.Set("max_number_of_record_sets", int(*zoneProperties.MaxNumberOfRecordSets))
+        d.Set("number_of_record_sets", int(*zoneProperties.NumberOfRecordSets))
+    }
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 

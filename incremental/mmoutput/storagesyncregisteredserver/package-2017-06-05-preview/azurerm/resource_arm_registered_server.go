@@ -105,6 +105,11 @@ func resourceArmRegisteredServer() *schema.Resource {
                 Optional: true,
             },
 
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -209,6 +214,20 @@ func resourceArmRegisteredServerRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if registeredServerProperties := resp.RegisteredServerProperties; registeredServerProperties != nil {
+        d.Set("agent_version", registeredServerProperties.AgentVersion)
+        d.Set("cluster_id", registeredServerProperties.ClusterID)
+        d.Set("cluster_name", registeredServerProperties.ClusterName)
+        d.Set("last_heart_beat", registeredServerProperties.LastHeartBeat)
+        d.Set("last_workflow_id", registeredServerProperties.LastWorkflowID)
+        d.Set("provisioning_state", registeredServerProperties.ProvisioningState)
+        d.Set("server_certificate", registeredServerProperties.ServerCertificate)
+        d.Set("server_id", registeredServerProperties.ServerID)
+        d.Set("server_managementt_error_code", registeredServerProperties.ServerManagementtErrorCode)
+        d.Set("server_osversion", registeredServerProperties.ServerOSVersion)
+        d.Set("server_role", registeredServerProperties.ServerRole)
+        d.Set("storage_sync_service_uid", registeredServerProperties.StorageSyncServiceUID)
+    }
     d.Set("server_id", serverID)
     d.Set("type", resp.Type)
 

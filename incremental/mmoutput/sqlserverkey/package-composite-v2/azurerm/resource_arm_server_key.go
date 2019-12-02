@@ -83,6 +83,11 @@ func resourceArmServerKey() *schema.Resource {
                 Optional: true,
             },
 
+            "subregion": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -178,6 +183,14 @@ func resourceArmServerKeyRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    if serverKeyProperties := resp.ServerKeyProperties; serverKeyProperties != nil {
+        d.Set("creation_date", (serverKeyProperties.CreationDate).String())
+        d.Set("server_key_type", string(serverKeyProperties.ServerKeyType))
+        d.Set("subregion", serverKeyProperties.Subregion)
+        d.Set("thumbprint", serverKeyProperties.Thumbprint)
+        d.Set("uri", serverKeyProperties.URI)
+    }
+    d.Set("kind", resp.Kind)
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 

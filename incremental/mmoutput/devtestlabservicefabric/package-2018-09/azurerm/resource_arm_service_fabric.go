@@ -43,6 +43,11 @@ func resourceArmServiceFabric() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -64,7 +69,282 @@ func resourceArmServiceFabric() *schema.Resource {
                 Optional: true,
             },
 
+            "applicable_schedule": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "lab_vms_shutdown": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "created_date": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "daily_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "hourly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "minute": {
+                                                    Type: schema.TypeInt,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "location": azure.SchemaLocation(),
+                                    "name": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "notification_settings": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "email_recipient": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "notification_locale": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "status": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "time_in_minutes": {
+                                                    Type: schema.TypeInt,
+                                                    Computed: true,
+                                                },
+                                                "webhook_url": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "provisioning_state": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "status": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "tags": tags.Schema(),
+                                    "target_resource_id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "task_type": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "time_zone_id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "type": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "unique_identifier": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "weekly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "weekdays": {
+                                                    Type: schema.TypeList,
+                                                    Computed: true,
+                                                    Elem: &schema.Schema{
+                                                        Type: schema.TypeString,
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        "lab_vms_startup": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "created_date": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "daily_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "hourly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "minute": {
+                                                    Type: schema.TypeInt,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "location": azure.SchemaLocation(),
+                                    "name": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "notification_settings": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "email_recipient": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "notification_locale": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "status": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "time_in_minutes": {
+                                                    Type: schema.TypeInt,
+                                                    Computed: true,
+                                                },
+                                                "webhook_url": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "provisioning_state": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "status": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "tags": tags.Schema(),
+                                    "target_resource_id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "task_type": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "time_zone_id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "type": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "unique_identifier": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "weekly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Computed: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Computed: true,
+                                                },
+                                                "weekdays": {
+                                                    Type: schema.TypeList,
+                                                    Computed: true,
+                                                    Elem: &schema.Schema{
+                                                        Type: schema.TypeString,
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        "location": azure.SchemaLocation(),
+                        "name": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "tags": tags.Schema(),
+                        "type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "unique_identifier": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -157,11 +437,24 @@ func resourceArmServiceFabricRead(d *schema.ResourceData, meta interface{}) erro
 
     d.Set("name", name)
     d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if location := resp.Location; location != nil {
+        d.Set("location", azure.NormalizeLocation(*location))
+    }
+    if serviceFabricPropertiesFragment := resp.ServiceFabricPropertiesFragment; serviceFabricPropertiesFragment != nil {
+        if err := d.Set("applicable_schedule", flattenArmServiceFabricApplicableSchedule(serviceFabricPropertiesFragment.ApplicableSchedule)); err != nil {
+            return fmt.Errorf("Error setting `applicable_schedule`: %+v", err)
+        }
+        d.Set("environment_id", serviceFabricPropertiesFragment.EnvironmentID)
+        d.Set("external_service_fabric_id", serviceFabricPropertiesFragment.ExternalServiceFabricID)
+        d.Set("provisioning_state", serviceFabricPropertiesFragment.ProvisioningState)
+        d.Set("unique_identifier", serviceFabricPropertiesFragment.UniqueIdentifier)
+    }
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
-    return nil
+    return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmServiceFabricUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -221,4 +514,147 @@ func resourceArmServiceFabricDelete(d *schema.ResourceData, meta interface{}) er
     }
 
     return nil
+}
+
+
+func flattenArmServiceFabricApplicableSchedule(input *devtestlab.ApplicableSchedule) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if location := input.Location; location != nil {
+        result["location"] = azure.NormalizeLocation(*location)
+    }
+    if applicableScheduleProperties := input.ApplicableScheduleProperties; applicableScheduleProperties != nil {
+        result["lab_vms_shutdown"] = flattenArmServiceFabricSchedule(applicableScheduleProperties.LabVmsShutdown)
+        result["lab_vms_startup"] = flattenArmServiceFabricSchedule(applicableScheduleProperties.LabVmsStartup)
+    }
+    if type := input.Type; type != nil {
+        result["type"] = *type
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmServiceFabricSchedule(input *devtestlab.Schedule) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
+    if location := input.Location; location != nil {
+        result["location"] = azure.NormalizeLocation(*location)
+    }
+    if scheduleProperties := input.ScheduleProperties; scheduleProperties != nil {
+        if createdDate := scheduleProperties.CreatedDate; createdDate != nil {
+            result["created_date"] = (*createdDate).String()
+        }
+        result["daily_recurrence"] = flattenArmServiceFabricDayDetails(scheduleProperties.DailyRecurrence)
+        result["hourly_recurrence"] = flattenArmServiceFabricHourDetails(scheduleProperties.HourlyRecurrence)
+        result["notification_settings"] = flattenArmServiceFabricNotificationSettings(scheduleProperties.NotificationSettings)
+        if provisioningState := scheduleProperties.ProvisioningState; provisioningState != nil {
+            result["provisioning_state"] = *provisioningState
+        }
+        result["status"] = string(scheduleProperties.Status)
+        if targetResourceId := scheduleProperties.TargetResourceID; targetResourceId != nil {
+            result["target_resource_id"] = *targetResourceId
+        }
+        if taskType := scheduleProperties.TaskType; taskType != nil {
+            result["task_type"] = *taskType
+        }
+        if timeZoneId := scheduleProperties.TimeZoneID; timeZoneId != nil {
+            result["time_zone_id"] = *timeZoneId
+        }
+        if uniqueIdentifier := scheduleProperties.UniqueIdentifier; uniqueIdentifier != nil {
+            result["unique_identifier"] = *uniqueIdentifier
+        }
+        result["weekly_recurrence"] = flattenArmServiceFabricWeekDetails(scheduleProperties.WeeklyRecurrence)
+    }
+    if type := input.Type; type != nil {
+        result["type"] = *type
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmServiceFabricDayDetails(input *devtestlab.DayDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmServiceFabricHourDetails(input *devtestlab.HourDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if minute := input.Minute; minute != nil {
+        result["minute"] = int(*minute)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmServiceFabricNotificationSettings(input *devtestlab.NotificationSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if emailRecipient := input.EmailRecipient; emailRecipient != nil {
+        result["email_recipient"] = *emailRecipient
+    }
+    if notificationLocale := input.NotificationLocale; notificationLocale != nil {
+        result["notification_locale"] = *notificationLocale
+    }
+    result["status"] = string(input.Status)
+    if timeInMinutes := input.TimeInMinutes; timeInMinutes != nil {
+        result["time_in_minutes"] = int(*timeInMinutes)
+    }
+    if webhookUrl := input.WebhookURL; webhookUrl != nil {
+        result["webhook_url"] = *webhookUrl
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmServiceFabricWeekDetails(input *devtestlab.WeekDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+    result["weekdays"] = utils.FlattenStringSlice(input.Weekdays)
+
+    return []interface{}{result}
 }

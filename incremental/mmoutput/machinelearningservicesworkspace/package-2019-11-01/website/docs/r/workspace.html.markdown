@@ -54,6 +54,22 @@ The `sku` block supports the following:
 
 The following attributes are exported:
 
+* `workspace_id` - The immutable id associated with this workspace.
+
+* `creation_time` - The creation time of the machine learning workspace in ISO8601 format.
+
+* `key_vault` - ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has been created
+
+* `application_insights` - ARM id of the application insights associated with this workspace. This cannot be changed once the workspace has been created
+
+* `container_registry` - ARM id of the container registry associated with this workspace. This cannot be changed once the workspace has been created
+
+* `storage_account` - ARM id of the storage account associated with this workspace. This cannot be changed once the workspace has been created
+
+* `discovery_url` - Url for the discovery service to identify regional endpoints for machine learning experimentation services
+
+* `provisioning_state` - The current deployment state of workspace resource. The provisioningState is to indicate states for resource provisioning.
+
 * `id` - Specifies the resource ID.
 
 * `name` - Specifies the name of the resource.
@@ -70,3 +86,5 @@ The `identity` block contains the following:
 * `principal_id` - The principal ID of resource identity.
 
 * `tenant_id` - The tenant ID of resource.
+
+* `type` - The identity type.

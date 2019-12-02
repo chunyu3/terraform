@@ -162,6 +162,12 @@ func resourceArmLoggerRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if loggerUpdateParameters := resp.LoggerUpdateParameters; loggerUpdateParameters != nil {
+        d.Set("credentials", utils.FlattenKeyValuePairs(loggerUpdateParameters.Credentials))
+        d.Set("description", loggerUpdateParameters.Description)
+        d.Set("is_buffered", loggerUpdateParameters.IsBuffered)
+        d.Set("logger_type", string(loggerUpdateParameters.LoggerType))
+    }
     d.Set("loggerid", loggerid)
     d.Set("type", resp.Type)
 

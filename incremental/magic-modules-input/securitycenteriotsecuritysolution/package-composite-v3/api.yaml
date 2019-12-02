@@ -130,6 +130,112 @@ objects:
             python_parameter_name: solution_name
             python_variable_name: name
         response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UpdateIoTSecuritySolutionProperties
+            go_type_name: UpdateIoTSecuritySolutionProperties
+          '/properties/userDefinedResources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UserDefinedResources
+            go_type_name: UserDefinedResourcesProperties
+          '/properties/userDefinedResources/query': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Query
+          '/properties/userDefinedResources/querySubscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: QuerySubscriptions
+          '/userDefinedResources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: user_defined_resources
+          '/userDefinedResources/query': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: query
+          '/userDefinedResources/querySubscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: query_subscriptions
+          '/properties/recommendationsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: RecommendationsConfiguration
+            go_type_name: RecommendationConfigurationProperties
+          '/properties/recommendationsConfiguration/recommendationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RecommendationType
+            go_enum_type_name: RecommendationType
+          '/properties/recommendationsConfiguration/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: RecommendationConfigStatus
+          '/properties/recommendationsConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/recommendationsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: recommendations_configuration
+          '/recommendationsConfiguration/recommendationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: recommendation_type
+          '/recommendationsConfiguration/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/recommendationsConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/workspace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Workspace
+          '/workspace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: SecuritySolutionStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/export': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Export
+          '/export': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: export
+          '/properties/disabledDataSources': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: DisabledDataSources
+          '/disabledDataSources': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: disabled_data_sources
+          '/properties/iotHubs': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: IotHubs
+          '/iotHubs': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: iot_hubs
+          '/properties/autoDiscoveredResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AutoDiscoveredResources
+          '/autoDiscoveredResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: auto_discovered_resources
+          '/properties/unmaskedIpLoggingStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: UnmaskedIPLoggingStatus
+            go_enum_type_name: UnmaskedIpLoggingStatus
+          '/unmaskedIpLoggingStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: unmasked_ip_logging_status
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -235,6 +341,64 @@ objects:
                 - :Disabled
                 - :Enabled
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'workspace'
+        description: 'Workspace resource ID'
+        output: true
+        azure_sdk_references: ['/workspace', '/properties/workspace']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'Resource display name.'
+        output: true
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'Status of the IoT Security solution.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Enabled
+          - :Disabled
+      - !ruby/object:Api::Type::Array
+        name: 'export'
+        description: 'List of additional options for exporting to workspace data.'
+        output: true
+        azure_sdk_references: ['/export', '/properties/export']
+        item_type: !ruby/object:Api::Type::Enum
+          name: 'TBD'
+          description: 'TBD'
+          values:
+            - :RawEvents
+      - !ruby/object:Api::Type::Array
+        name: 'disabledDataSources'
+        description: 'Disabled data sources. Disabling these data sources compromises the system.'
+        output: true
+        azure_sdk_references: ['/disabledDataSources', '/properties/disabledDataSources']
+        item_type: !ruby/object:Api::Type::Enum
+          name: 'TBD'
+          description: 'TBD'
+          values:
+            - :TwinData
+      - !ruby/object:Api::Type::Array
+        name: 'iotHubs'
+        description: 'IoT Hub resource IDs'
+        output: true
+        azure_sdk_references: ['/iotHubs', '/properties/iotHubs']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Array
+        name: 'autoDiscoveredResources'
+        description: 'List of resources that were automatically discovered as relevant to the security solution.'
+        output: true
+        azure_sdk_references: ['/autoDiscoveredResources', '/properties/autoDiscoveredResources']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Enum
+        name: 'unmaskedIpLoggingStatus'
+        description: 'Unmasked IP address logging status'
+        output: true
+        azure_sdk_references: ['/unmaskedIpLoggingStatus', '/properties/unmaskedIpLoggingStatus']
+        values:
+          - :Disabled
+          - :Enabled
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

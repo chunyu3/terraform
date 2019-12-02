@@ -256,6 +256,67 @@ objects:
             python_parameter_name: sync_member_name
             python_variable_name: name
         response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SyncMemberProperties
+            go_type_name: SyncMemberProperties
+          '/properties/databaseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DatabaseType
+            go_enum_type_name: SyncMemberDbType
+          '/databaseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: database_type
+          '/properties/syncAgentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SyncAgentID
+          '/syncAgentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sync_agent_id
+          '/properties/sqlServerDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SQLServerDatabaseID
+          '/sqlServerDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_server_database_id
+          '/properties/serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerName
+          '/serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_name
+          '/properties/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DatabaseName
+          '/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: database_name
+          '/properties/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserName
+          '/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_name
+          '/properties/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/properties/syncDirection': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SyncDirection
+            go_enum_type_name: SyncDirection
+          '/syncDirection': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sync_direction
+          '/properties/syncState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SyncState
+            go_enum_type_name: SyncMemberState
+          '/syncState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sync_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -402,6 +463,30 @@ objects:
           - :OneWayHubToMember
         default_value: :Bidirectional
       # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'syncState'
+        description: 'Sync state of the sync member.'
+        output: true
+        azure_sdk_references: ['/syncState', '/properties/syncState']
+        values:
+          - :SyncInProgress
+          - :SyncSucceeded
+          - :SyncFailed
+          - :DisabledTombstoneCleanup
+          - :DisabledBackupRestore
+          - :SyncSucceededWithWarnings
+          - :SyncCancelling
+          - :SyncCancelled
+          - :UnProvisioned
+          - :Provisioning
+          - :Provisioned
+          - :ProvisionFailed
+          - :DeProvisioning
+          - :DeProvisioned
+          - :DeProvisionFailed
+          - :Reprovisioning
+          - :ReprovisionFailed
+          - :UnReprovisioned
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'
