@@ -36,7 +36,7 @@ The following arguments are supported:
 
 * `metadata` - (Optional) A name-value pair to associate with the share as metadata.
 
-* `share_quota` - (Optional) The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 100000.
+* `share_quota` - (Optional) The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 102400.
 
 ## Attributes Reference
 

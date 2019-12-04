@@ -395,6 +395,20 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: ResourceIdentity
+            python_field_name: identity
+          '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrincipalID
+            python_field_name: principal_id
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: IdentityType
+            python_field_name: type
+          '/identity/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: TenantID
+            python_field_name: tenant_id
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -584,3 +598,26 @@ objects:
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'identity'
+        description: 'The Azure Active Directory identity of the server.'
+        output: true
+        azure_sdk_references: ['/identity']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'principalId'
+            description: 'The Azure Active Directory principal id.'
+            output: true
+            azure_sdk_references: ['/identity/principalId']
+          - !ruby/object:Api::Type::Enum
+            name: 'type'
+            description: 'The identity type. Set this to ''SystemAssigned'' in order to automatically create and assign an Azure Active Directory principal for the resource.'
+            output: true
+            azure_sdk_references: ['/identity/type']
+            values:
+              - :SystemAssigned
+          - !ruby/object:Api::Type::String
+            name: 'tenantId'
+            description: 'The Azure Active Directory tenant id.'
+            output: true
+            azure_sdk_references: ['/identity/tenantId']

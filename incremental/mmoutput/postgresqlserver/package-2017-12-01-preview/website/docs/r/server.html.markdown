@@ -95,3 +95,16 @@ The following attributes are exported:
 * `name` - Resource name.
 
 * `type` - Resource type.
+
+* `identity` - One `identity` block defined below.
+
+
+---
+
+The `identity` block contains the following:
+
+* `principal_id` - The Azure Active Directory principal id.
+
+* `type` - The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+
+* `tenant_id` - The Azure Active Directory tenant id.

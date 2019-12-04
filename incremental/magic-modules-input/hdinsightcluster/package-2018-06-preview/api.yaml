@@ -99,6 +99,32 @@ objects:
           '/properties/clusterDefinition/configurations': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
             applicable_to: [go]
             go_field_name: Configurations
+          '/kafkaRestProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: kafka_rest_properties
+          '/kafkaRestProperties/clientGroupInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: client_group_info
+          '/kafkaRestProperties/clientGroupInfo/groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: group_name
+          '/kafkaRestProperties/clientGroupInfo/groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: group_id
+          '/properties/kafkaRestProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KafkaRestProperties
+            go_type_name: KafkaRestProperties
+          '/properties/kafkaRestProperties/clientGroupInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ClientGroupInfo
+            go_type_name: ClientGroupInfo
+          '/properties/kafkaRestProperties/clientGroupInfo/groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GroupName
+          '/properties/kafkaRestProperties/clientGroupInfo/groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GroupID
           '/securityProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: security_profile
@@ -611,6 +637,32 @@ objects:
           '/properties/clusterDefinition/configurations': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
             applicable_to: [go]
             go_field_name: Configurations
+          '/kafkaRestProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: kafka_rest_properties
+          '/kafkaRestProperties/clientGroupInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: client_group_info
+          '/kafkaRestProperties/clientGroupInfo/groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: group_name
+          '/kafkaRestProperties/clientGroupInfo/groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: group_id
+          '/properties/kafkaRestProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KafkaRestProperties
+            go_type_name: KafkaRestProperties
+          '/properties/kafkaRestProperties/clientGroupInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ClientGroupInfo
+            go_type_name: ClientGroupInfo
+          '/properties/kafkaRestProperties/clientGroupInfo/groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GroupName
+          '/properties/kafkaRestProperties/clientGroupInfo/groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GroupID
           '/securityProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: security_profile
@@ -1134,6 +1186,32 @@ objects:
           '/clusterDefinition/configurations': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
             applicable_to: [python]
             python_field_name: configurations
+          '/properties/kafkaRestProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KafkaRestProperties
+            go_type_name: KafkaRestProperties
+          '/properties/kafkaRestProperties/clientGroupInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ClientGroupInfo
+            go_type_name: ClientGroupInfo
+          '/properties/kafkaRestProperties/clientGroupInfo/groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GroupName
+          '/properties/kafkaRestProperties/clientGroupInfo/groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GroupID
+          '/kafkaRestProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: kafka_rest_properties
+          '/kafkaRestProperties/clientGroupInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: client_group_info
+          '/kafkaRestProperties/clientGroupInfo/groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: group_name
+          '/kafkaRestProperties/clientGroupInfo/groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: group_id
           '/properties/securityProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: SecurityProfile
@@ -1673,6 +1751,28 @@ objects:
             required: false
             azure_sdk_references: ['/clusterDefinition/configurations', '/properties/clusterDefinition/configurations']
       - !ruby/object:Api::Type::NestedObject
+        name: 'kafkaRestProperties'
+        description: 'The cluster kafka rest proxy configuration.'
+        required: false
+        azure_sdk_references: ['/kafkaRestProperties', '/properties/kafkaRestProperties']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'clientGroupInfo'
+            description: 'The information of AAD security group.'
+            required: false
+            azure_sdk_references: ['/kafkaRestProperties/clientGroupInfo', '/properties/kafkaRestProperties/clientGroupInfo']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'groupName'
+                description: 'The AAD security group name.'
+                required: false
+                azure_sdk_references: ['/kafkaRestProperties/clientGroupInfo/groupName', '/properties/kafkaRestProperties/clientGroupInfo/groupName']
+              - !ruby/object:Api::Type::String
+                name: 'groupId'
+                description: 'The AAD security group id.'
+                required: false
+                azure_sdk_references: ['/kafkaRestProperties/clientGroupInfo/groupId', '/properties/kafkaRestProperties/clientGroupInfo/groupId']
+      - !ruby/object:Api::Type::NestedObject
         name: 'securityProfile'
         description: 'The security profile.'
         required: false
@@ -1965,7 +2065,7 @@ objects:
                   azure_sdk_references: ['/storageProfile/storageaccounts/container', '/properties/storageProfile/storageaccounts/container']
                 - !ruby/object:Api::Type::String
                   name: 'fileSystem'
-                  description: 'The filesystem, only to be specified for Azure Data Lake Storage type Gen 2.'
+                  description: 'The filesystem, only to be specified for Azure Data Lake Storage Gen 2.'
                   required: false
                   azure_sdk_references: ['/storageProfile/storageaccounts/fileSystem', '/properties/storageProfile/storageaccounts/fileSystem']
                 - !ruby/object:Api::Type::String

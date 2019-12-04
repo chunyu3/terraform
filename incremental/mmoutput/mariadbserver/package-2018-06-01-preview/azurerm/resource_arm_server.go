@@ -162,6 +162,27 @@ func resourceArmServer() *schema.Resource {
                 Computed: true,
             },
 
+            "identity": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "principal_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "tenant_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "master_server_id": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -291,6 +312,9 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
         }
         d.Set("user_visible_state", string(serverUpdateParametersProperties.UserVisibleState))
         d.Set("version", string(serverUpdateParametersProperties.Version))
+    }
+    if err := d.Set("identity", flattenArmServerResourceIdentity(resp.Identity)); err != nil {
+        return fmt.Errorf("Error setting `identity`: %+v", err)
     }
     if err := d.Set("sku", flattenArmServerSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
@@ -425,6 +449,24 @@ func flattenArmServerStorageProfile(input *mariadb.StorageProfile) []interface{}
     if storageMb := input.StorageMB; storageMb != nil {
         result["storage_mb"] = int(*storageMb)
     }
+
+    return []interface{}{result}
+}
+
+func flattenArmServerResourceIdentity(input *mariadb.ResourceIdentity) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if principalId := input.PrincipalID; principalId != nil {
+        result["principal_id"] = *principalId
+    }
+    if tenantId := input.TenantID; tenantId != nil {
+        result["tenant_id"] = *tenantId
+    }
+    result["type"] = string(input.Type)
 
     return []interface{}{result}
 }
