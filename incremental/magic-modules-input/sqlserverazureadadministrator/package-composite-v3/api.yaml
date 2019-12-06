@@ -1,0 +1,222 @@
+--- !ruby/object:Api::Product
+name: Azure ServerAzureADAdministrator Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ServerAzureADAdministrator
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: serverAzureADAdministratorsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.server_azure_adadministrators
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'administratorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: administrators
+            go_variable_name: name
+            python_parameter_name: administrator_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ServerAzureADAdministrator
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdministratorProperties
+            go_type_name: AdministratorProperties
+          '/administratorType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: administrator_type
+          '/properties/administratorType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdministratorType
+          '/login': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: login
+          '/properties/login': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Login
+          '/sid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sid
+          '/properties/sid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Sid
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'administratorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: administrators
+            go_variable_name: name
+            python_parameter_name: administrator_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'administratorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: administrators
+            go_variable_name: name
+            python_parameter_name: administrator_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdministratorProperties
+            go_type_name: AdministratorProperties
+          '/properties/administratorType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdministratorType
+          '/administratorType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: administrator_type
+          '/properties/login': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Login
+          '/login': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: login
+          '/properties/sid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Sid
+          '/sid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sid
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByServer
+        python_func_name: list_by_server
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+
+    description: |
+      Manage Azure ServerAzureADAdministrator instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of server active directory administrator.'
+        required: true
+        input: true
+        azure_sdk_references: ['administratorName']
+      - !ruby/object:Api::Type::String
+        name: 'administratorType'
+        description: 'Type of the sever administrator.'
+        required: true
+        azure_sdk_references: ['/administratorType', '/properties/administratorType']
+      - !ruby/object:Api::Type::String
+        name: 'login'
+        description: 'Login name of the server administrator.'
+        required: true
+        azure_sdk_references: ['/login', '/properties/login']
+      - !ruby/object:Api::Type::String
+        name: 'sid'
+        description: 'SID (object ID) of the server administrator.'
+        required: true
+        azure_sdk_references: ['/sid', '/properties/sid']
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'Tenant ID of the administrator.'
+        required: false
+        azure_sdk_references: ['/tenantId', '/properties/tenantId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

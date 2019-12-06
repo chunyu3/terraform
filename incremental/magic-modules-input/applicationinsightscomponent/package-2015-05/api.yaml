@@ -83,6 +83,24 @@ objects:
           '/properties/SamplingPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
             applicable_to: [go]
             go_field_name: SamplingPercentage
+          '/RetentionInDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: retention_in_days
+          '/properties/RetentionInDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RetentionInDays
+          '/DisableIpMasking': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: disable_ip_masking
+          '/properties/DisableIpMasking': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DisableIPMasking
+          '/ImmediatePurgeDataOn30Days': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: immediate_purge_data_on30days
+          '/properties/ImmediatePurgeDataOn30Days': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ImmediatePurgeDataOn30Days
           '/table': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Table
             python_field_name: table
@@ -177,6 +195,24 @@ objects:
           '/SamplingPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
             applicable_to: [python]
             python_field_name: sampling_percentage
+          '/properties/RetentionInDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RetentionInDays
+          '/RetentionInDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: retention_in_days
+          '/properties/DisableIpMasking': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DisableIPMasking
+          '/DisableIpMasking': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: disable_ip_masking
+          '/properties/ImmediatePurgeDataOn30Days': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ImmediatePurgeDataOn30Days
+          '/ImmediatePurgeDataOn30Days': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: immediate_purge_data_on30days
           '/properties/ApplicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ApplicationID
@@ -219,6 +255,12 @@ objects:
           '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: provisioning_state
+          '/properties/ConnectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ConnectionString
+          '/ConnectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: connection_string
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -309,6 +351,21 @@ objects:
         description: 'Percentage of the data produced by the application being monitored that is being sampled for Application Insights telemetry.'
         required: false
         azure_sdk_references: ['/SamplingPercentage', '/properties/SamplingPercentage']
+      - !ruby/object:Api::Type::Integer
+        name: 'retentionInDays'
+        description: 'Retention period in days.'
+        required: false
+        azure_sdk_references: ['/RetentionInDays', '/properties/RetentionInDays']
+      - !ruby/object:Api::Type::Boolean
+        name: 'disableIpMasking'
+        description: 'Disable IP masking.'
+        required: false
+        azure_sdk_references: ['/DisableIpMasking', '/properties/DisableIpMasking']
+      - !ruby/object:Api::Type::Boolean
+        name: 'immediatePurgeDataOn30days'
+        description: 'Purge data immediately after 30 days.'
+        required: false
+        azure_sdk_references: ['/ImmediatePurgeDataOn30Days', '/properties/ImmediatePurgeDataOn30Days']
       - !ruby/object:Api::Type::String
         name: 'table'
         description: 'Table from which to purge data.'
@@ -384,6 +441,11 @@ objects:
         description: 'Current state of this component: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying, Canceled, and Failed.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'connectionString'
+        description: 'Application Insights component connection string.'
+        output: true
+        azure_sdk_references: ['/ConnectionString', '/properties/ConnectionString']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource Id'
