@@ -29,7 +29,7 @@ func resourceArmServiceRunner() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -42,13 +42,6 @@ func resourceArmServiceRunner() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -78,29 +71,42 @@ func resourceArmServiceRunner() *schema.Resource {
                 },
             },
 
-            "type": {
+            "location": azure.SchemaLocation(),
+
+            "tags": tags.Schema(),
+
+            "id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
-            "tags": tags.Schema(),
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
         },
     }
 }
 
 func resourceArmServiceRunnerCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).serviceRunnersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("lab_name").(string)
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, name)
+        existing, err := client.Get(ctx, resourceGroupName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Service Runner %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Service Runner (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -110,26 +116,26 @@ func resourceArmServiceRunnerCreateUpdate(d *schema.ResourceData, meta interface
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     identity := d.Get("identity").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     serviceRunner := devtestlab.ServiceRunner{
         Identity: expandArmServiceRunnerIdentityProperties(identity),
         Location: utils.String(location),
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, serviceRunner); err != nil {
-        return fmt.Errorf("Error creating Service Runner %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, name, name, serviceRunner); err != nil {
+        return fmt.Errorf("Error creating Service Runner (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Service Runner %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Service Runner (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Service Runner %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Service Runner (Name %q / Lab Name %q / Resource Group %q) ID", name, name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -138,37 +144,39 @@ func resourceArmServiceRunnerCreateUpdate(d *schema.ResourceData, meta interface
 
 func resourceArmServiceRunnerRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).serviceRunnersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["servicerunners"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Service Runner %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Service Runner %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Service Runner (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    d.Set("id", resp.ID)
     if err := d.Set("identity", flattenArmServiceRunnerIdentityProperties(resp.Identity)); err != nil {
         return fmt.Errorf("Error setting `identity`: %+v", err)
     }
+    d.Set("lab_name", name)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -177,19 +185,20 @@ func resourceArmServiceRunnerRead(d *schema.ResourceData, meta interface{}) erro
 
 func resourceArmServiceRunnerDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).serviceRunnersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["servicerunners"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, name); err != nil {
-        return fmt.Errorf("Error deleting Service Runner %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name, name); err != nil {
+        return fmt.Errorf("Error deleting Service Runner (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
     return nil
@@ -202,14 +211,14 @@ func expandArmServiceRunnerIdentityProperties(input []interface{}) *devtestlab.I
     v := input[0].(map[string]interface{})
 
     type := v["type"].(string)
-    principalId := v["principal_id"].(string)
-    tenantId := v["tenant_id"].(string)
-    clientSecretUrl := v["client_secret_url"].(string)
+    principalID := v["principal_id"].(string)
+    tenantID := v["tenant_id"].(string)
+    clientSecretURL := v["client_secret_url"].(string)
 
     result := devtestlab.IdentityProperties{
-        ClientSecretURL: utils.String(clientSecretUrl),
-        PrincipalID: utils.String(principalId),
-        TenantID: utils.String(tenantId),
+        ClientSecretURL: utils.String(clientSecretURL),
+        PrincipalID: utils.String(principalID),
+        TenantID: utils.String(tenantID),
         Type: utils.String(type),
     }
     return &result

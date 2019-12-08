@@ -29,7 +29,7 @@ func resourceArmUser() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -42,13 +42,6 @@ func resourceArmUser() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -82,6 +75,8 @@ func resourceArmUser() *schema.Resource {
                 },
             },
 
+            "location": azure.SchemaLocation(),
+
             "secret_store": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -100,12 +95,24 @@ func resourceArmUser() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
             "unique_identifier": {
                 Type: schema.TypeString,
                 Optional: true,
             },
 
             "created_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -119,25 +126,24 @@ func resourceArmUser() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmUserCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).usersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("lab_name").(string)
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, name)
+        existing, err := client.Get(ctx, resourceGroupName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing User %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing User (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -149,7 +155,7 @@ func resourceArmUserCreate(d *schema.ResourceData, meta interface{}) error {
     identity := d.Get("identity").([]interface{})
     secretStore := d.Get("secret_store").([]interface{})
     uniqueIdentifier := d.Get("unique_identifier").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     user := devtestlab.UserFragment{
         Location: utils.String(location),
@@ -158,21 +164,21 @@ func resourceArmUserCreate(d *schema.ResourceData, meta interface{}) error {
             SecretStore: expandArmUserUserSecretStoreFragment(secretStore),
             UniqueIdentifier: utils.String(uniqueIdentifier),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, user); err != nil {
-        return fmt.Errorf("Error creating User %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, name, name, user); err != nil {
+        return fmt.Errorf("Error creating User (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving User %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving User (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read User %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read User (Name %q / Lab Name %q / Resource Group %q) ID", name, name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -181,31 +187,29 @@ func resourceArmUserCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmUserRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).usersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["users"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] User %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading User %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading User (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -220,6 +224,10 @@ func resourceArmUserRead(d *schema.ResourceData, meta interface{}) error {
         }
         d.Set("unique_identifier", userPropertiesFragment.UniqueIdentifier)
     }
+    d.Set("id", resp.ID)
+    d.Set("lab_name", name)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -227,28 +235,31 @@ func resourceArmUserRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmUserUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).usersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     identity := d.Get("identity").([]interface{})
+    name := d.Get("lab_name").(string)
+    name := d.Get("name").(string)
     secretStore := d.Get("secret_store").([]interface{})
     uniqueIdentifier := d.Get("unique_identifier").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     user := devtestlab.UserFragment{
+        Location: utils.String(location),
         UserPropertiesFragment: &devtestlab.UserPropertiesFragment{
             Identity: expandArmUserUserIdentityFragment(identity),
             SecretStore: expandArmUserUserSecretStoreFragment(secretStore),
             UniqueIdentifier: utils.String(uniqueIdentifier),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, name, user); err != nil {
-        return fmt.Errorf("Error updating User %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, name, user); err != nil {
+        return fmt.Errorf("Error updating User (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
     return resourceArmUserRead(d, meta)
@@ -256,28 +267,29 @@ func resourceArmUserUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmUserDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).usersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["users"]
 
-    future, err := client.Delete(ctx, resourceGroup, name, name)
+    future, err := client.Delete(ctx, resourceGroupName, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting User %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting User (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting User %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting User (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
         }
     }
 
@@ -291,17 +303,17 @@ func expandArmUserUserIdentityFragment(input []interface{}) *devtestlab.UserIden
     v := input[0].(map[string]interface{})
 
     principalName := v["principal_name"].(string)
-    principalId := v["principal_id"].(string)
-    tenantId := v["tenant_id"].(string)
-    objectId := v["object_id"].(string)
-    appId := v["app_id"].(string)
+    principalID := v["principal_id"].(string)
+    tenantID := v["tenant_id"].(string)
+    objectID := v["object_id"].(string)
+    appID := v["app_id"].(string)
 
     result := devtestlab.UserIdentityFragment{
-        AppID: utils.String(appId),
-        ObjectID: utils.String(objectId),
-        PrincipalID: utils.String(principalId),
+        AppID: utils.String(appID),
+        ObjectID: utils.String(objectID),
+        PrincipalID: utils.String(principalID),
         PrincipalName: utils.String(principalName),
-        TenantID: utils.String(tenantId),
+        TenantID: utils.String(tenantID),
     }
     return &result
 }
@@ -312,12 +324,12 @@ func expandArmUserUserSecretStoreFragment(input []interface{}) *devtestlab.UserS
     }
     v := input[0].(map[string]interface{})
 
-    keyVaultUri := v["key_vault_uri"].(string)
-    keyVaultId := v["key_vault_id"].(string)
+    keyVaultURI := v["key_vault_uri"].(string)
+    keyVaultID := v["key_vault_id"].(string)
 
     result := devtestlab.UserSecretStoreFragment{
-        KeyVaultID: utils.String(keyVaultId),
-        KeyVaultURI: utils.String(keyVaultUri),
+        KeyVaultID: utils.String(keyVaultID),
+        KeyVaultURI: utils.String(keyVaultURI),
     }
     return &result
 }

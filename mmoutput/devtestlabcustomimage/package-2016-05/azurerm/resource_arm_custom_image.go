@@ -29,7 +29,7 @@ func resourceArmCustomImage() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -42,13 +42,6 @@ func resourceArmCustomImage() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -62,14 +55,70 @@ func resourceArmCustomImage() *schema.Resource {
                 Optional: true,
             },
 
+            "location": azure.SchemaLocation(),
+
             "managed_image_id": {
                 Type: schema.TypeString,
                 Optional: true,
             },
 
+            "tags": tags.Schema(),
+
             "unique_identifier": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "vm": {
+                Type: schema.TypeList,
+                Optional: true,
+                MaxItems: 1,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "linux_os_info": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            MaxItems: 1,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "linux_os_state": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                        ValidateFunc: validation.StringInSlice([]string{
+                                            string(devtestlab.NonDeprovisioned),
+                                            string(devtestlab.DeprovisionRequested),
+                                            string(devtestlab.DeprovisionApplied),
+                                        }, false),
+                                        Default: string(devtestlab.NonDeprovisioned),
+                                    },
+                                },
+                            },
+                        },
+                        "source_vmid": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "windows_os_info": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            MaxItems: 1,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "windows_os_state": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                        ValidateFunc: validation.StringInSlice([]string{
+                                            string(devtestlab.NonSysprepped),
+                                            string(devtestlab.SysprepRequested),
+                                            string(devtestlab.SysprepApplied),
+                                        }, false),
+                                        Default: string(devtestlab.NonSysprepped),
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
             },
 
             "vhd": {
@@ -99,59 +148,17 @@ func resourceArmCustomImage() *schema.Resource {
                 },
             },
 
-            "vm": {
-                Type: schema.TypeList,
-                Optional: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "linux_os_info": {
-                            Type: schema.TypeList,
-                            Optional: true,
-                            MaxItems: 1,
-                            Elem: &schema.Resource{
-                                Schema: map[string]*schema.Schema{
-                                    "linux_os_state": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                        ValidateFunc: validation.StringInSlice([]string{
-                                            string(devtestlab.NonDeprovisioned),
-                                            string(devtestlab.DeprovisionRequested),
-                                            string(devtestlab.DeprovisionApplied),
-                                        }, false),
-                                        Default: string(devtestlab.NonDeprovisioned),
-                                    },
-                                },
-                            },
-                        },
-                        "source_vm_id": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "windows_os_info": {
-                            Type: schema.TypeList,
-                            Optional: true,
-                            MaxItems: 1,
-                            Elem: &schema.Resource{
-                                Schema: map[string]*schema.Schema{
-                                    "windows_os_state": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                        ValidateFunc: validation.StringInSlice([]string{
-                                            string(devtestlab.NonSysprepped),
-                                            string(devtestlab.SysprepRequested),
-                                            string(devtestlab.SysprepApplied),
-                                        }, false),
-                                        Default: string(devtestlab.NonSysprepped),
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
+            "creation_date": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
-            "creation_date": {
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -165,25 +172,24 @@ func resourceArmCustomImage() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmCustomImageCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).customImagesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("lab_name").(string)
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, name)
+        existing, err := client.Get(ctx, resourceGroupName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Custom Image (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -194,41 +200,41 @@ func resourceArmCustomImageCreateUpdate(d *schema.ResourceData, meta interface{}
     location := azure.NormalizeLocation(d.Get("location").(string))
     author := d.Get("author").(string)
     description := d.Get("description").(string)
-    managedImageId := d.Get("managed_image_id").(string)
+    managedImageID := d.Get("managed_image_id").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
+    vM := d.Get("vm").([]interface{})
     vhd := d.Get("vhd").([]interface{})
-    vm := d.Get("vm").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     customImage := devtestlab.CustomImage{
         Location: utils.String(location),
         CustomImageProperties: &devtestlab.CustomImageProperties{
             Author: utils.String(author),
             Description: utils.String(description),
-            ManagedImageID: utils.String(managedImageId),
+            ManagedImageID: utils.String(managedImageID),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             Vhd: expandArmCustomImageCustomImagePropertiesCustom(vhd),
-            VM: expandArmCustomImageCustomImagePropertiesFromVm(vm),
+            VM: expandArmCustomImageCustomImagePropertiesFromVm(vM),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, customImage)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, name, customImage)
     if err != nil {
-        return fmt.Errorf("Error creating Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Custom Image (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Custom Image (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Custom Image (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Custom Image %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Custom Image (Name %q / Lab Name %q / Resource Group %q) ID", name, name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -237,31 +243,29 @@ func resourceArmCustomImageCreateUpdate(d *schema.ResourceData, meta interface{}
 
 func resourceArmCustomImageRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).customImagesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["customimages"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Custom Image %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Custom Image (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -272,13 +276,17 @@ func resourceArmCustomImageRead(d *schema.ResourceData, meta interface{}) error 
         d.Set("managed_image_id", customImageProperties.ManagedImageID)
         d.Set("provisioning_state", customImageProperties.ProvisioningState)
         d.Set("unique_identifier", customImageProperties.UniqueIdentifier)
-        if err := d.Set("vhd", flattenArmCustomImageCustomImagePropertiesCustom(customImageProperties.Vhd)); err != nil {
-            return fmt.Errorf("Error setting `vhd`: %+v", err)
-        }
         if err := d.Set("vm", flattenArmCustomImageCustomImagePropertiesFromVm(customImageProperties.VM)); err != nil {
             return fmt.Errorf("Error setting `vm`: %+v", err)
         }
+        if err := d.Set("vhd", flattenArmCustomImageCustomImagePropertiesCustom(customImageProperties.Vhd)); err != nil {
+            return fmt.Errorf("Error setting `vhd`: %+v", err)
+        }
     }
+    d.Set("id", resp.ID)
+    d.Set("lab_name", name)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -287,28 +295,29 @@ func resourceArmCustomImageRead(d *schema.ResourceData, meta interface{}) error 
 
 func resourceArmCustomImageDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).customImagesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["customimages"]
 
-    future, err := client.Delete(ctx, resourceGroup, name, name)
+    future, err := client.Delete(ctx, resourceGroupName, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Custom Image (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Custom Image (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
         }
     }
 
@@ -339,13 +348,13 @@ func expandArmCustomImageCustomImagePropertiesFromVm(input []interface{}) *devte
     }
     v := input[0].(map[string]interface{})
 
-    sourceVmId := v["source_vm_id"].(string)
+    sourceVMID := v["source_vmid"].(string)
     windowsOsInfo := v["windows_os_info"].([]interface{})
     linuxOsInfo := v["linux_os_info"].([]interface{})
 
     result := devtestlab.CustomImagePropertiesFromVm{
         LinuxOsInfo: expandArmCustomImageLinuxOsInfo(linuxOsInfo),
-        SourceVMID: utils.String(sourceVmId),
+        SourceVMID: utils.String(sourceVMID),
         WindowsOsInfo: expandArmCustomImageWindowsOsInfo(windowsOsInfo),
     }
     return &result
@@ -380,6 +389,22 @@ func expandArmCustomImageWindowsOsInfo(input []interface{}) *devtestlab.WindowsO
 }
 
 
+func flattenArmCustomImageCustomImagePropertiesFromVm(input *devtestlab.CustomImagePropertiesFromVm) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["linux_os_info"] = flattenArmCustomImageLinuxOsInfo(input.LinuxOsInfo)
+    if sourceVmid := input.SourceVMID; sourceVmid != nil {
+        result["source_vmid"] = *sourceVmid
+    }
+    result["windows_os_info"] = flattenArmCustomImageWindowsOsInfo(input.WindowsOsInfo)
+
+    return []interface{}{result}
+}
+
 func flattenArmCustomImageCustomImagePropertiesCustom(input *devtestlab.CustomImagePropertiesCustom) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
@@ -394,22 +419,6 @@ func flattenArmCustomImageCustomImagePropertiesCustom(input *devtestlab.CustomIm
     if sysPrep := input.SysPrep; sysPrep != nil {
         result["sys_prep"] = *sysPrep
     }
-
-    return []interface{}{result}
-}
-
-func flattenArmCustomImageCustomImagePropertiesFromVm(input *devtestlab.CustomImagePropertiesFromVm) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    result["linux_os_info"] = flattenArmCustomImageLinuxOsInfo(input.LinuxOsInfo)
-    if sourceVmId := input.SourceVMID; sourceVmId != nil {
-        result["source_vm_id"] = *sourceVmId
-    }
-    result["windows_os_info"] = flattenArmCustomImageWindowsOsInfo(input.WindowsOsInfo)
 
     return []interface{}{result}
 }

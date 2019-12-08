@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -211,7 +211,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -398,7 +398,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -412,7 +412,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -635,7 +635,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -647,49 +647,49 @@ objects:
       Manage Azure Workflow instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'WorkflowName'
         description: 'The workflow name.'
         required: true
         input: true
         azure_sdk_references: ['workflowName']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Gets or sets the resource id.'
         required: false
         input: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Gets the resource name.'
         required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Gets the resource type.'
         required: false
         input: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Gets or sets the resource location.'
         required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Gets or sets the resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::Enum
-        name: 'state'
+        name: 'State'
         description: 'Gets or sets the state.'
         required: false
         azure_sdk_references: ['/state', '/properties/state']
@@ -701,13 +701,13 @@ objects:
           - :Suspended
         default_value: :NotSpecified
       - !ruby/object:Api::Type::NestedObject
-        name: 'sku'
+        name: 'Sku'
         description: 'Gets or sets the sku.'
         required: false
         azure_sdk_references: ['/sku', '/properties/sku']
         properties:
           - !ruby/object:Api::Type::Enum
-            name: 'name'
+            name: 'Name'
             description: 'Gets or sets the name.'
             required: false
             azure_sdk_references: ['/sku/name', '/properties/sku/name']
@@ -720,119 +720,119 @@ objects:
               - :Premium
             default_value: :NotSpecified
           - !ruby/object:Api::Type::NestedObject
-            name: 'plan'
+            name: 'Plan'
             description: 'Gets or sets the reference to plan.'
             required: false
             azure_sdk_references: ['/sku/plan', '/properties/sku/plan']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'id'
+                name: 'ID'
                 description: 'Gets or sets the resource id.'
                 required: false
                 azure_sdk_references: ['/sku/plan/id', '/properties/sku/plan/id']
       - !ruby/object:Api::Type::NestedObject
-        name: 'definitionLink'
+        name: 'DefinitionLink'
         description: 'Gets or sets the link to definition.'
         required: false
         azure_sdk_references: ['/definitionLink', '/properties/definitionLink']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'uri'
+            name: 'URI'
             description: 'Gets or sets the content link URI.'
             required: false
             azure_sdk_references: ['/definitionLink/uri', '/properties/definitionLink/uri']
           - !ruby/object:Api::Type::String
-            name: 'contentVersion'
+            name: 'ContentVersion'
             description: 'Gets or sets the content version.'
             required: false
             azure_sdk_references: ['/definitionLink/contentVersion', '/properties/definitionLink/contentVersion']
           - !ruby/object:Api::Type::Integer
-            name: 'contentSize'
+            name: 'ContentSize'
             description: 'Gets or sets the content size.'
             required: false
             azure_sdk_references: ['/definitionLink/contentSize', '/properties/definitionLink/contentSize']
           - !ruby/object:Api::Type::NestedObject
-            name: 'contentHash'
+            name: 'ContentHash'
             description: 'Gets or sets the content hash.'
             required: false
             azure_sdk_references: ['/definitionLink/contentHash', '/properties/definitionLink/contentHash']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'algorithm'
+                name: 'Algorithm'
                 description: 'Gets or sets the algorithm.'
                 required: false
                 azure_sdk_references: ['/definitionLink/contentHash/algorithm', '/properties/definitionLink/contentHash/algorithm']
               - !ruby/object:Api::Type::String
-                name: 'value'
+                name: 'Value'
                 description: 'Gets or sets the value.'
                 required: false
                 azure_sdk_references: ['/definitionLink/contentHash/value', '/properties/definitionLink/contentHash/value']
           - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-            name: 'metadata'
+            name: 'Metadata'
             description: 'Gets or sets the metadata.'
             required: false
             azure_sdk_references: ['/definitionLink/metadata', '/properties/definitionLink/metadata']
       - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'definition'
+        name: 'Definition'
         description: 'Gets or sets the definition.'
         required: false
         azure_sdk_references: ['/definition', '/properties/definition']
       - !ruby/object:Api::Type::NestedObject
-        name: 'parametersLink'
+        name: 'ParametersLink'
         description: 'Gets or sets the link to parameters.'
         required: false
         azure_sdk_references: ['/parametersLink', '/properties/parametersLink']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'uri'
+            name: 'URI'
             description: 'Gets or sets the content link URI.'
             required: false
             azure_sdk_references: ['/parametersLink/uri', '/properties/parametersLink/uri']
           - !ruby/object:Api::Type::String
-            name: 'contentVersion'
+            name: 'ContentVersion'
             description: 'Gets or sets the content version.'
             required: false
             azure_sdk_references: ['/parametersLink/contentVersion', '/properties/parametersLink/contentVersion']
           - !ruby/object:Api::Type::Integer
-            name: 'contentSize'
+            name: 'ContentSize'
             description: 'Gets or sets the content size.'
             required: false
             azure_sdk_references: ['/parametersLink/contentSize', '/properties/parametersLink/contentSize']
           - !ruby/object:Api::Type::NestedObject
-            name: 'contentHash'
+            name: 'ContentHash'
             description: 'Gets or sets the content hash.'
             required: false
             azure_sdk_references: ['/parametersLink/contentHash', '/properties/parametersLink/contentHash']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'algorithm'
+                name: 'Algorithm'
                 description: 'Gets or sets the algorithm.'
                 required: false
                 azure_sdk_references: ['/parametersLink/contentHash/algorithm', '/properties/parametersLink/contentHash/algorithm']
               - !ruby/object:Api::Type::String
-                name: 'value'
+                name: 'Value'
                 description: 'Gets or sets the value.'
                 required: false
                 azure_sdk_references: ['/parametersLink/contentHash/value', '/properties/parametersLink/contentHash/value']
           - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-            name: 'metadata'
+            name: 'Metadata'
             description: 'Gets or sets the metadata.'
             required: false
             azure_sdk_references: ['/parametersLink/metadata', '/properties/parametersLink/metadata']
       - !ruby/object:Api::Type::KeyValuePairs
-        name: 'parameters'
+        name: 'Parameters'
         description: 'Gets or sets the parameters.'
         required: false
         azure_sdk_references: ['/parameters', '/properties/parameters']
       - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'outputs'
+        name: 'Outputs'
         description: 'Gets or sets the outputs of workflow run trigger.'
         required: false
         input: true
         azure_sdk_references: ['/outputs']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Gets the provisioning state.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
@@ -841,22 +841,22 @@ objects:
           - :Moving
           - :Succeeded
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdTime'
+        name: 'CreatedTime'
         description: 'Gets the created time.'
         output: true
         azure_sdk_references: ['/createdTime', '/properties/createdTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'changedTime'
+        name: 'ChangedTime'
         description: 'Gets the changed time.'
         output: true
         azure_sdk_references: ['/changedTime', '/properties/changedTime']
       - !ruby/object:Api::Type::String
-        name: 'version'
+        name: 'Version'
         description: 'Gets the version.'
         output: true
         azure_sdk_references: ['/version', '/properties/version']
       - !ruby/object:Api::Type::String
-        name: 'accessEndpoint'
+        name: 'AccessEndpoint'
         description: 'Gets the access endpoint.'
         output: true
         azure_sdk_references: ['/accessEndpoint', '/properties/accessEndpoint']

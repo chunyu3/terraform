@@ -29,16 +29,11 @@ func resourceArmAttestationProvider() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "provider_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -147,6 +142,16 @@ func resourceArmAttestationProvider() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "status": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -162,16 +167,17 @@ func resourceArmAttestationProvider() *schema.Resource {
 
 func resourceArmAttestationProviderCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).attestationProvidersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("provider_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Attestation Provider %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Attestation Provider (Provider Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -188,17 +194,17 @@ func resourceArmAttestationProviderCreateUpdate(d *schema.ResourceData, meta int
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, name, creationParams); err != nil {
-        return fmt.Errorf("Error creating Attestation Provider %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroupName, name, creationParams); err != nil {
+        return fmt.Errorf("Error creating Attestation Provider (Provider Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Attestation Provider %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Attestation Provider (Provider Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Attestation Provider %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Attestation Provider (Provider Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -207,33 +213,35 @@ func resourceArmAttestationProviderCreateUpdate(d *schema.ResourceData, meta int
 
 func resourceArmAttestationProviderRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).attestationProvidersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["attestationProviders"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Attestation Provider %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Attestation Provider %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Attestation Provider (Provider Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if statusResult := resp.StatusResult; statusResult != nil {
         d.Set("attest_uri", statusResult.AttestURI)
         d.Set("status", string(statusResult.Status))
     }
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("provider_name", name)
     d.Set("type", resp.Type)
 
     return nil
@@ -242,18 +250,19 @@ func resourceArmAttestationProviderRead(d *schema.ResourceData, meta interface{}
 
 func resourceArmAttestationProviderDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).attestationProvidersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["attestationProviders"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
-        return fmt.Errorf("Error deleting Attestation Provider %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name); err != nil {
+        return fmt.Errorf("Error deleting Attestation Provider (Provider Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return nil

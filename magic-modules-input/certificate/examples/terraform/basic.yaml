@@ -1,0 +1,9 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_certificate
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  name: '<%= get_resource_name('''', ''certificate'') -%>'

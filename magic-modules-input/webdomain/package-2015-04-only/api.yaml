@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -39,7 +39,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -53,7 +53,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -72,7 +72,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -660,7 +660,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -677,7 +677,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -690,395 +690,395 @@ objects:
       Manage Azure Domain instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Name of identifier.'
         required: true
         input: true
         azure_sdk_references: ['name']
       - !ruby/object:Api::Type::String
-        name: 'keywords'
+        name: 'Keywords'
         description: 'Keywords to be used for generating domain recommendations.'
         required: false
         input: true
         azure_sdk_references: ['/keywords']
       - !ruby/object:Api::Type::Integer
-        name: 'maxDomainRecommendations'
+        name: 'MaxDomainRecommendations'
         description: 'Maximum number of recommendations.'
         required: false
         input: true
         azure_sdk_references: ['/maxDomainRecommendations']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'Name of the resource group to which the resource belongs.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'DomainName'
         description: 'Name of the domain.'
         required: true
         input: true
         azure_sdk_references: ['domainName']
       - !ruby/object:Api::Type::String
-        name: 'kind'
+        name: 'Kind'
         description: 'Kind of resource.'
         required: false
         input: true
         azure_sdk_references: ['/kind']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource Location.'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'ownershipId'
+        name: 'OwnershipID'
         description: 'Ownership Id.'
         required: false
         azure_sdk_references: ['/ownershipId', '/properties/ownershipId']
       - !ruby/object:Api::Type::Boolean
-        name: 'forceHardDeleteDomain'
+        name: 'ForceHardDeleteDomain'
         description: 'Specify <code>true</code> to delete the domain immediately. The default is <code>false</code> which deletes the domain after 24 hours.'
         required: false
         input: true
         azure_sdk_references: ['forceHardDeleteDomain']
       # read only values included only in response
       - !ruby/object:Api::Type::NestedObject
-        name: 'contactAdmin'
+        name: 'ContactAdmin'
         description: 'Administrative contact.'
         output: true
         azure_sdk_references: ['/contactAdmin', '/properties/contactAdmin']
         properties:
           - !ruby/object:Api::Type::NestedObject
-            name: 'addressMailing'
+            name: 'AddressMailing'
             description: 'Mailing address.'
             output: true
             azure_sdk_references: ['/contactAdmin/addressMailing', '/properties/contactAdmin/addressMailing']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'address1'
+                name: 'Address1'
                 description: 'First line of an Address.'
                 output: true
                 azure_sdk_references: ['/contactAdmin/addressMailing/address1', '/properties/contactAdmin/addressMailing/address1']
               - !ruby/object:Api::Type::String
-                name: 'address2'
+                name: 'Address2'
                 description: 'The second line of the Address. Optional.'
                 output: true
                 azure_sdk_references: ['/contactAdmin/addressMailing/address2', '/properties/contactAdmin/addressMailing/address2']
               - !ruby/object:Api::Type::String
-                name: 'city'
+                name: 'City'
                 description: 'The city for the address.'
                 output: true
                 azure_sdk_references: ['/contactAdmin/addressMailing/city', '/properties/contactAdmin/addressMailing/city']
               - !ruby/object:Api::Type::String
-                name: 'country'
+                name: 'Country'
                 description: 'The country for the address.'
                 output: true
                 azure_sdk_references: ['/contactAdmin/addressMailing/country', '/properties/contactAdmin/addressMailing/country']
               - !ruby/object:Api::Type::String
-                name: 'postalCode'
+                name: 'PostalCode'
                 description: 'The postal code for the address.'
                 output: true
                 azure_sdk_references: ['/contactAdmin/addressMailing/postalCode', '/properties/contactAdmin/addressMailing/postalCode']
               - !ruby/object:Api::Type::String
-                name: 'state'
+                name: 'State'
                 description: 'The state or province for the address.'
                 output: true
                 azure_sdk_references: ['/contactAdmin/addressMailing/state', '/properties/contactAdmin/addressMailing/state']
           - !ruby/object:Api::Type::String
-            name: 'email'
+            name: 'Email'
             description: 'Email address.'
             output: true
             azure_sdk_references: ['/contactAdmin/email', '/properties/contactAdmin/email']
           - !ruby/object:Api::Type::String
-            name: 'fax'
+            name: 'Fax'
             description: 'Fax number.'
             output: true
             azure_sdk_references: ['/contactAdmin/fax', '/properties/contactAdmin/fax']
           - !ruby/object:Api::Type::String
-            name: 'jobTitle'
+            name: 'JobTitle'
             description: 'Job title.'
             output: true
             azure_sdk_references: ['/contactAdmin/jobTitle', '/properties/contactAdmin/jobTitle']
           - !ruby/object:Api::Type::String
-            name: 'nameFirst'
+            name: 'NameFirst'
             description: 'First name.'
             output: true
             azure_sdk_references: ['/contactAdmin/nameFirst', '/properties/contactAdmin/nameFirst']
           - !ruby/object:Api::Type::String
-            name: 'nameLast'
+            name: 'NameLast'
             description: 'Last name.'
             output: true
             azure_sdk_references: ['/contactAdmin/nameLast', '/properties/contactAdmin/nameLast']
           - !ruby/object:Api::Type::String
-            name: 'nameMiddle'
+            name: 'NameMiddle'
             description: 'Middle name.'
             output: true
             azure_sdk_references: ['/contactAdmin/nameMiddle', '/properties/contactAdmin/nameMiddle']
           - !ruby/object:Api::Type::String
-            name: 'organization'
+            name: 'Organization'
             description: 'Organization contact belongs to.'
             output: true
             azure_sdk_references: ['/contactAdmin/organization', '/properties/contactAdmin/organization']
           - !ruby/object:Api::Type::String
-            name: 'phone'
+            name: 'Phone'
             description: 'Phone number.'
             output: true
             azure_sdk_references: ['/contactAdmin/phone', '/properties/contactAdmin/phone']
       - !ruby/object:Api::Type::NestedObject
-        name: 'contactBilling'
+        name: 'ContactBilling'
         description: 'Billing contact.'
         output: true
         azure_sdk_references: ['/contactBilling', '/properties/contactBilling']
         properties:
           - !ruby/object:Api::Type::NestedObject
-            name: 'addressMailing'
+            name: 'AddressMailing'
             description: 'Mailing address.'
             output: true
             azure_sdk_references: ['/contactBilling/addressMailing', '/properties/contactBilling/addressMailing']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'address1'
+                name: 'Address1'
                 description: 'First line of an Address.'
                 output: true
                 azure_sdk_references: ['/contactBilling/addressMailing/address1', '/properties/contactBilling/addressMailing/address1']
               - !ruby/object:Api::Type::String
-                name: 'address2'
+                name: 'Address2'
                 description: 'The second line of the Address. Optional.'
                 output: true
                 azure_sdk_references: ['/contactBilling/addressMailing/address2', '/properties/contactBilling/addressMailing/address2']
               - !ruby/object:Api::Type::String
-                name: 'city'
+                name: 'City'
                 description: 'The city for the address.'
                 output: true
                 azure_sdk_references: ['/contactBilling/addressMailing/city', '/properties/contactBilling/addressMailing/city']
               - !ruby/object:Api::Type::String
-                name: 'country'
+                name: 'Country'
                 description: 'The country for the address.'
                 output: true
                 azure_sdk_references: ['/contactBilling/addressMailing/country', '/properties/contactBilling/addressMailing/country']
               - !ruby/object:Api::Type::String
-                name: 'postalCode'
+                name: 'PostalCode'
                 description: 'The postal code for the address.'
                 output: true
                 azure_sdk_references: ['/contactBilling/addressMailing/postalCode', '/properties/contactBilling/addressMailing/postalCode']
               - !ruby/object:Api::Type::String
-                name: 'state'
+                name: 'State'
                 description: 'The state or province for the address.'
                 output: true
                 azure_sdk_references: ['/contactBilling/addressMailing/state', '/properties/contactBilling/addressMailing/state']
           - !ruby/object:Api::Type::String
-            name: 'email'
+            name: 'Email'
             description: 'Email address.'
             output: true
             azure_sdk_references: ['/contactBilling/email', '/properties/contactBilling/email']
           - !ruby/object:Api::Type::String
-            name: 'fax'
+            name: 'Fax'
             description: 'Fax number.'
             output: true
             azure_sdk_references: ['/contactBilling/fax', '/properties/contactBilling/fax']
           - !ruby/object:Api::Type::String
-            name: 'jobTitle'
+            name: 'JobTitle'
             description: 'Job title.'
             output: true
             azure_sdk_references: ['/contactBilling/jobTitle', '/properties/contactBilling/jobTitle']
           - !ruby/object:Api::Type::String
-            name: 'nameFirst'
+            name: 'NameFirst'
             description: 'First name.'
             output: true
             azure_sdk_references: ['/contactBilling/nameFirst', '/properties/contactBilling/nameFirst']
           - !ruby/object:Api::Type::String
-            name: 'nameLast'
+            name: 'NameLast'
             description: 'Last name.'
             output: true
             azure_sdk_references: ['/contactBilling/nameLast', '/properties/contactBilling/nameLast']
           - !ruby/object:Api::Type::String
-            name: 'nameMiddle'
+            name: 'NameMiddle'
             description: 'Middle name.'
             output: true
             azure_sdk_references: ['/contactBilling/nameMiddle', '/properties/contactBilling/nameMiddle']
           - !ruby/object:Api::Type::String
-            name: 'organization'
+            name: 'Organization'
             description: 'Organization contact belongs to.'
             output: true
             azure_sdk_references: ['/contactBilling/organization', '/properties/contactBilling/organization']
           - !ruby/object:Api::Type::String
-            name: 'phone'
+            name: 'Phone'
             description: 'Phone number.'
             output: true
             azure_sdk_references: ['/contactBilling/phone', '/properties/contactBilling/phone']
       - !ruby/object:Api::Type::NestedObject
-        name: 'contactRegistrant'
+        name: 'ContactRegistrant'
         description: 'Registrant contact.'
         output: true
         azure_sdk_references: ['/contactRegistrant', '/properties/contactRegistrant']
         properties:
           - !ruby/object:Api::Type::NestedObject
-            name: 'addressMailing'
+            name: 'AddressMailing'
             description: 'Mailing address.'
             output: true
             azure_sdk_references: ['/contactRegistrant/addressMailing', '/properties/contactRegistrant/addressMailing']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'address1'
+                name: 'Address1'
                 description: 'First line of an Address.'
                 output: true
                 azure_sdk_references: ['/contactRegistrant/addressMailing/address1', '/properties/contactRegistrant/addressMailing/address1']
               - !ruby/object:Api::Type::String
-                name: 'address2'
+                name: 'Address2'
                 description: 'The second line of the Address. Optional.'
                 output: true
                 azure_sdk_references: ['/contactRegistrant/addressMailing/address2', '/properties/contactRegistrant/addressMailing/address2']
               - !ruby/object:Api::Type::String
-                name: 'city'
+                name: 'City'
                 description: 'The city for the address.'
                 output: true
                 azure_sdk_references: ['/contactRegistrant/addressMailing/city', '/properties/contactRegistrant/addressMailing/city']
               - !ruby/object:Api::Type::String
-                name: 'country'
+                name: 'Country'
                 description: 'The country for the address.'
                 output: true
                 azure_sdk_references: ['/contactRegistrant/addressMailing/country', '/properties/contactRegistrant/addressMailing/country']
               - !ruby/object:Api::Type::String
-                name: 'postalCode'
+                name: 'PostalCode'
                 description: 'The postal code for the address.'
                 output: true
                 azure_sdk_references: ['/contactRegistrant/addressMailing/postalCode', '/properties/contactRegistrant/addressMailing/postalCode']
               - !ruby/object:Api::Type::String
-                name: 'state'
+                name: 'State'
                 description: 'The state or province for the address.'
                 output: true
                 azure_sdk_references: ['/contactRegistrant/addressMailing/state', '/properties/contactRegistrant/addressMailing/state']
           - !ruby/object:Api::Type::String
-            name: 'email'
+            name: 'Email'
             description: 'Email address.'
             output: true
             azure_sdk_references: ['/contactRegistrant/email', '/properties/contactRegistrant/email']
           - !ruby/object:Api::Type::String
-            name: 'fax'
+            name: 'Fax'
             description: 'Fax number.'
             output: true
             azure_sdk_references: ['/contactRegistrant/fax', '/properties/contactRegistrant/fax']
           - !ruby/object:Api::Type::String
-            name: 'jobTitle'
+            name: 'JobTitle'
             description: 'Job title.'
             output: true
             azure_sdk_references: ['/contactRegistrant/jobTitle', '/properties/contactRegistrant/jobTitle']
           - !ruby/object:Api::Type::String
-            name: 'nameFirst'
+            name: 'NameFirst'
             description: 'First name.'
             output: true
             azure_sdk_references: ['/contactRegistrant/nameFirst', '/properties/contactRegistrant/nameFirst']
           - !ruby/object:Api::Type::String
-            name: 'nameLast'
+            name: 'NameLast'
             description: 'Last name.'
             output: true
             azure_sdk_references: ['/contactRegistrant/nameLast', '/properties/contactRegistrant/nameLast']
           - !ruby/object:Api::Type::String
-            name: 'nameMiddle'
+            name: 'NameMiddle'
             description: 'Middle name.'
             output: true
             azure_sdk_references: ['/contactRegistrant/nameMiddle', '/properties/contactRegistrant/nameMiddle']
           - !ruby/object:Api::Type::String
-            name: 'organization'
+            name: 'Organization'
             description: 'Organization contact belongs to.'
             output: true
             azure_sdk_references: ['/contactRegistrant/organization', '/properties/contactRegistrant/organization']
           - !ruby/object:Api::Type::String
-            name: 'phone'
+            name: 'Phone'
             description: 'Phone number.'
             output: true
             azure_sdk_references: ['/contactRegistrant/phone', '/properties/contactRegistrant/phone']
       - !ruby/object:Api::Type::NestedObject
-        name: 'contactTech'
+        name: 'ContactTech'
         description: 'Technical contact.'
         output: true
         azure_sdk_references: ['/contactTech', '/properties/contactTech']
         properties:
           - !ruby/object:Api::Type::NestedObject
-            name: 'addressMailing'
+            name: 'AddressMailing'
             description: 'Mailing address.'
             output: true
             azure_sdk_references: ['/contactTech/addressMailing', '/properties/contactTech/addressMailing']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'address1'
+                name: 'Address1'
                 description: 'First line of an Address.'
                 output: true
                 azure_sdk_references: ['/contactTech/addressMailing/address1', '/properties/contactTech/addressMailing/address1']
               - !ruby/object:Api::Type::String
-                name: 'address2'
+                name: 'Address2'
                 description: 'The second line of the Address. Optional.'
                 output: true
                 azure_sdk_references: ['/contactTech/addressMailing/address2', '/properties/contactTech/addressMailing/address2']
               - !ruby/object:Api::Type::String
-                name: 'city'
+                name: 'City'
                 description: 'The city for the address.'
                 output: true
                 azure_sdk_references: ['/contactTech/addressMailing/city', '/properties/contactTech/addressMailing/city']
               - !ruby/object:Api::Type::String
-                name: 'country'
+                name: 'Country'
                 description: 'The country for the address.'
                 output: true
                 azure_sdk_references: ['/contactTech/addressMailing/country', '/properties/contactTech/addressMailing/country']
               - !ruby/object:Api::Type::String
-                name: 'postalCode'
+                name: 'PostalCode'
                 description: 'The postal code for the address.'
                 output: true
                 azure_sdk_references: ['/contactTech/addressMailing/postalCode', '/properties/contactTech/addressMailing/postalCode']
               - !ruby/object:Api::Type::String
-                name: 'state'
+                name: 'State'
                 description: 'The state or province for the address.'
                 output: true
                 azure_sdk_references: ['/contactTech/addressMailing/state', '/properties/contactTech/addressMailing/state']
           - !ruby/object:Api::Type::String
-            name: 'email'
+            name: 'Email'
             description: 'Email address.'
             output: true
             azure_sdk_references: ['/contactTech/email', '/properties/contactTech/email']
           - !ruby/object:Api::Type::String
-            name: 'fax'
+            name: 'Fax'
             description: 'Fax number.'
             output: true
             azure_sdk_references: ['/contactTech/fax', '/properties/contactTech/fax']
           - !ruby/object:Api::Type::String
-            name: 'jobTitle'
+            name: 'JobTitle'
             description: 'Job title.'
             output: true
             azure_sdk_references: ['/contactTech/jobTitle', '/properties/contactTech/jobTitle']
           - !ruby/object:Api::Type::String
-            name: 'nameFirst'
+            name: 'NameFirst'
             description: 'First name.'
             output: true
             azure_sdk_references: ['/contactTech/nameFirst', '/properties/contactTech/nameFirst']
           - !ruby/object:Api::Type::String
-            name: 'nameLast'
+            name: 'NameLast'
             description: 'Last name.'
             output: true
             azure_sdk_references: ['/contactTech/nameLast', '/properties/contactTech/nameLast']
           - !ruby/object:Api::Type::String
-            name: 'nameMiddle'
+            name: 'NameMiddle'
             description: 'Middle name.'
             output: true
             azure_sdk_references: ['/contactTech/nameMiddle', '/properties/contactTech/nameMiddle']
           - !ruby/object:Api::Type::String
-            name: 'organization'
+            name: 'Organization'
             description: 'Organization contact belongs to.'
             output: true
             azure_sdk_references: ['/contactTech/organization', '/properties/contactTech/organization']
           - !ruby/object:Api::Type::String
-            name: 'phone'
+            name: 'Phone'
             description: 'Phone number.'
             output: true
             azure_sdk_references: ['/contactTech/phone', '/properties/contactTech/phone']
       - !ruby/object:Api::Type::Enum
-        name: 'registrationStatus'
+        name: 'RegistrationStatus'
         description: 'Domain registration status.'
         output: true
         azure_sdk_references: ['/registrationStatus', '/properties/registrationStatus']
@@ -1105,7 +1105,7 @@ objects:
           - :Updated
           - :JsonConverterFailed
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Domain provisioning state.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
@@ -1116,66 +1116,66 @@ objects:
           - :InProgress
           - :Deleting
       - !ruby/object:Api::Type::Array
-        name: 'nameServers'
+        name: 'NameServers'
         description: 'Name servers.'
         output: true
         azure_sdk_references: ['/nameServers', '/properties/nameServers']
         item_type: Api::Type::String
       - !ruby/object:Api::Type::Boolean
-        name: 'privacy'
+        name: 'Privacy'
         description: '<code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>.'
         output: true
         azure_sdk_references: ['/privacy', '/properties/privacy']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdTime'
+        name: 'CreatedTime'
         description: 'Domain creation timestamp.'
         output: true
         azure_sdk_references: ['/createdTime', '/properties/createdTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'expirationTime'
+        name: 'ExpirationTime'
         description: 'Domain expiration timestamp.'
         output: true
         azure_sdk_references: ['/expirationTime', '/properties/expirationTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastRenewedTime'
+        name: 'LastRenewedTime'
         description: 'Timestamp when the domain was renewed last time.'
         output: true
         azure_sdk_references: ['/lastRenewedTime', '/properties/lastRenewedTime']
       - !ruby/object:Api::Type::Boolean
-        name: 'autoRenew'
+        name: 'AutoRenew'
         description: '<code>true</code> if the domain should be automatically renewed; otherwise, <code>false</code>.'
         output: true
         azure_sdk_references: ['/autoRenew', '/properties/autoRenew']
       - !ruby/object:Api::Type::Boolean
-        name: 'readyForDnsRecordManagement'
+        name: 'ReadyForDNSRecordManagement'
         description: '<code>true</code> if Azure can assign this domain to App Service apps; otherwise, <code>false</code>. This value will be <code>true</code> if domain registration status is active and <br> it is hosted on name servers Azure has programmatic access to.'
         output: true
         azure_sdk_references: ['/readyForDnsRecordManagement', '/properties/readyForDnsRecordManagement']
       - !ruby/object:Api::Type::Array
-        name: 'managedHostNames'
+        name: 'ManagedHostNames'
         description: 'All hostnames derived from the domain and assigned to Azure resources.'
         output: true
         azure_sdk_references: ['/managedHostNames', '/properties/managedHostNames']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Name of the hostname.'
               output: true
               azure_sdk_references: ['/managedHostNames/name', '/properties/managedHostNames/name']
             - !ruby/object:Api::Type::Array
-              name: 'siteNames'
+              name: 'SiteNames'
               description: 'List of apps the hostname is assigned to. This list will have more than one app only if the hostname is pointing to a Traffic Manager.'
               output: true
               azure_sdk_references: ['/managedHostNames/siteNames', '/properties/managedHostNames/siteNames']
               item_type: Api::Type::String
             - !ruby/object:Api::Type::String
-              name: 'azureResourceName'
+              name: 'AzureResourceName'
               description: 'Name of the Azure resource the hostname is assigned to. If it is assigned to a Traffic Manager then it will be the Traffic Manager name otherwise it will be the app name.'
               output: true
               azure_sdk_references: ['/managedHostNames/azureResourceName', '/properties/managedHostNames/azureResourceName']
             - !ruby/object:Api::Type::Enum
-              name: 'azureResourceType'
+              name: 'AzureResourceType'
               description: 'Type of the Azure resource the hostname is assigned to.'
               output: true
               azure_sdk_references: ['/managedHostNames/azureResourceType', '/properties/managedHostNames/azureResourceType']
@@ -1183,7 +1183,7 @@ objects:
                 - :Website
                 - :TrafficManager
             - !ruby/object:Api::Type::Enum
-              name: 'customHostNameDnsRecordType'
+              name: 'CustomHostNameDNSRecordType'
               description: 'Type of the DNS record.'
               output: true
               azure_sdk_references: ['/managedHostNames/customHostNameDnsRecordType', '/properties/managedHostNames/customHostNameDnsRecordType']
@@ -1191,7 +1191,7 @@ objects:
                 - :CName
                 - :A
             - !ruby/object:Api::Type::Enum
-              name: 'hostNameType'
+              name: 'HostNameType'
               description: 'Type of the hostname.'
               output: true
               azure_sdk_references: ['/managedHostNames/hostNameType', '/properties/managedHostNames/hostNameType']
@@ -1199,29 +1199,29 @@ objects:
                 - :Verified
                 - :Managed
       - !ruby/object:Api::Type::NestedObject
-        name: 'consent'
+        name: 'Consent'
         description: 'Legal agreement consent.'
         output: true
         azure_sdk_references: ['/consent', '/properties/consent']
         properties:
           - !ruby/object:Api::Type::Array
-            name: 'agreementKeys'
+            name: 'AgreementKeys'
             description: 'List of applicable legal agreement keys. This list can be retrieved using ListLegalAgreements API under <code>TopLevelDomain</code> resource.'
             output: true
             azure_sdk_references: ['/consent/agreementKeys', '/properties/consent/agreementKeys']
             item_type: Api::Type::String
           - !ruby/object:Api::Type::String
-            name: 'agreedBy'
+            name: 'AgreedBy'
             description: 'Client IP address.'
             output: true
             azure_sdk_references: ['/consent/agreedBy', '/properties/consent/agreedBy']
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'agreedAt'
+            name: 'AgreedAt'
             description: 'Timestamp when the agreements were accepted.'
             output: true
             azure_sdk_references: ['/consent/agreedAt', '/properties/consent/agreedAt']
       - !ruby/object:Api::Type::Array
-        name: 'domainNotRenewableReasons'
+        name: 'DomainNotRenewableReasons'
         description: 'Reasons why domain is not renewable.'
         output: true
         azure_sdk_references: ['/domainNotRenewableReasons', '/properties/domainNotRenewableReasons']
@@ -1233,7 +1233,7 @@ objects:
             - :ExpirationNotInRenewalTimeRange
             - :SubscriptionNotActive
       - !ruby/object:Api::Type::Enum
-        name: 'dnsType'
+        name: 'DNSType'
         description: 'Current DNS type'
         output: true
         azure_sdk_references: ['/dnsType', '/properties/dnsType']
@@ -1241,12 +1241,12 @@ objects:
           - :AzureDns
           - :DefaultDomainRegistrarDns
       - !ruby/object:Api::Type::String
-        name: 'dnsZoneId'
+        name: 'DNSZoneID'
         description: 'Azure DNS Zone to use'
         output: true
         azure_sdk_references: ['/dnsZoneId', '/properties/dnsZoneId']
       - !ruby/object:Api::Type::Enum
-        name: 'targetDnsType'
+        name: 'TargetDNSType'
         description: 'Target DNS type (would be used for migration)'
         output: true
         azure_sdk_references: ['/targetDnsType', '/properties/targetDnsType']
@@ -1254,22 +1254,22 @@ objects:
           - :AzureDns
           - :DefaultDomainRegistrarDns
       - !ruby/object:Api::Type::String
-        name: 'authCode'
+        name: 'AuthCode'
         description: ''
         output: true
         azure_sdk_references: ['/authCode', '/properties/authCode']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource Id.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource Name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']

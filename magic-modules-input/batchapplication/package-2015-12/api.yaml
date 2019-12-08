@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -57,7 +57,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -90,7 +90,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -109,7 +109,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -167,7 +167,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -185,72 +185,72 @@ objects:
       Manage Azure Application instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group that contains the Batch account.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'AccountName'
         description: 'The name of the Batch account.'
         required: true
         input: true
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::String
-        name: 'applicationId'
+        name: 'ApplicationID'
         description: 'The ID of the application.'
         required: true
         input: true
         azure_sdk_references: ['applicationId']
       - !ruby/object:Api::Type::Boolean
-        name: 'allowUpdates'
+        name: 'AllowUpdates'
         description: 'A value indicating whether packages within the application may be overwritten using the same version string.'
         required: false
         input: true
         azure_sdk_references: ['/allowUpdates']
       - !ruby/object:Api::Type::String
-        name: 'displayName'
+        name: 'DisplayName'
         description: 'The display name for the application.'
         required: false
         input: true
         azure_sdk_references: ['/displayName']
       - !ruby/object:Api::Type::String
-        name: 'defaultVersion'
+        name: 'DefaultVersion'
         description: 'The package to use if a client requests the application but does not specify a version.'
         required: false
         input: true
         azure_sdk_references: ['/defaultVersion']
       - !ruby/object:Api::Type::Integer
-        name: 'maxresults'
+        name: 'Maxresults'
         description: 'The maximum number of items to return in the response.'
         required: false
         input: true
         azure_sdk_references: ['maxresults']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'A string that uniquely identifies the application within the account.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::Array
-        name: 'packages'
+        name: 'Packages'
         description: 'The list of packages under this application.'
         output: true
         azure_sdk_references: ['/packages']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'The ID of the application.'
               output: true
               azure_sdk_references: ['/packages/id']
             - !ruby/object:Api::Type::String
-              name: 'version'
+              name: 'Version'
               description: 'The version of the application package. '
               output: true
               azure_sdk_references: ['/packages/version']
             - !ruby/object:Api::Type::Enum
-              name: 'state'
+              name: 'State'
               description: 'The current state of the application package.'
               output: true
               azure_sdk_references: ['/packages/state']
@@ -259,22 +259,22 @@ objects:
                 - :active
                 - :unmapped
             - !ruby/object:Api::Type::String
-              name: 'format'
+              name: 'Format'
               description: 'The format of the application package, if the package is active.'
               output: true
               azure_sdk_references: ['/packages/format']
             - !ruby/object:Api::Type::String
-              name: 'storageUrl'
+              name: 'StorageURL'
               description: 'The storage URL at which the application package is stored.'
               output: true
               azure_sdk_references: ['/packages/storageUrl']
             - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'storageUrlExpiry'
+              name: 'StorageURLExpiry'
               description: 'The UTC time at which the storage URL will expire.'
               output: true
               azure_sdk_references: ['/packages/storageUrlExpiry']
             - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'lastActivationTime'
+              name: 'LastActivationTime'
               description: 'The time at which the package was last activated, if the package is active.'
               output: true
               azure_sdk_references: ['/packages/lastActivationTime']

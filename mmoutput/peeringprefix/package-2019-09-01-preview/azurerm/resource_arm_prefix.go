@@ -29,26 +29,21 @@ func resourceArmPrefix() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "peering_service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "prefix_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "prefix": {
                 Type: schema.TypeString,
@@ -89,7 +84,17 @@ func resourceArmPrefix() *schema.Resource {
                 },
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "learned_type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -114,17 +119,18 @@ func resourceArmPrefix() *schema.Resource {
 
 func resourceArmPrefixCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).prefixesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     peeringServiceName := d.Get("peering_service_name").(string)
+    name := d.Get("prefix_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, peeringServiceName, name)
+        existing, err := client.Get(ctx, resourceGroupName, peeringServiceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Prefix %q (Peering Service Name %q / Resource Group %q): %+v", name, peeringServiceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Prefix (Prefix Name %q / Peering Service Name %q / Resource Group %q): %+v", name, peeringServiceName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -141,17 +147,17 @@ func resourceArmPrefixCreateUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, peeringServiceName, name, peeringServicePrefix); err != nil {
-        return fmt.Errorf("Error creating Prefix %q (Peering Service Name %q / Resource Group %q): %+v", name, peeringServiceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, peeringServiceName, name, peeringServicePrefix); err != nil {
+        return fmt.Errorf("Error creating Prefix (Prefix Name %q / Peering Service Name %q / Resource Group %q): %+v", name, peeringServiceName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, peeringServiceName, name)
+    resp, err := client.Get(ctx, resourceGroupName, peeringServiceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Prefix %q (Peering Service Name %q / Resource Group %q): %+v", name, peeringServiceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Prefix (Prefix Name %q / Peering Service Name %q / Resource Group %q): %+v", name, peeringServiceName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Prefix %q (Peering Service Name %q / Resource Group %q) ID", name, peeringServiceName, resourceGroup)
+        return fmt.Errorf("Cannot read Prefix (Prefix Name %q / Peering Service Name %q / Resource Group %q) ID", name, peeringServiceName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -160,30 +166,29 @@ func resourceArmPrefixCreateUpdate(d *schema.ResourceData, meta interface{}) err
 
 func resourceArmPrefixRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).prefixesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     peeringServiceName := id.Path["peeringServices"]
     name := id.Path["prefixes"]
 
-    resp, err := client.Get(ctx, resourceGroup, peeringServiceName, name)
+    resp, err := client.Get(ctx, resourceGroupName, peeringServiceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Prefix %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Prefix %q (Peering Service Name %q / Resource Group %q): %+v", name, peeringServiceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Prefix (Prefix Name %q / Peering Service Name %q / Resource Group %q): %+v", name, peeringServiceName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if servicePrefixProperties := resp.ServicePrefixProperties; servicePrefixProperties != nil {
         d.Set("error_message", servicePrefixProperties.ErrorMessage)
         if err := d.Set("events", flattenArmPrefixServicePrefixEvent(servicePrefixProperties.Events)); err != nil {
@@ -194,7 +199,10 @@ func resourceArmPrefixRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("prefix_validation_state", string(servicePrefixProperties.PrefixValidationState))
         d.Set("provisioning_state", string(servicePrefixProperties.ProvisioningState))
     }
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("peering_service_name", peeringServiceName)
+    d.Set("prefix_name", name)
     d.Set("type", resp.Type)
 
     return nil
@@ -203,19 +211,20 @@ func resourceArmPrefixRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmPrefixDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).prefixesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     peeringServiceName := id.Path["peeringServices"]
     name := id.Path["prefixes"]
 
-    if _, err := client.Delete(ctx, resourceGroup, peeringServiceName, name); err != nil {
-        return fmt.Errorf("Error deleting Prefix %q (Peering Service Name %q / Resource Group %q): %+v", name, peeringServiceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, peeringServiceName, name); err != nil {
+        return fmt.Errorf("Error deleting Prefix (Prefix Name %q / Peering Service Name %q / Resource Group %q): %+v", name, peeringServiceName, resourceGroupName, err)
     }
 
     return nil

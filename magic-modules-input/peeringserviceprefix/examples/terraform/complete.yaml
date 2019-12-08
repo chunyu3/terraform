@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_peering_service_prefix
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: peeringservice
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: prefix
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  peering_service_name: MyPeeringService
+  name: '<%= get_resource_name('''', ''peeringserviceprefix'') -%>'
+  peering_service_prefix:
+    properties:
+      prefix: 192.168.1.0/24

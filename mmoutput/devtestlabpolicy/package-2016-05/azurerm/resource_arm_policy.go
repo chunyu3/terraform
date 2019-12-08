@@ -29,35 +29,28 @@ func resourceArmPolicy() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "policy_set_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "description": {
                 Type: schema.TypeString,
@@ -95,6 +88,8 @@ func resourceArmPolicy() *schema.Resource {
                 Default: string(devtestlab.UserOwnedLabVmCount),
             },
 
+            "location": azure.SchemaLocation(),
+
             "status": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -104,6 +99,8 @@ func resourceArmPolicy() *schema.Resource {
                 }, false),
                 Default: string(devtestlab.Enabled),
             },
+
+            "tags": tags.Schema(),
 
             "threshold": {
                 Type: schema.TypeString,
@@ -120,6 +117,16 @@ func resourceArmPolicy() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -129,26 +136,25 @@ func resourceArmPolicy() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmPolicyCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).policiesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     labName := d.Get("lab_name").(string)
+    name := d.Get("name").(string)
+    name := d.Get("policy_set_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, name, name)
+        existing, err := client.Get(ctx, resourceGroupName, labName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Policy %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Policy (Name %q / Policy Set Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -164,7 +170,7 @@ func resourceArmPolicyCreate(d *schema.ResourceData, meta interface{}) error {
     status := d.Get("status").(string)
     threshold := d.Get("threshold").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     policy := devtestlab.PolicyFragment{
         Location: utils.String(location),
@@ -177,21 +183,21 @@ func resourceArmPolicyCreate(d *schema.ResourceData, meta interface{}) error {
             Threshold: utils.String(threshold),
             UniqueIdentifier: utils.String(uniqueIdentifier),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, name, policy); err != nil {
-        return fmt.Errorf("Error creating Policy %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, labName, name, name, policy); err != nil {
+        return fmt.Errorf("Error creating Policy (Name %q / Policy Set Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, labName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Policy %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Policy (Name %q / Policy Set Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Policy %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Policy (Name %q / Policy Set Name %q / Lab Name %q / Resource Group %q) ID", name, name, labName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -200,32 +206,30 @@ func resourceArmPolicyCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmPolicyRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).policiesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     labName := id.Path["labs"]
     name := id.Path["policysets"]
     name := id.Path["policies"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, labName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Policy %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Policy (Name %q / Policy Set Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -240,7 +244,11 @@ func resourceArmPolicyRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("threshold", policyPropertiesFragment.Threshold)
         d.Set("unique_identifier", policyPropertiesFragment.UniqueIdentifier)
     }
+    d.Set("id", resp.ID)
     d.Set("lab_name", labName)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
+    d.Set("policy_set_name", name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -248,22 +256,25 @@ func resourceArmPolicyRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).policiesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     description := d.Get("description").(string)
     evaluatorType := d.Get("evaluator_type").(string)
     factData := d.Get("fact_data").(string)
     factName := d.Get("fact_name").(string)
     labName := d.Get("lab_name").(string)
+    name := d.Get("name").(string)
+    name := d.Get("policy_set_name").(string)
     status := d.Get("status").(string)
     threshold := d.Get("threshold").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     policy := devtestlab.PolicyFragment{
+        Location: utils.String(location),
         PolicyPropertiesFragment: &devtestlab.PolicyPropertiesFragment{
             Description: utils.String(description),
             EvaluatorType: devtestlab.PolicyEvaluatorType(evaluatorType),
@@ -273,12 +284,12 @@ func resourceArmPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
             Threshold: utils.String(threshold),
             UniqueIdentifier: utils.String(uniqueIdentifier),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, name, name, policy); err != nil {
-        return fmt.Errorf("Error updating Policy %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, labName, name, name, policy); err != nil {
+        return fmt.Errorf("Error updating Policy (Name %q / Policy Set Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
     }
 
     return resourceArmPolicyRead(d, meta)
@@ -286,20 +297,21 @@ func resourceArmPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmPolicyDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).policiesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     labName := id.Path["labs"]
     name := id.Path["policysets"]
     name := id.Path["policies"]
 
-    if _, err := client.Delete(ctx, resourceGroup, labName, name, name); err != nil {
-        return fmt.Errorf("Error deleting Policy %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, labName, name, name); err != nil {
+        return fmt.Errorf("Error deleting Policy (Name %q / Policy Set Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
     }
 
     return nil

@@ -29,7 +29,7 @@ func resourceArmVirtualMachineSchedule() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -42,17 +42,10 @@ func resourceArmVirtualMachineSchedule() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "lab_name": {
+            "virtual_machine_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -86,6 +79,8 @@ func resourceArmVirtualMachineSchedule() *schema.Resource {
                     },
                 },
             },
+
+            "location": azure.SchemaLocation(),
 
             "notification_settings": {
                 Type: schema.TypeList,
@@ -123,6 +118,8 @@ func resourceArmVirtualMachineSchedule() *schema.Resource {
                 }, false),
                 Default: string(devtestlab.Enabled),
             },
+
+            "tags": tags.Schema(),
 
             "target_resource_id": {
                 Type: schema.TypeString,
@@ -170,6 +167,16 @@ func resourceArmVirtualMachineSchedule() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -179,26 +186,25 @@ func resourceArmVirtualMachineSchedule() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmVirtualMachineScheduleCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualMachineSchedulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     labName := d.Get("lab_name").(string)
+    name := d.Get("name").(string)
+    name := d.Get("virtual_machine_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, name, name)
+        existing, err := client.Get(ctx, resourceGroupName, labName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Machine Schedule (Name %q / Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -211,12 +217,12 @@ func resourceArmVirtualMachineScheduleCreate(d *schema.ResourceData, meta interf
     hourlyRecurrence := d.Get("hourly_recurrence").([]interface{})
     notificationSettings := d.Get("notification_settings").([]interface{})
     status := d.Get("status").(string)
-    targetResourceId := d.Get("target_resource_id").(string)
+    targetResourceID := d.Get("target_resource_id").(string)
     taskType := d.Get("task_type").(string)
-    timeZoneId := d.Get("time_zone_id").(string)
+    timeZoneID := d.Get("time_zone_id").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
     weeklyRecurrence := d.Get("weekly_recurrence").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     schedule := devtestlab.ScheduleFragment{
         Location: utils.String(location),
@@ -225,27 +231,27 @@ func resourceArmVirtualMachineScheduleCreate(d *schema.ResourceData, meta interf
             HourlyRecurrence: expandArmVirtualMachineScheduleHourDetailsFragment(hourlyRecurrence),
             NotificationSettings: expandArmVirtualMachineScheduleNotificationSettingsFragment(notificationSettings),
             Status: devtestlab.EnableStatus(status),
-            TargetResourceID: utils.String(targetResourceId),
+            TargetResourceID: utils.String(targetResourceID),
             TaskType: utils.String(taskType),
-            TimeZoneID: utils.String(timeZoneId),
+            TimeZoneID: utils.String(timeZoneID),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             WeeklyRecurrence: expandArmVirtualMachineScheduleWeekDetailsFragment(weeklyRecurrence),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, name, schedule); err != nil {
-        return fmt.Errorf("Error creating Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, labName, name, name, schedule); err != nil {
+        return fmt.Errorf("Error creating Virtual Machine Schedule (Name %q / Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, labName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Machine Schedule (Name %q / Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Machine Schedule %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Machine Schedule (Name %q / Virtual Machine Name %q / Lab Name %q / Resource Group %q) ID", name, name, labName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -254,32 +260,30 @@ func resourceArmVirtualMachineScheduleCreate(d *schema.ResourceData, meta interf
 
 func resourceArmVirtualMachineScheduleRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualMachineSchedulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     labName := id.Path["labs"]
     name := id.Path["virtualmachines"]
     name := id.Path["schedules"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, labName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Machine Schedule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Machine Schedule (Name %q / Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -304,49 +308,56 @@ func resourceArmVirtualMachineScheduleRead(d *schema.ResourceData, meta interfac
             return fmt.Errorf("Error setting `weekly_recurrence`: %+v", err)
         }
     }
+    d.Set("id", resp.ID)
     d.Set("lab_name", labName)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
+    d.Set("virtual_machine_name", name)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
 
 func resourceArmVirtualMachineScheduleUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualMachineSchedulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     dailyRecurrence := d.Get("daily_recurrence").([]interface{})
     hourlyRecurrence := d.Get("hourly_recurrence").([]interface{})
     labName := d.Get("lab_name").(string)
+    name := d.Get("name").(string)
     notificationSettings := d.Get("notification_settings").([]interface{})
     status := d.Get("status").(string)
-    targetResourceId := d.Get("target_resource_id").(string)
+    targetResourceID := d.Get("target_resource_id").(string)
     taskType := d.Get("task_type").(string)
-    timeZoneId := d.Get("time_zone_id").(string)
+    timeZoneID := d.Get("time_zone_id").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
+    name := d.Get("virtual_machine_name").(string)
     weeklyRecurrence := d.Get("weekly_recurrence").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     schedule := devtestlab.ScheduleFragment{
+        Location: utils.String(location),
         SchedulePropertiesFragment: &devtestlab.SchedulePropertiesFragment{
             DailyRecurrence: expandArmVirtualMachineScheduleDayDetailsFragment(dailyRecurrence),
             HourlyRecurrence: expandArmVirtualMachineScheduleHourDetailsFragment(hourlyRecurrence),
             NotificationSettings: expandArmVirtualMachineScheduleNotificationSettingsFragment(notificationSettings),
             Status: devtestlab.EnableStatus(status),
-            TargetResourceID: utils.String(targetResourceId),
+            TargetResourceID: utils.String(targetResourceID),
             TaskType: utils.String(taskType),
-            TimeZoneID: utils.String(timeZoneId),
+            TimeZoneID: utils.String(timeZoneID),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             WeeklyRecurrence: expandArmVirtualMachineScheduleWeekDetailsFragment(weeklyRecurrence),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, name, name, schedule); err != nil {
-        return fmt.Errorf("Error updating Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, labName, name, name, schedule); err != nil {
+        return fmt.Errorf("Error updating Virtual Machine Schedule (Name %q / Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
     }
 
     return resourceArmVirtualMachineScheduleRead(d, meta)
@@ -354,20 +365,21 @@ func resourceArmVirtualMachineScheduleUpdate(d *schema.ResourceData, meta interf
 
 func resourceArmVirtualMachineScheduleDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualMachineSchedulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     labName := id.Path["labs"]
     name := id.Path["virtualmachines"]
     name := id.Path["schedules"]
 
-    if _, err := client.Delete(ctx, resourceGroup, labName, name, name); err != nil {
-        return fmt.Errorf("Error deleting Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, labName, name, name); err != nil {
+        return fmt.Errorf("Error deleting Virtual Machine Schedule (Name %q / Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, name, labName, resourceGroupName, err)
     }
 
     return nil
@@ -409,12 +421,12 @@ func expandArmVirtualMachineScheduleNotificationSettingsFragment(input []interfa
 
     status := v["status"].(string)
     timeInMinutes := v["time_in_minutes"].(int)
-    webhookUrl := v["webhook_url"].(string)
+    webhookURL := v["webhook_url"].(string)
 
     result := devtestlab.NotificationSettingsFragment{
         Status: devtestlab.NotificationStatus(status),
         TimeInMinutes: utils.Int32(int32(timeInMinutes)),
-        WebhookURL: utils.String(webhookUrl),
+        WebhookURL: utils.String(webhookURL),
     }
     return &result
 }

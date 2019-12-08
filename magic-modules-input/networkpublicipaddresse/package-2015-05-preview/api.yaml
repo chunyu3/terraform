@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'publicIpAddressName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -121,7 +121,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'publicIpAddressName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -135,7 +135,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'publicIpAddressName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -241,7 +241,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -253,31 +253,31 @@ objects:
       Manage Azure PublicIpAddresse instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'PublicIPAddressName'
         description: 'The name of the publicIpAddress.'
         required: true
         input: true
         azure_sdk_references: ['publicIpAddressName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource location'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::Enum
-        name: 'publicIpallocationMethod'
+        name: 'PublicIPAllocationMethod'
         description: 'Gets or sets PublicIP allocation method (Static/Dynamic)'
         required: true
         azure_sdk_references: ['/publicIPAllocationMethod', '/properties/publicIPAllocationMethod']
@@ -285,76 +285,76 @@ objects:
           - :Static
           - :Dynamic
       - !ruby/object:Api::Type::NestedObject
-        name: 'ipConfiguration'
+        name: 'IPConfiguration'
         description: 'Gets a reference to the network interface IP configurations using this public IP address'
         required: false
         azure_sdk_references: ['/ipConfiguration', '/properties/ipConfiguration']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'id'
+            name: 'ID'
             description: 'Resource Id'
             required: false
             azure_sdk_references: ['/ipConfiguration/id', '/properties/ipConfiguration/id']
       - !ruby/object:Api::Type::NestedObject
-        name: 'dnsSettings'
+        name: 'DNSSettings'
         description: 'Gets or sets FQDN of the DNS record associated with the public IP address'
         required: false
         azure_sdk_references: ['/dnsSettings', '/properties/dnsSettings']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'domainNameLabel'
+            name: 'DomainNameLabel'
             description: 'Gets or sets the Domain name label.The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system.'
             required: false
             azure_sdk_references: ['/dnsSettings/domainNameLabel', '/properties/dnsSettings/domainNameLabel']
           - !ruby/object:Api::Type::String
-            name: 'fqdn'
+            name: 'Fqdn'
             description: 'Gets the FQDN, Fully qualified domain name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone.'
             required: false
             azure_sdk_references: ['/dnsSettings/fqdn', '/properties/dnsSettings/fqdn']
           - !ruby/object:Api::Type::String
-            name: 'reverseFqdn'
+            name: 'ReverseFqdn'
             description: 'Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN. '
             required: false
             azure_sdk_references: ['/dnsSettings/reverseFqdn', '/properties/dnsSettings/reverseFqdn']
       - !ruby/object:Api::Type::String
-        name: 'ipAddress'
+        name: 'IPAddress'
         description: 'Gets the assigned public IP address'
         required: false
         azure_sdk_references: ['/ipAddress', '/properties/ipAddress']
       - !ruby/object:Api::Type::Integer
-        name: 'idleTimeoutInMinutes'
+        name: 'IdleTimeoutInMinutes'
         description: 'Gets or sets the idle timeout of the public IP address'
         required: false
         azure_sdk_references: ['/idleTimeoutInMinutes', '/properties/idleTimeoutInMinutes']
       - !ruby/object:Api::Type::String
-        name: 'resourceGuid'
+        name: 'ResourceGUID'
         description: 'Gets or sets resource guid property of the PublicIP resource'
         required: false
         azure_sdk_references: ['/resourceGuid', '/properties/resourceGuid']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'Gets a unique read-only string that changes whenever the resource is updated'
         required: false
         input: true
         azure_sdk_references: ['/etag']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Gets or sets Provisioning state of the PublicIP resource Updating/Deleting/Failed'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource Id'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type'
         output: true
         azure_sdk_references: ['/type']

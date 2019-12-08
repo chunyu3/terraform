@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -112,7 +112,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -141,7 +141,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -225,7 +225,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -238,73 +238,73 @@ objects:
       Manage Azure ProtectedItem instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'vaultName'
+        name: 'VaultName'
         description: 'The name of the Recovery Services vault.'
         required: true
         input: true
         azure_sdk_references: ['vaultName']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group associated with the Recovery Services vault.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'fabricName'
+        name: 'FabricName'
         description: ' The fabric name associated with the backup item.'
         required: true
         input: true
         azure_sdk_references: ['fabricName']
       - !ruby/object:Api::Type::String
-        name: 'containerName'
+        name: 'ContainerName'
         description: 'The container name associated with the backup item.'
         required: true
         input: true
         azure_sdk_references: ['containerName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ProtectedItemName'
         description: 'The backup item to be deleted.'
         required: true
         input: true
         azure_sdk_references: ['protectedItemName']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource ID represents the complete path to the resource.'
         required: false
         input: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name associated with the resource.'
         required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...'
         required: false
         input: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource location.'
         required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'eTag'
+        name: 'ETag'
         description: 'Optional ETag.'
         required: false
         input: true
         azure_sdk_references: ['/eTag']
       - !ruby/object:Api::Type::Enum
-        name: 'backupManagementType'
+        name: 'BackupManagementType'
         description: 'The backup management type associated with the backup item.'
         required: false
         azure_sdk_references: ['/backupManagementType', '/properties/backupManagementType']
@@ -317,7 +317,7 @@ objects:
           - :AzureSql
         default_value: :Invalid
       - !ruby/object:Api::Type::Enum
-        name: 'workloadType'
+        name: 'WorkloadType'
         description: 'The workload type for this item.'
         required: false
         azure_sdk_references: ['/workloadType', '/properties/workloadType']
@@ -332,17 +332,17 @@ objects:
           - :DPMUnknown
         default_value: :Invalid
       - !ruby/object:Api::Type::String
-        name: 'sourceResourceId'
+        name: 'SourceResourceID'
         description: 'The ID of the resource to be backed up.'
         required: false
         azure_sdk_references: ['/sourceResourceId', '/properties/sourceResourceId']
       - !ruby/object:Api::Type::String
-        name: 'policyId'
+        name: 'PolicyID'
         description: 'The ID of the backup policy associated with this backup item.'
         required: false
         azure_sdk_references: ['/policyId', '/properties/policyId']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastRecoveryPoint'
+        name: 'LastRecoveryPoint'
         description: 'The timestamp when the most recent backup copy was created for this backup item.'
         required: false
         azure_sdk_references: ['/lastRecoveryPoint', '/properties/lastRecoveryPoint']

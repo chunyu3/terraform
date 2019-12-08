@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -144,7 +144,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -159,7 +159,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -173,7 +173,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -297,7 +297,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -309,19 +309,19 @@ objects:
       Manage Azure Service instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group that contains the service instance.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ResourceName'
         description: 'The name of the service instance.'
         required: true
         input: true
         azure_sdk_references: ['resourceName']
       - !ruby/object:Api::Type::Enum
-        name: 'kind'
+        name: 'Kind'
         description: 'The kind of the service. Valid values are: fhir, fhir-Stu3 and fhir-R4.'
         required: true
         input: true
@@ -331,91 +331,91 @@ objects:
           - :fhir-Stu3
           - :fhir-R4
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The resource location.'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Instance tags'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'An etag associated with the resource, used for optimistic concurrency when editing it.'
         required: false
         input: true
         azure_sdk_references: ['/etag']
       - !ruby/object:Api::Type::String
-        name: 'accessPoliciesObjectId'
+        name: 'ObjectID'
         description: 'An object ID that is allowed access to the FHIR service.'
         required: true
         azure_sdk_references: ['/accessPolicies/objectId', '/properties/accessPolicies/objectId']
       - !ruby/object:Api::Type::Integer
-        name: 'cosmosDbOfferThroughput'
+        name: 'OfferThroughput'
         description: 'The provisioned throughput for the backing database.'
         required: false
         azure_sdk_references: ['/cosmosDbConfiguration/offerThroughput', '/properties/cosmosDbConfiguration/offerThroughput']
       - !ruby/object:Api::Type::String
-        name: 'authenticationAuthority'
+        name: 'Authority'
         description: 'The authority url for the service'
         required: false
         azure_sdk_references: ['/authenticationConfiguration/authority', '/properties/authenticationConfiguration/authority']
       - !ruby/object:Api::Type::String
-        name: 'authenticationAudience'
+        name: 'Audience'
         description: 'The audience url for the service'
         required: false
         azure_sdk_references: ['/authenticationConfiguration/audience', '/properties/authenticationConfiguration/audience']
       - !ruby/object:Api::Type::Boolean
-        name: 'authenticationSmartProxyEnabled'
+        name: 'SmartProxyEnabled'
         description: 'If the SMART on FHIR proxy is enabled'
         required: false
         azure_sdk_references: ['/authenticationConfiguration/smartProxyEnabled', '/properties/authenticationConfiguration/smartProxyEnabled']
       - !ruby/object:Api::Type::Array
-        name: 'corsOrigins'
+        name: 'Origins'
         description: 'The origins to be allowed via CORS.'
         required: false
         azure_sdk_references: ['/corsConfiguration/origins', '/properties/corsConfiguration/origins']
         item_type: Api::Type::String
       - !ruby/object:Api::Type::Array
-        name: 'corsHeaders'
+        name: 'Headers'
         description: 'The headers to be allowed via CORS.'
         required: false
         azure_sdk_references: ['/corsConfiguration/headers', '/properties/corsConfiguration/headers']
         item_type: Api::Type::String
       - !ruby/object:Api::Type::Array
-        name: 'corsMethods'
+        name: 'Methods'
         description: 'The methods to be allowed via CORS.'
         required: false
         azure_sdk_references: ['/corsConfiguration/methods', '/properties/corsConfiguration/methods']
         item_type: Api::Type::String
       - !ruby/object:Api::Type::Integer
-        name: 'corsMaxAge'
+        name: 'MaxAge'
         description: 'The max age to be allowed via CORS.'
         required: false
         azure_sdk_references: ['/corsConfiguration/maxAge', '/properties/corsConfiguration/maxAge']
       - !ruby/object:Api::Type::Boolean
-        name: 'corsAllowCredentials'
+        name: 'AllowCredentials'
         description: 'If credentials are allowed via CORS.'
         required: false
         azure_sdk_references: ['/corsConfiguration/allowCredentials', '/properties/corsConfiguration/allowCredentials']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the service instance to check.'
         required: true
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The fully qualified resource type which includes provider namespace.'
         required: true
         input: true
         azure_sdk_references: ['/type']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'The provisioning state.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
@@ -430,7 +430,7 @@ objects:
           - :Canceled
           - :Deprovisioned
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The resource identifier.'
         output: true
         azure_sdk_references: ['/id']

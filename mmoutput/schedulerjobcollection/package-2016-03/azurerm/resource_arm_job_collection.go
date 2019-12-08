@@ -29,22 +29,22 @@ func resourceArmJobCollection() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "job_collection_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "location": azure.SchemaLocation(),
+
             "name": {
                 Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "quota": {
                 Type: schema.TypeList,
@@ -122,28 +122,34 @@ func resourceArmJobCollection() *schema.Resource {
                 Default: string(scheduler.Enabled),
             },
 
-            "type": {
+            "tags": tags.Schema(),
+
+            "id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
-            "tags": tags.Schema(),
+            "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
         },
     }
 }
 
 func resourceArmJobCollectionCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobCollectionsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("job_collection_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Job Collection %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Job Collection (Job Collection Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -151,12 +157,12 @@ func resourceArmJobCollectionCreateUpdate(d *schema.ResourceData, meta interface
         }
     }
 
-    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
+    name := d.Get("name").(string)
     quota := d.Get("quota").([]interface{})
     sku := d.Get("sku").([]interface{})
     state := d.Get("state").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     jobCollection := scheduler.JobCollectionDefinition{
         Location: utils.String(location),
@@ -166,21 +172,21 @@ func resourceArmJobCollectionCreateUpdate(d *schema.ResourceData, meta interface
             Sku: expandArmJobCollectionSku(sku),
             State: scheduler.JobCollectionState(state),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, jobCollection); err != nil {
-        return fmt.Errorf("Error creating Job Collection %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, name, jobCollection); err != nil {
+        return fmt.Errorf("Error creating Job Collection (Job Collection Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Job Collection %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Job Collection (Job Collection Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Job Collection %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Job Collection (Job Collection Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -189,32 +195,34 @@ func resourceArmJobCollectionCreateUpdate(d *schema.ResourceData, meta interface
 
 func resourceArmJobCollectionRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobCollectionsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["jobCollections"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Job Collection %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Job Collection %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Job Collection (Job Collection Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    d.Set("id", resp.ID)
+    d.Set("job_collection_name", name)
+    d.Set("name", resp.Name)
     if jobCollectionProperties := resp.JobCollectionProperties; jobCollectionProperties != nil {
         if err := d.Set("quota", flattenArmJobCollectionJobCollectionQuota(jobCollectionProperties.Quota)); err != nil {
             return fmt.Errorf("Error setting `quota`: %+v", err)
@@ -232,27 +240,28 @@ func resourceArmJobCollectionRead(d *schema.ResourceData, meta interface{}) erro
 
 func resourceArmJobCollectionDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobCollectionsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["jobCollections"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Job Collection %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Job Collection (Job Collection Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Job Collection %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Job Collection (Job Collection Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 

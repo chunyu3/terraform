@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'containerServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -192,7 +192,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'containerServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -206,7 +206,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'containerServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -401,7 +401,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
 
@@ -409,37 +409,37 @@ objects:
       Manage Azure ContainerService instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ContainerServiceName'
         description: 'The name of the container service within the given subscription and resource group.'
         required: true
         input: true
         azure_sdk_references: ['containerServiceName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource location'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::NestedObject
-        name: 'orchestratorProfile'
+        name: 'OrchestratorProfile'
         description: 'Properties of orchestrator'
         required: false
         azure_sdk_references: ['/orchestratorProfile', '/properties/orchestratorProfile']
         properties:
           - !ruby/object:Api::Type::Enum
-            name: 'orchestratorType'
+            name: 'OrchestratorType'
             description: 'Specifies what orchestrator will be used to manage container cluster resources.'
             required: false
             azure_sdk_references: ['/orchestratorProfile/orchestratorType', '/properties/orchestratorProfile/orchestratorType']
@@ -449,40 +449,40 @@ objects:
               - :DCOS
             default_value: :Mesos
       - !ruby/object:Api::Type::NestedObject
-        name: 'masterProfile'
+        name: 'MasterProfile'
         description: 'Properties of master agents'
         required: true
         azure_sdk_references: ['/masterProfile', '/properties/masterProfile']
         properties:
           - !ruby/object:Api::Type::Integer
-            name: 'count'
+            name: 'Count'
             description: 'Number of masters (VMs) in the container cluster'
             required: false
             azure_sdk_references: ['/masterProfile/count', '/properties/masterProfile/count']
           - !ruby/object:Api::Type::String
-            name: 'dnsPrefix'
+            name: 'DNSPrefix'
             description: 'DNS prefix to be used to create FQDN for master'
             required: true
             azure_sdk_references: ['/masterProfile/dnsPrefix', '/properties/masterProfile/dnsPrefix']
       - !ruby/object:Api::Type::Array
-        name: 'agentPoolProfiles'
+        name: 'AgentPoolProfiles'
         description: 'Properties of agent pools'
         required: true
         azure_sdk_references: ['/agentPoolProfiles', '/properties/agentPoolProfiles']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Unique name of the agent pool profile within the context of the subscription and resource group'
               required: true
               azure_sdk_references: ['/agentPoolProfiles/name', '/properties/agentPoolProfiles/name']
             - !ruby/object:Api::Type::Integer
-              name: 'count'
+              name: 'Count'
               description: 'No. of agents (VMs) that will host docker containers'
               required: false
               azure_sdk_references: ['/agentPoolProfiles/count', '/properties/agentPoolProfiles/count']
             - !ruby/object:Api::Type::Enum
-              name: 'vmSize'
+              name: 'VMSize'
               description: 'Size of agent VMs'
               required: false
               azure_sdk_references: ['/agentPoolProfiles/vmSize', '/properties/agentPoolProfiles/vmSize']
@@ -536,90 +536,90 @@ objects:
                 - :Standard_GS5
               default_value: :Standard_A0
             - !ruby/object:Api::Type::String
-              name: 'dnsPrefix'
+              name: 'DNSPrefix'
               description: 'DNS prefix to be used to create FQDN for this agent pool'
               required: true
               azure_sdk_references: ['/agentPoolProfiles/dnsPrefix', '/properties/agentPoolProfiles/dnsPrefix']
       - !ruby/object:Api::Type::NestedObject
-        name: 'windowsProfile'
+        name: 'WindowsProfile'
         description: 'Properties of Windows VMs'
         required: false
         azure_sdk_references: ['/windowsProfile', '/properties/windowsProfile']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'adminUsername'
+            name: 'AdminUsername'
             description: 'The administrator username to use for Windows jumpbox'
             required: true
             azure_sdk_references: ['/windowsProfile/adminUsername', '/properties/windowsProfile/adminUsername']
           - !ruby/object:Api::Type::String
-            name: 'adminPassword'
+            name: 'AdminPassword'
             description: 'The administrator password to use for Windows jumpbox'
             required: true
             azure_sdk_references: ['/windowsProfile/adminPassword', '/properties/windowsProfile/adminPassword']
       - !ruby/object:Api::Type::NestedObject
-        name: 'linuxProfile'
+        name: 'LinuxProfile'
         description: 'Properties for Linux VMs'
         required: true
         azure_sdk_references: ['/linuxProfile', '/properties/linuxProfile']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'adminUsername'
+            name: 'AdminUsername'
             description: 'The administrator username to use for all Linux VMs'
             required: true
             azure_sdk_references: ['/linuxProfile/adminUsername', '/properties/linuxProfile/adminUsername']
           - !ruby/object:Api::Type::NestedObject
-            name: 'ssh'
+            name: 'SSH'
             description: 'Specifies the ssh key configuration for Linux VMs'
             required: true
             azure_sdk_references: ['/linuxProfile/ssh', '/properties/linuxProfile/ssh']
             properties:
               - !ruby/object:Api::Type::Array
-                name: 'publicKeys'
+                name: 'PublicKeys'
                 description: 'Gets or sets the list of SSH public keys used to authenticate with Linux based VMs'
                 required: false
                 azure_sdk_references: ['/linuxProfile/ssh/publicKeys', '/properties/linuxProfile/ssh/publicKeys']
                 item_type: !ruby/object:Api::Type::NestedObject
                   properties:
                     - !ruby/object:Api::Type::String
-                      name: 'keyData'
+                      name: 'KeyData'
                       description: 'Gets or sets Certificate public key used to authenticate with VM through SSH. The certificate must be in Pem format with or without headers.'
                       required: true
                       azure_sdk_references: ['/linuxProfile/ssh/publicKeys/keyData', '/properties/linuxProfile/ssh/publicKeys/keyData']
       - !ruby/object:Api::Type::NestedObject
-        name: 'diagnosticsProfile'
+        name: 'DiagnosticsProfile'
         description: 'Properties for Diagnostic Agent'
         required: false
         azure_sdk_references: ['/diagnosticsProfile', '/properties/diagnosticsProfile']
         properties:
           - !ruby/object:Api::Type::NestedObject
-            name: 'vmDiagnostics'
+            name: 'VMDiagnostics'
             description: 'Profile for container service VM diagnostic agent'
             required: false
             azure_sdk_references: ['/diagnosticsProfile/vmDiagnostics', '/properties/diagnosticsProfile/vmDiagnostics']
             properties:
               - !ruby/object:Api::Type::Boolean
-                name: 'enabled'
+                name: 'Enabled'
                 description: 'Gets or sets whether VM Diagnostic Agent should be provisioned on the Virtual Machine.'
                 required: false
                 azure_sdk_references: ['/diagnosticsProfile/vmDiagnostics/enabled', '/properties/diagnosticsProfile/vmDiagnostics/enabled']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Gets the provisioning state, which only appears in the response.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource Id'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type'
         output: true
         azure_sdk_references: ['/type']

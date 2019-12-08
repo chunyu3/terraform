@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -161,7 +161,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -262,7 +262,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -277,7 +277,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -377,7 +377,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -391,7 +391,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -404,7 +404,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -428,7 +428,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -447,7 +447,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -460,110 +460,110 @@ objects:
       Manage Azure Account instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the Azure resource group that contains the Data Lake Analytics account.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'accountName'
+        name: 'AccountName'
         description: 'The name of the Data Lake Analytics account to delete'
         required: true
         input: true
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::String
-        name: 'storageAccountName'
+        name: 'StorageAccountName'
         description: 'The name of the Azure storage account for which the SAS token is being requested.'
         required: true
         input: true
         azure_sdk_references: ['storageAccountName']
       - !ruby/object:Api::Type::String
-        name: 'defaultDataLakeStoreAccount'
+        name: 'DefaultDataLakeStoreAccount'
         description: 'the default data lake storage account associated with this Data Lake Analytics account.'
         required: false
         azure_sdk_references: ['/defaultDataLakeStoreAccount', '/properties/defaultDataLakeStoreAccount']
       - !ruby/object:Api::Type::Integer
-        name: 'maxDegreeOfParallelism'
+        name: 'MaxDegreeOfParallelism'
         description: 'the maximum supported degree of parallelism for this account.'
         required: false
         azure_sdk_references: ['/maxDegreeOfParallelism', '/properties/maxDegreeOfParallelism']
       - !ruby/object:Api::Type::Integer
-        name: 'maxJobCount'
+        name: 'MaxJobCount'
         description: 'the maximum supported jobs running under the account at the same time.'
         required: false
         azure_sdk_references: ['/maxJobCount', '/properties/maxJobCount']
       - !ruby/object:Api::Type::Array
-        name: 'dataLakeStoreAccounts'
+        name: 'DataLakeStoreAccounts'
         description: 'the list of Data Lake storage accounts associated with this account.'
         required: false
         azure_sdk_references: ['/dataLakeStoreAccounts', '/properties/dataLakeStoreAccounts']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'the account name of the Data Lake Store account.'
               required: true
               azure_sdk_references: ['/dataLakeStoreAccounts/name', '/properties/dataLakeStoreAccounts/name']
             - !ruby/object:Api::Type::String
-              name: 'suffix'
+              name: 'Suffix'
               description: 'the optional suffix for the Data Lake Store account.'
               required: false
               azure_sdk_references: ['/dataLakeStoreAccounts/suffix', '/properties/dataLakeStoreAccounts/properties/suffix']
       - !ruby/object:Api::Type::Array
-        name: 'storageAccounts'
+        name: 'StorageAccounts'
         description: 'the list of Azure Blob storage accounts associated with this account.'
         required: false
         azure_sdk_references: ['/storageAccounts', '/properties/storageAccounts']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'the account name associated with the Azure storage account.'
               required: true
               azure_sdk_references: ['/storageAccounts/name', '/properties/storageAccounts/name']
             - !ruby/object:Api::Type::String
-              name: 'accessKey'
+              name: 'AccessKey'
               description: 'the access key associated with this Azure Storage account that will be used to connect to it.'
               required: true
               azure_sdk_references: ['/storageAccounts/accessKey', '/properties/storageAccounts/properties/accessKey']
             - !ruby/object:Api::Type::String
-              name: 'suffix'
+              name: 'Suffix'
               description: 'the optional suffix for the Data Lake account.'
               required: false
               azure_sdk_references: ['/storageAccounts/suffix', '/properties/storageAccounts/properties/suffix']
       - !ruby/object:Api::Type::String
-        name: 'containerName'
+        name: 'ContainerName'
         description: 'The name of the Azure storage container for which the SAS token is being requested.'
         required: true
         input: true
         azure_sdk_references: ['containerName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'DataLakeStoreAccountName'
         description: 'The name of the Data Lake Store account to add.'
         required: true
         input: true
         azure_sdk_references: ['dataLakeStoreAccountName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'the account name.'
         required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'the account regional location.'
         required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'the value of custom properties.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'the provisioning status of the Data Lake Analytics account.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
@@ -578,7 +578,7 @@ objects:
           - :Deleting
           - :Deleted
       - !ruby/object:Api::Type::Enum
-        name: 'state'
+        name: 'State'
         description: 'the state of the Data Lake Analytics account.'
         output: true
         azure_sdk_references: ['/state', '/properties/state']
@@ -586,27 +586,27 @@ objects:
           - :active
           - :suspended
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
+        name: 'CreationTime'
         description: 'the account creation time.'
         output: true
         azure_sdk_references: ['/creationTime', '/properties/creationTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModifiedTime'
+        name: 'LastModifiedTime'
         description: 'the account last modified time.'
         output: true
         azure_sdk_references: ['/lastModifiedTime', '/properties/lastModifiedTime']
       - !ruby/object:Api::Type::String
-        name: 'endpoint'
+        name: 'Endpoint'
         description: 'the full CName endpoint for this account.'
         output: true
         azure_sdk_references: ['/endpoint', '/properties/endpoint']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'the namespace and type of the account.'
         output: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'the account subscription ID.'
         output: true
         azure_sdk_references: ['/id']

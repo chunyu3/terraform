@@ -29,21 +29,6 @@ func resourceArmRoute() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Optional: true,
-                ForceNew: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "next_hop_type": {
                 Type: schema.TypeString,
                 Required: true,
@@ -54,6 +39,15 @@ func resourceArmRoute() *schema.Resource {
                     string(network.VirtualAppliance),
                     string(network.None),
                 }, false),
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "route_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "route_table_name": {
@@ -74,6 +68,18 @@ func resourceArmRoute() *schema.Resource {
                 ForceNew: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "next_hop_ip_address": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -89,17 +95,18 @@ func resourceArmRoute() *schema.Resource {
 
 func resourceArmRouteCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).routesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("route_name").(string)
     routeTableName := d.Get("route_table_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, routeTableName, name)
+        existing, err := client.Get(ctx, resourceGroupName, routeTableName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -107,40 +114,40 @@ func resourceArmRouteCreateUpdate(d *schema.ResourceData, meta interface{}) erro
         }
     }
 
-    id := d.Get("id").(string)
-    name := d.Get("name").(string)
     addressPrefix := d.Get("address_prefix").(string)
     etag := d.Get("etag").(string)
-    nextHopIpAddress := d.Get("next_hop_ip_address").(string)
+    iD := d.Get("id").(string)
+    name := d.Get("name").(string)
+    nextHopIPAddress := d.Get("next_hop_ip_address").(string)
     nextHopType := d.Get("next_hop_type").(string)
 
     routeParameters := network.Route{
         Etag: utils.String(etag),
-        ID: utils.String(id),
+        ID: utils.String(iD),
         Name: utils.String(name),
         RoutePropertiesFormat: &network.RoutePropertiesFormat{
             AddressPrefix: utils.String(addressPrefix),
-            NextHopIPAddress: utils.String(nextHopIpAddress),
+            NextHopIPAddress: utils.String(nextHopIPAddress),
             NextHopType: network.RouteNextHopType(nextHopType),
         },
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, routeTableName, name, routeParameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, routeTableName, name, routeParameters)
     if err != nil {
-        return fmt.Errorf("Error creating Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error creating Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, routeTableName, name)
+    resp, err := client.Get(ctx, resourceGroupName, routeTableName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Route %q (Route Table Name %q / Resource Group %q) ID", name, routeTableName, resourceGroup)
+        return fmt.Errorf("Cannot read Route (Route Name %q / Route Table Name %q / Resource Group %q) ID", name, routeTableName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -149,30 +156,29 @@ func resourceArmRouteCreateUpdate(d *schema.ResourceData, meta interface{}) erro
 
 func resourceArmRouteRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).routesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     routeTableName := id.Path["routeTables"]
     name := id.Path["routes"]
 
-    resp, err := client.Get(ctx, resourceGroup, routeTableName, name)
+    resp, err := client.Get(ctx, resourceGroupName, routeTableName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Route %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error reading Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if routePropertiesFormat := resp.RoutePropertiesFormat; routePropertiesFormat != nil {
         d.Set("address_prefix", routePropertiesFormat.AddressPrefix)
         d.Set("next_hop_ip_address", routePropertiesFormat.NextHopIPAddress)
@@ -180,6 +186,9 @@ func resourceArmRouteRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("provisioning_state", routePropertiesFormat.ProvisioningState)
     }
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("route_name", name)
     d.Set("route_table_name", routeTableName)
 
     return nil
@@ -188,28 +197,29 @@ func resourceArmRouteRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmRouteDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).routesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     routeTableName := id.Path["routeTables"]
     name := id.Path["routes"]
 
-    future, err := client.Delete(ctx, resourceGroup, routeTableName, name)
+    future, err := client.Delete(ctx, resourceGroupName, routeTableName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroupName, err)
         }
     }
 

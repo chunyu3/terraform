@@ -1,0 +1,28 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_app_service_plan
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: serverfarm
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  name: testsf6141
+  app_service_plan:
+    id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Web/serverfarms/{{ serverfarm_name }}
+    name: testsf6141
+    type: Microsoft.Web/serverfarms
+    kind: app
+    location: East US
+    properties:
+      name: testsf6141
+    sku:
+      name: P1
+      tier: Premium
+      size: P1
+      family: P
+      capacity: '1'

@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_scope_assignment
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: managednetwork
+    example: basic
+properties:
+  scope: subscriptions/subscriptionC
+  name: '<%= get_resource_name('''', ''managednetworkscopeassignment'') -%>'

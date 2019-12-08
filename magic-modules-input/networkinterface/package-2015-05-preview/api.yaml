@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'networkInterfaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -233,7 +233,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'networkInterfaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -247,7 +247,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'networkInterfaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -471,7 +471,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -484,7 +484,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'virtualMachineScaleSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -503,7 +503,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'virtualMachineScaleSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -516,70 +516,70 @@ objects:
       Manage Azure NetworkInterface instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'networkInterfaceName'
+        name: 'NetworkInterfaceName'
         description: 'The name of the network interface.'
         required: true
         input: true
         azure_sdk_references: ['networkInterfaceName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource location'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::NestedObject
-        name: 'virtualMachine'
+        name: 'VirtualMachine'
         description: 'Gets or sets the reference of a VirtualMachine'
         required: false
         azure_sdk_references: ['/virtualMachine', '/properties/virtualMachine']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'id'
+            name: 'ID'
             description: 'Resource Id'
             required: false
             azure_sdk_references: ['/virtualMachine/id', '/properties/virtualMachine/id']
       - !ruby/object:Api::Type::NestedObject
-        name: 'networkSecurityGroup'
+        name: 'NetworkSecurityGroup'
         description: 'Gets or sets the reference of the NetworkSecurityGroup resource'
         required: false
         azure_sdk_references: ['/networkSecurityGroup', '/properties/networkSecurityGroup']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'id'
+            name: 'ID'
             description: 'Resource Id'
             required: false
             azure_sdk_references: ['/networkSecurityGroup/id', '/properties/networkSecurityGroup/id']
       - !ruby/object:Api::Type::Array
-        name: 'ipConfigurations'
+        name: 'IPConfigurations'
         description: 'Gets or sets list of IPConfigurations of the NetworkInterface'
         required: false
         azure_sdk_references: ['/ipConfigurations', '/properties/ipConfigurations']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource Id'
               required: false
               azure_sdk_references: ['/ipConfigurations/id', '/properties/ipConfigurations/id']
             - !ruby/object:Api::Type::String
-              name: 'privateIpAddress'
+              name: 'PrivateIPAddress'
               description: 'Gets or sets the privateIPAddress of the Network Interface IP Configuration'
               required: false
               azure_sdk_references: ['/ipConfigurations/privateIPAddress', '/properties/ipConfigurations/properties/privateIPAddress']
             - !ruby/object:Api::Type::Enum
-              name: 'privateIpallocationMethod'
+              name: 'PrivateIPAllocationMethod'
               description: 'Gets or sets PrivateIP allocation method (Static/Dynamic)'
               required: false
               azure_sdk_references: ['/ipConfigurations/privateIPAllocationMethod', '/properties/ipConfigurations/properties/privateIPAllocationMethod']
@@ -588,145 +588,145 @@ objects:
                 - :Dynamic
               default_value: :Static
             - !ruby/object:Api::Type::NestedObject
-              name: 'subnet'
+              name: 'Subnet'
               description: 'Gets or sets the reference of the subnet resource'
               required: false
               azure_sdk_references: ['/ipConfigurations/subnet', '/properties/ipConfigurations/properties/subnet']
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'id'
+                  name: 'ID'
                   description: 'Resource Id'
                   required: false
                   azure_sdk_references: ['/ipConfigurations/subnet/id', '/properties/ipConfigurations/properties/subnet/id']
             - !ruby/object:Api::Type::NestedObject
-              name: 'publicIpAddress'
+              name: 'PublicIPAddress'
               description: 'Gets or sets the reference of the PublicIP resource'
               required: false
               azure_sdk_references: ['/ipConfigurations/publicIPAddress', '/properties/ipConfigurations/properties/publicIPAddress']
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'id'
+                  name: 'ID'
                   description: 'Resource Id'
                   required: false
                   azure_sdk_references: ['/ipConfigurations/publicIPAddress/id', '/properties/ipConfigurations/properties/publicIPAddress/id']
             - !ruby/object:Api::Type::Array
-              name: 'loadBalancerBackendAddressPools'
+              name: 'LoadBalancerBackendAddressPools'
               description: 'Gets or sets the reference of LoadBalancerBackendAddressPool resource'
               required: false
               azure_sdk_references: ['/ipConfigurations/loadBalancerBackendAddressPools', '/properties/ipConfigurations/properties/loadBalancerBackendAddressPools']
               item_type: !ruby/object:Api::Type::NestedObject
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'id'
+                    name: 'ID'
                     description: 'Resource Id'
                     required: false
                     azure_sdk_references: ['/ipConfigurations/loadBalancerBackendAddressPools/id', '/properties/ipConfigurations/properties/loadBalancerBackendAddressPools/id']
             - !ruby/object:Api::Type::Array
-              name: 'loadBalancerInboundNatRules'
+              name: 'LoadBalancerInboundNatRules'
               description: 'Gets or sets list of references of LoadBalancerInboundNatRules'
               required: false
               azure_sdk_references: ['/ipConfigurations/loadBalancerInboundNatRules', '/properties/ipConfigurations/properties/loadBalancerInboundNatRules']
               item_type: !ruby/object:Api::Type::NestedObject
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'id'
+                    name: 'ID'
                     description: 'Resource Id'
                     required: false
                     azure_sdk_references: ['/ipConfigurations/loadBalancerInboundNatRules/id', '/properties/ipConfigurations/properties/loadBalancerInboundNatRules/id']
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource'
               required: false
               azure_sdk_references: ['/ipConfigurations/name', '/properties/ipConfigurations/name']
             - !ruby/object:Api::Type::String
-              name: 'etag'
+              name: 'Etag'
               description: 'A unique read-only string that changes whenever the resource is updated'
               required: false
               azure_sdk_references: ['/ipConfigurations/etag', '/properties/ipConfigurations/etag']
       - !ruby/object:Api::Type::NestedObject
-        name: 'dnsSettings'
+        name: 'DNSSettings'
         description: 'Gets or sets DNS Settings in  NetworkInterface'
         required: false
         azure_sdk_references: ['/dnsSettings', '/properties/dnsSettings']
         properties:
           - !ruby/object:Api::Type::Array
-            name: 'dnsServers'
+            name: 'DNSServers'
             description: 'Gets or sets list of DNS servers IP addresses'
             required: false
             azure_sdk_references: ['/dnsSettings/dnsServers', '/properties/dnsSettings/dnsServers']
             item_type: Api::Type::String
           - !ruby/object:Api::Type::Array
-            name: 'appliedDnsServers'
+            name: 'AppliedDNSServers'
             description: 'Gets or sets list of Applied DNS servers IP addresses'
             required: false
             azure_sdk_references: ['/dnsSettings/appliedDnsServers', '/properties/dnsSettings/appliedDnsServers']
             item_type: Api::Type::String
           - !ruby/object:Api::Type::String
-            name: 'internalDnsNameLabel'
+            name: 'InternalDNSNameLabel'
             description: 'Gets or sets the Internal DNS name'
             required: false
             azure_sdk_references: ['/dnsSettings/internalDnsNameLabel', '/properties/dnsSettings/internalDnsNameLabel']
           - !ruby/object:Api::Type::String
-            name: 'internalFqdn'
+            name: 'InternalFqdn'
             description: 'Gets or sets full IDNS name in the form, DnsName.VnetId.ZoneId.TopLevelSuffix. This is set when the NIC is associated to a VM'
             required: false
             azure_sdk_references: ['/dnsSettings/internalFqdn', '/properties/dnsSettings/internalFqdn']
       - !ruby/object:Api::Type::String
-        name: 'macAddress'
+        name: 'MacAddress'
         description: 'Gets the MAC Address of the network interface'
         required: false
         azure_sdk_references: ['/macAddress', '/properties/macAddress']
       - !ruby/object:Api::Type::Boolean
-        name: 'primary'
+        name: 'Primary'
         description: 'Gets whether this is a primary NIC on a virtual machine'
         required: false
         azure_sdk_references: ['/primary', '/properties/primary']
       - !ruby/object:Api::Type::Boolean
-        name: 'enableIpforwarding'
+        name: 'EnableIPForwarding'
         description: 'Gets or sets whether IPForwarding is enabled on the NIC'
         required: false
         azure_sdk_references: ['/enableIPForwarding', '/properties/enableIPForwarding']
       - !ruby/object:Api::Type::String
-        name: 'resourceGuid'
+        name: 'ResourceGUID'
         description: 'Gets or sets resource guid property of the network interface resource'
         required: false
         azure_sdk_references: ['/resourceGuid', '/properties/resourceGuid']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'Gets a unique read-only string that changes whenever the resource is updated'
         required: false
         input: true
         azure_sdk_references: ['/etag']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'VirtualMachineScaleSetName'
         description: 'The name of the virtual machine scale set.'
         required: true
         input: true
         azure_sdk_references: ['virtualMachineScaleSetName']
       - !ruby/object:Api::Type::String
-        name: 'virtualmachineIndex'
+        name: 'VirtualmachineIndex'
         description: 'The virtual machine index.'
         required: true
         input: true
         azure_sdk_references: ['virtualmachineIndex']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Gets or sets Provisioning state of the PublicIP resource Updating/Deleting/Failed'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource Id'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type'
         output: true
         azure_sdk_references: ['/type']

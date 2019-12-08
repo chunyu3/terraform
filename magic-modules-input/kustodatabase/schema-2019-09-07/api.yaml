@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -45,7 +45,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -65,7 +65,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -84,7 +84,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -117,7 +117,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -131,7 +131,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -149,32 +149,32 @@ objects:
       Manage Azure Database instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group containing the Kusto cluster.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'clusterName'
+        name: 'ClusterName'
         description: 'The name of the Kusto cluster.'
         required: true
         input: true
         azure_sdk_references: ['clusterName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'DatabaseName'
         description: 'The name of the database in the Kusto cluster.'
         required: true
         input: true
         azure_sdk_references: ['databaseName']
       - !ruby/object:Api::Type::Array
-        name: 'value'
+        name: 'Value'
         description: 'The list of Kusto database principals.'
         required: false
         azure_sdk_references: ['/value']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::Enum
-              name: 'role'
+              name: 'Role'
               description: 'Database principal role.'
               required: true
               azure_sdk_references: ['/value/role']
@@ -186,12 +186,12 @@ objects:
                 - :UnrestrictedViewers
                 - :Viewer
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Database principal name.'
               required: true
               azure_sdk_references: ['/value/name']
             - !ruby/object:Api::Type::Enum
-              name: 'type'
+              name: 'Type'
               description: 'Database principal type.'
               required: true
               azure_sdk_references: ['/value/type']
@@ -200,17 +200,17 @@ objects:
                 - :Group
                 - :User
             - !ruby/object:Api::Type::String
-              name: 'fqn'
+              name: 'Fqn'
               description: 'Database principal fully qualified name.'
               required: false
               azure_sdk_references: ['/value/fqn']
             - !ruby/object:Api::Type::String
-              name: 'email'
+              name: 'Email'
               description: 'Database principal email if exists.'
               required: false
               azure_sdk_references: ['/value/email']
             - !ruby/object:Api::Type::String
-              name: 'appId'
+              name: 'AppID'
               description: 'Application id - relevant only for application principal type.'
               required: false
               azure_sdk_references: ['/value/appId']

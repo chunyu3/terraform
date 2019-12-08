@@ -29,21 +29,12 @@ func resourceArmCustomDomain() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "custom_domain_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "endpoint_name": {
                 Type: schema.TypeString,
@@ -65,7 +56,21 @@ func resourceArmCustomDomain() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
             "custom_https_provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "location": azure.SchemaLocation(),
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -80,6 +85,8 @@ func resourceArmCustomDomain() *schema.Resource {
                 Computed: true,
             },
 
+            "tags": tags.Schema(),
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -89,26 +96,25 @@ func resourceArmCustomDomain() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmCustomDomainCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).customDomainsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("custom_domain_name").(string)
     endpointName := d.Get("endpoint_name").(string)
     profileName := d.Get("profile_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, profileName, endpointName, name)
+        existing, err := client.Get(ctx, resourceGroupName, profileName, endpointName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Custom Domain %q (Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Custom Domain (Custom Domain Name %q / Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -125,21 +131,21 @@ func resourceArmCustomDomainCreateUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, profileName, endpointName, name, customDomainProperties)
+    future, err := client.Create(ctx, resourceGroupName, profileName, endpointName, name, customDomainProperties)
     if err != nil {
-        return fmt.Errorf("Error creating Custom Domain %q (Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error creating Custom Domain (Custom Domain Name %q / Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Custom Domain %q (Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Custom Domain (Custom Domain Name %q / Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, profileName, endpointName, name)
+    resp, err := client.Get(ctx, resourceGroupName, profileName, endpointName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Custom Domain %q (Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Custom Domain (Custom Domain Name %q / Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Custom Domain %q (Endpoint Name %q / Profile Name %q / Resource Group %q) ID", name, endpointName, profileName, resourceGroup)
+        return fmt.Errorf("Cannot read Custom Domain (Custom Domain Name %q / Endpoint Name %q / Profile Name %q / Resource Group %q) ID", name, endpointName, profileName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -148,34 +154,34 @@ func resourceArmCustomDomainCreateUpdate(d *schema.ResourceData, meta interface{
 
 func resourceArmCustomDomainRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).customDomainsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     profileName := id.Path["profiles"]
     endpointName := id.Path["endpoints"]
     name := id.Path["customDomains"]
 
-    resp, err := client.Get(ctx, resourceGroup, profileName, endpointName, name)
+    resp, err := client.Get(ctx, resourceGroupName, profileName, endpointName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Custom Domain %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Custom Domain %q (Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error reading Custom Domain (Custom Domain Name %q / Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    d.Set("custom_domain_name", name)
     if customDomainPropertiesParameters := resp.CustomDomainPropertiesParameters; customDomainPropertiesParameters != nil {
         d.Set("custom_https_provisioning_state", string(customDomainPropertiesParameters.CustomHTTPSProvisioningState))
         d.Set("host_name", customDomainPropertiesParameters.HostName)
@@ -184,6 +190,8 @@ func resourceArmCustomDomainRead(d *schema.ResourceData, meta interface{}) error
         d.Set("validation_data", customDomainPropertiesParameters.ValidationData)
     }
     d.Set("endpoint_name", endpointName)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("profile_name", profileName)
     d.Set("type", resp.Type)
 
@@ -193,29 +201,30 @@ func resourceArmCustomDomainRead(d *schema.ResourceData, meta interface{}) error
 
 func resourceArmCustomDomainDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).customDomainsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     profileName := id.Path["profiles"]
     endpointName := id.Path["endpoints"]
     name := id.Path["customDomains"]
 
-    future, err := client.Delete(ctx, resourceGroup, profileName, endpointName, name)
+    future, err := client.Delete(ctx, resourceGroupName, profileName, endpointName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Custom Domain %q (Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Custom Domain (Custom Domain Name %q / Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Custom Domain %q (Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Custom Domain (Custom Domain Name %q / Endpoint Name %q / Profile Name %q / Resource Group %q): %+v", name, endpointName, profileName, resourceGroupName, err)
         }
     }
 

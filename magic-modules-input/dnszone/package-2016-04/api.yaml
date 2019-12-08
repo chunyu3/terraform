@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -69,7 +69,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -83,7 +83,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -138,7 +138,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -150,64 +150,64 @@ objects:
       Manage Azure Zone instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group. The name is case insensitive.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ZoneName'
         description: 'The name of the DNS zone (without a terminating dot).'
         required: true
         input: true
         azure_sdk_references: ['zoneName']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The geo-location where the resource lives'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'The etag of the zone.'
         required: false
         input: true
         azure_sdk_references: ['/etag']
       - !ruby/object:Api::Type::Integer
-        name: 'maxNumberOfRecordSets'
+        name: 'MaxNumberOfRecordSets'
         description: 'The maximum number of record sets that can be created in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.'
         required: false
         azure_sdk_references: ['/maxNumberOfRecordSets', '/properties/maxNumberOfRecordSets']
       - !ruby/object:Api::Type::Integer
-        name: 'numberOfRecordSets'
+        name: 'NumberOfRecordSets'
         description: 'The current number of record sets in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.'
         required: false
         azure_sdk_references: ['/numberOfRecordSets', '/properties/numberOfRecordSets']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
-        name: 'nameServers'
+        name: 'NameServers'
         description: 'The name servers for this DNS zone. This is a read-only property and any attempt to set this value will be ignored.'
         output: true
         azure_sdk_references: ['/nameServers', '/properties/nameServers']
         item_type: Api::Type::String
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the resource'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
         output: true
         azure_sdk_references: ['/type']

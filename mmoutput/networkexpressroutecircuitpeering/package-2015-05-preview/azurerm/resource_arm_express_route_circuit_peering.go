@@ -29,21 +29,6 @@ func resourceArmExpressRouteCircuitPeering() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Optional: true,
-                ForceNew: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "circuit_name": {
                 Type: schema.TypeString,
                 Required: true,
@@ -51,12 +36,27 @@ func resourceArmExpressRouteCircuitPeering() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "peering_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
             "azure_asn": {
                 Type: schema.TypeInt,
                 Optional: true,
             },
 
             "etag": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "id": {
                 Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
@@ -96,6 +96,12 @@ func resourceArmExpressRouteCircuitPeering() *schema.Resource {
                         },
                     },
                 },
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
             },
 
             "peer_asn": {
@@ -182,17 +188,18 @@ func resourceArmExpressRouteCircuitPeering() *schema.Resource {
 
 func resourceArmExpressRouteCircuitPeeringCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).expressRouteCircuitPeeringsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     circuitName := d.Get("circuit_name").(string)
+    name := d.Get("peering_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, circuitName, name)
+        existing, err := client.Get(ctx, resourceGroupName, circuitName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -200,12 +207,12 @@ func resourceArmExpressRouteCircuitPeeringCreateUpdate(d *schema.ResourceData, m
         }
     }
 
-    id := d.Get("id").(string)
-    name := d.Get("name").(string)
-    azureAsn := d.Get("azure_asn").(int)
+    azureASN := d.Get("azure_asn").(int)
     etag := d.Get("etag").(string)
+    iD := d.Get("id").(string)
     microsoftPeeringConfig := d.Get("microsoft_peering_config").([]interface{})
-    peerAsn := d.Get("peer_asn").(int)
+    name := d.Get("name").(string)
+    peerASN := d.Get("peer_asn").(int)
     peeringType := d.Get("peering_type").(string)
     primaryAzurePort := d.Get("primary_azure_port").(string)
     primaryPeerAddressPrefix := d.Get("primary_peer_address_prefix").(string)
@@ -214,16 +221,16 @@ func resourceArmExpressRouteCircuitPeeringCreateUpdate(d *schema.ResourceData, m
     sharedKey := d.Get("shared_key").(string)
     state := d.Get("state").(string)
     stats := d.Get("stats").([]interface{})
-    vlanId := d.Get("vlan_id").(int)
+    vlanID := d.Get("vlan_id").(int)
 
     peeringParameters := network.ExpressRouteCircuitPeering{
         Etag: utils.String(etag),
-        ID: utils.String(id),
+        ID: utils.String(iD),
         Name: utils.String(name),
         ExpressRouteCircuitPeeringPropertiesFormat: &network.ExpressRouteCircuitPeeringPropertiesFormat{
-            AzureASN: utils.Int32(int32(azureAsn)),
+            AzureASN: utils.Int32(int32(azureASN)),
             MicrosoftPeeringConfig: expandArmExpressRouteCircuitPeeringExpressRouteCircuitPeeringConfig(microsoftPeeringConfig),
-            PeerASN: utils.Int32(int32(peerAsn)),
+            PeerASN: utils.Int32(int32(peerASN)),
             PeeringType: network.ExpressRouteCircuitPeeringType(peeringType),
             PrimaryAzurePort: utils.String(primaryAzurePort),
             PrimaryPeerAddressPrefix: utils.String(primaryPeerAddressPrefix),
@@ -232,26 +239,26 @@ func resourceArmExpressRouteCircuitPeeringCreateUpdate(d *schema.ResourceData, m
             SharedKey: utils.String(sharedKey),
             State: network.ExpressRouteCircuitPeeringState(state),
             Stats: expandArmExpressRouteCircuitPeeringExpressRouteCircuitStats(stats),
-            VlanID: utils.Int32(int32(vlanId)),
+            VlanID: utils.Int32(int32(vlanID)),
         },
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, circuitName, name, peeringParameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, circuitName, name, peeringParameters)
     if err != nil {
-        return fmt.Errorf("Error creating Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error creating Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, circuitName, name)
+    resp, err := client.Get(ctx, resourceGroupName, circuitName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q) ID", name, circuitName, resourceGroup)
+        return fmt.Errorf("Cannot read Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q) ID", name, circuitName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -260,30 +267,29 @@ func resourceArmExpressRouteCircuitPeeringCreateUpdate(d *schema.ResourceData, m
 
 func resourceArmExpressRouteCircuitPeeringRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).expressRouteCircuitPeeringsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     circuitName := id.Path["expressRouteCircuits"]
     name := id.Path["peerings"]
 
-    resp, err := client.Get(ctx, resourceGroup, circuitName, name)
+    resp, err := client.Get(ctx, resourceGroupName, circuitName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Express Route Circuit Peering %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error reading Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if expressRouteCircuitPeeringPropertiesFormat := resp.ExpressRouteCircuitPeeringPropertiesFormat; expressRouteCircuitPeeringPropertiesFormat != nil {
         d.Set("azure_asn", int(*expressRouteCircuitPeeringPropertiesFormat.AzureASN))
         if err := d.Set("microsoft_peering_config", flattenArmExpressRouteCircuitPeeringExpressRouteCircuitPeeringConfig(expressRouteCircuitPeeringPropertiesFormat.MicrosoftPeeringConfig)); err != nil {
@@ -305,6 +311,9 @@ func resourceArmExpressRouteCircuitPeeringRead(d *schema.ResourceData, meta inte
     }
     d.Set("circuit_name", circuitName)
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("peering_name", name)
 
     return nil
 }
@@ -312,28 +321,29 @@ func resourceArmExpressRouteCircuitPeeringRead(d *schema.ResourceData, meta inte
 
 func resourceArmExpressRouteCircuitPeeringDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).expressRouteCircuitPeeringsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     circuitName := id.Path["expressRouteCircuits"]
     name := id.Path["peerings"]
 
-    future, err := client.Delete(ctx, resourceGroup, circuitName, name)
+    future, err := client.Delete(ctx, resourceGroupName, circuitName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
         }
     }
 
@@ -348,13 +358,13 @@ func expandArmExpressRouteCircuitPeeringExpressRouteCircuitPeeringConfig(input [
 
     advertisedPublicPrefixes := v["advertised_public_prefixes"].([]interface{})
     advertisedPublicPrefixesState := v["advertised_public_prefixes_state"].(string)
-    customerAsn := v["customer_asn"].(int)
+    customerASN := v["customer_asn"].(int)
     routingRegistryName := v["routing_registry_name"].(string)
 
     result := network.ExpressRouteCircuitPeeringConfig{
         AdvertisedPublicPrefixes: utils.ExpandStringSlice(advertisedPublicPrefixes),
         AdvertisedPublicPrefixesState: network.ExpressRouteCircuitPeeringAdvertisedPublicPrefixState(advertisedPublicPrefixesState),
-        CustomerASN: utils.Int32(int32(customerAsn)),
+        CustomerASN: utils.Int32(int32(customerASN)),
         RoutingRegistryName: utils.String(routingRegistryName),
     }
     return &result

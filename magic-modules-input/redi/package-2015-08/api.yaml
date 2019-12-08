@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -139,7 +139,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -153,7 +153,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -286,7 +286,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -299,7 +299,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -312,42 +312,42 @@ objects:
       Manage Azure Redi instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the Redis cache.'
         required: true
         input: true
         azure_sdk_references: ['name']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource location.'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'redisVersion'
+        name: 'RedisVersion'
         description: 'RedisVersion parameter has been deprecated. As such, it is no longer necessary to provide this parameter and any value specified is ignored.'
         required: false
         azure_sdk_references: ['/redisVersion', '/properties/redisVersion']
       - !ruby/object:Api::Type::NestedObject
-        name: 'sku'
+        name: 'Sku'
         description: 'What SKU of Redis cache to deploy.'
         required: true
         azure_sdk_references: ['/sku', '/properties/sku']
         properties:
           - !ruby/object:Api::Type::Enum
-            name: 'name'
+            name: 'Name'
             description: 'What type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).'
             required: true
             azure_sdk_references: ['/sku/name', '/properties/sku/name']
@@ -356,7 +356,7 @@ objects:
               - :Standard
               - :Premium
           - !ruby/object:Api::Type::Enum
-            name: 'family'
+            name: 'Family'
             description: 'Which family to use. Valid values: (C, P).'
             required: true
             azure_sdk_references: ['/sku/family', '/properties/sku/family']
@@ -364,47 +364,47 @@ objects:
               - :C
               - :P
           - !ruby/object:Api::Type::Integer
-            name: 'capacity'
+            name: 'Capacity'
             description: 'What size of Redis cache to deploy. Valid values: for C family (0, 1, 2, 3, 4, 5, 6), for P family (1, 2, 3, 4).'
             required: true
             azure_sdk_references: ['/sku/capacity', '/properties/sku/capacity']
       - !ruby/object:Api::Type::KeyValuePairs
-        name: 'redisConfiguration'
+        name: 'RedisConfiguration'
         description: 'All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc.'
         required: false
         azure_sdk_references: ['/redisConfiguration', '/properties/redisConfiguration']
       - !ruby/object:Api::Type::Boolean
-        name: 'enableNonSslPort'
+        name: 'EnableNonSslPort'
         description: 'If the value is true, then the non-SLL Redis server port (6379) will be enabled.'
         required: false
         azure_sdk_references: ['/enableNonSslPort', '/properties/enableNonSslPort']
       - !ruby/object:Api::Type::KeyValuePairs
-        name: 'tenantSettings'
+        name: 'TenantSettings'
         description: 'tenantSettings'
         required: false
         azure_sdk_references: ['/tenantSettings', '/properties/tenantSettings']
       - !ruby/object:Api::Type::Integer
-        name: 'shardCount'
+        name: 'ShardCount'
         description: 'The number of shards to be created on a Premium Cluster Cache.'
         required: false
         azure_sdk_references: ['/shardCount', '/properties/shardCount']
       - !ruby/object:Api::Type::String
-        name: 'virtualNetwork'
+        name: 'VirtualNetwork'
         description: 'The exact ARM resource ID of the virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.ClassicNetwork/VirtualNetworks/vnet1'
         required: false
         azure_sdk_references: ['/virtualNetwork', '/properties/virtualNetwork']
       - !ruby/object:Api::Type::String
-        name: 'subnet'
+        name: 'Subnet'
         description: 'Required when deploying a Redis cache inside an existing Azure Virtual Network.'
         required: false
         azure_sdk_references: ['/subnet', '/properties/subnet']
       - !ruby/object:Api::Type::String
-        name: 'staticIp'
+        name: 'StaticIP'
         description: 'Required when deploying a Redis cache inside an existing Azure Virtual Network.'
         required: false
         azure_sdk_references: ['/staticIP', '/properties/staticIP']
       - !ruby/object:Api::Type::Enum
-        name: 'keyType'
+        name: 'KeyType'
         description: 'Which Redis access key to reset.'
         required: true
         input: true
@@ -413,7 +413,7 @@ objects:
           - :Primary
           - :Secondary
       - !ruby/object:Api::Type::Enum
-        name: 'rebootType'
+        name: 'RebootType'
         description: 'Which Redis node(s) to reboot. Depending on this value data loss is possible.'
         required: true
         input: true
@@ -423,44 +423,44 @@ objects:
           - :SecondaryNode
           - :AllNodes
       - !ruby/object:Api::Type::Integer
-        name: 'shardId'
+        name: 'ShardID'
         description: 'If clustering is enabled, the ID of the shared be rebooted.'
         required: false
         input: true
         azure_sdk_references: ['/shardId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Redis instance provisioning status.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'hostName'
+        name: 'HostName'
         description: 'Redis host name.'
         output: true
         azure_sdk_references: ['/hostName', '/properties/hostName']
       - !ruby/object:Api::Type::Integer
-        name: 'port'
+        name: 'Port'
         description: 'Redis non-SSL port.'
         output: true
         azure_sdk_references: ['/port', '/properties/port']
       - !ruby/object:Api::Type::Integer
-        name: 'sslPort'
+        name: 'SslPort'
         description: 'Redis SSL port.'
         output: true
         azure_sdk_references: ['/sslPort', '/properties/sslPort']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource ID.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']

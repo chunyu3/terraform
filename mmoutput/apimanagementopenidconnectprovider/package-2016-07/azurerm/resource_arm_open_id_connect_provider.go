@@ -29,22 +29,16 @@ func resourceArmOpenIdConnectProvider() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "opid": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Optional: true,
-                ForceNew: true,
-            },
-
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "opid": {
+            "service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -74,23 +68,35 @@ func resourceArmOpenIdConnectProvider() *schema.Resource {
                 Optional: true,
                 ForceNew: true,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
         },
     }
 }
 
 func resourceArmOpenIdConnectProviderCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).openIdConnectProvidersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     opid := d.Get("opid").(string)
+    name := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, opid)
+        existing, err := client.Get(ctx, resourceGroupName, name, opid)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Open Id Connect Provider %q (Opid %q / Resource Group %q): %+v", name, opid, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Open Id Connect Provider (Opid %q / Service Name %q / Resource Group %q): %+v", opid, name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -98,14 +104,14 @@ func resourceArmOpenIdConnectProviderCreate(d *schema.ResourceData, meta interfa
         }
     }
 
-    name := d.Get("name").(string)
-    clientId := d.Get("client_id").(string)
+    clientID := d.Get("client_id").(string)
     clientSecret := d.Get("client_secret").(string)
     description := d.Get("description").(string)
     metadataEndpoint := d.Get("metadata_endpoint").(string)
+    name := d.Get("name").(string)
 
     parameters := apimanagement.OpenidConnectProviderUpdateContract{
-        ClientID: utils.String(clientId),
+        ClientID: utils.String(clientID),
         ClientSecret: utils.String(clientSecret),
         Description: utils.String(description),
         MetadataEndpoint: utils.String(metadataEndpoint),
@@ -113,17 +119,17 @@ func resourceArmOpenIdConnectProviderCreate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, opid, parameters); err != nil {
-        return fmt.Errorf("Error creating Open Id Connect Provider %q (Opid %q / Resource Group %q): %+v", name, opid, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, name, opid, parameters); err != nil {
+        return fmt.Errorf("Error creating Open Id Connect Provider (Opid %q / Service Name %q / Resource Group %q): %+v", opid, name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, opid)
+    resp, err := client.Get(ctx, resourceGroupName, name, opid)
     if err != nil {
-        return fmt.Errorf("Error retrieving Open Id Connect Provider %q (Opid %q / Resource Group %q): %+v", name, opid, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Open Id Connect Provider (Opid %q / Service Name %q / Resource Group %q): %+v", opid, name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Open Id Connect Provider %q (Opid %q / Resource Group %q) ID", name, opid, resourceGroup)
+        return fmt.Errorf("Cannot read Open Id Connect Provider (Opid %q / Service Name %q / Resource Group %q) ID", opid, name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -132,54 +138,57 @@ func resourceArmOpenIdConnectProviderCreate(d *schema.ResourceData, meta interfa
 
 func resourceArmOpenIdConnectProviderRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).openIdConnectProvidersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["service"]
     opid := id.Path["openidConnectProviders"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, opid)
+    resp, err := client.Get(ctx, resourceGroupName, name, opid)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Open Id Connect Provider %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Open Id Connect Provider %q (Opid %q / Resource Group %q): %+v", name, opid, resourceGroup, err)
+        return fmt.Errorf("Error reading Open Id Connect Provider (Opid %q / Service Name %q / Resource Group %q): %+v", opid, name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     d.Set("client_id", resp.ClientID)
     d.Set("client_secret", resp.ClientSecret)
     d.Set("description", resp.Description)
+    d.Set("id", resp.ID)
     d.Set("metadata_endpoint", resp.MetadataEndpoint)
+    d.Set("name", resp.Name)
     d.Set("opid", opid)
+    d.Set("service_name", name)
 
     return nil
 }
 
 func resourceArmOpenIdConnectProviderUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).openIdConnectProvidersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
-    clientId := d.Get("client_id").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    clientID := d.Get("client_id").(string)
     clientSecret := d.Get("client_secret").(string)
     description := d.Get("description").(string)
     metadataEndpoint := d.Get("metadata_endpoint").(string)
+    name := d.Get("name").(string)
     opid := d.Get("opid").(string)
+    name := d.Get("service_name").(string)
 
     parameters := apimanagement.OpenidConnectProviderUpdateContract{
-        ClientID: utils.String(clientId),
+        ClientID: utils.String(clientID),
         ClientSecret: utils.String(clientSecret),
         Description: utils.String(description),
         MetadataEndpoint: utils.String(metadataEndpoint),
@@ -187,8 +196,8 @@ func resourceArmOpenIdConnectProviderUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, opid, parameters); err != nil {
-        return fmt.Errorf("Error updating Open Id Connect Provider %q (Opid %q / Resource Group %q): %+v", name, opid, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, opid, parameters); err != nil {
+        return fmt.Errorf("Error updating Open Id Connect Provider (Opid %q / Service Name %q / Resource Group %q): %+v", opid, name, resourceGroupName, err)
     }
 
     return resourceArmOpenIdConnectProviderRead(d, meta)
@@ -196,19 +205,20 @@ func resourceArmOpenIdConnectProviderUpdate(d *schema.ResourceData, meta interfa
 
 func resourceArmOpenIdConnectProviderDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).openIdConnectProvidersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["service"]
     opid := id.Path["openidConnectProviders"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, opid); err != nil {
-        return fmt.Errorf("Error deleting Open Id Connect Provider %q (Opid %q / Resource Group %q): %+v", name, opid, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name, opid); err != nil {
+        return fmt.Errorf("Error deleting Open Id Connect Provider (Opid %q / Service Name %q / Resource Group %q): %+v", opid, name, resourceGroupName, err)
     }
 
     return nil

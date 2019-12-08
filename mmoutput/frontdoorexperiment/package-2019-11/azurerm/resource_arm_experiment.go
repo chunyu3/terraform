@@ -29,21 +29,12 @@ func resourceArmExperiment() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "experiment_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "profile_name": {
                 Type: schema.TypeString,
@@ -51,6 +42,8 @@ func resourceArmExperiment() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "description": {
                 Type: schema.TypeString,
@@ -67,22 +60,36 @@ func resourceArmExperiment() *schema.Resource {
                 Default: string(frontdoor.Enabled),
             },
 
-            "endpoint_a_endpoint": {
+            "location": azure.SchemaLocation(),
+
+            "tags": tags.Schema(),
+
+            "endpoint": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
-            "endpoint_a_name": {
+            "endpoint": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
-            "endpoint_b_endpoint": {
+            "id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
-            "endpoint_b_name": {
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -106,25 +113,24 @@ func resourceArmExperiment() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmExperimentCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).experimentsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("experiment_name").(string)
     profileName := d.Get("profile_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, profileName, name)
+        existing, err := client.Get(ctx, resourceGroupName, profileName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -135,7 +141,7 @@ func resourceArmExperimentCreate(d *schema.ResourceData, meta interface{}) error
     location := azure.NormalizeLocation(d.Get("location").(string))
     description := d.Get("description").(string)
     enabledState := d.Get("enabled_state").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := frontdoor.ExperimentUpdateModel{
         Location: utils.String(location),
@@ -143,25 +149,25 @@ func resourceArmExperimentCreate(d *schema.ResourceData, meta interface{}) error
             Description: utils.String(description),
             EnabledState: frontdoor.State(enabledState),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, profileName, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, profileName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
+        return fmt.Errorf("Error creating Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, profileName, name)
+    resp, err := client.Get(ctx, resourceGroupName, profileName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Experiment %q (Profile Name %q / Resource Group %q) ID", name, profileName, resourceGroup)
+        return fmt.Errorf("Cannot read Experiment (Experiment Name %q / Profile Name %q / Resource Group %q) ID", name, profileName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -170,30 +176,29 @@ func resourceArmExperimentCreate(d *schema.ResourceData, meta interface{}) error
 
 func resourceArmExperimentRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).experimentsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     profileName := id.Path["NetworkExperimentProfiles"]
     name := id.Path["Experiments"]
 
-    resp, err := client.Get(ctx, resourceGroup, profileName, name)
+    resp, err := client.Get(ctx, resourceGroupName, profileName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Experiment %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
+        return fmt.Errorf("Error reading Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -201,17 +206,20 @@ func resourceArmExperimentRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("description", experimentUpdateProperties.Description)
         d.Set("enabled_state", string(experimentUpdateProperties.EnabledState))
         if endpointA := experimentUpdateProperties.EndpointA; endpointA != nil {
-            d.Set("endpoint_a_endpoint", endpointA.endpointA_Endpoint)
-            d.Set("endpoint_a_name", endpointA.endpointA_Name)
+            d.Set("endpoint", endpointA.endpointA_Endpoint)
+            d.Set("name", endpointA.endpointA_Name)
         }
         if endpointB := experimentUpdateProperties.EndpointB; endpointB != nil {
-            d.Set("endpoint_b_endpoint", endpointB.endpointB_Endpoint)
-            d.Set("endpoint_b_name", endpointB.endpointB_Name)
+            d.Set("endpoint", endpointB.endpointB_Endpoint)
+            d.Set("name", endpointB.endpointB_Name)
         }
         d.Set("resource_state", string(experimentUpdateProperties.ResourceState))
         d.Set("script_file_uri", experimentUpdateProperties.ScriptFileURI)
         d.Set("status", experimentUpdateProperties.Status)
     }
+    d.Set("experiment_name", name)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("profile_name", profileName)
     d.Set("type", resp.Type)
 
@@ -220,30 +228,33 @@ func resourceArmExperimentRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmExperimentUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).experimentsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     description := d.Get("description").(string)
     enabledState := d.Get("enabled_state").(string)
+    name := d.Get("experiment_name").(string)
     profileName := d.Get("profile_name").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := frontdoor.ExperimentUpdateModel{
+        Location: utils.String(location),
         ExperimentUpdateProperties: &frontdoor.ExperimentUpdateProperties{
             Description: utils.String(description),
             EnabledState: frontdoor.State(enabledState),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, profileName, name, parameters)
+    future, err := client.Update(ctx, resourceGroupName, profileName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
+        return fmt.Errorf("Error updating Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroupName, err)
     }
 
     return resourceArmExperimentRead(d, meta)
@@ -251,28 +262,29 @@ func resourceArmExperimentUpdate(d *schema.ResourceData, meta interface{}) error
 
 func resourceArmExperimentDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).experimentsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     profileName := id.Path["NetworkExperimentProfiles"]
     name := id.Path["Experiments"]
 
-    future, err := client.Delete(ctx, resourceGroup, profileName, name)
+    future, err := client.Delete(ctx, resourceGroupName, profileName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroupName, err)
         }
     }
 

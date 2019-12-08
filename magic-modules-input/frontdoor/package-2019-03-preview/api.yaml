@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'frontDoorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -452,7 +452,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'frontDoorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -466,7 +466,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'frontDoorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -1017,7 +1017,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -1029,60 +1029,60 @@ objects:
       Manage Azure FrontDoor instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'Name of the Resource group within the Azure subscription.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'FrontDoorName'
         description: 'Name of the Front Door which is globally unique.'
         required: true
         input: true
         azure_sdk_references: ['frontDoorName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource location.'
         required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'friendlyName'
+        name: 'FriendlyName'
         description: 'A friendly name for the frontDoor'
         required: false
         azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
       - !ruby/object:Api::Type::Array
-        name: 'routingRules'
+        name: 'RoutingRules'
         description: 'Routing rules associated with this Front Door.'
         required: false
         azure_sdk_references: ['/routingRules', '/properties/routingRules']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource ID.'
               required: false
               azure_sdk_references: ['/routingRules/id', '/properties/routingRules/id']
             - !ruby/object:Api::Type::Array
-              name: 'frontendEndpoints'
+              name: 'FrontendEndpoints'
               description: 'Frontend endpoints associated with this rule'
               required: false
               azure_sdk_references: ['/routingRules/frontendEndpoints', '/properties/routingRules/properties/frontendEndpoints']
               item_type: !ruby/object:Api::Type::NestedObject
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'id'
+                    name: 'ID'
                     description: 'Resource ID.'
                     required: false
                     azure_sdk_references: ['/routingRules/frontendEndpoints/id', '/properties/routingRules/properties/frontendEndpoints/id']
             - !ruby/object:Api::Type::Array
-              name: 'acceptedProtocols'
+              name: 'AcceptedProtocols'
               description: 'Protocol schemes to match for this rule'
               required: false
               azure_sdk_references: ['/routingRules/acceptedProtocols', '/properties/routingRules/properties/acceptedProtocols']
@@ -1094,18 +1094,18 @@ objects:
                   - :Https
                 default_value: :Http
             - !ruby/object:Api::Type::Array
-              name: 'patternsToMatch'
+              name: 'PatternsToMatch'
               description: 'The route patterns of the rule.'
               required: false
               azure_sdk_references: ['/routingRules/patternsToMatch', '/properties/routingRules/properties/patternsToMatch']
               item_type: Api::Type::String
             - !ruby/object:Api::Type::String
-              name: 'customForwardingPath'
+              name: 'CustomForwardingPath'
               description: 'A custom path used to rewrite resource paths matched by this rule. Leave empty to use incoming path.'
               required: false
               azure_sdk_references: ['/routingRules/customForwardingPath', '/properties/routingRules/properties/customForwardingPath']
             - !ruby/object:Api::Type::Enum
-              name: 'forwardingProtocol'
+              name: 'ForwardingProtocol'
               description: 'Protocol this rule will use when forwarding traffic to backends.'
               required: false
               azure_sdk_references: ['/routingRules/forwardingProtocol', '/properties/routingRules/properties/forwardingProtocol']
@@ -1115,13 +1115,13 @@ objects:
                 - :MatchRequest
               default_value: :HttpOnly
             - !ruby/object:Api::Type::NestedObject
-              name: 'cacheConfiguration'
+              name: 'CacheConfiguration'
               description: 'The caching configuration associated with this rule.'
               required: false
               azure_sdk_references: ['/routingRules/cacheConfiguration', '/properties/routingRules/properties/cacheConfiguration']
               properties:
                 - !ruby/object:Api::Type::Enum
-                  name: 'queryParameterStripDirective'
+                  name: 'QueryParameterStripDirective'
                   description: 'Treatment of URL query terms when forming the cache key.'
                   required: false
                   azure_sdk_references: ['/routingRules/cacheConfiguration/queryParameterStripDirective', '/properties/routingRules/properties/cacheConfiguration/queryParameterStripDirective']
@@ -1130,7 +1130,7 @@ objects:
                     - :StripAll
                   default_value: :StripNone
                 - !ruby/object:Api::Type::Enum
-                  name: 'dynamicCompression'
+                  name: 'DynamicCompression'
                   description: 'Whether to use dynamic compression for cached content'
                   required: false
                   azure_sdk_references: ['/routingRules/cacheConfiguration/dynamicCompression', '/properties/routingRules/properties/cacheConfiguration/dynamicCompression']
@@ -1139,18 +1139,18 @@ objects:
                     - :Disabled
                   default_value: :Enabled
             - !ruby/object:Api::Type::NestedObject
-              name: 'backendPool'
+              name: 'BackendPool'
               description: 'A reference to the BackendPool which this rule routes to.'
               required: false
               azure_sdk_references: ['/routingRules/backendPool', '/properties/routingRules/properties/backendPool']
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'id'
+                  name: 'ID'
                   description: 'Resource ID.'
                   required: false
                   azure_sdk_references: ['/routingRules/backendPool/id', '/properties/routingRules/properties/backendPool/id']
             - !ruby/object:Api::Type::Enum
-              name: 'enabledState'
+              name: 'EnabledState'
               description: 'Whether to enable use of this rule. Permitted values are ''Enabled'' or ''Disabled'''
               required: false
               azure_sdk_references: ['/routingRules/enabledState', '/properties/routingRules/properties/enabledState']
@@ -1159,7 +1159,7 @@ objects:
                 - :Disabled
               default_value: :Enabled
             - !ruby/object:Api::Type::Enum
-              name: 'resourceState'
+              name: 'ResourceState'
               description: 'Resource status.'
               required: false
               azure_sdk_references: ['/routingRules/resourceState', '/properties/routingRules/properties/resourceState']
@@ -1172,39 +1172,39 @@ objects:
                 - :Deleting
               default_value: :Creating
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Resource name.'
               required: false
               azure_sdk_references: ['/routingRules/name', '/properties/routingRules/name']
       - !ruby/object:Api::Type::Array
-        name: 'loadBalancingSettings'
+        name: 'LoadBalancingSettings'
         description: 'Load balancing settings associated with this Front Door instance.'
         required: false
         azure_sdk_references: ['/loadBalancingSettings', '/properties/loadBalancingSettings']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource ID.'
               required: false
               azure_sdk_references: ['/loadBalancingSettings/id', '/properties/loadBalancingSettings/id']
             - !ruby/object:Api::Type::Integer
-              name: 'sampleSize'
+              name: 'SampleSize'
               description: 'The number of samples to consider for load balancing decisions'
               required: false
               azure_sdk_references: ['/loadBalancingSettings/sampleSize', '/properties/loadBalancingSettings/properties/sampleSize']
             - !ruby/object:Api::Type::Integer
-              name: 'successfulSamplesRequired'
+              name: 'SuccessfulSamplesRequired'
               description: 'The number of samples within the sample period that must succeed'
               required: false
               azure_sdk_references: ['/loadBalancingSettings/successfulSamplesRequired', '/properties/loadBalancingSettings/properties/successfulSamplesRequired']
             - !ruby/object:Api::Type::Integer
-              name: 'additionalLatencyMilliseconds'
+              name: 'AdditionalLatencyMilliseconds'
               description: 'The additional latency in milliseconds for probes to fall into the lowest latency bucket'
               required: false
               azure_sdk_references: ['/loadBalancingSettings/additionalLatencyMilliseconds', '/properties/loadBalancingSettings/properties/additionalLatencyMilliseconds']
             - !ruby/object:Api::Type::Enum
-              name: 'resourceState'
+              name: 'ResourceState'
               description: 'Resource status.'
               required: false
               azure_sdk_references: ['/loadBalancingSettings/resourceState', '/properties/loadBalancingSettings/properties/resourceState']
@@ -1217,29 +1217,29 @@ objects:
                 - :Deleting
               default_value: :Creating
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Resource name.'
               required: false
               azure_sdk_references: ['/loadBalancingSettings/name', '/properties/loadBalancingSettings/name']
       - !ruby/object:Api::Type::Array
-        name: 'healthProbeSettings'
+        name: 'HealthProbeSettings'
         description: 'Health probe settings associated with this Front Door instance.'
         required: false
         azure_sdk_references: ['/healthProbeSettings', '/properties/healthProbeSettings']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource ID.'
               required: false
               azure_sdk_references: ['/healthProbeSettings/id', '/properties/healthProbeSettings/id']
             - !ruby/object:Api::Type::String
-              name: 'path'
+              name: 'Path'
               description: 'The path to use for the health probe. Default is /'
               required: false
               azure_sdk_references: ['/healthProbeSettings/path', '/properties/healthProbeSettings/properties/path']
             - !ruby/object:Api::Type::Enum
-              name: 'protocol'
+              name: 'Protocol'
               description: 'Protocol scheme to use for this probe'
               required: false
               azure_sdk_references: ['/healthProbeSettings/protocol', '/properties/healthProbeSettings/properties/protocol']
@@ -1248,12 +1248,12 @@ objects:
                 - :Https
               default_value: :Http
             - !ruby/object:Api::Type::Integer
-              name: 'intervalInSeconds'
+              name: 'IntervalInSeconds'
               description: 'The number of seconds between health probes.'
               required: false
               azure_sdk_references: ['/healthProbeSettings/intervalInSeconds', '/properties/healthProbeSettings/properties/intervalInSeconds']
             - !ruby/object:Api::Type::Enum
-              name: 'resourceState'
+              name: 'ResourceState'
               description: 'Resource status.'
               required: false
               azure_sdk_references: ['/healthProbeSettings/resourceState', '/properties/healthProbeSettings/properties/resourceState']
@@ -1266,46 +1266,46 @@ objects:
                 - :Deleting
               default_value: :Creating
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Resource name.'
               required: false
               azure_sdk_references: ['/healthProbeSettings/name', '/properties/healthProbeSettings/name']
       - !ruby/object:Api::Type::Array
-        name: 'backendPools'
+        name: 'BackendPools'
         description: 'Backend pools available to routing rules.'
         required: false
         azure_sdk_references: ['/backendPools', '/properties/backendPools']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource ID.'
               required: false
               azure_sdk_references: ['/backendPools/id', '/properties/backendPools/id']
             - !ruby/object:Api::Type::Array
-              name: 'backends'
+              name: 'Backends'
               description: 'The set of backends for this pool'
               required: false
               azure_sdk_references: ['/backendPools/backends', '/properties/backendPools/properties/backends']
               item_type: !ruby/object:Api::Type::NestedObject
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'address'
+                    name: 'Address'
                     description: 'Location of the backend (IP address or FQDN)'
                     required: false
                     azure_sdk_references: ['/backendPools/backends/address', '/properties/backendPools/properties/backends/address']
                   - !ruby/object:Api::Type::Integer
-                    name: 'httpPort'
+                    name: 'HTTPPort'
                     description: 'The HTTP TCP port number. Must be between 1 and 65535.'
                     required: false
                     azure_sdk_references: ['/backendPools/backends/httpPort', '/properties/backendPools/properties/backends/httpPort']
                   - !ruby/object:Api::Type::Integer
-                    name: 'httpsPort'
+                    name: 'HTTPSPort'
                     description: 'The HTTPS TCP port number. Must be between 1 and 65535.'
                     required: false
                     azure_sdk_references: ['/backendPools/backends/httpsPort', '/properties/backendPools/properties/backends/httpsPort']
                   - !ruby/object:Api::Type::Enum
-                    name: 'enabledState'
+                    name: 'EnabledState'
                     description: 'Whether to enable use of this backend. Permitted values are ''Enabled'' or ''Disabled'''
                     required: false
                     azure_sdk_references: ['/backendPools/backends/enabledState', '/properties/backendPools/properties/backends/enabledState']
@@ -1314,44 +1314,44 @@ objects:
                       - :Disabled
                     default_value: :Enabled
                   - !ruby/object:Api::Type::Integer
-                    name: 'priority'
+                    name: 'Priority'
                     description: 'Priority to use for load balancing. Higher priorities will not be used for load balancing if any lower priority backend is healthy.'
                     required: false
                     azure_sdk_references: ['/backendPools/backends/priority', '/properties/backendPools/properties/backends/priority']
                   - !ruby/object:Api::Type::Integer
-                    name: 'weight'
+                    name: 'Weight'
                     description: 'Weight of this endpoint for load balancing purposes.'
                     required: false
                     azure_sdk_references: ['/backendPools/backends/weight', '/properties/backendPools/properties/backends/weight']
                   - !ruby/object:Api::Type::String
-                    name: 'backendHostHeader'
+                    name: 'BackendHostHeader'
                     description: 'The value to use as the host header sent to the backend. If blank or unspecified, this defaults to the incoming host.'
                     required: false
                     azure_sdk_references: ['/backendPools/backends/backendHostHeader', '/properties/backendPools/properties/backends/backendHostHeader']
             - !ruby/object:Api::Type::NestedObject
-              name: 'loadBalancingSettings'
+              name: 'LoadBalancingSettings'
               description: 'Load balancing settings for a backend pool'
               required: false
               azure_sdk_references: ['/backendPools/loadBalancingSettings', '/properties/backendPools/properties/loadBalancingSettings']
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'id'
+                  name: 'ID'
                   description: 'Resource ID.'
                   required: false
                   azure_sdk_references: ['/backendPools/loadBalancingSettings/id', '/properties/backendPools/properties/loadBalancingSettings/id']
             - !ruby/object:Api::Type::NestedObject
-              name: 'healthProbeSettings'
+              name: 'HealthProbeSettings'
               description: 'L7 health probe settings for a backend pool'
               required: false
               azure_sdk_references: ['/backendPools/healthProbeSettings', '/properties/backendPools/properties/healthProbeSettings']
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'id'
+                  name: 'ID'
                   description: 'Resource ID.'
                   required: false
                   azure_sdk_references: ['/backendPools/healthProbeSettings/id', '/properties/backendPools/properties/healthProbeSettings/id']
             - !ruby/object:Api::Type::Enum
-              name: 'resourceState'
+              name: 'ResourceState'
               description: 'Resource status.'
               required: false
               azure_sdk_references: ['/backendPools/resourceState', '/properties/backendPools/properties/resourceState']
@@ -1364,29 +1364,29 @@ objects:
                 - :Deleting
               default_value: :Creating
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Resource name.'
               required: false
               azure_sdk_references: ['/backendPools/name', '/properties/backendPools/name']
       - !ruby/object:Api::Type::Array
-        name: 'frontendEndpoints'
+        name: 'FrontendEndpoints'
         description: 'Frontend endpoints available to routing rules.'
         required: false
         azure_sdk_references: ['/frontendEndpoints', '/properties/frontendEndpoints']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource ID.'
               required: false
               azure_sdk_references: ['/frontendEndpoints/id', '/properties/frontendEndpoints/id']
             - !ruby/object:Api::Type::String
-              name: 'hostName'
+              name: 'HostName'
               description: 'The host name of the frontendEndpoint. Must be a domain name.'
               required: false
               azure_sdk_references: ['/frontendEndpoints/hostName', '/properties/frontendEndpoints/properties/hostName']
             - !ruby/object:Api::Type::Enum
-              name: 'sessionAffinityEnabledState'
+              name: 'SessionAffinityEnabledState'
               description: 'Whether to allow session affinity on this host. Valid options are ''Enabled'' or ''Disabled'''
               required: false
               azure_sdk_references: ['/frontendEndpoints/sessionAffinityEnabledState', '/properties/frontendEndpoints/properties/sessionAffinityEnabledState']
@@ -1395,23 +1395,23 @@ objects:
                 - :Disabled
               default_value: :Enabled
             - !ruby/object:Api::Type::Integer
-              name: 'sessionAffinityTtlSeconds'
+              name: 'SessionAffinityTTLSeconds'
               description: 'UNUSED. This field will be ignored. The TTL to use in seconds for session affinity, if applicable.'
               required: false
               azure_sdk_references: ['/frontendEndpoints/sessionAffinityTtlSeconds', '/properties/frontendEndpoints/properties/sessionAffinityTtlSeconds']
             - !ruby/object:Api::Type::NestedObject
-              name: 'webApplicationFirewallPolicyLink'
+              name: 'WebApplicationFirewallPolicyLink'
               description: 'Defines the Web Application Firewall policy for each host (if applicable)'
               required: false
               azure_sdk_references: ['/frontendEndpoints/webApplicationFirewallPolicyLink', '/properties/frontendEndpoints/properties/webApplicationFirewallPolicyLink']
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'id'
+                  name: 'ID'
                   description: 'Resource ID.'
                   required: false
                   azure_sdk_references: ['/frontendEndpoints/webApplicationFirewallPolicyLink/id', '/properties/frontendEndpoints/properties/webApplicationFirewallPolicyLink/id']
             - !ruby/object:Api::Type::Enum
-              name: 'resourceState'
+              name: 'ResourceState'
               description: 'Resource status.'
               required: false
               azure_sdk_references: ['/frontendEndpoints/resourceState', '/properties/frontendEndpoints/properties/resourceState']
@@ -1424,12 +1424,12 @@ objects:
                 - :Deleting
               default_value: :Creating
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Resource name.'
               required: false
               azure_sdk_references: ['/frontendEndpoints/name', '/properties/frontendEndpoints/name']
       - !ruby/object:Api::Type::Enum
-        name: 'enabledState'
+        name: 'EnabledState'
         description: 'Operational status of the Front Door load balancer. Permitted values are ''Enabled'' or ''Disabled'''
         required: false
         azure_sdk_references: ['/enabledState', '/properties/enabledState']
@@ -1438,7 +1438,7 @@ objects:
           - :Disabled
         default_value: :Enabled
       - !ruby/object:Api::Type::Enum
-        name: 'resourceState'
+        name: 'ResourceState'
         description: 'Resource status of the Front Door.'
         required: false
         azure_sdk_references: ['/resourceState', '/properties/resourceState']
@@ -1451,34 +1451,34 @@ objects:
           - :Deleting
         default_value: :Creating
       - !ruby/object:Api::Type::String
-        name: 'hostName'
+        name: 'HostName'
         description: 'The host name of the custom domain. Must be a domain name.'
         required: true
         input: true
         azure_sdk_references: ['/hostName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Provisioning state of the Front Door.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'cname'
+        name: 'Cname'
         description: 'The host that each frontendEndpoint must CNAME to.'
         output: true
         azure_sdk_references: ['/cname', '/properties/cname']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource ID.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']

@@ -29,16 +29,11 @@ func resourceArmLocalNetworkGateway() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "local_network_gateway_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "location": azure.SchemaLocation(),
@@ -78,6 +73,18 @@ func resourceArmLocalNetworkGateway() *schema.Resource {
                 Optional: true,
             },
 
+            "tags": tags.Schema(),
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -87,24 +94,23 @@ func resourceArmLocalNetworkGateway() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmLocalNetworkGatewayCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).localNetworkGatewaysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("local_network_gateway_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Local Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Local Network Gateway (Local Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -114,38 +120,38 @@ func resourceArmLocalNetworkGatewayCreateUpdate(d *schema.ResourceData, meta int
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     etag := d.Get("etag").(string)
-    gatewayIpAddress := d.Get("gateway_ip_address").(string)
+    gatewayIPAddress := d.Get("gateway_ip_address").(string)
     localNetworkAddressSpace := d.Get("local_network_address_space").([]interface{})
-    resourceGuid := d.Get("resource_guid").(string)
-    t := d.Get("tags").(map[string]interface{})
+    resourceGUID := d.Get("resource_guid").(string)
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := network.LocalNetworkGateway{
         Etag: utils.String(etag),
         Location: utils.String(location),
         LocalNetworkGatewayPropertiesFormat: &network.LocalNetworkGatewayPropertiesFormat{
-            GatewayIPAddress: utils.String(gatewayIpAddress),
+            GatewayIPAddress: utils.String(gatewayIPAddress),
             LocalNetworkAddressSpace: expandArmLocalNetworkGatewayAddressSpace(localNetworkAddressSpace),
-            ResourceGUID: utils.String(resourceGuid),
+            ResourceGUID: utils.String(resourceGUID),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Local Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Local Network Gateway (Local Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Local Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Local Network Gateway (Local Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Local Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Local Network Gateway (Local Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Local Network Gateway %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Local Network Gateway (Local Network Gateway Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -154,29 +160,28 @@ func resourceArmLocalNetworkGatewayCreateUpdate(d *schema.ResourceData, meta int
 
 func resourceArmLocalNetworkGatewayRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).localNetworkGatewaysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["localNetworkGateways"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Local Network Gateway %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Local Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Local Network Gateway (Local Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -189,6 +194,9 @@ func resourceArmLocalNetworkGatewayRead(d *schema.ResourceData, meta interface{}
         d.Set("provisioning_state", localNetworkGatewayPropertiesFormat.ProvisioningState)
         d.Set("resource_guid", localNetworkGatewayPropertiesFormat.ResourceGUID)
     }
+    d.Set("id", resp.ID)
+    d.Set("local_network_gateway_name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -197,27 +205,28 @@ func resourceArmLocalNetworkGatewayRead(d *schema.ResourceData, meta interface{}
 
 func resourceArmLocalNetworkGatewayDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).localNetworkGatewaysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["localNetworkGateways"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Local Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Local Network Gateway (Local Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Local Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Local Network Gateway (Local Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 

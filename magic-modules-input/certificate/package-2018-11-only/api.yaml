@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -92,7 +92,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -160,7 +160,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -174,7 +174,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -345,7 +345,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -357,145 +357,145 @@ objects:
       Manage Azure Certificate instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'Name of the resource group to which the resource belongs.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Name of the certificate.'
         required: true
         input: true
         azure_sdk_references: ['name']
       - !ruby/object:Api::Type::String
-        name: 'kind'
+        name: 'Kind'
         description: 'Kind of resource.'
         required: false
         input: true
         azure_sdk_references: ['/kind']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource Location.'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::Array
-        name: 'hostNames'
+        name: 'HostNames'
         description: 'Host names the certificate applies to.'
         required: false
         azure_sdk_references: ['/hostNames', '/properties/hostNames']
         item_type: Api::Type::String
       - !ruby/object:Api::Azure::Type::[unknown-primary[byteArray]]
-        name: 'pfxBlob'
+        name: 'PfxBlob'
         description: 'Pfx blob.'
         required: false
         azure_sdk_references: ['/pfxBlob', '/properties/pfxBlob']
       - !ruby/object:Api::Type::String
-        name: 'password'
+        name: 'Password'
         description: 'Certificate password.'
         required: true
         azure_sdk_references: ['/password', '/properties/password']
       - !ruby/object:Api::Type::String
-        name: 'keyVaultId'
+        name: 'KeyVaultID'
         description: 'Key Vault Csm resource Id.'
         required: false
         azure_sdk_references: ['/keyVaultId', '/properties/keyVaultId']
       - !ruby/object:Api::Type::String
-        name: 'keyVaultSecretName'
+        name: 'KeyVaultSecretName'
         description: 'Key Vault secret name.'
         required: false
         azure_sdk_references: ['/keyVaultSecretName', '/properties/keyVaultSecretName']
       - !ruby/object:Api::Type::String
-        name: 'serverFarmId'
+        name: 'ServerFarmID'
         description: 'Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".'
         required: false
         azure_sdk_references: ['/serverFarmId', '/properties/serverFarmId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'friendlyName'
+        name: 'FriendlyName'
         description: 'Friendly name of the certificate.'
         output: true
         azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
       - !ruby/object:Api::Type::String
-        name: 'subjectName'
+        name: 'SubjectName'
         description: 'Subject name of the certificate.'
         output: true
         azure_sdk_references: ['/subjectName', '/properties/subjectName']
       - !ruby/object:Api::Type::String
-        name: 'siteName'
+        name: 'SiteName'
         description: 'App name.'
         output: true
         azure_sdk_references: ['/siteName', '/properties/siteName']
       - !ruby/object:Api::Type::String
-        name: 'selfLink'
+        name: 'SelfLink'
         description: 'Self link.'
         output: true
         azure_sdk_references: ['/selfLink', '/properties/selfLink']
       - !ruby/object:Api::Type::String
-        name: 'issuer'
+        name: 'Issuer'
         description: 'Certificate issuer.'
         output: true
         azure_sdk_references: ['/issuer', '/properties/issuer']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'issueDate'
+        name: 'IssueDate'
         description: 'Certificate issue Date.'
         output: true
         azure_sdk_references: ['/issueDate', '/properties/issueDate']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'expirationDate'
+        name: 'ExpirationDate'
         description: 'Certificate expiration date.'
         output: true
         azure_sdk_references: ['/expirationDate', '/properties/expirationDate']
       - !ruby/object:Api::Type::String
-        name: 'thumbprint'
+        name: 'Thumbprint'
         description: 'Certificate thumbprint.'
         output: true
         azure_sdk_references: ['/thumbprint', '/properties/thumbprint']
       - !ruby/object:Api::Type::Boolean
-        name: 'valid'
+        name: 'Valid'
         description: 'Is the certificate valid?.'
         output: true
         azure_sdk_references: ['/valid', '/properties/valid']
       - !ruby/object:Api::Azure::Type::[unknown-primary[byteArray]]
-        name: 'cerBlob'
+        name: 'CerBlob'
         description: 'Raw bytes of .cer file'
         output: true
         azure_sdk_references: ['/cerBlob', '/properties/cerBlob']
       - !ruby/object:Api::Type::String
-        name: 'publicKeyHash'
+        name: 'PublicKeyHash'
         description: 'Public key hash.'
         output: true
         azure_sdk_references: ['/publicKeyHash', '/properties/publicKeyHash']
       - !ruby/object:Api::Type::NestedObject
-        name: 'hostingEnvironmentProfile'
+        name: 'HostingEnvironmentProfile'
         description: 'Specification for the App Service Environment to use for the certificate.'
         output: true
         azure_sdk_references: ['/hostingEnvironmentProfile', '/properties/hostingEnvironmentProfile']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'id'
+            name: 'ID'
             description: 'Resource ID of the App Service Environment.'
             output: true
             azure_sdk_references: ['/hostingEnvironmentProfile/id', '/properties/hostingEnvironmentProfile/id']
           - !ruby/object:Api::Type::String
-            name: 'name'
+            name: 'Name'
             description: 'Name of the App Service Environment.'
             output: true
             azure_sdk_references: ['/hostingEnvironmentProfile/name', '/properties/hostingEnvironmentProfile/name']
           - !ruby/object:Api::Type::String
-            name: 'type'
+            name: 'Type'
             description: 'Resource type of the App Service Environment.'
             output: true
             azure_sdk_references: ['/hostingEnvironmentProfile/type', '/properties/hostingEnvironmentProfile/type']
       - !ruby/object:Api::Type::Enum
-        name: 'keyVaultSecretStatus'
+        name: 'KeyVaultSecretStatus'
         description: 'Status of the Key Vault secret.'
         output: true
         azure_sdk_references: ['/keyVaultSecretStatus', '/properties/keyVaultSecretStatus']
@@ -512,17 +512,17 @@ objects:
           - :ExternalPrivateKey
           - :Unknown
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource Id.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource Name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']

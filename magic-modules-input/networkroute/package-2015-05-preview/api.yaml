@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'routeTableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -82,7 +82,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'routeTableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -101,7 +101,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'routeTableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -159,7 +159,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'routeTableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -172,36 +172,36 @@ objects:
       Manage Azure Route instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'routeTableName'
+        name: 'RouteTableName'
         description: 'The name of the route table.'
         required: true
         input: true
         azure_sdk_references: ['routeTableName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'RouteName'
         description: 'The name of the route.'
         required: true
         input: true
         azure_sdk_references: ['routeName']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource Id'
         required: false
         input: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'addressPrefix'
+        name: 'AddressPrefix'
         description: 'Gets or sets the destination CIDR to which the route applies.'
         required: false
         azure_sdk_references: ['/addressPrefix', '/properties/addressPrefix']
       - !ruby/object:Api::Type::Enum
-        name: 'nextHopType'
+        name: 'NextHopType'
         description: 'Gets or sets the type of Azure hop the packet should be sent to.'
         required: true
         azure_sdk_references: ['/nextHopType', '/properties/nextHopType']
@@ -212,25 +212,25 @@ objects:
           - :VirtualAppliance
           - :None
       - !ruby/object:Api::Type::String
-        name: 'nextHopIpAddress'
+        name: 'NextHopIPAddress'
         description: 'Gets or sets the IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance.'
         required: false
         azure_sdk_references: ['/nextHopIpAddress', '/properties/nextHopIpAddress']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource'
         required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'A unique read-only string that changes whenever the resource is updated'
         required: false
         input: true
         azure_sdk_references: ['/etag']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Gets or sets Provisioning state of the resource Updating/Deleting/Failed'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']

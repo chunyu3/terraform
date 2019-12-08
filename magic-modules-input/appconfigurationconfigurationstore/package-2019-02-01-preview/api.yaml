@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'configStoreName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -63,7 +63,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'configStoreName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -78,7 +78,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'configStoreName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -92,7 +92,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'configStoreName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -144,7 +144,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -157,7 +157,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'configStoreName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -171,7 +171,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'configStoreName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -184,50 +184,50 @@ objects:
       Manage Azure ConfigurationStore instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group to which the container registry belongs.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ConfigStoreName'
         description: 'The name of the configuration store.'
         required: true
         input: true
         azure_sdk_references: ['configStoreName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The location of the resource. This cannot be changed after the resource is created.'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'The ARM resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The id of the key to regenerate.'
         required: false
         input: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'key'
+        name: 'Key'
         description: 'The key to retrieve.'
         required: true
         input: true
         azure_sdk_references: ['/key']
       - !ruby/object:Api::Type::String
-        name: 'label'
+        name: 'Label'
         description: 'The label of the key.'
         required: false
         input: true
         azure_sdk_references: ['/label']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'The provisioning state of the configuration store.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
@@ -239,22 +239,22 @@ objects:
           - :Failed
           - :Canceled
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationDate'
+        name: 'CreationDate'
         description: 'The creation date of configuration store.'
         output: true
         azure_sdk_references: ['/creationDate', '/properties/creationDate']
       - !ruby/object:Api::Type::String
-        name: 'endpoint'
+        name: 'Endpoint'
         description: 'The DNS endpoint where the configuration store API will be available.'
         output: true
         azure_sdk_references: ['/endpoint', '/properties/endpoint']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the resource.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']

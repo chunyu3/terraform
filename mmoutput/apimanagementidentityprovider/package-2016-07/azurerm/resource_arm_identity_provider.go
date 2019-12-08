@@ -29,7 +29,7 @@ func resourceArmIdentityProvider() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "identity_provider_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -85,17 +85,18 @@ func resourceArmIdentityProvider() *schema.Resource {
 
 func resourceArmIdentityProviderCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).identityProvidersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("identity_provider_name").(string)
     serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, name)
+        existing, err := client.Get(ctx, resourceGroupName, serviceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Identity Provider %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Identity Provider (Identity Provider Name %q / Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -104,29 +105,29 @@ func resourceArmIdentityProviderCreate(d *schema.ResourceData, meta interface{})
     }
 
     allowedTenants := d.Get("allowed_tenants").([]interface{})
-    clientId := d.Get("client_id").(string)
+    clientID := d.Get("client_id").(string)
     clientSecret := d.Get("client_secret").(string)
     type := d.Get("type").(string)
 
     parameters := apimanagement.IdentityProviderUpdateParameters{
         AllowedTenants: utils.ExpandStringSlice(allowedTenants),
-        ClientID: utils.String(clientId),
+        ClientID: utils.String(clientID),
         ClientSecret: utils.String(clientSecret),
         Type: apimanagement.IdentityProviderNameType(type),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Identity Provider %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, serviceName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Identity Provider (Identity Provider Name %q / Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, name)
+    resp, err := client.Get(ctx, resourceGroupName, serviceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Identity Provider %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Identity Provider (Identity Provider Name %q / Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Identity Provider %q (Service Name %q / Resource Group %q) ID", name, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Identity Provider (Identity Provider Name %q / Service Name %q / Resource Group %q) ID", name, serviceName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -135,32 +136,33 @@ func resourceArmIdentityProviderCreate(d *schema.ResourceData, meta interface{})
 
 func resourceArmIdentityProviderRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).identityProvidersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     serviceName := id.Path["service"]
     name := id.Path["identityProviders"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, name)
+    resp, err := client.Get(ctx, resourceGroupName, serviceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Identity Provider %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Identity Provider %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Identity Provider (Identity Provider Name %q / Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     d.Set("allowed_tenants", utils.FlattenStringSlice(resp.AllowedTenants))
     d.Set("client_id", resp.ClientID)
     d.Set("client_secret", resp.ClientSecret)
+    d.Set("identity_provider_name", name)
     d.Set("service_name", serviceName)
     d.Set("type", string(resp.Type))
 
@@ -169,26 +171,27 @@ func resourceArmIdentityProviderRead(d *schema.ResourceData, meta interface{}) e
 
 func resourceArmIdentityProviderUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).identityProvidersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
     allowedTenants := d.Get("allowed_tenants").([]interface{})
-    clientId := d.Get("client_id").(string)
+    clientID := d.Get("client_id").(string)
     clientSecret := d.Get("client_secret").(string)
+    name := d.Get("identity_provider_name").(string)
     serviceName := d.Get("service_name").(string)
     type := d.Get("type").(string)
 
     parameters := apimanagement.IdentityProviderUpdateParameters{
         AllowedTenants: utils.ExpandStringSlice(allowedTenants),
-        ClientID: utils.String(clientId),
+        ClientID: utils.String(clientID),
         ClientSecret: utils.String(clientSecret),
         Type: apimanagement.IdentityProviderNameType(type),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, name, parameters); err != nil {
-        return fmt.Errorf("Error updating Identity Provider %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, serviceName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Identity Provider (Identity Provider Name %q / Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroupName, err)
     }
 
     return resourceArmIdentityProviderRead(d, meta)
@@ -196,19 +199,20 @@ func resourceArmIdentityProviderUpdate(d *schema.ResourceData, meta interface{})
 
 func resourceArmIdentityProviderDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).identityProvidersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     serviceName := id.Path["service"]
     name := id.Path["identityProviders"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, name); err != nil {
-        return fmt.Errorf("Error deleting Identity Provider %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, serviceName, name); err != nil {
+        return fmt.Errorf("Error deleting Identity Provider (Identity Provider Name %q / Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroupName, err)
     }
 
     return nil
