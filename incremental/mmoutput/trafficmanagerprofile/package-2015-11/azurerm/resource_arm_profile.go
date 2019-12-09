@@ -29,20 +29,12 @@ func resourceArmProfile() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Optional: true,
-                ForceNew: true,
-            },
-
-            "name": {
+            "profile_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -121,6 +113,8 @@ func resourceArmProfile() *schema.Resource {
                 },
             },
 
+            "location": azure.SchemaLocation(),
+
             "monitor_config": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -147,10 +141,18 @@ func resourceArmProfile() *schema.Resource {
                 },
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "profile_status": {
                 Type: schema.TypeString,
                 Optional: true,
             },
+
+            "tags": tags.Schema(),
 
             "traffic_routing_method": {
                 Type: schema.TypeString,
@@ -163,23 +165,27 @@ func resourceArmProfile() *schema.Resource {
                 ForceNew: true,
             },
 
-            "tags": tags.Schema(),
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
         },
     }
 }
 
 func resourceArmProfileCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).profilesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("profile_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Profile (Profile Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -187,42 +193,42 @@ func resourceArmProfileCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
-    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
-    dnsConfig := d.Get("dns_config").([]interface{})
+    dNSConfig := d.Get("dns_config").([]interface{})
     endpoints := d.Get("endpoints").([]interface{})
     monitorConfig := d.Get("monitor_config").([]interface{})
+    name := d.Get("name").(string)
     profileStatus := d.Get("profile_status").(string)
     trafficRoutingMethod := d.Get("traffic_routing_method").(string)
     type := d.Get("type").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := trafficmanager.Profile{
         Location: utils.String(location),
         Name: utils.String(name),
         ProfileProperties: &trafficmanager.ProfileProperties{
-            DNSConfig: expandArmProfileDnsConfig(dnsConfig),
+            DNSConfig: expandArmProfileDnsConfig(dNSConfig),
             Endpoints: expandArmProfileEndpoint(endpoints),
             MonitorConfig: expandArmProfileMonitorConfig(monitorConfig),
             ProfileStatus: utils.String(profileStatus),
             TrafficRoutingMethod: utils.String(trafficRoutingMethod),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
         Type: utils.String(type),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Profile (Profile Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Profile (Profile Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Profile %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Profile (Profile Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -231,29 +237,28 @@ func resourceArmProfileCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmProfileRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).profilesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["trafficmanagerprofiles"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Profile %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Profile (Profile Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", resp.Name)
-    d.Set("name", name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -270,6 +275,9 @@ func resourceArmProfileRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("profile_status", profileProperties.ProfileStatus)
         d.Set("traffic_routing_method", profileProperties.TrafficRoutingMethod)
     }
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("profile_name", name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -277,35 +285,38 @@ func resourceArmProfileRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmProfileUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).profilesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
-    dnsConfig := d.Get("dns_config").([]interface{})
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
+    dNSConfig := d.Get("dns_config").([]interface{})
     endpoints := d.Get("endpoints").([]interface{})
     monitorConfig := d.Get("monitor_config").([]interface{})
+    name := d.Get("name").(string)
+    name := d.Get("profile_name").(string)
     profileStatus := d.Get("profile_status").(string)
     trafficRoutingMethod := d.Get("traffic_routing_method").(string)
     type := d.Get("type").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := trafficmanager.Profile{
+        Location: utils.String(location),
         Name: utils.String(name),
         ProfileProperties: &trafficmanager.ProfileProperties{
-            DNSConfig: expandArmProfileDnsConfig(dnsConfig),
+            DNSConfig: expandArmProfileDnsConfig(dNSConfig),
             Endpoints: expandArmProfileEndpoint(endpoints),
             MonitorConfig: expandArmProfileMonitorConfig(monitorConfig),
             ProfileStatus: utils.String(profileStatus),
             TrafficRoutingMethod: utils.String(trafficRoutingMethod),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
         Type: utils.String(type),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
-        return fmt.Errorf("Error updating Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Profile (Profile Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return resourceArmProfileRead(d, meta)
@@ -313,18 +324,19 @@ func resourceArmProfileUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmProfileDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).profilesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["trafficmanagerprofiles"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
-        return fmt.Errorf("Error deleting Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name); err != nil {
+        return fmt.Errorf("Error deleting Profile (Profile Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return nil
@@ -338,12 +350,12 @@ func expandArmProfileDnsConfig(input []interface{}) *trafficmanager.DnsConfig {
 
     relativeName := v["relative_name"].(string)
     fqdn := v["fqdn"].(string)
-    ttl := v["ttl"].(int)
+    tTL := v["ttl"].(int)
 
     result := trafficmanager.DnsConfig{
         Fqdn: utils.String(fqdn),
         RelativeName: utils.String(relativeName),
-        TTL: utils.Int64(int64(ttl)),
+        TTL: utils.Int64(int64(tTL)),
     }
     return &result
 }
@@ -352,10 +364,10 @@ func expandArmProfileEndpoint(input []interface{}) *[]trafficmanager.Endpoint {
     results := make([]trafficmanager.Endpoint, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         name := v["name"].(string)
         type := v["type"].(string)
-        targetResourceId := v["target_resource_id"].(string)
+        targetResourceID := v["target_resource_id"].(string)
         target := v["target"].(string)
         endpointStatus := v["endpoint_status"].(string)
         weight := v["weight"].(int)
@@ -365,7 +377,7 @@ func expandArmProfileEndpoint(input []interface{}) *[]trafficmanager.Endpoint {
         minChildEndpoints := v["min_child_endpoints"].(int)
 
         result := trafficmanager.Endpoint{
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             EndpointProperties: &trafficmanager.EndpointProperties{
                 EndpointLocation: utils.String(endpointLocation),
@@ -374,7 +386,7 @@ func expandArmProfileEndpoint(input []interface{}) *[]trafficmanager.Endpoint {
                 MinChildEndpoints: utils.Int64(int64(minChildEndpoints)),
                 Priority: utils.Int64(int64(priority)),
                 Target: utils.String(target),
-                TargetResourceID: utils.String(targetResourceId),
+                TargetResourceID: utils.String(targetResourceID),
                 Weight: utils.Int64(int64(weight)),
             },
             Type: utils.String(type),
@@ -435,12 +447,6 @@ func flattenArmProfileEndpoint(input *[]trafficmanager.Endpoint) []interface{} {
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if endpointProperties := item.EndpointProperties; endpointProperties != nil {
             if endpointLocation := endpointProperties.EndpointLocation; endpointLocation != nil {
                 v["endpoint_location"] = *endpointLocation
@@ -466,6 +472,12 @@ func flattenArmProfileEndpoint(input *[]trafficmanager.Endpoint) []interface{} {
             if weight := endpointProperties.Weight; weight != nil {
                 v["weight"] = int(*weight)
             }
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
         if type := item.Type; type != nil {
             v["type"] = *type

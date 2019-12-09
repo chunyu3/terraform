@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'circuitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -307,7 +307,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'circuitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -321,7 +321,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'circuitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -625,7 +625,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -638,7 +638,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -647,7 +647,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -656,7 +656,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
 
@@ -664,42 +664,42 @@ objects:
       Manage Azure ExpressRouteCircuit instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'CircuitName'
         description: 'The name of the loadBalancer.'
         required: true
         input: true
         azure_sdk_references: ['circuitName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource location'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::NestedObject
-        name: 'sku'
+        name: 'Sku'
         description: 'Gets or sets sku'
         required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'name'
+            name: 'Name'
             description: 'Gets or sets name of the sku.'
             required: false
             azure_sdk_references: ['/sku/name']
           - !ruby/object:Api::Type::Enum
-            name: 'tier'
+            name: 'Tier'
             description: 'Gets or sets tier of the sku.'
             required: false
             azure_sdk_references: ['/sku/tier']
@@ -708,7 +708,7 @@ objects:
               - :Premium
             default_value: :Standard
           - !ruby/object:Api::Type::Enum
-            name: 'family'
+            name: 'Family'
             description: 'Gets or sets family of the sku.'
             required: false
             azure_sdk_references: ['/sku/family']
@@ -717,12 +717,12 @@ objects:
               - :MeteredData
             default_value: :UnlimitedData
       - !ruby/object:Api::Type::String
-        name: 'circuitProvisioningState'
+        name: 'CircuitProvisioningState'
         description: 'Gets or sets CircuitProvisioningState state of the resource '
         required: false
         azure_sdk_references: ['/circuitProvisioningState', '/properties/circuitProvisioningState']
       - !ruby/object:Api::Type::Enum
-        name: 'serviceProviderProvisioningState'
+        name: 'ServiceProviderProvisioningState'
         description: 'Gets or sets ServiceProviderProvisioningState state of the resource '
         required: false
         azure_sdk_references: ['/serviceProviderProvisioningState', '/properties/serviceProviderProvisioningState']
@@ -733,24 +733,24 @@ objects:
           - :Deprovisioning
         default_value: :NotProvisioned
       - !ruby/object:Api::Type::Array
-        name: 'authorizations'
+        name: 'Authorizations'
         description: 'Gets or sets list of authorizations'
         required: false
         azure_sdk_references: ['/authorizations', '/properties/authorizations']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource Id'
               required: false
               azure_sdk_references: ['/authorizations/id', '/properties/authorizations/id']
             - !ruby/object:Api::Type::String
-              name: 'authorizationKey'
+              name: 'AuthorizationKey'
               description: 'Gets or sets the authorization key'
               required: false
               azure_sdk_references: ['/authorizations/authorizationKey', '/properties/authorizations/properties/authorizationKey']
             - !ruby/object:Api::Type::Enum
-              name: 'authorizationUseStatus'
+              name: 'AuthorizationUseStatus'
               description: 'Gets or sets AuthorizationUseStatus'
               required: false
               azure_sdk_references: ['/authorizations/authorizationUseStatus', '/properties/authorizations/properties/authorizationUseStatus']
@@ -759,29 +759,29 @@ objects:
                 - :InUse
               default_value: :Available
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource'
               required: false
               azure_sdk_references: ['/authorizations/name', '/properties/authorizations/name']
             - !ruby/object:Api::Type::String
-              name: 'etag'
+              name: 'Etag'
               description: 'A unique read-only string that changes whenever the resource is updated'
               required: false
               azure_sdk_references: ['/authorizations/etag', '/properties/authorizations/etag']
       - !ruby/object:Api::Type::Array
-        name: 'peerings'
+        name: 'Peerings'
         description: 'Gets or sets list of peerings'
         required: false
         azure_sdk_references: ['/peerings', '/properties/peerings']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource Id'
               required: false
               azure_sdk_references: ['/peerings/id', '/properties/peerings/id']
             - !ruby/object:Api::Type::Enum
-              name: 'peeringType'
+              name: 'PeeringType'
               description: 'Gets or sets PeeringType'
               required: false
               azure_sdk_references: ['/peerings/peeringType', '/properties/peerings/properties/peeringType']
@@ -791,7 +791,7 @@ objects:
                 - :MicrosoftPeering
               default_value: :AzurePublicPeering
             - !ruby/object:Api::Type::Enum
-              name: 'state'
+              name: 'State'
               description: 'Gets or sets state of Peering'
               required: false
               azure_sdk_references: ['/peerings/state', '/properties/peerings/properties/state']
@@ -800,59 +800,59 @@ objects:
                 - :Enabled
               default_value: :Disabled
             - !ruby/object:Api::Type::Integer
-              name: 'azureAsn'
+              name: 'AzureASN'
               description: 'Gets or sets the azure ASN'
               required: false
               azure_sdk_references: ['/peerings/azureASN', '/properties/peerings/properties/azureASN']
             - !ruby/object:Api::Type::Integer
-              name: 'peerAsn'
+              name: 'PeerASN'
               description: 'Gets or sets the peer ASN'
               required: false
               azure_sdk_references: ['/peerings/peerASN', '/properties/peerings/properties/peerASN']
             - !ruby/object:Api::Type::String
-              name: 'primaryPeerAddressPrefix'
+              name: 'PrimaryPeerAddressPrefix'
               description: 'Gets or sets the primary address prefix'
               required: false
               azure_sdk_references: ['/peerings/primaryPeerAddressPrefix', '/properties/peerings/properties/primaryPeerAddressPrefix']
             - !ruby/object:Api::Type::String
-              name: 'secondaryPeerAddressPrefix'
+              name: 'SecondaryPeerAddressPrefix'
               description: 'Gets or sets the secondary address prefix'
               required: false
               azure_sdk_references: ['/peerings/secondaryPeerAddressPrefix', '/properties/peerings/properties/secondaryPeerAddressPrefix']
             - !ruby/object:Api::Type::String
-              name: 'primaryAzurePort'
+              name: 'PrimaryAzurePort'
               description: 'Gets or sets the primary port'
               required: false
               azure_sdk_references: ['/peerings/primaryAzurePort', '/properties/peerings/properties/primaryAzurePort']
             - !ruby/object:Api::Type::String
-              name: 'secondaryAzurePort'
+              name: 'SecondaryAzurePort'
               description: 'Gets or sets the secondary port'
               required: false
               azure_sdk_references: ['/peerings/secondaryAzurePort', '/properties/peerings/properties/secondaryAzurePort']
             - !ruby/object:Api::Type::String
-              name: 'sharedKey'
+              name: 'SharedKey'
               description: 'Gets or sets the shared key'
               required: false
               azure_sdk_references: ['/peerings/sharedKey', '/properties/peerings/properties/sharedKey']
             - !ruby/object:Api::Type::Integer
-              name: 'vlanId'
+              name: 'VlanID'
               description: 'Gets or sets the vlan id'
               required: false
               azure_sdk_references: ['/peerings/vlanId', '/properties/peerings/properties/vlanId']
             - !ruby/object:Api::Type::NestedObject
-              name: 'microsoftPeeringConfig'
+              name: 'MicrosoftPeeringConfig'
               description: 'Gets or sets the Microsoft peering config'
               required: false
               azure_sdk_references: ['/peerings/microsoftPeeringConfig', '/properties/peerings/properties/microsoftPeeringConfig']
               properties:
                 - !ruby/object:Api::Type::Array
-                  name: 'advertisedPublicPrefixes'
+                  name: 'AdvertisedPublicPrefixes'
                   description: 'Gets or sets the reference of AdvertisedPublicPrefixes'
                   required: false
                   azure_sdk_references: ['/peerings/microsoftPeeringConfig/advertisedPublicPrefixes', '/properties/peerings/properties/microsoftPeeringConfig/advertisedPublicPrefixes']
                   item_type: Api::Type::String
                 - !ruby/object:Api::Type::Enum
-                  name: 'advertisedPublicPrefixesState'
+                  name: 'AdvertisedPublicPrefixesState'
                   description: 'Gets or sets AdvertisedPublicPrefixState of the Peering resource '
                   required: false
                   azure_sdk_references: ['/peerings/microsoftPeeringConfig/advertisedPublicPrefixesState', '/properties/peerings/properties/microsoftPeeringConfig/advertisedPublicPrefixesState']
@@ -863,96 +863,96 @@ objects:
                     - :ValidationNeeded
                   default_value: :NotConfigured
                 - !ruby/object:Api::Type::Integer
-                  name: 'customerAsn'
+                  name: 'CustomerASN'
                   description: 'Gets or Sets CustomerAsn of the peering.'
                   required: false
                   azure_sdk_references: ['/peerings/microsoftPeeringConfig/customerASN', '/properties/peerings/properties/microsoftPeeringConfig/customerASN']
                 - !ruby/object:Api::Type::String
-                  name: 'routingRegistryName'
+                  name: 'RoutingRegistryName'
                   description: 'Gets or Sets RoutingRegistryName of the config.'
                   required: false
                   azure_sdk_references: ['/peerings/microsoftPeeringConfig/routingRegistryName', '/properties/peerings/properties/microsoftPeeringConfig/routingRegistryName']
             - !ruby/object:Api::Type::NestedObject
-              name: 'stats'
+              name: 'Stats'
               description: 'Gets or peering stats'
               required: false
               azure_sdk_references: ['/peerings/stats', '/properties/peerings/properties/stats']
               properties:
                 - !ruby/object:Api::Type::Integer
-                  name: 'bytesIn'
+                  name: 'BytesIn'
                   description: 'Gets BytesIn of the peering.'
                   required: false
                   azure_sdk_references: ['/peerings/stats/bytesIn', '/properties/peerings/properties/stats/bytesIn']
                 - !ruby/object:Api::Type::Integer
-                  name: 'bytesOut'
+                  name: 'BytesOut'
                   description: 'Gets BytesOut of the peering.'
                   required: false
                   azure_sdk_references: ['/peerings/stats/bytesOut', '/properties/peerings/properties/stats/bytesOut']
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource'
               required: false
               azure_sdk_references: ['/peerings/name', '/properties/peerings/name']
             - !ruby/object:Api::Type::String
-              name: 'etag'
+              name: 'Etag'
               description: 'A unique read-only string that changes whenever the resource is updated'
               required: false
               azure_sdk_references: ['/peerings/etag', '/properties/peerings/etag']
       - !ruby/object:Api::Type::String
-        name: 'serviceKey'
+        name: 'ServiceKey'
         description: 'Gets or sets ServiceKey'
         required: false
         azure_sdk_references: ['/serviceKey', '/properties/serviceKey']
       - !ruby/object:Api::Type::String
-        name: 'serviceProviderNotes'
+        name: 'ServiceProviderNotes'
         description: 'Gets or sets ServiceProviderNotes'
         required: false
         azure_sdk_references: ['/serviceProviderNotes', '/properties/serviceProviderNotes']
       - !ruby/object:Api::Type::NestedObject
-        name: 'serviceProviderProperties'
+        name: 'ServiceProviderProperties'
         description: 'Gets or sets ServiceProviderProperties'
         required: false
         azure_sdk_references: ['/serviceProviderProperties', '/properties/serviceProviderProperties']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'serviceProviderName'
+            name: 'ServiceProviderName'
             description: 'Gets or sets serviceProviderName.'
             required: false
             azure_sdk_references: ['/serviceProviderProperties/serviceProviderName', '/properties/serviceProviderProperties/serviceProviderName']
           - !ruby/object:Api::Type::String
-            name: 'peeringLocation'
+            name: 'PeeringLocation'
             description: 'Gets or sets peering location.'
             required: false
             azure_sdk_references: ['/serviceProviderProperties/peeringLocation', '/properties/serviceProviderProperties/peeringLocation']
           - !ruby/object:Api::Type::Integer
-            name: 'bandwidthInMbps'
+            name: 'BandwidthInMbps'
             description: 'Gets or sets BandwidthInMbps.'
             required: false
             azure_sdk_references: ['/serviceProviderProperties/bandwidthInMbps', '/properties/serviceProviderProperties/bandwidthInMbps']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'Gets a unique read-only string that changes whenever the resource is updated'
         required: false
         input: true
         azure_sdk_references: ['/etag']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Gets or sets Provisioning state of the PublicIP resource Updating/Deleting/Failed'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource Id'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type'
         output: true
         azure_sdk_references: ['/type']

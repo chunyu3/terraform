@@ -36,13 +36,6 @@ func resourceArmLab() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "allow_claim": {
@@ -536,6 +529,8 @@ func resourceArmLab() *schema.Resource {
                 Optional: true,
             },
 
+            "location": azure.SchemaLocation(),
+
             "network_interface": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -559,6 +554,10 @@ func resourceArmLab() *schema.Resource {
                             Optional: true,
                         },
                         "rdp_authority": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "ssh_authority": {
                             Type: schema.TypeString,
                             Optional: true,
                         },
@@ -595,10 +594,6 @@ func resourceArmLab() *schema.Resource {
                                     },
                                 },
                             },
-                        },
-                        "ssh_authority": {
-                            Type: schema.TypeString,
-                            Optional: true,
                         },
                         "subnet_id": {
                             Type: schema.TypeString,
@@ -637,12 +632,12 @@ func resourceArmLab() *schema.Resource {
                 Optional: true,
             },
 
-            "size": {
+            "ssh_key": {
                 Type: schema.TypeString,
                 Optional: true,
             },
 
-            "ssh_key": {
+            "size": {
                 Type: schema.TypeString,
                 Optional: true,
             },
@@ -651,6 +646,8 @@ func resourceArmLab() *schema.Resource {
                 Type: schema.TypeString,
                 Optional: true,
             },
+
+            "tags": tags.Schema(),
 
             "unique_identifier": {
                 Type: schema.TypeString,
@@ -694,7 +691,17 @@ func resourceArmLab() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "lab_storage_type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -723,24 +730,23 @@ func resourceArmLab() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmLabCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).labsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+    resourceGroupName := d.Get("resource_group").(string)
     name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Lab %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Lab (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -754,39 +760,39 @@ func resourceArmLabCreate(d *schema.ResourceData, meta interface{}) error {
     artifactDeploymentStatus := d.Get("artifact_deployment_status").([]interface{})
     artifacts := d.Get("artifacts").([]interface{})
     blobName := d.Get("blob_name").(string)
-    blobStorageAbsoluteSasUri := d.Get("blob_storage_absolute_sas_uri").(string)
+    blobStorageAbsoluteSasURI := d.Get("blob_storage_absolute_sas_uri").(string)
     bulkCreationParameters := d.Get("bulk_creation_parameters").([]interface{})
-    computeVm := d.Get("compute_vm").([]interface{})
+    computeVM := d.Get("compute_vm").([]interface{})
     createdByUser := d.Get("created_by_user").(string)
-    createdByUserId := d.Get("created_by_user_id").(string)
+    createdByUserID := d.Get("created_by_user_id").(string)
     createdDate := d.Get("created_date").(string)
-    customImageId := d.Get("custom_image_id").(string)
-    disallowPublicIpAddress := d.Get("disallow_public_ip_address").(bool)
-    environmentId := d.Get("environment_id").(string)
+    customImageID := d.Get("custom_image_id").(string)
+    disallowPublicIPAddress := d.Get("disallow_public_ip_address").(bool)
+    environmentID := d.Get("environment_id").(string)
     expirationDate := d.Get("expiration_date").(string)
     fqdn := d.Get("fqdn").(string)
     galleryImageReference := d.Get("gallery_image_reference").([]interface{})
-    isAuthenticationWithSshKey := d.Get("is_authentication_with_ssh_key").(bool)
+    isAuthenticationWithSSHKey := d.Get("is_authentication_with_ssh_key").(bool)
     labSubnetName := d.Get("lab_subnet_name").(string)
-    labVirtualNetworkId := d.Get("lab_virtual_network_id").(string)
+    labVirtualNetworkID := d.Get("lab_virtual_network_id").(string)
     networkInterface := d.Get("network_interface").([]interface{})
     notes := d.Get("notes").(string)
     osType := d.Get("os_type").(string)
-    ownerObjectId := d.Get("owner_object_id").(string)
+    ownerObjectID := d.Get("owner_object_id").(string)
     ownerUserPrincipalName := d.Get("owner_user_principal_name").(string)
     password := d.Get("password").(string)
+    sSHKey := d.Get("ssh_key").(string)
     size := d.Get("size").(string)
-    sshKey := d.Get("ssh_key").(string)
     storageType := d.Get("storage_type").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
     usageStartDate := d.Get("usage_start_date").(string)
     userName := d.Get("user_name").(string)
     virtualMachineCreationSource := d.Get("virtual_machine_creation_source").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     lab := devtestlab.LabFragment{
         BlobName: utils.String(blobName),
-        BlobStorageAbsoluteSasURI: utils.String(blobStorageAbsoluteSasUri),
+        BlobStorageAbsoluteSasURI: utils.String(blobStorageAbsoluteSasURI),
         Location: utils.String(location),
         LabVirtualMachineCreationParameterProperties: &devtestlab.LabVirtualMachineCreationParameterProperties{
             AllowClaim: utils.Bool(allowClaim),
@@ -794,52 +800,52 @@ func resourceArmLabCreate(d *schema.ResourceData, meta interface{}) error {
             ArtifactDeploymentStatus: expandArmLabArtifactDeploymentStatusProperties(artifactDeploymentStatus),
             Artifacts: expandArmLabArtifactInstallProperties(artifacts),
             BulkCreationParameters: expandArmLabBulkCreationParameters(bulkCreationParameters),
-            ComputeVM: expandArmLabComputeVmProperties(computeVm),
+            ComputeVM: expandArmLabComputeVmProperties(computeVM),
             CreatedByUser: utils.String(createdByUser),
-            CreatedByUserID: utils.String(createdByUserId),
+            CreatedByUserID: utils.String(createdByUserID),
             CreatedDate: convertStringToDate(createdDate),
-            CustomImageID: utils.String(customImageId),
-            DisallowPublicIPAddress: utils.Bool(disallowPublicIpAddress),
-            EnvironmentID: utils.String(environmentId),
+            CustomImageID: utils.String(customImageID),
+            DisallowPublicIPAddress: utils.Bool(disallowPublicIPAddress),
+            EnvironmentID: utils.String(environmentID),
             ExpirationDate: convertStringToDate(expirationDate),
             Fqdn: utils.String(fqdn),
             GalleryImageReference: expandArmLabGalleryImageReference(galleryImageReference),
-            IsAuthenticationWithSSHKey: utils.Bool(isAuthenticationWithSshKey),
+            IsAuthenticationWithSSHKey: utils.Bool(isAuthenticationWithSSHKey),
             LabSubnetName: utils.String(labSubnetName),
-            LabVirtualNetworkID: utils.String(labVirtualNetworkId),
+            LabVirtualNetworkID: utils.String(labVirtualNetworkID),
             NetworkInterface: expandArmLabNetworkInterfaceProperties(networkInterface),
             Notes: utils.String(notes),
             OsType: utils.String(osType),
-            OwnerObjectID: utils.String(ownerObjectId),
+            OwnerObjectID: utils.String(ownerObjectID),
             OwnerUserPrincipalName: utils.String(ownerUserPrincipalName),
             Password: utils.String(password),
             Size: utils.String(size),
-            SSHKey: utils.String(sshKey),
+            SSHKey: utils.String(sSHKey),
             StorageType: utils.String(storageType),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             UserName: utils.String(userName),
             VirtualMachineCreationSource: devtestlab.VirtualMachineCreationSource(virtualMachineCreationSource),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
         UsageStartDate: convertStringToDate(usageStartDate),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, lab)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, lab)
     if err != nil {
-        return fmt.Errorf("Error creating Lab %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Lab (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Lab %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Lab (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Lab %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Lab (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Lab %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Lab (Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -848,29 +854,28 @@ func resourceArmLabCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmLabRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).labsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Lab %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Lab %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Lab (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -886,6 +891,9 @@ func resourceArmLabRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("unique_identifier", labVirtualMachineCreationParameterProperties.UniqueIdentifier)
         d.Set("vault_name", labVirtualMachineCreationParameterProperties.VaultName)
     }
+    d.Set("id", resp.ID)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -893,87 +901,90 @@ func resourceArmLabRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmLabUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).labsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     allowClaim := d.Get("allow_claim").(bool)
     applicableSchedule := d.Get("applicable_schedule").([]interface{})
     artifactDeploymentStatus := d.Get("artifact_deployment_status").([]interface{})
     artifacts := d.Get("artifacts").([]interface{})
     blobName := d.Get("blob_name").(string)
-    blobStorageAbsoluteSasUri := d.Get("blob_storage_absolute_sas_uri").(string)
+    blobStorageAbsoluteSasURI := d.Get("blob_storage_absolute_sas_uri").(string)
     bulkCreationParameters := d.Get("bulk_creation_parameters").([]interface{})
-    computeVm := d.Get("compute_vm").([]interface{})
+    computeVM := d.Get("compute_vm").([]interface{})
     createdByUser := d.Get("created_by_user").(string)
-    createdByUserId := d.Get("created_by_user_id").(string)
+    createdByUserID := d.Get("created_by_user_id").(string)
     createdDate := d.Get("created_date").(string)
-    customImageId := d.Get("custom_image_id").(string)
-    disallowPublicIpAddress := d.Get("disallow_public_ip_address").(bool)
-    environmentId := d.Get("environment_id").(string)
+    customImageID := d.Get("custom_image_id").(string)
+    disallowPublicIPAddress := d.Get("disallow_public_ip_address").(bool)
+    environmentID := d.Get("environment_id").(string)
     expirationDate := d.Get("expiration_date").(string)
     fqdn := d.Get("fqdn").(string)
     galleryImageReference := d.Get("gallery_image_reference").([]interface{})
-    isAuthenticationWithSshKey := d.Get("is_authentication_with_ssh_key").(bool)
+    isAuthenticationWithSSHKey := d.Get("is_authentication_with_ssh_key").(bool)
     labSubnetName := d.Get("lab_subnet_name").(string)
-    labVirtualNetworkId := d.Get("lab_virtual_network_id").(string)
+    labVirtualNetworkID := d.Get("lab_virtual_network_id").(string)
+    name := d.Get("name").(string)
     networkInterface := d.Get("network_interface").([]interface{})
     notes := d.Get("notes").(string)
     osType := d.Get("os_type").(string)
-    ownerObjectId := d.Get("owner_object_id").(string)
+    ownerObjectID := d.Get("owner_object_id").(string)
     ownerUserPrincipalName := d.Get("owner_user_principal_name").(string)
     password := d.Get("password").(string)
+    sSHKey := d.Get("ssh_key").(string)
     size := d.Get("size").(string)
-    sshKey := d.Get("ssh_key").(string)
     storageType := d.Get("storage_type").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
     usageStartDate := d.Get("usage_start_date").(string)
     userName := d.Get("user_name").(string)
     virtualMachineCreationSource := d.Get("virtual_machine_creation_source").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     lab := devtestlab.LabFragment{
         BlobName: utils.String(blobName),
-        BlobStorageAbsoluteSasURI: utils.String(blobStorageAbsoluteSasUri),
+        BlobStorageAbsoluteSasURI: utils.String(blobStorageAbsoluteSasURI),
+        Location: utils.String(location),
         LabVirtualMachineCreationParameterProperties: &devtestlab.LabVirtualMachineCreationParameterProperties{
             AllowClaim: utils.Bool(allowClaim),
             ApplicableSchedule: expandArmLabApplicableSchedule(applicableSchedule),
             ArtifactDeploymentStatus: expandArmLabArtifactDeploymentStatusProperties(artifactDeploymentStatus),
             Artifacts: expandArmLabArtifactInstallProperties(artifacts),
             BulkCreationParameters: expandArmLabBulkCreationParameters(bulkCreationParameters),
-            ComputeVM: expandArmLabComputeVmProperties(computeVm),
+            ComputeVM: expandArmLabComputeVmProperties(computeVM),
             CreatedByUser: utils.String(createdByUser),
-            CreatedByUserID: utils.String(createdByUserId),
+            CreatedByUserID: utils.String(createdByUserID),
             CreatedDate: convertStringToDate(createdDate),
-            CustomImageID: utils.String(customImageId),
-            DisallowPublicIPAddress: utils.Bool(disallowPublicIpAddress),
-            EnvironmentID: utils.String(environmentId),
+            CustomImageID: utils.String(customImageID),
+            DisallowPublicIPAddress: utils.Bool(disallowPublicIPAddress),
+            EnvironmentID: utils.String(environmentID),
             ExpirationDate: convertStringToDate(expirationDate),
             Fqdn: utils.String(fqdn),
             GalleryImageReference: expandArmLabGalleryImageReference(galleryImageReference),
-            IsAuthenticationWithSSHKey: utils.Bool(isAuthenticationWithSshKey),
+            IsAuthenticationWithSSHKey: utils.Bool(isAuthenticationWithSSHKey),
             LabSubnetName: utils.String(labSubnetName),
-            LabVirtualNetworkID: utils.String(labVirtualNetworkId),
+            LabVirtualNetworkID: utils.String(labVirtualNetworkID),
             NetworkInterface: expandArmLabNetworkInterfaceProperties(networkInterface),
             Notes: utils.String(notes),
             OsType: utils.String(osType),
-            OwnerObjectID: utils.String(ownerObjectId),
+            OwnerObjectID: utils.String(ownerObjectID),
             OwnerUserPrincipalName: utils.String(ownerUserPrincipalName),
             Password: utils.String(password),
             Size: utils.String(size),
-            SSHKey: utils.String(sshKey),
+            SSHKey: utils.String(sSHKey),
             StorageType: utils.String(storageType),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             UserName: utils.String(userName),
             VirtualMachineCreationSource: devtestlab.VirtualMachineCreationSource(virtualMachineCreationSource),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
         UsageStartDate: convertStringToDate(usageStartDate),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, lab); err != nil {
-        return fmt.Errorf("Error updating Lab %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, lab); err != nil {
+        return fmt.Errorf("Error updating Lab (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return resourceArmLabRead(d, meta)
@@ -981,27 +992,28 @@ func resourceArmLabUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmLabDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).labsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Lab %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Lab (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Lab %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Lab (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -1015,7 +1027,7 @@ func expandArmLabApplicableSchedule(input []interface{}) *devtestlab.ApplicableS
     v := input[0].(map[string]interface{})
 
     location := azure.NormalizeLocation(v["location"].(string))
-    t := v["tags"].(map[string]interface{})
+    tags := v["tags"].(map[string]interface{})
     labVmsShutdown := v["lab_vms_shutdown"].([]interface{})
     labVmsStartup := v["lab_vms_startup"].([]interface{})
 
@@ -1025,7 +1037,7 @@ func expandArmLabApplicableSchedule(input []interface{}) *devtestlab.ApplicableS
             LabVmsShutdown: expandArmLabSchedule(labVmsShutdown),
             LabVmsStartup: expandArmLabSchedule(labVmsStartup),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
     return &result
 }
@@ -1052,20 +1064,20 @@ func expandArmLabArtifactInstallProperties(input []interface{}) *[]devtestlab.Ar
     results := make([]devtestlab.ArtifactInstallProperties, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        artifactId := v["artifact_id"].(string)
+        artifactID := v["artifact_id"].(string)
         parameters := v["parameters"].([]interface{})
         status := v["status"].(string)
         deploymentStatusMessage := v["deployment_status_message"].(string)
-        vmExtensionStatusMessage := v["vm_extension_status_message"].(string)
+        vMExtensionStatusMessage := v["vm_extension_status_message"].(string)
         installTime := v["install_time"].(string)
 
         result := devtestlab.ArtifactInstallProperties{
-            ArtifactID: utils.String(artifactId),
+            ArtifactID: utils.String(artifactID),
             DeploymentStatusMessage: utils.String(deploymentStatusMessage),
             InstallTime: convertStringToDate(installTime),
             Parameters: expandArmLabArtifactParameterProperties(parameters),
             Status: utils.String(status),
-            VMExtensionStatusMessage: utils.String(vmExtensionStatusMessage),
+            VMExtensionStatusMessage: utils.String(vMExtensionStatusMessage),
         }
 
         results = append(results, result)
@@ -1095,20 +1107,20 @@ func expandArmLabComputeVmProperties(input []interface{}) *devtestlab.ComputeVmP
 
     statuses := v["statuses"].([]interface{})
     osType := v["os_type"].(string)
-    vmSize := v["vm_size"].(string)
-    networkInterfaceId := v["network_interface_id"].(string)
-    osDiskId := v["os_disk_id"].(string)
+    vMSize := v["vm_size"].(string)
+    networkInterfaceID := v["network_interface_id"].(string)
+    osDiskID := v["os_disk_id"].(string)
     dataDiskIds := v["data_disk_ids"].([]interface{})
     dataDisks := v["data_disks"].([]interface{})
 
     result := devtestlab.ComputeVmProperties{
         DataDiskIds: utils.ExpandStringSlice(dataDiskIds),
         DataDisks: expandArmLabComputeDataDisk(dataDisks),
-        NetworkInterfaceID: utils.String(networkInterfaceId),
-        OsDiskID: utils.String(osDiskId),
+        NetworkInterfaceID: utils.String(networkInterfaceID),
+        OsDiskID: utils.String(osDiskID),
         OsType: utils.String(osType),
         Statuses: expandArmLabComputeVmInstanceViewStatus(statuses),
-        VMSize: utils.String(vmSize),
+        VMSize: utils.String(vMSize),
     }
     return &result
 }
@@ -1156,26 +1168,26 @@ func expandArmLabNetworkInterfaceProperties(input []interface{}) *devtestlab.Net
     }
     v := input[0].(map[string]interface{})
 
-    virtualNetworkId := v["virtual_network_id"].(string)
-    subnetId := v["subnet_id"].(string)
-    publicIpAddressId := v["public_ip_address_id"].(string)
-    publicIpAddress := v["public_ip_address"].(string)
-    privateIpAddress := v["private_ip_address"].(string)
-    dnsName := v["dns_name"].(string)
+    virtualNetworkID := v["virtual_network_id"].(string)
+    subnetID := v["subnet_id"].(string)
+    publicIPAddressID := v["public_ip_address_id"].(string)
+    publicIPAddress := v["public_ip_address"].(string)
+    privateIPAddress := v["private_ip_address"].(string)
+    dNSName := v["dns_name"].(string)
     rdpAuthority := v["rdp_authority"].(string)
-    sshAuthority := v["ssh_authority"].(string)
-    sharedPublicIpAddressConfiguration := v["shared_public_ip_address_configuration"].([]interface{})
+    sSHAuthority := v["ssh_authority"].(string)
+    sharedPublicIPAddressConfiguration := v["shared_public_ip_address_configuration"].([]interface{})
 
     result := devtestlab.NetworkInterfaceProperties{
-        DNSName: utils.String(dnsName),
-        PrivateIPAddress: utils.String(privateIpAddress),
-        PublicIPAddress: utils.String(publicIpAddress),
-        PublicIPAddressID: utils.String(publicIpAddressId),
+        DNSName: utils.String(dNSName),
+        PrivateIPAddress: utils.String(privateIPAddress),
+        PublicIPAddress: utils.String(publicIPAddress),
+        PublicIPAddressID: utils.String(publicIPAddressID),
         RdpAuthority: utils.String(rdpAuthority),
-        SharedPublicIPAddressConfiguration: expandArmLabSharedPublicIpAddressConfiguration(sharedPublicIpAddressConfiguration),
-        SSHAuthority: utils.String(sshAuthority),
-        SubnetID: utils.String(subnetId),
-        VirtualNetworkID: utils.String(virtualNetworkId),
+        SharedPublicIPAddressConfiguration: expandArmLabSharedPublicIpAddressConfiguration(sharedPublicIPAddressConfiguration),
+        SSHAuthority: utils.String(sSHAuthority),
+        SubnetID: utils.String(subnetID),
+        VirtualNetworkID: utils.String(virtualNetworkID),
     }
     return &result
 }
@@ -1187,15 +1199,15 @@ func expandArmLabSchedule(input []interface{}) *devtestlab.Schedule {
     v := input[0].(map[string]interface{})
 
     location := azure.NormalizeLocation(v["location"].(string))
-    t := v["tags"].(map[string]interface{})
+    tags := v["tags"].(map[string]interface{})
     status := v["status"].(string)
     taskType := v["task_type"].(string)
     weeklyRecurrence := v["weekly_recurrence"].([]interface{})
     dailyRecurrence := v["daily_recurrence"].([]interface{})
     hourlyRecurrence := v["hourly_recurrence"].([]interface{})
-    timeZoneId := v["time_zone_id"].(string)
+    timeZoneID := v["time_zone_id"].(string)
     notificationSettings := v["notification_settings"].([]interface{})
-    targetResourceId := v["target_resource_id"].(string)
+    targetResourceID := v["target_resource_id"].(string)
     uniqueIdentifier := v["unique_identifier"].(string)
 
     result := devtestlab.Schedule{
@@ -1205,13 +1217,13 @@ func expandArmLabSchedule(input []interface{}) *devtestlab.Schedule {
             HourlyRecurrence: expandArmLabHourDetails(hourlyRecurrence),
             NotificationSettings: expandArmLabNotificationSettings(notificationSettings),
             Status: devtestlab.EnableStatus(status),
-            TargetResourceID: utils.String(targetResourceId),
+            TargetResourceID: utils.String(targetResourceID),
             TaskType: utils.String(taskType),
-            TimeZoneID: utils.String(timeZoneId),
+            TimeZoneID: utils.String(timeZoneID),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             WeeklyRecurrence: expandArmLabWeekDetails(weeklyRecurrence),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
     return &result
 }
@@ -1238,14 +1250,14 @@ func expandArmLabComputeDataDisk(input []interface{}) *[]devtestlab.ComputeDataD
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
-        diskUri := v["disk_uri"].(string)
-        managedDiskId := v["managed_disk_id"].(string)
+        diskURI := v["disk_uri"].(string)
+        managedDiskID := v["managed_disk_id"].(string)
         diskSizeGiB := v["disk_size_gi_b"].(int)
 
         result := devtestlab.ComputeDataDisk{
             DiskSizeGiB: utils.Int32(int32(diskSizeGiB)),
-            DiskURI: utils.String(diskUri),
-            ManagedDiskID: utils.String(managedDiskId),
+            DiskURI: utils.String(diskURI),
+            ManagedDiskID: utils.String(managedDiskID),
             Name: utils.String(name),
         }
 
@@ -1323,12 +1335,12 @@ func expandArmLabNotificationSettings(input []interface{}) *devtestlab.Notificat
 
     status := v["status"].(string)
     timeInMinutes := v["time_in_minutes"].(int)
-    webhookUrl := v["webhook_url"].(string)
+    webhookURL := v["webhook_url"].(string)
 
     result := devtestlab.NotificationSettings{
         Status: devtestlab.NotificationStatus(status),
         TimeInMinutes: utils.Int32(int32(timeInMinutes)),
-        WebhookURL: utils.String(webhookUrl),
+        WebhookURL: utils.String(webhookURL),
     }
     return &result
 }

@@ -29,16 +29,11 @@ func resourceArmWorkflowAccessKey() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "access_key_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -48,6 +43,12 @@ func resourceArmWorkflowAccessKey() *schema.Resource {
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
             },
 
             "key_type": {
@@ -74,6 +75,11 @@ func resourceArmWorkflowAccessKey() *schema.Resource {
                 ValidateFunc: validateRFC3339Date,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -84,17 +90,18 @@ func resourceArmWorkflowAccessKey() *schema.Resource {
 
 func resourceArmWorkflowAccessKeyCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).workflowAccessKeysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("access_key_name").(string)
     workflowName := d.Get("workflow_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, workflowName, name)
+        existing, err := client.Get(ctx, resourceGroupName, workflowName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Workflow Access Key %q (Workflow Name %q / Resource Group %q): %+v", name, workflowName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Workflow Access Key (Access Key Name %q / Workflow Name %q / Resource Group %q): %+v", name, workflowName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -102,13 +109,13 @@ func resourceArmWorkflowAccessKeyCreateUpdate(d *schema.ResourceData, meta inter
         }
     }
 
-    id := d.Get("id").(string)
+    iD := d.Get("id").(string)
     keyType := d.Get("key_type").(string)
     notAfter := d.Get("not_after").(string)
     notBefore := d.Get("not_before").(string)
 
     workflowAccesskey := logic.WorkflowAccessKey{
-        ID: utils.String(id),
+        ID: utils.String(iD),
         KeyType: logic.KeyType(keyType),
         WorkflowAccessKeyProperties: &logic.WorkflowAccessKeyProperties{
             NotAfter: convertStringToDate(notAfter),
@@ -117,17 +124,17 @@ func resourceArmWorkflowAccessKeyCreateUpdate(d *schema.ResourceData, meta inter
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, workflowName, name, workflowAccesskey); err != nil {
-        return fmt.Errorf("Error creating Workflow Access Key %q (Workflow Name %q / Resource Group %q): %+v", name, workflowName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, workflowName, name, workflowAccesskey); err != nil {
+        return fmt.Errorf("Error creating Workflow Access Key (Access Key Name %q / Workflow Name %q / Resource Group %q): %+v", name, workflowName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, workflowName, name)
+    resp, err := client.Get(ctx, resourceGroupName, workflowName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Workflow Access Key %q (Workflow Name %q / Resource Group %q): %+v", name, workflowName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Workflow Access Key (Access Key Name %q / Workflow Name %q / Resource Group %q): %+v", name, workflowName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Workflow Access Key %q (Workflow Name %q / Resource Group %q) ID", name, workflowName, resourceGroup)
+        return fmt.Errorf("Cannot read Workflow Access Key (Access Key Name %q / Workflow Name %q / Resource Group %q) ID", name, workflowName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -136,30 +143,32 @@ func resourceArmWorkflowAccessKeyCreateUpdate(d *schema.ResourceData, meta inter
 
 func resourceArmWorkflowAccessKeyRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).workflowAccessKeysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     workflowName := id.Path["workflows"]
     name := id.Path["accessKeys"]
 
-    resp, err := client.Get(ctx, resourceGroup, workflowName, name)
+    resp, err := client.Get(ctx, resourceGroupName, workflowName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Workflow Access Key %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Workflow Access Key %q (Workflow Name %q / Resource Group %q): %+v", name, workflowName, resourceGroup, err)
+        return fmt.Errorf("Error reading Workflow Access Key (Access Key Name %q / Workflow Name %q / Resource Group %q): %+v", name, workflowName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
+    d.Set("resource_group", resourceGroupName)
+    d.Set("access_key_name", name)
+    d.Set("id", resp.ID)
     d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
     if workflowAccessKeyProperties := resp.WorkflowAccessKeyProperties; workflowAccessKeyProperties != nil {
         d.Set("not_after", (workflowAccessKeyProperties.NotAfter).String())
         d.Set("not_before", (workflowAccessKeyProperties.NotBefore).String())
@@ -173,19 +182,20 @@ func resourceArmWorkflowAccessKeyRead(d *schema.ResourceData, meta interface{}) 
 
 func resourceArmWorkflowAccessKeyDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).workflowAccessKeysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     workflowName := id.Path["workflows"]
     name := id.Path["accessKeys"]
 
-    if _, err := client.Delete(ctx, resourceGroup, workflowName, name); err != nil {
-        return fmt.Errorf("Error deleting Workflow Access Key %q (Workflow Name %q / Resource Group %q): %+v", name, workflowName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, workflowName, name); err != nil {
+        return fmt.Errorf("Error deleting Workflow Access Key (Access Key Name %q / Workflow Name %q / Resource Group %q): %+v", name, workflowName, resourceGroupName, err)
     }
 
     return nil

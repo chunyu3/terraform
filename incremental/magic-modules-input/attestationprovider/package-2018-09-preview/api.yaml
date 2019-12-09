@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'providerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -105,7 +105,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'providerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -119,7 +119,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'providerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -160,7 +160,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -172,140 +172,140 @@ objects:
       Manage Azure AttestationProvider instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group. The name is case insensitive.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ProviderName'
         description: 'Name of the attestation service'
         required: true
         input: true
         azure_sdk_references: ['providerName']
       - !ruby/object:Api::Type::String
-        name: 'attestationPolicy'
+        name: 'AttestationPolicy'
         description: 'Name of attestation policy.'
         required: false
         input: true
         azure_sdk_references: ['/attestationPolicy']
       - !ruby/object:Api::Type::NestedObject
-        name: 'policySigningCertificates'
+        name: 'PolicySigningCertificates'
         description: 'JSON Web Key Set defining a set of X.509 Certificates that will represent the parent certificate for the signing certificate used for policy operations'
         required: false
         azure_sdk_references: ['/policySigningCertificates']
         properties:
           - !ruby/object:Api::Type::Array
-            name: 'keys'
+            name: 'Keys'
             description: 'The value of the "keys" parameter is an array of JWK values.  By<br>default, the order of the JWK values within the array does not imply<br>an order of preference among them, although applications of JWK Sets<br>can choose to assign a meaning to the order for their purposes, if<br>desired.'
             required: false
             azure_sdk_references: ['/policySigningCertificates/keys']
             item_type: !ruby/object:Api::Type::NestedObject
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'alg'
+                  name: 'Alg'
                   description: 'The "alg" (algorithm) parameter identifies the algorithm intended for<br>use with the key.  The values used should either be registered in the<br>IANA "JSON Web Signature and Encryption Algorithms" registry<br>established by [JWA] or be a value that contains a Collision-<br>Resistant Name.'
                   required: true
                   azure_sdk_references: ['/policySigningCertificates/keys/alg']
                 - !ruby/object:Api::Type::String
-                  name: 'crv'
+                  name: 'Crv'
                   description: 'The "crv" (curve) parameter identifies the curve type'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/crv']
                 - !ruby/object:Api::Type::String
-                  name: 'd'
+                  name: 'D'
                   description: 'RSA private exponent or ECC private key'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/d']
                 - !ruby/object:Api::Type::String
-                  name: 'dp'
+                  name: 'Dp'
                   description: 'RSA Private Key Parameter'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/dp']
                 - !ruby/object:Api::Type::String
-                  name: 'dq'
+                  name: 'Dq'
                   description: 'RSA Private Key Parameter'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/dq']
                 - !ruby/object:Api::Type::String
-                  name: 'e'
+                  name: 'E'
                   description: 'RSA public exponent, in Base64'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/e']
                 - !ruby/object:Api::Type::String
-                  name: 'k'
+                  name: 'K'
                   description: 'Symmetric key'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/k']
                 - !ruby/object:Api::Type::String
-                  name: 'kid'
+                  name: 'Kid'
                   description: 'The "kid" (key ID) parameter is used to match a specific key.  This<br>is used, for instance, to choose among a set of keys within a JWK Set<br>during key rollover.  The structure of the "kid" value is<br>unspecified.  When "kid" values are used within a JWK Set, different<br>keys within the JWK Set SHOULD use distinct "kid" values.  (One<br>example in which different keys might use the same "kid" value is if<br>they have different "kty" (key type) values but are considered to be<br>equivalent alternatives by the application using them.)  The "kid"<br>value is a case-sensitive string.'
                   required: true
                   azure_sdk_references: ['/policySigningCertificates/keys/kid']
                 - !ruby/object:Api::Type::String
-                  name: 'kty'
+                  name: 'Kty'
                   description: 'The "kty" (key type) parameter identifies the cryptographic algorithm<br>family used with the key, such as "RSA" or "EC". "kty" values should<br>either be registered in the IANA "JSON Web Key Types" registry<br>established by [JWA] or be a value that contains a Collision-<br>Resistant Name.  The "kty" value is a case-sensitive string.'
                   required: true
                   azure_sdk_references: ['/policySigningCertificates/keys/kty']
                 - !ruby/object:Api::Type::String
-                  name: 'n'
+                  name: 'N'
                   description: 'RSA modulus, in Base64'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/n']
                 - !ruby/object:Api::Type::String
-                  name: 'p'
+                  name: 'P'
                   description: 'RSA secret prime'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/p']
                 - !ruby/object:Api::Type::String
-                  name: 'q'
+                  name: 'Q'
                   description: 'RSA secret prime, with p < q'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/q']
                 - !ruby/object:Api::Type::String
-                  name: 'qi'
+                  name: 'Qi'
                   description: 'RSA Private Key Parameter'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/qi']
                 - !ruby/object:Api::Type::String
-                  name: 'use'
+                  name: 'Use'
                   description: 'Use ("public key use") identifies the intended use of<br>the public key. The "use" parameter is employed to indicate whether<br>a public key is used for encrypting data or verifying the signature<br>on data. Values are commonly "sig" (signature) or "enc" (encryption).'
                   required: true
                   azure_sdk_references: ['/policySigningCertificates/keys/use']
                 - !ruby/object:Api::Type::String
-                  name: 'x'
+                  name: 'X'
                   description: 'X coordinate for the Elliptic Curve point'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/x']
                 - !ruby/object:Api::Type::Array
-                  name: 'x5c'
+                  name: 'X5c'
                   description: 'The "x5c" (X.509 certificate chain) parameter contains a chain of one<br>or more PKIX certificates [RFC5280].  The certificate chain is<br>represented as a JSON array of certificate value strings.  Each<br>string in the array is a base64-encoded (Section 4 of [RFC4648] --<br>not base64url-encoded) DER [ITU.X690.1994] PKIX certificate value.<br>The PKIX certificate containing the key value MUST be the first<br>certificate.'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/x5c']
                   item_type: Api::Type::String
                 - !ruby/object:Api::Type::String
-                  name: 'y'
+                  name: 'Y'
                   description: 'Y coordinate for the Elliptic Curve point'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/y']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the resource'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
         output: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Type::Enum
-        name: 'status'
+        name: 'Status'
         description: 'Status of attestation service.'
         output: true
         azure_sdk_references: ['/status', '/properties/status']
@@ -314,7 +314,7 @@ objects:
           - :NotReady
           - :Error
       - !ruby/object:Api::Type::String
-        name: 'attestUri'
+        name: 'AttestURI'
         description: 'Gets the uri of attestation service'
         output: true
         azure_sdk_references: ['/attestUri', '/properties/attestUri']

@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -258,7 +258,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -492,7 +492,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -516,7 +516,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -746,7 +746,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -765,7 +765,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -778,217 +778,217 @@ objects:
       Manage Azure RecordSet instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group. The name is case insensitive.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'zoneName'
+        name: 'ZoneName'
         description: 'The name of the DNS zone (without a terminating dot).'
         required: true
         input: true
         azure_sdk_references: ['zoneName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'RelativeRecordSetName'
         description: 'The name of the record set, relative to the name of the zone.'
         required: true
         input: true
         azure_sdk_references: ['relativeRecordSetName']
       - !ruby/object:Api::Type::String
-        name: 'recordType'
+        name: 'RecordType'
         description: 'The type of record sets to enumerate.'
         required: true
         input: true
         azure_sdk_references: ['recordType']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The ID of the record set.'
         required: false
         input: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the record set.'
         required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the record set.'
         required: false
         input: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'The etag of the record set.'
         required: false
         input: true
         azure_sdk_references: ['/etag']
       - !ruby/object:Api::Type::KeyValuePairs
-        name: 'metadata'
+        name: 'Metadata'
         description: 'The metadata attached to the record set.'
         required: false
         azure_sdk_references: ['/metadata', '/properties/metadata']
       - !ruby/object:Api::Type::Integer
-        name: 'ttl'
+        name: 'TTL'
         description: 'The TTL (time-to-live) of the records in the record set.'
         required: false
         azure_sdk_references: ['/TTL', '/properties/TTL']
       - !ruby/object:Api::Type::Array
-        name: 'arecords'
+        name: 'ARecords'
         description: 'The list of A records in the record set.'
         required: false
         azure_sdk_references: ['/ARecords', '/properties/ARecords']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'ipv4address'
+              name: 'Ipv4Address'
               description: 'The IPv4 address of this A record.'
               required: false
               azure_sdk_references: ['/ARecords/ipv4Address', '/properties/ARecords/ipv4Address']
       - !ruby/object:Api::Type::Array
-        name: 'aaaarecords'
+        name: 'AAAARecords'
         description: 'The list of AAAA records in the record set.'
         required: false
         azure_sdk_references: ['/AAAARecords', '/properties/AAAARecords']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'ipv6address'
+              name: 'Ipv6Address'
               description: 'The IPv6 address of this AAAA record.'
               required: false
               azure_sdk_references: ['/AAAARecords/ipv6Address', '/properties/AAAARecords/ipv6Address']
       - !ruby/object:Api::Type::Array
-        name: 'mxrecords'
+        name: 'MXRecords'
         description: 'The list of MX records in the record set.'
         required: false
         azure_sdk_references: ['/MXRecords', '/properties/MXRecords']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::Integer
-              name: 'preference'
+              name: 'Preference'
               description: 'The preference value for this MX record.'
               required: false
               azure_sdk_references: ['/MXRecords/preference', '/properties/MXRecords/preference']
             - !ruby/object:Api::Type::String
-              name: 'exchange'
+              name: 'Exchange'
               description: 'The domain name of the mail host for this MX record.'
               required: false
               azure_sdk_references: ['/MXRecords/exchange', '/properties/MXRecords/exchange']
       - !ruby/object:Api::Type::Array
-        name: 'nsrecords'
+        name: 'NSRecords'
         description: 'The list of NS records in the record set.'
         required: false
         azure_sdk_references: ['/NSRecords', '/properties/NSRecords']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'nsdname'
+              name: 'Nsdname'
               description: 'The name server name for this NS record.'
               required: false
               azure_sdk_references: ['/NSRecords/nsdname', '/properties/NSRecords/nsdname']
       - !ruby/object:Api::Type::Array
-        name: 'ptrrecords'
+        name: 'PTRRecords'
         description: 'The list of PTR records in the record set.'
         required: false
         azure_sdk_references: ['/PTRRecords', '/properties/PTRRecords']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'ptrdname'
+              name: 'Ptrdname'
               description: 'The PTR target domain name for this PTR record.'
               required: false
               azure_sdk_references: ['/PTRRecords/ptrdname', '/properties/PTRRecords/ptrdname']
       - !ruby/object:Api::Type::Array
-        name: 'srvrecords'
+        name: 'SRVRecords'
         description: 'The list of SRV records in the record set.'
         required: false
         azure_sdk_references: ['/SRVRecords', '/properties/SRVRecords']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::Integer
-              name: 'priority'
+              name: 'Priority'
               description: 'The priority value for this SRV record.'
               required: false
               azure_sdk_references: ['/SRVRecords/priority', '/properties/SRVRecords/priority']
             - !ruby/object:Api::Type::Integer
-              name: 'weight'
+              name: 'Weight'
               description: 'The weight value for this SRV record.'
               required: false
               azure_sdk_references: ['/SRVRecords/weight', '/properties/SRVRecords/weight']
             - !ruby/object:Api::Type::Integer
-              name: 'port'
+              name: 'Port'
               description: 'The port value for this SRV record.'
               required: false
               azure_sdk_references: ['/SRVRecords/port', '/properties/SRVRecords/port']
             - !ruby/object:Api::Type::String
-              name: 'target'
+              name: 'Target'
               description: 'The target domain name for this SRV record.'
               required: false
               azure_sdk_references: ['/SRVRecords/target', '/properties/SRVRecords/target']
       - !ruby/object:Api::Type::Array
-        name: 'txtrecords'
+        name: 'TXTRecords'
         description: 'The list of TXT records in the record set.'
         required: false
         azure_sdk_references: ['/TXTRecords', '/properties/TXTRecords']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::Array
-              name: 'value'
+              name: 'Value'
               description: 'The text value of this TXT record.'
               required: false
               azure_sdk_references: ['/TXTRecords/value', '/properties/TXTRecords/value']
               item_type: Api::Type::String
       - !ruby/object:Api::Type::NestedObject
-        name: 'cnamerecord'
+        name: 'CNAMERecord'
         description: 'The CNAME record in the  record set.'
         required: false
         azure_sdk_references: ['/CNAMERecord', '/properties/CNAMERecord']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'cname'
+            name: 'Cname'
             description: 'The canonical name for this CNAME record.'
             required: false
             azure_sdk_references: ['/CNAMERecord/cname', '/properties/CNAMERecord/cname']
       - !ruby/object:Api::Type::NestedObject
-        name: 'soarecord'
+        name: 'SOARecord'
         description: 'The SOA record in the record set.'
         required: false
         azure_sdk_references: ['/SOARecord', '/properties/SOARecord']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'host'
+            name: 'Host'
             description: 'The domain name of the authoritative name server for this SOA record.'
             required: false
             azure_sdk_references: ['/SOARecord/host', '/properties/SOARecord/host']
           - !ruby/object:Api::Type::String
-            name: 'email'
+            name: 'Email'
             description: 'The email contact for this SOA record.'
             required: false
             azure_sdk_references: ['/SOARecord/email', '/properties/SOARecord/email']
           - !ruby/object:Api::Type::Integer
-            name: 'serialNumber'
+            name: 'SerialNumber'
             description: 'The serial number for this SOA record.'
             required: false
             azure_sdk_references: ['/SOARecord/serialNumber', '/properties/SOARecord/serialNumber']
           - !ruby/object:Api::Type::Integer
-            name: 'refreshTime'
+            name: 'RefreshTime'
             description: 'The refresh value for this SOA record.'
             required: false
             azure_sdk_references: ['/SOARecord/refreshTime', '/properties/SOARecord/refreshTime']
           - !ruby/object:Api::Type::Integer
-            name: 'retryTime'
+            name: 'RetryTime'
             description: 'The retry time for this SOA record.'
             required: false
             azure_sdk_references: ['/SOARecord/retryTime', '/properties/SOARecord/retryTime']
           - !ruby/object:Api::Type::Integer
-            name: 'expireTime'
+            name: 'ExpireTime'
             description: 'The expire time for this SOA record.'
             required: false
             azure_sdk_references: ['/SOARecord/expireTime', '/properties/SOARecord/expireTime']
           - !ruby/object:Api::Type::Integer
-            name: 'minimumTtl'
+            name: 'MinimumTTL'
             description: 'The minimum value for this SOA record. By convention this is used to determine the negative caching duration.'
             required: false
             azure_sdk_references: ['/SOARecord/minimumTTL', '/properties/SOARecord/minimumTTL']

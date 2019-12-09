@@ -127,13 +127,13 @@ objects:
       Manage Azure PolicyDefinition instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'PolicyDefinitionName'
         description: 'The name of the policy definition to get.'
         required: true
         input: true
         azure_sdk_references: ['policyDefinitionName']
       - !ruby/object:Api::Type::Enum
-        name: 'policyType'
+        name: 'PolicyType'
         description: 'The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.'
         required: false
         azure_sdk_references: ['/policyType', '/properties/policyType']
@@ -143,29 +143,29 @@ objects:
           - :Custom
         default_value: :NotSpecified
       - !ruby/object:Api::Type::String
-        name: 'displayName'
+        name: 'DisplayName'
         description: 'The display name of the policy definition.'
         required: false
         azure_sdk_references: ['/displayName', '/properties/displayName']
       - !ruby/object:Api::Type::String
-        name: 'description'
+        name: 'Description'
         description: 'The policy definition description.'
         required: false
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'policyRule'
+        name: 'PolicyRule'
         description: 'The policy rule.'
         required: false
         azure_sdk_references: ['/policyRule', '/properties/policyRule']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the policy definition. If you do not specify a value for name, the value is inferred from the name value in the request URI.'
         required: false
         input: true
         azure_sdk_references: ['/name']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The ID of the policy definition.'
         output: true
         azure_sdk_references: ['/id']

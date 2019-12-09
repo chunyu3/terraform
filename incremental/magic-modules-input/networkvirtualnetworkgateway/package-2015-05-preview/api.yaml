@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'virtualNetworkGatewayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -164,7 +164,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'virtualNetworkGatewayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -321,7 +321,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'virtualNetworkGatewayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -335,7 +335,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
 
@@ -343,48 +343,48 @@ objects:
       Manage Azure VirtualNetworkGateway instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'VirtualNetworkGatewayName'
         description: 'The name of the virtual network gateway.'
         required: true
         input: true
         azure_sdk_references: ['virtualNetworkGatewayName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource location'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::Array
-        name: 'ipConfigurations'
+        name: 'IPConfigurations'
         description: 'IpConfigurations for Virtual network gateway.'
         required: false
         azure_sdk_references: ['/ipConfigurations', '/properties/ipConfigurations']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource Id'
               required: false
               azure_sdk_references: ['/ipConfigurations/id', '/properties/ipConfigurations/id']
             - !ruby/object:Api::Type::String
-              name: 'privateIpAddress'
+              name: 'PrivateIPAddress'
               description: 'Gets or sets the privateIPAddress of the Network Interface IP Configuration'
               required: false
               azure_sdk_references: ['/ipConfigurations/privateIPAddress', '/properties/ipConfigurations/properties/privateIPAddress']
             - !ruby/object:Api::Type::Enum
-              name: 'privateIpallocationMethod'
+              name: 'PrivateIPAllocationMethod'
               description: 'Gets or sets PrivateIP allocation method (Static/Dynamic)'
               required: false
               azure_sdk_references: ['/ipConfigurations/privateIPAllocationMethod', '/properties/ipConfigurations/properties/privateIPAllocationMethod']
@@ -393,39 +393,39 @@ objects:
                 - :Dynamic
               default_value: :Static
             - !ruby/object:Api::Type::NestedObject
-              name: 'subnet'
+              name: 'Subnet'
               description: 'Gets or sets the reference of the subnet resource'
               required: false
               azure_sdk_references: ['/ipConfigurations/subnet', '/properties/ipConfigurations/properties/subnet']
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'id'
+                  name: 'ID'
                   description: 'Resource Id'
                   required: false
                   azure_sdk_references: ['/ipConfigurations/subnet/id', '/properties/ipConfigurations/properties/subnet/id']
             - !ruby/object:Api::Type::NestedObject
-              name: 'publicIpAddress'
+              name: 'PublicIPAddress'
               description: 'Gets or sets the reference of the PublicIP resource'
               required: false
               azure_sdk_references: ['/ipConfigurations/publicIPAddress', '/properties/ipConfigurations/properties/publicIPAddress']
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'id'
+                  name: 'ID'
                   description: 'Resource Id'
                   required: false
                   azure_sdk_references: ['/ipConfigurations/publicIPAddress/id', '/properties/ipConfigurations/properties/publicIPAddress/id']
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource'
               required: false
               azure_sdk_references: ['/ipConfigurations/name', '/properties/ipConfigurations/name']
             - !ruby/object:Api::Type::String
-              name: 'etag'
+              name: 'Etag'
               description: 'A unique read-only string that changes whenever the resource is updated'
               required: false
               azure_sdk_references: ['/ipConfigurations/etag', '/properties/ipConfigurations/etag']
       - !ruby/object:Api::Type::Enum
-        name: 'gatewayType'
+        name: 'GatewayType'
         description: 'The type of this virtual network gateway.'
         required: false
         azure_sdk_references: ['/gatewayType', '/properties/gatewayType']
@@ -434,7 +434,7 @@ objects:
           - :ExpressRoute
         default_value: :Vpn
       - !ruby/object:Api::Type::Enum
-        name: 'vpnType'
+        name: 'VpnType'
         description: 'The type of this virtual network gateway.'
         required: false
         azure_sdk_references: ['/vpnType', '/properties/vpnType']
@@ -443,50 +443,50 @@ objects:
           - :RouteBased
         default_value: :PolicyBased
       - !ruby/object:Api::Type::Boolean
-        name: 'enableBgp'
+        name: 'EnableBgp'
         description: 'EnableBgp Flag'
         required: false
         azure_sdk_references: ['/enableBgp', '/properties/enableBgp']
       - !ruby/object:Api::Type::NestedObject
-        name: 'gatewayDefaultSite'
+        name: 'GatewayDefaultSite'
         description: 'Gets or sets the reference of the LocalNetworkGateway resource which represents Local network site having default routes. Assign Null value in case of removing existing default site setting.'
         required: false
         azure_sdk_references: ['/gatewayDefaultSite', '/properties/gatewayDefaultSite']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'id'
+            name: 'ID'
             description: 'Resource Id'
             required: false
             azure_sdk_references: ['/gatewayDefaultSite/id', '/properties/gatewayDefaultSite/id']
       - !ruby/object:Api::Type::String
-        name: 'resourceGuid'
+        name: 'ResourceGUID'
         description: 'Gets or sets resource guid property of the VirtualNetworkGateway resource'
         required: false
         azure_sdk_references: ['/resourceGuid', '/properties/resourceGuid']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'Gets a unique read-only string that changes whenever the resource is updated'
         required: false
         input: true
         azure_sdk_references: ['/etag']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Gets or sets Provisioning state of the VirtualNetworkGateway resource Updating/Deleting/Failed'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource Id'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type'
         output: true
         azure_sdk_references: ['/type']

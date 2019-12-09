@@ -29,7 +29,7 @@ func resourceArmVirtualNetwork() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -42,13 +42,6 @@ func resourceArmVirtualNetwork() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -105,6 +98,8 @@ func resourceArmVirtualNetwork() *schema.Resource {
                     },
                 },
             },
+
+            "location": azure.SchemaLocation(),
 
             "subnet_overrides": {
                 Type: schema.TypeList,
@@ -177,12 +172,24 @@ func resourceArmVirtualNetwork() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
             "unique_identifier": {
                 Type: schema.TypeString,
                 Optional: true,
             },
 
             "created_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -196,25 +203,24 @@ func resourceArmVirtualNetwork() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmVirtualNetworkCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworksClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("lab_name").(string)
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, name)
+        existing, err := client.Get(ctx, resourceGroupName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Network (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -225,41 +231,41 @@ func resourceArmVirtualNetworkCreate(d *schema.ResourceData, meta interface{}) e
     location := azure.NormalizeLocation(d.Get("location").(string))
     allowedSubnets := d.Get("allowed_subnets").([]interface{})
     description := d.Get("description").(string)
-    externalProviderResourceId := d.Get("external_provider_resource_id").(string)
+    externalProviderResourceID := d.Get("external_provider_resource_id").(string)
     externalSubnets := d.Get("external_subnets").([]interface{})
     subnetOverrides := d.Get("subnet_overrides").([]interface{})
     uniqueIdentifier := d.Get("unique_identifier").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     virtualNetwork := devtestlab.VirtualNetworkFragment{
         Location: utils.String(location),
         VirtualNetworkPropertiesFragment: &devtestlab.VirtualNetworkPropertiesFragment{
             AllowedSubnets: expandArmVirtualNetworkSubnetFragment(allowedSubnets),
             Description: utils.String(description),
-            ExternalProviderResourceID: utils.String(externalProviderResourceId),
+            ExternalProviderResourceID: utils.String(externalProviderResourceID),
             ExternalSubnets: expandArmVirtualNetworkExternalSubnetFragment(externalSubnets),
             SubnetOverrides: expandArmVirtualNetworkSubnetOverrideFragment(subnetOverrides),
             UniqueIdentifier: utils.String(uniqueIdentifier),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, virtualNetwork)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, name, virtualNetwork)
     if err != nil {
-        return fmt.Errorf("Error creating Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Virtual Network (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Virtual Network (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Network (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Network %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Network (Name %q / Lab Name %q / Resource Group %q) ID", name, name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -268,31 +274,29 @@ func resourceArmVirtualNetworkCreate(d *schema.ResourceData, meta interface{}) e
 
 func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworksClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["virtualnetworks"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Network %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Network (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -312,6 +316,10 @@ func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) err
         }
         d.Set("unique_identifier", virtualNetworkPropertiesFragment.UniqueIdentifier)
     }
+    d.Set("id", resp.ID)
+    d.Set("lab_name", name)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -319,34 +327,37 @@ func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) err
 
 func resourceArmVirtualNetworkUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworksClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     allowedSubnets := d.Get("allowed_subnets").([]interface{})
     description := d.Get("description").(string)
-    externalProviderResourceId := d.Get("external_provider_resource_id").(string)
+    externalProviderResourceID := d.Get("external_provider_resource_id").(string)
     externalSubnets := d.Get("external_subnets").([]interface{})
+    name := d.Get("lab_name").(string)
+    name := d.Get("name").(string)
     subnetOverrides := d.Get("subnet_overrides").([]interface{})
     uniqueIdentifier := d.Get("unique_identifier").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     virtualNetwork := devtestlab.VirtualNetworkFragment{
+        Location: utils.String(location),
         VirtualNetworkPropertiesFragment: &devtestlab.VirtualNetworkPropertiesFragment{
             AllowedSubnets: expandArmVirtualNetworkSubnetFragment(allowedSubnets),
             Description: utils.String(description),
-            ExternalProviderResourceID: utils.String(externalProviderResourceId),
+            ExternalProviderResourceID: utils.String(externalProviderResourceID),
             ExternalSubnets: expandArmVirtualNetworkExternalSubnetFragment(externalSubnets),
             SubnetOverrides: expandArmVirtualNetworkSubnetOverrideFragment(subnetOverrides),
             UniqueIdentifier: utils.String(uniqueIdentifier),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, name, virtualNetwork); err != nil {
-        return fmt.Errorf("Error updating Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, name, virtualNetwork); err != nil {
+        return fmt.Errorf("Error updating Virtual Network (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
     return resourceArmVirtualNetworkRead(d, meta)
@@ -354,28 +365,29 @@ func resourceArmVirtualNetworkUpdate(d *schema.ResourceData, meta interface{}) e
 
 func resourceArmVirtualNetworkDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworksClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["virtualnetworks"]
 
-    future, err := client.Delete(ctx, resourceGroup, name, name)
+    future, err := client.Delete(ctx, resourceGroupName, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Virtual Network (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Virtual Network (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
         }
     }
 
@@ -386,14 +398,14 @@ func expandArmVirtualNetworkSubnetFragment(input []interface{}) *[]devtestlab.Su
     results := make([]devtestlab.SubnetFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        resourceId := v["resource_id"].(string)
+        resourceID := v["resource_id"].(string)
         labSubnetName := v["lab_subnet_name"].(string)
-        allowPublicIp := v["allow_public_ip"].(string)
+        allowPublicIP := v["allow_public_ip"].(string)
 
         result := devtestlab.SubnetFragment{
-            AllowPublicIP: devtestlab.UsagePermissionType(allowPublicIp),
+            AllowPublicIP: devtestlab.UsagePermissionType(allowPublicIP),
             LabSubnetName: utils.String(labSubnetName),
-            ResourceID: utils.String(resourceId),
+            ResourceID: utils.String(resourceID),
         }
 
         results = append(results, result)
@@ -405,11 +417,11 @@ func expandArmVirtualNetworkExternalSubnetFragment(input []interface{}) *[]devte
     results := make([]devtestlab.ExternalSubnetFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         name := v["name"].(string)
 
         result := devtestlab.ExternalSubnetFragment{
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
         }
 
@@ -422,19 +434,19 @@ func expandArmVirtualNetworkSubnetOverrideFragment(input []interface{}) *[]devte
     results := make([]devtestlab.SubnetOverrideFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        resourceId := v["resource_id"].(string)
+        resourceID := v["resource_id"].(string)
         labSubnetName := v["lab_subnet_name"].(string)
-        useInVmCreationPermission := v["use_in_vm_creation_permission"].(string)
-        usePublicIpAddressPermission := v["use_public_ip_address_permission"].(string)
-        sharedPublicIpAddressConfiguration := v["shared_public_ip_address_configuration"].([]interface{})
+        useInVMCreationPermission := v["use_in_vm_creation_permission"].(string)
+        usePublicIPAddressPermission := v["use_public_ip_address_permission"].(string)
+        sharedPublicIPAddressConfiguration := v["shared_public_ip_address_configuration"].([]interface{})
         virtualNetworkPoolName := v["virtual_network_pool_name"].(string)
 
         result := devtestlab.SubnetOverrideFragment{
             LabSubnetName: utils.String(labSubnetName),
-            ResourceID: utils.String(resourceId),
-            SharedPublicIPAddressConfiguration: expandArmVirtualNetworkSubnetSharedPublicIpAddressConfigurationFragment(sharedPublicIpAddressConfiguration),
-            UseInVMCreationPermission: devtestlab.UsagePermissionType(useInVmCreationPermission),
-            UsePublicIPAddressPermission: devtestlab.UsagePermissionType(usePublicIpAddressPermission),
+            ResourceID: utils.String(resourceID),
+            SharedPublicIPAddressConfiguration: expandArmVirtualNetworkSubnetSharedPublicIpAddressConfigurationFragment(sharedPublicIPAddressConfiguration),
+            UseInVMCreationPermission: devtestlab.UsagePermissionType(useInVMCreationPermission),
+            UsePublicIPAddressPermission: devtestlab.UsagePermissionType(usePublicIPAddressPermission),
             VirtualNetworkPoolName: utils.String(virtualNetworkPoolName),
         }
 

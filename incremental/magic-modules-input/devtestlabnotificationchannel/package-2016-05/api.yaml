@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -97,7 +97,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -170,7 +170,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -189,7 +189,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -272,7 +272,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -285,54 +285,54 @@ objects:
       Manage Azure NotificationChannel instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'LabName'
         description: 'The name of the lab.'
         required: true
         input: true
         azure_sdk_references: ['labName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the notificationChannel.'
         required: true
         input: true
         azure_sdk_references: ['name']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The location of the resource.'
         required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'The tags of the resource.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'webHookUrl'
+        name: 'WebHookURL'
         description: 'The webhook URL to send notifications to.'
         required: false
         azure_sdk_references: ['/webHookUrl', '/properties/webHookUrl']
       - !ruby/object:Api::Type::String
-        name: 'description'
+        name: 'Description'
         description: 'Description of notification.'
         required: false
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::Array
-        name: 'events'
+        name: 'Events'
         description: 'The list of event for which this notification is enabled.'
         required: false
         azure_sdk_references: ['/events', '/properties/events']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::Enum
-              name: 'eventName'
+              name: 'EventName'
               description: 'The event type for which this notification is enabled (i.e. AutoShutdown, Cost)'
               required: false
               azure_sdk_references: ['/events/eventName', '/properties/events/eventName']
@@ -341,12 +341,12 @@ objects:
                 - :Cost
               default_value: :AutoShutdown
       - !ruby/object:Api::Type::String
-        name: 'uniqueIdentifier'
+        name: 'UniqueIdentifier'
         description: 'The unique immutable identifier of a resource (Guid).'
         required: false
         azure_sdk_references: ['/uniqueIdentifier', '/properties/uniqueIdentifier']
       - !ruby/object:Api::Type::Enum
-        name: 'eventName'
+        name: 'EventName'
         description: 'The type of event (i.e. AutoShutdown, Cost)'
         required: false
         input: true
@@ -356,34 +356,34 @@ objects:
           - :Cost
         default_value: :AutoShutdown
       - !ruby/object:Api::Type::String
-        name: 'jsonPayload'
+        name: 'JSONPayload'
         description: 'Properties for the notification in json format.'
         required: false
         input: true
         azure_sdk_references: ['/jsonPayload']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdDate'
+        name: 'CreatedDate'
         description: 'The creation date of the notification channel.'
         output: true
         azure_sdk_references: ['/createdDate', '/properties/createdDate']
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'The provisioning status of the resource.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The identifier of the resource.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the resource.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']

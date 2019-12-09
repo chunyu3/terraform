@@ -29,7 +29,14 @@ func resourceArmDatabase() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "cluster_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "database_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -37,13 +44,6 @@ func resourceArmDatabase() *schema.Resource {
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "cluster_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "value": {
                 Type: schema.TypeList,
@@ -97,17 +97,18 @@ func resourceArmDatabase() *schema.Resource {
 
 func resourceArmDatabaseCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).databasesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     clusterName := d.Get("cluster_name").(string)
+    name := d.Get("database_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName, name)
+        existing, err := client.Get(ctx, resourceGroupName, clusterName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -122,21 +123,21 @@ func resourceArmDatabaseCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, clusterName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error creating Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
+    resp, err := client.Get(ctx, resourceGroupName, clusterName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Database %q (Cluster Name %q / Resource Group %q) ID", name, clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Database (Database Name %q / Cluster Name %q / Resource Group %q) ID", name, clusterName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -145,41 +146,43 @@ func resourceArmDatabaseCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmDatabaseRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).databasesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     clusterName := id.Path["clusters"]
     name := id.Path["databases"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
+    resp, err := client.Get(ctx, resourceGroupName, clusterName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Database %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     d.Set("cluster_name", clusterName)
+    d.Set("database_name", name)
 
     return nil
 }
 
 func resourceArmDatabaseUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).databasesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
     clusterName := d.Get("cluster_name").(string)
+    name := d.Get("database_name").(string)
     value := d.Get("value").([]interface{})
 
     parameters := kusto.DatabaseUpdate{
@@ -187,12 +190,12 @@ func resourceArmDatabaseUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, clusterName, name, parameters)
+    future, err := client.Update(ctx, resourceGroupName, clusterName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error updating Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
     }
 
     return resourceArmDatabaseRead(d, meta)
@@ -200,28 +203,29 @@ func resourceArmDatabaseUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmDatabaseDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).databasesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     clusterName := id.Path["clusters"]
     name := id.Path["databases"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName, name)
+    future, err := client.Delete(ctx, resourceGroupName, clusterName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
         }
     }
 
@@ -237,10 +241,10 @@ func expandArmDatabaseDatabasePrincipal(input []interface{}) *[]kusto.DatabasePr
         type := v["type"].(string)
         fqn := v["fqn"].(string)
         email := v["email"].(string)
-        appId := v["app_id"].(string)
+        appID := v["app_id"].(string)
 
         result := kusto.DatabasePrincipal{
-            AppID: utils.String(appId),
+            AppID: utils.String(appID),
             Email: utils.String(email),
             Fqn: utils.String(fqn),
             Name: utils.String(name),

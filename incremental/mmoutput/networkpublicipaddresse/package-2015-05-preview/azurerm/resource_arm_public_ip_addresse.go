@@ -29,23 +29,16 @@ func resourceArmPublicIpAddresse() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "location": azure.SchemaLocation(),
+
+            "public_ip_address_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "public_ipallocation_method": {
+            "public_ip_allocation_method": {
                 Type: schema.TypeString,
                 Required: true,
                 ValidateFunc: validation.StringInSlice([]string{
@@ -53,6 +46,8 @@ func resourceArmPublicIpAddresse() *schema.Resource {
                     string(network.Dynamic),
                 }, false),
             },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "dns_settings": {
                 Type: schema.TypeList,
@@ -82,11 +77,6 @@ func resourceArmPublicIpAddresse() *schema.Resource {
                 ForceNew: true,
             },
 
-            "idle_timeout_in_minutes": {
-                Type: schema.TypeInt,
-                Optional: true,
-            },
-
             "ip_address": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -106,9 +96,26 @@ func resourceArmPublicIpAddresse() *schema.Resource {
                 },
             },
 
+            "idle_timeout_in_minutes": {
+                Type: schema.TypeInt,
+                Optional: true,
+            },
+
             "resource_guid": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "tags": tags.Schema(),
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "provisioning_state": {
@@ -120,24 +127,23 @@ func resourceArmPublicIpAddresse() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmPublicIpAddresseCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).publicIpAddressesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("public_ip_address_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -146,45 +152,45 @@ func resourceArmPublicIpAddresseCreateUpdate(d *schema.ResourceData, meta interf
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
-    dnsSettings := d.Get("dns_settings").([]interface{})
+    dNSSettings := d.Get("dns_settings").([]interface{})
     etag := d.Get("etag").(string)
+    iPAddress := d.Get("ip_address").(string)
+    iPConfiguration := d.Get("ip_configuration").([]interface{})
     idleTimeoutInMinutes := d.Get("idle_timeout_in_minutes").(int)
-    ipAddress := d.Get("ip_address").(string)
-    ipConfiguration := d.Get("ip_configuration").([]interface{})
-    publicIpallocationMethod := d.Get("public_ipallocation_method").(string)
-    resourceGuid := d.Get("resource_guid").(string)
-    t := d.Get("tags").(map[string]interface{})
+    publicIPAllocationMethod := d.Get("public_ip_allocation_method").(string)
+    resourceGUID := d.Get("resource_guid").(string)
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := network.PublicIpAddress{
         Etag: utils.String(etag),
         Location: utils.String(location),
         PublicIpAddressPropertiesFormat: &network.PublicIpAddressPropertiesFormat{
-            DNSSettings: expandArmPublicIpAddressePublicIpAddressDnsSettings(dnsSettings),
+            DNSSettings: expandArmPublicIpAddressePublicIpAddressDnsSettings(dNSSettings),
             IdleTimeoutInMinutes: utils.Int32(int32(idleTimeoutInMinutes)),
-            IPAddress: utils.String(ipAddress),
-            IPConfiguration: expandArmPublicIpAddresseSubResource(ipConfiguration),
-            PublicIPAllocationMethod: network.IpAllocationMethod(publicIpallocationMethod),
-            ResourceGUID: utils.String(resourceGuid),
+            IPAddress: utils.String(iPAddress),
+            IPConfiguration: expandArmPublicIpAddresseSubResource(iPConfiguration),
+            PublicIPAllocationMethod: network.IpAllocationMethod(publicIPAllocationMethod),
+            ResourceGUID: utils.String(resourceGUID),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Public Ip Addresse %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Public Ip Addresse (Public Ip Address Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -193,29 +199,28 @@ func resourceArmPublicIpAddresseCreateUpdate(d *schema.ResourceData, meta interf
 
 func resourceArmPublicIpAddresseRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).publicIpAddressesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["publicIPAddresses"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Public Ip Addresse %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -223,16 +228,19 @@ func resourceArmPublicIpAddresseRead(d *schema.ResourceData, meta interface{}) e
         if err := d.Set("dns_settings", flattenArmPublicIpAddressePublicIpAddressDnsSettings(publicIpAddressPropertiesFormat.DNSSettings)); err != nil {
             return fmt.Errorf("Error setting `dns_settings`: %+v", err)
         }
-        d.Set("idle_timeout_in_minutes", int(*publicIpAddressPropertiesFormat.IdleTimeoutInMinutes))
         d.Set("ip_address", publicIpAddressPropertiesFormat.IPAddress)
         if err := d.Set("ip_configuration", flattenArmPublicIpAddresseSubResource(publicIpAddressPropertiesFormat.IPConfiguration)); err != nil {
             return fmt.Errorf("Error setting `ip_configuration`: %+v", err)
         }
+        d.Set("idle_timeout_in_minutes", int(*publicIpAddressPropertiesFormat.IdleTimeoutInMinutes))
         d.Set("provisioning_state", publicIpAddressPropertiesFormat.ProvisioningState)
-        d.Set("public_ipallocation_method", string(publicIpAddressPropertiesFormat.PublicIPAllocationMethod))
+        d.Set("public_ip_allocation_method", string(publicIpAddressPropertiesFormat.PublicIPAllocationMethod))
         d.Set("resource_guid", publicIpAddressPropertiesFormat.ResourceGUID)
     }
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("public_ip_address_name", name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -241,27 +249,28 @@ func resourceArmPublicIpAddresseRead(d *schema.ResourceData, meta interface{}) e
 
 func resourceArmPublicIpAddresseDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).publicIpAddressesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["publicIPAddresses"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -292,10 +301,10 @@ func expandArmPublicIpAddresseSubResource(input []interface{}) *network.SubResou
     }
     v := input[0].(map[string]interface{})
 
-    id := v["id"].(string)
+    iD := v["id"].(string)
 
     result := network.SubResource{
-        ID: utils.String(id),
+        ID: utils.String(iD),
     }
     return &result
 }

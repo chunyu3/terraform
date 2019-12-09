@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -67,7 +67,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -110,7 +110,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -134,7 +134,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -186,7 +186,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -199,49 +199,49 @@ objects:
       Manage Azure User instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ServiceName'
         description: 'The name of the API Management service.'
         required: true
         input: true
         azure_sdk_references: ['serviceName']
       - !ruby/object:Api::Type::String
-        name: 'uid'
+        name: 'UID'
         description: 'User identifier. Must be unique in the current API Management service instance.'
         required: true
         input: true
         azure_sdk_references: ['uid']
       - !ruby/object:Api::Type::String
-        name: 'email'
+        name: 'Email'
         description: 'Email address.'
         required: false
         input: true
         azure_sdk_references: ['/email']
       - !ruby/object:Api::Type::String
-        name: 'password'
+        name: 'Password'
         description: 'Password.'
         required: false
         input: true
         azure_sdk_references: ['/password']
       - !ruby/object:Api::Type::String
-        name: 'firstName'
+        name: 'FirstName'
         description: 'First name.'
         required: false
         input: true
         azure_sdk_references: ['/firstName']
       - !ruby/object:Api::Type::String
-        name: 'lastName'
+        name: 'LastName'
         description: 'Last name.'
         required: false
         input: true
         azure_sdk_references: ['/lastName']
       - !ruby/object:Api::Type::Enum
-        name: 'state'
+        name: 'State'
         description: 'Account state.'
         required: false
         input: true
@@ -251,42 +251,42 @@ objects:
           - :Blocked
         default_value: :Active
       - !ruby/object:Api::Type::String
-        name: 'note'
+        name: 'Note'
         description: 'Note about user.'
         required: false
         input: true
         azure_sdk_references: ['/note']
       - !ruby/object:Api::Type::Boolean
-        name: 'deleteSubscriptions'
+        name: 'DeleteSubscriptions'
         description: 'Whether to delete user''s subscription or not.'
         required: false
         input: true
         azure_sdk_references: ['deleteSubscriptions']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'User identifier path.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'registrationDate'
+        name: 'RegistrationDate'
         description: 'Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
         output: true
         azure_sdk_references: ['/registrationDate']
       - !ruby/object:Api::Type::Array
-        name: 'identities'
+        name: 'Identities'
         description: 'Collection of user identities.'
         output: true
         azure_sdk_references: ['/identities']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'provider'
+              name: 'Provider'
               description: 'Identity provider name.'
               output: true
               azure_sdk_references: ['/identities/provider']
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Identifier value within provider.'
               output: true
               azure_sdk_references: ['/identities/id']

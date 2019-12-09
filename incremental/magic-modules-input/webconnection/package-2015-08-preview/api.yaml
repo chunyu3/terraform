@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'connectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -71,7 +71,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'connectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -85,7 +85,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'connectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -794,7 +794,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -803,7 +803,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'connectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -817,7 +817,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'connectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -830,597 +830,597 @@ objects:
       Manage Azure Connection instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ConnectionName'
         description: 'The connection name.'
         required: true
         input: true
         azure_sdk_references: ['connectionName']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource Id'
         required: false
         input: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource Name'
         required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'kind'
+        name: 'Kind'
         description: 'Kind of resource'
         required: false
         input: true
         azure_sdk_references: ['/kind']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource Location'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type'
         required: false
         input: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'validityTimeSpan'
+        name: 'ValidityTimeSpan'
         description: 'time span for how long the keys will be valid'
         required: false
         azure_sdk_references: ['/validityTimeSpan', '/properties/validityTimeSpan']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'connection name'
         output: true
         azure_sdk_references: ['/name', '/properties/name']
       - !ruby/object:Api::Type::String
-        name: 'displayName'
+        name: 'DisplayName'
         description: 'display name'
         output: true
         azure_sdk_references: ['/displayName', '/properties/displayName']
       - !ruby/object:Api::Type::Array
-        name: 'statuses'
+        name: 'Statuses'
         description: 'Status of the connection'
         output: true
         azure_sdk_references: ['/statuses', '/properties/statuses']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource Id'
               output: true
               azure_sdk_references: ['/statuses/id', '/properties/statuses/id']
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Resource Name'
               output: true
               azure_sdk_references: ['/statuses/name', '/properties/statuses/name']
             - !ruby/object:Api::Type::String
-              name: 'kind'
+              name: 'Kind'
               description: 'Kind of resource'
               output: true
               azure_sdk_references: ['/statuses/kind', '/properties/statuses/kind']
             - !ruby/object:Api::Azure::Type::Location
-              name: 'location'
+              name: 'Location'
               description: 'Resource Location'
               output: true
               azure_sdk_references: ['/statuses/location', '/properties/statuses/location']
             - !ruby/object:Api::Type::String
-              name: 'type'
+              name: 'Type'
               description: 'Resource type'
               output: true
               azure_sdk_references: ['/statuses/type', '/properties/statuses/type']
             - !ruby/object:Api::Azure::Type::Tags
-              name: 'tags'
+              name: 'Tags'
               description: 'Resource tags'
               output: true
               azure_sdk_references: ['/statuses/tags', '/properties/statuses/tags']
             - !ruby/object:Api::Type::String
-              name: 'status'
+              name: 'Status'
               description: 'Status'
               output: true
               azure_sdk_references: ['/statuses/status', '/properties/statuses/properties/status']
             - !ruby/object:Api::Type::String
-              name: 'target'
+              name: 'Target'
               description: 'Target of the error'
               output: true
               azure_sdk_references: ['/statuses/target', '/properties/statuses/properties/target']
             - !ruby/object:Api::Type::NestedObject
-              name: 'error'
+              name: 'Error'
               description: 'Error details'
               output: true
               azure_sdk_references: ['/statuses/error', '/properties/statuses/properties/error']
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'id'
+                  name: 'ID'
                   description: 'Resource Id'
                   output: true
                   azure_sdk_references: ['/statuses/error/id', '/properties/statuses/properties/error/id']
                 - !ruby/object:Api::Type::String
-                  name: 'name'
+                  name: 'Name'
                   description: 'Resource Name'
                   output: true
                   azure_sdk_references: ['/statuses/error/name', '/properties/statuses/properties/error/name']
                 - !ruby/object:Api::Type::String
-                  name: 'kind'
+                  name: 'Kind'
                   description: 'Kind of resource'
                   output: true
                   azure_sdk_references: ['/statuses/error/kind', '/properties/statuses/properties/error/kind']
                 - !ruby/object:Api::Azure::Type::Location
-                  name: 'location'
+                  name: 'Location'
                   description: 'Resource Location'
                   output: true
                   azure_sdk_references: ['/statuses/error/location', '/properties/statuses/properties/error/location']
                 - !ruby/object:Api::Type::String
-                  name: 'type'
+                  name: 'Type'
                   description: 'Resource type'
                   output: true
                   azure_sdk_references: ['/statuses/error/type', '/properties/statuses/properties/error/type']
                 - !ruby/object:Api::Azure::Type::Tags
-                  name: 'tags'
+                  name: 'Tags'
                   description: 'Resource tags'
                   output: true
                   azure_sdk_references: ['/statuses/error/tags', '/properties/statuses/properties/error/tags']
                 - !ruby/object:Api::Type::String
-                  name: 'code'
+                  name: 'Code'
                   description: 'code of the status'
                   output: true
                   azure_sdk_references: ['/statuses/error/code', '/properties/statuses/properties/error/properties/code']
                 - !ruby/object:Api::Type::String
-                  name: 'message'
+                  name: 'Message'
                   description: 'Description of the status'
                   output: true
                   azure_sdk_references: ['/statuses/error/message', '/properties/statuses/properties/error/properties/message']
       - !ruby/object:Api::Type::KeyValuePairs
-        name: 'customParameterValues'
+        name: 'CustomParameterValues'
         description: 'Custom login setting values.'
         output: true
         azure_sdk_references: ['/customParameterValues', '/properties/customParameterValues']
       - !ruby/object:Api::Type::String
-        name: 'tenantId'
+        name: 'TenantID'
         description: ''
         output: true
         azure_sdk_references: ['/tenantId', '/properties/tenantId']
       - !ruby/object:Api::Type::KeyValuePairs
-        name: 'parameterValues'
+        name: 'ParameterValues'
         description: 'Tokens/Claim'
         output: true
         azure_sdk_references: ['/parameterValues', '/properties/parameterValues']
       - !ruby/object:Api::Type::KeyValuePairs
-        name: 'nonSecretParameterValues'
+        name: 'NonSecretParameterValues'
         description: 'Tokens/Claim'
         output: true
         azure_sdk_references: ['/nonSecretParameterValues', '/properties/nonSecretParameterValues']
       - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'metadata'
+        name: 'Metadata'
         description: ''
         output: true
         azure_sdk_references: ['/metadata', '/properties/metadata']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'firstExpirationTime'
+        name: 'FirstExpirationTime'
         description: 'Time in UTC when the first expiration of OAuth tokens'
         output: true
         azure_sdk_references: ['/firstExpirationTime', '/properties/firstExpirationTime']
       - !ruby/object:Api::Type::Array
-        name: 'keywords'
+        name: 'Keywords'
         description: 'List of Keywords that tag the acl'
         output: true
         azure_sdk_references: ['/keywords', '/properties/keywords']
         item_type: Api::Type::String
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdTime'
+        name: 'CreatedTime'
         description: 'Timestamp of the connection creation'
         output: true
         azure_sdk_references: ['/createdTime', '/properties/createdTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'changedTime'
+        name: 'ChangedTime'
         description: 'Timestamp of last connection change.'
         output: true
         azure_sdk_references: ['/changedTime', '/properties/changedTime']
       - !ruby/object:Api::Type::NestedObject
-        name: 'api'
+        name: 'API'
         description: 'expanded connection provider name'
         output: true
         azure_sdk_references: ['/api', '/properties/api']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'id'
+            name: 'ID'
             description: 'Resource Id'
             output: true
             azure_sdk_references: ['/api/id', '/properties/api/id']
           - !ruby/object:Api::Type::String
-            name: 'name'
+            name: 'Name'
             description: 'Resource Name'
             output: true
             azure_sdk_references: ['/api/name', '/properties/api/name']
           - !ruby/object:Api::Type::String
-            name: 'kind'
+            name: 'Kind'
             description: 'Kind of resource'
             output: true
             azure_sdk_references: ['/api/kind', '/properties/api/kind']
           - !ruby/object:Api::Azure::Type::Location
-            name: 'location'
+            name: 'Location'
             description: 'Resource Location'
             output: true
             azure_sdk_references: ['/api/location', '/properties/api/location']
           - !ruby/object:Api::Type::String
-            name: 'type'
+            name: 'Type'
             description: 'Resource type'
             output: true
             azure_sdk_references: ['/api/type', '/properties/api/type']
           - !ruby/object:Api::Azure::Type::Tags
-            name: 'tags'
+            name: 'Tags'
             description: 'Resource tags'
             output: true
             azure_sdk_references: ['/api/tags', '/properties/api/tags']
           - !ruby/object:Api::Type::String
-            name: 'id'
+            name: 'ID'
             description: 'Id of connection provider'
             output: true
             azure_sdk_references: ['/api/id', '/properties/api/properties/id']
           - !ruby/object:Api::Type::NestedObject
-            name: 'entity'
+            name: 'Entity'
             description: 'Id of connection provider'
             output: true
             azure_sdk_references: ['/api/entity', '/properties/api/properties/entity']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'id'
+                name: 'ID'
                 description: 'Resource Id. Typically id is populated only for responses to GET requests. Caller is responsible for passing in this<br>            value for GET requests only.<br>            For example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupId}/providers/Microsoft.Web/sites/{sitename}'
                 output: true
                 azure_sdk_references: ['/api/entity/id', '/properties/api/properties/entity/id']
               - !ruby/object:Api::Type::String
-                name: 'name'
+                name: 'Name'
                 description: 'Name of resource'
                 output: true
                 azure_sdk_references: ['/api/entity/name', '/properties/api/properties/entity/name']
               - !ruby/object:Api::Type::String
-                name: 'type'
+                name: 'Type'
                 description: 'Type of resource e.g Microsoft.Web/sites'
                 output: true
                 azure_sdk_references: ['/api/entity/type', '/properties/api/properties/entity/type']
               - !ruby/object:Api::Azure::Type::Location
-                name: 'location'
+                name: 'Location'
                 description: 'Geo region resource belongs to e.g. SouthCentralUS, SouthEastAsia'
                 output: true
                 azure_sdk_references: ['/api/entity/location', '/properties/api/properties/entity/location']
               - !ruby/object:Api::Azure::Type::Tags
-                name: 'tags'
+                name: 'Tags'
                 description: 'Tags associated with resource'
                 output: true
                 azure_sdk_references: ['/api/entity/tags', '/properties/api/properties/entity/tags']
               - !ruby/object:Api::Type::NestedObject
-                name: 'plan'
+                name: 'Plan'
                 description: 'Azure resource manager plan'
                 output: true
                 azure_sdk_references: ['/api/entity/plan', '/properties/api/properties/entity/plan']
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'name'
+                    name: 'Name'
                     description: 'The name'
                     output: true
                     azure_sdk_references: ['/api/entity/plan/name', '/properties/api/properties/entity/plan/name']
                   - !ruby/object:Api::Type::String
-                    name: 'publisher'
+                    name: 'Publisher'
                     description: 'The publisher'
                     output: true
                     azure_sdk_references: ['/api/entity/plan/publisher', '/properties/api/properties/entity/plan/publisher']
                   - !ruby/object:Api::Type::String
-                    name: 'product'
+                    name: 'Product'
                     description: 'The product'
                     output: true
                     azure_sdk_references: ['/api/entity/plan/product', '/properties/api/properties/entity/plan/product']
                   - !ruby/object:Api::Type::String
-                    name: 'promotionCode'
+                    name: 'PromotionCode'
                     description: 'The promotion code'
                     output: true
                     azure_sdk_references: ['/api/entity/plan/promotionCode', '/properties/api/properties/entity/plan/promotionCode']
                   - !ruby/object:Api::Type::String
-                    name: 'version'
+                    name: 'Version'
                     description: 'Version of product'
                     output: true
                     azure_sdk_references: ['/api/entity/plan/version', '/properties/api/properties/entity/plan/version']
               - !ruby/object:Api::Type::String
-                name: 'id'
+                name: 'ID'
                 description: 'Resource Id'
                 output: true
                 azure_sdk_references: ['/api/entity/id', '/properties/api/properties/entity/properties/id']
               - !ruby/object:Api::Type::String
-                name: 'name'
+                name: 'Name'
                 description: 'Resource Name'
                 output: true
                 azure_sdk_references: ['/api/entity/name', '/properties/api/properties/entity/properties/name']
               - !ruby/object:Api::Type::String
-                name: 'kind'
+                name: 'Kind'
                 description: 'Kind of resource'
                 output: true
                 azure_sdk_references: ['/api/entity/kind', '/properties/api/properties/entity/properties/kind']
               - !ruby/object:Api::Azure::Type::Location
-                name: 'location'
+                name: 'Location'
                 description: 'Resource Location'
                 output: true
                 azure_sdk_references: ['/api/entity/location', '/properties/api/properties/entity/properties/location']
               - !ruby/object:Api::Type::String
-                name: 'type'
+                name: 'Type'
                 description: 'Resource type'
                 output: true
                 azure_sdk_references: ['/api/entity/type', '/properties/api/properties/entity/properties/type']
               - !ruby/object:Api::Azure::Type::Tags
-                name: 'tags'
+                name: 'Tags'
                 description: 'Resource tags'
                 output: true
                 azure_sdk_references: ['/api/entity/tags', '/properties/api/properties/entity/properties/tags']
               - !ruby/object:Api::Type::String
-                name: 'name'
+                name: 'Name'
                 description: 'Name of the API<br>            the URL path of this API when exposed via APIM'
                 output: true
                 azure_sdk_references: ['/api/entity/name', '/properties/api/properties/entity/properties/properties/name']
               - !ruby/object:Api::Type::NestedObject
-                name: 'generalInformation'
+                name: 'GeneralInformation'
                 description: 'the URL path of this API when exposed via APIM'
                 output: true
                 azure_sdk_references: ['/api/entity/generalInformation', '/properties/api/properties/entity/properties/properties/generalInformation']
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'id'
+                    name: 'ID'
                     description: 'Resource Id'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/id', '/properties/api/properties/entity/properties/properties/generalInformation/id']
                   - !ruby/object:Api::Type::String
-                    name: 'name'
+                    name: 'Name'
                     description: 'Resource Name'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/name', '/properties/api/properties/entity/properties/properties/generalInformation/name']
                   - !ruby/object:Api::Type::String
-                    name: 'kind'
+                    name: 'Kind'
                     description: 'Kind of resource'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/kind', '/properties/api/properties/entity/properties/properties/generalInformation/kind']
                   - !ruby/object:Api::Azure::Type::Location
-                    name: 'location'
+                    name: 'Location'
                     description: 'Resource Location'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/location', '/properties/api/properties/entity/properties/properties/generalInformation/location']
                   - !ruby/object:Api::Type::String
-                    name: 'type'
+                    name: 'Type'
                     description: 'Resource type'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/type', '/properties/api/properties/entity/properties/properties/generalInformation/type']
                   - !ruby/object:Api::Azure::Type::Tags
-                    name: 'tags'
+                    name: 'Tags'
                     description: 'Resource tags'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/tags', '/properties/api/properties/entity/properties/properties/generalInformation/tags']
                   - !ruby/object:Api::Type::String
-                    name: 'iconUrl'
+                    name: 'IconURL'
                     description: 'Icon Url'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/iconUrl', '/properties/api/properties/entity/properties/properties/generalInformation/properties/iconUrl']
                   - !ruby/object:Api::Type::String
-                    name: 'displayName'
+                    name: 'DisplayName'
                     description: 'Display Name'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/displayName', '/properties/api/properties/entity/properties/properties/generalInformation/properties/displayName']
                   - !ruby/object:Api::Type::String
-                    name: 'description'
+                    name: 'Description'
                     description: 'Description'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/description', '/properties/api/properties/entity/properties/properties/generalInformation/properties/description']
                   - !ruby/object:Api::Type::String
-                    name: 'termsOfUseUrl'
+                    name: 'TermsOfUseURL'
                     description: 'a public accessible url of the Terms Of Use Url of this API'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/termsOfUseUrl', '/properties/api/properties/entity/properties/properties/generalInformation/properties/termsOfUseUrl']
                   - !ruby/object:Api::Type::String
-                    name: 'connectionDisplayName'
+                    name: 'ConnectionDisplayName'
                     description: 'DefaultConnectionNameTemplate'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/connectionDisplayName', '/properties/api/properties/entity/properties/properties/generalInformation/properties/connectionDisplayName']
                   - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-                    name: 'connectionPortalUrl'
+                    name: 'ConnectionPortalURL'
                     description: 'ConnectionPortalUrl'
                     output: true
                     azure_sdk_references: ['/api/entity/generalInformation/connectionPortalUrl', '/properties/api/properties/entity/properties/properties/generalInformation/properties/connectionPortalUrl']
               - !ruby/object:Api::Type::String
-                name: 'path'
+                name: 'Path'
                 description: 'the URL path of this API when exposed via APIM'
                 output: true
                 azure_sdk_references: ['/api/entity/path', '/properties/api/properties/entity/properties/properties/path']
               - !ruby/object:Api::Type::Array
-                name: 'runtimeUrls'
+                name: 'RuntimeUrls'
                 description: 'Read only property returning the runtime endpoints where the API can be called'
                 output: true
                 azure_sdk_references: ['/api/entity/runtimeUrls', '/properties/api/properties/entity/properties/properties/runtimeUrls']
                 item_type: Api::Type::String
               - !ruby/object:Api::Type::Array
-                name: 'protocols'
+                name: 'Protocols'
                 description: 'Protocols supported by the front end - http/https'
                 output: true
                 azure_sdk_references: ['/api/entity/protocols', '/properties/api/properties/entity/properties/properties/protocols']
                 item_type: Api::Type::String
               - !ruby/object:Api::Type::NestedObject
-                name: 'policies'
+                name: 'Policies'
                 description: 'API policies'
                 output: true
                 azure_sdk_references: ['/api/entity/policies', '/properties/api/properties/entity/properties/properties/policies']
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'id'
+                    name: 'ID'
                     description: 'Resource Id'
                     output: true
                     azure_sdk_references: ['/api/entity/policies/id', '/properties/api/properties/entity/properties/properties/policies/id']
                   - !ruby/object:Api::Type::String
-                    name: 'name'
+                    name: 'Name'
                     description: 'Resource Name'
                     output: true
                     azure_sdk_references: ['/api/entity/policies/name', '/properties/api/properties/entity/properties/properties/policies/name']
                   - !ruby/object:Api::Type::String
-                    name: 'kind'
+                    name: 'Kind'
                     description: 'Kind of resource'
                     output: true
                     azure_sdk_references: ['/api/entity/policies/kind', '/properties/api/properties/entity/properties/properties/policies/kind']
                   - !ruby/object:Api::Azure::Type::Location
-                    name: 'location'
+                    name: 'Location'
                     description: 'Resource Location'
                     output: true
                     azure_sdk_references: ['/api/entity/policies/location', '/properties/api/properties/entity/properties/properties/policies/location']
                   - !ruby/object:Api::Type::String
-                    name: 'type'
+                    name: 'Type'
                     description: 'Resource type'
                     output: true
                     azure_sdk_references: ['/api/entity/policies/type', '/properties/api/properties/entity/properties/properties/policies/type']
                   - !ruby/object:Api::Azure::Type::Tags
-                    name: 'tags'
+                    name: 'Tags'
                     description: 'Resource tags'
                     output: true
                     azure_sdk_references: ['/api/entity/policies/tags', '/properties/api/properties/entity/properties/properties/policies/tags']
                   - !ruby/object:Api::Type::String
-                    name: 'content'
+                    name: 'Content'
                     description: 'Content of xml policy'
                     output: true
                     azure_sdk_references: ['/api/entity/policies/content', '/properties/api/properties/entity/properties/properties/policies/properties/content']
               - !ruby/object:Api::Type::NestedObject
-                name: 'backendService'
+                name: 'BackendService'
                 description: 'Backend service definition'
                 output: true
                 azure_sdk_references: ['/api/entity/backendService', '/properties/api/properties/entity/properties/properties/backendService']
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'id'
+                    name: 'ID'
                     description: 'Resource Id'
                     output: true
                     azure_sdk_references: ['/api/entity/backendService/id', '/properties/api/properties/entity/properties/properties/backendService/id']
                   - !ruby/object:Api::Type::String
-                    name: 'name'
+                    name: 'Name'
                     description: 'Resource Name'
                     output: true
                     azure_sdk_references: ['/api/entity/backendService/name', '/properties/api/properties/entity/properties/properties/backendService/name']
                   - !ruby/object:Api::Type::String
-                    name: 'kind'
+                    name: 'Kind'
                     description: 'Kind of resource'
                     output: true
                     azure_sdk_references: ['/api/entity/backendService/kind', '/properties/api/properties/entity/properties/properties/backendService/kind']
                   - !ruby/object:Api::Azure::Type::Location
-                    name: 'location'
+                    name: 'Location'
                     description: 'Resource Location'
                     output: true
                     azure_sdk_references: ['/api/entity/backendService/location', '/properties/api/properties/entity/properties/properties/backendService/location']
                   - !ruby/object:Api::Type::String
-                    name: 'type'
+                    name: 'Type'
                     description: 'Resource type'
                     output: true
                     azure_sdk_references: ['/api/entity/backendService/type', '/properties/api/properties/entity/properties/properties/backendService/type']
                   - !ruby/object:Api::Azure::Type::Tags
-                    name: 'tags'
+                    name: 'Tags'
                     description: 'Resource tags'
                     output: true
                     azure_sdk_references: ['/api/entity/backendService/tags', '/properties/api/properties/entity/properties/properties/backendService/tags']
                   - !ruby/object:Api::Type::String
-                    name: 'serviceUrl'
+                    name: 'ServiceURL'
                     description: 'Url from which the swagger payload will be fetched'
                     output: true
                     azure_sdk_references: ['/api/entity/backendService/serviceUrl', '/properties/api/properties/entity/properties/properties/backendService/properties/serviceUrl']
                   - !ruby/object:Api::Type::Array
-                    name: 'hostingEnvironmentServiceUrls'
+                    name: 'HostingEnvironmentServiceUrls'
                     description: 'Service Urls per Hosting environment'
                     output: true
                     azure_sdk_references: ['/api/entity/backendService/hostingEnvironmentServiceUrls', '/properties/api/properties/entity/properties/properties/backendService/properties/hostingEnvironmentServiceUrls']
                     item_type: !ruby/object:Api::Type::NestedObject
                       properties:
                         - !ruby/object:Api::Type::String
-                          name: 'hostingEnvironmentId'
+                          name: 'HostingEnvironmentID'
                           description: 'Hosting environment Id'
                           output: true
                           azure_sdk_references: ['/api/entity/backendService/hostingEnvironmentServiceUrls/hostingEnvironmentId', '/properties/api/properties/entity/properties/properties/backendService/properties/hostingEnvironmentServiceUrls/hostingEnvironmentId']
                         - !ruby/object:Api::Type::String
-                          name: 'hostId'
+                          name: 'HostID'
                           description: 'Host Id'
                           output: true
                           azure_sdk_references: ['/api/entity/backendService/hostingEnvironmentServiceUrls/hostId', '/properties/api/properties/entity/properties/properties/backendService/properties/hostingEnvironmentServiceUrls/hostId']
                         - !ruby/object:Api::Type::String
-                          name: 'serviceUrl'
+                          name: 'ServiceURL'
                           description: 'service url to use'
                           output: true
                           azure_sdk_references: ['/api/entity/backendService/hostingEnvironmentServiceUrls/serviceUrl', '/properties/api/properties/entity/properties/properties/backendService/properties/hostingEnvironmentServiceUrls/serviceUrl']
                         - !ruby/object:Api::Type::Boolean
-                          name: 'useInternalRouting'
+                          name: 'UseInternalRouting'
                           description: 'When the backend url is in same ASE, for performance reason this flag can be set to true<br>            If WebApp.DisableHostNames is also set it improves the security by making the back end accessible only <br>            via API calls<br>            Note: calls will fail if this option is used but back end is not on the same ASE'
                           output: true
                           azure_sdk_references: ['/api/entity/backendService/hostingEnvironmentServiceUrls/useInternalRouting', '/properties/api/properties/entity/properties/properties/backendService/properties/hostingEnvironmentServiceUrls/useInternalRouting']
               - !ruby/object:Api::Type::String
-                name: 'apiDefinitionUrl'
+                name: 'APIDefinitionURL'
                 description: 'API definition Url - url where the swagger can be downloaded from'
                 output: true
                 azure_sdk_references: ['/api/entity/apiDefinitionUrl', '/properties/api/properties/entity/properties/properties/apiDefinitionUrl']
               - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-                name: 'metadata'
+                name: 'Metadata'
                 description: 'Free form object for the data caller wants to store'
                 output: true
                 azure_sdk_references: ['/api/entity/metadata', '/properties/api/properties/entity/properties/properties/metadata']
               - !ruby/object:Api::Type::Array
-                name: 'capabilities'
+                name: 'Capabilities'
                 description: 'Capabilities'
                 output: true
                 azure_sdk_references: ['/api/entity/capabilities', '/properties/api/properties/entity/properties/properties/capabilities']
                 item_type: Api::Type::String
               - !ruby/object:Api::Type::KeyValuePairs
-                name: 'connectionParameters'
+                name: 'ConnectionParameters'
                 description: 'Connection parameters'
                 output: true
                 azure_sdk_references: ['/api/entity/connectionParameters', '/properties/api/properties/entity/properties/properties/connectionParameters']
               - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                name: 'createdTime'
+                name: 'CreatedTime'
                 description: 'Timestamp of the connection creation'
                 output: true
                 azure_sdk_references: ['/api/entity/createdTime', '/properties/api/properties/entity/properties/properties/createdTime']
               - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                name: 'changedTime'
+                name: 'ChangedTime'
                 description: 'Timestamp of last connection change.'
                 output: true
                 azure_sdk_references: ['/api/entity/changedTime', '/properties/api/properties/entity/properties/properties/changedTime']
               - !ruby/object:Api::Type::NestedObject
-                name: 'sku'
+                name: 'Sku'
                 description: 'Sku description of the resource'
                 output: true
                 azure_sdk_references: ['/api/entity/sku', '/properties/api/properties/entity/sku']
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'name'
+                    name: 'Name'
                     description: 'Name of the resource sku'
                     output: true
                     azure_sdk_references: ['/api/entity/sku/name', '/properties/api/properties/entity/sku/name']
                   - !ruby/object:Api::Type::String
-                    name: 'tier'
+                    name: 'Tier'
                     description: 'Service Tier of the resource sku'
                     output: true
                     azure_sdk_references: ['/api/entity/sku/tier', '/properties/api/properties/entity/sku/tier']
                   - !ruby/object:Api::Type::String
-                    name: 'size'
+                    name: 'Size'
                     description: 'Size specifier of the resource sku'
                     output: true
                     azure_sdk_references: ['/api/entity/sku/size', '/properties/api/properties/entity/sku/size']
                   - !ruby/object:Api::Type::String
-                    name: 'family'
+                    name: 'Family'
                     description: 'Family code of the resource sku'
                     output: true
                     azure_sdk_references: ['/api/entity/sku/family', '/properties/api/properties/entity/sku/family']
                   - !ruby/object:Api::Type::Integer
-                    name: 'capacity'
+                    name: 'Capacity'
                     description: 'Current number of instances assigned to the resource'
                     output: true
                     azure_sdk_references: ['/api/entity/sku/capacity', '/properties/api/properties/entity/sku/capacity']

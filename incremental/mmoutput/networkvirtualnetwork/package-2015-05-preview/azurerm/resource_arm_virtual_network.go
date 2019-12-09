@@ -29,21 +29,16 @@ func resourceArmVirtualNetwork() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "virtual_network_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "address_space": {
                 Type: schema.TypeList,
@@ -154,6 +149,18 @@ func resourceArmVirtualNetwork() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -163,24 +170,23 @@ func resourceArmVirtualNetwork() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmVirtualNetworkCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworksClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("virtual_network_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -192,9 +198,9 @@ func resourceArmVirtualNetworkCreateUpdate(d *schema.ResourceData, meta interfac
     addressSpace := d.Get("address_space").([]interface{})
     dhcpOptions := d.Get("dhcp_options").([]interface{})
     etag := d.Get("etag").(string)
-    resourceGuid := d.Get("resource_guid").(string)
+    resourceGUID := d.Get("resource_guid").(string)
     subnets := d.Get("subnets").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := network.VirtualNetwork{
         Etag: utils.String(etag),
@@ -202,28 +208,28 @@ func resourceArmVirtualNetworkCreateUpdate(d *schema.ResourceData, meta interfac
         VirtualNetworkPropertiesFormat: &network.VirtualNetworkPropertiesFormat{
             AddressSpace: expandArmVirtualNetworkAddressSpace(addressSpace),
             DhcpOptions: expandArmVirtualNetworkDhcpOptions(dhcpOptions),
-            ResourceGUID: utils.String(resourceGuid),
+            ResourceGUID: utils.String(resourceGUID),
             Subnets: expandArmVirtualNetworkSubnet(subnets),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Network %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Network (Virtual Network Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -232,29 +238,28 @@ func resourceArmVirtualNetworkCreateUpdate(d *schema.ResourceData, meta interfac
 
 func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworksClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["virtualnetworks"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Network %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -272,7 +277,10 @@ func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) err
         }
     }
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
+    d.Set("virtual_network_name", name)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -280,27 +288,28 @@ func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) err
 
 func resourceArmVirtualNetworkDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworksClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["virtualnetworks"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -327,10 +336,10 @@ func expandArmVirtualNetworkDhcpOptions(input []interface{}) *network.DhcpOption
     }
     v := input[0].(map[string]interface{})
 
-    dnsServers := v["dns_servers"].([]interface{})
+    dNSServers := v["dns_servers"].([]interface{})
 
     result := network.DhcpOptions{
-        DNSServers: utils.ExpandStringSlice(dnsServers),
+        DNSServers: utils.ExpandStringSlice(dNSServers),
     }
     return &result
 }
@@ -339,21 +348,21 @@ func expandArmVirtualNetworkSubnet(input []interface{}) *[]network.Subnet {
     results := make([]network.Subnet, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         addressPrefix := v["address_prefix"].(string)
         networkSecurityGroup := v["network_security_group"].([]interface{})
         routeTable := v["route_table"].([]interface{})
-        ipConfigurations := v["ip_configurations"].([]interface{})
+        iPConfigurations := v["ip_configurations"].([]interface{})
         name := v["name"].(string)
         etag := v["etag"].(string)
 
         result := network.Subnet{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             SubnetPropertiesFormat: &network.SubnetPropertiesFormat{
                 AddressPrefix: utils.String(addressPrefix),
-                IPConfigurations: expandArmVirtualNetworkSubResource(ipConfigurations),
+                IPConfigurations: expandArmVirtualNetworkSubResource(iPConfigurations),
                 NetworkSecurityGroup: expandArmVirtualNetworkSubResource(networkSecurityGroup),
                 RouteTable: expandArmVirtualNetworkSubResource(routeTable),
             },
@@ -368,10 +377,10 @@ func expandArmVirtualNetworkSubResource(input []interface{}) *[]network.SubResou
     results := make([]network.SubResource, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
 
         result := network.SubResource{
-            ID: utils.String(id),
+            ID: utils.String(iD),
         }
 
         results = append(results, result)
@@ -385,10 +394,10 @@ func expandArmVirtualNetworkSubResource(input []interface{}) *network.SubResourc
     }
     v := input[0].(map[string]interface{})
 
-    id := v["id"].(string)
+    iD := v["id"].(string)
 
     result := network.SubResource{
-        ID: utils.String(id),
+        ID: utils.String(iD),
     }
     return &result
 }
@@ -427,12 +436,6 @@ func flattenArmVirtualNetworkSubnet(input *[]network.Subnet) []interface{} {
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if subnetPropertiesFormat := item.SubnetPropertiesFormat; subnetPropertiesFormat != nil {
             if addressPrefix := subnetPropertiesFormat.AddressPrefix; addressPrefix != nil {
                 v["address_prefix"] = *addressPrefix
@@ -443,6 +446,12 @@ func flattenArmVirtualNetworkSubnet(input *[]network.Subnet) []interface{} {
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)

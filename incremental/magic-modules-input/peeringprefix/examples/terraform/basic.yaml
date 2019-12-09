@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_prefix
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: peeringservice
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  peering_service_name: MyPeeringService
+  name: '<%= get_resource_name('''', ''peeringprefix'') -%>'

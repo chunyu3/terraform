@@ -29,7 +29,7 @@ func resourceArmNotificationChannel() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -42,13 +42,6 @@ func resourceArmNotificationChannel() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -92,6 +85,10 @@ func resourceArmNotificationChannel() *schema.Resource {
                 ForceNew: true,
             },
 
+            "location": azure.SchemaLocation(),
+
+            "tags": tags.Schema(),
+
             "unique_identifier": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -107,6 +104,16 @@ func resourceArmNotificationChannel() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -116,25 +123,24 @@ func resourceArmNotificationChannel() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmNotificationChannelCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).notificationChannelsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("lab_name").(string)
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, name)
+        existing, err := client.Get(ctx, resourceGroupName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Notification Channel (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -146,36 +152,36 @@ func resourceArmNotificationChannelCreate(d *schema.ResourceData, meta interface
     description := d.Get("description").(string)
     eventName := d.Get("event_name").(string)
     events := d.Get("events").([]interface{})
-    jsonPayload := d.Get("json_payload").(string)
+    jSONPayload := d.Get("json_payload").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
-    webHookUrl := d.Get("web_hook_url").(string)
-    t := d.Get("tags").(map[string]interface{})
+    webHookURL := d.Get("web_hook_url").(string)
+    tags := d.Get("tags").(map[string]interface{})
 
     notificationChannel := devtestlab.NotificationChannelFragment{
         EventName: devtestlab.NotificationChannelEventType(eventName),
-        JSONPayload: utils.String(jsonPayload),
+        JSONPayload: utils.String(jSONPayload),
         Location: utils.String(location),
         NotificationChannelPropertiesFragment: &devtestlab.NotificationChannelPropertiesFragment{
             Description: utils.String(description),
             Events: expandArmNotificationChannelEventFragment(events),
             UniqueIdentifier: utils.String(uniqueIdentifier),
-            WebHookURL: utils.String(webHookUrl),
+            WebHookURL: utils.String(webHookURL),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, notificationChannel); err != nil {
-        return fmt.Errorf("Error creating Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, name, name, notificationChannel); err != nil {
+        return fmt.Errorf("Error creating Notification Channel (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Notification Channel (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Notification Channel %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Notification Channel (Name %q / Lab Name %q / Resource Group %q) ID", name, name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -184,31 +190,29 @@ func resourceArmNotificationChannelCreate(d *schema.ResourceData, meta interface
 
 func resourceArmNotificationChannelRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).notificationChannelsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["notificationchannels"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Notification Channel %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Notification Channel (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -222,6 +226,10 @@ func resourceArmNotificationChannelRead(d *schema.ResourceData, meta interface{}
         d.Set("unique_identifier", notificationChannelPropertiesFragment.UniqueIdentifier)
         d.Set("web_hook_url", notificationChannelPropertiesFragment.WebHookURL)
     }
+    d.Set("id", resp.ID)
+    d.Set("lab_name", name)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -229,34 +237,37 @@ func resourceArmNotificationChannelRead(d *schema.ResourceData, meta interface{}
 
 func resourceArmNotificationChannelUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).notificationChannelsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     description := d.Get("description").(string)
     eventName := d.Get("event_name").(string)
     events := d.Get("events").([]interface{})
-    jsonPayload := d.Get("json_payload").(string)
+    jSONPayload := d.Get("json_payload").(string)
+    name := d.Get("lab_name").(string)
+    name := d.Get("name").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
-    webHookUrl := d.Get("web_hook_url").(string)
-    t := d.Get("tags").(map[string]interface{})
+    webHookURL := d.Get("web_hook_url").(string)
+    tags := d.Get("tags").(map[string]interface{})
 
     notificationChannel := devtestlab.NotificationChannelFragment{
         EventName: devtestlab.NotificationChannelEventType(eventName),
-        JSONPayload: utils.String(jsonPayload),
+        JSONPayload: utils.String(jSONPayload),
+        Location: utils.String(location),
         NotificationChannelPropertiesFragment: &devtestlab.NotificationChannelPropertiesFragment{
             Description: utils.String(description),
             Events: expandArmNotificationChannelEventFragment(events),
             UniqueIdentifier: utils.String(uniqueIdentifier),
-            WebHookURL: utils.String(webHookUrl),
+            WebHookURL: utils.String(webHookURL),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, name, notificationChannel); err != nil {
-        return fmt.Errorf("Error updating Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, name, notificationChannel); err != nil {
+        return fmt.Errorf("Error updating Notification Channel (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
     return resourceArmNotificationChannelRead(d, meta)
@@ -264,19 +275,20 @@ func resourceArmNotificationChannelUpdate(d *schema.ResourceData, meta interface
 
 func resourceArmNotificationChannelDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).notificationChannelsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["notificationchannels"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, name); err != nil {
-        return fmt.Errorf("Error deleting Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name, name); err != nil {
+        return fmt.Errorf("Error deleting Notification Channel (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
     return nil

@@ -29,22 +29,12 @@ func resourceArmConsumerGroup() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "consumer_group_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Optional: true,
-                ForceNew: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "event_hub_name": {
                 Type: schema.TypeString,
@@ -53,11 +43,21 @@ func resourceArmConsumerGroup() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "location": azure.SchemaLocation(),
+
             "namespace_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
             },
 
             "type": {
@@ -81,6 +81,11 @@ func resourceArmConsumerGroup() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "updated_at": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -91,18 +96,19 @@ func resourceArmConsumerGroup() *schema.Resource {
 
 func resourceArmConsumerGroupCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).consumerGroupsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("consumer_group_name").(string)
     eventHubName := d.Get("event_hub_name").(string)
     namespaceName := d.Get("namespace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName, name)
+        existing, err := client.Get(ctx, resourceGroupName, namespaceName, eventHubName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -110,8 +116,8 @@ func resourceArmConsumerGroupCreateUpdate(d *schema.ResourceData, meta interface
         }
     }
 
-    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
+    name := d.Get("name").(string)
     type := d.Get("type").(string)
     userMetadata := d.Get("user_metadata").(string)
 
@@ -125,17 +131,17 @@ func resourceArmConsumerGroupCreateUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, eventHubName, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, namespaceName, eventHubName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName, name)
+    resp, err := client.Get(ctx, resourceGroupName, namespaceName, eventHubName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q) ID", name, eventHubName, namespaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q) ID", name, eventHubName, namespaceName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -144,34 +150,34 @@ func resourceArmConsumerGroupCreateUpdate(d *schema.ResourceData, meta interface
 
 func resourceArmConsumerGroupRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).consumerGroupsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
     eventHubName := id.Path["eventhubs"]
     name := id.Path["consumergroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName, name)
+    resp, err := client.Get(ctx, resourceGroupName, namespaceName, eventHubName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Consumer Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    d.Set("consumer_group_name", name)
     if consumerGroupProperties := resp.ConsumerGroupProperties; consumerGroupProperties != nil {
         d.Set("created_at", (consumerGroupProperties.CreatedAt).String())
         d.Set("event_hub_path", consumerGroupProperties.EventHubPath)
@@ -179,6 +185,8 @@ func resourceArmConsumerGroupRead(d *schema.ResourceData, meta interface{}) erro
         d.Set("user_metadata", consumerGroupProperties.UserMetadata)
     }
     d.Set("event_hub_name", eventHubName)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("namespace_name", namespaceName)
     d.Set("type", resp.Type)
 
@@ -188,20 +196,21 @@ func resourceArmConsumerGroupRead(d *schema.ResourceData, meta interface{}) erro
 
 func resourceArmConsumerGroupDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).consumerGroupsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
     eventHubName := id.Path["eventhubs"]
     name := id.Path["consumergroups"]
 
-    if _, err := client.Delete(ctx, resourceGroup, namespaceName, eventHubName, name); err != nil {
-        return fmt.Errorf("Error deleting Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, namespaceName, eventHubName, name); err != nil {
+        return fmt.Errorf("Error deleting Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroupName, err)
     }
 
     return nil

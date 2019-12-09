@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -111,7 +111,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -130,7 +130,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -237,7 +237,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -250,98 +250,98 @@ objects:
       Manage Azure IntegrationAccountCertificate instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'integrationAccountName'
+        name: 'IntegrationAccountName'
         description: 'The integration account name.'
         required: true
         input: true
         azure_sdk_references: ['integrationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'CertificateName'
         description: 'The integration account certificate name.'
         required: true
         input: true
         azure_sdk_references: ['certificateName']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The resource id.'
         required: false
         input: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The resource name.'
         required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The resource type.'
         required: false
         input: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The resource location.'
         required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'The resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'metadata'
+        name: 'Metadata'
         description: 'The metadata.'
         required: false
         azure_sdk_references: ['/metadata', '/properties/metadata']
       - !ruby/object:Api::Type::NestedObject
-        name: 'key'
+        name: 'Key'
         description: 'The key details in the key vault.'
         required: false
         azure_sdk_references: ['/key', '/properties/key']
         properties:
           - !ruby/object:Api::Type::NestedObject
-            name: 'keyVault'
+            name: 'KeyVault'
             description: 'The key vault reference.'
             required: false
             azure_sdk_references: ['/key/keyVault', '/properties/key/keyVault']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'id'
+                name: 'ID'
                 description: 'The resource id.'
                 required: false
                 azure_sdk_references: ['/key/keyVault/id', '/properties/key/keyVault/id']
           - !ruby/object:Api::Type::String
-            name: 'keyName'
+            name: 'KeyName'
             description: 'The private key name in key vault.'
             required: false
             azure_sdk_references: ['/key/keyName', '/properties/key/keyName']
           - !ruby/object:Api::Type::String
-            name: 'keyVersion'
+            name: 'KeyVersion'
             description: 'The private key version in key vault.'
             required: false
             azure_sdk_references: ['/key/keyVersion', '/properties/key/keyVersion']
       - !ruby/object:Api::Type::String
-        name: 'publicCertificate'
+        name: 'PublicCertificate'
         description: 'The public certificate.'
         required: false
         azure_sdk_references: ['/publicCertificate', '/properties/publicCertificate']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdTime'
+        name: 'CreatedTime'
         description: 'The created time.'
         output: true
         azure_sdk_references: ['/createdTime', '/properties/createdTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'changedTime'
+        name: 'ChangedTime'
         description: 'The changed time.'
         output: true
         azure_sdk_references: ['/changedTime', '/properties/changedTime']

@@ -29,16 +29,11 @@ func resourceArmLoadBalancer() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "load_balancer_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "location": azure.SchemaLocation(),
@@ -50,7 +45,7 @@ func resourceArmLoadBalancer() *schema.Resource {
                 Optional: true,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "backend_ipconfigurations": {
+                        "backend_ip_configurations": {
                             Type: schema.TypeList,
                             Optional: true,
                             Elem: &schema.Resource{
@@ -109,7 +104,7 @@ func resourceArmLoadBalancer() *schema.Resource {
                 ForceNew: true,
             },
 
-            "frontend_ipconfigurations": {
+            "frontend_ip_configurations": {
                 Type: schema.TypeList,
                 Optional: true,
                 Elem: &schema.Resource{
@@ -178,7 +173,7 @@ func resourceArmLoadBalancer() *schema.Resource {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "private_ipallocation_method": {
+                        "private_ip_allocation_method": {
                             Type: schema.TypeString,
                             Optional: true,
                             ValidateFunc: validation.StringInSlice([]string{
@@ -246,7 +241,7 @@ func resourceArmLoadBalancer() *schema.Resource {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "frontend_ipconfiguration": {
+                        "frontend_ip_configuration": {
                             Type: schema.TypeList,
                             Optional: true,
                             MaxItems: 1,
@@ -292,7 +287,7 @@ func resourceArmLoadBalancer() *schema.Resource {
                                 string(network.Tcp),
                             }, false),
                         },
-                        "backend_ipconfiguration": {
+                        "backend_ip_configuration": {
                             Type: schema.TypeList,
                             Optional: true,
                             MaxItems: 1,
@@ -313,7 +308,7 @@ func resourceArmLoadBalancer() *schema.Resource {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "frontend_ipconfiguration": {
+                        "frontend_ip_configuration": {
                             Type: schema.TypeList,
                             Optional: true,
                             MaxItems: 1,
@@ -384,7 +379,7 @@ func resourceArmLoadBalancer() *schema.Resource {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "frontend_ipconfiguration": {
+                        "frontend_ip_configuration": {
                             Type: schema.TypeList,
                             Optional: true,
                             MaxItems: 1,
@@ -462,7 +457,7 @@ func resourceArmLoadBalancer() *schema.Resource {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "frontend_ipconfigurations": {
+                        "frontend_ip_configurations": {
                             Type: schema.TypeList,
                             Optional: true,
                             Elem: &schema.Resource{
@@ -548,6 +543,18 @@ func resourceArmLoadBalancer() *schema.Resource {
                 Optional: true,
             },
 
+            "tags": tags.Schema(),
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -557,24 +564,23 @@ func resourceArmLoadBalancer() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmLoadBalancerCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).loadBalancersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("load_balancer_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -585,47 +591,47 @@ func resourceArmLoadBalancerCreateUpdate(d *schema.ResourceData, meta interface{
     location := azure.NormalizeLocation(d.Get("location").(string))
     backendAddressPools := d.Get("backend_address_pools").([]interface{})
     etag := d.Get("etag").(string)
-    frontendIpconfigurations := d.Get("frontend_ipconfigurations").([]interface{})
+    frontendIPConfigurations := d.Get("frontend_ip_configurations").([]interface{})
     inboundNatPools := d.Get("inbound_nat_pools").([]interface{})
     inboundNatRules := d.Get("inbound_nat_rules").([]interface{})
     loadBalancingRules := d.Get("load_balancing_rules").([]interface{})
     outboundNatRules := d.Get("outbound_nat_rules").([]interface{})
     probes := d.Get("probes").([]interface{})
-    resourceGuid := d.Get("resource_guid").(string)
-    t := d.Get("tags").(map[string]interface{})
+    resourceGUID := d.Get("resource_guid").(string)
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := network.LoadBalancer{
         Etag: utils.String(etag),
         Location: utils.String(location),
         LoadBalancerPropertiesFormat: &network.LoadBalancerPropertiesFormat{
             BackendAddressPools: expandArmLoadBalancerBackendAddressPool(backendAddressPools),
-            FrontendIPConfigurations: expandArmLoadBalancerFrontendIpConfiguration(frontendIpconfigurations),
+            FrontendIPConfigurations: expandArmLoadBalancerFrontendIpConfiguration(frontendIPConfigurations),
             InboundNatPools: expandArmLoadBalancerInboundNatPool(inboundNatPools),
             InboundNatRules: expandArmLoadBalancerInboundNatRule(inboundNatRules),
             LoadBalancingRules: expandArmLoadBalancerLoadBalancingRule(loadBalancingRules),
             OutboundNatRules: expandArmLoadBalancerOutboundNatRule(outboundNatRules),
             Probes: expandArmLoadBalancerProbe(probes),
-            ResourceGUID: utils.String(resourceGuid),
+            ResourceGUID: utils.String(resourceGUID),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Load Balancer %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Load Balancer (Load Balancer Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -634,29 +640,28 @@ func resourceArmLoadBalancerCreateUpdate(d *schema.ResourceData, meta interface{
 
 func resourceArmLoadBalancerRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).loadBalancersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["loadBalancers"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Load Balancer %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -664,8 +669,8 @@ func resourceArmLoadBalancerRead(d *schema.ResourceData, meta interface{}) error
         if err := d.Set("backend_address_pools", flattenArmLoadBalancerBackendAddressPool(loadBalancerPropertiesFormat.BackendAddressPools)); err != nil {
             return fmt.Errorf("Error setting `backend_address_pools`: %+v", err)
         }
-        if err := d.Set("frontend_ipconfigurations", flattenArmLoadBalancerFrontendIpConfiguration(loadBalancerPropertiesFormat.FrontendIPConfigurations)); err != nil {
-            return fmt.Errorf("Error setting `frontend_ipconfigurations`: %+v", err)
+        if err := d.Set("frontend_ip_configurations", flattenArmLoadBalancerFrontendIpConfiguration(loadBalancerPropertiesFormat.FrontendIPConfigurations)); err != nil {
+            return fmt.Errorf("Error setting `frontend_ip_configurations`: %+v", err)
         }
         if err := d.Set("inbound_nat_pools", flattenArmLoadBalancerInboundNatPool(loadBalancerPropertiesFormat.InboundNatPools)); err != nil {
             return fmt.Errorf("Error setting `inbound_nat_pools`: %+v", err)
@@ -686,6 +691,9 @@ func resourceArmLoadBalancerRead(d *schema.ResourceData, meta interface{}) error
         d.Set("resource_guid", loadBalancerPropertiesFormat.ResourceGUID)
     }
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("load_balancer_name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -694,27 +702,28 @@ func resourceArmLoadBalancerRead(d *schema.ResourceData, meta interface{}) error
 
 func resourceArmLoadBalancerDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).loadBalancersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["loadBalancers"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -725,8 +734,8 @@ func expandArmLoadBalancerBackendAddressPool(input []interface{}) *[]network.Bac
     results := make([]network.BackendAddressPool, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
-        backendIpconfigurations := v["backend_ipconfigurations"].([]interface{})
+        iD := v["id"].(string)
+        backendIPConfigurations := v["backend_ip_configurations"].([]interface{})
         loadBalancingRules := v["load_balancing_rules"].([]interface{})
         outboundNatRule := v["outbound_nat_rule"].([]interface{})
         name := v["name"].(string)
@@ -734,10 +743,10 @@ func expandArmLoadBalancerBackendAddressPool(input []interface{}) *[]network.Bac
 
         result := network.BackendAddressPool{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             BackendAddressPoolPropertiesFormat: &network.BackendAddressPoolPropertiesFormat{
-                BackendIPConfigurations: expandArmLoadBalancerSubResource(backendIpconfigurations),
+                BackendIPConfigurations: expandArmLoadBalancerSubResource(backendIPConfigurations),
                 LoadBalancingRules: expandArmLoadBalancerSubResource(loadBalancingRules),
                 OutboundNatRule: expandArmLoadBalancerSubResource(outboundNatRule),
             },
@@ -752,11 +761,11 @@ func expandArmLoadBalancerFrontendIpConfiguration(input []interface{}) *[]networ
     results := make([]network.FrontendIpConfiguration, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
-        privateIpAddress := v["private_ip_address"].(string)
-        privateIpallocationMethod := v["private_ipallocation_method"].(string)
+        iD := v["id"].(string)
+        privateIPAddress := v["private_ip_address"].(string)
+        privateIPAllocationMethod := v["private_ip_allocation_method"].(string)
         subnet := v["subnet"].([]interface{})
-        publicIpAddress := v["public_ip_address"].([]interface{})
+        publicIPAddress := v["public_ip_address"].([]interface{})
         inboundNatRules := v["inbound_nat_rules"].([]interface{})
         inboundNatPools := v["inbound_nat_pools"].([]interface{})
         outboundNatRules := v["outbound_nat_rules"].([]interface{})
@@ -766,16 +775,16 @@ func expandArmLoadBalancerFrontendIpConfiguration(input []interface{}) *[]networ
 
         result := network.FrontendIpConfiguration{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             FrontendIpConfigurationPropertiesFormat: &network.FrontendIpConfigurationPropertiesFormat{
                 InboundNatPools: expandArmLoadBalancerSubResource(inboundNatPools),
                 InboundNatRules: expandArmLoadBalancerSubResource(inboundNatRules),
                 LoadBalancingRules: expandArmLoadBalancerSubResource(loadBalancingRules),
                 OutboundNatRules: expandArmLoadBalancerSubResource(outboundNatRules),
-                PrivateIPAddress: utils.String(privateIpAddress),
-                PrivateIPAllocationMethod: network.IpAllocationMethod(privateIpallocationMethod),
-                PublicIPAddress: expandArmLoadBalancerSubResource(publicIpAddress),
+                PrivateIPAddress: utils.String(privateIPAddress),
+                PrivateIPAllocationMethod: network.IpAllocationMethod(privateIPAllocationMethod),
+                PublicIPAddress: expandArmLoadBalancerSubResource(publicIPAddress),
                 Subnet: expandArmLoadBalancerSubResource(subnet),
             },
         }
@@ -789,8 +798,8 @@ func expandArmLoadBalancerInboundNatPool(input []interface{}) *[]network.Inbound
     results := make([]network.InboundNatPool, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
-        frontendIpconfiguration := v["frontend_ipconfiguration"].([]interface{})
+        iD := v["id"].(string)
+        frontendIPConfiguration := v["frontend_ip_configuration"].([]interface{})
         protocol := v["protocol"].(string)
         frontendPortRangeStart := v["frontend_port_range_start"].(int)
         frontendPortRangeEnd := v["frontend_port_range_end"].(int)
@@ -800,11 +809,11 @@ func expandArmLoadBalancerInboundNatPool(input []interface{}) *[]network.Inbound
 
         result := network.InboundNatPool{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             InboundNatPoolPropertiesFormat: &network.InboundNatPoolPropertiesFormat{
                 BackendPort: utils.Int32(int32(backendPort)),
-                FrontendIPConfiguration: expandArmLoadBalancerSubResource(frontendIpconfiguration),
+                FrontendIPConfiguration: expandArmLoadBalancerSubResource(frontendIPConfiguration),
                 FrontendPortRangeEnd: utils.Int32(int32(frontendPortRangeEnd)),
                 FrontendPortRangeStart: utils.Int32(int32(frontendPortRangeStart)),
                 Protocol: network.TransportProtocol(protocol),
@@ -820,26 +829,26 @@ func expandArmLoadBalancerInboundNatRule(input []interface{}) *[]network.Inbound
     results := make([]network.InboundNatRule, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
-        frontendIpconfiguration := v["frontend_ipconfiguration"].([]interface{})
-        backendIpconfiguration := v["backend_ipconfiguration"].([]interface{})
+        iD := v["id"].(string)
+        frontendIPConfiguration := v["frontend_ip_configuration"].([]interface{})
+        backendIPConfiguration := v["backend_ip_configuration"].([]interface{})
         protocol := v["protocol"].(string)
         frontendPort := v["frontend_port"].(int)
         backendPort := v["backend_port"].(int)
         idleTimeoutInMinutes := v["idle_timeout_in_minutes"].(int)
-        enableFloatingIp := v["enable_floating_ip"].(bool)
+        enableFloatingIP := v["enable_floating_ip"].(bool)
         name := v["name"].(string)
         etag := v["etag"].(string)
 
         result := network.InboundNatRule{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             InboundNatRulePropertiesFormat: &network.InboundNatRulePropertiesFormat{
-                BackendIPConfiguration: expandArmLoadBalancerSubResource(backendIpconfiguration),
+                BackendIPConfiguration: expandArmLoadBalancerSubResource(backendIPConfiguration),
                 BackendPort: utils.Int32(int32(backendPort)),
-                EnableFloatingIP: utils.Bool(enableFloatingIp),
-                FrontendIPConfiguration: expandArmLoadBalancerSubResource(frontendIpconfiguration),
+                EnableFloatingIP: utils.Bool(enableFloatingIP),
+                FrontendIPConfiguration: expandArmLoadBalancerSubResource(frontendIPConfiguration),
                 FrontendPort: utils.Int32(int32(frontendPort)),
                 IdleTimeoutInMinutes: utils.Int32(int32(idleTimeoutInMinutes)),
                 Protocol: network.TransportProtocol(protocol),
@@ -855,8 +864,8 @@ func expandArmLoadBalancerLoadBalancingRule(input []interface{}) *[]network.Load
     results := make([]network.LoadBalancingRule, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
-        frontendIpconfiguration := v["frontend_ipconfiguration"].([]interface{})
+        iD := v["id"].(string)
+        frontendIPConfiguration := v["frontend_ip_configuration"].([]interface{})
         backendAddressPool := v["backend_address_pool"].([]interface{})
         probe := v["probe"].([]interface{})
         protocol := v["protocol"].(string)
@@ -864,19 +873,19 @@ func expandArmLoadBalancerLoadBalancingRule(input []interface{}) *[]network.Load
         frontendPort := v["frontend_port"].(int)
         backendPort := v["backend_port"].(int)
         idleTimeoutInMinutes := v["idle_timeout_in_minutes"].(int)
-        enableFloatingIp := v["enable_floating_ip"].(bool)
+        enableFloatingIP := v["enable_floating_ip"].(bool)
         name := v["name"].(string)
         etag := v["etag"].(string)
 
         result := network.LoadBalancingRule{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             LoadBalancingRulePropertiesFormat: &network.LoadBalancingRulePropertiesFormat{
                 BackendAddressPool: expandArmLoadBalancerSubResource(backendAddressPool),
                 BackendPort: utils.Int32(int32(backendPort)),
-                EnableFloatingIP: utils.Bool(enableFloatingIp),
-                FrontendIPConfiguration: expandArmLoadBalancerSubResource(frontendIpconfiguration),
+                EnableFloatingIP: utils.Bool(enableFloatingIP),
+                FrontendIPConfiguration: expandArmLoadBalancerSubResource(frontendIPConfiguration),
                 FrontendPort: utils.Int32(int32(frontendPort)),
                 IdleTimeoutInMinutes: utils.Int32(int32(idleTimeoutInMinutes)),
                 LoadDistribution: network.LoadDistribution(loadDistribution),
@@ -894,21 +903,21 @@ func expandArmLoadBalancerOutboundNatRule(input []interface{}) *[]network.Outbou
     results := make([]network.OutboundNatRule, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         allocatedOutboundPorts := v["allocated_outbound_ports"].(int)
-        frontendIpconfigurations := v["frontend_ipconfigurations"].([]interface{})
+        frontendIPConfigurations := v["frontend_ip_configurations"].([]interface{})
         backendAddressPool := v["backend_address_pool"].([]interface{})
         name := v["name"].(string)
         etag := v["etag"].(string)
 
         result := network.OutboundNatRule{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             OutboundNatRulePropertiesFormat: &network.OutboundNatRulePropertiesFormat{
                 AllocatedOutboundPorts: utils.Int32(int32(allocatedOutboundPorts)),
                 BackendAddressPool: expandArmLoadBalancerSubResource(backendAddressPool),
-                FrontendIPConfigurations: expandArmLoadBalancerSubResource(frontendIpconfigurations),
+                FrontendIPConfigurations: expandArmLoadBalancerSubResource(frontendIPConfigurations),
             },
         }
 
@@ -921,7 +930,7 @@ func expandArmLoadBalancerProbe(input []interface{}) *[]network.Probe {
     results := make([]network.Probe, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         loadBalancingRules := v["load_balancing_rules"].([]interface{})
         protocol := v["protocol"].(string)
         port := v["port"].(int)
@@ -933,7 +942,7 @@ func expandArmLoadBalancerProbe(input []interface{}) *[]network.Probe {
 
         result := network.Probe{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             ProbePropertiesFormat: &network.ProbePropertiesFormat{
                 IntervalInSeconds: utils.Int32(int32(intervalInSeconds)),
@@ -954,10 +963,10 @@ func expandArmLoadBalancerSubResource(input []interface{}) *[]network.SubResourc
     results := make([]network.SubResource, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
 
         result := network.SubResource{
-            ID: utils.String(id),
+            ID: utils.String(iD),
         }
 
         results = append(results, result)
@@ -971,10 +980,10 @@ func expandArmLoadBalancerSubResource(input []interface{}) *network.SubResource 
     }
     v := input[0].(map[string]interface{})
 
-    id := v["id"].(string)
+    iD := v["id"].(string)
 
     result := network.SubResource{
-        ID: utils.String(id),
+        ID: utils.String(iD),
     }
     return &result
 }
@@ -989,19 +998,19 @@ func flattenArmLoadBalancerBackendAddressPool(input *[]network.BackendAddressPoo
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if backendAddressPoolPropertiesFormat := item.BackendAddressPoolPropertiesFormat; backendAddressPoolPropertiesFormat != nil {
-            v["backend_ipconfigurations"] = flattenArmLoadBalancerSubResource(backendAddressPoolPropertiesFormat.BackendIPConfigurations)
+            v["backend_ip_configurations"] = flattenArmLoadBalancerSubResource(backendAddressPoolPropertiesFormat.BackendIPConfigurations)
             v["load_balancing_rules"] = flattenArmLoadBalancerSubResource(backendAddressPoolPropertiesFormat.LoadBalancingRules)
             v["outbound_nat_rule"] = flattenArmLoadBalancerSubResource(backendAddressPoolPropertiesFormat.OutboundNatRule)
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)
@@ -1019,14 +1028,11 @@ func flattenArmLoadBalancerFrontendIpConfiguration(input *[]network.FrontendIpCo
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
         }
         if frontendIpConfigurationPropertiesFormat := item.FrontendIpConfigurationPropertiesFormat; frontendIpConfigurationPropertiesFormat != nil {
             v["inbound_nat_pools"] = flattenArmLoadBalancerSubResource(frontendIpConfigurationPropertiesFormat.InboundNatPools)
@@ -1036,9 +1042,12 @@ func flattenArmLoadBalancerFrontendIpConfiguration(input *[]network.FrontendIpCo
             if privateIpAddress := frontendIpConfigurationPropertiesFormat.PrivateIPAddress; privateIpAddress != nil {
                 v["private_ip_address"] = *privateIpAddress
             }
-            v["private_ipallocation_method"] = string(frontendIpConfigurationPropertiesFormat.PrivateIPAllocationMethod)
+            v["private_ip_allocation_method"] = string(frontendIpConfigurationPropertiesFormat.PrivateIPAllocationMethod)
             v["public_ip_address"] = flattenArmLoadBalancerSubResource(frontendIpConfigurationPropertiesFormat.PublicIPAddress)
             v["subnet"] = flattenArmLoadBalancerSubResource(frontendIpConfigurationPropertiesFormat.Subnet)
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)
@@ -1056,17 +1065,11 @@ func flattenArmLoadBalancerInboundNatPool(input *[]network.InboundNatPool) []int
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if inboundNatPoolPropertiesFormat := item.InboundNatPoolPropertiesFormat; inboundNatPoolPropertiesFormat != nil {
             if backendPort := inboundNatPoolPropertiesFormat.BackendPort; backendPort != nil {
                 v["backend_port"] = int(*backendPort)
             }
-            v["frontend_ipconfiguration"] = flattenArmLoadBalancerSubResource(inboundNatPoolPropertiesFormat.FrontendIPConfiguration)
+            v["frontend_ip_configuration"] = flattenArmLoadBalancerSubResource(inboundNatPoolPropertiesFormat.FrontendIPConfiguration)
             if frontendPortRangeEnd := inboundNatPoolPropertiesFormat.FrontendPortRangeEnd; frontendPortRangeEnd != nil {
                 v["frontend_port_range_end"] = int(*frontendPortRangeEnd)
             }
@@ -1077,6 +1080,12 @@ func flattenArmLoadBalancerInboundNatPool(input *[]network.InboundNatPool) []int
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)
@@ -1094,21 +1103,15 @@ func flattenArmLoadBalancerInboundNatRule(input *[]network.InboundNatRule) []int
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if inboundNatRulePropertiesFormat := item.InboundNatRulePropertiesFormat; inboundNatRulePropertiesFormat != nil {
-            v["backend_ipconfiguration"] = flattenArmLoadBalancerSubResource(inboundNatRulePropertiesFormat.BackendIPConfiguration)
+            v["backend_ip_configuration"] = flattenArmLoadBalancerSubResource(inboundNatRulePropertiesFormat.BackendIPConfiguration)
             if backendPort := inboundNatRulePropertiesFormat.BackendPort; backendPort != nil {
                 v["backend_port"] = int(*backendPort)
             }
             if enableFloatingIp := inboundNatRulePropertiesFormat.EnableFloatingIP; enableFloatingIp != nil {
                 v["enable_floating_ip"] = *enableFloatingIp
             }
-            v["frontend_ipconfiguration"] = flattenArmLoadBalancerSubResource(inboundNatRulePropertiesFormat.FrontendIPConfiguration)
+            v["frontend_ip_configuration"] = flattenArmLoadBalancerSubResource(inboundNatRulePropertiesFormat.FrontendIPConfiguration)
             if frontendPort := inboundNatRulePropertiesFormat.FrontendPort; frontendPort != nil {
                 v["frontend_port"] = int(*frontendPort)
             }
@@ -1119,6 +1122,12 @@ func flattenArmLoadBalancerInboundNatRule(input *[]network.InboundNatRule) []int
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)
@@ -1136,12 +1145,6 @@ func flattenArmLoadBalancerLoadBalancingRule(input *[]network.LoadBalancingRule)
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if loadBalancingRulePropertiesFormat := item.LoadBalancingRulePropertiesFormat; loadBalancingRulePropertiesFormat != nil {
             v["backend_address_pool"] = flattenArmLoadBalancerSubResource(loadBalancingRulePropertiesFormat.BackendAddressPool)
             if backendPort := loadBalancingRulePropertiesFormat.BackendPort; backendPort != nil {
@@ -1150,7 +1153,7 @@ func flattenArmLoadBalancerLoadBalancingRule(input *[]network.LoadBalancingRule)
             if enableFloatingIp := loadBalancingRulePropertiesFormat.EnableFloatingIP; enableFloatingIp != nil {
                 v["enable_floating_ip"] = *enableFloatingIp
             }
-            v["frontend_ipconfiguration"] = flattenArmLoadBalancerSubResource(loadBalancingRulePropertiesFormat.FrontendIPConfiguration)
+            v["frontend_ip_configuration"] = flattenArmLoadBalancerSubResource(loadBalancingRulePropertiesFormat.FrontendIPConfiguration)
             if frontendPort := loadBalancingRulePropertiesFormat.FrontendPort; frontendPort != nil {
                 v["frontend_port"] = int(*frontendPort)
             }
@@ -1163,6 +1166,12 @@ func flattenArmLoadBalancerLoadBalancingRule(input *[]network.LoadBalancingRule)
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)
@@ -1180,21 +1189,21 @@ func flattenArmLoadBalancerOutboundNatRule(input *[]network.OutboundNatRule) []i
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if outboundNatRulePropertiesFormat := item.OutboundNatRulePropertiesFormat; outboundNatRulePropertiesFormat != nil {
             if allocatedOutboundPorts := outboundNatRulePropertiesFormat.AllocatedOutboundPorts; allocatedOutboundPorts != nil {
                 v["allocated_outbound_ports"] = int(*allocatedOutboundPorts)
             }
             v["backend_address_pool"] = flattenArmLoadBalancerSubResource(outboundNatRulePropertiesFormat.BackendAddressPool)
-            v["frontend_ipconfigurations"] = flattenArmLoadBalancerSubResource(outboundNatRulePropertiesFormat.FrontendIPConfigurations)
+            v["frontend_ip_configurations"] = flattenArmLoadBalancerSubResource(outboundNatRulePropertiesFormat.FrontendIPConfigurations)
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)
@@ -1212,14 +1221,11 @@ func flattenArmLoadBalancerProbe(input *[]network.Probe) []interface{} {
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
         }
         if probePropertiesFormat := item.ProbePropertiesFormat; probePropertiesFormat != nil {
             if intervalInSeconds := probePropertiesFormat.IntervalInSeconds; intervalInSeconds != nil {
@@ -1236,6 +1242,9 @@ func flattenArmLoadBalancerProbe(input *[]network.Probe) []interface{} {
             if requestPath := probePropertiesFormat.RequestPath; requestPath != nil {
                 v["request_path"] = *requestPath
             }
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)

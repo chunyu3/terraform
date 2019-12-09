@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -60,7 +60,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -96,7 +96,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -115,7 +115,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -150,7 +150,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -163,51 +163,51 @@ objects:
       Manage Azure Property instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ServiceName'
         description: 'The name of the API Management service.'
         required: true
         input: true
         azure_sdk_references: ['serviceName']
       - !ruby/object:Api::Type::String
-        name: 'propId'
+        name: 'PropID'
         description: 'Identifier of the property.'
         required: true
         input: true
         azure_sdk_references: ['propId']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.'
         required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'value'
+        name: 'Value'
         description: 'Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.'
         required: false
         input: true
         azure_sdk_references: ['/value']
       - !ruby/object:Api::Type::Array
-        name: 'tags'
+        name: 'Tags'
         description: 'Optional tags that when provided can be used to filter the property list.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
         item_type: Api::Type::String
       - !ruby/object:Api::Type::Boolean
-        name: 'secret'
+        name: 'Secret'
         description: 'Determines whether the value is a secret and should be encrypted or not. Default value is false.'
         required: false
         input: true
         azure_sdk_references: ['/secret']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Uniquely identifies the property within the current API Management service instance. The value is a valid relative URL in the format of /properties/{propId} where {propId} is a property identifier.'
         output: true
         azure_sdk_references: ['/id']

@@ -29,21 +29,6 @@ func resourceArmProperty() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Optional: true,
-                ForceNew: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "prop_id": {
                 Type: schema.TypeString,
                 Required: true,
@@ -51,14 +36,23 @@ func resourceArmProperty() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "secret": {
-                Type: schema.TypeBool,
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "service_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
 
-            "value": {
-                Type: schema.TypeString,
+            "secret": {
+                Type: schema.TypeBool,
                 Optional: true,
                 ForceNew: true,
             },
@@ -71,23 +65,35 @@ func resourceArmProperty() *schema.Resource {
                     Type: schema.TypeString,
                 },
             },
+
+            "value": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
         },
     }
 }
 
 func resourceArmPropertyCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).propertyClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     propID := d.Get("prop_id").(string)
+    name := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, propID)
+        existing, err := client.Get(ctx, resourceGroupName, name, propID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -97,7 +103,7 @@ func resourceArmPropertyCreate(d *schema.ResourceData, meta interface{}) error {
 
     name := d.Get("name").(string)
     secret := d.Get("secret").(bool)
-    t := d.Get("tags").([]interface{})
+    tags := d.Get("tags").([]interface{})
     value := d.Get("value").(string)
 
     parameters := apimanagement.PropertyUpdateParameters{
@@ -108,17 +114,17 @@ func resourceArmPropertyCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, propID, parameters); err != nil {
-        return fmt.Errorf("Error creating Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, name, propID, parameters); err != nil {
+        return fmt.Errorf("Error creating Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, propID)
+    resp, err := client.Get(ctx, resourceGroupName, name, propID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Property %q (Prop %q / Resource Group %q) ID", name, propID, resourceGroup)
+        return fmt.Errorf("Cannot read Property (Prop %q / Service Name %q / Resource Group %q) ID", propID, name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -127,32 +133,34 @@ func resourceArmPropertyCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmPropertyRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).propertyClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["service"]
     propID := id.Path["properties"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, propID)
+    resp, err := client.Get(ctx, resourceGroupName, name, propID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Property %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
+        return fmt.Errorf("Error reading Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
+    d.Set("resource_group", resourceGroupName)
+    d.Set("id", resp.ID)
     d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
     d.Set("prop_id", propID)
     d.Set("secret", resp.Secret)
+    d.Set("service_name", name)
     d.Set("tags", utils.FlattenStringSlice(resp.Tags))
     d.Set("value", resp.Value)
 
@@ -161,14 +169,15 @@ func resourceArmPropertyRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmPropertyUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).propertyClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+      resourceGroupName := d.Get("resource_group").(string)
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
     propID := d.Get("prop_id").(string)
     secret := d.Get("secret").(bool)
-    t := d.Get("tags").([]interface{})
+    name := d.Get("service_name").(string)
+    tags := d.Get("tags").([]interface{})
     value := d.Get("value").(string)
 
     parameters := apimanagement.PropertyUpdateParameters{
@@ -179,8 +188,8 @@ func resourceArmPropertyUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, propID, parameters); err != nil {
-        return fmt.Errorf("Error updating Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, propID, parameters); err != nil {
+        return fmt.Errorf("Error updating Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, name, resourceGroupName, err)
     }
 
     return resourceArmPropertyRead(d, meta)
@@ -188,19 +197,20 @@ func resourceArmPropertyUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmPropertyDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).propertyClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["service"]
     propID := id.Path["properties"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, propID); err != nil {
-        return fmt.Errorf("Error deleting Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name, propID); err != nil {
+        return fmt.Errorf("Error deleting Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, name, resourceGroupName, err)
     }
 
     return nil

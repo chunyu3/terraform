@@ -1,0 +1,83 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_front_door
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: frontendendpoint
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: backendpool
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: loadbalancingsetting
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: healthprobesetting
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: frontdoorwebapplicationfirewallpolicy
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  name: '<%= get_resource_name('''', ''frontdoor'') -%>'
+  location: '${azurerm_resource_group.<%= resource_id_hint -%>.location}'
+  tags:
+    tag1: value1
+    tag2: value2
+  routing_rules:
+    - frontend_endpoints:
+        - id: '${azurerm_frontend_endpoint.<%= resource_id_hint -%>.id}'
+        - id: '${azurerm_frontend_endpoint.<%= resource_id_hint -%>.id}'
+      accepted_protocols:
+        - Http
+      patterns_to_match:
+        - /*
+      backend_pool:
+        id: '${azurerm_backend_pool.<%= resource_id_hint -%>.id}'
+      enabled_state: Enabled
+      name: routingRule1
+  load_balancing_settings:
+    - sample_size: '4'
+      successful_samples_required: '2'
+      name: loadBalancingSettings1
+  health_probe_settings:
+    - path: /
+      protocol: Http
+      interval_in_seconds: '120'
+      name: healthProbeSettings1
+  backend_pools:
+    - backends:
+        - address: w3.contoso.com
+          httpport: '80'
+          httpsport: '443'
+          priority: '2'
+          weight: '1'
+        - address: contoso.com.website-us-west-2.othercloud.net
+          httpport: '80'
+          httpsport: '443'
+          priority: '1'
+          weight: '2'
+        - address: contoso1.azurewebsites.net
+          httpport: '80'
+          httpsport: '443'
+          priority: '1'
+          weight: '1'
+      load_balancing_settings:
+        id: '${azurerm_load_balancing_setting.<%= resource_id_hint -%>.id}'
+      health_probe_settings:
+        id: '${azurerm_health_probe_setting.<%= resource_id_hint -%>.id}'
+      name: backendPool1
+  frontend_endpoints:
+    - host_name: www.contoso.com
+      session_affinity_enabled_state: Enabled
+      session_affinity_ttlseconds: '60'
+      web_application_firewall_policy_link:
+        id: >-
+          ${azurerm_front_door_web_application_firewall_policy.<%=
+          resource_id_hint -%>.id}
+      name: frontendEndpoint1
+    - host_name: frontDoor1.azurefd.net
+      name: default
+  enabled_state: Enabled

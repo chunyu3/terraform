@@ -29,16 +29,11 @@ func resourceArmApplicationGateway() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "application_gateway_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "location": azure.SchemaLocation(),
@@ -66,7 +61,7 @@ func resourceArmApplicationGateway() *schema.Resource {
                                 },
                             },
                         },
-                        "backend_ipconfigurations": {
+                        "backend_ip_configurations": {
                             Type: schema.TypeList,
                             Optional: true,
                             Elem: &schema.Resource{
@@ -143,7 +138,7 @@ func resourceArmApplicationGateway() *schema.Resource {
                 ForceNew: true,
             },
 
-            "frontend_ipconfigurations": {
+            "frontend_ip_configurations": {
                 Type: schema.TypeList,
                 Optional: true,
                 Elem: &schema.Resource{
@@ -164,7 +159,7 @@ func resourceArmApplicationGateway() *schema.Resource {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "private_ipallocation_method": {
+                        "private_ip_allocation_method": {
                             Type: schema.TypeString,
                             Optional: true,
                             ValidateFunc: validation.StringInSlice([]string{
@@ -228,7 +223,7 @@ func resourceArmApplicationGateway() *schema.Resource {
                 },
             },
 
-            "gateway_ipconfigurations": {
+            "gateway_ip_configurations": {
                 Type: schema.TypeList,
                 Optional: true,
                 Elem: &schema.Resource{
@@ -271,7 +266,7 @@ func resourceArmApplicationGateway() *schema.Resource {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "frontend_ipconfiguration": {
+                        "frontend_ip_configuration": {
                             Type: schema.TypeList,
                             Optional: true,
                             MaxItems: 1,
@@ -469,6 +464,18 @@ func resourceArmApplicationGateway() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "operational_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -483,24 +490,23 @@ func resourceArmApplicationGateway() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmApplicationGatewayCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).applicationGatewaysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("application_gateway_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Application Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Application Gateway (Application Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -510,52 +516,52 @@ func resourceArmApplicationGatewayCreateUpdate(d *schema.ResourceData, meta inte
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     backendAddressPools := d.Get("backend_address_pools").([]interface{})
-    backendHttpSettingsCollection := d.Get("backend_http_settings_collection").([]interface{})
+    backendHTTPSettingsCollection := d.Get("backend_http_settings_collection").([]interface{})
     etag := d.Get("etag").(string)
-    frontendIpconfigurations := d.Get("frontend_ipconfigurations").([]interface{})
+    frontendIPConfigurations := d.Get("frontend_ip_configurations").([]interface{})
     frontendPorts := d.Get("frontend_ports").([]interface{})
-    gatewayIpconfigurations := d.Get("gateway_ipconfigurations").([]interface{})
-    httpListeners := d.Get("http_listeners").([]interface{})
+    gatewayIPConfigurations := d.Get("gateway_ip_configurations").([]interface{})
+    hTTPListeners := d.Get("http_listeners").([]interface{})
     requestRoutingRules := d.Get("request_routing_rules").([]interface{})
-    resourceGuid := d.Get("resource_guid").(string)
+    resourceGUID := d.Get("resource_guid").(string)
     sku := d.Get("sku").([]interface{})
     sslCertificates := d.Get("ssl_certificates").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := network.ApplicationGateway{
         Etag: utils.String(etag),
         Location: utils.String(location),
         ApplicationGatewayPropertiesFormat: &network.ApplicationGatewayPropertiesFormat{
             BackendAddressPools: expandArmApplicationGatewayApplicationGatewayBackendAddressPool(backendAddressPools),
-            BackendHTTPSettingsCollection: expandArmApplicationGatewayApplicationGatewayBackendHttpSettings(backendHttpSettingsCollection),
-            FrontendIPConfigurations: expandArmApplicationGatewayApplicationGatewayFrontendIPConfiguration(frontendIpconfigurations),
+            BackendHTTPSettingsCollection: expandArmApplicationGatewayApplicationGatewayBackendHttpSettings(backendHTTPSettingsCollection),
+            FrontendIPConfigurations: expandArmApplicationGatewayApplicationGatewayFrontendIPConfiguration(frontendIPConfigurations),
             FrontendPorts: expandArmApplicationGatewayApplicationGatewayFrontendPort(frontendPorts),
-            GatewayIPConfigurations: expandArmApplicationGatewayApplicationGatewayIPConfiguration(gatewayIpconfigurations),
-            HTTPListeners: expandArmApplicationGatewayApplicationGatewayHttpListener(httpListeners),
+            GatewayIPConfigurations: expandArmApplicationGatewayApplicationGatewayIPConfiguration(gatewayIPConfigurations),
+            HTTPListeners: expandArmApplicationGatewayApplicationGatewayHttpListener(hTTPListeners),
             RequestRoutingRules: expandArmApplicationGatewayApplicationGatewayRequestRoutingRule(requestRoutingRules),
-            ResourceGUID: utils.String(resourceGuid),
+            ResourceGUID: utils.String(resourceGUID),
             Sku: expandArmApplicationGatewayApplicationGatewaySku(sku),
             SslCertificates: expandArmApplicationGatewayApplicationGatewaySslCertificate(sslCertificates),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Application Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Application Gateway (Application Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Application Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Application Gateway (Application Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Application Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Application Gateway (Application Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Application Gateway %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Application Gateway (Application Gateway Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -564,32 +570,32 @@ func resourceArmApplicationGatewayCreateUpdate(d *schema.ResourceData, meta inte
 
 func resourceArmApplicationGatewayRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).applicationGatewaysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["applicationGateways"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Application Gateway %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Application Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Application Gateway (Application Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    d.Set("application_gateway_name", name)
     if applicationGatewayPropertiesFormat := resp.ApplicationGatewayPropertiesFormat; applicationGatewayPropertiesFormat != nil {
         if err := d.Set("backend_address_pools", flattenArmApplicationGatewayApplicationGatewayBackendAddressPool(applicationGatewayPropertiesFormat.BackendAddressPools)); err != nil {
             return fmt.Errorf("Error setting `backend_address_pools`: %+v", err)
@@ -597,14 +603,14 @@ func resourceArmApplicationGatewayRead(d *schema.ResourceData, meta interface{})
         if err := d.Set("backend_http_settings_collection", flattenArmApplicationGatewayApplicationGatewayBackendHttpSettings(applicationGatewayPropertiesFormat.BackendHTTPSettingsCollection)); err != nil {
             return fmt.Errorf("Error setting `backend_http_settings_collection`: %+v", err)
         }
-        if err := d.Set("frontend_ipconfigurations", flattenArmApplicationGatewayApplicationGatewayFrontendIPConfiguration(applicationGatewayPropertiesFormat.FrontendIPConfigurations)); err != nil {
-            return fmt.Errorf("Error setting `frontend_ipconfigurations`: %+v", err)
+        if err := d.Set("frontend_ip_configurations", flattenArmApplicationGatewayApplicationGatewayFrontendIPConfiguration(applicationGatewayPropertiesFormat.FrontendIPConfigurations)); err != nil {
+            return fmt.Errorf("Error setting `frontend_ip_configurations`: %+v", err)
         }
         if err := d.Set("frontend_ports", flattenArmApplicationGatewayApplicationGatewayFrontendPort(applicationGatewayPropertiesFormat.FrontendPorts)); err != nil {
             return fmt.Errorf("Error setting `frontend_ports`: %+v", err)
         }
-        if err := d.Set("gateway_ipconfigurations", flattenArmApplicationGatewayApplicationGatewayIPConfiguration(applicationGatewayPropertiesFormat.GatewayIPConfigurations)); err != nil {
-            return fmt.Errorf("Error setting `gateway_ipconfigurations`: %+v", err)
+        if err := d.Set("gateway_ip_configurations", flattenArmApplicationGatewayApplicationGatewayIPConfiguration(applicationGatewayPropertiesFormat.GatewayIPConfigurations)); err != nil {
+            return fmt.Errorf("Error setting `gateway_ip_configurations`: %+v", err)
         }
         if err := d.Set("http_listeners", flattenArmApplicationGatewayApplicationGatewayHttpListener(applicationGatewayPropertiesFormat.HTTPListeners)); err != nil {
             return fmt.Errorf("Error setting `http_listeners`: %+v", err)
@@ -623,6 +629,8 @@ func resourceArmApplicationGatewayRead(d *schema.ResourceData, meta interface{})
         }
     }
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -631,27 +639,28 @@ func resourceArmApplicationGatewayRead(d *schema.ResourceData, meta interface{})
 
 func resourceArmApplicationGatewayDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).applicationGatewaysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["applicationGateways"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Application Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Application Gateway (Application Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Application Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Application Gateway (Application Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -662,19 +671,19 @@ func expandArmApplicationGatewayApplicationGatewayBackendAddressPool(input []int
     results := make([]network.ApplicationGatewayBackendAddressPool, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
-        backendIpconfigurations := v["backend_ipconfigurations"].([]interface{})
+        iD := v["id"].(string)
+        backendIPConfigurations := v["backend_ip_configurations"].([]interface{})
         backendAddresses := v["backend_addresses"].([]interface{})
         name := v["name"].(string)
         etag := v["etag"].(string)
 
         result := network.ApplicationGatewayBackendAddressPool{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             ApplicationGatewayBackendAddressPoolPropertiesFormat: &network.ApplicationGatewayBackendAddressPoolPropertiesFormat{
                 BackendAddresses: expandArmApplicationGatewayApplicationGatewayBackendAddress(backendAddresses),
-                BackendIPConfigurations: expandArmApplicationGatewaySubResource(backendIpconfigurations),
+                BackendIPConfigurations: expandArmApplicationGatewaySubResource(backendIPConfigurations),
             },
         }
 
@@ -687,7 +696,7 @@ func expandArmApplicationGatewayApplicationGatewayBackendHttpSettings(input []in
     results := make([]network.ApplicationGatewayBackendHttpSettings, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         port := v["port"].(int)
         protocol := v["protocol"].(string)
         cookieBasedAffinity := v["cookie_based_affinity"].(string)
@@ -696,7 +705,7 @@ func expandArmApplicationGatewayApplicationGatewayBackendHttpSettings(input []in
 
         result := network.ApplicationGatewayBackendHttpSettings{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             ApplicationGatewayBackendHttpSettingsPropertiesFormat: &network.ApplicationGatewayBackendHttpSettingsPropertiesFormat{
                 CookieBasedAffinity: network.ApplicationGatewayCookieBasedAffinity(cookieBasedAffinity),
@@ -714,22 +723,22 @@ func expandArmApplicationGatewayApplicationGatewayFrontendIPConfiguration(input 
     results := make([]network.ApplicationGatewayFrontendIPConfiguration, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
-        privateIpAddress := v["private_ip_address"].(string)
-        privateIpallocationMethod := v["private_ipallocation_method"].(string)
+        iD := v["id"].(string)
+        privateIPAddress := v["private_ip_address"].(string)
+        privateIPAllocationMethod := v["private_ip_allocation_method"].(string)
         subnet := v["subnet"].([]interface{})
-        publicIpAddress := v["public_ip_address"].([]interface{})
+        publicIPAddress := v["public_ip_address"].([]interface{})
         name := v["name"].(string)
         etag := v["etag"].(string)
 
         result := network.ApplicationGatewayFrontendIPConfiguration{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             ApplicationGatewayFrontendIPConfigurationPropertiesFormat: &network.ApplicationGatewayFrontendIPConfigurationPropertiesFormat{
-                PrivateIPAddress: utils.String(privateIpAddress),
-                PrivateIPAllocationMethod: network.IpAllocationMethod(privateIpallocationMethod),
-                PublicIPAddress: expandArmApplicationGatewaySubResource(publicIpAddress),
+                PrivateIPAddress: utils.String(privateIPAddress),
+                PrivateIPAllocationMethod: network.IpAllocationMethod(privateIPAllocationMethod),
+                PublicIPAddress: expandArmApplicationGatewaySubResource(publicIPAddress),
                 Subnet: expandArmApplicationGatewaySubResource(subnet),
             },
         }
@@ -743,14 +752,14 @@ func expandArmApplicationGatewayApplicationGatewayFrontendPort(input []interface
     results := make([]network.ApplicationGatewayFrontendPort, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         port := v["port"].(int)
         name := v["name"].(string)
         etag := v["etag"].(string)
 
         result := network.ApplicationGatewayFrontendPort{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             ApplicationGatewayFrontendPortPropertiesFormat: &network.ApplicationGatewayFrontendPortPropertiesFormat{
                 Port: utils.Int32(int32(port)),
@@ -766,14 +775,14 @@ func expandArmApplicationGatewayApplicationGatewayIPConfiguration(input []interf
     results := make([]network.ApplicationGatewayIPConfiguration, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         subnet := v["subnet"].([]interface{})
         name := v["name"].(string)
         etag := v["etag"].(string)
 
         result := network.ApplicationGatewayIPConfiguration{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             ApplicationGatewayIPConfigurationPropertiesFormat: &network.ApplicationGatewayIPConfigurationPropertiesFormat{
                 Subnet: expandArmApplicationGatewaySubResource(subnet),
@@ -789,8 +798,8 @@ func expandArmApplicationGatewayApplicationGatewayHttpListener(input []interface
     results := make([]network.ApplicationGatewayHttpListener, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
-        frontendIpconfiguration := v["frontend_ipconfiguration"].([]interface{})
+        iD := v["id"].(string)
+        frontendIPConfiguration := v["frontend_ip_configuration"].([]interface{})
         frontendPort := v["frontend_port"].([]interface{})
         protocol := v["protocol"].(string)
         sslCertificate := v["ssl_certificate"].([]interface{})
@@ -799,10 +808,10 @@ func expandArmApplicationGatewayApplicationGatewayHttpListener(input []interface
 
         result := network.ApplicationGatewayHttpListener{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             ApplicationGatewayHttpListenerPropertiesFormat: &network.ApplicationGatewayHttpListenerPropertiesFormat{
-                FrontendIPConfiguration: expandArmApplicationGatewaySubResource(frontendIpconfiguration),
+                FrontendIPConfiguration: expandArmApplicationGatewaySubResource(frontendIPConfiguration),
                 FrontendPort: expandArmApplicationGatewaySubResource(frontendPort),
                 Protocol: network.ApplicationGatewayProtocol(protocol),
                 SslCertificate: expandArmApplicationGatewaySubResource(sslCertificate),
@@ -818,22 +827,22 @@ func expandArmApplicationGatewayApplicationGatewayRequestRoutingRule(input []int
     results := make([]network.ApplicationGatewayRequestRoutingRule, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         ruleType := v["rule_type"].(string)
         backendAddressPool := v["backend_address_pool"].([]interface{})
-        backendHttpSettings := v["backend_http_settings"].([]interface{})
-        httpListener := v["http_listener"].([]interface{})
+        backendHTTPSettings := v["backend_http_settings"].([]interface{})
+        hTTPListener := v["http_listener"].([]interface{})
         name := v["name"].(string)
         etag := v["etag"].(string)
 
         result := network.ApplicationGatewayRequestRoutingRule{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             ApplicationGatewayRequestRoutingRulePropertiesFormat: &network.ApplicationGatewayRequestRoutingRulePropertiesFormat{
                 BackendAddressPool: expandArmApplicationGatewaySubResource(backendAddressPool),
-                BackendHTTPSettings: expandArmApplicationGatewaySubResource(backendHttpSettings),
-                HTTPListener: expandArmApplicationGatewaySubResource(httpListener),
+                BackendHTTPSettings: expandArmApplicationGatewaySubResource(backendHTTPSettings),
+                HTTPListener: expandArmApplicationGatewaySubResource(hTTPListener),
                 RuleType: network.ApplicationGatewayRequestRoutingRuleType(ruleType),
             },
         }
@@ -865,7 +874,7 @@ func expandArmApplicationGatewayApplicationGatewaySslCertificate(input []interfa
     results := make([]network.ApplicationGatewaySslCertificate, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         data := v["data"].(string)
         password := v["password"].(string)
         publicCertData := v["public_cert_data"].(string)
@@ -874,7 +883,7 @@ func expandArmApplicationGatewayApplicationGatewaySslCertificate(input []interfa
 
         result := network.ApplicationGatewaySslCertificate{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             ApplicationGatewaySslCertificatePropertiesFormat: &network.ApplicationGatewaySslCertificatePropertiesFormat{
                 Data: utils.String(data),
@@ -893,11 +902,11 @@ func expandArmApplicationGatewayApplicationGatewayBackendAddress(input []interfa
     for _, item := range input {
         v := item.(map[string]interface{})
         fqdn := v["fqdn"].(string)
-        ipAddress := v["ip_address"].(string)
+        iPAddress := v["ip_address"].(string)
 
         result := network.ApplicationGatewayBackendAddress{
             Fqdn: utils.String(fqdn),
-            IPAddress: utils.String(ipAddress),
+            IPAddress: utils.String(iPAddress),
         }
 
         results = append(results, result)
@@ -909,10 +918,10 @@ func expandArmApplicationGatewaySubResource(input []interface{}) *[]network.SubR
     results := make([]network.SubResource, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
 
         result := network.SubResource{
-            ID: utils.String(id),
+            ID: utils.String(iD),
         }
 
         results = append(results, result)
@@ -926,10 +935,10 @@ func expandArmApplicationGatewaySubResource(input []interface{}) *network.SubRes
     }
     v := input[0].(map[string]interface{})
 
-    id := v["id"].(string)
+    iD := v["id"].(string)
 
     result := network.SubResource{
-        ID: utils.String(id),
+        ID: utils.String(iD),
     }
     return &result
 }
@@ -944,18 +953,18 @@ func flattenArmApplicationGatewayApplicationGatewayBackendAddressPool(input *[]n
     for _, item := range *input {
         v := make(map[string]interface{})
 
+        if applicationGatewayBackendAddressPoolPropertiesFormat := item.ApplicationGatewayBackendAddressPoolPropertiesFormat; applicationGatewayBackendAddressPoolPropertiesFormat != nil {
+            v["backend_addresses"] = flattenArmApplicationGatewayApplicationGatewayBackendAddress(applicationGatewayBackendAddressPoolPropertiesFormat.BackendAddresses)
+            v["backend_ip_configurations"] = flattenArmApplicationGatewaySubResource(applicationGatewayBackendAddressPoolPropertiesFormat.BackendIPConfigurations)
+        }
+        if etag := item.Etag; etag != nil {
+            v["etag"] = *etag
+        }
         if id := item.ID; id != nil {
             v["id"] = *id
         }
         if name := item.Name; name != nil {
             v["name"] = *name
-        }
-        if applicationGatewayBackendAddressPoolPropertiesFormat := item.ApplicationGatewayBackendAddressPoolPropertiesFormat; applicationGatewayBackendAddressPoolPropertiesFormat != nil {
-            v["backend_addresses"] = flattenArmApplicationGatewayApplicationGatewayBackendAddress(applicationGatewayBackendAddressPoolPropertiesFormat.BackendAddresses)
-            v["backend_ipconfigurations"] = flattenArmApplicationGatewaySubResource(applicationGatewayBackendAddressPoolPropertiesFormat.BackendIPConfigurations)
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
         }
 
         results = append(results, v)
@@ -973,12 +982,6 @@ func flattenArmApplicationGatewayApplicationGatewayBackendHttpSettings(input *[]
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if applicationGatewayBackendHttpSettingsPropertiesFormat := item.ApplicationGatewayBackendHttpSettingsPropertiesFormat; applicationGatewayBackendHttpSettingsPropertiesFormat != nil {
             v["cookie_based_affinity"] = string(applicationGatewayBackendHttpSettingsPropertiesFormat.CookieBasedAffinity)
             if port := applicationGatewayBackendHttpSettingsPropertiesFormat.Port; port != nil {
@@ -988,6 +991,12 @@ func flattenArmApplicationGatewayApplicationGatewayBackendHttpSettings(input *[]
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)
@@ -1005,20 +1014,20 @@ func flattenArmApplicationGatewayApplicationGatewayFrontendIPConfiguration(input
     for _, item := range *input {
         v := make(map[string]interface{})
 
+        if etag := item.Etag; etag != nil {
+            v["etag"] = *etag
+        }
         if id := item.ID; id != nil {
             v["id"] = *id
         }
         if name := item.Name; name != nil {
             v["name"] = *name
         }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
         if applicationGatewayFrontendIPConfigurationPropertiesFormat := item.ApplicationGatewayFrontendIPConfigurationPropertiesFormat; applicationGatewayFrontendIPConfigurationPropertiesFormat != nil {
             if privateIpAddress := applicationGatewayFrontendIPConfigurationPropertiesFormat.PrivateIPAddress; privateIpAddress != nil {
                 v["private_ip_address"] = *privateIpAddress
             }
-            v["private_ipallocation_method"] = string(applicationGatewayFrontendIPConfigurationPropertiesFormat.PrivateIPAllocationMethod)
+            v["private_ip_allocation_method"] = string(applicationGatewayFrontendIPConfigurationPropertiesFormat.PrivateIPAllocationMethod)
             v["public_ip_address"] = flattenArmApplicationGatewaySubResource(applicationGatewayFrontendIPConfigurationPropertiesFormat.PublicIPAddress)
             v["subnet"] = flattenArmApplicationGatewaySubResource(applicationGatewayFrontendIPConfigurationPropertiesFormat.Subnet)
         }
@@ -1038,14 +1047,14 @@ func flattenArmApplicationGatewayApplicationGatewayFrontendPort(input *[]network
     for _, item := range *input {
         v := make(map[string]interface{})
 
+        if etag := item.Etag; etag != nil {
+            v["etag"] = *etag
+        }
         if id := item.ID; id != nil {
             v["id"] = *id
         }
         if name := item.Name; name != nil {
             v["name"] = *name
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
         }
         if applicationGatewayFrontendPortPropertiesFormat := item.ApplicationGatewayFrontendPortPropertiesFormat; applicationGatewayFrontendPortPropertiesFormat != nil {
             if port := applicationGatewayFrontendPortPropertiesFormat.Port; port != nil {
@@ -1068,14 +1077,14 @@ func flattenArmApplicationGatewayApplicationGatewayIPConfiguration(input *[]netw
     for _, item := range *input {
         v := make(map[string]interface{})
 
+        if etag := item.Etag; etag != nil {
+            v["etag"] = *etag
+        }
         if id := item.ID; id != nil {
             v["id"] = *id
         }
         if name := item.Name; name != nil {
             v["name"] = *name
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
         }
         if applicationGatewayIPConfigurationPropertiesFormat := item.ApplicationGatewayIPConfigurationPropertiesFormat; applicationGatewayIPConfigurationPropertiesFormat != nil {
             v["subnet"] = flattenArmApplicationGatewaySubResource(applicationGatewayIPConfigurationPropertiesFormat.Subnet)
@@ -1096,20 +1105,20 @@ func flattenArmApplicationGatewayApplicationGatewayHttpListener(input *[]network
     for _, item := range *input {
         v := make(map[string]interface{})
 
+        if etag := item.Etag; etag != nil {
+            v["etag"] = *etag
+        }
+        if applicationGatewayHttpListenerPropertiesFormat := item.ApplicationGatewayHttpListenerPropertiesFormat; applicationGatewayHttpListenerPropertiesFormat != nil {
+            v["frontend_ip_configuration"] = flattenArmApplicationGatewaySubResource(applicationGatewayHttpListenerPropertiesFormat.FrontendIPConfiguration)
+            v["frontend_port"] = flattenArmApplicationGatewaySubResource(applicationGatewayHttpListenerPropertiesFormat.FrontendPort)
+            v["protocol"] = string(applicationGatewayHttpListenerPropertiesFormat.Protocol)
+            v["ssl_certificate"] = flattenArmApplicationGatewaySubResource(applicationGatewayHttpListenerPropertiesFormat.SslCertificate)
+        }
         if id := item.ID; id != nil {
             v["id"] = *id
         }
         if name := item.Name; name != nil {
             v["name"] = *name
-        }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
-        if applicationGatewayHttpListenerPropertiesFormat := item.ApplicationGatewayHttpListenerPropertiesFormat; applicationGatewayHttpListenerPropertiesFormat != nil {
-            v["frontend_ipconfiguration"] = flattenArmApplicationGatewaySubResource(applicationGatewayHttpListenerPropertiesFormat.FrontendIPConfiguration)
-            v["frontend_port"] = flattenArmApplicationGatewaySubResource(applicationGatewayHttpListenerPropertiesFormat.FrontendPort)
-            v["protocol"] = string(applicationGatewayHttpListenerPropertiesFormat.Protocol)
-            v["ssl_certificate"] = flattenArmApplicationGatewaySubResource(applicationGatewayHttpListenerPropertiesFormat.SslCertificate)
         }
 
         results = append(results, v)
@@ -1127,12 +1136,6 @@ func flattenArmApplicationGatewayApplicationGatewayRequestRoutingRule(input *[]n
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if applicationGatewayRequestRoutingRulePropertiesFormat := item.ApplicationGatewayRequestRoutingRulePropertiesFormat; applicationGatewayRequestRoutingRulePropertiesFormat != nil {
             v["backend_address_pool"] = flattenArmApplicationGatewaySubResource(applicationGatewayRequestRoutingRulePropertiesFormat.BackendAddressPool)
             v["backend_http_settings"] = flattenArmApplicationGatewaySubResource(applicationGatewayRequestRoutingRulePropertiesFormat.BackendHTTPSettings)
@@ -1141,6 +1144,12 @@ func flattenArmApplicationGatewayApplicationGatewayRequestRoutingRule(input *[]n
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)
@@ -1156,10 +1165,10 @@ func flattenArmApplicationGatewayApplicationGatewaySku(input *network.Applicatio
 
     result := make(map[string]interface{})
 
-    result["name"] = string(input.Name)
     if capacity := input.Capacity; capacity != nil {
         result["capacity"] = int(*capacity)
     }
+    result["name"] = string(input.Name)
     result["tier"] = string(input.Tier)
 
     return []interface{}{result}
@@ -1174,12 +1183,6 @@ func flattenArmApplicationGatewayApplicationGatewaySslCertificate(input *[]netwo
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if applicationGatewaySslCertificatePropertiesFormat := item.ApplicationGatewaySslCertificatePropertiesFormat; applicationGatewaySslCertificatePropertiesFormat != nil {
             if data := applicationGatewaySslCertificatePropertiesFormat.Data; data != nil {
                 v["data"] = *data
@@ -1193,6 +1196,12 @@ func flattenArmApplicationGatewayApplicationGatewaySslCertificate(input *[]netwo
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)

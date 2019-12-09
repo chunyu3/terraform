@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -67,7 +67,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -86,7 +86,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -142,7 +142,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -155,26 +155,26 @@ objects:
       Manage Azure AttachedDatabaseConfiguration instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group containing the Kusto cluster.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'clusterName'
+        name: 'ClusterName'
         description: 'The name of the Kusto cluster.'
         required: true
         input: true
         azure_sdk_references: ['clusterName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'AttachedDatabaseConfigurationName'
         description: 'The name of the attached database configuration.'
         required: true
         input: true
         azure_sdk_references: ['attachedDatabaseConfigurationName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
-        name: 'attachedDatabaseNames'
+        name: 'AttachedDatabaseNames'
         description: 'The list of databases from the clusterResourceId which are currently attached to the cluster.'
         output: true
         azure_sdk_references: ['/attachedDatabaseNames', '/properties/attachedDatabaseNames']

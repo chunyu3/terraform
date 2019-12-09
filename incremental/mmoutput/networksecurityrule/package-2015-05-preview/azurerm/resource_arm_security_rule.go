@@ -29,21 +29,6 @@ func resourceArmSecurityRule() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Optional: true,
-                ForceNew: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "access": {
                 Type: schema.TypeString,
                 Required: true,
@@ -85,6 +70,15 @@ func resourceArmSecurityRule() *schema.Resource {
                 }, false),
             },
 
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "security_rule_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
             "source_address_prefix": {
                 Type: schema.TypeString,
                 Required: true,
@@ -102,6 +96,18 @@ func resourceArmSecurityRule() *schema.Resource {
             },
 
             "etag": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
@@ -127,17 +133,18 @@ func resourceArmSecurityRule() *schema.Resource {
 
 func resourceArmSecurityRuleCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).securityRulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     networkSecurityGroupName := d.Get("network_security_group_name").(string)
+    name := d.Get("security_rule_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, networkSecurityGroupName, name)
+        existing, err := client.Get(ctx, resourceGroupName, networkSecurityGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Security Rule %q (Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Security Rule (Security Rule Name %q / Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -145,14 +152,14 @@ func resourceArmSecurityRuleCreateUpdate(d *schema.ResourceData, meta interface{
         }
     }
 
-    id := d.Get("id").(string)
-    name := d.Get("name").(string)
     access := d.Get("access").(string)
     description := d.Get("description").(string)
     destinationAddressPrefix := d.Get("destination_address_prefix").(string)
     destinationPortRange := d.Get("destination_port_range").(string)
     direction := d.Get("direction").(string)
     etag := d.Get("etag").(string)
+    iD := d.Get("id").(string)
+    name := d.Get("name").(string)
     priority := d.Get("priority").(int)
     protocol := d.Get("protocol").(string)
     sourceAddressPrefix := d.Get("source_address_prefix").(string)
@@ -160,7 +167,7 @@ func resourceArmSecurityRuleCreateUpdate(d *schema.ResourceData, meta interface{
 
     securityRuleParameters := network.SecurityRule{
         Etag: utils.String(etag),
-        ID: utils.String(id),
+        ID: utils.String(iD),
         Name: utils.String(name),
         SecurityRulePropertiesFormat: &network.SecurityRulePropertiesFormat{
             Access: network.SecurityRuleAccess(access),
@@ -176,21 +183,21 @@ func resourceArmSecurityRuleCreateUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, networkSecurityGroupName, name, securityRuleParameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, networkSecurityGroupName, name, securityRuleParameters)
     if err != nil {
-        return fmt.Errorf("Error creating Security Rule %q (Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroup, err)
+        return fmt.Errorf("Error creating Security Rule (Security Rule Name %q / Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Security Rule %q (Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Security Rule (Security Rule Name %q / Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, networkSecurityGroupName, name)
+    resp, err := client.Get(ctx, resourceGroupName, networkSecurityGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Security Rule %q (Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Security Rule (Security Rule Name %q / Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Security Rule %q (Network Security Group Name %q / Resource Group %q) ID", name, networkSecurityGroupName, resourceGroup)
+        return fmt.Errorf("Cannot read Security Rule (Security Rule Name %q / Network Security Group Name %q / Resource Group %q) ID", name, networkSecurityGroupName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -199,30 +206,29 @@ func resourceArmSecurityRuleCreateUpdate(d *schema.ResourceData, meta interface{
 
 func resourceArmSecurityRuleRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).securityRulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     networkSecurityGroupName := id.Path["networkSecurityGroups"]
     name := id.Path["securityRules"]
 
-    resp, err := client.Get(ctx, resourceGroup, networkSecurityGroupName, name)
+    resp, err := client.Get(ctx, resourceGroupName, networkSecurityGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Security Rule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Security Rule %q (Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroup, err)
+        return fmt.Errorf("Error reading Security Rule (Security Rule Name %q / Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if securityRulePropertiesFormat := resp.SecurityRulePropertiesFormat; securityRulePropertiesFormat != nil {
         d.Set("access", string(securityRulePropertiesFormat.Access))
         d.Set("description", securityRulePropertiesFormat.Description)
@@ -236,7 +242,10 @@ func resourceArmSecurityRuleRead(d *schema.ResourceData, meta interface{}) error
         d.Set("source_port_range", securityRulePropertiesFormat.SourcePortRange)
     }
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("network_security_group_name", networkSecurityGroupName)
+    d.Set("security_rule_name", name)
 
     return nil
 }
@@ -244,28 +253,29 @@ func resourceArmSecurityRuleRead(d *schema.ResourceData, meta interface{}) error
 
 func resourceArmSecurityRuleDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).securityRulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     networkSecurityGroupName := id.Path["networkSecurityGroups"]
     name := id.Path["securityRules"]
 
-    future, err := client.Delete(ctx, resourceGroup, networkSecurityGroupName, name)
+    future, err := client.Delete(ctx, resourceGroupName, networkSecurityGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Security Rule %q (Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Security Rule (Security Rule Name %q / Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Security Rule %q (Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Security Rule (Security Rule Name %q / Network Security Group Name %q / Resource Group %q): %+v", name, networkSecurityGroupName, resourceGroupName, err)
         }
     }
 

@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -279,7 +279,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -296,7 +296,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -310,7 +310,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -667,7 +667,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -679,19 +679,19 @@ objects:
       Manage Azure Peering instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'PeeringName'
         description: 'The name of the peering.'
         required: true
         input: true
         azure_sdk_references: ['peeringName']
       - !ruby/object:Api::Type::Enum
-        name: 'skuName'
+        name: 'Name'
         description: 'The name of the peering SKU.'
         required: false
         azure_sdk_references: ['/sku/name']
@@ -704,7 +704,7 @@ objects:
           - :Premium_Direct_Unlimited
         default_value: :Basic_Exchange_Free
       - !ruby/object:Api::Type::Enum
-        name: 'skuTier'
+        name: 'Tier'
         description: 'The tier of the peering SKU.'
         required: false
         azure_sdk_references: ['/sku/tier']
@@ -713,7 +713,7 @@ objects:
           - :Premium
         default_value: :Basic
       - !ruby/object:Api::Type::Enum
-        name: 'skuFamily'
+        name: 'Family'
         description: 'The family of the peering SKU.'
         required: false
         azure_sdk_references: ['/sku/family']
@@ -722,7 +722,7 @@ objects:
           - :Exchange
         default_value: :Direct
       - !ruby/object:Api::Type::Enum
-        name: 'skuSize'
+        name: 'Size'
         description: 'The size of the peering SKU.'
         required: false
         azure_sdk_references: ['/sku/size']
@@ -732,7 +732,7 @@ objects:
           - :Unlimited
         default_value: :Free
       - !ruby/object:Api::Type::Enum
-        name: 'kind'
+        name: 'Kind'
         description: 'The kind of the peering.'
         required: true
         input: true
@@ -741,19 +741,19 @@ objects:
           - :Direct
           - :Exchange
       - !ruby/object:Api::Type::Array
-        name: 'directConnections'
+        name: 'Connections'
         description: 'The set of connections that constitute a direct peering.'
         required: false
         azure_sdk_references: ['/direct/connections', '/properties/direct/connections']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::Integer
-              name: 'bandwidthInMbps'
+              name: 'BandwidthInMbps'
               description: 'The bandwidth of the connection.'
               required: false
               azure_sdk_references: ['/direct/connections/bandwidthInMbps', '/properties/direct/connections/bandwidthInMbps']
             - !ruby/object:Api::Type::Enum
-              name: 'sessionAddressProvider'
+              name: 'SessionAddressProvider'
               description: 'The field indicating if Microsoft provides session ip addresses.'
               required: false
               azure_sdk_references: ['/direct/connections/sessionAddressProvider', '/properties/direct/connections/sessionAddressProvider']
@@ -762,74 +762,74 @@ objects:
                 - :Peer
               default_value: :Microsoft
             - !ruby/object:Api::Type::Boolean
-              name: 'useForPeeringService'
+              name: 'UseForPeeringService'
               description: 'The flag that indicates whether or not the connection is used for peering service.'
               required: false
               azure_sdk_references: ['/direct/connections/useForPeeringService', '/properties/direct/connections/useForPeeringService']
             - !ruby/object:Api::Type::Integer
-              name: 'peeringDbfacilityId'
+              name: 'PeeringDBFacilityID'
               description: 'The PeeringDB.com ID of the facility at which the connection has to be set up.'
               required: false
               azure_sdk_references: ['/direct/connections/peeringDBFacilityId', '/properties/direct/connections/peeringDBFacilityId']
             - !ruby/object:Api::Type::NestedObject
-              name: 'bgpSession'
+              name: 'BgpSession'
               description: 'The BGP session associated with the connection.'
               required: false
               azure_sdk_references: ['/direct/connections/bgpSession', '/properties/direct/connections/bgpSession']
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'sessionPrefixV4'
+                  name: 'SessionPrefixV4'
                   description: 'The IPv4 prefix that contains both ends'' IPv4 addresses.'
                   required: false
                   azure_sdk_references: ['/direct/connections/bgpSession/sessionPrefixV4', '/properties/direct/connections/bgpSession/sessionPrefixV4']
                 - !ruby/object:Api::Type::String
-                  name: 'sessionPrefixV6'
+                  name: 'SessionPrefixV6'
                   description: 'The IPv6 prefix that contains both ends'' IPv6 addresses.'
                   required: false
                   azure_sdk_references: ['/direct/connections/bgpSession/sessionPrefixV6', '/properties/direct/connections/bgpSession/sessionPrefixV6']
                 - !ruby/object:Api::Type::String
-                  name: 'peerSessionIpv4address'
+                  name: 'PeerSessionIPv4Address'
                   description: 'The IPv4 session address on peer''s end.'
                   required: false
                   azure_sdk_references: ['/direct/connections/bgpSession/peerSessionIPv4Address', '/properties/direct/connections/bgpSession/peerSessionIPv4Address']
                 - !ruby/object:Api::Type::String
-                  name: 'peerSessionIpv6address'
+                  name: 'PeerSessionIPv6Address'
                   description: 'The IPv6 session address on peer''s end.'
                   required: false
                   azure_sdk_references: ['/direct/connections/bgpSession/peerSessionIPv6Address', '/properties/direct/connections/bgpSession/peerSessionIPv6Address']
                 - !ruby/object:Api::Type::Integer
-                  name: 'maxPrefixesAdvertisedV4'
+                  name: 'MaxPrefixesAdvertisedV4'
                   description: 'The maximum number of prefixes advertised over the IPv4 session.'
                   required: false
                   azure_sdk_references: ['/direct/connections/bgpSession/maxPrefixesAdvertisedV4', '/properties/direct/connections/bgpSession/maxPrefixesAdvertisedV4']
                 - !ruby/object:Api::Type::Integer
-                  name: 'maxPrefixesAdvertisedV6'
+                  name: 'MaxPrefixesAdvertisedV6'
                   description: 'The maximum number of prefixes advertised over the IPv6 session.'
                   required: false
                   azure_sdk_references: ['/direct/connections/bgpSession/maxPrefixesAdvertisedV6', '/properties/direct/connections/bgpSession/maxPrefixesAdvertisedV6']
                 - !ruby/object:Api::Type::String
-                  name: 'md5authenticationKey'
+                  name: 'Md5AuthenticationKey'
                   description: 'The MD5 authentication key of the session.'
                   required: false
                   azure_sdk_references: ['/direct/connections/bgpSession/md5AuthenticationKey', '/properties/direct/connections/bgpSession/md5AuthenticationKey']
             - !ruby/object:Api::Type::String
-              name: 'connectionIdentifier'
+              name: 'ConnectionIdentifier'
               description: 'The unique identifier (GUID) for the connection.'
               required: false
               azure_sdk_references: ['/direct/connections/connectionIdentifier', '/properties/direct/connections/connectionIdentifier']
       - !ruby/object:Api::Type::NestedObject
-        name: 'directPeerAsn'
+        name: 'PeerAsn'
         description: 'The reference of the peer ASN.'
         required: false
         azure_sdk_references: ['/direct/peerAsn', '/properties/direct/peerAsn']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'id'
+            name: 'ID'
             description: 'The identifier of the referenced resource.'
             required: false
             azure_sdk_references: ['/direct/peerAsn/id', '/properties/direct/peerAsn/id']
       - !ruby/object:Api::Type::Enum
-        name: 'directDirectPeeringType'
+        name: 'DirectPeeringType'
         description: 'The type of direct peering.'
         required: false
         azure_sdk_references: ['/direct/directPeeringType', '/properties/direct/directPeeringType']
@@ -840,99 +840,99 @@ objects:
           - :Internal
         default_value: :Edge
       - !ruby/object:Api::Type::Array
-        name: 'exchangeConnections'
+        name: 'Connections'
         description: 'The set of connections that constitute an exchange peering.'
         required: false
         azure_sdk_references: ['/exchange/connections', '/properties/exchange/connections']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::Integer
-              name: 'peeringDbfacilityId'
+              name: 'PeeringDBFacilityID'
               description: 'The PeeringDB.com ID of the facility at which the connection has to be set up.'
               required: false
               azure_sdk_references: ['/exchange/connections/peeringDBFacilityId', '/properties/exchange/connections/peeringDBFacilityId']
             - !ruby/object:Api::Type::NestedObject
-              name: 'bgpSession'
+              name: 'BgpSession'
               description: 'The BGP session associated with the connection.'
               required: false
               azure_sdk_references: ['/exchange/connections/bgpSession', '/properties/exchange/connections/bgpSession']
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'sessionPrefixV4'
+                  name: 'SessionPrefixV4'
                   description: 'The IPv4 prefix that contains both ends'' IPv4 addresses.'
                   required: false
                   azure_sdk_references: ['/exchange/connections/bgpSession/sessionPrefixV4', '/properties/exchange/connections/bgpSession/sessionPrefixV4']
                 - !ruby/object:Api::Type::String
-                  name: 'sessionPrefixV6'
+                  name: 'SessionPrefixV6'
                   description: 'The IPv6 prefix that contains both ends'' IPv6 addresses.'
                   required: false
                   azure_sdk_references: ['/exchange/connections/bgpSession/sessionPrefixV6', '/properties/exchange/connections/bgpSession/sessionPrefixV6']
                 - !ruby/object:Api::Type::String
-                  name: 'peerSessionIpv4address'
+                  name: 'PeerSessionIPv4Address'
                   description: 'The IPv4 session address on peer''s end.'
                   required: false
                   azure_sdk_references: ['/exchange/connections/bgpSession/peerSessionIPv4Address', '/properties/exchange/connections/bgpSession/peerSessionIPv4Address']
                 - !ruby/object:Api::Type::String
-                  name: 'peerSessionIpv6address'
+                  name: 'PeerSessionIPv6Address'
                   description: 'The IPv6 session address on peer''s end.'
                   required: false
                   azure_sdk_references: ['/exchange/connections/bgpSession/peerSessionIPv6Address', '/properties/exchange/connections/bgpSession/peerSessionIPv6Address']
                 - !ruby/object:Api::Type::Integer
-                  name: 'maxPrefixesAdvertisedV4'
+                  name: 'MaxPrefixesAdvertisedV4'
                   description: 'The maximum number of prefixes advertised over the IPv4 session.'
                   required: false
                   azure_sdk_references: ['/exchange/connections/bgpSession/maxPrefixesAdvertisedV4', '/properties/exchange/connections/bgpSession/maxPrefixesAdvertisedV4']
                 - !ruby/object:Api::Type::Integer
-                  name: 'maxPrefixesAdvertisedV6'
+                  name: 'MaxPrefixesAdvertisedV6'
                   description: 'The maximum number of prefixes advertised over the IPv6 session.'
                   required: false
                   azure_sdk_references: ['/exchange/connections/bgpSession/maxPrefixesAdvertisedV6', '/properties/exchange/connections/bgpSession/maxPrefixesAdvertisedV6']
                 - !ruby/object:Api::Type::String
-                  name: 'md5authenticationKey'
+                  name: 'Md5AuthenticationKey'
                   description: 'The MD5 authentication key of the session.'
                   required: false
                   azure_sdk_references: ['/exchange/connections/bgpSession/md5AuthenticationKey', '/properties/exchange/connections/bgpSession/md5AuthenticationKey']
             - !ruby/object:Api::Type::String
-              name: 'connectionIdentifier'
+              name: 'ConnectionIdentifier'
               description: 'The unique identifier (GUID) for the connection.'
               required: false
               azure_sdk_references: ['/exchange/connections/connectionIdentifier', '/properties/exchange/connections/connectionIdentifier']
       - !ruby/object:Api::Type::NestedObject
-        name: 'exchangePeerAsn'
+        name: 'PeerAsn'
         description: 'The reference of the peer ASN.'
         required: false
         azure_sdk_references: ['/exchange/peerAsn', '/properties/exchange/peerAsn']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'id'
+            name: 'ID'
             description: 'The identifier of the referenced resource.'
             required: false
             azure_sdk_references: ['/exchange/peerAsn/id', '/properties/exchange/peerAsn/id']
       - !ruby/object:Api::Type::String
-        name: 'peeringLocation'
+        name: 'PeeringLocation'
         description: 'The location of the peering.'
         required: false
         azure_sdk_references: ['/peeringLocation', '/properties/peeringLocation']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The location of the resource.'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Gets or sets the tags, a dictionary of descriptors arm object'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
       - !ruby/object:Api::Type::Boolean
-        name: 'directUseForPeeringService'
+        name: 'UseForPeeringService'
         description: 'The flag that indicates whether or not the peering is used for peering service.'
         output: true
         azure_sdk_references: ['/direct/useForPeeringService', '/properties/direct/useForPeeringService']
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'The provisioning state of the resource.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
@@ -942,17 +942,17 @@ objects:
           - :Deleting
           - :Failed
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the resource.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The ID of the resource.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']

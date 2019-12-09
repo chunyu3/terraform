@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -94,7 +94,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -113,7 +113,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -193,7 +193,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -206,44 +206,44 @@ objects:
       Manage Azure ManagedNetworkPeeringPolicy instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'managedNetworkName'
+        name: 'ManagedNetworkName'
         description: 'The name of the Managed Network.'
         required: true
         input: true
         azure_sdk_references: ['managedNetworkName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ManagedNetworkPeeringPolicyName'
         description: 'The name of the Managed Network Peering Policy.'
         required: true
         input: true
         azure_sdk_references: ['managedNetworkPeeringPolicyName']
       - !ruby/object:Api::Type::Array
-        name: 'spokes'
+        name: 'Spokes'
         description: 'Gets or sets the spokes group IDs'
         required: false
         azure_sdk_references: ['/spokes', '/properties/spokes']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource Id'
               required: false
               azure_sdk_references: ['/spokes/id', '/properties/spokes/id']
       - !ruby/object:Api::Type::Array
-        name: 'mesh'
+        name: 'Mesh'
         description: 'Gets or sets the mesh group IDs'
         required: false
         azure_sdk_references: ['/mesh', '/properties/mesh']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource Id'
               required: false
               azure_sdk_references: ['/mesh/id', '/properties/mesh/id']

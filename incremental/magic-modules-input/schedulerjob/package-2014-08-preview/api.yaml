@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'jobCollectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -976,7 +976,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'jobCollectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -995,7 +995,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'jobCollectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -1989,7 +1989,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'jobCollectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -2003,7 +2003,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'jobCollectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -2021,36 +2021,36 @@ objects:
       Manage Azure Job instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'jobCollectionName'
+        name: 'JobCollectionName'
         description: 'The job collection name.'
         required: true
         input: true
         azure_sdk_references: ['jobCollectionName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'JobName'
         description: 'The job name.'
         required: true
         input: true
         azure_sdk_references: ['jobName']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'startTime'
+        name: 'StartTime'
         description: 'Gets or sets the job start time.'
         required: false
         azure_sdk_references: ['/startTime', '/properties/startTime']
       - !ruby/object:Api::Type::NestedObject
-        name: 'action'
+        name: 'Action'
         description: 'Gets or sets the job action.'
         required: false
         azure_sdk_references: ['/action', '/properties/action']
         properties:
           - !ruby/object:Api::Type::Enum
-            name: 'type'
+            name: 'Type'
             description: 'Gets or sets the job action type.'
             required: false
             azure_sdk_references: ['/action/type', '/properties/action/type']
@@ -2062,19 +2062,19 @@ objects:
               - :ServiceBusTopic
             default_value: :Http
           - !ruby/object:Api::Type::NestedObject
-            name: 'request'
+            name: 'Request'
             description: 'Gets or sets the http requests.'
             required: false
             azure_sdk_references: ['/action/request', '/properties/action/request']
             properties:
               - !ruby/object:Api::Type::NestedObject
-                name: 'authentication'
+                name: 'Authentication'
                 description: 'Gets or sets the http authentication.'
                 required: false
                 azure_sdk_references: ['/action/request/authentication', '/properties/action/request/authentication']
                 properties:
                   - !ruby/object:Api::Type::Enum
-                    name: 'type'
+                    name: 'Type'
                     description: 'Gets or sets the http authentication type.'
                     required: false
                     azure_sdk_references: ['/action/request/authentication/type', '/properties/action/request/authentication/type']
@@ -2085,75 +2085,75 @@ objects:
                       - :Basic
                     default_value: :NotSpecified
               - !ruby/object:Api::Type::String
-                name: 'uri'
+                name: 'URI'
                 description: 'Gets or sets the Uri.'
                 required: false
                 azure_sdk_references: ['/action/request/uri', '/properties/action/request/uri']
               - !ruby/object:Api::Type::String
-                name: 'method'
+                name: 'Method'
                 description: 'Gets or sets the method of the request.'
                 required: false
                 azure_sdk_references: ['/action/request/method', '/properties/action/request/method']
               - !ruby/object:Api::Type::String
-                name: 'body'
+                name: 'Body'
                 description: 'Gets or sets the request body.'
                 required: false
                 azure_sdk_references: ['/action/request/body', '/properties/action/request/body']
               - !ruby/object:Api::Type::KeyValuePairs
-                name: 'headers'
+                name: 'Headers'
                 description: 'Gets or sets the headers.'
                 required: false
                 azure_sdk_references: ['/action/request/headers', '/properties/action/request/headers']
           - !ruby/object:Api::Type::NestedObject
-            name: 'queueMessage'
+            name: 'QueueMessage'
             description: 'Gets or sets the storage queue message.'
             required: false
             azure_sdk_references: ['/action/queueMessage', '/properties/action/queueMessage']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'storageAccount'
+                name: 'StorageAccount'
                 description: 'Gets or sets the storage account name.'
                 required: false
                 azure_sdk_references: ['/action/queueMessage/storageAccount', '/properties/action/queueMessage/storageAccount']
               - !ruby/object:Api::Type::String
-                name: 'queueName'
+                name: 'QueueName'
                 description: 'Gets or sets the queue name.'
                 required: false
                 azure_sdk_references: ['/action/queueMessage/queueName', '/properties/action/queueMessage/queueName']
               - !ruby/object:Api::Type::String
-                name: 'sasToken'
+                name: 'SasToken'
                 description: 'Gets or sets the SAS key.'
                 required: false
                 azure_sdk_references: ['/action/queueMessage/sasToken', '/properties/action/queueMessage/sasToken']
               - !ruby/object:Api::Type::String
-                name: 'message'
+                name: 'Message'
                 description: 'Gets or sets the message.'
                 required: false
                 azure_sdk_references: ['/action/queueMessage/message', '/properties/action/queueMessage/message']
           - !ruby/object:Api::Type::NestedObject
-            name: 'serviceBusQueueMessage'
+            name: 'ServiceBusQueueMessage'
             description: 'Gets or sets the service bus queue message.'
             required: false
             azure_sdk_references: ['/action/serviceBusQueueMessage', '/properties/action/serviceBusQueueMessage']
             properties:
               - !ruby/object:Api::Type::NestedObject
-                name: 'authentication'
+                name: 'Authentication'
                 description: 'Gets or sets the authentication.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusQueueMessage/authentication', '/properties/action/serviceBusQueueMessage/authentication']
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'sasKey'
+                    name: 'SasKey'
                     description: 'Gets or sets the SAS key.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/authentication/sasKey', '/properties/action/serviceBusQueueMessage/authentication/sasKey']
                   - !ruby/object:Api::Type::String
-                    name: 'sasKeyName'
+                    name: 'SasKeyName'
                     description: 'Gets or sets the SAS key name.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/authentication/sasKeyName', '/properties/action/serviceBusQueueMessage/authentication/sasKeyName']
                   - !ruby/object:Api::Type::Enum
-                    name: 'type'
+                    name: 'Type'
                     description: 'Gets or sets the authentication type.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/authentication/type', '/properties/action/serviceBusQueueMessage/authentication/type']
@@ -2162,93 +2162,93 @@ objects:
                       - :SharedAccessKey
                     default_value: :NotSpecified
               - !ruby/object:Api::Type::NestedObject
-                name: 'brokeredMessageProperties'
+                name: 'BrokeredMessageProperties'
                 description: 'Gets or sets the brokered message properties.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties']
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'contentType'
+                    name: 'ContentType'
                     description: 'Gets or sets the content type.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/contentType', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/contentType']
                   - !ruby/object:Api::Type::String
-                    name: 'correlationId'
+                    name: 'CorrelationID'
                     description: 'Gets or sets the correlation id.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/correlationId', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/correlationId']
                   - !ruby/object:Api::Type::Boolean
-                    name: 'forcePersistence'
+                    name: 'ForcePersistence'
                     description: 'Gets or sets the force persistence.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/forcePersistence', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/forcePersistence']
                   - !ruby/object:Api::Type::String
-                    name: 'label'
+                    name: 'Label'
                     description: 'Gets or sets the label.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/label', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/label']
                   - !ruby/object:Api::Type::String
-                    name: 'messageId'
+                    name: 'MessageID'
                     description: 'Gets or sets the message id.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/messageId', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/messageId']
                   - !ruby/object:Api::Type::String
-                    name: 'partitionKey'
+                    name: 'PartitionKey'
                     description: 'Gets or sets the partition key.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/partitionKey', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/partitionKey']
                   - !ruby/object:Api::Type::String
-                    name: 'replyTo'
+                    name: 'ReplyTo'
                     description: 'Gets or sets the reply to.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/replyTo', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/replyTo']
                   - !ruby/object:Api::Type::String
-                    name: 'replyToSessionId'
+                    name: 'ReplyToSessionID'
                     description: 'Gets or sets the reply to session id.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/replyToSessionId', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/replyToSessionId']
                   - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                    name: 'scheduledEnqueueTimeUtc'
+                    name: 'ScheduledEnqueueTimeUtc'
                     description: 'Gets or sets the scheduled enqueue time UTC.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/scheduledEnqueueTimeUtc', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/scheduledEnqueueTimeUtc']
                   - !ruby/object:Api::Type::String
-                    name: 'sessionId'
+                    name: 'SessionID'
                     description: 'Gets or sets the session id.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/sessionId', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/sessionId']
                   - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                    name: 'timeToLive'
+                    name: 'TimeToLive'
                     description: 'Gets or sets the time to live.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/timeToLive', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/timeToLive']
                   - !ruby/object:Api::Type::String
-                    name: 'to'
+                    name: 'To'
                     description: 'Gets or sets the to.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/to', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/to']
                   - !ruby/object:Api::Type::String
-                    name: 'viaPartitionKey'
+                    name: 'ViaPartitionKey'
                     description: 'Gets or sets the via partition key.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusQueueMessage/brokeredMessageProperties/viaPartitionKey', '/properties/action/serviceBusQueueMessage/brokeredMessageProperties/viaPartitionKey']
               - !ruby/object:Api::Type::KeyValuePairs
-                name: 'customMessageProperties'
+                name: 'CustomMessageProperties'
                 description: 'Gets or sets the custom message properties.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusQueueMessage/customMessageProperties', '/properties/action/serviceBusQueueMessage/customMessageProperties']
               - !ruby/object:Api::Type::String
-                name: 'message'
+                name: 'Message'
                 description: 'Gets or sets the message.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusQueueMessage/message', '/properties/action/serviceBusQueueMessage/message']
               - !ruby/object:Api::Type::String
-                name: 'namespace'
+                name: 'Namespace'
                 description: 'Gets or sets the namespace.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusQueueMessage/namespace', '/properties/action/serviceBusQueueMessage/namespace']
               - !ruby/object:Api::Type::Enum
-                name: 'transportType'
+                name: 'TransportType'
                 description: 'Gets or sets the transport type.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusQueueMessage/transportType', '/properties/action/serviceBusQueueMessage/transportType']
@@ -2258,34 +2258,34 @@ objects:
                   - :AMQP
                 default_value: :NotSpecified
               - !ruby/object:Api::Type::String
-                name: 'queueName'
+                name: 'QueueName'
                 description: 'Gets or sets the queue name.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusQueueMessage/queueName', '/properties/action/serviceBusQueueMessage/queueName']
           - !ruby/object:Api::Type::NestedObject
-            name: 'serviceBusTopicMessage'
+            name: 'ServiceBusTopicMessage'
             description: 'Gets or sets the service bus topic message.'
             required: false
             azure_sdk_references: ['/action/serviceBusTopicMessage', '/properties/action/serviceBusTopicMessage']
             properties:
               - !ruby/object:Api::Type::NestedObject
-                name: 'authentication'
+                name: 'Authentication'
                 description: 'Gets or sets the authentication.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusTopicMessage/authentication', '/properties/action/serviceBusTopicMessage/authentication']
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'sasKey'
+                    name: 'SasKey'
                     description: 'Gets or sets the SAS key.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/authentication/sasKey', '/properties/action/serviceBusTopicMessage/authentication/sasKey']
                   - !ruby/object:Api::Type::String
-                    name: 'sasKeyName'
+                    name: 'SasKeyName'
                     description: 'Gets or sets the SAS key name.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/authentication/sasKeyName', '/properties/action/serviceBusTopicMessage/authentication/sasKeyName']
                   - !ruby/object:Api::Type::Enum
-                    name: 'type'
+                    name: 'Type'
                     description: 'Gets or sets the authentication type.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/authentication/type', '/properties/action/serviceBusTopicMessage/authentication/type']
@@ -2294,93 +2294,93 @@ objects:
                       - :SharedAccessKey
                     default_value: :NotSpecified
               - !ruby/object:Api::Type::NestedObject
-                name: 'brokeredMessageProperties'
+                name: 'BrokeredMessageProperties'
                 description: 'Gets or sets the brokered message properties.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties']
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'contentType'
+                    name: 'ContentType'
                     description: 'Gets or sets the content type.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/contentType', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/contentType']
                   - !ruby/object:Api::Type::String
-                    name: 'correlationId'
+                    name: 'CorrelationID'
                     description: 'Gets or sets the correlation id.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/correlationId', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/correlationId']
                   - !ruby/object:Api::Type::Boolean
-                    name: 'forcePersistence'
+                    name: 'ForcePersistence'
                     description: 'Gets or sets the force persistence.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/forcePersistence', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/forcePersistence']
                   - !ruby/object:Api::Type::String
-                    name: 'label'
+                    name: 'Label'
                     description: 'Gets or sets the label.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/label', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/label']
                   - !ruby/object:Api::Type::String
-                    name: 'messageId'
+                    name: 'MessageID'
                     description: 'Gets or sets the message id.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/messageId', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/messageId']
                   - !ruby/object:Api::Type::String
-                    name: 'partitionKey'
+                    name: 'PartitionKey'
                     description: 'Gets or sets the partition key.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/partitionKey', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/partitionKey']
                   - !ruby/object:Api::Type::String
-                    name: 'replyTo'
+                    name: 'ReplyTo'
                     description: 'Gets or sets the reply to.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/replyTo', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/replyTo']
                   - !ruby/object:Api::Type::String
-                    name: 'replyToSessionId'
+                    name: 'ReplyToSessionID'
                     description: 'Gets or sets the reply to session id.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/replyToSessionId', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/replyToSessionId']
                   - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                    name: 'scheduledEnqueueTimeUtc'
+                    name: 'ScheduledEnqueueTimeUtc'
                     description: 'Gets or sets the scheduled enqueue time UTC.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/scheduledEnqueueTimeUtc', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/scheduledEnqueueTimeUtc']
                   - !ruby/object:Api::Type::String
-                    name: 'sessionId'
+                    name: 'SessionID'
                     description: 'Gets or sets the session id.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/sessionId', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/sessionId']
                   - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                    name: 'timeToLive'
+                    name: 'TimeToLive'
                     description: 'Gets or sets the time to live.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/timeToLive', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/timeToLive']
                   - !ruby/object:Api::Type::String
-                    name: 'to'
+                    name: 'To'
                     description: 'Gets or sets the to.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/to', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/to']
                   - !ruby/object:Api::Type::String
-                    name: 'viaPartitionKey'
+                    name: 'ViaPartitionKey'
                     description: 'Gets or sets the via partition key.'
                     required: false
                     azure_sdk_references: ['/action/serviceBusTopicMessage/brokeredMessageProperties/viaPartitionKey', '/properties/action/serviceBusTopicMessage/brokeredMessageProperties/viaPartitionKey']
               - !ruby/object:Api::Type::KeyValuePairs
-                name: 'customMessageProperties'
+                name: 'CustomMessageProperties'
                 description: 'Gets or sets the custom message properties.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusTopicMessage/customMessageProperties', '/properties/action/serviceBusTopicMessage/customMessageProperties']
               - !ruby/object:Api::Type::String
-                name: 'message'
+                name: 'Message'
                 description: 'Gets or sets the message.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusTopicMessage/message', '/properties/action/serviceBusTopicMessage/message']
               - !ruby/object:Api::Type::String
-                name: 'namespace'
+                name: 'Namespace'
                 description: 'Gets or sets the namespace.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusTopicMessage/namespace', '/properties/action/serviceBusTopicMessage/namespace']
               - !ruby/object:Api::Type::Enum
-                name: 'transportType'
+                name: 'TransportType'
                 description: 'Gets or sets the transport type.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusTopicMessage/transportType', '/properties/action/serviceBusTopicMessage/transportType']
@@ -2390,18 +2390,18 @@ objects:
                   - :AMQP
                 default_value: :NotSpecified
               - !ruby/object:Api::Type::String
-                name: 'topicPath'
+                name: 'TopicPath'
                 description: 'Gets or sets the topic path.'
                 required: false
                 azure_sdk_references: ['/action/serviceBusTopicMessage/topicPath', '/properties/action/serviceBusTopicMessage/topicPath']
           - !ruby/object:Api::Type::NestedObject
-            name: 'retryPolicy'
+            name: 'RetryPolicy'
             description: 'Gets or sets the retry policy.'
             required: false
             azure_sdk_references: ['/action/retryPolicy', '/properties/action/retryPolicy']
             properties:
               - !ruby/object:Api::Type::Enum
-                name: 'retryType'
+                name: 'RetryType'
                 description: 'Gets or sets the retry strategy to be used.'
                 required: false
                 azure_sdk_references: ['/action/retryPolicy/retryType', '/properties/action/retryPolicy/retryType']
@@ -2410,23 +2410,23 @@ objects:
                   - :Fixed
                 default_value: :None
               - !ruby/object:Api::Azure::Type::ISO8601Duration
-                name: 'retryInterval'
+                name: 'RetryInterval'
                 description: 'Gets or sets the retry interval between retries.'
                 required: false
                 azure_sdk_references: ['/action/retryPolicy/retryInterval', '/properties/action/retryPolicy/retryInterval']
               - !ruby/object:Api::Type::Integer
-                name: 'retryCount'
+                name: 'RetryCount'
                 description: 'Gets or sets the number of times a retry should be attempted.'
                 required: false
                 azure_sdk_references: ['/action/retryPolicy/retryCount', '/properties/action/retryPolicy/retryCount']
           - !ruby/object:Api::Type::NestedObject
-            name: 'errorAction'
+            name: 'ErrorAction'
             description: 'Gets or sets the error action.'
             required: false
             azure_sdk_references: ['/action/errorAction', '/properties/action/errorAction']
             properties:
               - !ruby/object:Api::Type::Enum
-                name: 'type'
+                name: 'Type'
                 description: 'Gets or sets the job error action type.'
                 required: false
                 azure_sdk_references: ['/action/errorAction/type', '/properties/action/errorAction/type']
@@ -2438,19 +2438,19 @@ objects:
                   - :ServiceBusTopic
                 default_value: :Http
               - !ruby/object:Api::Type::NestedObject
-                name: 'request'
+                name: 'Request'
                 description: 'Gets or sets the http requests.'
                 required: false
                 azure_sdk_references: ['/action/errorAction/request', '/properties/action/errorAction/request']
                 properties:
                   - !ruby/object:Api::Type::NestedObject
-                    name: 'authentication'
+                    name: 'Authentication'
                     description: 'Gets or sets the http authentication.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/request/authentication', '/properties/action/errorAction/request/authentication']
                     properties:
                       - !ruby/object:Api::Type::Enum
-                        name: 'type'
+                        name: 'Type'
                         description: 'Gets or sets the http authentication type.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/request/authentication/type', '/properties/action/errorAction/request/authentication/type']
@@ -2461,75 +2461,75 @@ objects:
                           - :Basic
                         default_value: :NotSpecified
                   - !ruby/object:Api::Type::String
-                    name: 'uri'
+                    name: 'URI'
                     description: 'Gets or sets the Uri.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/request/uri', '/properties/action/errorAction/request/uri']
                   - !ruby/object:Api::Type::String
-                    name: 'method'
+                    name: 'Method'
                     description: 'Gets or sets the method of the request.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/request/method', '/properties/action/errorAction/request/method']
                   - !ruby/object:Api::Type::String
-                    name: 'body'
+                    name: 'Body'
                     description: 'Gets or sets the request body.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/request/body', '/properties/action/errorAction/request/body']
                   - !ruby/object:Api::Type::KeyValuePairs
-                    name: 'headers'
+                    name: 'Headers'
                     description: 'Gets or sets the headers.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/request/headers', '/properties/action/errorAction/request/headers']
               - !ruby/object:Api::Type::NestedObject
-                name: 'queueMessage'
+                name: 'QueueMessage'
                 description: 'Gets or sets the storage queue message.'
                 required: false
                 azure_sdk_references: ['/action/errorAction/queueMessage', '/properties/action/errorAction/queueMessage']
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'storageAccount'
+                    name: 'StorageAccount'
                     description: 'Gets or sets the storage account name.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/queueMessage/storageAccount', '/properties/action/errorAction/queueMessage/storageAccount']
                   - !ruby/object:Api::Type::String
-                    name: 'queueName'
+                    name: 'QueueName'
                     description: 'Gets or sets the queue name.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/queueMessage/queueName', '/properties/action/errorAction/queueMessage/queueName']
                   - !ruby/object:Api::Type::String
-                    name: 'sasToken'
+                    name: 'SasToken'
                     description: 'Gets or sets the SAS key.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/queueMessage/sasToken', '/properties/action/errorAction/queueMessage/sasToken']
                   - !ruby/object:Api::Type::String
-                    name: 'message'
+                    name: 'Message'
                     description: 'Gets or sets the message.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/queueMessage/message', '/properties/action/errorAction/queueMessage/message']
               - !ruby/object:Api::Type::NestedObject
-                name: 'serviceBusQueueMessage'
+                name: 'ServiceBusQueueMessage'
                 description: 'Gets or sets the service bus queue message.'
                 required: false
                 azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage', '/properties/action/errorAction/serviceBusQueueMessage']
                 properties:
                   - !ruby/object:Api::Type::NestedObject
-                    name: 'authentication'
+                    name: 'Authentication'
                     description: 'Gets or sets the authentication.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/authentication', '/properties/action/errorAction/serviceBusQueueMessage/authentication']
                     properties:
                       - !ruby/object:Api::Type::String
-                        name: 'sasKey'
+                        name: 'SasKey'
                         description: 'Gets or sets the SAS key.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/authentication/sasKey', '/properties/action/errorAction/serviceBusQueueMessage/authentication/sasKey']
                       - !ruby/object:Api::Type::String
-                        name: 'sasKeyName'
+                        name: 'SasKeyName'
                         description: 'Gets or sets the SAS key name.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/authentication/sasKeyName', '/properties/action/errorAction/serviceBusQueueMessage/authentication/sasKeyName']
                       - !ruby/object:Api::Type::Enum
-                        name: 'type'
+                        name: 'Type'
                         description: 'Gets or sets the authentication type.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/authentication/type', '/properties/action/errorAction/serviceBusQueueMessage/authentication/type']
@@ -2538,93 +2538,93 @@ objects:
                           - :SharedAccessKey
                         default_value: :NotSpecified
                   - !ruby/object:Api::Type::NestedObject
-                    name: 'brokeredMessageProperties'
+                    name: 'BrokeredMessageProperties'
                     description: 'Gets or sets the brokered message properties.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties']
                     properties:
                       - !ruby/object:Api::Type::String
-                        name: 'contentType'
+                        name: 'ContentType'
                         description: 'Gets or sets the content type.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/contentType', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/contentType']
                       - !ruby/object:Api::Type::String
-                        name: 'correlationId'
+                        name: 'CorrelationID'
                         description: 'Gets or sets the correlation id.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/correlationId', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/correlationId']
                       - !ruby/object:Api::Type::Boolean
-                        name: 'forcePersistence'
+                        name: 'ForcePersistence'
                         description: 'Gets or sets the force persistence.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/forcePersistence', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/forcePersistence']
                       - !ruby/object:Api::Type::String
-                        name: 'label'
+                        name: 'Label'
                         description: 'Gets or sets the label.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/label', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/label']
                       - !ruby/object:Api::Type::String
-                        name: 'messageId'
+                        name: 'MessageID'
                         description: 'Gets or sets the message id.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/messageId', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/messageId']
                       - !ruby/object:Api::Type::String
-                        name: 'partitionKey'
+                        name: 'PartitionKey'
                         description: 'Gets or sets the partition key.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/partitionKey', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/partitionKey']
                       - !ruby/object:Api::Type::String
-                        name: 'replyTo'
+                        name: 'ReplyTo'
                         description: 'Gets or sets the reply to.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/replyTo', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/replyTo']
                       - !ruby/object:Api::Type::String
-                        name: 'replyToSessionId'
+                        name: 'ReplyToSessionID'
                         description: 'Gets or sets the reply to session id.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/replyToSessionId', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/replyToSessionId']
                       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                        name: 'scheduledEnqueueTimeUtc'
+                        name: 'ScheduledEnqueueTimeUtc'
                         description: 'Gets or sets the scheduled enqueue time UTC.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/scheduledEnqueueTimeUtc', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/scheduledEnqueueTimeUtc']
                       - !ruby/object:Api::Type::String
-                        name: 'sessionId'
+                        name: 'SessionID'
                         description: 'Gets or sets the session id.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/sessionId', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/sessionId']
                       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                        name: 'timeToLive'
+                        name: 'TimeToLive'
                         description: 'Gets or sets the time to live.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/timeToLive', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/timeToLive']
                       - !ruby/object:Api::Type::String
-                        name: 'to'
+                        name: 'To'
                         description: 'Gets or sets the to.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/to', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/to']
                       - !ruby/object:Api::Type::String
-                        name: 'viaPartitionKey'
+                        name: 'ViaPartitionKey'
                         description: 'Gets or sets the via partition key.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/viaPartitionKey', '/properties/action/errorAction/serviceBusQueueMessage/brokeredMessageProperties/viaPartitionKey']
                   - !ruby/object:Api::Type::KeyValuePairs
-                    name: 'customMessageProperties'
+                    name: 'CustomMessageProperties'
                     description: 'Gets or sets the custom message properties.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/customMessageProperties', '/properties/action/errorAction/serviceBusQueueMessage/customMessageProperties']
                   - !ruby/object:Api::Type::String
-                    name: 'message'
+                    name: 'Message'
                     description: 'Gets or sets the message.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/message', '/properties/action/errorAction/serviceBusQueueMessage/message']
                   - !ruby/object:Api::Type::String
-                    name: 'namespace'
+                    name: 'Namespace'
                     description: 'Gets or sets the namespace.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/namespace', '/properties/action/errorAction/serviceBusQueueMessage/namespace']
                   - !ruby/object:Api::Type::Enum
-                    name: 'transportType'
+                    name: 'TransportType'
                     description: 'Gets or sets the transport type.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/transportType', '/properties/action/errorAction/serviceBusQueueMessage/transportType']
@@ -2634,34 +2634,34 @@ objects:
                       - :AMQP
                     default_value: :NotSpecified
                   - !ruby/object:Api::Type::String
-                    name: 'queueName'
+                    name: 'QueueName'
                     description: 'Gets or sets the queue name.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusQueueMessage/queueName', '/properties/action/errorAction/serviceBusQueueMessage/queueName']
               - !ruby/object:Api::Type::NestedObject
-                name: 'serviceBusTopicMessage'
+                name: 'ServiceBusTopicMessage'
                 description: 'Gets or sets the service bus topic message.'
                 required: false
                 azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage', '/properties/action/errorAction/serviceBusTopicMessage']
                 properties:
                   - !ruby/object:Api::Type::NestedObject
-                    name: 'authentication'
+                    name: 'Authentication'
                     description: 'Gets or sets the authentication.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/authentication', '/properties/action/errorAction/serviceBusTopicMessage/authentication']
                     properties:
                       - !ruby/object:Api::Type::String
-                        name: 'sasKey'
+                        name: 'SasKey'
                         description: 'Gets or sets the SAS key.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/authentication/sasKey', '/properties/action/errorAction/serviceBusTopicMessage/authentication/sasKey']
                       - !ruby/object:Api::Type::String
-                        name: 'sasKeyName'
+                        name: 'SasKeyName'
                         description: 'Gets or sets the SAS key name.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/authentication/sasKeyName', '/properties/action/errorAction/serviceBusTopicMessage/authentication/sasKeyName']
                       - !ruby/object:Api::Type::Enum
-                        name: 'type'
+                        name: 'Type'
                         description: 'Gets or sets the authentication type.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/authentication/type', '/properties/action/errorAction/serviceBusTopicMessage/authentication/type']
@@ -2670,93 +2670,93 @@ objects:
                           - :SharedAccessKey
                         default_value: :NotSpecified
                   - !ruby/object:Api::Type::NestedObject
-                    name: 'brokeredMessageProperties'
+                    name: 'BrokeredMessageProperties'
                     description: 'Gets or sets the brokered message properties.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties']
                     properties:
                       - !ruby/object:Api::Type::String
-                        name: 'contentType'
+                        name: 'ContentType'
                         description: 'Gets or sets the content type.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/contentType', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/contentType']
                       - !ruby/object:Api::Type::String
-                        name: 'correlationId'
+                        name: 'CorrelationID'
                         description: 'Gets or sets the correlation id.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/correlationId', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/correlationId']
                       - !ruby/object:Api::Type::Boolean
-                        name: 'forcePersistence'
+                        name: 'ForcePersistence'
                         description: 'Gets or sets the force persistence.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/forcePersistence', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/forcePersistence']
                       - !ruby/object:Api::Type::String
-                        name: 'label'
+                        name: 'Label'
                         description: 'Gets or sets the label.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/label', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/label']
                       - !ruby/object:Api::Type::String
-                        name: 'messageId'
+                        name: 'MessageID'
                         description: 'Gets or sets the message id.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/messageId', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/messageId']
                       - !ruby/object:Api::Type::String
-                        name: 'partitionKey'
+                        name: 'PartitionKey'
                         description: 'Gets or sets the partition key.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/partitionKey', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/partitionKey']
                       - !ruby/object:Api::Type::String
-                        name: 'replyTo'
+                        name: 'ReplyTo'
                         description: 'Gets or sets the reply to.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/replyTo', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/replyTo']
                       - !ruby/object:Api::Type::String
-                        name: 'replyToSessionId'
+                        name: 'ReplyToSessionID'
                         description: 'Gets or sets the reply to session id.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/replyToSessionId', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/replyToSessionId']
                       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                        name: 'scheduledEnqueueTimeUtc'
+                        name: 'ScheduledEnqueueTimeUtc'
                         description: 'Gets or sets the scheduled enqueue time UTC.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/scheduledEnqueueTimeUtc', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/scheduledEnqueueTimeUtc']
                       - !ruby/object:Api::Type::String
-                        name: 'sessionId'
+                        name: 'SessionID'
                         description: 'Gets or sets the session id.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/sessionId', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/sessionId']
                       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                        name: 'timeToLive'
+                        name: 'TimeToLive'
                         description: 'Gets or sets the time to live.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/timeToLive', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/timeToLive']
                       - !ruby/object:Api::Type::String
-                        name: 'to'
+                        name: 'To'
                         description: 'Gets or sets the to.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/to', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/to']
                       - !ruby/object:Api::Type::String
-                        name: 'viaPartitionKey'
+                        name: 'ViaPartitionKey'
                         description: 'Gets or sets the via partition key.'
                         required: false
                         azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/viaPartitionKey', '/properties/action/errorAction/serviceBusTopicMessage/brokeredMessageProperties/viaPartitionKey']
                   - !ruby/object:Api::Type::KeyValuePairs
-                    name: 'customMessageProperties'
+                    name: 'CustomMessageProperties'
                     description: 'Gets or sets the custom message properties.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/customMessageProperties', '/properties/action/errorAction/serviceBusTopicMessage/customMessageProperties']
                   - !ruby/object:Api::Type::String
-                    name: 'message'
+                    name: 'Message'
                     description: 'Gets or sets the message.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/message', '/properties/action/errorAction/serviceBusTopicMessage/message']
                   - !ruby/object:Api::Type::String
-                    name: 'namespace'
+                    name: 'Namespace'
                     description: 'Gets or sets the namespace.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/namespace', '/properties/action/errorAction/serviceBusTopicMessage/namespace']
                   - !ruby/object:Api::Type::Enum
-                    name: 'transportType'
+                    name: 'TransportType'
                     description: 'Gets or sets the transport type.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/transportType', '/properties/action/errorAction/serviceBusTopicMessage/transportType']
@@ -2766,18 +2766,18 @@ objects:
                       - :AMQP
                     default_value: :NotSpecified
                   - !ruby/object:Api::Type::String
-                    name: 'topicPath'
+                    name: 'TopicPath'
                     description: 'Gets or sets the topic path.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/serviceBusTopicMessage/topicPath', '/properties/action/errorAction/serviceBusTopicMessage/topicPath']
               - !ruby/object:Api::Type::NestedObject
-                name: 'retryPolicy'
+                name: 'RetryPolicy'
                 description: 'Gets or sets the retry policy.'
                 required: false
                 azure_sdk_references: ['/action/errorAction/retryPolicy', '/properties/action/errorAction/retryPolicy']
                 properties:
                   - !ruby/object:Api::Type::Enum
-                    name: 'retryType'
+                    name: 'RetryType'
                     description: 'Gets or sets the retry strategy to be used.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/retryPolicy/retryType', '/properties/action/errorAction/retryPolicy/retryType']
@@ -2786,23 +2786,23 @@ objects:
                       - :Fixed
                     default_value: :None
                   - !ruby/object:Api::Azure::Type::ISO8601Duration
-                    name: 'retryInterval'
+                    name: 'RetryInterval'
                     description: 'Gets or sets the retry interval between retries.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/retryPolicy/retryInterval', '/properties/action/errorAction/retryPolicy/retryInterval']
                   - !ruby/object:Api::Type::Integer
-                    name: 'retryCount'
+                    name: 'RetryCount'
                     description: 'Gets or sets the number of times a retry should be attempted.'
                     required: false
                     azure_sdk_references: ['/action/errorAction/retryPolicy/retryCount', '/properties/action/errorAction/retryPolicy/retryCount']
       - !ruby/object:Api::Type::NestedObject
-        name: 'recurrence'
+        name: 'Recurrence'
         description: 'Gets or sets the job recurrence.'
         required: false
         azure_sdk_references: ['/recurrence', '/properties/recurrence']
         properties:
           - !ruby/object:Api::Type::Enum
-            name: 'frequency'
+            name: 'Frequency'
             description: 'Gets or sets the frequency of recurrence (second, minute, hour, day, week, month).'
             required: false
             azure_sdk_references: ['/recurrence/frequency', '/properties/recurrence/frequency']
@@ -2814,28 +2814,28 @@ objects:
               - :Month
             default_value: :Minute
           - !ruby/object:Api::Type::Integer
-            name: 'interval'
+            name: 'Interval'
             description: 'Gets or sets the interval between retries.'
             required: false
             azure_sdk_references: ['/recurrence/interval', '/properties/recurrence/interval']
           - !ruby/object:Api::Type::Integer
-            name: 'count'
+            name: 'Count'
             description: 'Gets or sets the maximum number of times that the job should run.'
             required: false
             azure_sdk_references: ['/recurrence/count', '/properties/recurrence/count']
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'endTime'
+            name: 'EndTime'
             description: 'Gets or sets the time at which the job will complete.'
             required: false
             azure_sdk_references: ['/recurrence/endTime', '/properties/recurrence/endTime']
           - !ruby/object:Api::Type::NestedObject
-            name: 'schedule'
+            name: 'Schedule'
             description: ''
             required: false
             azure_sdk_references: ['/recurrence/schedule', '/properties/recurrence/schedule']
             properties:
               - !ruby/object:Api::Type::Array
-                name: 'weekDays'
+                name: 'WeekDays'
                 description: 'Gets or sets the days of the week that the job should execute on.'
                 required: false
                 azure_sdk_references: ['/recurrence/schedule/weekDays', '/properties/recurrence/schedule/weekDays']
@@ -2852,32 +2852,32 @@ objects:
                     - :Sunday
                   default_value: :Monday
               - !ruby/object:Api::Type::Array
-                name: 'hours'
+                name: 'Hours'
                 description: 'Gets or sets the hours of the day that the job should execute at.'
                 required: false
                 azure_sdk_references: ['/recurrence/schedule/hours', '/properties/recurrence/schedule/hours']
                 item_type: Api::Type::Integer
               - !ruby/object:Api::Type::Array
-                name: 'minutes'
+                name: 'Minutes'
                 description: 'Gets or sets the minutes of the hour that the job should execute at.'
                 required: false
                 azure_sdk_references: ['/recurrence/schedule/minutes', '/properties/recurrence/schedule/minutes']
                 item_type: Api::Type::Integer
               - !ruby/object:Api::Type::Array
-                name: 'monthDays'
+                name: 'MonthDays'
                 description: 'Gets or sets the days of the month that the job should execute on. Must be between 1 and 31.'
                 required: false
                 azure_sdk_references: ['/recurrence/schedule/monthDays', '/properties/recurrence/schedule/monthDays']
                 item_type: Api::Type::Integer
               - !ruby/object:Api::Type::Array
-                name: 'monthlyOccurrences'
+                name: 'MonthlyOccurrences'
                 description: 'Gets or sets the occurrences of days within a month.'
                 required: false
                 azure_sdk_references: ['/recurrence/schedule/monthlyOccurrences', '/properties/recurrence/schedule/monthlyOccurrences']
                 item_type: !ruby/object:Api::Type::NestedObject
                   properties:
                     - !ruby/object:Api::Type::Enum
-                      name: 'day'
+                      name: 'Day'
                       description: 'Gets or sets the day. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday.'
                       required: false
                       azure_sdk_references: ['/recurrence/schedule/monthlyOccurrences/day', '/properties/recurrence/schedule/monthlyOccurrences/day']
@@ -2891,12 +2891,12 @@ objects:
                         - :Sunday
                       default_value: :Monday
                     - !ruby/object:Api::Type::Integer
-                      name: 'occurrence'
+                      name: 'Occurrence'
                       description: 'Gets or sets the occurrence. Must be between -5 and 5.'
                       required: false
                       azure_sdk_references: ['/recurrence/schedule/monthlyOccurrences/Occurrence', '/properties/recurrence/schedule/monthlyOccurrences/Occurrence']
       - !ruby/object:Api::Type::Enum
-        name: 'state'
+        name: 'State'
         description: 'Gets or set the job state.'
         required: false
         azure_sdk_references: ['/state', '/properties/state']
@@ -2908,48 +2908,48 @@ objects:
         default_value: :Enabled
       # read only values included only in response
       - !ruby/object:Api::Type::NestedObject
-        name: 'status'
+        name: 'Status'
         description: 'Gets the job status.'
         output: true
         azure_sdk_references: ['/status', '/properties/status']
         properties:
           - !ruby/object:Api::Type::Integer
-            name: 'executionCount'
+            name: 'ExecutionCount'
             description: 'Gets the number of times this job has executed.'
             output: true
             azure_sdk_references: ['/status/executionCount', '/properties/status/executionCount']
           - !ruby/object:Api::Type::Integer
-            name: 'failureCount'
+            name: 'FailureCount'
             description: 'Gets the number of times this job has failed.'
             output: true
             azure_sdk_references: ['/status/failureCount', '/properties/status/failureCount']
           - !ruby/object:Api::Type::Integer
-            name: 'faultedCount'
+            name: 'FaultedCount'
             description: 'Gets the number of faulted occurrences (occurrences that were retried and failed as many times as the retry policy states).'
             output: true
             azure_sdk_references: ['/status/faultedCount', '/properties/status/faultedCount']
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'lastExecutionTime'
+            name: 'LastExecutionTime'
             description: 'Gets the time the last occurrence executed in ISO-8601 format.  Could be empty if job has not run yet.'
             output: true
             azure_sdk_references: ['/status/lastExecutionTime', '/properties/status/lastExecutionTime']
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'nextExecutionTime'
+            name: 'NextExecutionTime'
             description: 'Gets the time of the next occurrence in ISO-8601 format. Could be empty if the job is completed.'
             output: true
             azure_sdk_references: ['/status/nextExecutionTime', '/properties/status/nextExecutionTime']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Gets the job resource identifier.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Gets the job resource type.'
         output: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Gets the job resource name.'
         output: true
         azure_sdk_references: ['/name']

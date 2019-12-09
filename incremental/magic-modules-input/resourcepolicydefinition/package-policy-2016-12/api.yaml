@@ -128,13 +128,13 @@ objects:
       Manage Azure PolicyDefinition instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'PolicyDefinitionName'
         description: 'The name of the policy definition to get.'
         required: true
         input: true
         azure_sdk_references: ['policyDefinitionName']
       - !ruby/object:Api::Type::Enum
-        name: 'policyType'
+        name: 'PolicyType'
         description: 'The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.'
         required: false
         azure_sdk_references: ['/policyType', '/properties/policyType']
@@ -144,7 +144,7 @@ objects:
           - :Custom
         default_value: :NotSpecified
       - !ruby/object:Api::Type::Enum
-        name: 'mode'
+        name: 'Mode'
         description: 'The policy definition mode. Possible values are NotSpecified, Indexed, and All.'
         required: false
         azure_sdk_references: ['/mode', '/properties/mode']
@@ -154,44 +154,44 @@ objects:
           - :All
         default_value: :NotSpecified
       - !ruby/object:Api::Type::String
-        name: 'displayName'
+        name: 'DisplayName'
         description: 'The display name of the policy definition.'
         required: false
         azure_sdk_references: ['/displayName', '/properties/displayName']
       - !ruby/object:Api::Type::String
-        name: 'description'
+        name: 'Description'
         description: 'The policy definition description.'
         required: false
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'policyRule'
+        name: 'PolicyRule'
         description: 'The policy rule.'
         required: false
         azure_sdk_references: ['/policyRule', '/properties/policyRule']
       - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'metadata'
+        name: 'Metadata'
         description: 'The policy definition metadata.'
         required: false
         azure_sdk_references: ['/metadata', '/properties/metadata']
       - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'parameters'
+        name: 'Parameters'
         description: 'Required if a parameter is used in policy rule.'
         required: false
         azure_sdk_references: ['/parameters', '/properties/parameters']
       - !ruby/object:Api::Type::String
-        name: 'managementGroupId'
+        name: 'ManagementGroupID'
         description: 'The ID of the management group.'
         required: true
         input: true
         azure_sdk_references: ['managementGroupId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The ID of the policy definition.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the policy definition.'
         output: true
         azure_sdk_references: ['/name']

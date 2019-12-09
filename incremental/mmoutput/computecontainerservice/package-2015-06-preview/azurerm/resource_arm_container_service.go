@@ -29,22 +29,6 @@ func resourceArmContainerService() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "agent_pool_profiles": {
                 Type: schema.TypeList,
                 Required: true,
@@ -122,6 +106,13 @@ func resourceArmContainerService() *schema.Resource {
                 },
             },
 
+            "container_service_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
             "linux_profile": {
                 Type: schema.TypeList,
                 Required: true,
@@ -159,6 +150,8 @@ func resourceArmContainerService() *schema.Resource {
                 },
             },
 
+            "location": azure.SchemaLocation(),
+
             "master_profile": {
                 Type: schema.TypeList,
                 Required: true,
@@ -177,6 +170,8 @@ func resourceArmContainerService() *schema.Resource {
                     },
                 },
             },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "diagnostics_profile": {
                 Type: schema.TypeList,
@@ -221,6 +216,8 @@ func resourceArmContainerService() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
             "windows_profile": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -241,6 +238,16 @@ func resourceArmContainerService() *schema.Resource {
                 },
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -250,24 +257,23 @@ func resourceArmContainerService() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmContainerServiceCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).containerServiceClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("container_service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Container Service (Container Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -282,7 +288,7 @@ func resourceArmContainerServiceCreateUpdate(d *schema.ResourceData, meta interf
     masterProfile := d.Get("master_profile").([]interface{})
     orchestratorProfile := d.Get("orchestrator_profile").([]interface{})
     windowsProfile := d.Get("windows_profile").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := compute.ContainerService{
         Location: utils.String(location),
@@ -294,25 +300,25 @@ func resourceArmContainerServiceCreateUpdate(d *schema.ResourceData, meta interf
             OrchestratorProfile: expandArmContainerServiceContainerServiceOrchestratorProfile(orchestratorProfile),
             WindowsProfile: expandArmContainerServiceContainerServiceWindowsProfile(windowsProfile),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Container Service (Container Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Container Service (Container Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Container Service (Container Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Container Service %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Container Service (Container Service Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -321,29 +327,28 @@ func resourceArmContainerServiceCreateUpdate(d *schema.ResourceData, meta interf
 
 func resourceArmContainerServiceRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).containerServiceClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["containerServices"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Container Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Container Service (Container Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -368,6 +373,9 @@ func resourceArmContainerServiceRead(d *schema.ResourceData, meta interface{}) e
             return fmt.Errorf("Error setting `windows_profile`: %+v", err)
         }
     }
+    d.Set("container_service_name", name)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -376,27 +384,28 @@ func resourceArmContainerServiceRead(d *schema.ResourceData, meta interface{}) e
 
 func resourceArmContainerServiceDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).containerServiceClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["containerServices"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Container Service (Container Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Container Service (Container Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -409,14 +418,14 @@ func expandArmContainerServiceContainerServiceAgentPoolProfile(input []interface
         v := item.(map[string]interface{})
         name := v["name"].(string)
         count := v["count"].(int)
-        vmSize := v["vm_size"].(string)
-        dnsPrefix := v["dns_prefix"].(string)
+        vMSize := v["vm_size"].(string)
+        dNSPrefix := v["dns_prefix"].(string)
 
         result := compute.ContainerServiceAgentPoolProfile{
             Count: utils.Int32(int32(count)),
-            DNSPrefix: utils.String(dnsPrefix),
+            DNSPrefix: utils.String(dNSPrefix),
             Name: utils.String(name),
-            VMSize: compute.ContainerServiceVMSizeTypes(vmSize),
+            VMSize: compute.ContainerServiceVMSizeTypes(vMSize),
         }
 
         results = append(results, result)
@@ -430,10 +439,10 @@ func expandArmContainerServiceContainerServiceDiagnosticsProfile(input []interfa
     }
     v := input[0].(map[string]interface{})
 
-    vmDiagnostics := v["vm_diagnostics"].([]interface{})
+    vMDiagnostics := v["vm_diagnostics"].([]interface{})
 
     result := compute.ContainerServiceDiagnosticsProfile{
-        VMDiagnostics: expandArmContainerServiceContainerServiceVMDiagnostics(vmDiagnostics),
+        VMDiagnostics: expandArmContainerServiceContainerServiceVMDiagnostics(vMDiagnostics),
     }
     return &result
 }
@@ -445,11 +454,11 @@ func expandArmContainerServiceContainerServiceLinuxProfile(input []interface{}) 
     v := input[0].(map[string]interface{})
 
     adminUsername := v["admin_username"].(string)
-    ssh := v["ssh"].([]interface{})
+    sSH := v["ssh"].([]interface{})
 
     result := compute.ContainerServiceLinuxProfile{
         AdminUsername: utils.String(adminUsername),
-        SSH: expandArmContainerServiceContainerServiceSshConfiguration(ssh),
+        SSH: expandArmContainerServiceContainerServiceSshConfiguration(sSH),
     }
     return &result
 }
@@ -461,11 +470,11 @@ func expandArmContainerServiceContainerServiceMasterProfile(input []interface{})
     v := input[0].(map[string]interface{})
 
     count := v["count"].(int)
-    dnsPrefix := v["dns_prefix"].(string)
+    dNSPrefix := v["dns_prefix"].(string)
 
     result := compute.ContainerServiceMasterProfile{
         Count: utils.Int32(int32(count)),
-        DNSPrefix: utils.String(dnsPrefix),
+        DNSPrefix: utils.String(dNSPrefix),
     }
     return &result
 }
@@ -553,14 +562,14 @@ func flattenArmContainerServiceContainerServiceAgentPoolProfile(input *[]compute
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if count := item.Count; count != nil {
             v["count"] = int(*count)
         }
         if dnsPrefix := item.DNSPrefix; dnsPrefix != nil {
             v["dns_prefix"] = *dnsPrefix
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
         v["vm_size"] = string(item.VMSize)
 

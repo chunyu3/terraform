@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -110,7 +110,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -125,7 +125,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -139,7 +139,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -447,7 +447,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -459,101 +459,101 @@ objects:
       Manage Azure ManagedNetwork instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ManagedNetworkName'
         description: 'The name of the Managed Network.'
         required: true
         input: true
         azure_sdk_references: ['managedNetworkName']
       - !ruby/object:Api::Type::Array
-        name: 'scopeManagementGroups'
+        name: 'ManagementGroups'
         description: 'The collection of management groups covered by the Managed Network'
         required: false
         azure_sdk_references: ['/scope/managementGroups', '/properties/scope/managementGroups']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource Id'
               required: false
               azure_sdk_references: ['/scope/managementGroups/id', '/properties/scope/managementGroups/id']
       - !ruby/object:Api::Type::Array
-        name: 'scopeSubscriptions'
+        name: 'Subscriptions'
         description: 'The collection of subscriptions covered by the Managed Network'
         required: false
         azure_sdk_references: ['/scope/subscriptions', '/properties/scope/subscriptions']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource Id'
               required: false
               azure_sdk_references: ['/scope/subscriptions/id', '/properties/scope/subscriptions/id']
       - !ruby/object:Api::Type::Array
-        name: 'scopeVirtualNetworks'
+        name: 'VirtualNetworks'
         description: 'The collection of virtual nets covered by the Managed Network'
         required: false
         azure_sdk_references: ['/scope/virtualNetworks', '/properties/scope/virtualNetworks']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource Id'
               required: false
               azure_sdk_references: ['/scope/virtualNetworks/id', '/properties/scope/virtualNetworks/id']
       - !ruby/object:Api::Type::Array
-        name: 'scopeSubnets'
+        name: 'Subnets'
         description: 'The collection of  subnets covered by the Managed Network'
         required: false
         azure_sdk_references: ['/scope/subnets', '/properties/scope/subnets']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Resource Id'
               required: false
               azure_sdk_references: ['/scope/subnets/id', '/properties/scope/subnets/id']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
-        name: 'connectivityGroups'
+        name: 'Groups'
         description: 'The collection of connectivity related Managed Network Groups within the Managed Network'
         output: true
         azure_sdk_references: ['/connectivity/groups', '/properties/connectivity/groups']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
               output: true
               azure_sdk_references: ['/connectivity/groups/id', '/properties/connectivity/groups/id']
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'The name of the resource'
               output: true
               azure_sdk_references: ['/connectivity/groups/name', '/properties/connectivity/groups/name']
             - !ruby/object:Api::Type::String
-              name: 'type'
+              name: 'Type'
               description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
               output: true
               azure_sdk_references: ['/connectivity/groups/type', '/properties/connectivity/groups/type']
             - !ruby/object:Api::Azure::Type::Location
-              name: 'location'
+              name: 'Location'
               description: 'The geo-location where the resource lives'
               output: true
               azure_sdk_references: ['/connectivity/groups/location', '/properties/connectivity/groups/location']
             - !ruby/object:Api::Type::NestedObject
-              name: 'properties'
+              name: 'Properties'
               description: 'Gets or sets the properties of a network group'
               output: true
               azure_sdk_references: ['/connectivity/groups', '/properties/connectivity/groups/properties']
               properties:
                 - !ruby/object:Api::Type::Enum
-                  name: 'provisioningState'
+                  name: 'ProvisioningState'
                   description: 'Provisioning state of the ManagedNetwork resource.'
                   output: true
                   azure_sdk_references: ['/connectivity/groups/provisioningState', '/properties/connectivity/groups/properties/provisioningState']
@@ -563,100 +563,100 @@ objects:
                     - :Failed
                     - :Succeeded
                 - !ruby/object:Api::Type::String
-                  name: 'etag'
+                  name: 'Etag'
                   description: 'A unique read-only string that changes whenever the resource is updated.'
                   output: true
                   azure_sdk_references: ['/connectivity/groups/etag', '/properties/connectivity/groups/properties/etag']
                 - !ruby/object:Api::Type::Array
-                  name: 'managementGroups'
+                  name: 'ManagementGroups'
                   description: 'The collection of management groups covered by the Managed Network'
                   output: true
                   azure_sdk_references: ['/connectivity/groups/managementGroups', '/properties/connectivity/groups/properties/managementGroups']
                   item_type: !ruby/object:Api::Type::NestedObject
                     properties:
                       - !ruby/object:Api::Type::String
-                        name: 'id'
+                        name: 'ID'
                         description: 'Resource Id'
                         output: true
                         azure_sdk_references: ['/connectivity/groups/managementGroups/id', '/properties/connectivity/groups/properties/managementGroups/id']
                 - !ruby/object:Api::Type::Array
-                  name: 'subscriptions'
+                  name: 'Subscriptions'
                   description: 'The collection of subscriptions covered by the Managed Network'
                   output: true
                   azure_sdk_references: ['/connectivity/groups/subscriptions', '/properties/connectivity/groups/properties/subscriptions']
                   item_type: !ruby/object:Api::Type::NestedObject
                     properties:
                       - !ruby/object:Api::Type::String
-                        name: 'id'
+                        name: 'ID'
                         description: 'Resource Id'
                         output: true
                         azure_sdk_references: ['/connectivity/groups/subscriptions/id', '/properties/connectivity/groups/properties/subscriptions/id']
                 - !ruby/object:Api::Type::Array
-                  name: 'virtualNetworks'
+                  name: 'VirtualNetworks'
                   description: 'The collection of virtual nets covered by the Managed Network'
                   output: true
                   azure_sdk_references: ['/connectivity/groups/virtualNetworks', '/properties/connectivity/groups/properties/virtualNetworks']
                   item_type: !ruby/object:Api::Type::NestedObject
                     properties:
                       - !ruby/object:Api::Type::String
-                        name: 'id'
+                        name: 'ID'
                         description: 'Resource Id'
                         output: true
                         azure_sdk_references: ['/connectivity/groups/virtualNetworks/id', '/properties/connectivity/groups/properties/virtualNetworks/id']
                 - !ruby/object:Api::Type::Array
-                  name: 'subnets'
+                  name: 'Subnets'
                   description: 'The collection of  subnets covered by the Managed Network'
                   output: true
                   azure_sdk_references: ['/connectivity/groups/subnets', '/properties/connectivity/groups/properties/subnets']
                   item_type: !ruby/object:Api::Type::NestedObject
                     properties:
                       - !ruby/object:Api::Type::String
-                        name: 'id'
+                        name: 'ID'
                         description: 'Resource Id'
                         output: true
                         azure_sdk_references: ['/connectivity/groups/subnets/id', '/properties/connectivity/groups/properties/subnets/id']
             - !ruby/object:Api::Type::Enum
-              name: 'kind'
+              name: 'Kind'
               description: 'Responsibility role under which this Managed Network Group will be created'
               output: true
               azure_sdk_references: ['/connectivity/groups/kind', '/properties/connectivity/groups/kind']
               values:
                 - :Connectivity
       - !ruby/object:Api::Type::Array
-        name: 'connectivityPeerings'
+        name: 'Peerings'
         description: 'The collection of Managed Network Peering Policies within the Managed Network'
         output: true
         azure_sdk_references: ['/connectivity/peerings', '/properties/connectivity/peerings']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'id'
+              name: 'ID'
               description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
               output: true
               azure_sdk_references: ['/connectivity/peerings/id', '/properties/connectivity/peerings/id']
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'The name of the resource'
               output: true
               azure_sdk_references: ['/connectivity/peerings/name', '/properties/connectivity/peerings/name']
             - !ruby/object:Api::Type::String
-              name: 'type'
+              name: 'Type'
               description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
               output: true
               azure_sdk_references: ['/connectivity/peerings/type', '/properties/connectivity/peerings/type']
             - !ruby/object:Api::Azure::Type::Location
-              name: 'location'
+              name: 'Location'
               description: 'The geo-location where the resource lives'
               output: true
               azure_sdk_references: ['/connectivity/peerings/location', '/properties/connectivity/peerings/location']
             - !ruby/object:Api::Type::NestedObject
-              name: 'properties'
+              name: 'Properties'
               description: 'Gets or sets the properties of a Managed Network Policy'
               output: true
               azure_sdk_references: ['/connectivity/peerings', '/properties/connectivity/peerings/properties']
               properties:
                 - !ruby/object:Api::Type::Enum
-                  name: 'provisioningState'
+                  name: 'ProvisioningState'
                   description: 'Provisioning state of the ManagedNetwork resource.'
                   output: true
                   azure_sdk_references: ['/connectivity/peerings/provisioningState', '/properties/connectivity/peerings/properties/provisioningState']
@@ -666,12 +666,12 @@ objects:
                     - :Failed
                     - :Succeeded
                 - !ruby/object:Api::Type::String
-                  name: 'etag'
+                  name: 'Etag'
                   description: 'A unique read-only string that changes whenever the resource is updated.'
                   output: true
                   azure_sdk_references: ['/connectivity/peerings/etag', '/properties/connectivity/peerings/properties/etag']
                 - !ruby/object:Api::Type::Enum
-                  name: 'type'
+                  name: 'Type'
                   description: 'Gets or sets the connectivity type of a network structure policy'
                   output: true
                   azure_sdk_references: ['/connectivity/peerings/type', '/properties/connectivity/peerings/properties/type']
@@ -679,37 +679,37 @@ objects:
                     - :HubAndSpokeTopology
                     - :MeshTopology
                 - !ruby/object:Api::Type::NestedObject
-                  name: 'hub'
+                  name: 'Hub'
                   description: 'Gets or sets the hub virtual network ID'
                   output: true
                   azure_sdk_references: ['/connectivity/peerings/hub', '/properties/connectivity/peerings/properties/hub']
                   properties:
                     - !ruby/object:Api::Type::String
-                      name: 'id'
+                      name: 'ID'
                       description: 'Resource Id'
                       output: true
                       azure_sdk_references: ['/connectivity/peerings/hub/id', '/properties/connectivity/peerings/properties/hub/id']
                 - !ruby/object:Api::Type::Array
-                  name: 'spokes'
+                  name: 'Spokes'
                   description: 'Gets or sets the spokes group IDs'
                   output: true
                   azure_sdk_references: ['/connectivity/peerings/spokes', '/properties/connectivity/peerings/properties/spokes']
                   item_type: !ruby/object:Api::Type::NestedObject
                     properties:
                       - !ruby/object:Api::Type::String
-                        name: 'id'
+                        name: 'ID'
                         description: 'Resource Id'
                         output: true
                         azure_sdk_references: ['/connectivity/peerings/spokes/id', '/properties/connectivity/peerings/properties/spokes/id']
                 - !ruby/object:Api::Type::Array
-                  name: 'mesh'
+                  name: 'Mesh'
                   description: 'Gets or sets the mesh group IDs'
                   output: true
                   azure_sdk_references: ['/connectivity/peerings/mesh', '/properties/connectivity/peerings/properties/mesh']
                   item_type: !ruby/object:Api::Type::NestedObject
                     properties:
                       - !ruby/object:Api::Type::String
-                        name: 'id'
+                        name: 'ID'
                         description: 'Resource Id'
                         output: true
                         azure_sdk_references: ['/connectivity/peerings/mesh/id', '/properties/connectivity/peerings/properties/mesh/id']

@@ -29,21 +29,16 @@ func resourceArmVirtualNetworkGateway() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "virtual_network_gateway_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "enable_bgp": {
                 Type: schema.TypeBool,
@@ -101,7 +96,7 @@ func resourceArmVirtualNetworkGateway() *schema.Resource {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "private_ipallocation_method": {
+                        "private_ip_allocation_method": {
                             Type: schema.TypeString,
                             Optional: true,
                             ValidateFunc: validation.StringInSlice([]string{
@@ -145,6 +140,8 @@ func resourceArmVirtualNetworkGateway() *schema.Resource {
                 Optional: true,
             },
 
+            "tags": tags.Schema(),
+
             "vpn_type": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -153,6 +150,16 @@ func resourceArmVirtualNetworkGateway() *schema.Resource {
                     string(network.RouteBased),
                 }, false),
                 Default: string(network.PolicyBased),
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "provisioning_state": {
@@ -164,24 +171,23 @@ func resourceArmVirtualNetworkGateway() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmVirtualNetworkGatewayCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworkGatewaysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("virtual_network_gateway_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -194,10 +200,10 @@ func resourceArmVirtualNetworkGatewayCreateUpdate(d *schema.ResourceData, meta i
     etag := d.Get("etag").(string)
     gatewayDefaultSite := d.Get("gateway_default_site").([]interface{})
     gatewayType := d.Get("gateway_type").(string)
-    ipConfigurations := d.Get("ip_configurations").([]interface{})
-    resourceGuid := d.Get("resource_guid").(string)
+    iPConfigurations := d.Get("ip_configurations").([]interface{})
+    resourceGUID := d.Get("resource_guid").(string)
     vpnType := d.Get("vpn_type").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := network.VirtualNetworkGateway{
         Etag: utils.String(etag),
@@ -206,29 +212,29 @@ func resourceArmVirtualNetworkGatewayCreateUpdate(d *schema.ResourceData, meta i
             EnableBgp: utils.Bool(enableBgp),
             GatewayDefaultSite: expandArmVirtualNetworkGatewaySubResource(gatewayDefaultSite),
             GatewayType: network.VirtualNetworkGatewayType(gatewayType),
-            IPConfigurations: expandArmVirtualNetworkGatewayVirtualNetworkGatewayIpConfiguration(ipConfigurations),
-            ResourceGUID: utils.String(resourceGuid),
+            IPConfigurations: expandArmVirtualNetworkGatewayVirtualNetworkGatewayIpConfiguration(iPConfigurations),
+            ResourceGUID: utils.String(resourceGUID),
             VpnType: network.VpnType(vpnType),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Network Gateway %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -237,29 +243,28 @@ func resourceArmVirtualNetworkGatewayCreateUpdate(d *schema.ResourceData, meta i
 
 func resourceArmVirtualNetworkGatewayRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworkGatewaysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["virtualnetworkgateways"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Network Gateway %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -277,7 +282,10 @@ func resourceArmVirtualNetworkGatewayRead(d *schema.ResourceData, meta interface
         d.Set("vpn_type", string(virtualNetworkGatewayPropertiesFormat.VpnType))
     }
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
+    d.Set("virtual_network_gateway_name", name)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -285,27 +293,28 @@ func resourceArmVirtualNetworkGatewayRead(d *schema.ResourceData, meta interface
 
 func resourceArmVirtualNetworkGatewayDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworkGatewaysClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["virtualnetworkgateways"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -318,10 +327,10 @@ func expandArmVirtualNetworkGatewaySubResource(input []interface{}) *network.Sub
     }
     v := input[0].(map[string]interface{})
 
-    id := v["id"].(string)
+    iD := v["id"].(string)
 
     result := network.SubResource{
-        ID: utils.String(id),
+        ID: utils.String(iD),
     }
     return &result
 }
@@ -330,22 +339,22 @@ func expandArmVirtualNetworkGatewayVirtualNetworkGatewayIpConfiguration(input []
     results := make([]network.VirtualNetworkGatewayIpConfiguration, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
-        privateIpAddress := v["private_ip_address"].(string)
-        privateIpallocationMethod := v["private_ipallocation_method"].(string)
+        iD := v["id"].(string)
+        privateIPAddress := v["private_ip_address"].(string)
+        privateIPAllocationMethod := v["private_ip_allocation_method"].(string)
         subnet := v["subnet"].([]interface{})
-        publicIpAddress := v["public_ip_address"].([]interface{})
+        publicIPAddress := v["public_ip_address"].([]interface{})
         name := v["name"].(string)
         etag := v["etag"].(string)
 
         result := network.VirtualNetworkGatewayIpConfiguration{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             VirtualNetworkGatewayIpConfigurationPropertiesFormat: &network.VirtualNetworkGatewayIpConfigurationPropertiesFormat{
-                PrivateIPAddress: utils.String(privateIpAddress),
-                PrivateIPAllocationMethod: network.IpAllocationMethod(privateIpallocationMethod),
-                PublicIPAddress: expandArmVirtualNetworkGatewaySubResource(publicIpAddress),
+                PrivateIPAddress: utils.String(privateIPAddress),
+                PrivateIPAllocationMethod: network.IpAllocationMethod(privateIPAllocationMethod),
+                PublicIPAddress: expandArmVirtualNetworkGatewaySubResource(publicIPAddress),
                 Subnet: expandArmVirtualNetworkGatewaySubResource(subnet),
             },
         }
@@ -379,20 +388,20 @@ func flattenArmVirtualNetworkGatewayVirtualNetworkGatewayIpConfiguration(input *
     for _, item := range *input {
         v := make(map[string]interface{})
 
+        if etag := item.Etag; etag != nil {
+            v["etag"] = *etag
+        }
         if id := item.ID; id != nil {
             v["id"] = *id
         }
         if name := item.Name; name != nil {
             v["name"] = *name
         }
-        if etag := item.Etag; etag != nil {
-            v["etag"] = *etag
-        }
         if virtualNetworkGatewayIpConfigurationPropertiesFormat := item.VirtualNetworkGatewayIpConfigurationPropertiesFormat; virtualNetworkGatewayIpConfigurationPropertiesFormat != nil {
             if privateIpAddress := virtualNetworkGatewayIpConfigurationPropertiesFormat.PrivateIPAddress; privateIpAddress != nil {
                 v["private_ip_address"] = *privateIpAddress
             }
-            v["private_ipallocation_method"] = string(virtualNetworkGatewayIpConfigurationPropertiesFormat.PrivateIPAllocationMethod)
+            v["private_ip_allocation_method"] = string(virtualNetworkGatewayIpConfigurationPropertiesFormat.PrivateIPAllocationMethod)
             v["public_ip_address"] = flattenArmVirtualNetworkGatewaySubResource(virtualNetworkGatewayIpConfigurationPropertiesFormat.PublicIPAddress)
             v["subnet"] = flattenArmVirtualNetworkGatewaySubResource(virtualNetworkGatewayIpConfigurationPropertiesFormat.Subnet)
         }

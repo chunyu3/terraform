@@ -29,19 +29,14 @@ func resourceArmNetworkSecurityGroup() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "location": azure.SchemaLocation(),
+
+            "network_security_group_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -226,6 +221,18 @@ func resourceArmNetworkSecurityGroup() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -235,24 +242,23 @@ func resourceArmNetworkSecurityGroup() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmNetworkSecurityGroupCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).networkSecurityGroupsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("network_security_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -264,10 +270,10 @@ func resourceArmNetworkSecurityGroupCreateUpdate(d *schema.ResourceData, meta in
     defaultSecurityRules := d.Get("default_security_rules").([]interface{})
     etag := d.Get("etag").(string)
     networkInterfaces := d.Get("network_interfaces").([]interface{})
-    resourceGuid := d.Get("resource_guid").(string)
+    resourceGUID := d.Get("resource_guid").(string)
     securityRules := d.Get("security_rules").([]interface{})
     subnets := d.Get("subnets").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := network.SecurityGroup{
         Etag: utils.String(etag),
@@ -275,29 +281,29 @@ func resourceArmNetworkSecurityGroupCreateUpdate(d *schema.ResourceData, meta in
         SecurityGroupPropertiesFormat: &network.SecurityGroupPropertiesFormat{
             DefaultSecurityRules: expandArmNetworkSecurityGroupSecurityRule(defaultSecurityRules),
             NetworkInterfaces: expandArmNetworkSecurityGroupSubResource(networkInterfaces),
-            ResourceGUID: utils.String(resourceGuid),
+            ResourceGUID: utils.String(resourceGUID),
             SecurityRules: expandArmNetworkSecurityGroupSecurityRule(securityRules),
             Subnets: expandArmNetworkSecurityGroupSubResource(subnets),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Network Security Group %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Network Security Group (Network Security Group Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -306,29 +312,28 @@ func resourceArmNetworkSecurityGroupCreateUpdate(d *schema.ResourceData, meta in
 
 func resourceArmNetworkSecurityGroupRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).networkSecurityGroupsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["networkSecurityGroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Network Security Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -349,6 +354,9 @@ func resourceArmNetworkSecurityGroupRead(d *schema.ResourceData, meta interface{
         }
     }
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("network_security_group_name", name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -357,27 +365,28 @@ func resourceArmNetworkSecurityGroupRead(d *schema.ResourceData, meta interface{
 
 func resourceArmNetworkSecurityGroupDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).networkSecurityGroupsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["networkSecurityGroups"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -388,7 +397,7 @@ func expandArmNetworkSecurityGroupSecurityRule(input []interface{}) *[]network.S
     results := make([]network.SecurityRule, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         description := v["description"].(string)
         protocol := v["protocol"].(string)
         sourcePortRange := v["source_port_range"].(string)
@@ -403,7 +412,7 @@ func expandArmNetworkSecurityGroupSecurityRule(input []interface{}) *[]network.S
 
         result := network.SecurityRule{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             SecurityRulePropertiesFormat: &network.SecurityRulePropertiesFormat{
                 Access: network.SecurityRuleAccess(access),
@@ -427,10 +436,10 @@ func expandArmNetworkSecurityGroupSubResource(input []interface{}) *[]network.Su
     results := make([]network.SubResource, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
 
         result := network.SubResource{
-            ID: utils.String(id),
+            ID: utils.String(iD),
         }
 
         results = append(results, result)
@@ -448,12 +457,6 @@ func flattenArmNetworkSecurityGroupSecurityRule(input *[]network.SecurityRule) [
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if securityRulePropertiesFormat := item.SecurityRulePropertiesFormat; securityRulePropertiesFormat != nil {
             v["access"] = string(securityRulePropertiesFormat.Access)
             if description := securityRulePropertiesFormat.Description; description != nil {
@@ -479,6 +482,12 @@ func flattenArmNetworkSecurityGroupSecurityRule(input *[]network.SecurityRule) [
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)

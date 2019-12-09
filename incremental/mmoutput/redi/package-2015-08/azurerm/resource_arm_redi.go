@@ -29,22 +29,6 @@ func resourceArmRedi() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "key_type": {
                 Type: schema.TypeString,
                 Required: true,
@@ -53,6 +37,15 @@ func resourceArmRedi() *schema.Resource {
                     string(redis.Primary),
                     string(redis.Secondary),
                 }, false),
+            },
+
+            "location": azure.SchemaLocation(),
+
+            "name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "reboot_type": {
@@ -65,6 +58,8 @@ func resourceArmRedi() *schema.Resource {
                     string(redis.AllNodes),
                 }, false),
             },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "sku": {
                 Type: schema.TypeList,
@@ -134,6 +129,8 @@ func resourceArmRedi() *schema.Resource {
                 Optional: true,
             },
 
+            "tags": tags.Schema(),
+
             "tenant_settings": {
                 Type: schema.TypeMap,
                 Optional: true,
@@ -146,6 +143,16 @@ func resourceArmRedi() *schema.Resource {
             },
 
             "host_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -169,24 +176,23 @@ func resourceArmRedi() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmRediCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).redisClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+    resourceGroupName := d.Get("resource_group").(string)
     name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Redi %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Redi (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -201,13 +207,13 @@ func resourceArmRediCreateUpdate(d *schema.ResourceData, meta interface{}) error
     redisConfiguration := d.Get("redis_configuration").(map[string]interface{})
     redisVersion := d.Get("redis_version").(string)
     shardCount := d.Get("shard_count").(int)
-    shardId := d.Get("shard_id").(int)
+    shardID := d.Get("shard_id").(int)
     sku := d.Get("sku").([]interface{})
-    staticIp := d.Get("static_ip").(string)
+    staticIP := d.Get("static_ip").(string)
     subnet := d.Get("subnet").(string)
     tenantSettings := d.Get("tenant_settings").(map[string]interface{})
     virtualNetwork := d.Get("virtual_network").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := redis.RebootParameters{
         KeyType: redis.KeyType(keyType),
@@ -218,28 +224,28 @@ func resourceArmRediCreateUpdate(d *schema.ResourceData, meta interface{}) error
             RedisVersion: utils.String(redisVersion),
             ShardCount: utils.Int32(int32(shardCount)),
             Sku: expandArmRediSku(sku),
-            StaticIP: utils.String(staticIp),
+            StaticIP: utils.String(staticIP),
             Subnet: utils.String(subnet),
             TenantSettings: utils.ExpandKeyValuePairs(tenantSettings),
             VirtualNetwork: utils.String(virtualNetwork),
         },
         RebootType: redis.RebootType(rebootType),
-        ShardID: utils.Int32(int32(shardId)),
-        Tags: tags.Expand(t),
+        ShardID: utils.Int32(int32(shardID)),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Redi %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Redi (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Redi %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Redi (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Redi %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Redi (Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -248,29 +254,28 @@ func resourceArmRediCreateUpdate(d *schema.ResourceData, meta interface{}) error
 
 func resourceArmRediRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).redisClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["Redis"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Redi %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Redi %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Redi (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -291,6 +296,9 @@ func resourceArmRediRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("tenant_settings", utils.FlattenKeyValuePairs(properties.TenantSettings))
         d.Set("virtual_network", properties.VirtualNetwork)
     }
+    d.Set("id", resp.ID)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -299,18 +307,19 @@ func resourceArmRediRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmRediDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).redisClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["Redis"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
-        return fmt.Errorf("Error deleting Redi %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name); err != nil {
+        return fmt.Errorf("Error deleting Redi (Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return nil
@@ -342,11 +351,11 @@ func flattenArmRediSku(input *redis.Sku) []interface{} {
 
     result := make(map[string]interface{})
 
-    result["name"] = string(input.Name)
     if capacity := input.Capacity; capacity != nil {
         result["capacity"] = int(*capacity)
     }
     result["family"] = string(input.Family)
+    result["name"] = string(input.Name)
 
     return []interface{}{result}
 }

@@ -29,23 +29,6 @@ func resourceArmProtectedItem() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Optional: true,
-                ForceNew: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "container_name": {
                 Type: schema.TypeString,
                 Required: true,
@@ -59,6 +42,15 @@ func resourceArmProtectedItem() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "protected_item_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "vault_name": {
                 Type: schema.TypeString,
@@ -87,10 +79,24 @@ func resourceArmProtectedItem() *schema.Resource {
                 ForceNew: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "last_recovery_point": {
                 Type: schema.TypeString,
                 Optional: true,
                 ValidateFunc: validateRFC3339Date,
+            },
+
+            "location": azure.SchemaLocation(),
+
+            "name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
             },
 
             "policy_id": {
@@ -102,6 +108,8 @@ func resourceArmProtectedItem() *schema.Resource {
                 Type: schema.TypeString,
                 Optional: true,
             },
+
+            "tags": tags.Schema(),
 
             "type": {
                 Type: schema.TypeString,
@@ -124,27 +132,26 @@ func resourceArmProtectedItem() *schema.Resource {
                 }, false),
                 Default: string(backup.Invalid),
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmProtectedItemCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).protectedItemsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     containerName := d.Get("container_name").(string)
     fabricName := d.Get("fabric_name").(string)
+    name := d.Get("protected_item_name").(string)
     vaultName := d.Get("vault_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, vaultName, fabricName, containerName, name)
+        existing, err := client.Get(ctx, resourceGroupName, vaultName, fabricName, containerName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroup, vaultName, err)
+                return fmt.Errorf("Error checking for present of existing Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroupName, vaultName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -152,46 +159,46 @@ func resourceArmProtectedItemCreateUpdate(d *schema.ResourceData, meta interface
         }
     }
 
-    id := d.Get("id").(string)
-    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     backupManagementType := d.Get("backup_management_type").(string)
     eTag := d.Get("e_tag").(string)
+    iD := d.Get("id").(string)
     lastRecoveryPoint := d.Get("last_recovery_point").(string)
-    policyId := d.Get("policy_id").(string)
-    sourceResourceId := d.Get("source_resource_id").(string)
+    name := d.Get("name").(string)
+    policyID := d.Get("policy_id").(string)
+    sourceResourceID := d.Get("source_resource_id").(string)
     type := d.Get("type").(string)
     workloadType := d.Get("workload_type").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     resourceProtectedItem := backup.ProtectedItemResource{
         ETag: utils.String(eTag),
-        ID: utils.String(id),
+        ID: utils.String(iD),
         Location: utils.String(location),
         Name: utils.String(name),
         ProtectedItem: &backup.ProtectedItem{
             BackupManagementType: backup.ManagementType(backupManagementType),
             LastRecoveryPoint: convertStringToDate(lastRecoveryPoint),
-            PolicyID: utils.String(policyId),
-            SourceResourceID: utils.String(sourceResourceId),
+            PolicyID: utils.String(policyID),
+            SourceResourceID: utils.String(sourceResourceID),
             WorkloadType: backup.DataSourceType(workloadType),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
         Type: utils.String(type),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, vaultName, fabricName, containerName, name, resourceProtectedItem); err != nil {
-        return fmt.Errorf("Error creating Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroup, vaultName, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, vaultName, fabricName, containerName, name, resourceProtectedItem); err != nil {
+        return fmt.Errorf("Error creating Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroupName, vaultName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, vaultName, fabricName, containerName, name)
+    resp, err := client.Get(ctx, resourceGroupName, vaultName, fabricName, containerName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroup, vaultName, err)
+        return fmt.Errorf("Error retrieving Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroupName, vaultName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q) ID", name, containerName, fabricName, resourceGroup, vaultName)
+        return fmt.Errorf("Cannot read Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q) ID", name, containerName, fabricName, resourceGroupName, vaultName)
     }
     d.SetId(*resp.ID)
 
@@ -200,32 +207,31 @@ func resourceArmProtectedItemCreateUpdate(d *schema.ResourceData, meta interface
 
 func resourceArmProtectedItemRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).protectedItemsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     vaultName := id.Path["vaults"]
     fabricName := id.Path["backupFabrics"]
     containerName := id.Path["protectionContainers"]
     name := id.Path["protectedItems"]
 
-    resp, err := client.Get(ctx, resourceGroup, vaultName, fabricName, containerName, name)
+    resp, err := client.Get(ctx, resourceGroupName, vaultName, fabricName, containerName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Protected Item %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroup, vaultName, err)
+        return fmt.Errorf("Error reading Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroupName, vaultName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -239,6 +245,9 @@ func resourceArmProtectedItemRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("container_name", containerName)
     d.Set("e_tag", resp.ETag)
     d.Set("fabric_name", fabricName)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("protected_item_name", name)
     d.Set("type", resp.Type)
     d.Set("vault_name", vaultName)
 
@@ -248,21 +257,22 @@ func resourceArmProtectedItemRead(d *schema.ResourceData, meta interface{}) erro
 
 func resourceArmProtectedItemDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).protectedItemsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     vaultName := id.Path["vaults"]
     fabricName := id.Path["backupFabrics"]
     containerName := id.Path["protectionContainers"]
     name := id.Path["protectedItems"]
 
-    if _, err := client.Delete(ctx, resourceGroup, vaultName, fabricName, containerName, name); err != nil {
-        return fmt.Errorf("Error deleting Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroup, vaultName, err)
+    if _, err := client.Delete(ctx, resourceGroupName, vaultName, fabricName, containerName, name); err != nil {
+        return fmt.Errorf("Error deleting Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroupName, vaultName, err)
     }
 
     return nil

@@ -29,14 +29,12 @@ func resourceArmManagedNetworkGroup() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "managed_network_group_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "managed_network_name": {
                 Type: schema.TypeString,
@@ -44,6 +42,8 @@ func resourceArmManagedNetworkGroup() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "management_groups": {
                 Type: schema.TypeList,
@@ -102,17 +102,18 @@ func resourceArmManagedNetworkGroup() *schema.Resource {
 
 func resourceArmManagedNetworkGroupCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).managedNetworkGroupsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("managed_network_group_name").(string)
     managedNetworkName := d.Get("managed_network_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, managedNetworkName, name)
+        existing, err := client.Get(ctx, resourceGroupName, managedNetworkName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Managed Network Group %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Managed Network Group (Managed Network Group Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -135,21 +136,21 @@ func resourceArmManagedNetworkGroupCreateUpdate(d *schema.ResourceData, meta int
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, managedNetworkName, name, managedNetworkGroup)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, managedNetworkName, name, managedNetworkGroup)
     if err != nil {
-        return fmt.Errorf("Error creating Managed Network Group %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error creating Managed Network Group (Managed Network Group Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Managed Network Group %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Managed Network Group (Managed Network Group Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, managedNetworkName, name)
+    resp, err := client.Get(ctx, resourceGroupName, managedNetworkName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Managed Network Group %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Managed Network Group (Managed Network Group Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Managed Network Group %q (Managed Network Name %q / Resource Group %q) ID", name, managedNetworkName, resourceGroup)
+        return fmt.Errorf("Cannot read Managed Network Group (Managed Network Group Name %q / Managed Network Name %q / Resource Group %q) ID", name, managedNetworkName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -158,29 +159,30 @@ func resourceArmManagedNetworkGroupCreateUpdate(d *schema.ResourceData, meta int
 
 func resourceArmManagedNetworkGroupRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).managedNetworkGroupsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     managedNetworkName := id.Path["managedNetworks"]
     name := id.Path["managedNetworkGroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, managedNetworkName, name)
+    resp, err := client.Get(ctx, resourceGroupName, managedNetworkName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Managed Network Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Managed Network Group %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error reading Managed Network Group (Managed Network Group Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
+    d.Set("managed_network_group_name", name)
     d.Set("managed_network_name", managedNetworkName)
     if groupProperties := resp.GroupProperties; groupProperties != nil {
         if err := d.Set("management_groups", flattenArmManagedNetworkGroupResourceId(groupProperties.ManagementGroups)); err != nil {
@@ -203,28 +205,29 @@ func resourceArmManagedNetworkGroupRead(d *schema.ResourceData, meta interface{}
 
 func resourceArmManagedNetworkGroupDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).managedNetworkGroupsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     managedNetworkName := id.Path["managedNetworks"]
     name := id.Path["managedNetworkGroups"]
 
-    future, err := client.Delete(ctx, resourceGroup, managedNetworkName, name)
+    future, err := client.Delete(ctx, resourceGroupName, managedNetworkName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Managed Network Group %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Managed Network Group (Managed Network Group Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Managed Network Group %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Managed Network Group (Managed Network Group Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
         }
     }
 
@@ -235,10 +238,10 @@ func expandArmManagedNetworkGroupResourceId(input []interface{}) *[]managednetwo
     results := make([]managednetwork.ResourceId, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
 
         result := managednetwork.ResourceId{
-            ID: utils.String(id),
+            ID: utils.String(iD),
         }
 
         results = append(results, result)

@@ -29,7 +29,7 @@ func resourceArmFormula() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -42,13 +42,6 @@ func resourceArmFormula() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -560,6 +553,10 @@ func resourceArmFormula() *schema.Resource {
                                         Type: schema.TypeString,
                                         Optional: true,
                                     },
+                                    "ssh_authority": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
                                     "shared_public_ip_address_configuration": {
                                         Type: schema.TypeList,
                                         Optional: true,
@@ -594,10 +591,6 @@ func resourceArmFormula() *schema.Resource {
                                             },
                                         },
                                     },
-                                    "ssh_authority": {
-                                        Type: schema.TypeString,
-                                        Optional: true,
-                                    },
                                     "subnet_id": {
                                         Type: schema.TypeString,
                                         Optional: true,
@@ -629,11 +622,11 @@ func resourceArmFormula() *schema.Resource {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "size": {
+                        "ssh_key": {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "ssh_key": {
+                        "size": {
                             Type: schema.TypeString,
                             Optional: true,
                         },
@@ -663,10 +656,14 @@ func resourceArmFormula() *schema.Resource {
                 },
             },
 
+            "location": azure.SchemaLocation(),
+
             "os_type": {
                 Type: schema.TypeString,
                 Optional: true,
             },
+
+            "tags": tags.Schema(),
 
             "unique_identifier": {
                 Type: schema.TypeString,
@@ -679,7 +676,7 @@ func resourceArmFormula() *schema.Resource {
                 MaxItems: 1,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "lab_vm_id": {
+                        "lab_vmid": {
                             Type: schema.TypeString,
                             Optional: true,
                         },
@@ -688,6 +685,16 @@ func resourceArmFormula() *schema.Resource {
             },
 
             "creation_date": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -701,25 +708,24 @@ func resourceArmFormula() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmFormulaCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).formulasClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("lab_name").(string)
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, name)
+        existing, err := client.Get(ctx, resourceGroupName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Formula (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -733,8 +739,8 @@ func resourceArmFormulaCreateUpdate(d *schema.ResourceData, meta interface{}) er
     formulaContent := d.Get("formula_content").([]interface{})
     osType := d.Get("os_type").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
-    vm := d.Get("vm").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    vM := d.Get("vm").([]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     formula := devtestlab.Formula{
         Location: utils.String(location),
@@ -744,27 +750,27 @@ func resourceArmFormulaCreateUpdate(d *schema.ResourceData, meta interface{}) er
             FormulaContent: expandArmFormulaLabVirtualMachineCreationParameter(formulaContent),
             OsType: utils.String(osType),
             UniqueIdentifier: utils.String(uniqueIdentifier),
-            VM: expandArmFormulaFormulaPropertiesFromVm(vm),
+            VM: expandArmFormulaFormulaPropertiesFromVm(vM),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, formula)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, name, formula)
     if err != nil {
-        return fmt.Errorf("Error creating Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Formula (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Formula (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Formula (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Formula %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Formula (Name %q / Lab Name %q / Resource Group %q) ID", name, name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -773,31 +779,29 @@ func resourceArmFormulaCreateUpdate(d *schema.ResourceData, meta interface{}) er
 
 func resourceArmFormulaRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).formulasClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["formulas"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Formula %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Formula (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -815,6 +819,10 @@ func resourceArmFormulaRead(d *schema.ResourceData, meta interface{}) error {
             return fmt.Errorf("Error setting `vm`: %+v", err)
         }
     }
+    d.Set("id", resp.ID)
+    d.Set("lab_name", name)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -823,19 +831,20 @@ func resourceArmFormulaRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmFormulaDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).formulasClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["formulas"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, name); err != nil {
-        return fmt.Errorf("Error deleting Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name, name); err != nil {
+        return fmt.Errorf("Error deleting Formula (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
     return nil
@@ -849,37 +858,37 @@ func expandArmFormulaLabVirtualMachineCreationParameter(input []interface{}) *de
 
     bulkCreationParameters := v["bulk_creation_parameters"].([]interface{})
     notes := v["notes"].(string)
-    ownerObjectId := v["owner_object_id"].(string)
+    ownerObjectID := v["owner_object_id"].(string)
     ownerUserPrincipalName := v["owner_user_principal_name"].(string)
-    createdByUserId := v["created_by_user_id"].(string)
+    createdByUserID := v["created_by_user_id"].(string)
     createdByUser := v["created_by_user"].(string)
     createdDate := v["created_date"].(string)
-    customImageId := v["custom_image_id"].(string)
+    customImageID := v["custom_image_id"].(string)
     osType := v["os_type"].(string)
     size := v["size"].(string)
     userName := v["user_name"].(string)
     password := v["password"].(string)
-    sshKey := v["ssh_key"].(string)
-    isAuthenticationWithSshKey := v["is_authentication_with_ssh_key"].(bool)
+    sSHKey := v["ssh_key"].(string)
+    isAuthenticationWithSSHKey := v["is_authentication_with_ssh_key"].(bool)
     fqdn := v["fqdn"].(string)
     labSubnetName := v["lab_subnet_name"].(string)
-    labVirtualNetworkId := v["lab_virtual_network_id"].(string)
-    disallowPublicIpAddress := v["disallow_public_ip_address"].(bool)
+    labVirtualNetworkID := v["lab_virtual_network_id"].(string)
+    disallowPublicIPAddress := v["disallow_public_ip_address"].(bool)
     artifacts := v["artifacts"].([]interface{})
     artifactDeploymentStatus := v["artifact_deployment_status"].([]interface{})
     galleryImageReference := v["gallery_image_reference"].([]interface{})
-    computeVm := v["compute_vm"].([]interface{})
+    computeVM := v["compute_vm"].([]interface{})
     networkInterface := v["network_interface"].([]interface{})
     applicableSchedule := v["applicable_schedule"].([]interface{})
     expirationDate := v["expiration_date"].(string)
     allowClaim := v["allow_claim"].(bool)
     storageType := v["storage_type"].(string)
     virtualMachineCreationSource := v["virtual_machine_creation_source"].(string)
-    environmentId := v["environment_id"].(string)
+    environmentID := v["environment_id"].(string)
     uniqueIdentifier := v["unique_identifier"].(string)
     name := v["name"].(string)
     location := azure.NormalizeLocation(v["location"].(string))
-    t := v["tags"].(map[string]interface{})
+    tags := v["tags"].(map[string]interface{})
 
     result := devtestlab.LabVirtualMachineCreationParameter{
         Location: utils.String(location),
@@ -890,33 +899,33 @@ func expandArmFormulaLabVirtualMachineCreationParameter(input []interface{}) *de
             ArtifactDeploymentStatus: expandArmFormulaArtifactDeploymentStatusProperties(artifactDeploymentStatus),
             Artifacts: expandArmFormulaArtifactInstallProperties(artifacts),
             BulkCreationParameters: expandArmFormulaBulkCreationParameters(bulkCreationParameters),
-            ComputeVM: expandArmFormulaComputeVmProperties(computeVm),
+            ComputeVM: expandArmFormulaComputeVmProperties(computeVM),
             CreatedByUser: utils.String(createdByUser),
-            CreatedByUserID: utils.String(createdByUserId),
+            CreatedByUserID: utils.String(createdByUserID),
             CreatedDate: convertStringToDate(createdDate),
-            CustomImageID: utils.String(customImageId),
-            DisallowPublicIPAddress: utils.Bool(disallowPublicIpAddress),
-            EnvironmentID: utils.String(environmentId),
+            CustomImageID: utils.String(customImageID),
+            DisallowPublicIPAddress: utils.Bool(disallowPublicIPAddress),
+            EnvironmentID: utils.String(environmentID),
             ExpirationDate: convertStringToDate(expirationDate),
             Fqdn: utils.String(fqdn),
             GalleryImageReference: expandArmFormulaGalleryImageReference(galleryImageReference),
-            IsAuthenticationWithSSHKey: utils.Bool(isAuthenticationWithSshKey),
+            IsAuthenticationWithSSHKey: utils.Bool(isAuthenticationWithSSHKey),
             LabSubnetName: utils.String(labSubnetName),
-            LabVirtualNetworkID: utils.String(labVirtualNetworkId),
+            LabVirtualNetworkID: utils.String(labVirtualNetworkID),
             NetworkInterface: expandArmFormulaNetworkInterfaceProperties(networkInterface),
             Notes: utils.String(notes),
             OsType: utils.String(osType),
-            OwnerObjectID: utils.String(ownerObjectId),
+            OwnerObjectID: utils.String(ownerObjectID),
             OwnerUserPrincipalName: utils.String(ownerUserPrincipalName),
             Password: utils.String(password),
             Size: utils.String(size),
-            SSHKey: utils.String(sshKey),
+            SSHKey: utils.String(sSHKey),
             StorageType: utils.String(storageType),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             UserName: utils.String(userName),
             VirtualMachineCreationSource: devtestlab.VirtualMachineCreationSource(virtualMachineCreationSource),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
     return &result
 }
@@ -927,10 +936,10 @@ func expandArmFormulaFormulaPropertiesFromVm(input []interface{}) *devtestlab.Fo
     }
     v := input[0].(map[string]interface{})
 
-    labVmId := v["lab_vm_id"].(string)
+    labVMID := v["lab_vmid"].(string)
 
     result := devtestlab.FormulaPropertiesFromVm{
-        LabVMID: utils.String(labVmId),
+        LabVMID: utils.String(labVMID),
     }
     return &result
 }
@@ -942,7 +951,7 @@ func expandArmFormulaApplicableSchedule(input []interface{}) *devtestlab.Applica
     v := input[0].(map[string]interface{})
 
     location := azure.NormalizeLocation(v["location"].(string))
-    t := v["tags"].(map[string]interface{})
+    tags := v["tags"].(map[string]interface{})
     labVmsShutdown := v["lab_vms_shutdown"].([]interface{})
     labVmsStartup := v["lab_vms_startup"].([]interface{})
 
@@ -952,7 +961,7 @@ func expandArmFormulaApplicableSchedule(input []interface{}) *devtestlab.Applica
             LabVmsShutdown: expandArmFormulaSchedule(labVmsShutdown),
             LabVmsStartup: expandArmFormulaSchedule(labVmsStartup),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
     return &result
 }
@@ -979,20 +988,20 @@ func expandArmFormulaArtifactInstallProperties(input []interface{}) *[]devtestla
     results := make([]devtestlab.ArtifactInstallProperties, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        artifactId := v["artifact_id"].(string)
+        artifactID := v["artifact_id"].(string)
         parameters := v["parameters"].([]interface{})
         status := v["status"].(string)
         deploymentStatusMessage := v["deployment_status_message"].(string)
-        vmExtensionStatusMessage := v["vm_extension_status_message"].(string)
+        vMExtensionStatusMessage := v["vm_extension_status_message"].(string)
         installTime := v["install_time"].(string)
 
         result := devtestlab.ArtifactInstallProperties{
-            ArtifactID: utils.String(artifactId),
+            ArtifactID: utils.String(artifactID),
             DeploymentStatusMessage: utils.String(deploymentStatusMessage),
             InstallTime: convertStringToDate(installTime),
             Parameters: expandArmFormulaArtifactParameterProperties(parameters),
             Status: utils.String(status),
-            VMExtensionStatusMessage: utils.String(vmExtensionStatusMessage),
+            VMExtensionStatusMessage: utils.String(vMExtensionStatusMessage),
         }
 
         results = append(results, result)
@@ -1022,20 +1031,20 @@ func expandArmFormulaComputeVmProperties(input []interface{}) *devtestlab.Comput
 
     statuses := v["statuses"].([]interface{})
     osType := v["os_type"].(string)
-    vmSize := v["vm_size"].(string)
-    networkInterfaceId := v["network_interface_id"].(string)
-    osDiskId := v["os_disk_id"].(string)
+    vMSize := v["vm_size"].(string)
+    networkInterfaceID := v["network_interface_id"].(string)
+    osDiskID := v["os_disk_id"].(string)
     dataDiskIds := v["data_disk_ids"].([]interface{})
     dataDisks := v["data_disks"].([]interface{})
 
     result := devtestlab.ComputeVmProperties{
         DataDiskIds: utils.ExpandStringSlice(dataDiskIds),
         DataDisks: expandArmFormulaComputeDataDisk(dataDisks),
-        NetworkInterfaceID: utils.String(networkInterfaceId),
-        OsDiskID: utils.String(osDiskId),
+        NetworkInterfaceID: utils.String(networkInterfaceID),
+        OsDiskID: utils.String(osDiskID),
         OsType: utils.String(osType),
         Statuses: expandArmFormulaComputeVmInstanceViewStatus(statuses),
-        VMSize: utils.String(vmSize),
+        VMSize: utils.String(vMSize),
     }
     return &result
 }
@@ -1083,26 +1092,26 @@ func expandArmFormulaNetworkInterfaceProperties(input []interface{}) *devtestlab
     }
     v := input[0].(map[string]interface{})
 
-    virtualNetworkId := v["virtual_network_id"].(string)
-    subnetId := v["subnet_id"].(string)
-    publicIpAddressId := v["public_ip_address_id"].(string)
-    publicIpAddress := v["public_ip_address"].(string)
-    privateIpAddress := v["private_ip_address"].(string)
-    dnsName := v["dns_name"].(string)
+    virtualNetworkID := v["virtual_network_id"].(string)
+    subnetID := v["subnet_id"].(string)
+    publicIPAddressID := v["public_ip_address_id"].(string)
+    publicIPAddress := v["public_ip_address"].(string)
+    privateIPAddress := v["private_ip_address"].(string)
+    dNSName := v["dns_name"].(string)
     rdpAuthority := v["rdp_authority"].(string)
-    sshAuthority := v["ssh_authority"].(string)
-    sharedPublicIpAddressConfiguration := v["shared_public_ip_address_configuration"].([]interface{})
+    sSHAuthority := v["ssh_authority"].(string)
+    sharedPublicIPAddressConfiguration := v["shared_public_ip_address_configuration"].([]interface{})
 
     result := devtestlab.NetworkInterfaceProperties{
-        DNSName: utils.String(dnsName),
-        PrivateIPAddress: utils.String(privateIpAddress),
-        PublicIPAddress: utils.String(publicIpAddress),
-        PublicIPAddressID: utils.String(publicIpAddressId),
+        DNSName: utils.String(dNSName),
+        PrivateIPAddress: utils.String(privateIPAddress),
+        PublicIPAddress: utils.String(publicIPAddress),
+        PublicIPAddressID: utils.String(publicIPAddressID),
         RdpAuthority: utils.String(rdpAuthority),
-        SharedPublicIPAddressConfiguration: expandArmFormulaSharedPublicIpAddressConfiguration(sharedPublicIpAddressConfiguration),
-        SSHAuthority: utils.String(sshAuthority),
-        SubnetID: utils.String(subnetId),
-        VirtualNetworkID: utils.String(virtualNetworkId),
+        SharedPublicIPAddressConfiguration: expandArmFormulaSharedPublicIpAddressConfiguration(sharedPublicIPAddressConfiguration),
+        SSHAuthority: utils.String(sSHAuthority),
+        SubnetID: utils.String(subnetID),
+        VirtualNetworkID: utils.String(virtualNetworkID),
     }
     return &result
 }
@@ -1114,15 +1123,15 @@ func expandArmFormulaSchedule(input []interface{}) *devtestlab.Schedule {
     v := input[0].(map[string]interface{})
 
     location := azure.NormalizeLocation(v["location"].(string))
-    t := v["tags"].(map[string]interface{})
+    tags := v["tags"].(map[string]interface{})
     status := v["status"].(string)
     taskType := v["task_type"].(string)
     weeklyRecurrence := v["weekly_recurrence"].([]interface{})
     dailyRecurrence := v["daily_recurrence"].([]interface{})
     hourlyRecurrence := v["hourly_recurrence"].([]interface{})
-    timeZoneId := v["time_zone_id"].(string)
+    timeZoneID := v["time_zone_id"].(string)
     notificationSettings := v["notification_settings"].([]interface{})
-    targetResourceId := v["target_resource_id"].(string)
+    targetResourceID := v["target_resource_id"].(string)
     uniqueIdentifier := v["unique_identifier"].(string)
 
     result := devtestlab.Schedule{
@@ -1132,13 +1141,13 @@ func expandArmFormulaSchedule(input []interface{}) *devtestlab.Schedule {
             HourlyRecurrence: expandArmFormulaHourDetails(hourlyRecurrence),
             NotificationSettings: expandArmFormulaNotificationSettings(notificationSettings),
             Status: devtestlab.EnableStatus(status),
-            TargetResourceID: utils.String(targetResourceId),
+            TargetResourceID: utils.String(targetResourceID),
             TaskType: utils.String(taskType),
-            TimeZoneID: utils.String(timeZoneId),
+            TimeZoneID: utils.String(timeZoneID),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             WeeklyRecurrence: expandArmFormulaWeekDetails(weeklyRecurrence),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
     return &result
 }
@@ -1165,14 +1174,14 @@ func expandArmFormulaComputeDataDisk(input []interface{}) *[]devtestlab.ComputeD
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
-        diskUri := v["disk_uri"].(string)
-        managedDiskId := v["managed_disk_id"].(string)
+        diskURI := v["disk_uri"].(string)
+        managedDiskID := v["managed_disk_id"].(string)
         diskSizeGiB := v["disk_size_gi_b"].(int)
 
         result := devtestlab.ComputeDataDisk{
             DiskSizeGiB: utils.Int32(int32(diskSizeGiB)),
-            DiskURI: utils.String(diskUri),
-            ManagedDiskID: utils.String(managedDiskId),
+            DiskURI: utils.String(diskURI),
+            ManagedDiskID: utils.String(managedDiskID),
             Name: utils.String(name),
         }
 
@@ -1250,12 +1259,12 @@ func expandArmFormulaNotificationSettings(input []interface{}) *devtestlab.Notif
 
     status := v["status"].(string)
     timeInMinutes := v["time_in_minutes"].(int)
-    webhookUrl := v["webhook_url"].(string)
+    webhookURL := v["webhook_url"].(string)
 
     result := devtestlab.NotificationSettings{
         Status: devtestlab.NotificationStatus(status),
         TimeInMinutes: utils.Int32(int32(timeInMinutes)),
-        WebhookURL: utils.String(webhookUrl),
+        WebhookURL: utils.String(webhookURL),
     }
     return &result
 }
@@ -1303,9 +1312,6 @@ func flattenArmFormulaLabVirtualMachineCreationParameter(input *devtestlab.LabVi
 
     result := make(map[string]interface{})
 
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
     if location := input.Location; location != nil {
         result["location"] = azure.NormalizeLocation(*location)
     }
@@ -1368,11 +1374,11 @@ func flattenArmFormulaLabVirtualMachineCreationParameter(input *devtestlab.LabVi
         if password := labVirtualMachineCreationParameterProperties.Password; password != nil {
             result["password"] = *password
         }
-        if size := labVirtualMachineCreationParameterProperties.Size; size != nil {
-            result["size"] = *size
-        }
         if sshKey := labVirtualMachineCreationParameterProperties.SSHKey; sshKey != nil {
             result["ssh_key"] = *sshKey
+        }
+        if size := labVirtualMachineCreationParameterProperties.Size; size != nil {
+            result["size"] = *size
         }
         if storageType := labVirtualMachineCreationParameterProperties.StorageType; storageType != nil {
             result["storage_type"] = *storageType
@@ -1385,6 +1391,9 @@ func flattenArmFormulaLabVirtualMachineCreationParameter(input *devtestlab.LabVi
         }
         result["virtual_machine_creation_source"] = string(labVirtualMachineCreationParameterProperties.VirtualMachineCreationSource)
     }
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
 
     return []interface{}{result}
 }
@@ -1396,8 +1405,8 @@ func flattenArmFormulaFormulaPropertiesFromVm(input *devtestlab.FormulaPropertie
 
     result := make(map[string]interface{})
 
-    if labVmId := input.LabVMID; labVmId != nil {
-        result["lab_vm_id"] = *labVmId
+    if labVmid := input.LabVMID; labVmid != nil {
+        result["lab_vmid"] = *labVmid
     }
 
     return []interface{}{result}
@@ -1561,10 +1570,10 @@ func flattenArmFormulaNetworkInterfaceProperties(input *devtestlab.NetworkInterf
     if rdpAuthority := input.RdpAuthority; rdpAuthority != nil {
         result["rdp_authority"] = *rdpAuthority
     }
-    result["shared_public_ip_address_configuration"] = flattenArmFormulaSharedPublicIpAddressConfiguration(input.SharedPublicIPAddressConfiguration)
     if sshAuthority := input.SSHAuthority; sshAuthority != nil {
         result["ssh_authority"] = *sshAuthority
     }
+    result["shared_public_ip_address_configuration"] = flattenArmFormulaSharedPublicIpAddressConfiguration(input.SharedPublicIPAddressConfiguration)
     if subnetId := input.SubnetID; subnetId != nil {
         result["subnet_id"] = *subnetId
     }
@@ -1639,9 +1648,6 @@ func flattenArmFormulaComputeDataDisk(input *[]devtestlab.ComputeDataDisk) []int
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if diskSizeGiB := item.DiskSizeGiB; diskSizeGiB != nil {
             v["disk_size_gi_b"] = int(*diskSizeGiB)
         }
@@ -1650,6 +1656,9 @@ func flattenArmFormulaComputeDataDisk(input *[]devtestlab.ComputeDataDisk) []int
         }
         if managedDiskId := item.ManagedDiskID; managedDiskId != nil {
             v["managed_disk_id"] = *managedDiskId
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)

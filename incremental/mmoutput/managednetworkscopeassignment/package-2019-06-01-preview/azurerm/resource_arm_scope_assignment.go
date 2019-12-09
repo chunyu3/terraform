@@ -29,14 +29,14 @@ func resourceArmScopeAssignment() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "scope": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "scope": {
+            "scope_assignment_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -48,16 +48,17 @@ func resourceArmScopeAssignment() *schema.Resource {
 
 func resourceArmScopeAssignmentCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).scopeAssignmentsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
     scope := d.Get("scope").(string)
+    name := d.Get("scope_assignment_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
         existing, err := client.Get(ctx, scope, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Scope Assignment %q (Scope %q): %+v", name, scope, err)
+                return fmt.Errorf("Error checking for present of existing Scope Assignment (Scope Assignment Name %q / Scope %q): %+v", name, scope, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -71,16 +72,16 @@ func resourceArmScopeAssignmentCreateUpdate(d *schema.ResourceData, meta interfa
 
 
     if _, err := client.CreateOrUpdate(ctx, scope, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Scope Assignment %q (Scope %q): %+v", name, scope, err)
+        return fmt.Errorf("Error creating Scope Assignment (Scope Assignment Name %q / Scope %q): %+v", name, scope, err)
     }
 
 
     resp, err := client.Get(ctx, scope, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Scope Assignment %q (Scope %q): %+v", name, scope, err)
+        return fmt.Errorf("Error retrieving Scope Assignment (Scope Assignment Name %q / Scope %q): %+v", name, scope, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Scope Assignment %q (Scope %q) ID", name, scope)
+        return fmt.Errorf("Cannot read Scope Assignment (Scope Assignment Name %q / Scope %q) ID", name, scope)
     }
     d.SetId(*resp.ID)
 
@@ -89,7 +90,8 @@ func resourceArmScopeAssignmentCreateUpdate(d *schema.ResourceData, meta interfa
 
 func resourceArmScopeAssignmentRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).scopeAssignmentsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
@@ -104,12 +106,12 @@ func resourceArmScopeAssignmentRead(d *schema.ResourceData, meta interface{}) er
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Scope Assignment %q (Scope %q): %+v", name, scope, err)
+        return fmt.Errorf("Error reading Scope Assignment (Scope Assignment Name %q / Scope %q): %+v", name, scope, err)
     }
 
 
-    d.Set("name", name)
     d.Set("scope", scope)
+    d.Set("scope_assignment_name", name)
 
     return nil
 }
@@ -117,7 +119,8 @@ func resourceArmScopeAssignmentRead(d *schema.ResourceData, meta interface{}) er
 
 func resourceArmScopeAssignmentDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).scopeAssignmentsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
@@ -127,7 +130,7 @@ func resourceArmScopeAssignmentDelete(d *schema.ResourceData, meta interface{}) 
     name := id.Path["scopeAssignments"]
 
     if _, err := client.Delete(ctx, scope, name); err != nil {
-        return fmt.Errorf("Error deleting Scope Assignment %q (Scope %q): %+v", name, scope, err)
+        return fmt.Errorf("Error deleting Scope Assignment (Scope Assignment Name %q / Scope %q): %+v", name, scope, err)
     }
 
     return nil

@@ -29,7 +29,14 @@ func resourceArmManagedNetworkPeeringPolicy() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "managed_network_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "managed_network_peering_policy_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -37,13 +44,6 @@ func resourceArmManagedNetworkPeeringPolicy() *schema.Resource {
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "managed_network_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "mesh": {
                 Type: schema.TypeList,
@@ -76,17 +76,18 @@ func resourceArmManagedNetworkPeeringPolicy() *schema.Resource {
 
 func resourceArmManagedNetworkPeeringPolicyCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).managedNetworkPeeringPoliciesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     managedNetworkName := d.Get("managed_network_name").(string)
+    name := d.Get("managed_network_peering_policy_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, managedNetworkName, name)
+        existing, err := client.Get(ctx, resourceGroupName, managedNetworkName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Managed Network Peering Policy %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Managed Network Peering Policy (Managed Network Peering Policy Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -105,21 +106,21 @@ func resourceArmManagedNetworkPeeringPolicyCreateUpdate(d *schema.ResourceData, 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, managedNetworkName, name, managedNetworkPolicy)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, managedNetworkName, name, managedNetworkPolicy)
     if err != nil {
-        return fmt.Errorf("Error creating Managed Network Peering Policy %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error creating Managed Network Peering Policy (Managed Network Peering Policy Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Managed Network Peering Policy %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Managed Network Peering Policy (Managed Network Peering Policy Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, managedNetworkName, name)
+    resp, err := client.Get(ctx, resourceGroupName, managedNetworkName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Managed Network Peering Policy %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Managed Network Peering Policy (Managed Network Peering Policy Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Managed Network Peering Policy %q (Managed Network Name %q / Resource Group %q) ID", name, managedNetworkName, resourceGroup)
+        return fmt.Errorf("Cannot read Managed Network Peering Policy (Managed Network Peering Policy Name %q / Managed Network Name %q / Resource Group %q) ID", name, managedNetworkName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -128,30 +129,31 @@ func resourceArmManagedNetworkPeeringPolicyCreateUpdate(d *schema.ResourceData, 
 
 func resourceArmManagedNetworkPeeringPolicyRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).managedNetworkPeeringPoliciesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     managedNetworkName := id.Path["managedNetworks"]
     name := id.Path["managedNetworkPeeringPolicies"]
 
-    resp, err := client.Get(ctx, resourceGroup, managedNetworkName, name)
+    resp, err := client.Get(ctx, resourceGroupName, managedNetworkName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Managed Network Peering Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Managed Network Peering Policy %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error reading Managed Network Peering Policy (Managed Network Peering Policy Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     d.Set("managed_network_name", managedNetworkName)
+    d.Set("managed_network_peering_policy_name", name)
     if peeringPolicyProperties := resp.PeeringPolicyProperties; peeringPolicyProperties != nil {
         if err := d.Set("mesh", flattenArmManagedNetworkPeeringPolicyResourceId(peeringPolicyProperties.Mesh)); err != nil {
             return fmt.Errorf("Error setting `mesh`: %+v", err)
@@ -167,28 +169,29 @@ func resourceArmManagedNetworkPeeringPolicyRead(d *schema.ResourceData, meta int
 
 func resourceArmManagedNetworkPeeringPolicyDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).managedNetworkPeeringPoliciesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     managedNetworkName := id.Path["managedNetworks"]
     name := id.Path["managedNetworkPeeringPolicies"]
 
-    future, err := client.Delete(ctx, resourceGroup, managedNetworkName, name)
+    future, err := client.Delete(ctx, resourceGroupName, managedNetworkName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Managed Network Peering Policy %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Managed Network Peering Policy (Managed Network Peering Policy Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Managed Network Peering Policy %q (Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Managed Network Peering Policy (Managed Network Peering Policy Name %q / Managed Network Name %q / Resource Group %q): %+v", name, managedNetworkName, resourceGroupName, err)
         }
     }
 
@@ -199,10 +202,10 @@ func expandArmManagedNetworkPeeringPolicyResourceId(input []interface{}) *[]mana
     results := make([]managednetwork.ResourceId, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
 
         result := managednetwork.ResourceId{
-            ID: utils.String(id),
+            ID: utils.String(iD),
         }
 
         results = append(results, result)

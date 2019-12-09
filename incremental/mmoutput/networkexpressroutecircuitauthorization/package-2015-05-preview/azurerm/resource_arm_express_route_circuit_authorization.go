@@ -29,20 +29,12 @@ func resourceArmExpressRouteCircuitAuthorization() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "authorization_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Optional: true,
-                ForceNew: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "circuit_name": {
                 Type: schema.TypeString,
@@ -50,6 +42,8 @@ func resourceArmExpressRouteCircuitAuthorization() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "authorization_key": {
                 Type: schema.TypeString,
@@ -72,6 +66,18 @@ func resourceArmExpressRouteCircuitAuthorization() *schema.Resource {
                 ForceNew: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -82,17 +88,18 @@ func resourceArmExpressRouteCircuitAuthorization() *schema.Resource {
 
 func resourceArmExpressRouteCircuitAuthorizationCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).expressRouteCircuitAuthorizationsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("authorization_name").(string)
     circuitName := d.Get("circuit_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, circuitName, name)
+        existing, err := client.Get(ctx, resourceGroupName, circuitName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Express Route Circuit Authorization %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Express Route Circuit Authorization (Authorization Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -100,15 +107,15 @@ func resourceArmExpressRouteCircuitAuthorizationCreateUpdate(d *schema.ResourceD
         }
     }
 
-    id := d.Get("id").(string)
-    name := d.Get("name").(string)
     authorizationKey := d.Get("authorization_key").(string)
     authorizationUseStatus := d.Get("authorization_use_status").(string)
     etag := d.Get("etag").(string)
+    iD := d.Get("id").(string)
+    name := d.Get("name").(string)
 
     authorizationParameters := network.ExpressRouteCircuitAuthorization{
         Etag: utils.String(etag),
-        ID: utils.String(id),
+        ID: utils.String(iD),
         Name: utils.String(name),
         AuthorizationPropertiesFormat: &network.AuthorizationPropertiesFormat{
             AuthorizationKey: utils.String(authorizationKey),
@@ -117,21 +124,21 @@ func resourceArmExpressRouteCircuitAuthorizationCreateUpdate(d *schema.ResourceD
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, circuitName, name, authorizationParameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, circuitName, name, authorizationParameters)
     if err != nil {
-        return fmt.Errorf("Error creating Express Route Circuit Authorization %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error creating Express Route Circuit Authorization (Authorization Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Express Route Circuit Authorization %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Express Route Circuit Authorization (Authorization Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, circuitName, name)
+    resp, err := client.Get(ctx, resourceGroupName, circuitName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Express Route Circuit Authorization %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Express Route Circuit Authorization (Authorization Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Express Route Circuit Authorization %q (Circuit Name %q / Resource Group %q) ID", name, circuitName, resourceGroup)
+        return fmt.Errorf("Cannot read Express Route Circuit Authorization (Authorization Name %q / Circuit Name %q / Resource Group %q) ID", name, circuitName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -140,37 +147,39 @@ func resourceArmExpressRouteCircuitAuthorizationCreateUpdate(d *schema.ResourceD
 
 func resourceArmExpressRouteCircuitAuthorizationRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).expressRouteCircuitAuthorizationsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     circuitName := id.Path["expressRouteCircuits"]
     name := id.Path["authorizations"]
 
-    resp, err := client.Get(ctx, resourceGroup, circuitName, name)
+    resp, err := client.Get(ctx, resourceGroupName, circuitName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Express Route Circuit Authorization %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Express Route Circuit Authorization %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error reading Express Route Circuit Authorization (Authorization Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if authorizationPropertiesFormat := resp.AuthorizationPropertiesFormat; authorizationPropertiesFormat != nil {
         d.Set("authorization_key", authorizationPropertiesFormat.AuthorizationKey)
         d.Set("authorization_use_status", string(authorizationPropertiesFormat.AuthorizationUseStatus))
         d.Set("provisioning_state", authorizationPropertiesFormat.ProvisioningState)
     }
+    d.Set("authorization_name", name)
     d.Set("circuit_name", circuitName)
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
 
     return nil
 }
@@ -178,28 +187,29 @@ func resourceArmExpressRouteCircuitAuthorizationRead(d *schema.ResourceData, met
 
 func resourceArmExpressRouteCircuitAuthorizationDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).expressRouteCircuitAuthorizationsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     circuitName := id.Path["expressRouteCircuits"]
     name := id.Path["authorizations"]
 
-    future, err := client.Delete(ctx, resourceGroup, circuitName, name)
+    future, err := client.Delete(ctx, resourceGroupName, circuitName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Express Route Circuit Authorization %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Express Route Circuit Authorization (Authorization Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Express Route Circuit Authorization %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Express Route Circuit Authorization (Authorization Name %q / Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroupName, err)
         }
     }
 

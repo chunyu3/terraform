@@ -1,0 +1,49 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_peering
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: peerasn
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  name: '<%= get_resource_name('''', ''peering'') -%>'
+  peering:
+    sku:
+      name: Basic_Direct_Free
+    kind: Direct
+    properties:
+      direct:
+        connections:
+          - bandwidthInMbps: '10000'
+            sessionAddressProvider: Peer
+            useForPeeringService: false
+            peeringDBFacilityId: '99999'
+            bgpSession:
+              sessionPrefixV4: 192.168.0.0/31
+              sessionPrefixV6: 'fd00::0/127'
+              maxPrefixesAdvertisedV4: '1000'
+              maxPrefixesAdvertisedV6: '100'
+              md5AuthenticationKey: test-md5-auth-key
+            connectionIdentifier: 5F4CB5C7-6B43-4444-9338-9ABC72606C16
+          - bandwidthInMbps: '10000'
+            sessionAddressProvider: Microsoft
+            useForPeeringService: true
+            peeringDBFacilityId: '99999'
+            bgpSession:
+              sessionPrefixV4: 192.168.1.0/31
+              sessionPrefixV6: 'fd00::2/127'
+              maxPrefixesAdvertisedV4: '1000'
+              maxPrefixesAdvertisedV6: '100'
+              md5AuthenticationKey: test-md5-auth-key
+            connectionIdentifier: 8AB00818-D533-4504-A25A-03A17F61201C
+        useForPeeringService: false
+        peerAsn:
+          id: >-
+            /subscriptions/{{ subscription_id
+            }}/providers/Microsoft.Peering/peerAsns/{{ peer_asn_name }}
+        directPeeringType: Edge
+      peeringLocation: peeringLocation0
+    location: eastus

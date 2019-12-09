@@ -1,4 +1,44 @@
 --- !ruby/object:Provider::Azure::Terraform::Config
 overrides: !ruby/object:Overrides::ResourceOverrides
   EventHubConnection: !ruby/object:Provider::Azure::Terraform::ResourceOverride
+    # azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinitionOverride
     properties: {}
+    acctests:
+      - !ruby/object:Provider::Azure::Terraform::AccTestDefinition
+        name: basic
+        steps: [basic]
+      - !ruby/object:Provider::Azure::Terraform::AccTestDefinition
+        name: complete
+        steps: [complete]
+      - !ruby/object:Provider::Azure::Terraform::AccTestDefinition
+        name: update
+        steps: [basic, complete]
+    document_examples:
+      - !ruby/object:Provider::Azure::Terraform::DocumentExampleReference
+        title: Example Usage
+        example_name: basic
+        resource_name_hints:
+          resourceGroups: example-resource-group
+          clusters: example-cluster
+          databases: example-database
+          eventhubconnections: example-eventhubconnection
+datasources: !ruby/object:Overrides::ResourceOverrides
+  EventHubConnection: !ruby/object:Provider::Azure::Terraform::ResourceOverride
+    acctests:
+      - !ruby/object:Provider::Azure::Terraform::AccTestDefinition
+        name: basic
+        steps: [basic]
+      - !ruby/object:Provider::Azure::Terraform::AccTestDefinition
+        name: complete
+        steps: [complete]
+    document_examples:
+      - !ruby/object:Provider::Azure::Terraform::DocumentExampleReference
+        title: Example Usage
+        example_name: basic
+        resource_name_hints:
+          resourceGroups: example-resource-group
+          clusters: example-cluster
+          databases: example-database
+          eventhubconnections: example-eventhubconnection
+    datasource_example_outputs:
+      event_hub_connection_id: id

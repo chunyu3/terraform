@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -114,7 +114,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -204,7 +204,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -223,7 +223,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -330,7 +330,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -343,47 +343,47 @@ objects:
       Manage Azure ArtifactSource instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'LabName'
         description: 'The name of the lab.'
         required: true
         input: true
         azure_sdk_references: ['labName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the artifact source.'
         required: true
         input: true
         azure_sdk_references: ['name']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The location of the resource.'
         required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'The tags of the resource.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'displayName'
+        name: 'DisplayName'
         description: 'The artifact source''s display name.'
         required: false
         azure_sdk_references: ['/displayName', '/properties/displayName']
       - !ruby/object:Api::Type::String
-        name: 'uri'
+        name: 'URI'
         description: 'The artifact source''s URI.'
         required: false
         azure_sdk_references: ['/uri', '/properties/uri']
       - !ruby/object:Api::Type::Enum
-        name: 'sourceType'
+        name: 'SourceType'
         description: 'The artifact source''s type.'
         required: false
         azure_sdk_references: ['/sourceType', '/properties/sourceType']
@@ -392,27 +392,27 @@ objects:
           - :GitHub
         default_value: :VsoGit
       - !ruby/object:Api::Type::String
-        name: 'folderPath'
+        name: 'FolderPath'
         description: 'The folder containing artifacts.'
         required: false
         azure_sdk_references: ['/folderPath', '/properties/folderPath']
       - !ruby/object:Api::Type::String
-        name: 'armTemplateFolderPath'
+        name: 'ArmTemplateFolderPath'
         description: 'The folder containing Azure Resource Manager templates.'
         required: false
         azure_sdk_references: ['/armTemplateFolderPath', '/properties/armTemplateFolderPath']
       - !ruby/object:Api::Type::String
-        name: 'branchRef'
+        name: 'BranchRef'
         description: 'The artifact source''s branch reference.'
         required: false
         azure_sdk_references: ['/branchRef', '/properties/branchRef']
       - !ruby/object:Api::Type::String
-        name: 'securityToken'
+        name: 'SecurityToken'
         description: 'The security token to authenticate to the artifact source.'
         required: false
         azure_sdk_references: ['/securityToken', '/properties/securityToken']
       - !ruby/object:Api::Type::Enum
-        name: 'status'
+        name: 'Status'
         description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
         required: false
         azure_sdk_references: ['/status', '/properties/status']
@@ -421,33 +421,33 @@ objects:
           - :Disabled
         default_value: :Enabled
       - !ruby/object:Api::Type::String
-        name: 'uniqueIdentifier'
+        name: 'UniqueIdentifier'
         description: 'The unique immutable identifier of a resource (Guid).'
         required: false
         azure_sdk_references: ['/uniqueIdentifier', '/properties/uniqueIdentifier']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdDate'
+        name: 'CreatedDate'
         description: 'The artifact source''s creation date.'
         output: true
         azure_sdk_references: ['/createdDate', '/properties/createdDate']
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'The provisioning status of the resource.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The identifier of the resource.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the resource.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']

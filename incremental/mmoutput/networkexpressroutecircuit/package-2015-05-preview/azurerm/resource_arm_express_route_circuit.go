@@ -29,16 +29,11 @@ func resourceArmExpressRouteCircuit() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "circuit_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "location": azure.SchemaLocation(),
@@ -290,6 +285,18 @@ func resourceArmExpressRouteCircuit() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -299,24 +306,23 @@ func resourceArmExpressRouteCircuit() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmExpressRouteCircuitCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).expressRouteCircuitsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("circuit_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -334,7 +340,7 @@ func resourceArmExpressRouteCircuitCreateUpdate(d *schema.ResourceData, meta int
     serviceProviderProperties := d.Get("service_provider_properties").([]interface{})
     serviceProviderProvisioningState := d.Get("service_provider_provisioning_state").(string)
     sku := d.Get("sku").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := network.ExpressRouteCircuit{
         Etag: utils.String(etag),
@@ -349,25 +355,25 @@ func resourceArmExpressRouteCircuitCreateUpdate(d *schema.ResourceData, meta int
             ServiceProviderProvisioningState: network.ServiceProviderProvisioningState(serviceProviderProvisioningState),
         },
         Sku: expandArmExpressRouteCircuitExpressRouteCircuitSku(sku),
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Express Route Circuit %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Express Route Circuit (Circuit Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -376,29 +382,28 @@ func resourceArmExpressRouteCircuitCreateUpdate(d *schema.ResourceData, meta int
 
 func resourceArmExpressRouteCircuitRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).expressRouteCircuitsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["expressRouteCircuits"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Express Route Circuit %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -418,7 +423,10 @@ func resourceArmExpressRouteCircuitRead(d *schema.ResourceData, meta interface{}
         }
         d.Set("service_provider_provisioning_state", string(expressRouteCircuitPropertiesFormat.ServiceProviderProvisioningState))
     }
+    d.Set("circuit_name", name)
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     if err := d.Set("sku", flattenArmExpressRouteCircuitExpressRouteCircuitSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
     }
@@ -430,27 +438,28 @@ func resourceArmExpressRouteCircuitRead(d *schema.ResourceData, meta interface{}
 
 func resourceArmExpressRouteCircuitDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).expressRouteCircuitsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["expressRouteCircuits"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -461,7 +470,7 @@ func expandArmExpressRouteCircuitExpressRouteCircuitAuthorization(input []interf
     results := make([]network.ExpressRouteCircuitAuthorization, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         authorizationKey := v["authorization_key"].(string)
         authorizationUseStatus := v["authorization_use_status"].(string)
         name := v["name"].(string)
@@ -469,7 +478,7 @@ func expandArmExpressRouteCircuitExpressRouteCircuitAuthorization(input []interf
 
         result := network.ExpressRouteCircuitAuthorization{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             AuthorizationPropertiesFormat: &network.AuthorizationPropertiesFormat{
                 AuthorizationKey: utils.String(authorizationKey),
@@ -486,17 +495,17 @@ func expandArmExpressRouteCircuitExpressRouteCircuitPeering(input []interface{})
     results := make([]network.ExpressRouteCircuitPeering, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         peeringType := v["peering_type"].(string)
         state := v["state"].(string)
-        azureAsn := v["azure_asn"].(int)
-        peerAsn := v["peer_asn"].(int)
+        azureASN := v["azure_asn"].(int)
+        peerASN := v["peer_asn"].(int)
         primaryPeerAddressPrefix := v["primary_peer_address_prefix"].(string)
         secondaryPeerAddressPrefix := v["secondary_peer_address_prefix"].(string)
         primaryAzurePort := v["primary_azure_port"].(string)
         secondaryAzurePort := v["secondary_azure_port"].(string)
         sharedKey := v["shared_key"].(string)
-        vlanId := v["vlan_id"].(int)
+        vlanID := v["vlan_id"].(int)
         microsoftPeeringConfig := v["microsoft_peering_config"].([]interface{})
         stats := v["stats"].([]interface{})
         name := v["name"].(string)
@@ -504,12 +513,12 @@ func expandArmExpressRouteCircuitExpressRouteCircuitPeering(input []interface{})
 
         result := network.ExpressRouteCircuitPeering{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             ExpressRouteCircuitPeeringPropertiesFormat: &network.ExpressRouteCircuitPeeringPropertiesFormat{
-                AzureASN: utils.Int32(int32(azureAsn)),
+                AzureASN: utils.Int32(int32(azureASN)),
                 MicrosoftPeeringConfig: expandArmExpressRouteCircuitExpressRouteCircuitPeeringConfig(microsoftPeeringConfig),
-                PeerASN: utils.Int32(int32(peerAsn)),
+                PeerASN: utils.Int32(int32(peerASN)),
                 PeeringType: network.ExpressRouteCircuitPeeringType(peeringType),
                 PrimaryAzurePort: utils.String(primaryAzurePort),
                 PrimaryPeerAddressPrefix: utils.String(primaryPeerAddressPrefix),
@@ -518,7 +527,7 @@ func expandArmExpressRouteCircuitExpressRouteCircuitPeering(input []interface{})
                 SharedKey: utils.String(sharedKey),
                 State: network.ExpressRouteCircuitPeeringState(state),
                 Stats: expandArmExpressRouteCircuitExpressRouteCircuitStats(stats),
-                VlanID: utils.Int32(int32(vlanId)),
+                VlanID: utils.Int32(int32(vlanID)),
             },
         }
 
@@ -571,13 +580,13 @@ func expandArmExpressRouteCircuitExpressRouteCircuitPeeringConfig(input []interf
 
     advertisedPublicPrefixes := v["advertised_public_prefixes"].([]interface{})
     advertisedPublicPrefixesState := v["advertised_public_prefixes_state"].(string)
-    customerAsn := v["customer_asn"].(int)
+    customerASN := v["customer_asn"].(int)
     routingRegistryName := v["routing_registry_name"].(string)
 
     result := network.ExpressRouteCircuitPeeringConfig{
         AdvertisedPublicPrefixes: utils.ExpandStringSlice(advertisedPublicPrefixes),
         AdvertisedPublicPrefixesState: network.ExpressRouteCircuitPeeringAdvertisedPublicPrefixState(advertisedPublicPrefixesState),
-        CustomerASN: utils.Int32(int32(customerAsn)),
+        CustomerASN: utils.Int32(int32(customerASN)),
         RoutingRegistryName: utils.String(routingRegistryName),
     }
     return &result
@@ -609,12 +618,6 @@ func flattenArmExpressRouteCircuitExpressRouteCircuitAuthorization(input *[]netw
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if authorizationPropertiesFormat := item.AuthorizationPropertiesFormat; authorizationPropertiesFormat != nil {
             if authorizationKey := authorizationPropertiesFormat.AuthorizationKey; authorizationKey != nil {
                 v["authorization_key"] = *authorizationKey
@@ -623,6 +626,12 @@ func flattenArmExpressRouteCircuitExpressRouteCircuitAuthorization(input *[]netw
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)
@@ -640,12 +649,6 @@ func flattenArmExpressRouteCircuitExpressRouteCircuitPeering(input *[]network.Ex
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if expressRouteCircuitPeeringPropertiesFormat := item.ExpressRouteCircuitPeeringPropertiesFormat; expressRouteCircuitPeeringPropertiesFormat != nil {
             if azureAsn := expressRouteCircuitPeeringPropertiesFormat.AzureASN; azureAsn != nil {
                 v["azure_asn"] = int(*azureAsn)
@@ -678,6 +681,12 @@ func flattenArmExpressRouteCircuitExpressRouteCircuitPeering(input *[]network.Ex
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)
@@ -713,10 +722,10 @@ func flattenArmExpressRouteCircuitExpressRouteCircuitSku(input *network.ExpressR
 
     result := make(map[string]interface{})
 
+    result["family"] = string(input.Family)
     if name := input.Name; name != nil {
         result["name"] = *name
     }
-    result["family"] = string(input.Family)
     result["tier"] = string(input.Tier)
 
     return []interface{}{result}

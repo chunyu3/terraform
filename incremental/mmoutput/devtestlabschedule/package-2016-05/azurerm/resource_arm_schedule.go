@@ -29,7 +29,7 @@ func resourceArmSchedule() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -42,13 +42,6 @@ func resourceArmSchedule() *schema.Resource {
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -79,6 +72,8 @@ func resourceArmSchedule() *schema.Resource {
                     },
                 },
             },
+
+            "location": azure.SchemaLocation(),
 
             "notification_settings": {
                 Type: schema.TypeList,
@@ -116,6 +111,8 @@ func resourceArmSchedule() *schema.Resource {
                 }, false),
                 Default: string(devtestlab.Enabled),
             },
+
+            "tags": tags.Schema(),
 
             "target_resource_id": {
                 Type: schema.TypeString,
@@ -163,6 +160,16 @@ func resourceArmSchedule() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -172,25 +179,24 @@ func resourceArmSchedule() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmScheduleCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).schedulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("lab_name").(string)
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, name)
+        existing, err := client.Get(ctx, resourceGroupName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Schedule (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -203,12 +209,12 @@ func resourceArmScheduleCreate(d *schema.ResourceData, meta interface{}) error {
     hourlyRecurrence := d.Get("hourly_recurrence").([]interface{})
     notificationSettings := d.Get("notification_settings").([]interface{})
     status := d.Get("status").(string)
-    targetResourceId := d.Get("target_resource_id").(string)
+    targetResourceID := d.Get("target_resource_id").(string)
     taskType := d.Get("task_type").(string)
-    timeZoneId := d.Get("time_zone_id").(string)
+    timeZoneID := d.Get("time_zone_id").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
     weeklyRecurrence := d.Get("weekly_recurrence").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     schedule := devtestlab.ScheduleFragment{
         Location: utils.String(location),
@@ -217,27 +223,27 @@ func resourceArmScheduleCreate(d *schema.ResourceData, meta interface{}) error {
             HourlyRecurrence: expandArmScheduleHourDetailsFragment(hourlyRecurrence),
             NotificationSettings: expandArmScheduleNotificationSettingsFragment(notificationSettings),
             Status: devtestlab.EnableStatus(status),
-            TargetResourceID: utils.String(targetResourceId),
+            TargetResourceID: utils.String(targetResourceID),
             TaskType: utils.String(taskType),
-            TimeZoneID: utils.String(timeZoneId),
+            TimeZoneID: utils.String(timeZoneID),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             WeeklyRecurrence: expandArmScheduleWeekDetailsFragment(weeklyRecurrence),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, schedule); err != nil {
-        return fmt.Errorf("Error creating Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, name, name, schedule); err != nil {
+        return fmt.Errorf("Error creating Schedule (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Schedule (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Schedule %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Schedule (Name %q / Lab Name %q / Resource Group %q) ID", name, name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -246,31 +252,29 @@ func resourceArmScheduleCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmScheduleRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).schedulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["schedules"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Schedule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Schedule (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -295,6 +299,10 @@ func resourceArmScheduleRead(d *schema.ResourceData, meta interface{}) error {
             return fmt.Errorf("Error setting `weekly_recurrence`: %+v", err)
         }
     }
+    d.Set("id", resp.ID)
+    d.Set("lab_name", name)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -302,40 +310,43 @@ func resourceArmScheduleRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmScheduleUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).schedulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     dailyRecurrence := d.Get("daily_recurrence").([]interface{})
     hourlyRecurrence := d.Get("hourly_recurrence").([]interface{})
+    name := d.Get("lab_name").(string)
+    name := d.Get("name").(string)
     notificationSettings := d.Get("notification_settings").([]interface{})
     status := d.Get("status").(string)
-    targetResourceId := d.Get("target_resource_id").(string)
+    targetResourceID := d.Get("target_resource_id").(string)
     taskType := d.Get("task_type").(string)
-    timeZoneId := d.Get("time_zone_id").(string)
+    timeZoneID := d.Get("time_zone_id").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
     weeklyRecurrence := d.Get("weekly_recurrence").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     schedule := devtestlab.ScheduleFragment{
+        Location: utils.String(location),
         SchedulePropertiesFragment: &devtestlab.SchedulePropertiesFragment{
             DailyRecurrence: expandArmScheduleDayDetailsFragment(dailyRecurrence),
             HourlyRecurrence: expandArmScheduleHourDetailsFragment(hourlyRecurrence),
             NotificationSettings: expandArmScheduleNotificationSettingsFragment(notificationSettings),
             Status: devtestlab.EnableStatus(status),
-            TargetResourceID: utils.String(targetResourceId),
+            TargetResourceID: utils.String(targetResourceID),
             TaskType: utils.String(taskType),
-            TimeZoneID: utils.String(timeZoneId),
+            TimeZoneID: utils.String(timeZoneID),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             WeeklyRecurrence: expandArmScheduleWeekDetailsFragment(weeklyRecurrence),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, name, schedule); err != nil {
-        return fmt.Errorf("Error updating Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, name, schedule); err != nil {
+        return fmt.Errorf("Error updating Schedule (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
     return resourceArmScheduleRead(d, meta)
@@ -343,19 +354,20 @@ func resourceArmScheduleUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmScheduleDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).schedulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["labs"]
     name := id.Path["schedules"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, name); err != nil {
-        return fmt.Errorf("Error deleting Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name, name); err != nil {
+        return fmt.Errorf("Error deleting Schedule (Name %q / Lab Name %q / Resource Group %q): %+v", name, name, resourceGroupName, err)
     }
 
     return nil
@@ -397,12 +409,12 @@ func expandArmScheduleNotificationSettingsFragment(input []interface{}) *devtest
 
     status := v["status"].(string)
     timeInMinutes := v["time_in_minutes"].(int)
-    webhookUrl := v["webhook_url"].(string)
+    webhookURL := v["webhook_url"].(string)
 
     result := devtestlab.NotificationSettingsFragment{
         Status: devtestlab.NotificationStatus(status),
         TimeInMinutes: utils.Int32(int32(timeInMinutes)),
-        WebhookURL: utils.String(webhookUrl),
+        WebhookURL: utils.String(webhookURL),
     }
     return &result
 }

@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -71,7 +71,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -90,7 +90,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -135,7 +135,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -149,7 +149,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -167,41 +167,41 @@ objects:
       Manage Azure WorkflowAccessKey instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'workflowName'
+        name: 'WorkflowName'
         description: 'The workflow name.'
         required: true
         input: true
         azure_sdk_references: ['workflowName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'AccessKeyName'
         description: 'The workflow access key name.'
         required: true
         input: true
         azure_sdk_references: ['accessKeyName']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Gets or sets the resource id.'
         required: false
         input: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'notBefore'
+        name: 'NotBefore'
         description: 'Gets or sets the not-before time.'
         required: false
         azure_sdk_references: ['/notBefore', '/properties/notBefore']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'notAfter'
+        name: 'NotAfter'
         description: 'Gets or sets the not-after time.'
         required: false
         azure_sdk_references: ['/notAfter', '/properties/notAfter']
       - !ruby/object:Api::Type::Enum
-        name: 'keyType'
+        name: 'KeyType'
         description: 'Gets or sets the key type.'
         required: false
         input: true
@@ -213,12 +213,12 @@ objects:
         default_value: :NotSpecified
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Gets the workflow access key name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Gets the workflow access key type.'
         output: true
         azure_sdk_references: ['/type']

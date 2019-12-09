@@ -29,21 +29,16 @@ func resourceArmRouteTable() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "route_table_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "etag": {
                 Type: schema.TypeString,
@@ -104,6 +99,18 @@ func resourceArmRouteTable() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -113,24 +120,23 @@ func resourceArmRouteTable() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmRouteTableCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).routeTablesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("route_table_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Route Table (Route Table Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -142,7 +148,7 @@ func resourceArmRouteTableCreateUpdate(d *schema.ResourceData, meta interface{})
     etag := d.Get("etag").(string)
     routes := d.Get("routes").([]interface{})
     subnets := d.Get("subnets").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := network.RouteTable{
         Etag: utils.String(etag),
@@ -151,25 +157,25 @@ func resourceArmRouteTableCreateUpdate(d *schema.ResourceData, meta interface{})
             Routes: expandArmRouteTableRoute(routes),
             Subnets: expandArmRouteTableSubResource(subnets),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Route Table (Route Table Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Route Table (Route Table Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Route Table (Route Table Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Route Table %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Route Table (Route Table Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -178,33 +184,34 @@ func resourceArmRouteTableCreateUpdate(d *schema.ResourceData, meta interface{})
 
 func resourceArmRouteTableRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).routeTablesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["routeTables"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Route Table %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Route Table (Route Table Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     if routeTablePropertiesFormat := resp.RouteTablePropertiesFormat; routeTablePropertiesFormat != nil {
         d.Set("provisioning_state", routeTablePropertiesFormat.ProvisioningState)
         if err := d.Set("routes", flattenArmRouteTableRoute(routeTablePropertiesFormat.Routes)); err != nil {
@@ -214,6 +221,7 @@ func resourceArmRouteTableRead(d *schema.ResourceData, meta interface{}) error {
             return fmt.Errorf("Error setting `subnets`: %+v", err)
         }
     }
+    d.Set("route_table_name", name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -222,27 +230,28 @@ func resourceArmRouteTableRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmRouteTableDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).routeTablesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["routeTables"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Route Table (Route Table Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Route Table (Route Table Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -253,20 +262,20 @@ func expandArmRouteTableRoute(input []interface{}) *[]network.Route {
     results := make([]network.Route, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
         addressPrefix := v["address_prefix"].(string)
         nextHopType := v["next_hop_type"].(string)
-        nextHopIpAddress := v["next_hop_ip_address"].(string)
+        nextHopIPAddress := v["next_hop_ip_address"].(string)
         name := v["name"].(string)
         etag := v["etag"].(string)
 
         result := network.Route{
             Etag: utils.String(etag),
-            ID: utils.String(id),
+            ID: utils.String(iD),
             Name: utils.String(name),
             RoutePropertiesFormat: &network.RoutePropertiesFormat{
                 AddressPrefix: utils.String(addressPrefix),
-                NextHopIPAddress: utils.String(nextHopIpAddress),
+                NextHopIPAddress: utils.String(nextHopIPAddress),
                 NextHopType: network.RouteNextHopType(nextHopType),
             },
         }
@@ -280,10 +289,10 @@ func expandArmRouteTableSubResource(input []interface{}) *[]network.SubResource 
     results := make([]network.SubResource, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        id := v["id"].(string)
+        iD := v["id"].(string)
 
         result := network.SubResource{
-            ID: utils.String(id),
+            ID: utils.String(iD),
         }
 
         results = append(results, result)
@@ -301,12 +310,6 @@ func flattenArmRouteTableRoute(input *[]network.Route) []interface{} {
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if id := item.ID; id != nil {
-            v["id"] = *id
-        }
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if routePropertiesFormat := item.RoutePropertiesFormat; routePropertiesFormat != nil {
             if addressPrefix := routePropertiesFormat.AddressPrefix; addressPrefix != nil {
                 v["address_prefix"] = *addressPrefix
@@ -318,6 +321,12 @@ func flattenArmRouteTableRoute(input *[]network.Route) []interface{} {
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
 
         results = append(results, v)
