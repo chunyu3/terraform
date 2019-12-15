@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_notification_hub
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: namespace
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: authorizationrule
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  namespace_name: nh-sdk-ns
+  notification_hub_name: nh-sdk-hub
+  name: '<%= get_resource_name('''', ''notificationhub'') -%>'
