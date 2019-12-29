@@ -29,16 +29,11 @@ func resourceArmRemoteRenderingAccount() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "account_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "location": azure.SchemaLocation(),
@@ -51,6 +46,8 @@ func resourceArmRemoteRenderingAccount() *schema.Resource {
                 ForceNew: true,
             },
 
+            "tags": tags.Schema(),
+
             "account_domain": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -61,28 +58,37 @@ func resourceArmRemoteRenderingAccount() *schema.Resource {
                 Computed: true,
             },
 
-            "type": {
+            "id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
-            "tags": tags.Schema(),
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "type": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
         },
     }
 }
 
 func resourceArmRemoteRenderingAccountCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).remoteRenderingAccountsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("account_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Remote Rendering Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Remote Rendering Account (Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -92,26 +98,26 @@ func resourceArmRemoteRenderingAccountCreate(d *schema.ResourceData, meta interf
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     serial := d.Get("serial").(int)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     remoteRenderingAccount := mixedreality.RemoteRenderingAccount{
         Location: utils.String(location),
         Serial: utils.Int(serial),
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, name, remoteRenderingAccount); err != nil {
-        return fmt.Errorf("Error creating Remote Rendering Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroupName, name, remoteRenderingAccount); err != nil {
+        return fmt.Errorf("Error creating Remote Rendering Account (Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Remote Rendering Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Remote Rendering Account (Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Remote Rendering Account %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Remote Rendering Account (Account Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -120,29 +126,28 @@ func resourceArmRemoteRenderingAccountCreate(d *schema.ResourceData, meta interf
 
 func resourceArmRemoteRenderingAccountRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).remoteRenderingAccountsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["remoteRenderingAccounts"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Remote Rendering Account %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Remote Rendering Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Remote Rendering Account (Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -150,6 +155,9 @@ func resourceArmRemoteRenderingAccountRead(d *schema.ResourceData, meta interfac
         d.Set("account_domain", accountProperties.AccountDomain)
         d.Set("account_id", accountProperties.AccountID)
     }
+    d.Set("account_name", name)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -157,21 +165,24 @@ func resourceArmRemoteRenderingAccountRead(d *schema.ResourceData, meta interfac
 
 func resourceArmRemoteRenderingAccountUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).remoteRenderingAccountsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
+    name := d.Get("account_name").(string)
     serial := d.Get("serial").(int)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     remoteRenderingAccount := mixedreality.RemoteRenderingAccount{
+        Location: utils.String(location),
         Serial: utils.Int(serial),
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, remoteRenderingAccount); err != nil {
-        return fmt.Errorf("Error updating Remote Rendering Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, remoteRenderingAccount); err != nil {
+        return fmt.Errorf("Error updating Remote Rendering Account (Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return resourceArmRemoteRenderingAccountRead(d, meta)
@@ -179,18 +190,19 @@ func resourceArmRemoteRenderingAccountUpdate(d *schema.ResourceData, meta interf
 
 func resourceArmRemoteRenderingAccountDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).remoteRenderingAccountsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["remoteRenderingAccounts"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
-        return fmt.Errorf("Error deleting Remote Rendering Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name); err != nil {
+        return fmt.Errorf("Error deleting Remote Rendering Account (Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return nil

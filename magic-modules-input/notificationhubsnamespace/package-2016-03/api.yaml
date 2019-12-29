@@ -148,70 +148,37 @@ objects:
           '/properties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/properties/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Region
-          '/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: region
           '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Status
-          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: status
           '/properties/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreatedAt
-          '/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: created_at
           '/properties/serviceBusEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ServiceBusEndpoint
-          '/serviceBusEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: service_bus_endpoint
           '/properties/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: SubscriptionID
-          '/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subscription_id
           '/properties/scaleUnit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ScaleUnit
-          '/scaleUnit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: scale_unit
           '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: Enabled
-          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enabled
           '/properties/critical': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: Critical
-          '/critical': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: critical
           '/properties/namespaceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: NamespaceType
             go_enum_type_name: NamespaceType
-          '/namespaceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: namespace_type
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -268,65 +235,6 @@ objects:
     description: |
       Manage Azure Namespace instance.
     properties:
-      - !ruby/object:Api::Type::String
-        name: 'Name'
-        description: 'Resource name'
-        required: true
-        input: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'Location'
-        description: 'Resource location'
-        required: true
-        input: true
-        azure_sdk_references: ['/location']
-      - !ruby/object:Api::Azure::Type::Tags
-        name: 'Tags'
-        description: 'Resource tags'
-        required: false
-        input: true
-        azure_sdk_references: ['tags', '/tags']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'Sku'
-        description: 'The sku of the created namespace'
-        required: false
-        azure_sdk_references: ['/sku']
-        properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'Name'
-            description: 'Name of the notification hub sku'
-            required: true
-            azure_sdk_references: ['/sku/name']
-            values:
-              - :Free
-              - :Basic
-              - :Standard
-          - !ruby/object:Api::Type::String
-            name: 'Tier'
-            description: 'The tier of particular sku'
-            required: false
-            azure_sdk_references: ['/sku/tier']
-          - !ruby/object:Api::Type::String
-            name: 'Size'
-            description: 'The Sku size'
-            required: false
-            azure_sdk_references: ['/sku/size']
-          - !ruby/object:Api::Type::String
-            name: 'Family'
-            description: 'The Sku Family'
-            required: false
-            azure_sdk_references: ['/sku/family']
-          - !ruby/object:Api::Type::Integer
-            name: 'Capacity'
-            description: 'The capacity of the resource'
-            required: false
-            azure_sdk_references: ['/sku/capacity']
-      - !ruby/object:Api::Type::Boolean
-        name: 'IsAvailiable'
-        description: 'True if the name is available and can be used to create new Namespace/NotificationHub. Otherwise false.'
-        required: false
-        input: true
-        azure_sdk_references: ['/isAvailiable']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'ResourceGroup'
         description: 'The name of the resource group.'
@@ -358,78 +266,4 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['authorizationRuleName']
-      - !ruby/object:Api::Type::String
-        name: 'PolicyKey'
-        description: 'Name of the key that has to be regenerated for the Namespace/Notification Hub Authorization Rule. The value can be Primary Key/Secondary Key.'
-        required: false
-        input: true
-        azure_sdk_references: ['/policyKey']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'Name'
-        description: 'The name of the namespace.'
-        output: true
-        azure_sdk_references: ['/name', '/properties/name']
-      - !ruby/object:Api::Type::String
-        name: 'ProvisioningState'
-        description: 'Provisioning state of the Namespace.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Type::String
-        name: 'Region'
-        description: 'Specifies the targeted region in which the namespace should be created. It can be any of the following values: Australia East, Australia Southeast, Central US, East US, East US 2, West US, North Central US, South Central US, East Asia, Southeast Asia, Brazil South, Japan East, Japan West, North Europe, West Europe'
-        output: true
-        azure_sdk_references: ['/region', '/properties/region']
-      - !ruby/object:Api::Type::String
-        name: 'Status'
-        description: 'Status of the namespace. It can be any of these values:1 = Created/Active2 = Creating3 = Suspended4 = Deleting'
-        output: true
-        azure_sdk_references: ['/status', '/properties/status']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'CreatedAt'
-        description: 'The time the namespace was created.'
-        output: true
-        azure_sdk_references: ['/createdAt', '/properties/createdAt']
-      - !ruby/object:Api::Type::String
-        name: 'ServiceBusEndpoint'
-        description: 'Endpoint you can use to perform NotificationHub operations.'
-        output: true
-        azure_sdk_references: ['/serviceBusEndpoint', '/properties/serviceBusEndpoint']
-      - !ruby/object:Api::Type::String
-        name: 'SubscriptionID'
-        description: 'The Id of the Azure subscription associated with the namespace.'
-        output: true
-        azure_sdk_references: ['/subscriptionId', '/properties/subscriptionId']
-      - !ruby/object:Api::Type::String
-        name: 'ScaleUnit'
-        description: 'ScaleUnit where the namespace gets created'
-        output: true
-        azure_sdk_references: ['/scaleUnit', '/properties/scaleUnit']
-      - !ruby/object:Api::Type::Boolean
-        name: 'Enabled'
-        description: 'Whether or not the namespace is currently enabled.'
-        output: true
-        azure_sdk_references: ['/enabled', '/properties/enabled']
-      - !ruby/object:Api::Type::Boolean
-        name: 'Critical'
-        description: 'Whether or not the namespace is set as Critical.'
-        output: true
-        azure_sdk_references: ['/critical', '/properties/critical']
-      - !ruby/object:Api::Type::Enum
-        name: 'NamespaceType'
-        description: 'The namespace type.'
-        output: true
-        azure_sdk_references: ['/namespaceType', '/properties/namespaceType']
-        values:
-          - :Messaging
-          - :NotificationHub
-      - !ruby/object:Api::Type::String
-        name: 'ID'
-        description: 'Resource Id'
-        output: true
-        azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'Type'
-        description: 'Resource type'
-        output: true
-        azure_sdk_references: ['/type']
