@@ -1,0 +1,43 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_frontdoorrulesengine
+  description: Create or update a specific Rules Engine Configuration
+  code:
+    resource_group: myResourceGroup
+    front_door_name: myFrontDoor
+    name: myRulesEngine
+    rules_engine_parameters:
+      properties:
+        rules:
+          - name: Rule1
+            priority: '1'
+            action:
+              routeConfigurationOverride:
+                '@odata.type': '#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration'
+                redirectType: Moved
+                redirectProtocol: HttpsOnly
+                customHost: www.bing.com
+                customPath: /api
+                customFragment: fragment
+                customQueryString: a=b
+            matchConditions:
+              - rulesEngineMatchVariable: RemoteAddr
+                rulesEngineOperator: GeoMatch
+                rulesEngineMatchValue:
+                  - CH
+            matchProcessingBehavior: Stop
+          - name: Rule2
+            priority: '2'
+            action:
+              responseHeaderActions:
+                - headerActionType: Overwrite
+                  headerName: Cache-Control
+                  value: 'public, max-age=31536000'
+            matchConditions:
+              - rulesEngineMatchVariable: RequestFilenameExtension
+                rulesEngineOperator: Equal
+                rulesEngineMatchValue:
+                  - jpg
+                transforms:
+                  - Lowercase
+  

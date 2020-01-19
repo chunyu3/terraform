@@ -1,0 +1,32 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_integration_runtime
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: factory
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  factory_name: exampleFactoryName
+  name: '<%= get_resource_name('''', ''datafactoryv2integrationruntime'') -%>'
+  integration_runtime:
+    properties:
+      type: Managed
+      typeProperties:
+        computeProperties:
+          location: West US
+          nodeSize: Standard_D1_v2
+          numberOfNodes: '1'
+          maxParallelExecutionsPerNode: '1'
+        ssisProperties:
+          catalogInfo:
+            catalogServerEndpoint: yandongtestsvr.database.windows.net
+            catalogAdminUserName: yanzhang
+            catalogAdminPassword:
+              type: SecureString
+              value: Passw0rd1
+            catalogPricingTier: S1
+          licenseType: BasePrice
+      description: A managed reserved integration runtime

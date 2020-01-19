@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -46,9 +46,6 @@ objects:
             applicable_to: [go]
             go_field_name: DataFlow
             go_type_name: DataFlow
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -58,26 +55,20 @@ objects:
           '/properties/annotations': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
             applicable_to: [go]
             go_field_name: Annotations
-          '/folder': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: folder
-          '/folder/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
           '/properties/folder': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Folder
             go_type_name: DataFlow_folder
           '/properties/folder/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: Name
+            go_field_name: Folderfolder_name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -96,7 +87,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -117,9 +108,6 @@ objects:
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
           '/properties/annotations': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
             applicable_to: [go]
             go_field_name: Annotations
@@ -132,13 +120,7 @@ objects:
             go_type_name: DataFlow_folder
           '/properties/folder/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: Name
-          '/folder': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: folder
-          '/folder/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
+            go_field_name: Folderfolder_name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -157,7 +139,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -170,63 +152,27 @@ objects:
       Manage Azure DataFlow instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'factoryName'
+        name: 'FactoryName'
         description: 'The factory name.'
         required: true
         input: true
         azure_sdk_references: ['factoryName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'DataFlowName'
         description: 'The data flow name.'
         required: true
         input: true
         azure_sdk_references: ['dataFlowName']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'The description of the data flow.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::Array
-        name: 'annotations'
+        name: 'Annotations'
         description: 'List of tags that can be used for describing the data flow.'
         required: false
         azure_sdk_references: ['/annotations', '/properties/annotations']
         item_type: !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-      - !ruby/object:Api::Type::NestedObject
-        name: 'folder'
-        description: 'The folder that this data flow is in. If not specified, Data flow will appear at the root level.'
-        required: false
-        azure_sdk_references: ['/folder', '/properties/folder']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'name'
-            description: 'The name of the folder that this data flow is in.'
-            required: false
-            azure_sdk_references: ['/folder/name', '/properties/folder/name']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'The resource identifier.'
-        output: true
-        azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The resource name.'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The resource type.'
-        output: true
-        azure_sdk_references: ['/type']
-      - !ruby/object:Api::Type::String
-        name: 'etag'
-        description: 'Etag identifies change in the resource.'
-        output: true
-        azure_sdk_references: ['/etag']

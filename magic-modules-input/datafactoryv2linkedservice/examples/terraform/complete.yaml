@@ -1,0 +1,26 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_linked_service
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: factory
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: linkedservice
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  factory_name: exampleFactoryName
+  name: '<%= get_resource_name('''', ''datafactoryv2linkedservice'') -%>'
+  linked_service:
+    properties:
+      type: AzureStorage
+      typeProperties:
+        connectionString:
+          value: >-
+            DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage
+            key>
+          type: SecureString
+      description: Example description

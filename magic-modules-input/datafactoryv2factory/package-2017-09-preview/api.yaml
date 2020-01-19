@@ -28,7 +28,7 @@ objects:
             python_parameter_name: factory_name
             python_variable_name: name
           '/resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: resourceGroup
+            go_field_name: resourceGroupName
             python_field_name: resource_group_name
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
@@ -40,7 +40,7 @@ objects:
             python_parameter_name: factory_name
             python_variable_name: name
           '/resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: resourceGroup
+            go_field_name: resourceGroupName
             python_field_name: resource_group_name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
@@ -52,7 +52,7 @@ objects:
             python_parameter_name: factory_name
             python_variable_name: name
           '/resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: resourceGroup
+            go_field_name: resourceGroupName
             python_field_name: resource_group_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
@@ -64,7 +64,7 @@ objects:
             python_parameter_name: factory_name
             python_variable_name: name
           '/resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: resourceGroup
+            go_field_name: resourceGroupName
             python_field_name: resource_group_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -99,67 +99,34 @@ objects:
             go_type_name: FactoryVSTSConfiguration
           '/properties/vstsConfiguration/accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: AccountName
+            go_field_name: VstsConfigurationvsts_configuration_account_name
           '/properties/vstsConfiguration/projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: ProjectName
+            go_field_name: VstsConfigurationvsts_configuration_project_name
           '/properties/vstsConfiguration/repositoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: RepositoryName
+            go_field_name: VstsConfigurationvsts_configuration_repository_name
           '/properties/vstsConfiguration/collaborationBranch': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: CollaborationBranch
+            go_field_name: VstsConfigurationvsts_configuration_collaboration_branch
           '/properties/vstsConfiguration/rootFolder': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: RootFolder
+            go_field_name: VstsConfigurationvsts_configuration_root_folder
           '/properties/vstsConfiguration/lastCommitId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: LastCommitID
+            go_field_name: VstsConfigurationvsts_configuration_last_commit_id
           '/properties/vstsConfiguration/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: TenantID
-          '/vstsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: vsts_configuration
-          '/vstsConfiguration/accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: account_name
-          '/vstsConfiguration/projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: project_name
-          '/vstsConfiguration/repositoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: repository_name
-          '/vstsConfiguration/collaborationBranch': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: collaboration_branch
-          '/vstsConfiguration/rootFolder': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: root_folder
-          '/vstsConfiguration/lastCommitId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: last_commit_id
-          '/vstsConfiguration/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: tenant_id
+            go_field_name: VstsConfigurationvsts_configuration_tenant_id
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/properties/createTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreateTime
-          '/createTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: create_time
           '/properties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Version
-          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: version
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -174,7 +141,7 @@ objects:
         python_func_name: list_by_resource_group
         request:
           '/resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: resourceGroup
+            go_field_name: resourceGroupName
             python_field_name: resource_group_name
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
@@ -185,180 +152,27 @@ objects:
       Manage Azure Factory instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'locationId'
+        name: 'LocationID'
         description: 'The location identifier.'
         required: true
         input: true
         azure_sdk_references: ['locationId']
-      - !ruby/object:Api::Type::String
-        name: 'factoryResourceId'
-        description: 'The factory resource id.'
-        required: false
-        input: true
-        azure_sdk_references: ['/factoryResourceId']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
-        description: 'The resource group name.'
-        required: false
-        input: true
-        azure_sdk_references: ['/resourceGroupName']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'vstsConfiguration'
-        description: 'VSTS repo information of the factory.'
-        required: false
-        azure_sdk_references: ['/vstsConfiguration']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'accountName'
-            description: 'VSTS account name.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/accountName']
-          - !ruby/object:Api::Type::String
-            name: 'projectName'
-            description: 'VSTS project name.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/projectName']
-          - !ruby/object:Api::Type::String
-            name: 'repositoryName'
-            description: 'VSTS repository name.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/repositoryName']
-          - !ruby/object:Api::Type::String
-            name: 'collaborationBranch'
-            description: 'VSTS collaboration branch.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/collaborationBranch']
-          - !ruby/object:Api::Type::String
-            name: 'rootFolder'
-            description: 'VSTS root folder.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/rootFolder']
-          - !ruby/object:Api::Type::String
-            name: 'lastCommitId'
-            description: 'VSTS last commit id.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/lastCommitId']
-          - !ruby/object:Api::Type::String
-            name: 'tenantId'
-            description: 'VSTS tenant id.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/tenantId']
-      - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'FactoryName'
         description: 'The factory name.'
         required: true
         input: true
         azure_sdk_references: ['factoryName']
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
-        description: 'The resource location.'
-        required: false
-        input: true
-        azure_sdk_references: ['/location']
-      - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
-        description: 'The resource tags.'
-        required: false
-        input: true
-        azure_sdk_references: ['tags', '/tags']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'additionalProperties'
-        description: 'Unmatched properties from the message are deserialized this collection'
-        required: false
-        input: true
-        azure_sdk_references: ['/additionalProperties']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'identity'
-        description: 'Managed service identity of the factory.'
-        required: false
-        azure_sdk_references: ['/identity']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'type'
-            description: 'The identity type. Currently the only supported type is ''SystemAssigned''.'
-            required: true
-            azure_sdk_references: ['/identity/type']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'vstsConfiguration'
-        description: 'VSTS repo information of the factory.'
-        required: false
-        azure_sdk_references: ['/vstsConfiguration', '/properties/vstsConfiguration']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'accountName'
-            description: 'VSTS account name.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/accountName', '/properties/vstsConfiguration/accountName']
-          - !ruby/object:Api::Type::String
-            name: 'projectName'
-            description: 'VSTS project name.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/projectName', '/properties/vstsConfiguration/projectName']
-          - !ruby/object:Api::Type::String
-            name: 'repositoryName'
-            description: 'VSTS repository name.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/repositoryName', '/properties/vstsConfiguration/repositoryName']
-          - !ruby/object:Api::Type::String
-            name: 'collaborationBranch'
-            description: 'VSTS collaboration branch.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/collaborationBranch', '/properties/vstsConfiguration/collaborationBranch']
-          - !ruby/object:Api::Type::String
-            name: 'rootFolder'
-            description: 'VSTS root folder.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/rootFolder', '/properties/vstsConfiguration/rootFolder']
-          - !ruby/object:Api::Type::String
-            name: 'lastCommitId'
-            description: 'VSTS last commit id.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/lastCommitId', '/properties/vstsConfiguration/lastCommitId']
-          - !ruby/object:Api::Type::String
-            name: 'tenantId'
-            description: 'VSTS tenant id.'
-            required: false
-            azure_sdk_references: ['/vstsConfiguration/tenantId', '/properties/vstsConfiguration/tenantId']
       - !ruby/object:Api::Type::String
-        name: 'runId'
+        name: 'RunID'
         description: 'The pipeline run identifier.'
         required: true
         input: true
         azure_sdk_references: ['runId']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Factory provisioning state, example Succeeded.'
-        output: true
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createTime'
-        description: 'Time the factory was created in ISO8601 format.'
-        output: true
-        azure_sdk_references: ['/createTime', '/properties/createTime']
-      - !ruby/object:Api::Type::String
-        name: 'version'
-        description: 'Version of the factory.'
-        output: true
-        azure_sdk_references: ['/version', '/properties/version']
-      - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'The resource identifier.'
-        output: true
-        azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The resource name.'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The resource type.'
-        output: true
-        azure_sdk_references: ['/type']

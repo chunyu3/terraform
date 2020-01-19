@@ -1,0 +1,613 @@
+--- !ruby/object:Api::Product
+name: Azure RulesEngine Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RulesEngine
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: frontdoor
+      go_client: rulesEnginesClient
+      python_client_namespace: azure.mgmt.frontdoor
+      python_client: FrontDoorManagementClient.rules_engines
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'frontDoorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: frontDoors
+            go_variable_name: frontDoorName
+            python_parameter_name: front_door_name
+            python_variable_name: front_door_name
+          'rulesEngineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: rulesEngines
+            go_variable_name: name
+            python_parameter_name: rules_engine_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: rulesEngineParameters
+            go_type_name: RulesEngine
+            python_parameter_name: rules_engine_parameters
+            python_variable_name: rules_engine_parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RulesEngineProperties
+            go_type_name: RulesEngineProperties
+          '/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: rules
+          '/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: priority
+          '/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: action
+          '/rules/action/requestHeaderActions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: request_header_actions
+          '/rules/action/requestHeaderActions/headerActionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: header_action_type
+          '/rules/action/requestHeaderActions/headerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: header_name
+          '/rules/action/requestHeaderActions/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/rules/action/responseHeaderActions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: response_header_actions
+          '/rules/action/responseHeaderActions/headerActionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: header_action_type
+          '/rules/action/responseHeaderActions/headerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: header_name
+          '/rules/action/responseHeaderActions/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/rules/action/routeConfigurationOverride': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: route_configuration_override
+          '/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: match_conditions
+          '/rules/matchConditions/rulesEngineMatchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: rules_engine_match_variable
+          '/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: selector
+          '/rules/matchConditions/rulesEngineOperator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: rules_engine_operator
+          '/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: negate_condition
+          '/rules/matchConditions/rulesEngineMatchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: rules_engine_match_value
+          '/rules/matchConditions/transforms': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: transforms
+          '/rules/matchProcessingBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: match_processing_behavior
+          '/properties/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Rules
+            go_type_name: RulesEngineRule
+          '/properties/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Priority
+          '/properties/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_type_name: RulesEngineAction
+          '/properties/rules/action/requestHeaderActions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: RequestHeaderActions
+            go_type_name: HeaderAction
+          '/properties/rules/action/requestHeaderActions/headerActionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: HeaderActionType
+            go_enum_type_name: HeaderActionType
+          '/properties/rules/action/requestHeaderActions/headerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HeaderName
+          '/properties/rules/action/requestHeaderActions/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/rules/action/responseHeaderActions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ResponseHeaderActions
+            go_type_name: HeaderAction
+          '/properties/rules/action/responseHeaderActions/headerActionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: HeaderActionType
+            go_enum_type_name: HeaderActionType
+          '/properties/rules/action/responseHeaderActions/headerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HeaderName
+          '/properties/rules/action/responseHeaderActions/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/rules/action/routeConfigurationOverride': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RouteConfigurationOverride
+            go_type_name: RouteConfiguration
+          '/properties/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: MatchConditions
+            go_type_name: RulesEngineMatchCondition
+          '/properties/rules/matchConditions/rulesEngineMatchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RulesEngineMatchVariable
+            go_enum_type_name: RulesEngineMatchVariable
+          '/properties/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Selector
+          '/properties/rules/matchConditions/rulesEngineOperator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RulesEngineOperator
+            go_enum_type_name: RulesEngineOperator
+          '/properties/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: NegateCondition
+          '/properties/rules/matchConditions/rulesEngineMatchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: RulesEngineMatchValue
+          '/properties/rules/matchConditions/transforms': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Transforms
+          '/properties/rules/matchProcessingBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MatchProcessingBehavior
+            go_enum_type_name: MatchProcessingBehavior
+          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: resource_state
+          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResourceState
+            go_enum_type_name: ResourceState
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'frontDoorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: frontDoors
+            go_variable_name: frontDoorName
+            python_parameter_name: front_door_name
+            python_variable_name: front_door_name
+          'rulesEngineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: rulesEngines
+            go_variable_name: name
+            python_parameter_name: rules_engine_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'frontDoorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: frontDoors
+            go_variable_name: frontDoorName
+            python_parameter_name: front_door_name
+            python_variable_name: front_door_name
+          'rulesEngineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: rulesEngines
+            go_variable_name: name
+            python_parameter_name: rules_engine_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RulesEngineProperties
+            go_type_name: RulesEngineProperties
+          '/properties/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Rules
+            go_type_name: RulesEngineRule
+          '/properties/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Priority
+          '/properties/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_type_name: RulesEngineAction
+          '/properties/rules/action/requestHeaderActions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: RequestHeaderActions
+            go_type_name: HeaderAction
+          '/properties/rules/action/requestHeaderActions/headerActionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: HeaderActionType
+            go_enum_type_name: HeaderActionType
+          '/properties/rules/action/requestHeaderActions/headerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HeaderName
+          '/properties/rules/action/requestHeaderActions/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/rules/action/responseHeaderActions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ResponseHeaderActions
+            go_type_name: HeaderAction
+          '/properties/rules/action/responseHeaderActions/headerActionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: HeaderActionType
+            go_enum_type_name: HeaderActionType
+          '/properties/rules/action/responseHeaderActions/headerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HeaderName
+          '/properties/rules/action/responseHeaderActions/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/rules/action/routeConfigurationOverride': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RouteConfigurationOverride
+            go_type_name: RouteConfiguration
+          '/properties/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: MatchConditions
+            go_type_name: RulesEngineMatchCondition
+          '/properties/rules/matchConditions/rulesEngineMatchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RulesEngineMatchVariable
+            go_enum_type_name: RulesEngineMatchVariable
+          '/properties/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Selector
+          '/properties/rules/matchConditions/rulesEngineOperator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RulesEngineOperator
+            go_enum_type_name: RulesEngineOperator
+          '/properties/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: NegateCondition
+          '/properties/rules/matchConditions/rulesEngineMatchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: RulesEngineMatchValue
+          '/properties/rules/matchConditions/transforms': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Transforms
+          '/properties/rules/matchProcessingBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MatchProcessingBehavior
+            go_enum_type_name: MatchProcessingBehavior
+          '/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: rules
+          '/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: priority
+          '/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: action
+          '/rules/action/requestHeaderActions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: request_header_actions
+          '/rules/action/requestHeaderActions/headerActionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: header_action_type
+          '/rules/action/requestHeaderActions/headerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: header_name
+          '/rules/action/requestHeaderActions/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/rules/action/responseHeaderActions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: response_header_actions
+          '/rules/action/responseHeaderActions/headerActionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: header_action_type
+          '/rules/action/responseHeaderActions/headerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: header_name
+          '/rules/action/responseHeaderActions/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/rules/action/routeConfigurationOverride': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: route_configuration_override
+          '/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: match_conditions
+          '/rules/matchConditions/rulesEngineMatchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: rules_engine_match_variable
+          '/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: selector
+          '/rules/matchConditions/rulesEngineOperator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: rules_engine_operator
+          '/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: negate_condition
+          '/rules/matchConditions/rulesEngineMatchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: rules_engine_match_value
+          '/rules/matchConditions/transforms': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: transforms
+          '/rules/matchProcessingBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: match_processing_behavior
+          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResourceState
+            go_enum_type_name: ResourceState
+          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: resource_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByFrontDoor
+        python_func_name: list_by_front_door
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'frontDoorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: frontDoors
+            go_variable_name: frontDoorName
+            python_parameter_name: front_door_name
+            python_variable_name: front_door_name
+
+    description: |
+      Manage Azure RulesEngine instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'ResourceGroup'
+        description: 'Name of the Resource group within the Azure subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'FrontDoorName'
+        description: 'Name of the Front Door which is globally unique.'
+        required: true
+        input: true
+        azure_sdk_references: ['frontDoorName']
+      - !ruby/object:Api::Type::String
+        name: 'RulesEngineName'
+        description: 'Name of the Rules Engine which is unique within the Front Door.'
+        required: true
+        input: true
+        azure_sdk_references: ['rulesEngineName']
+      - !ruby/object:Api::Type::Array
+        name: 'Rules'
+        description: 'A list of rules that define a particular Rules Engine Configuration.'
+        required: false
+        azure_sdk_references: ['/rules', '/properties/rules']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'Name'
+              description: 'A name to refer to this specific rule.'
+              required: true
+              azure_sdk_references: ['/rules/name', '/properties/rules/name']
+            - !ruby/object:Api::Type::Integer
+              name: 'Priority'
+              description: 'A priority assigned to this rule. '
+              required: true
+              azure_sdk_references: ['/rules/priority', '/properties/rules/priority']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'Action'
+              description: 'Actions to perform on the request and response if all of the match conditions are met.'
+              required: true
+              azure_sdk_references: ['/rules/action', '/properties/rules/action']
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'RequestHeaderActions'
+                  description: 'A list of header actions to apply from the request from AFD to the origin.'
+                  required: false
+                  azure_sdk_references: ['/rules/action/requestHeaderActions', '/properties/rules/action/requestHeaderActions']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::Enum
+                        name: 'HeaderActionType'
+                        description: 'Which type of manipulation to apply to the header.'
+                        required: true
+                        azure_sdk_references: ['/rules/action/requestHeaderActions/headerActionType', '/properties/rules/action/requestHeaderActions/headerActionType']
+                        values:
+                          - :Append
+                          - :Delete
+                          - :Overwrite
+                      - !ruby/object:Api::Type::String
+                        name: 'HeaderName'
+                        description: 'The name of the header this action will apply to.'
+                        required: true
+                        azure_sdk_references: ['/rules/action/requestHeaderActions/headerName', '/properties/rules/action/requestHeaderActions/headerName']
+                      - !ruby/object:Api::Type::String
+                        name: 'Value'
+                        description: 'The value to update the given header name with. This value is not used if the actionType is Delete.'
+                        required: false
+                        azure_sdk_references: ['/rules/action/requestHeaderActions/value', '/properties/rules/action/requestHeaderActions/value']
+                - !ruby/object:Api::Type::Array
+                  name: 'ResponseHeaderActions'
+                  description: 'A list of header actions to apply from the response from AFD to the client.'
+                  required: false
+                  azure_sdk_references: ['/rules/action/responseHeaderActions', '/properties/rules/action/responseHeaderActions']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::Enum
+                        name: 'HeaderActionType'
+                        description: 'Which type of manipulation to apply to the header.'
+                        required: true
+                        azure_sdk_references: ['/rules/action/responseHeaderActions/headerActionType', '/properties/rules/action/responseHeaderActions/headerActionType']
+                        values:
+                          - :Append
+                          - :Delete
+                          - :Overwrite
+                      - !ruby/object:Api::Type::String
+                        name: 'HeaderName'
+                        description: 'The name of the header this action will apply to.'
+                        required: true
+                        azure_sdk_references: ['/rules/action/responseHeaderActions/headerName', '/properties/rules/action/responseHeaderActions/headerName']
+                      - !ruby/object:Api::Type::String
+                        name: 'Value'
+                        description: 'The value to update the given header name with. This value is not used if the actionType is Delete.'
+                        required: false
+                        azure_sdk_references: ['/rules/action/responseHeaderActions/value', '/properties/rules/action/responseHeaderActions/value']
+            - !ruby/object:Api::Type::Array
+              name: 'MatchConditions'
+              description: 'A list of match conditions that must meet in order for the actions of this rule to run. Having no match conditions means the actions will always run.'
+              required: false
+              azure_sdk_references: ['/rules/matchConditions', '/properties/rules/matchConditions']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::Enum
+                    name: 'RulesEngineMatchVariable'
+                    description: 'Match Variable'
+                    required: true
+                    azure_sdk_references: ['/rules/matchConditions/rulesEngineMatchVariable', '/properties/rules/matchConditions/rulesEngineMatchVariable']
+                    values:
+                      - :IsMobile
+                      - :RemoteAddr
+                      - :RequestMethod
+                      - :QueryString
+                      - :PostArgs
+                      - :RequestUri
+                      - :RequestPath
+                      - :RequestFilename
+                      - :RequestFilenameExtension
+                      - :RequestHeader
+                      - :RequestBody
+                      - :RequestScheme
+                  - !ruby/object:Api::Type::String
+                    name: 'Selector'
+                    description: 'Name of selector in RequestHeader or RequestBody to be matched'
+                    required: false
+                    azure_sdk_references: ['/rules/matchConditions/selector', '/properties/rules/matchConditions/selector']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'RulesEngineOperator'
+                    description: 'Describes operator to apply to the match condition.'
+                    required: true
+                    azure_sdk_references: ['/rules/matchConditions/rulesEngineOperator', '/properties/rules/matchConditions/rulesEngineOperator']
+                    values:
+                      - :Any
+                      - :IPMatch
+                      - :GeoMatch
+                      - :Equal
+                      - :Contains
+                      - :LessThan
+                      - :GreaterThan
+                      - :LessThanOrEqual
+                      - :GreaterThanOrEqual
+                      - :BeginsWith
+                      - :EndsWith
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'NegateCondition'
+                    description: 'Describes if this is negate condition or not'
+                    required: false
+                    azure_sdk_references: ['/rules/matchConditions/negateCondition', '/properties/rules/matchConditions/negateCondition']
+                  - !ruby/object:Api::Type::Array
+                    name: 'RulesEngineMatchValue'
+                    description: 'Match values to match against. The operator will apply to each value in here with OR semantics. If any of them match the variable with the given operator this match condition is considered a match.'
+                    required: true
+                    azure_sdk_references: ['/rules/matchConditions/rulesEngineMatchValue', '/properties/rules/matchConditions/rulesEngineMatchValue']
+                    item_type: Api::Type::String
+                  - !ruby/object:Api::Type::Array
+                    name: 'Transforms'
+                    description: 'List of transforms'
+                    required: false
+                    azure_sdk_references: ['/rules/matchConditions/transforms', '/properties/rules/matchConditions/transforms']
+                    item_type: !ruby/object:Api::Type::Enum
+                      name: 'TBD'
+                      description: 'TBD'
+                      values:
+                        - :Lowercase
+                        - :Uppercase
+                        - :Trim
+                        - :UrlDecode
+                        - :UrlEncode
+                        - :RemoveNulls
+                      default_value: :Lowercase
+            - !ruby/object:Api::Type::Enum
+              name: 'MatchProcessingBehavior'
+              description: 'If this rule is a match should the rules engine continue running the remaining rules or stop. If not present, defaults to Continue.'
+              required: false
+              azure_sdk_references: ['/rules/matchProcessingBehavior', '/properties/rules/matchProcessingBehavior']
+              values:
+                - :Continue
+                - :Stop
+              default_value: :Continue
+      - !ruby/object:Api::Type::Enum
+        name: 'ResourceState'
+        description: 'Resource status.'
+        required: false
+        azure_sdk_references: ['/resourceState', '/properties/resourceState']
+        values:
+          - :Creating
+          - :Enabling
+          - :Enabled
+          - :Disabling
+          - :Disabled
+          - :Deleting
+        default_value: :Creating
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'Name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'Type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'ID'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']

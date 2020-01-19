@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -46,15 +46,9 @@ objects:
             applicable_to: [go]
             go_field_name: Trigger
             go_type_name: Trigger
-          '/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: additional_properties
           '/properties/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
             go_field_name: AdditionalProperties
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -64,7 +58,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -83,7 +77,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -104,22 +98,13 @@ objects:
           '/properties/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
             go_field_name: AdditionalProperties
-          '/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: additional_properties
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
           '/properties/runtimeState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: RuntimeState
             go_enum_type_name: TriggerRuntimeState
-          '/runtimeState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: runtime_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -138,7 +123,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -152,7 +137,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -180,72 +165,33 @@ objects:
       Manage Azure Trigger instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'factoryName'
+        name: 'FactoryName'
         description: 'The factory name.'
         required: true
         input: true
         azure_sdk_references: ['factoryName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'TriggerName'
         description: 'The trigger name.'
         required: true
         input: true
         azure_sdk_references: ['triggerName']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'additionalProperties'
-        description: 'Unmatched properties from the message are deserialized this collection'
-        required: false
-        azure_sdk_references: ['/additionalProperties', '/properties/additionalProperties']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Trigger description.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'startTime'
+        name: 'StartTime'
         description: 'Start time for trigger runs.'
         required: true
         input: true
         azure_sdk_references: ['startTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'endTime'
+        name: 'EndTime'
         description: 'End time for trigger runs.'
         required: true
         input: true
         azure_sdk_references: ['endTime']
       # read only values included only in response
-      - !ruby/object:Api::Type::Enum
-        name: 'runtimeState'
-        description: 'Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger.'
-        output: true
-        azure_sdk_references: ['/runtimeState', '/properties/runtimeState']
-        values:
-          - :Started
-          - :Stopped
-          - :Disabled
-      - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'The resource identifier.'
-        output: true
-        azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The resource name.'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The resource type.'
-        output: true
-        azure_sdk_references: ['/type']
-      - !ruby/object:Api::Type::String
-        name: 'etag'
-        description: 'Etag identifies change in the resource.'
-        output: true
-        azure_sdk_references: ['/etag']

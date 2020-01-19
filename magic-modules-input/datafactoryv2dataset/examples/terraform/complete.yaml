@@ -1,0 +1,34 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_dataset
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: factory
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  factory_name: exampleFactoryName
+  name: '<%= get_resource_name('''', ''datafactoryv2dataset'') -%>'
+  dataset:
+    properties:
+      type: AzureBlob
+      typeProperties:
+        folderPath:
+          value: '@dataset().MyFolderPath'
+          type: Expression
+        fileName:
+          value: '@dataset().MyFileName'
+          type: Expression
+        format:
+          type: TextFormat
+      description: Example description
+      linkedServiceName:
+        referenceName: exampleLinkedService
+        type: LinkedServiceReference
+      parameters:
+        MyFolderPath:
+          type: String
+        MyFileName:
+          type: String

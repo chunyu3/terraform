@@ -1,0 +1,45 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_rules_engine
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: frontdoor
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  front_door_name: frontDoor1
+  name: '<%= get_resource_name('''', ''frontdoorrulesengine'') -%>'
+  rules:
+    - name: Rule1
+      priority: '1'
+      action:
+        route_configuration_override:
+          '@odata.type': '#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration'
+          redirectType: Moved
+          redirectProtocol: HttpsOnly
+          customHost: www.bing.com
+          customPath: /api
+          customFragment: fragment
+          customQueryString: a=b
+      match_conditions:
+        - rules_engine_match_variable: RemoteAddr
+          rules_engine_operator: GeoMatch
+          rules_engine_match_value:
+            - CH
+      match_processing_behavior: Stop
+    - name: Rule2
+      priority: '2'
+      action:
+        response_header_actions:
+          - header_action_type: Overwrite
+            header_name: Cache-Control
+            value: 'public, max-age=31536000'
+      match_conditions:
+        - rules_engine_match_variable: RequestFilenameExtension
+          rules_engine_operator: Equal
+          rules_engine_match_value:
+            - jpg
+          transforms:
+            - Lowercase

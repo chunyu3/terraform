@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -49,9 +49,6 @@ objects:
             applicable_to: [go]
             go_field_name: Pipeline
             go_type_name: Pipeline
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -105,15 +102,9 @@ objects:
           '/properties/activities/dependsOn/dependencyConditions': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [go]
             go_field_name: DependencyConditions
-          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: parameters
           '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
             go_field_name: Parameters
-          '/concurrency': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: concurrency
           '/properties/concurrency': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: Concurrency
@@ -129,7 +120,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -148,7 +139,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -172,9 +163,6 @@ objects:
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
           '/properties/activities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Activities
@@ -228,15 +216,9 @@ objects:
           '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
             go_field_name: Parameters
-          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: parameters
           '/properties/concurrency': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: Concurrency
-          '/concurrency': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: concurrency
           '/properties/annotations': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
             applicable_to: [go]
             go_field_name: Annotations
@@ -261,7 +243,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -274,75 +256,64 @@ objects:
       Manage Azure Pipeline instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'factoryName'
+        name: 'FactoryName'
         description: 'The factory name.'
         required: true
         input: true
         azure_sdk_references: ['factoryName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'PipelineName'
         description: 'The pipeline name.'
         required: true
         input: true
         azure_sdk_references: ['pipelineName']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'additionalProperties'
-        description: 'Unmatched properties from the message are deserialized this collection'
-        required: false
-        input: true
-        azure_sdk_references: ['/additionalProperties']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'The description of the pipeline.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::Array
-        name: 'activities'
+        name: 'Activities'
         description: 'List of activities in pipeline.'
         required: false
         azure_sdk_references: ['/activities', '/properties/activities']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::KeyValuePairs
-              name: 'additionalProperties'
+              name: 'AdditionalProperties'
               description: 'Unmatched properties from the message are deserialized this collection'
               required: false
               azure_sdk_references: ['/activities/additionalProperties', '/properties/activities/additionalProperties']
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Activity name.'
               required: true
               azure_sdk_references: ['/activities/name', '/properties/activities/name']
             - !ruby/object:Api::Type::String
-              name: 'description'
+              name: 'Description'
               description: 'Activity description.'
               required: false
               azure_sdk_references: ['/activities/description', '/properties/activities/description']
             - !ruby/object:Api::Type::Array
-              name: 'dependsOn'
+              name: 'DependsOn'
               description: 'Activity depends on condition.'
               required: false
               azure_sdk_references: ['/activities/dependsOn', '/properties/activities/dependsOn']
               item_type: !ruby/object:Api::Type::NestedObject
                 properties:
                   - !ruby/object:Api::Type::KeyValuePairs
-                    name: 'additionalProperties'
+                    name: 'AdditionalProperties'
                     description: 'Unmatched properties from the message are deserialized this collection'
                     required: false
                     azure_sdk_references: ['/activities/dependsOn/additionalProperties', '/properties/activities/dependsOn/additionalProperties']
                   - !ruby/object:Api::Type::String
-                    name: 'activity'
+                    name: 'Activity'
                     description: 'Activity name.'
                     required: true
                     azure_sdk_references: ['/activities/dependsOn/activity', '/properties/activities/dependsOn/activity']
                   - !ruby/object:Api::Type::Array
-                    name: 'dependencyConditions'
+                    name: 'DependencyConditions'
                     description: 'Match-Condition for the dependency.'
                     required: true
                     azure_sdk_references: ['/activities/dependsOn/dependencyConditions', '/properties/activities/dependsOn/dependencyConditions']
@@ -354,46 +325,16 @@ objects:
                         - :Failed
                         - :Skipped
                         - :Completed
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'parameters'
-        description: 'List of parameters for pipeline.'
-        required: false
-        azure_sdk_references: ['/parameters', '/properties/parameters']
-      - !ruby/object:Api::Type::Integer
-        name: 'concurrency'
-        description: 'The max number of concurrent runs for the pipeline.'
-        required: false
-        azure_sdk_references: ['/concurrency', '/properties/concurrency']
       - !ruby/object:Api::Type::Array
-        name: 'annotations'
+        name: 'Annotations'
         description: 'List of tags that can be used for describing the Pipeline.'
         required: false
         azure_sdk_references: ['/annotations', '/properties/annotations']
         item_type: !ruby/object:Api::Azure::Type::[unknown-primary[object]]
       - !ruby/object:Api::Type::KeyValuePairs
-        name: 'parameters'
+        name: 'Parameters'
         description: 'Parameters of the pipeline run.'
         required: false
         input: true
         azure_sdk_references: ['parameters']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'The resource identifier.'
-        output: true
-        azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The resource name.'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The resource type.'
-        output: true
-        azure_sdk_references: ['/type']
-      - !ruby/object:Api::Type::String
-        name: 'etag'
-        description: 'Etag identifies change in the resource.'
-        output: true
-        azure_sdk_references: ['/etag']
