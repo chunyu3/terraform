@@ -1,0 +1,289 @@
+--- !ruby/object:Api::Product
+name: Azure Container Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Container
+    api_name: DataBoxEdge
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataBoxEdge
+      go_client_namespace: databoxedge
+      go_client: containersClient
+      python_client_namespace: azure.mgmt.databoxedge
+      python_client: DataBoxEdgeManagementClient.containers
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: storageAccountName
+            python_parameter_name: storage_account_name
+            python_variable_name: storage_account_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: containers
+            go_variable_name: name
+            python_parameter_name: container_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: container
+            go_type_name: Container
+            python_parameter_name: container
+            python_variable_name: container
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContainerProperties
+            go_type_name: ContainerProperties
+          '/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: data_format
+          '/properties/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DataFormat
+            go_enum_type_name: AzureContainerDataFormat
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: storageAccountName
+            python_parameter_name: storage_account_name
+            python_variable_name: storage_account_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: containers
+            go_variable_name: name
+            python_parameter_name: container_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: storageAccountName
+            python_parameter_name: storage_account_name
+            python_variable_name: storage_account_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: containers
+            go_variable_name: name
+            python_parameter_name: container_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContainerProperties
+            go_type_name: ContainerProperties
+          '/properties/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DataFormat
+            go_enum_type_name: AzureContainerDataFormat
+          '/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: data_format
+          '/properties/containerStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ContainerStatus
+            go_enum_type_name: ContainerStatus
+          '/containerStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: container_status
+          '/properties/refreshDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RefreshDetails
+            go_type_name: RefreshDetails
+          '/properties/refreshDetails/inProgressRefreshJobId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InProgressRefreshJobID
+          '/properties/refreshDetails/lastCompletedRefreshJobTimeInUTC': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastCompletedRefreshJobTimeInUTC
+          '/properties/refreshDetails/errorManifestFile': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorManifestFile
+          '/properties/refreshDetails/lastJob': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastJob
+          '/refreshDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: refresh_details
+          '/refreshDetails/inProgressRefreshJobId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: in_progress_refresh_job_id
+          '/refreshDetails/lastCompletedRefreshJobTimeInUTC': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_completed_refresh_job_time_in_utc
+          '/refreshDetails/errorManifestFile': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_manifest_file
+          '/refreshDetails/lastJob': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_job
+          '/properties/createdDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedDateTime
+          '/createdDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_date_time
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByStorageAccount
+        python_func_name: list_by_storage_account
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: storageAccountName
+            python_parameter_name: storage_account_name
+            python_variable_name: storage_account_name
+
+    description: |
+      Manage Azure Container instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'DeviceName'
+        description: 'The device name.'
+        required: true
+        input: true
+        azure_sdk_references: ['deviceName']
+      - !ruby/object:Api::Type::String
+        name: 'StorageAccountName'
+        description: 'The Storage Account Name'
+        required: true
+        input: true
+        azure_sdk_references: ['storageAccountName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'ResourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'ContainerName'
+        description: 'The container name.'
+        required: true
+        input: true
+        azure_sdk_references: ['containerName']
+      - !ruby/object:Api::Type::Enum
+        name: 'DataFormat'
+        description: 'DataFormat for Container'
+        required: true
+        azure_sdk_references: ['/dataFormat', '/properties/dataFormat']
+        values:
+          - :BlockBlob
+          - :PageBlob
+          - :AzureFile
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'ContainerStatus'
+        description: 'Current status of the container.'
+        output: true
+        azure_sdk_references: ['/containerStatus', '/properties/containerStatus']
+        values:
+          - :OK
+          - :Offline
+          - :Unknown
+          - :Updating
+          - :NeedsAttention
+      - !ruby/object:Api::Type::NestedObject
+        name: 'RefreshDetails'
+        description: 'Details of the refresh job on this container.'
+        output: true
+        azure_sdk_references: ['/refreshDetails', '/properties/refreshDetails']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'InProgressRefreshJobID'
+            description: 'If a refresh job is currently in progress on this share or container, this field indicates the ARM resource ID of that job. The field is empty if no job is in progress.'
+            output: true
+            azure_sdk_references: ['/refreshDetails/inProgressRefreshJobId', '/properties/refreshDetails/inProgressRefreshJobId']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'LastCompletedRefreshJobTimeInUTC'
+            description: 'Indicates the completed time for the last refresh job on this particular share or container, if any.This could be a failed job or a successful job.'
+            output: true
+            azure_sdk_references: ['/refreshDetails/lastCompletedRefreshJobTimeInUTC', '/properties/refreshDetails/lastCompletedRefreshJobTimeInUTC']
+          - !ruby/object:Api::Type::String
+            name: 'ErrorManifestFile'
+            description: 'Indicates the relative path of the error xml for the last refresh job on this particular share or container, if any. This could be a failed job or a successful job.'
+            output: true
+            azure_sdk_references: ['/refreshDetails/errorManifestFile', '/properties/refreshDetails/errorManifestFile']
+          - !ruby/object:Api::Type::String
+            name: 'LastJob'
+            description: 'Indicates the id of the last refresh job on this particular share or container,if any. This could be a failed job or a successful job.'
+            output: true
+            azure_sdk_references: ['/refreshDetails/lastJob', '/properties/refreshDetails/lastJob']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'CreatedDateTime'
+        description: 'The UTC time when container got created.'
+        output: true
+        azure_sdk_references: ['/createdDateTime', '/properties/createdDateTime']
+      - !ruby/object:Api::Type::String
+        name: 'ID'
+        description: 'The path ID that uniquely identifies the object.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'Name'
+        description: 'The object name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'Type'
+        description: 'The hierarchical type of the object.'
+        output: true
+        azure_sdk_references: ['/type']

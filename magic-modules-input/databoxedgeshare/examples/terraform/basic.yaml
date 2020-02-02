@@ -1,0 +1,18 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_share
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: databoxedgedevice
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storageaccountcredential
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: user
+    example: basic
+properties:
+  name: '<%= get_resource_name('''', ''databoxedgeshare'') -%>'
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'

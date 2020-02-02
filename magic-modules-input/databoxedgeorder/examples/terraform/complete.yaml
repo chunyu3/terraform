@@ -1,0 +1,28 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_order
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: databoxedgedevice
+    example: basic
+properties:
+  name: '<%= get_resource_name('''', ''databoxedgeorder'') -%>'
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  order:
+    properties:
+      contactInformation:
+        contactPerson: John Mcclane
+        companyName: Microsoft
+        phone: (800) 426-9400
+        emailList:
+          - john@microsoft.com
+      shippingAddress:
+        addressLine1: Microsoft Corporation
+        addressLine2: One Microsoft Way
+        addressLine3: Redmond
+        postalCode: '98052'
+        city: WA
+        state: WA
+        country: USA

@@ -29,7 +29,7 @@ func resourceArmRole() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "device_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -41,14 +41,19 @@ func resourceArmRole() *schema.Resource {
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "type": {
                 Type: schema.TypeString,
@@ -60,17 +65,18 @@ func resourceArmRole() *schema.Resource {
 
 func resourceArmRoleCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).rolesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("device_name").(string)
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, name)
+        existing, err := client.Get(ctx, resourceGroupName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Role %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Role (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -83,21 +89,21 @@ func resourceArmRoleCreateUpdate(d *schema.ResourceData, meta interface{}) error
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, role)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, name, role)
     if err != nil {
-        return fmt.Errorf("Error creating Role %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Role (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Role %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Role (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Role %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Role (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Role %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Role (Name %q / Resource Group %q / Device Name %q) ID", name, resourceGroupName, name)
     }
     d.SetId(*resp.ID)
 
@@ -106,31 +112,33 @@ func resourceArmRoleCreateUpdate(d *schema.ResourceData, meta interface{}) error
 
 func resourceArmRoleRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).rolesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["dataBoxEdgeDevices"]
     name := id.Path["roles"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Role %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Role %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Role (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
     }
 
 
-    d.Set("name", name)
+    d.Set("resource_group", resourceGroupName)
+    d.Set("device_name", name)
+    d.Set("id", resp.ID)
     d.Set("name", name)
     d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
     d.Set("type", resp.Type)
 
     return nil
@@ -139,28 +147,29 @@ func resourceArmRoleRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmRoleDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).rolesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["dataBoxEdgeDevices"]
     name := id.Path["roles"]
 
-    future, err := client.Delete(ctx, resourceGroup, name, name)
+    future, err := client.Delete(ctx, resourceGroupName, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Role %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Role (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Role %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Role (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
         }
     }
 

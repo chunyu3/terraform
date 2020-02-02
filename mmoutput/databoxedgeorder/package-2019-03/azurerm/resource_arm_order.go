@@ -29,20 +29,6 @@ func resourceArmOrder() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "contact_information": {
                 Type: schema.TypeList,
                 Required: true,
@@ -74,6 +60,15 @@ func resourceArmOrder() *schema.Resource {
                     },
                 },
             },
+
+            "device_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "shipping_address": {
                 Type: schema.TypeList,
@@ -177,6 +172,16 @@ func resourceArmOrder() *schema.Resource {
                 },
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "order_history": {
                 Type: schema.TypeList,
                 Computed: true,
@@ -238,16 +243,17 @@ func resourceArmOrder() *schema.Resource {
 
 func resourceArmOrderCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).ordersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("device_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Order %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Order (Resource Group %q / Device Name %q): %+v", resourceGroupName, name, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -268,21 +274,21 @@ func resourceArmOrderCreateUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, order)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, order)
     if err != nil {
-        return fmt.Errorf("Error creating Order %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Order (Resource Group %q / Device Name %q): %+v", resourceGroupName, name, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Order %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Order (Resource Group %q / Device Name %q): %+v", resourceGroupName, name, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Order %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Order (Resource Group %q / Device Name %q): %+v", resourceGroupName, name, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Order %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Order (Resource Group %q / Device Name %q) ID", resourceGroupName, name)
     }
     d.SetId(*resp.ID)
 
@@ -291,29 +297,28 @@ func resourceArmOrderCreateUpdate(d *schema.ResourceData, meta interface{}) erro
 
 func resourceArmOrderRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).ordersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["dataBoxEdgeDevices"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Order %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Order %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Order (Resource Group %q / Device Name %q): %+v", resourceGroupName, name, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if orderProperties := resp.OrderProperties; orderProperties != nil {
         if err := d.Set("contact_information", flattenArmOrderContactDetails(orderProperties.ContactInformation)); err != nil {
             return fmt.Errorf("Error setting `contact_information`: %+v", err)
@@ -335,6 +340,9 @@ func resourceArmOrderRead(d *schema.ResourceData, meta interface{}) error {
             return fmt.Errorf("Error setting `shipping_address`: %+v", err)
         }
     }
+    d.Set("device_name", name)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return nil
@@ -343,27 +351,28 @@ func resourceArmOrderRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmOrderDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).ordersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["dataBoxEdgeDevices"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Order %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Order (Resource Group %q / Device Name %q): %+v", resourceGroupName, name, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Order %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Order (Resource Group %q / Device Name %q): %+v", resourceGroupName, name, err)
         }
     }
 

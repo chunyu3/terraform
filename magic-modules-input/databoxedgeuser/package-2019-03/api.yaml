@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -100,7 +100,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -119,7 +119,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -198,7 +198,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -211,41 +211,41 @@ objects:
       Manage Azure User instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'DeviceName'
         description: 'The device name.'
         required: true
         input: true
         azure_sdk_references: ['deviceName']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The user name.'
         required: true
         input: true
         azure_sdk_references: ['name']
       - !ruby/object:Api::Type::NestedObject
-        name: 'encryptedPassword'
+        name: 'EncryptedPassword'
         description: 'The password details.'
         required: false
         azure_sdk_references: ['/encryptedPassword', '/properties/encryptedPassword']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'value'
+            name: 'Value'
             description: 'The value of the secret.'
             required: true
             azure_sdk_references: ['/encryptedPassword/value', '/properties/encryptedPassword/value']
           - !ruby/object:Api::Type::String
-            name: 'encryptionCertThumbprint'
+            name: 'EncryptionCertThumbprint'
             description: 'Thumbprint certificate used to encrypt \"Value\". If the value is unencrypted, it will be null.'
             required: false
             azure_sdk_references: ['/encryptedPassword/encryptionCertThumbprint', '/properties/encryptedPassword/encryptionCertThumbprint']
           - !ruby/object:Api::Type::Enum
-            name: 'encryptionAlgorithm'
+            name: 'EncryptionAlgorithm'
             description: 'The algorithm used to encrypt "Value".'
             required: true
             azure_sdk_references: ['/encryptedPassword/encryptionAlgorithm', '/properties/encryptedPassword/encryptionAlgorithm']
@@ -254,19 +254,19 @@ objects:
               - :AES256
               - :RSAES_PKCS1_v_1_5
       - !ruby/object:Api::Type::Array
-        name: 'shareAccessRights'
+        name: 'ShareAccessRights'
         description: 'List of shares that the user has rights on. This field should not be specified during user creation.'
         required: false
         azure_sdk_references: ['/shareAccessRights', '/properties/shareAccessRights']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'shareId'
+              name: 'ShareID'
               description: 'The share ID.'
               required: true
               azure_sdk_references: ['/shareAccessRights/shareId', '/properties/shareAccessRights/shareId']
             - !ruby/object:Api::Type::Enum
-              name: 'accessType'
+              name: 'AccessType'
               description: 'Type of access to be allowed on the share for this user.'
               required: true
               azure_sdk_references: ['/shareAccessRights/accessType', '/properties/shareAccessRights/accessType']
@@ -276,17 +276,17 @@ objects:
                 - :Custom
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The path ID that uniquely identifies the object.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The object name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The hierarchical type of the object.'
         output: true
         azure_sdk_references: ['/type']

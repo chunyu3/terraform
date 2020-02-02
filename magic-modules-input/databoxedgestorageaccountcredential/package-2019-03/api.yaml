@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -118,7 +118,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -137,7 +137,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -234,7 +234,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -247,51 +247,51 @@ objects:
       Manage Azure StorageAccountCredential instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'DeviceName'
         description: 'The device name.'
         required: true
         input: true
         azure_sdk_references: ['deviceName']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The storage account credential name.'
         required: true
         input: true
         azure_sdk_references: ['name']
       - !ruby/object:Api::Type::String
-        name: 'alias'
+        name: 'Alias'
         description: 'Alias for the storage account.'
         required: true
         azure_sdk_references: ['/alias', '/properties/alias']
       - !ruby/object:Api::Type::String
-        name: 'userName'
+        name: 'UserName'
         description: 'Username for the storage account.'
         required: false
         azure_sdk_references: ['/userName', '/properties/userName']
       - !ruby/object:Api::Type::NestedObject
-        name: 'accountKey'
+        name: 'AccountKey'
         description: 'Encrypted storage key.'
         required: false
         azure_sdk_references: ['/accountKey', '/properties/accountKey']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'value'
+            name: 'Value'
             description: 'The value of the secret.'
             required: true
             azure_sdk_references: ['/accountKey/value', '/properties/accountKey/value']
           - !ruby/object:Api::Type::String
-            name: 'encryptionCertThumbprint'
+            name: 'EncryptionCertThumbprint'
             description: 'Thumbprint certificate used to encrypt \"Value\". If the value is unencrypted, it will be null.'
             required: false
             azure_sdk_references: ['/accountKey/encryptionCertThumbprint', '/properties/accountKey/encryptionCertThumbprint']
           - !ruby/object:Api::Type::Enum
-            name: 'encryptionAlgorithm'
+            name: 'EncryptionAlgorithm'
             description: 'The algorithm used to encrypt "Value".'
             required: true
             azure_sdk_references: ['/accountKey/encryptionAlgorithm', '/properties/accountKey/encryptionAlgorithm']
@@ -300,12 +300,12 @@ objects:
               - :AES256
               - :RSAES_PKCS1_v_1_5
       - !ruby/object:Api::Type::String
-        name: 'connectionString'
+        name: 'ConnectionString'
         description: 'Connection string for the storage account. Use this string if username and account key are not specified.'
         required: false
         azure_sdk_references: ['/connectionString', '/properties/connectionString']
       - !ruby/object:Api::Type::Enum
-        name: 'sslStatus'
+        name: 'SslStatus'
         description: 'Signifies whether SSL needs to be enabled or not.'
         required: true
         azure_sdk_references: ['/sslStatus', '/properties/sslStatus']
@@ -313,12 +313,12 @@ objects:
           - :Enabled
           - :Disabled
       - !ruby/object:Api::Type::String
-        name: 'blobDomainName'
+        name: 'BlobDomainName'
         description: 'Blob end point for private clouds.'
         required: false
         azure_sdk_references: ['/blobDomainName', '/properties/blobDomainName']
       - !ruby/object:Api::Type::Enum
-        name: 'accountType'
+        name: 'AccountType'
         description: 'Type of storage accessed on the storage account.'
         required: true
         azure_sdk_references: ['/accountType', '/properties/accountType']
@@ -327,17 +327,17 @@ objects:
           - :BlobStorage
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The path ID that uniquely identifies the object.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The object name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The hierarchical type of the object.'
         output: true
         azure_sdk_references: ['/type']

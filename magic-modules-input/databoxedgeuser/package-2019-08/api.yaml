@@ -1,0 +1,315 @@
+--- !ruby/object:Api::Product
+name: Azure User Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: User
+    api_name: DataBoxEdge
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataBoxEdge
+      go_client_namespace: databoxedge
+      go_client: usersClient
+      python_client_namespace: azure.mgmt.databoxedge
+      python_client: DataBoxEdgeManagementClient.users
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: name
+            python_parameter_name: device_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: user
+            go_type_name: User
+            python_parameter_name: user
+            python_variable_name: user
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UserProperties
+            go_type_name: UserProperties
+          '/encryptedPassword': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: encrypted_password
+          '/encryptedPassword/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/encryptedPassword/encryptionCertThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encryption_cert_thumbprint
+          '/encryptedPassword/encryptionAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: encryption_algorithm
+          '/properties/encryptedPassword': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EncryptedPassword
+            go_type_name: AsymmetricEncryptedSecret
+          '/properties/encryptedPassword/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/encryptedPassword/encryptionCertThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionCertThumbprint
+          '/properties/encryptedPassword/encryptionAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EncryptionAlgorithm
+            go_enum_type_name: EncryptionAlgorithm
+          '/shareAccessRights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: share_access_rights
+          '/shareAccessRights/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: share_id
+          '/shareAccessRights/accessType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: access_type
+          '/properties/shareAccessRights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ShareAccessRights
+            go_type_name: ShareAccessRight
+          '/properties/shareAccessRights/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ShareID
+          '/properties/shareAccessRights/accessType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AccessType
+            go_enum_type_name: ShareAccessType
+          '/userType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: user_type
+          '/properties/userType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: UserType
+            go_enum_type_name: UserType
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: name
+            python_parameter_name: device_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: name
+            python_parameter_name: device_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UserProperties
+            go_type_name: UserProperties
+          '/properties/encryptedPassword': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EncryptedPassword
+            go_type_name: AsymmetricEncryptedSecret
+          '/properties/encryptedPassword/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/encryptedPassword/encryptionCertThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionCertThumbprint
+          '/properties/encryptedPassword/encryptionAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EncryptionAlgorithm
+            go_enum_type_name: EncryptionAlgorithm
+          '/encryptedPassword': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: encrypted_password
+          '/encryptedPassword/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/encryptedPassword/encryptionCertThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encryption_cert_thumbprint
+          '/encryptedPassword/encryptionAlgorithm': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: encryption_algorithm
+          '/properties/shareAccessRights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ShareAccessRights
+            go_type_name: ShareAccessRight
+          '/properties/shareAccessRights/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ShareID
+          '/properties/shareAccessRights/accessType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AccessType
+            go_enum_type_name: ShareAccessType
+          '/shareAccessRights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: share_access_rights
+          '/shareAccessRights/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: share_id
+          '/shareAccessRights/accessType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: access_type
+          '/properties/userType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: UserType
+            go_enum_type_name: UserType
+          '/userType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: user_type
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDataBoxEdgeDevice
+        python_func_name: list_by_data_box_edge_device
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: name
+            python_parameter_name: device_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure User instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'DeviceName'
+        description: 'The device name.'
+        required: true
+        input: true
+        azure_sdk_references: ['deviceName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'ResourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'Name'
+        description: 'The user name.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'EncryptedPassword'
+        description: 'The password details.'
+        required: false
+        azure_sdk_references: ['/encryptedPassword', '/properties/encryptedPassword']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'Value'
+            description: 'The value of the secret.'
+            required: true
+            azure_sdk_references: ['/encryptedPassword/value', '/properties/encryptedPassword/value']
+          - !ruby/object:Api::Type::String
+            name: 'EncryptionCertThumbprint'
+            description: 'Thumbprint certificate used to encrypt \"Value\". If the value is unencrypted, it will be null.'
+            required: false
+            azure_sdk_references: ['/encryptedPassword/encryptionCertThumbprint', '/properties/encryptedPassword/encryptionCertThumbprint']
+          - !ruby/object:Api::Type::Enum
+            name: 'EncryptionAlgorithm'
+            description: 'The algorithm used to encrypt "Value".'
+            required: true
+            azure_sdk_references: ['/encryptedPassword/encryptionAlgorithm', '/properties/encryptedPassword/encryptionAlgorithm']
+            values:
+              - :None
+              - :AES256
+              - :RSAES_PKCS1_v_1_5
+      - !ruby/object:Api::Type::Array
+        name: 'ShareAccessRights'
+        description: 'List of shares that the user has rights on. This field should not be specified during user creation.'
+        required: false
+        azure_sdk_references: ['/shareAccessRights', '/properties/shareAccessRights']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'ShareID'
+              description: 'The share ID.'
+              required: true
+              azure_sdk_references: ['/shareAccessRights/shareId', '/properties/shareAccessRights/shareId']
+            - !ruby/object:Api::Type::Enum
+              name: 'AccessType'
+              description: 'Type of access to be allowed on the share for this user.'
+              required: true
+              azure_sdk_references: ['/shareAccessRights/accessType', '/properties/shareAccessRights/accessType']
+              values:
+                - :Change
+                - :Read
+                - :Custom
+      - !ruby/object:Api::Type::Enum
+        name: 'UserType'
+        description: 'Type of the user.'
+        required: true
+        azure_sdk_references: ['/userType', '/properties/userType']
+        values:
+          - :Share
+          - :LocalManagement
+          - :ARM
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'ID'
+        description: 'The path ID that uniquely identifies the object.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'Name'
+        description: 'The object name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'Type'
+        description: 'The hierarchical type of the object.'
+        output: true
+        azure_sdk_references: ['/type']

@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -82,7 +82,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -97,7 +97,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -111,7 +111,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -240,7 +240,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -252,37 +252,37 @@ objects:
       Manage Azure Device instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'DeviceName'
         description: 'The device name.'
         required: true
         input: true
         azure_sdk_references: ['deviceName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The location of the device. This is a supported and registered Azure geographical region (for example, West US, East US, or Southeast Asia). The geographical region of a device cannot be changed once it is created, but if an identical geographical region is specified on update, the request will succeed.'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'The tags attached to the Data Box Edge/Gateway resource.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::NestedObject
-        name: 'sku'
+        name: 'Sku'
         description: 'The SKU type.'
         required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::Enum
-            name: 'name'
+            name: 'Name'
             description: 'SKU name.'
             required: false
             azure_sdk_references: ['/sku/name']
@@ -291,7 +291,7 @@ objects:
               - :Edge
             default_value: :Gateway
           - !ruby/object:Api::Type::Enum
-            name: 'tier'
+            name: 'Tier'
             description: 'The SKU tier. This is based on the SKU name.'
             required: false
             azure_sdk_references: ['/sku/tier']
@@ -299,13 +299,13 @@ objects:
               - :Standard
             default_value: :Standard
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'The etag for the devices.'
         required: false
         input: true
         azure_sdk_references: ['/etag']
       - !ruby/object:Api::Type::Enum
-        name: 'authenticationType'
+        name: 'AuthenticationType'
         description: 'The authentication type.'
         required: false
         azure_sdk_references: ['/authenticationType', '/properties/authenticationType']
@@ -314,13 +314,13 @@ objects:
           - :AzureActiveDirectory
         default_value: :Invalid
       - !ruby/object:Api::Type::String
-        name: 'certificate'
+        name: 'Certificate'
         description: 'The base64 encoded certificate raw data.'
         required: true
         azure_sdk_references: ['/certificate', '/properties/certificate']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
-        name: 'dataBoxEdgeDeviceStatus'
+        name: 'DataBoxEdgeDeviceStatus'
         description: 'The status of the Data Box Edge/Gateway device.'
         output: true
         azure_sdk_references: ['/dataBoxEdgeDeviceStatus', '/properties/dataBoxEdgeDeviceStatus']
@@ -332,64 +332,64 @@ objects:
           - :Disconnected
           - :PartiallyDisconnected
       - !ruby/object:Api::Type::String
-        name: 'serialNumber'
+        name: 'SerialNumber'
         description: 'The Serial Number of Data Box Edge/Gateway device.'
         output: true
         azure_sdk_references: ['/serialNumber', '/properties/serialNumber']
       - !ruby/object:Api::Type::String
-        name: 'description'
+        name: 'Description'
         description: 'The Description of the Data Box Edge/Gateway device.'
         output: true
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::String
-        name: 'modelDescription'
+        name: 'ModelDescription'
         description: 'The description of the Data Box Edge/Gateway device model.'
         output: true
         azure_sdk_references: ['/modelDescription', '/properties/modelDescription']
       - !ruby/object:Api::Type::Enum
-        name: 'deviceType'
+        name: 'DeviceType'
         description: 'The type of the Data Box Edge/Gateway device.'
         output: true
         azure_sdk_references: ['/deviceType', '/properties/deviceType']
         values:
           - :DataBoxEdgeDevice
       - !ruby/object:Api::Type::String
-        name: 'friendlyName'
+        name: 'FriendlyName'
         description: 'The Data Box Edge/Gateway device name.'
         output: true
         azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
       - !ruby/object:Api::Type::String
-        name: 'culture'
+        name: 'Culture'
         description: 'The Data Box Edge/Gateway device culture.'
         output: true
         azure_sdk_references: ['/culture', '/properties/culture']
       - !ruby/object:Api::Type::String
-        name: 'deviceModel'
+        name: 'DeviceModel'
         description: 'The Data Box Edge/Gateway device model.'
         output: true
         azure_sdk_references: ['/deviceModel', '/properties/deviceModel']
       - !ruby/object:Api::Type::String
-        name: 'deviceSoftwareVersion'
+        name: 'DeviceSoftwareVersion'
         description: 'The Data Box Edge/Gateway device software version.'
         output: true
         azure_sdk_references: ['/deviceSoftwareVersion', '/properties/deviceSoftwareVersion']
       - !ruby/object:Api::Type::Integer
-        name: 'deviceLocalCapacity'
+        name: 'DeviceLocalCapacity'
         description: 'The Data Box Edge/Gateway device local capacity in MB.'
         output: true
         azure_sdk_references: ['/deviceLocalCapacity', '/properties/deviceLocalCapacity']
       - !ruby/object:Api::Type::String
-        name: 'timeZone'
+        name: 'TimeZone'
         description: 'The Data Box Edge/Gateway device timezone.'
         output: true
         azure_sdk_references: ['/timeZone', '/properties/timeZone']
       - !ruby/object:Api::Type::String
-        name: 'deviceHcsVersion'
+        name: 'DeviceHcsVersion'
         description: 'The device software version number of the device (eg: 1.2.18105.6).'
         output: true
         azure_sdk_references: ['/deviceHcsVersion', '/properties/deviceHcsVersion']
       - !ruby/object:Api::Type::Array
-        name: 'configuredRoleTypes'
+        name: 'ConfiguredRoleTypes'
         description: 'Type of compute roles configured.'
         output: true
         azure_sdk_references: ['/configuredRoleTypes', '/properties/configuredRoleTypes']
@@ -402,17 +402,17 @@ objects:
             - :Functions
             - :Cognitive
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The path ID that uniquely identifies the object.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The object name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The hierarchical type of the object.'
         output: true
         azure_sdk_references: ['/type']

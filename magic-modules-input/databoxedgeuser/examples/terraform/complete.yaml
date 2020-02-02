@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_user
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: databoxedgedevice
+    example: basic
+properties:
+  name: user1
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  user:
+    properties:
+      encryptedPassword:
+        value: Password@1
+        encryptionAlgorithm: None
+        encryptionCertThumbprint: blah
+      shareAccessRights: []

@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -185,7 +185,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -204,7 +204,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -400,7 +400,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -413,30 +413,30 @@ objects:
       Manage Azure Share instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'DeviceName'
         description: 'The device name.'
         required: true
         input: true
         azure_sdk_references: ['deviceName']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The share name.'
         required: true
         input: true
         azure_sdk_references: ['name']
       - !ruby/object:Api::Type::String
-        name: 'description'
+        name: 'Description'
         description: 'Description for the share.'
         required: false
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::Enum
-        name: 'shareStatus'
+        name: 'ShareStatus'
         description: 'Current status of the share.'
         required: true
         azure_sdk_references: ['/shareStatus', '/properties/shareStatus']
@@ -447,7 +447,7 @@ objects:
           - :Updating
           - :NeedsAttention
       - !ruby/object:Api::Type::Enum
-        name: 'monitoringStatus'
+        name: 'MonitoringStatus'
         description: 'Current monitoring status of the share.'
         required: true
         azure_sdk_references: ['/monitoringStatus', '/properties/monitoringStatus']
@@ -455,23 +455,23 @@ objects:
           - :Enabled
           - :Disabled
       - !ruby/object:Api::Type::NestedObject
-        name: 'azureContainerInfo'
+        name: 'AzureContainerInfo'
         description: 'Azure container mapping for the share.'
         required: false
         azure_sdk_references: ['/azureContainerInfo', '/properties/azureContainerInfo']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'storageAccountCredentialId'
+            name: 'StorageAccountCredentialID'
             description: 'ID of the storage account credential used to access storage.'
             required: true
             azure_sdk_references: ['/azureContainerInfo/storageAccountCredentialId', '/properties/azureContainerInfo/storageAccountCredentialId']
           - !ruby/object:Api::Type::String
-            name: 'containerName'
+            name: 'ContainerName'
             description: 'Container name (Based on the data format specified, this represents the name of Azure Files/Page blob/Block blob).'
             required: true
             azure_sdk_references: ['/azureContainerInfo/containerName', '/properties/azureContainerInfo/containerName']
           - !ruby/object:Api::Type::Enum
-            name: 'dataFormat'
+            name: 'DataFormat'
             description: 'Storage format used for the file represented by the share.'
             required: true
             azure_sdk_references: ['/azureContainerInfo/dataFormat', '/properties/azureContainerInfo/dataFormat']
@@ -480,7 +480,7 @@ objects:
               - :PageBlob
               - :AzureFile
       - !ruby/object:Api::Type::Enum
-        name: 'accessProtocol'
+        name: 'AccessProtocol'
         description: 'Access protocol to be used by the share.'
         required: true
         azure_sdk_references: ['/accessProtocol', '/properties/accessProtocol']
@@ -488,19 +488,19 @@ objects:
           - :SMB
           - :NFS
       - !ruby/object:Api::Type::Array
-        name: 'userAccessRights'
+        name: 'UserAccessRights'
         description: 'Mapping of users and corresponding access rights on the share (required for SMB protocol).'
         required: false
         azure_sdk_references: ['/userAccessRights', '/properties/userAccessRights']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'userId'
+              name: 'UserID'
               description: 'User ID (already existing in the device).'
               required: true
               azure_sdk_references: ['/userAccessRights/userId', '/properties/userAccessRights/userId']
             - !ruby/object:Api::Type::Enum
-              name: 'accessType'
+              name: 'AccessType'
               description: 'Type of access to be allowed for the user.'
               required: true
               azure_sdk_references: ['/userAccessRights/accessType', '/properties/userAccessRights/accessType']
@@ -509,19 +509,19 @@ objects:
                 - :Read
                 - :Custom
       - !ruby/object:Api::Type::Array
-        name: 'clientAccessRights'
+        name: 'ClientAccessRights'
         description: 'List of IP addresses and corresponding access rights on the share(required for NFS protocol).'
         required: false
         azure_sdk_references: ['/clientAccessRights', '/properties/clientAccessRights']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'client'
+              name: 'Client'
               description: 'IP of the client.'
               required: true
               azure_sdk_references: ['/clientAccessRights/client', '/properties/clientAccessRights/client']
             - !ruby/object:Api::Type::Enum
-              name: 'accessPermission'
+              name: 'AccessPermission'
               description: 'Type of access to be allowed for the client.'
               required: true
               azure_sdk_references: ['/clientAccessRights/accessPermission', '/properties/clientAccessRights/accessPermission']
@@ -530,33 +530,33 @@ objects:
                 - :ReadOnly
                 - :ReadWrite
       - !ruby/object:Api::Type::NestedObject
-        name: 'refreshDetails'
+        name: 'RefreshDetails'
         description: 'Details of the refresh job on this share.'
         required: false
         azure_sdk_references: ['/refreshDetails', '/properties/refreshDetails']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'inProgressRefreshJobId'
+            name: 'InProgressRefreshJobID'
             description: 'If a refresh share job is currently in progress on this share, this field indicates the ARM resource ID of that job. The field is empty if no job is in progress.'
             required: false
             azure_sdk_references: ['/refreshDetails/inProgressRefreshJobId', '/properties/refreshDetails/inProgressRefreshJobId']
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'lastCompletedRefreshJobTimeInUtc'
+            name: 'LastCompletedRefreshJobTimeInUTC'
             description: 'Indicates the completed time for the last refresh job on this particular share, if any.This could be a failed job or a successful job.'
             required: false
             azure_sdk_references: ['/refreshDetails/lastCompletedRefreshJobTimeInUTC', '/properties/refreshDetails/lastCompletedRefreshJobTimeInUTC']
           - !ruby/object:Api::Type::String
-            name: 'errorManifestFile'
+            name: 'ErrorManifestFile'
             description: 'Indicates the relative path of the error xml for the last refresh job on this particular share, if any. This could be a failed job or a successful job.'
             required: false
             azure_sdk_references: ['/refreshDetails/errorManifestFile', '/properties/refreshDetails/errorManifestFile']
           - !ruby/object:Api::Type::String
-            name: 'lastJob'
+            name: 'LastJob'
             description: 'Indicates the id of the last refresh job on this particular share,if any. This could be a failed job or a successful job.'
             required: false
             azure_sdk_references: ['/refreshDetails/lastJob', '/properties/refreshDetails/lastJob']
       - !ruby/object:Api::Type::Enum
-        name: 'dataPolicy'
+        name: 'DataPolicy'
         description: 'Data policy of the share.'
         required: false
         azure_sdk_references: ['/dataPolicy', '/properties/dataPolicy']
@@ -566,29 +566,29 @@ objects:
         default_value: :Cloud
       # read only values included only in response
       - !ruby/object:Api::Type::Array
-        name: 'shareMappings'
+        name: 'ShareMappings'
         description: 'Share mount point to the role.'
         output: true
         azure_sdk_references: ['/shareMappings', '/properties/shareMappings']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'shareId'
+              name: 'ShareID'
               description: 'ID of the share mounted to the role VM.'
               output: true
               azure_sdk_references: ['/shareMappings/shareId', '/properties/shareMappings/shareId']
             - !ruby/object:Api::Type::String
-              name: 'roleId'
+              name: 'RoleID'
               description: 'ID of the role to which share is mounted.'
               output: true
               azure_sdk_references: ['/shareMappings/roleId', '/properties/shareMappings/roleId']
             - !ruby/object:Api::Type::String
-              name: 'mountPoint'
+              name: 'MountPoint'
               description: 'Mount point for the share.'
               output: true
               azure_sdk_references: ['/shareMappings/mountPoint', '/properties/shareMappings/mountPoint']
             - !ruby/object:Api::Type::Enum
-              name: 'roleType'
+              name: 'RoleType'
               description: 'Role type.'
               output: true
               azure_sdk_references: ['/shareMappings/roleType', '/properties/shareMappings/roleType']
@@ -598,17 +598,17 @@ objects:
                 - :Functions
                 - :Cognitive
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The path ID that uniquely identifies the object.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The object name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The hierarchical type of the object.'
         output: true
         azure_sdk_references: ['/type']

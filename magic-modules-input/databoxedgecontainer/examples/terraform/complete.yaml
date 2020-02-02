@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_container
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: databoxedgedevice
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storageaccount
+    example: basic
+properties:
+  device_name: testedgedevice
+  storage_account_name: storageaccount1
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  name: '<%= get_resource_name('''', ''databoxedgecontainer'') -%>'
+  container:
+    properties:
+      dataFormat: BlockBlob

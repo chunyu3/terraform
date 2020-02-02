@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_databoxedgestorageaccount
+  description: StorageAccountPut
+  code:
+    device_name: myDataBoxEdgeDevice
+    resource_group: myResourceGroup
+    name: myStorageAccount
+    storage_account:
+      properties:
+        description: It's an awesome storage account
+        storageAccountStatus: OK
+        dataPolicy: Cloud
+        storageAccountCredentialId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{{
+          data_box_edge_device_name }}/storageAccountCredentials/{{
+          storage_account_credential_name }}
+  

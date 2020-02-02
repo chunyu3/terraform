@@ -1,0 +1,40 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_share
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: databoxedgedevice
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storageaccountcredential
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: user
+    example: basic
+properties:
+  name: smbshare
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  share:
+    properties:
+      description: ''
+      shareStatus: Online
+      monitoringStatus: Enabled
+      azureContainerInfo:
+        storageAccountCredentialId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{{
+          data_box_edge_device_name }}/storageAccountCredentials/{{
+          storage_account_credential_name }}
+        containerName: testContainerSMB
+        dataFormat: BlockBlob
+      accessProtocol: SMB
+      userAccessRights:
+        - userId: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{
+            resource_group
+            }}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{{
+            data_box_edge_device_name }}/users/{{ user_name }}
+          accessType: Change
+      dataPolicy: Cloud

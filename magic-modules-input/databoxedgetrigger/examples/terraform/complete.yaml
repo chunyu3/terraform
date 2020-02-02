@@ -1,0 +1,32 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_trigger
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: databoxedgedevice
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: share
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: role
+    example: basic
+properties:
+  name: trigger1
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  trigger:
+    properties:
+      customContextTag: CustomContextTags-1235346475
+      sourceInfo:
+        shareId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{{
+          data_box_edge_device_name }}/shares/{{ share_name }}
+      sinkInfo:
+        roleId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{{
+          data_box_edge_device_name }}/roles/{{ role_name }}
+    kind: FileEvent

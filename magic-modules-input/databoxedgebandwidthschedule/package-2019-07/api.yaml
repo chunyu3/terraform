@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -78,7 +78,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -97,7 +97,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -154,7 +154,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -167,40 +167,40 @@ objects:
       Manage Azure BandwidthSchedule instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'DeviceName'
         description: 'The device name.'
         required: true
         input: true
         azure_sdk_references: ['deviceName']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The bandwidth schedule name.'
         required: true
         input: true
         azure_sdk_references: ['name']
       - !ruby/object:Api::Type::String
-        name: 'start'
+        name: 'Start'
         description: 'The start time of the schedule in UTC.'
         required: true
         azure_sdk_references: ['/start', '/properties/start']
       - !ruby/object:Api::Type::String
-        name: 'stop'
+        name: 'Stop'
         description: 'The stop time of the schedule in UTC.'
         required: true
         azure_sdk_references: ['/stop', '/properties/stop']
       - !ruby/object:Api::Type::Integer
-        name: 'rateInMbps'
+        name: 'RateInMbps'
         description: 'The bandwidth rate in Mbps.'
         required: true
         azure_sdk_references: ['/rateInMbps', '/properties/rateInMbps']
       - !ruby/object:Api::Type::Array
-        name: 'days'
+        name: 'Days'
         description: 'The days of the week when this schedule is applicable.'
         required: true
         azure_sdk_references: ['/days', '/properties/days']
@@ -217,17 +217,17 @@ objects:
             - :Saturday
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The path ID that uniquely identifies the object.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The object name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The hierarchical type of the object.'
         output: true
         azure_sdk_references: ['/type']

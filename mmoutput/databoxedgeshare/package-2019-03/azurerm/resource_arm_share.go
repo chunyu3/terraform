@@ -29,27 +29,6 @@ func resourceArmShare() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "access_protocol": {
                 Type: schema.TypeString,
                 Required: true,
@@ -57,6 +36,13 @@ func resourceArmShare() *schema.Resource {
                     string(databoxedge.SMB),
                     string(databoxedge.NFS),
                 }, false),
+            },
+
+            "device_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "monitoring_status": {
@@ -67,6 +53,15 @@ func resourceArmShare() *schema.Resource {
                     string(databoxedge.Disabled),
                 }, false),
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "share_status": {
                 Type: schema.TypeString,
@@ -194,6 +189,16 @@ func resourceArmShare() *schema.Resource {
                 },
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "share_mappings": {
                 Type: schema.TypeList,
                 Computed: true,
@@ -229,17 +234,18 @@ func resourceArmShare() *schema.Resource {
 
 func resourceArmShareCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).sharesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("device_name").(string)
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, name)
+        existing, err := client.Get(ctx, resourceGroupName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Share %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Share (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -272,21 +278,21 @@ func resourceArmShareCreateUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, share)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, name, name, share)
     if err != nil {
-        return fmt.Errorf("Error creating Share %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Share (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Share %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Share (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Share %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Share (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Share %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Share (Name %q / Resource Group %q / Device Name %q) ID", name, resourceGroupName, name)
     }
     d.SetId(*resp.ID)
 
@@ -295,31 +301,29 @@ func resourceArmShareCreateUpdate(d *schema.ResourceData, meta interface{}) erro
 
 func resourceArmShareRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).sharesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["dataBoxEdgeDevices"]
     name := id.Path["shares"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, name)
+    resp, err := client.Get(ctx, resourceGroupName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Share %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Share %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Share (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if shareProperties := resp.ShareProperties; shareProperties != nil {
         d.Set("access_protocol", string(shareProperties.AccessProtocol))
         if err := d.Set("azure_container_info", flattenArmShareAzureContainerInfo(shareProperties.AzureContainerInfo)); err != nil {
@@ -342,6 +346,10 @@ func resourceArmShareRead(d *schema.ResourceData, meta interface{}) error {
             return fmt.Errorf("Error setting `user_access_rights`: %+v", err)
         }
     }
+    d.Set("device_name", name)
+    d.Set("id", resp.ID)
+    d.Set("name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return nil
@@ -350,28 +358,29 @@ func resourceArmShareRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmShareDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).sharesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["dataBoxEdgeDevices"]
     name := id.Path["shares"]
 
-    future, err := client.Delete(ctx, resourceGroup, name, name)
+    future, err := client.Delete(ctx, resourceGroupName, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Share %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Share (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Share %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Share (Name %q / Resource Group %q / Device Name %q): %+v", name, resourceGroupName, name, err)
         }
     }
 
@@ -384,14 +393,14 @@ func expandArmShareAzureContainerInfo(input []interface{}) *databoxedge.AzureCon
     }
     v := input[0].(map[string]interface{})
 
-    storageAccountCredentialId := v["storage_account_credential_id"].(string)
+    storageAccountCredentialID := v["storage_account_credential_id"].(string)
     containerName := v["container_name"].(string)
     dataFormat := v["data_format"].(string)
 
     result := databoxedge.AzureContainerInfo{
         ContainerName: utils.String(containerName),
         DataFormat: databoxedge.AzureContainerDataFormat(dataFormat),
-        StorageAccountCredentialID: utils.String(storageAccountCredentialId),
+        StorageAccountCredentialID: utils.String(storageAccountCredentialID),
     }
     return &result
 }
@@ -419,15 +428,15 @@ func expandArmShareRefreshDetails(input []interface{}) *databoxedge.RefreshDetai
     }
     v := input[0].(map[string]interface{})
 
-    inProgressRefreshJobId := v["in_progress_refresh_job_id"].(string)
-    lastCompletedRefreshJobTimeInUtc := v["last_completed_refresh_job_time_in_utc"].(string)
+    inProgressRefreshJobID := v["in_progress_refresh_job_id"].(string)
+    lastCompletedRefreshJobTimeInUTC := v["last_completed_refresh_job_time_in_utc"].(string)
     errorManifestFile := v["error_manifest_file"].(string)
     lastJob := v["last_job"].(string)
 
     result := databoxedge.RefreshDetails{
         ErrorManifestFile: utils.String(errorManifestFile),
-        InProgressRefreshJobID: utils.String(inProgressRefreshJobId),
-        LastCompletedRefreshJobTimeInUTC: convertStringToDate(lastCompletedRefreshJobTimeInUtc),
+        InProgressRefreshJobID: utils.String(inProgressRefreshJobID),
+        LastCompletedRefreshJobTimeInUTC: convertStringToDate(lastCompletedRefreshJobTimeInUTC),
         LastJob: utils.String(lastJob),
     }
     return &result
@@ -437,12 +446,12 @@ func expandArmShareUserAccessRight(input []interface{}) *[]databoxedge.UserAcces
     results := make([]databoxedge.UserAccessRight, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        userId := v["user_id"].(string)
+        userID := v["user_id"].(string)
         accessType := v["access_type"].(string)
 
         result := databoxedge.UserAccessRight{
             AccessType: databoxedge.ShareAccessType(accessType),
-            UserID: utils.String(userId),
+            UserID: utils.String(userID),
         }
 
         results = append(results, result)
