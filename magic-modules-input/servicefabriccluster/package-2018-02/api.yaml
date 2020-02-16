@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourcegroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -447,7 +447,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourcegroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -868,7 +868,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourcegroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -882,7 +882,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourcegroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -1471,7 +1471,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourcegroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
 
@@ -1479,31 +1479,31 @@ objects:
       Manage Azure Cluster instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ClusterName'
         description: 'The name of the cluster resource.'
         required: true
         input: true
         azure_sdk_references: ['clusterName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Azure resource location.'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Cluster update parameters'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::Array
-        name: 'addOnFeatures'
+        name: 'AddOnFeatures'
         description: 'The list of add-on features to enable in the cluster.'
         required: false
         azure_sdk_references: ['/addOnFeatures', '/properties/addOnFeatures']
@@ -1517,23 +1517,23 @@ objects:
             - :ResourceMonitorService
           default_value: :RepairManager
       - !ruby/object:Api::Type::NestedObject
-        name: 'certificate'
+        name: 'Certificate'
         description: 'The certificate to use for securing the cluster. The certificate provided will be used for  node to node security within the cluster, SSL certificate for cluster management endpoint and default  admin client.'
         required: false
         azure_sdk_references: ['/certificate', '/properties/certificate']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'thumbprint'
+            name: 'Thumbprint'
             description: 'Thumbprint of the primary certificate.'
             required: true
             azure_sdk_references: ['/certificate/thumbprint', '/properties/certificate/thumbprint']
           - !ruby/object:Api::Type::String
-            name: 'thumbprintSecondary'
+            name: 'ThumbprintSecondary'
             description: 'Thumbprint of the secondary certificate.'
             required: false
             azure_sdk_references: ['/certificate/thumbprintSecondary', '/properties/certificate/thumbprintSecondary']
           - !ruby/object:Api::Type::Enum
-            name: 'x509storeName'
+            name: 'X509StoreName'
             description: 'The local certificate store location.'
             required: false
             azure_sdk_references: ['/certificate/x509StoreName', '/properties/certificate/x509StoreName']
@@ -1548,30 +1548,30 @@ objects:
               - :TrustedPublisher
             default_value: :AddressBook
       - !ruby/object:Api::Type::NestedObject
-        name: 'certificateCommonNames'
+        name: 'CertificateCommonNames'
         description: 'Describes a list of server certificates referenced by common name that are used to secure the cluster.'
         required: false
         azure_sdk_references: ['/certificateCommonNames', '/properties/certificateCommonNames']
         properties:
           - !ruby/object:Api::Type::Array
-            name: 'commonNames'
+            name: 'CommonNames'
             description: 'The list of server certificates referenced by common name that are used to secure the cluster.'
             required: false
             azure_sdk_references: ['/certificateCommonNames/commonNames', '/properties/certificateCommonNames/commonNames']
             item_type: !ruby/object:Api::Type::NestedObject
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'certificateCommonName'
+                  name: 'CertificateCommonName'
                   description: 'The common name of the server certificate.'
                   required: true
                   azure_sdk_references: ['/certificateCommonNames/commonNames/certificateCommonName', '/properties/certificateCommonNames/commonNames/certificateCommonName']
                 - !ruby/object:Api::Type::String
-                  name: 'certificateIssuerThumbprint'
+                  name: 'CertificateIssuerThumbprint'
                   description: 'The issuer thumbprint of the server certificate.'
                   required: true
                   azure_sdk_references: ['/certificateCommonNames/commonNames/certificateIssuerThumbprint', '/properties/certificateCommonNames/commonNames/certificateIssuerThumbprint']
           - !ruby/object:Api::Type::Enum
-            name: 'x509storeName'
+            name: 'X509StoreName'
             description: 'The local certificate store location.'
             required: false
             azure_sdk_references: ['/certificateCommonNames/x509StoreName', '/properties/certificateCommonNames/x509StoreName']
@@ -1586,112 +1586,112 @@ objects:
               - :TrustedPublisher
             default_value: :AddressBook
       - !ruby/object:Api::Type::Array
-        name: 'clientCertificateCommonNames'
+        name: 'ClientCertificateCommonNames'
         description: 'The list of client certificates referenced by common name that are allowed to manage the cluster. This will overwrite the existing list.'
         required: false
         azure_sdk_references: ['/clientCertificateCommonNames', '/properties/clientCertificateCommonNames']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::Boolean
-              name: 'isAdmin'
+              name: 'IsAdmin'
               description: 'Indicates if the client certificate has admin access to the cluster. Non admin clients can perform only read only operations on the cluster.'
               required: true
               azure_sdk_references: ['/clientCertificateCommonNames/isAdmin', '/properties/clientCertificateCommonNames/isAdmin']
             - !ruby/object:Api::Type::String
-              name: 'certificateCommonName'
+              name: 'CertificateCommonName'
               description: 'The common name of the client certificate.'
               required: true
               azure_sdk_references: ['/clientCertificateCommonNames/certificateCommonName', '/properties/clientCertificateCommonNames/certificateCommonName']
             - !ruby/object:Api::Type::String
-              name: 'certificateIssuerThumbprint'
+              name: 'CertificateIssuerThumbprint'
               description: 'The issuer thumbprint of the client certificate.'
               required: true
               azure_sdk_references: ['/clientCertificateCommonNames/certificateIssuerThumbprint', '/properties/clientCertificateCommonNames/certificateIssuerThumbprint']
       - !ruby/object:Api::Type::Array
-        name: 'clientCertificateThumbprints'
+        name: 'ClientCertificateThumbprints'
         description: 'The list of client certificates referenced by thumbprint that are allowed to manage the cluster. This will overwrite the existing list.'
         required: false
         azure_sdk_references: ['/clientCertificateThumbprints', '/properties/clientCertificateThumbprints']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::Boolean
-              name: 'isAdmin'
+              name: 'IsAdmin'
               description: 'Indicates if the client certificate has admin access to the cluster. Non admin clients can perform only read only operations on the cluster.'
               required: true
               azure_sdk_references: ['/clientCertificateThumbprints/isAdmin', '/properties/clientCertificateThumbprints/isAdmin']
             - !ruby/object:Api::Type::String
-              name: 'certificateThumbprint'
+              name: 'CertificateThumbprint'
               description: 'The thumbprint of the client certificate.'
               required: true
               azure_sdk_references: ['/clientCertificateThumbprints/certificateThumbprint', '/properties/clientCertificateThumbprints/certificateThumbprint']
       - !ruby/object:Api::Type::String
-        name: 'clusterCodeVersion'
+        name: 'ClusterCodeVersion'
         description: 'The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to ''Manual''. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**.'
         required: false
         azure_sdk_references: ['/clusterCodeVersion', '/properties/clusterCodeVersion']
       - !ruby/object:Api::Type::Array
-        name: 'fabricSettings'
+        name: 'FabricSettings'
         description: 'The list of custom fabric settings to configure the cluster. This will overwrite the existing list.'
         required: false
         azure_sdk_references: ['/fabricSettings', '/properties/fabricSettings']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'The section name of the fabric settings.'
               required: true
               azure_sdk_references: ['/fabricSettings/name', '/properties/fabricSettings/name']
             - !ruby/object:Api::Type::Array
-              name: 'parameters'
+              name: 'Parameters'
               description: 'The collection of parameters in the section.'
               required: true
               azure_sdk_references: ['/fabricSettings/parameters', '/properties/fabricSettings/parameters']
               item_type: !ruby/object:Api::Type::NestedObject
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'name'
+                    name: 'Name'
                     description: 'The parameter name of fabric setting.'
                     required: true
                     azure_sdk_references: ['/fabricSettings/parameters/name', '/properties/fabricSettings/parameters/name']
                   - !ruby/object:Api::Type::String
-                    name: 'value'
+                    name: 'Value'
                     description: 'The parameter value of fabric setting.'
                     required: true
                     azure_sdk_references: ['/fabricSettings/parameters/value', '/properties/fabricSettings/parameters/value']
       - !ruby/object:Api::Type::Array
-        name: 'nodeTypes'
+        name: 'NodeTypes'
         description: 'The list of node types in the cluster. This will overwrite the existing list.'
         required: false
         azure_sdk_references: ['/nodeTypes', '/properties/nodeTypes']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'The name of the node type.'
               required: true
               azure_sdk_references: ['/nodeTypes/name', '/properties/nodeTypes/name']
             - !ruby/object:Api::Type::KeyValuePairs
-              name: 'placementProperties'
+              name: 'PlacementProperties'
               description: 'The placement tags applied to nodes in the node type, which can be used to indicate where certain services (workload) should run.'
               required: false
               azure_sdk_references: ['/nodeTypes/placementProperties', '/properties/nodeTypes/placementProperties']
             - !ruby/object:Api::Type::KeyValuePairs
-              name: 'capacities'
+              name: 'Capacities'
               description: 'The capacity tags applied to the nodes in the node type, the cluster resource manager uses these tags to understand how much resource a node has.'
               required: false
               azure_sdk_references: ['/nodeTypes/capacities', '/properties/nodeTypes/capacities']
             - !ruby/object:Api::Type::Integer
-              name: 'clientConnectionEndpointPort'
+              name: 'ClientConnectionEndpointPort'
               description: 'The TCP cluster management endpoint port.'
               required: true
               azure_sdk_references: ['/nodeTypes/clientConnectionEndpointPort', '/properties/nodeTypes/clientConnectionEndpointPort']
             - !ruby/object:Api::Type::Integer
-              name: 'httpGatewayEndpointPort'
+              name: 'HTTPGatewayEndpointPort'
               description: 'The HTTP cluster management endpoint port.'
               required: true
               azure_sdk_references: ['/nodeTypes/httpGatewayEndpointPort', '/properties/nodeTypes/httpGatewayEndpointPort']
             - !ruby/object:Api::Type::Enum
-              name: 'durabilityLevel'
+              name: 'DurabilityLevel'
               description: 'The durability level of the node type. Learn about [DurabilityLevel](https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-capacity).<br>  - Bronze - No privileges. This is the default.<br>  - Silver - The infrastructure jobs can be paused for a duration of 10 minutes per UD.<br>  - Gold - The infrastructure jobs can be paused for a duration of 2 hours per UD. Gold durability can be enabled only on full node VM SKUs like D15_V2, G5 etc.<br>'
               required: false
               azure_sdk_references: ['/nodeTypes/durabilityLevel', '/properties/nodeTypes/durabilityLevel']
@@ -1701,54 +1701,54 @@ objects:
                 - :Gold
               default_value: :Bronze
             - !ruby/object:Api::Type::NestedObject
-              name: 'applicationPorts'
+              name: 'ApplicationPorts'
               description: 'The range of ports from which cluster assigned port to Service Fabric applications.'
               required: false
               azure_sdk_references: ['/nodeTypes/applicationPorts', '/properties/nodeTypes/applicationPorts']
               properties:
                 - !ruby/object:Api::Type::Integer
-                  name: 'startPort'
+                  name: 'StartPort'
                   description: 'Starting port of a range of ports'
                   required: true
                   azure_sdk_references: ['/nodeTypes/applicationPorts/startPort', '/properties/nodeTypes/applicationPorts/startPort']
                 - !ruby/object:Api::Type::Integer
-                  name: 'endPort'
+                  name: 'EndPort'
                   description: 'End port of a range of ports'
                   required: true
                   azure_sdk_references: ['/nodeTypes/applicationPorts/endPort', '/properties/nodeTypes/applicationPorts/endPort']
             - !ruby/object:Api::Type::NestedObject
-              name: 'ephemeralPorts'
+              name: 'EphemeralPorts'
               description: 'The range of ephemeral ports that nodes in this node type should be configured with.'
               required: false
               azure_sdk_references: ['/nodeTypes/ephemeralPorts', '/properties/nodeTypes/ephemeralPorts']
               properties:
                 - !ruby/object:Api::Type::Integer
-                  name: 'startPort'
+                  name: 'StartPort'
                   description: 'Starting port of a range of ports'
                   required: true
                   azure_sdk_references: ['/nodeTypes/ephemeralPorts/startPort', '/properties/nodeTypes/ephemeralPorts/startPort']
                 - !ruby/object:Api::Type::Integer
-                  name: 'endPort'
+                  name: 'EndPort'
                   description: 'End port of a range of ports'
                   required: true
                   azure_sdk_references: ['/nodeTypes/ephemeralPorts/endPort', '/properties/nodeTypes/ephemeralPorts/endPort']
             - !ruby/object:Api::Type::Boolean
-              name: 'isPrimary'
+              name: 'IsPrimary'
               description: 'The node type on which system services will run. Only one node type should be marked as primary. Primary node type cannot be deleted or changed for existing clusters.'
               required: true
               azure_sdk_references: ['/nodeTypes/isPrimary', '/properties/nodeTypes/isPrimary']
             - !ruby/object:Api::Type::Integer
-              name: 'vmInstanceCount'
+              name: 'VMInstanceCount'
               description: 'The number of nodes in the node type. This count should match the capacity property in the corresponding VirtualMachineScaleSet resource.'
               required: true
               azure_sdk_references: ['/nodeTypes/vmInstanceCount', '/properties/nodeTypes/vmInstanceCount']
             - !ruby/object:Api::Type::Integer
-              name: 'reverseProxyEndpointPort'
+              name: 'ReverseProxyEndpointPort'
               description: 'The endpoint used by reverse proxy.'
               required: false
               azure_sdk_references: ['/nodeTypes/reverseProxyEndpointPort', '/properties/nodeTypes/reverseProxyEndpointPort']
       - !ruby/object:Api::Type::Enum
-        name: 'reliabilityLevel'
+        name: 'ReliabilityLevel'
         description: 'The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-capacity).<br>  - None - Run the System services with a target replica set count of 1. This should only be used for test clusters.<br>  - Bronze - Run the System services with a target replica set count of 3. This should only be used for test clusters.<br>  - Silver - Run the System services with a target replica set count of 5.<br>  - Gold - Run the System services with a target replica set count of 7.<br>  - Platinum - Run the System services with a target replica set count of 9.<br>'
         required: false
         azure_sdk_references: ['/reliabilityLevel', '/properties/reliabilityLevel']
@@ -1760,23 +1760,23 @@ objects:
           - :Platinum
         default_value: :None
       - !ruby/object:Api::Type::NestedObject
-        name: 'reverseProxyCertificate'
+        name: 'ReverseProxyCertificate'
         description: 'The server certificate used by reverse proxy.'
         required: false
         azure_sdk_references: ['/reverseProxyCertificate', '/properties/reverseProxyCertificate']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'thumbprint'
+            name: 'Thumbprint'
             description: 'Thumbprint of the primary certificate.'
             required: true
             azure_sdk_references: ['/reverseProxyCertificate/thumbprint', '/properties/reverseProxyCertificate/thumbprint']
           - !ruby/object:Api::Type::String
-            name: 'thumbprintSecondary'
+            name: 'ThumbprintSecondary'
             description: 'Thumbprint of the secondary certificate.'
             required: false
             azure_sdk_references: ['/reverseProxyCertificate/thumbprintSecondary', '/properties/reverseProxyCertificate/thumbprintSecondary']
           - !ruby/object:Api::Type::Enum
-            name: 'x509storeName'
+            name: 'X509StoreName'
             description: 'The local certificate store location.'
             required: false
             azure_sdk_references: ['/reverseProxyCertificate/x509StoreName', '/properties/reverseProxyCertificate/x509StoreName']
@@ -1791,95 +1791,95 @@ objects:
               - :TrustedPublisher
             default_value: :AddressBook
       - !ruby/object:Api::Type::NestedObject
-        name: 'upgradeDescription'
+        name: 'UpgradeDescription'
         description: 'The policy to use when upgrading the cluster.'
         required: false
         azure_sdk_references: ['/upgradeDescription', '/properties/upgradeDescription']
         properties:
           - !ruby/object:Api::Type::Boolean
-            name: 'forceRestart'
+            name: 'ForceRestart'
             description: 'If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data).'
             required: false
             azure_sdk_references: ['/upgradeDescription/forceRestart', '/properties/upgradeDescription/forceRestart']
           - !ruby/object:Api::Type::String
-            name: 'upgradeReplicaSetCheckTimeout'
+            name: 'UpgradeReplicaSetCheckTimeout'
             description: 'The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. The timeout can be in either hh:mm:ss or in d.hh:mm:ss.ms format.'
             required: true
             azure_sdk_references: ['/upgradeDescription/upgradeReplicaSetCheckTimeout', '/properties/upgradeDescription/upgradeReplicaSetCheckTimeout']
           - !ruby/object:Api::Type::String
-            name: 'healthCheckWaitDuration'
+            name: 'HealthCheckWaitDuration'
             description: 'The length of time to wait after completing an upgrade domain before performing health checks. The duration can be in either hh:mm:ss or in d.hh:mm:ss.ms format.'
             required: true
             azure_sdk_references: ['/upgradeDescription/healthCheckWaitDuration', '/properties/upgradeDescription/healthCheckWaitDuration']
           - !ruby/object:Api::Type::String
-            name: 'healthCheckStableDuration'
+            name: 'HealthCheckStableDuration'
             description: 'The amount of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. The duration can be in either hh:mm:ss or in d.hh:mm:ss.ms format.'
             required: true
             azure_sdk_references: ['/upgradeDescription/healthCheckStableDuration', '/properties/upgradeDescription/healthCheckStableDuration']
           - !ruby/object:Api::Type::String
-            name: 'healthCheckRetryTimeout'
+            name: 'HealthCheckRetryTimeout'
             description: 'The amount of time to retry health evaluation when the application or cluster is unhealthy before the upgrade rolls back. The timeout can be in either hh:mm:ss or in d.hh:mm:ss.ms format.'
             required: true
             azure_sdk_references: ['/upgradeDescription/healthCheckRetryTimeout', '/properties/upgradeDescription/healthCheckRetryTimeout']
           - !ruby/object:Api::Type::String
-            name: 'upgradeTimeout'
+            name: 'UpgradeTimeout'
             description: 'The amount of time the overall upgrade has to complete before the upgrade rolls back. The timeout can be in either hh:mm:ss or in d.hh:mm:ss.ms format.'
             required: true
             azure_sdk_references: ['/upgradeDescription/upgradeTimeout', '/properties/upgradeDescription/upgradeTimeout']
           - !ruby/object:Api::Type::String
-            name: 'upgradeDomainTimeout'
+            name: 'UpgradeDomainTimeout'
             description: 'The amount of time each upgrade domain has to complete before the upgrade rolls back. The timeout can be in either hh:mm:ss or in d.hh:mm:ss.ms format.'
             required: true
             azure_sdk_references: ['/upgradeDescription/upgradeDomainTimeout', '/properties/upgradeDescription/upgradeDomainTimeout']
           - !ruby/object:Api::Type::NestedObject
-            name: 'healthPolicy'
+            name: 'HealthPolicy'
             description: 'The cluster health policy used when upgrading the cluster.'
             required: true
             azure_sdk_references: ['/upgradeDescription/healthPolicy', '/properties/upgradeDescription/healthPolicy']
             properties:
               - !ruby/object:Api::Type::Integer
-                name: 'maxPercentUnhealthyNodes'
+                name: 'MaxPercentUnhealthyNodes'
                 description: 'The maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10.<br>The percentage represents the maximum tolerated percentage of nodes that can be unhealthy before the cluster is considered in error.<br>If the percentage is respected but there is at least one unhealthy node, the health is evaluated as Warning.<br>The percentage is calculated by dividing the number of unhealthy nodes over the total number of nodes in the cluster.<br>The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.<br>In large clusters, some nodes will always be down or out for repairs, so this percentage should be configured to tolerate that.<br>'
                 required: false
                 azure_sdk_references: ['/upgradeDescription/healthPolicy/maxPercentUnhealthyNodes', '/properties/upgradeDescription/healthPolicy/maxPercentUnhealthyNodes']
               - !ruby/object:Api::Type::Integer
-                name: 'maxPercentUnhealthyApplications'
+                name: 'MaxPercentUnhealthyApplications'
                 description: 'The maximum allowed percentage of unhealthy applications before reporting an error. For example, to allow 10% of applications to be unhealthy, this value would be 10.<br>The percentage represents the maximum tolerated percentage of applications that can be unhealthy before the cluster is considered in error.<br>If the percentage is respected but there is at least one unhealthy application, the health is evaluated as Warning.<br>This is calculated by dividing the number of unhealthy applications over the total number of application instances in the cluster, excluding applications of application types that are included in the ApplicationTypeHealthPolicyMap.<br>The computation rounds up to tolerate one failure on small numbers of applications. Default percentage is zero.<br>'
                 required: false
                 azure_sdk_references: ['/upgradeDescription/healthPolicy/maxPercentUnhealthyApplications', '/properties/upgradeDescription/healthPolicy/maxPercentUnhealthyApplications']
               - !ruby/object:Api::Type::KeyValuePairs
-                name: 'applicationHealthPolicies'
+                name: 'ApplicationHealthPolicies'
                 description: 'Defines the application health policy map used to evaluate the health of an application or one of its children entities.'
                 required: false
                 azure_sdk_references: ['/upgradeDescription/healthPolicy/applicationHealthPolicies', '/properties/upgradeDescription/healthPolicy/applicationHealthPolicies']
           - !ruby/object:Api::Type::NestedObject
-            name: 'deltaHealthPolicy'
+            name: 'DeltaHealthPolicy'
             description: 'The cluster delta health policy used when upgrading the cluster.'
             required: false
             azure_sdk_references: ['/upgradeDescription/deltaHealthPolicy', '/properties/upgradeDescription/deltaHealthPolicy']
             properties:
               - !ruby/object:Api::Type::Integer
-                name: 'maxPercentDeltaUnhealthyNodes'
+                name: 'MaxPercentDeltaUnhealthyNodes'
                 description: 'The maximum allowed percentage of nodes health degradation allowed during cluster upgrades.<br>The delta is measured between the state of the nodes at the beginning of upgrade and the state of the nodes at the time of the health evaluation.<br>The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits.<br>'
                 required: true
                 azure_sdk_references: ['/upgradeDescription/deltaHealthPolicy/maxPercentDeltaUnhealthyNodes', '/properties/upgradeDescription/deltaHealthPolicy/maxPercentDeltaUnhealthyNodes']
               - !ruby/object:Api::Type::Integer
-                name: 'maxPercentUpgradeDomainDeltaUnhealthyNodes'
+                name: 'MaxPercentUpgradeDomainDeltaUnhealthyNodes'
                 description: 'The maximum allowed percentage of upgrade domain nodes health degradation allowed during cluster upgrades.<br>The delta is measured between the state of the upgrade domain nodes at the beginning of upgrade and the state of the upgrade domain nodes at the time of the health evaluation.<br>The check is performed after every upgrade domain upgrade completion for all completed upgrade domains to make sure the state of the upgrade domains is within tolerated limits.<br>'
                 required: true
                 azure_sdk_references: ['/upgradeDescription/deltaHealthPolicy/maxPercentUpgradeDomainDeltaUnhealthyNodes', '/properties/upgradeDescription/deltaHealthPolicy/maxPercentUpgradeDomainDeltaUnhealthyNodes']
               - !ruby/object:Api::Type::Integer
-                name: 'maxPercentDeltaUnhealthyApplications'
+                name: 'MaxPercentDeltaUnhealthyApplications'
                 description: 'The maximum allowed percentage of applications health degradation allowed during cluster upgrades.<br>The delta is measured between the state of the applications at the beginning of upgrade and the state of the applications at the time of the health evaluation.<br>The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits. System services are not included in this.<br>'
                 required: true
                 azure_sdk_references: ['/upgradeDescription/deltaHealthPolicy/maxPercentDeltaUnhealthyApplications', '/properties/upgradeDescription/deltaHealthPolicy/maxPercentDeltaUnhealthyApplications']
               - !ruby/object:Api::Type::KeyValuePairs
-                name: 'applicationDeltaHealthPolicies'
+                name: 'ApplicationDeltaHealthPolicies'
                 description: 'Defines the application delta health policy map used to evaluate the health of an application or one of its child entities when upgrading the cluster.'
                 required: false
                 azure_sdk_references: ['/upgradeDescription/deltaHealthPolicy/applicationDeltaHealthPolicies', '/properties/upgradeDescription/deltaHealthPolicy/applicationDeltaHealthPolicies']
       - !ruby/object:Api::Type::Enum
-        name: 'upgradeMode'
+        name: 'UpgradeMode'
         description: 'The upgrade mode of the cluster when new Service Fabric runtime version is available.<br>  - Automatic - The cluster will be automatically upgraded to the latest Service Fabric runtime version as soon as it is available.<br>  - Manual - The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the **clusterCodeVersion** property in the cluster resource.<br>'
         required: false
         azure_sdk_references: ['/upgradeMode', '/properties/upgradeMode']
@@ -1889,24 +1889,24 @@ objects:
         default_value: :Automatic
       # read only values included only in response
       - !ruby/object:Api::Type::Array
-        name: 'availableClusterVersions'
+        name: 'AvailableClusterVersions'
         description: 'The Service Fabric runtime versions available for this cluster.'
         output: true
         azure_sdk_references: ['/availableClusterVersions', '/properties/availableClusterVersions']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'codeVersion'
+              name: 'CodeVersion'
               description: 'The Service Fabric runtime version of the cluster.'
               output: true
               azure_sdk_references: ['/availableClusterVersions/codeVersion', '/properties/availableClusterVersions/codeVersion']
             - !ruby/object:Api::Type::String
-              name: 'supportExpiryUtc'
+              name: 'SupportExpiryUtc'
               description: 'The date of expiry of support of the version.'
               output: true
               azure_sdk_references: ['/availableClusterVersions/supportExpiryUtc', '/properties/availableClusterVersions/supportExpiryUtc']
             - !ruby/object:Api::Type::Enum
-              name: 'environment'
+              name: 'Environment'
               description: 'Indicates if this version is for Windows or Linux operating system.'
               output: true
               azure_sdk_references: ['/availableClusterVersions/environment', '/properties/availableClusterVersions/environment']
@@ -1914,38 +1914,38 @@ objects:
                 - :Windows
                 - :Linux
       - !ruby/object:Api::Type::NestedObject
-        name: 'azureActiveDirectory'
+        name: 'AzureActiveDirectory'
         description: 'The AAD authentication settings of the cluster.'
         output: true
         azure_sdk_references: ['/azureActiveDirectory', '/properties/azureActiveDirectory']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'tenantId'
+            name: 'TenantID'
             description: 'Azure active directory tenant id.'
             output: true
             azure_sdk_references: ['/azureActiveDirectory/tenantId', '/properties/azureActiveDirectory/tenantId']
           - !ruby/object:Api::Type::String
-            name: 'clusterApplication'
+            name: 'ClusterApplication'
             description: 'Azure active directory cluster application id.'
             output: true
             azure_sdk_references: ['/azureActiveDirectory/clusterApplication', '/properties/azureActiveDirectory/clusterApplication']
           - !ruby/object:Api::Type::String
-            name: 'clientApplication'
+            name: 'ClientApplication'
             description: 'Azure active directory client application id.'
             output: true
             azure_sdk_references: ['/azureActiveDirectory/clientApplication', '/properties/azureActiveDirectory/clientApplication']
       - !ruby/object:Api::Type::String
-        name: 'clusterEndpoint'
+        name: 'ClusterEndpoint'
         description: 'The Azure Resource Provider endpoint. A system service in the cluster connects to this  endpoint.'
         output: true
         azure_sdk_references: ['/clusterEndpoint', '/properties/clusterEndpoint']
       - !ruby/object:Api::Type::String
-        name: 'clusterId'
+        name: 'ClusterID'
         description: 'A service generated unique identifier for the cluster resource.'
         output: true
         azure_sdk_references: ['/clusterId', '/properties/clusterId']
       - !ruby/object:Api::Type::Enum
-        name: 'clusterState'
+        name: 'ClusterState'
         description: 'The current state of the cluster.<br>  - WaitingForNodes - Indicates that the cluster resource is created and the resource provider is waiting for Service Fabric VM extension to boot up and report to it.<br>  - Deploying - Indicates that the Service Fabric runtime is being installed on the VMs. Cluster resource will be in this state until the cluster boots up and system services are up.<br>  - BaselineUpgrade - Indicates that the cluster is upgrading to establishes the cluster version. This upgrade is automatically initiated when the cluster boots up for the first time.<br>  - UpdatingUserConfiguration - Indicates that the cluster is being upgraded with the user provided configuration.<br>  - UpdatingUserCertificate - Indicates that the cluster is being upgraded with the user provided certificate.<br>  - UpdatingInfrastructure - Indicates that the cluster is being upgraded with the latest Service Fabric runtime version. This happens only when the **upgradeMode** is set to ''Automatic''.<br>  - EnforcingClusterVersion - Indicates that cluster is on a different version than expected and the cluster is being upgraded to the expected version.<br>  - UpgradeServiceUnreachable - Indicates that the system service in the cluster is no longer polling the Resource Provider. Clusters in this state cannot be managed by the Resource Provider.<br>  - AutoScale - Indicates that the ReliabilityLevel of the cluster is being adjusted.<br>  - Ready - Indicates that the cluster is in a stable state.<br>'
         output: true
         azure_sdk_references: ['/clusterState', '/properties/clusterState']
@@ -1961,43 +1961,43 @@ objects:
           - :AutoScale
           - :Ready
       - !ruby/object:Api::Type::NestedObject
-        name: 'diagnosticsStorageAccountConfig'
+        name: 'DiagnosticsStorageAccountConfig'
         description: 'The storage account information for storing Service Fabric diagnostic logs.'
         output: true
         azure_sdk_references: ['/diagnosticsStorageAccountConfig', '/properties/diagnosticsStorageAccountConfig']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'storageAccountName'
+            name: 'StorageAccountName'
             description: 'The Azure storage account name.'
             output: true
             azure_sdk_references: ['/diagnosticsStorageAccountConfig/storageAccountName', '/properties/diagnosticsStorageAccountConfig/storageAccountName']
           - !ruby/object:Api::Type::String
-            name: 'protectedAccountKeyName'
+            name: 'ProtectedAccountKeyName'
             description: 'The protected diagnostics storage key name.'
             output: true
             azure_sdk_references: ['/diagnosticsStorageAccountConfig/protectedAccountKeyName', '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName']
           - !ruby/object:Api::Type::String
-            name: 'blobEndpoint'
+            name: 'BlobEndpoint'
             description: 'The blob endpoint of the azure storage account.'
             output: true
             azure_sdk_references: ['/diagnosticsStorageAccountConfig/blobEndpoint', '/properties/diagnosticsStorageAccountConfig/blobEndpoint']
           - !ruby/object:Api::Type::String
-            name: 'queueEndpoint'
+            name: 'QueueEndpoint'
             description: 'The queue endpoint of the azure storage account.'
             output: true
             azure_sdk_references: ['/diagnosticsStorageAccountConfig/queueEndpoint', '/properties/diagnosticsStorageAccountConfig/queueEndpoint']
           - !ruby/object:Api::Type::String
-            name: 'tableEndpoint'
+            name: 'TableEndpoint'
             description: 'The table endpoint of the azure storage account.'
             output: true
             azure_sdk_references: ['/diagnosticsStorageAccountConfig/tableEndpoint', '/properties/diagnosticsStorageAccountConfig/tableEndpoint']
       - !ruby/object:Api::Type::String
-        name: 'managementEndpoint'
+        name: 'ManagementEndpoint'
         description: 'The http management endpoint of the cluster.'
         output: true
         azure_sdk_references: ['/managementEndpoint', '/properties/managementEndpoint']
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'The provisioning state of the cluster resource.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
@@ -2007,30 +2007,30 @@ objects:
           - :Failed
           - :Canceled
       - !ruby/object:Api::Type::NestedObject
-        name: 'reverseProxyCertificateCommonNames'
+        name: 'ReverseProxyCertificateCommonNames'
         description: 'Describes a list of server certificates referenced by common name that are used to secure the cluster.'
         output: true
         azure_sdk_references: ['/reverseProxyCertificateCommonNames', '/properties/reverseProxyCertificateCommonNames']
         properties:
           - !ruby/object:Api::Type::Array
-            name: 'commonNames'
+            name: 'CommonNames'
             description: 'The list of server certificates referenced by common name that are used to secure the cluster.'
             output: true
             azure_sdk_references: ['/reverseProxyCertificateCommonNames/commonNames', '/properties/reverseProxyCertificateCommonNames/commonNames']
             item_type: !ruby/object:Api::Type::NestedObject
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'certificateCommonName'
+                  name: 'CertificateCommonName'
                   description: 'The common name of the server certificate.'
                   output: true
                   azure_sdk_references: ['/reverseProxyCertificateCommonNames/commonNames/certificateCommonName', '/properties/reverseProxyCertificateCommonNames/commonNames/certificateCommonName']
                 - !ruby/object:Api::Type::String
-                  name: 'certificateIssuerThumbprint'
+                  name: 'CertificateIssuerThumbprint'
                   description: 'The issuer thumbprint of the server certificate.'
                   output: true
                   azure_sdk_references: ['/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint', '/properties/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint']
           - !ruby/object:Api::Type::Enum
-            name: 'x509storeName'
+            name: 'X509StoreName'
             description: 'The local certificate store location.'
             output: true
             azure_sdk_references: ['/reverseProxyCertificateCommonNames/x509StoreName', '/properties/reverseProxyCertificateCommonNames/x509StoreName']
@@ -2044,22 +2044,22 @@ objects:
               - :TrustedPeople
               - :TrustedPublisher
       - !ruby/object:Api::Type::String
-        name: 'vmImage'
+        name: 'VMImage'
         description: 'The VM image VMSS has been configured with. Generic names such as Windows or Linux can be used.'
         output: true
         azure_sdk_references: ['/vmImage', '/properties/vmImage']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Azure resource identifier.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Azure resource name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Azure resource type.'
         output: true
         azure_sdk_references: ['/type']

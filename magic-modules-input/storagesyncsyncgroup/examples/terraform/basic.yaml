@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_sync_group
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storagesyncservice
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  storage_sync_service_name: SampleStorageSyncService_1
+  name: '<%= get_resource_name('''', ''storagesyncsyncgroup'') -%>'

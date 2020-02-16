@@ -29,21 +29,16 @@ func resourceArmRegisteredServer() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "server_id": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "server_id": {
+            "storage_sync_service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -90,7 +85,7 @@ func resourceArmRegisteredServer() *schema.Resource {
                 Optional: true,
             },
 
-            "server_osversion": {
+            "server_os_version": {
                 Type: schema.TypeString,
                 Optional: true,
             },
@@ -103,6 +98,16 @@ func resourceArmRegisteredServer() *schema.Resource {
             "storage_sync_service_uid": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "provisioning_state": {
@@ -120,17 +125,18 @@ func resourceArmRegisteredServer() *schema.Resource {
 
 func resourceArmRegisteredServerCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).registeredServersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     serverID := d.Get("server_id").(string)
+    name := d.Get("storage_sync_service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, serverID)
+        existing, err := client.Get(ctx, resourceGroupName, name, serverID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Registered Server %q (Server %q / Resource Group %q): %+v", name, serverID, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Registered Server (Server %q / Storage Sync Service Name %q / Resource Group %q): %+v", serverID, name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -139,49 +145,49 @@ func resourceArmRegisteredServerCreateUpdate(d *schema.ResourceData, meta interf
     }
 
     agentVersion := d.Get("agent_version").(string)
-    clusterId := d.Get("cluster_id").(string)
+    clusterID := d.Get("cluster_id").(string)
     clusterName := d.Get("cluster_name").(string)
     lastHeartBeat := d.Get("last_heart_beat").(string)
-    lastWorkflowId := d.Get("last_workflow_id").(string)
+    lastWorkflowID := d.Get("last_workflow_id").(string)
     serverCertificate := d.Get("server_certificate").(string)
-    serverId := d.Get("server_id").(string)
+    serverID := d.Get("server_id").(string)
     serverManagementtErrorCode := d.Get("server_managementt_error_code").(int)
-    serverOsversion := d.Get("server_osversion").(string)
+    serverOSVersion := d.Get("server_os_version").(string)
     serverRole := d.Get("server_role").(string)
-    storageSyncServiceUid := d.Get("storage_sync_service_uid").(string)
+    storageSyncServiceUID := d.Get("storage_sync_service_uid").(string)
 
     parameters := storagesync.RegisteredServer{
         RegisteredServerProperties: &storagesync.RegisteredServerProperties{
             AgentVersion: utils.String(agentVersion),
-            ClusterID: utils.String(clusterId),
+            ClusterID: utils.String(clusterID),
             ClusterName: utils.String(clusterName),
             LastHeartBeat: utils.String(lastHeartBeat),
-            LastWorkflowID: utils.String(lastWorkflowId),
+            LastWorkflowID: utils.String(lastWorkflowID),
             ServerCertificate: utils.String(serverCertificate),
-            ServerID: utils.String(serverId),
+            ServerID: utils.String(serverID),
             ServerManagementtErrorCode: utils.Int(serverManagementtErrorCode),
-            ServerOSVersion: utils.String(serverOsversion),
+            ServerOSVersion: utils.String(serverOSVersion),
             ServerRole: utils.String(serverRole),
-            StorageSyncServiceUID: utils.String(storageSyncServiceUid),
+            StorageSyncServiceUID: utils.String(storageSyncServiceUID),
         },
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, name, serverID, parameters)
+    future, err := client.Create(ctx, resourceGroupName, name, serverID, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Registered Server %q (Server %q / Resource Group %q): %+v", name, serverID, resourceGroup, err)
+        return fmt.Errorf("Error creating Registered Server (Server %q / Storage Sync Service Name %q / Resource Group %q): %+v", serverID, name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Registered Server %q (Server %q / Resource Group %q): %+v", name, serverID, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Registered Server (Server %q / Storage Sync Service Name %q / Resource Group %q): %+v", serverID, name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, serverID)
+    resp, err := client.Get(ctx, resourceGroupName, name, serverID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Registered Server %q (Server %q / Resource Group %q): %+v", name, serverID, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Registered Server (Server %q / Storage Sync Service Name %q / Resource Group %q): %+v", serverID, name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Registered Server %q (Server %q / Resource Group %q) ID", name, serverID, resourceGroup)
+        return fmt.Errorf("Cannot read Registered Server (Server %q / Storage Sync Service Name %q / Resource Group %q) ID", serverID, name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -190,30 +196,29 @@ func resourceArmRegisteredServerCreateUpdate(d *schema.ResourceData, meta interf
 
 func resourceArmRegisteredServerRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).registeredServersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["storageSyncServices"]
     serverID := id.Path["registeredServers"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, serverID)
+    resp, err := client.Get(ctx, resourceGroupName, name, serverID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Registered Server %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Registered Server %q (Server %q / Resource Group %q): %+v", name, serverID, resourceGroup, err)
+        return fmt.Errorf("Error reading Registered Server (Server %q / Storage Sync Service Name %q / Resource Group %q): %+v", serverID, name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if registeredServerProperties := resp.RegisteredServerProperties; registeredServerProperties != nil {
         d.Set("agent_version", registeredServerProperties.AgentVersion)
         d.Set("cluster_id", registeredServerProperties.ClusterID)
@@ -224,11 +229,14 @@ func resourceArmRegisteredServerRead(d *schema.ResourceData, meta interface{}) e
         d.Set("server_certificate", registeredServerProperties.ServerCertificate)
         d.Set("server_id", registeredServerProperties.ServerID)
         d.Set("server_managementt_error_code", registeredServerProperties.ServerManagementtErrorCode)
-        d.Set("server_osversion", registeredServerProperties.ServerOSVersion)
+        d.Set("server_os_version", registeredServerProperties.ServerOSVersion)
         d.Set("server_role", registeredServerProperties.ServerRole)
         d.Set("storage_sync_service_uid", registeredServerProperties.StorageSyncServiceUID)
     }
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("server_id", serverID)
+    d.Set("storage_sync_service_name", name)
     d.Set("type", resp.Type)
 
     return nil
@@ -237,28 +245,29 @@ func resourceArmRegisteredServerRead(d *schema.ResourceData, meta interface{}) e
 
 func resourceArmRegisteredServerDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).registeredServersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["storageSyncServices"]
     serverID := id.Path["registeredServers"]
 
-    future, err := client.Delete(ctx, resourceGroup, name, serverID)
+    future, err := client.Delete(ctx, resourceGroupName, name, serverID)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Registered Server %q (Server %q / Resource Group %q): %+v", name, serverID, resourceGroup, err)
+        return fmt.Errorf("Error deleting Registered Server (Server %q / Storage Sync Service Name %q / Resource Group %q): %+v", serverID, name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Registered Server %q (Server %q / Resource Group %q): %+v", name, serverID, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Registered Server (Server %q / Storage Sync Service Name %q / Resource Group %q): %+v", serverID, name, resourceGroupName, err)
         }
     }
 

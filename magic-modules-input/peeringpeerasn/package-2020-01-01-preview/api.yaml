@@ -1,0 +1,203 @@
+--- !ruby/object:Api::Product
+name: Azure PeerAsn Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: PeerAsn
+    api_name: Peering
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Peering
+      go_client_namespace: peering
+      go_client: peerAsnsClient
+      python_client_namespace: azure.mgmt.peering
+      python_client: PeeringManagementClient.peer_asns
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'peerAsnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerAsns
+            go_variable_name: name
+            python_parameter_name: peer_asn_name
+            python_variable_name: name
+          '/properties/peerAsn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PeerAsn
+          '/peerAsn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: peer_asn
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'peerAsnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerAsns
+            go_variable_name: name
+            python_parameter_name: peer_asn_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'peerAsnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerAsns
+            go_variable_name: name
+            python_parameter_name: peer_asn_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PeerAsnProperties
+            go_type_name: PeerAsnProperties
+          '/properties/peerAsn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PeerAsn
+          '/peerAsn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: peer_asn
+          '/properties/peerContactDetail': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PeerContactDetail
+            go_type_name: ContactDetail
+          '/properties/peerContactDetail/role': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Role
+            go_enum_type_name: Role
+          '/properties/peerContactDetail/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Email
+          '/properties/peerContactDetail/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Phone
+          '/peerContactDetail': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: peer_contact_detail
+          '/peerContactDetail/role': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: role
+          '/peerContactDetail/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email
+          '/peerContactDetail/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: phone
+          '/properties/peerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PeerName
+          '/peerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: peer_name
+          '/properties/validationState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ValidationState
+            go_enum_type_name: ValidationState
+          '/validationState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: validation_state
+          '/properties/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorMessage
+          '/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_message
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+
+    description: |
+      Manage Azure PeerAsn instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'PeerAsnName'
+        description: 'The peer ASN name.'
+        required: true
+        input: true
+        azure_sdk_references: ['peerAsnName']
+      - !ruby/object:Api::Type::Integer
+        name: 'PeerAsn'
+        description: 'The Autonomous System Number (ASN) of the peer.'
+        required: false
+        azure_sdk_references: ['/peerAsn', '/properties/peerAsn']
+      - !ruby/object:Api::Type::Array
+        name: 'PeerContactDetail'
+        description: 'The contact details of the peer.'
+        required: false
+        azure_sdk_references: ['/peerContactDetail', '/properties/peerContactDetail']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'Role'
+              description: 'The role of the contact.'
+              required: false
+              azure_sdk_references: ['/peerContactDetail/role', '/properties/peerContactDetail/role']
+              values:
+                - :Noc
+                - :Policy
+                - :Technical
+                - :Service
+                - :Other
+              default_value: :Noc
+            - !ruby/object:Api::Type::String
+              name: 'Email'
+              description: 'The e-mail address of the contact.'
+              required: false
+              azure_sdk_references: ['/peerContactDetail/email', '/properties/peerContactDetail/email']
+            - !ruby/object:Api::Type::String
+              name: 'Phone'
+              description: 'The phone number of the contact.'
+              required: false
+              azure_sdk_references: ['/peerContactDetail/phone', '/properties/peerContactDetail/phone']
+      - !ruby/object:Api::Type::String
+        name: 'PeerName'
+        description: 'The name of the peer.'
+        required: false
+        azure_sdk_references: ['/peerName', '/properties/peerName']
+      - !ruby/object:Api::Type::Enum
+        name: 'ValidationState'
+        description: 'The validation state of the ASN associated with the peer.'
+        required: false
+        azure_sdk_references: ['/validationState', '/properties/validationState']
+        values:
+          - :None
+          - :Pending
+          - :Approved
+          - :Failed
+        default_value: :None
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'ErrorMessage'
+        description: 'The error message for the validation state'
+        output: true
+        azure_sdk_references: ['/errorMessage', '/properties/errorMessage']
+      - !ruby/object:Api::Type::String
+        name: 'Name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'ID'
+        description: 'The ID of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'Type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

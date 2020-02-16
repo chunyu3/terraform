@@ -1,0 +1,197 @@
+--- !ruby/object:Api::Product
+name: Azure RegisteredAsn Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RegisteredAsn
+    api_name: Peering
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Peering
+      go_client_namespace: peering
+      go_client: registeredAsnsClient
+      python_client_namespace: azure.mgmt.peering
+      python_client: PeeringManagementClient.registered_asns
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerings
+            go_variable_name: peeringName
+            python_parameter_name: peering_name
+            python_variable_name: peering_name
+          'registeredAsnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registeredAsns
+            go_variable_name: name
+            python_parameter_name: registered_asn_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: registeredAsn
+            go_type_name: RegisteredAsn
+            python_parameter_name: registered_asn
+            python_variable_name: registered_asn
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RegisteredAsnProperties
+            go_type_name: RegisteredAsnProperties
+          '/asn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: asn
+          '/properties/asn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Asn
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerings
+            go_variable_name: peeringName
+            python_parameter_name: peering_name
+            python_variable_name: peering_name
+          'registeredAsnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registeredAsns
+            go_variable_name: name
+            python_parameter_name: registered_asn_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerings
+            go_variable_name: peeringName
+            python_parameter_name: peering_name
+            python_variable_name: peering_name
+          'registeredAsnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registeredAsns
+            go_variable_name: name
+            python_parameter_name: registered_asn_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RegisteredAsnProperties
+            go_type_name: RegisteredAsnProperties
+          '/properties/asn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Asn
+          '/asn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: asn
+          '/properties/peeringServicePrefixKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PeeringServicePrefixKey
+          '/peeringServicePrefixKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: peering_service_prefix_key
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByPeering
+        python_func_name: list_by_peering
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerings
+            go_variable_name: peeringName
+            python_parameter_name: peering_name
+            python_variable_name: peering_name
+
+    description: |
+      Manage Azure RegisteredAsn instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'ResourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'PeeringName'
+        description: 'The name of the peering.'
+        required: true
+        input: true
+        azure_sdk_references: ['peeringName']
+      - !ruby/object:Api::Type::String
+        name: 'RegisteredAsnName'
+        description: 'The name of the registered ASN.'
+        required: true
+        input: true
+        azure_sdk_references: ['registeredAsnName']
+      - !ruby/object:Api::Type::Integer
+        name: 'Asn'
+        description: 'The customer''s ASN from which traffic originates.'
+        required: false
+        azure_sdk_references: ['/asn', '/properties/asn']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'PeeringServicePrefixKey'
+        description: 'The peering service prefix key that is to be shared with the customer.'
+        output: true
+        azure_sdk_references: ['/peeringServicePrefixKey', '/properties/peeringServicePrefixKey']
+      - !ruby/object:Api::Type::Enum
+        name: 'ProvisioningState'
+        description: 'The provisioning state of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Updating
+          - :Deleting
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'Name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'ID'
+        description: 'The ID of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'Type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_peeringregisteredasn
+  description: Create or update a registered ASN for the peering
+  code:
+    resource_group: myResourceGroup
+    peering_name: myPeering
+    name: myRegisteredAsn
+    registered_asn:
+      properties:
+        asn: '65000'
+  

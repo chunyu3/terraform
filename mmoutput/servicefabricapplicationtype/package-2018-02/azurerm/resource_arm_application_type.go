@@ -29,27 +29,32 @@ func resourceArmApplicationType() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "application_type_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "cluster_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "location": azure.SchemaLocation(),
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "provisioning_state": {
@@ -67,17 +72,18 @@ func resourceArmApplicationType() *schema.Resource {
 
 func resourceArmApplicationTypeCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).applicationTypesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("application_type_name").(string)
     clusterName := d.Get("cluster_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName, name)
+        existing, err := client.Get(ctx, resourceGroupName, clusterName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -92,17 +98,17 @@ func resourceArmApplicationTypeCreateUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, clusterName, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroupName, clusterName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
+    resp, err := client.Get(ctx, resourceGroupName, clusterName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Application Type %q (Cluster Name %q / Resource Group %q) ID", name, clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q) ID", name, clusterName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -111,34 +117,36 @@ func resourceArmApplicationTypeCreateUpdate(d *schema.ResourceData, meta interfa
 
 func resourceArmApplicationTypeRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).applicationTypesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     clusterName := id.Path["clusters"]
     name := id.Path["applicationTypes"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
+    resp, err := client.Get(ctx, resourceGroupName, clusterName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Application Type %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    d.Set("application_type_name", name)
     d.Set("cluster_name", clusterName)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     if applicationTypeResourceProperties := resp.ApplicationTypeResourceProperties; applicationTypeResourceProperties != nil {
         d.Set("provisioning_state", applicationTypeResourceProperties.ProvisioningState)
     }
@@ -150,28 +158,29 @@ func resourceArmApplicationTypeRead(d *schema.ResourceData, meta interface{}) er
 
 func resourceArmApplicationTypeDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).applicationTypesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     clusterName := id.Path["clusters"]
     name := id.Path["applicationTypes"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName, name)
+    future, err := client.Delete(ctx, resourceGroupName, clusterName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroupName, err)
         }
     }
 

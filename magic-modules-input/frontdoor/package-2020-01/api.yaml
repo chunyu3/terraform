@@ -259,12 +259,12 @@ objects:
           '/backendPools/backends/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: address
-          '/backendPools/backends/privateLinkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/backendPools/backends/privateLinkResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: private_link_id
-          '/backendPools/backends/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: private_link_resource_id
+          '/backendPools/backends/privateLinkApprovalMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: location
+            python_field_name: private_link_approval_message
           '/backendPools/backends/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
             python_field_name: http_port
@@ -319,12 +319,12 @@ objects:
           '/properties/backendPools/properties/backends/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Address
-          '/properties/backendPools/properties/backends/privateLinkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/backendPools/properties/backends/privateLinkResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: PrivateLinkID
-          '/properties/backendPools/properties/backends/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrivateLinkResourceID
+          '/properties/backendPools/properties/backends/privateLinkApprovalMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: Location
+            go_field_name: PrivateLinkApprovalMessage
           '/properties/backendPools/properties/backends/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: HTTPPort
@@ -739,12 +739,12 @@ objects:
           '/properties/backendPools/properties/backends/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Address
-          '/properties/backendPools/properties/backends/privateLinkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/backendPools/properties/backends/privateLinkResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: PrivateLinkID
-          '/properties/backendPools/properties/backends/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrivateLinkResourceID
+          '/properties/backendPools/properties/backends/privateLinkApprovalMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: Location
+            go_field_name: PrivateLinkApprovalMessage
           '/properties/backendPools/properties/backends/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: HTTPPort
@@ -764,6 +764,10 @@ objects:
           '/properties/backendPools/properties/backends/backendHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: BackendHostHeader
+          '/properties/backendPools/properties/backends/privateEndpointStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PrivateEndpointStatus
+            go_enum_type_name: PrivateEndpointStatus
           '/properties/backendPools/properties/loadBalancingSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: LoadBalancingSettings
@@ -800,12 +804,12 @@ objects:
           '/backendPools/backends/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: address
-          '/backendPools/backends/privateLinkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/backendPools/backends/privateLinkResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: private_link_id
-          '/backendPools/backends/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: private_link_resource_id
+          '/backendPools/backends/privateLinkApprovalMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: location
+            python_field_name: private_link_approval_message
           '/backendPools/backends/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
             python_field_name: http_port
@@ -824,6 +828,9 @@ objects:
           '/backendPools/backends/backendHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: backend_host_header
+          '/backendPools/backends/privateEndpointStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: private_endpoint_status
           '/backendPools/loadBalancingSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: load_balancing_settings
@@ -1497,16 +1504,15 @@ objects:
                     required: false
                     azure_sdk_references: ['/backendPools/backends/address', '/properties/backendPools/properties/backends/address']
                   - !ruby/object:Api::Type::String
-                    name: 'PrivateLinkID'
-                    description: 'If this backend is private, provide the private link resource Id. Populating this optional field indicates that this backend is ''Private'''
+                    name: 'PrivateLinkResourceID'
+                    description: 'If this backend is private, provide the Private Link resource Id. Populating this optional field indicates that this backend is ''Private'''
                     required: false
-                    azure_sdk_references: ['/backendPools/backends/privateLinkId', '/properties/backendPools/properties/backends/privateLinkId']
-                  - !ruby/object:Api::Azure::Type::Location
-                    name: 'Location'
-                    description: 'Region of the backend if it is in Azure. Mandatory field if backend is ''Private'''
+                    azure_sdk_references: ['/backendPools/backends/privateLinkResourceId', '/properties/backendPools/properties/backends/privateLinkResourceId']
+                  - !ruby/object:Api::Type::String
+                    name: 'PrivateLinkApprovalMessage'
+                    description: 'A custom message to be included in the approval request to connect to the Private Link'
                     required: false
-                    input: true
-                    azure_sdk_references: ['/backendPools/backends/location', '/properties/backendPools/properties/backends/location']
+                    azure_sdk_references: ['/backendPools/backends/privateLinkApprovalMessage', '/properties/backendPools/properties/backends/privateLinkApprovalMessage']
                   - !ruby/object:Api::Type::Integer
                     name: 'HTTPPort'
                     description: 'The HTTP TCP port number. Must be between 1 and 65535.'

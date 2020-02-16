@@ -1,0 +1,228 @@
+--- !ruby/object:Api::Product
+name: Azure RegisteredPrefix Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RegisteredPrefix
+    api_name: Peering
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Peering
+      go_client_namespace: peering
+      go_client: registeredPrefixesClient
+      python_client_namespace: azure.mgmt.peering
+      python_client: PeeringManagementClient.registered_prefixes
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerings
+            go_variable_name: peeringName
+            python_parameter_name: peering_name
+            python_variable_name: peering_name
+          'registeredPrefixName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registeredPrefixes
+            go_variable_name: name
+            python_parameter_name: registered_prefix_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: registeredPrefix
+            go_type_name: RegisteredPrefix
+            python_parameter_name: registered_prefix
+            python_variable_name: registered_prefix
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RegisteredPrefixProperties
+            go_type_name: RegisteredPrefixProperties
+          '/prefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: prefix
+          '/properties/prefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Prefix
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerings
+            go_variable_name: peeringName
+            python_parameter_name: peering_name
+            python_variable_name: peering_name
+          'registeredPrefixName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registeredPrefixes
+            go_variable_name: name
+            python_parameter_name: registered_prefix_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerings
+            go_variable_name: peeringName
+            python_parameter_name: peering_name
+            python_variable_name: peering_name
+          'registeredPrefixName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registeredPrefixes
+            go_variable_name: name
+            python_parameter_name: registered_prefix_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RegisteredPrefixProperties
+            go_type_name: RegisteredPrefixProperties
+          '/properties/prefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Prefix
+          '/prefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: prefix
+          '/properties/prefixValidationState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PrefixValidationState
+            go_enum_type_name: PrefixValidationState
+          '/prefixValidationState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: prefix_validation_state
+          '/properties/peeringServicePrefixKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PeeringServicePrefixKey
+          '/peeringServicePrefixKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: peering_service_prefix_key
+          '/properties/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorMessage
+          '/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_message
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByPeering
+        python_func_name: list_by_peering
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerings
+            go_variable_name: peeringName
+            python_parameter_name: peering_name
+            python_variable_name: peering_name
+
+    description: |
+      Manage Azure RegisteredPrefix instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'ResourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'PeeringName'
+        description: 'The name of the peering.'
+        required: true
+        input: true
+        azure_sdk_references: ['peeringName']
+      - !ruby/object:Api::Type::String
+        name: 'RegisteredPrefixName'
+        description: 'The name of the registered prefix.'
+        required: true
+        input: true
+        azure_sdk_references: ['registeredPrefixName']
+      - !ruby/object:Api::Type::String
+        name: 'Prefix'
+        description: 'The customer''s prefix from which traffic originates.'
+        required: false
+        azure_sdk_references: ['/prefix', '/properties/prefix']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'PrefixValidationState'
+        description: 'The prefix validation state.'
+        output: true
+        azure_sdk_references: ['/prefixValidationState', '/properties/prefixValidationState']
+        values:
+          - :None
+          - :Invalid
+          - :Verified
+          - :Failed
+          - :Pending
+          - :Warning
+          - :Unknown
+      - !ruby/object:Api::Type::String
+        name: 'PeeringServicePrefixKey'
+        description: 'The peering service prefix key that is to be shared with the customer.'
+        output: true
+        azure_sdk_references: ['/peeringServicePrefixKey', '/properties/peeringServicePrefixKey']
+      - !ruby/object:Api::Type::String
+        name: 'ErrorMessage'
+        description: 'The error message associated with the validation state, if any.'
+        output: true
+        azure_sdk_references: ['/errorMessage', '/properties/errorMessage']
+      - !ruby/object:Api::Type::Enum
+        name: 'ProvisioningState'
+        description: 'The provisioning state of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Updating
+          - :Deleting
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'Name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'ID'
+        description: 'The ID of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'Type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

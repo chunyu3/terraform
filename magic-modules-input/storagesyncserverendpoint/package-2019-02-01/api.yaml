@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -97,7 +97,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -169,7 +169,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -193,7 +193,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -587,7 +587,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -605,31 +605,31 @@ objects:
       Manage Azure ServerEndpoint instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group. The name is case insensitive.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'storageSyncServiceName'
+        name: 'StorageSyncServiceName'
         description: 'Name of Storage Sync Service resource.'
         required: true
         input: true
         azure_sdk_references: ['storageSyncServiceName']
       - !ruby/object:Api::Type::String
-        name: 'syncGroupName'
+        name: 'SyncGroupName'
         description: 'Name of Sync Group resource.'
         required: true
         input: true
         azure_sdk_references: ['syncGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ServerEndpointName'
         description: 'Name of Server Endpoint object.'
         required: true
         input: true
         azure_sdk_references: ['serverEndpointName']
       - !ruby/object:Api::Type::Enum
-        name: 'cloudTiering'
+        name: 'CloudTiering'
         description: 'Cloud Tiering.'
         required: false
         azure_sdk_references: ['/cloudTiering', '/properties/cloudTiering']
@@ -638,17 +638,17 @@ objects:
           - :off
         default_value: :on
       - !ruby/object:Api::Type::Integer
-        name: 'volumeFreeSpacePercent'
+        name: 'VolumeFreeSpacePercent'
         description: 'Level of free space to be maintained by Cloud Tiering if it is enabled.'
         required: false
         azure_sdk_references: ['/volumeFreeSpacePercent', '/properties/volumeFreeSpacePercent']
       - !ruby/object:Api::Type::Integer
-        name: 'tierFilesOlderThanDays'
+        name: 'TierFilesOlderThanDays'
         description: 'Tier files older than days.'
         required: false
         azure_sdk_references: ['/tierFilesOlderThanDays', '/properties/tierFilesOlderThanDays']
       - !ruby/object:Api::Type::Enum
-        name: 'offlineDataTransfer'
+        name: 'OfflineDataTransfer'
         description: 'Offline data transfer'
         required: false
         azure_sdk_references: ['/offlineDataTransfer', '/properties/offlineDataTransfer']
@@ -657,61 +657,61 @@ objects:
           - :off
         default_value: :on
       - !ruby/object:Api::Type::String
-        name: 'offlineDataTransferShareName'
+        name: 'OfflineDataTransferShareName'
         description: 'Offline data transfer share name'
         required: false
         azure_sdk_references: ['/offlineDataTransferShareName', '/properties/offlineDataTransferShareName']
       - !ruby/object:Api::Type::String
-        name: 'pattern'
+        name: 'Pattern'
         description: 'Pattern of the files.'
         required: false
         input: true
         azure_sdk_references: ['/pattern']
       - !ruby/object:Api::Type::String
-        name: 'recallPath'
+        name: 'RecallPath'
         description: 'Recall path.'
         required: false
         input: true
         azure_sdk_references: ['/recallPath']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'serverLocalPath'
+        name: 'ServerLocalPath'
         description: 'Server Local path.'
         output: true
         azure_sdk_references: ['/serverLocalPath', '/properties/serverLocalPath']
       - !ruby/object:Api::Type::String
-        name: 'friendlyName'
+        name: 'FriendlyName'
         description: 'Friendly Name'
         output: true
         azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
       - !ruby/object:Api::Type::String
-        name: 'serverResourceId'
+        name: 'ServerResourceID'
         description: 'Server Resource Id.'
         output: true
         azure_sdk_references: ['/serverResourceId', '/properties/serverResourceId']
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'ServerEndpoint Provisioning State'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'lastWorkflowId'
+        name: 'LastWorkflowID'
         description: 'ServerEndpoint lastWorkflowId'
         output: true
         azure_sdk_references: ['/lastWorkflowId', '/properties/lastWorkflowId']
       - !ruby/object:Api::Type::String
-        name: 'lastOperationName'
+        name: 'LastOperationName'
         description: 'Resource Last Operation Name'
         output: true
         azure_sdk_references: ['/lastOperationName', '/properties/lastOperationName']
       - !ruby/object:Api::Type::NestedObject
-        name: 'syncStatus'
+        name: 'SyncStatus'
         description: 'Server Endpoint sync status'
         output: true
         azure_sdk_references: ['/syncStatus', '/properties/syncStatus']
         properties:
           - !ruby/object:Api::Type::Enum
-            name: 'downloadHealth'
+            name: 'DownloadHealth'
             description: 'Download Health Status.'
             output: true
             azure_sdk_references: ['/syncStatus/downloadHealth', '/properties/syncStatus/downloadHealth']
@@ -722,7 +722,7 @@ objects:
               - :SyncBlockedForChangeDetectionPostRestore
               - :NoActivity
           - !ruby/object:Api::Type::Enum
-            name: 'uploadHealth'
+            name: 'UploadHealth'
             description: 'Upload Health Status.'
             output: true
             azure_sdk_references: ['/syncStatus/uploadHealth', '/properties/syncStatus/uploadHealth']
@@ -733,7 +733,7 @@ objects:
               - :SyncBlockedForChangeDetectionPostRestore
               - :NoActivity
           - !ruby/object:Api::Type::Enum
-            name: 'combinedHealth'
+            name: 'CombinedHealth'
             description: 'Combined Health Status.'
             output: true
             azure_sdk_references: ['/syncStatus/combinedHealth', '/properties/syncStatus/combinedHealth']
@@ -744,7 +744,7 @@ objects:
               - :SyncBlockedForChangeDetectionPostRestore
               - :NoActivity
           - !ruby/object:Api::Type::Enum
-            name: 'syncActivity'
+            name: 'SyncActivity'
             description: 'Sync activity'
             output: true
             azure_sdk_references: ['/syncStatus/syncActivity', '/properties/syncStatus/syncActivity']
@@ -753,205 +753,205 @@ objects:
               - :Download
               - :UploadAndDownload
           - !ruby/object:Api::Type::Integer
-            name: 'totalPersistentFilesNotSyncingCount'
+            name: 'TotalPersistentFilesNotSyncingCount'
             description: 'Total count of persistent files not syncing (combined upload + download). Reserved for future use.'
             output: true
             azure_sdk_references: ['/syncStatus/totalPersistentFilesNotSyncingCount', '/properties/syncStatus/totalPersistentFilesNotSyncingCount']
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'lastUpdatedTimestamp'
+            name: 'LastUpdatedTimestamp'
             description: 'Last Updated Timestamp'
             output: true
             azure_sdk_references: ['/syncStatus/lastUpdatedTimestamp', '/properties/syncStatus/lastUpdatedTimestamp']
           - !ruby/object:Api::Type::NestedObject
-            name: 'uploadStatus'
+            name: 'UploadStatus'
             description: 'Upload Status'
             output: true
             azure_sdk_references: ['/syncStatus/uploadStatus', '/properties/syncStatus/uploadStatus']
             properties:
               - !ruby/object:Api::Type::Integer
-                name: 'lastSyncResult'
+                name: 'LastSyncResult'
                 description: 'Last sync result (HResult)'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadStatus/lastSyncResult', '/properties/syncStatus/uploadStatus/lastSyncResult']
               - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                name: 'lastSyncTimestamp'
+                name: 'LastSyncTimestamp'
                 description: 'Last sync timestamp'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadStatus/lastSyncTimestamp', '/properties/syncStatus/uploadStatus/lastSyncTimestamp']
               - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                name: 'lastSyncSuccessTimestamp'
+                name: 'LastSyncSuccessTimestamp'
                 description: 'Last sync success timestamp'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadStatus/lastSyncSuccessTimestamp', '/properties/syncStatus/uploadStatus/lastSyncSuccessTimestamp']
               - !ruby/object:Api::Type::Integer
-                name: 'lastSyncPerItemErrorCount'
+                name: 'LastSyncPerItemErrorCount'
                 description: 'Last sync per item error count.'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadStatus/lastSyncPerItemErrorCount', '/properties/syncStatus/uploadStatus/lastSyncPerItemErrorCount']
               - !ruby/object:Api::Type::Integer
-                name: 'persistentFilesNotSyncingCount'
+                name: 'PersistentFilesNotSyncingCount'
                 description: 'Count of persistent files not syncing. Reserved for future use.'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadStatus/persistentFilesNotSyncingCount', '/properties/syncStatus/uploadStatus/persistentFilesNotSyncingCount']
               - !ruby/object:Api::Type::Integer
-                name: 'transientFilesNotSyncingCount'
+                name: 'TransientFilesNotSyncingCount'
                 description: 'Count of transient files not syncing. Reserved for future use.'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadStatus/transientFilesNotSyncingCount', '/properties/syncStatus/uploadStatus/transientFilesNotSyncingCount']
               - !ruby/object:Api::Type::Array
-                name: 'filesNotSyncingErrors'
+                name: 'FilesNotSyncingErrors'
                 description: 'Array of per-item errors coming from the last sync session. Reserved for future use.'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadStatus/filesNotSyncingErrors', '/properties/syncStatus/uploadStatus/filesNotSyncingErrors']
                 item_type: !ruby/object:Api::Type::NestedObject
                   properties:
                     - !ruby/object:Api::Type::Integer
-                      name: 'errorCode'
+                      name: 'ErrorCode'
                       description: 'Error code (HResult)'
                       output: true
                       azure_sdk_references: ['/syncStatus/uploadStatus/filesNotSyncingErrors/errorCode', '/properties/syncStatus/uploadStatus/filesNotSyncingErrors/errorCode']
                     - !ruby/object:Api::Type::Integer
-                      name: 'persistentCount'
+                      name: 'PersistentCount'
                       description: 'Count of persistent files not syncing with the specified error code'
                       output: true
                       azure_sdk_references: ['/syncStatus/uploadStatus/filesNotSyncingErrors/persistentCount', '/properties/syncStatus/uploadStatus/filesNotSyncingErrors/persistentCount']
                     - !ruby/object:Api::Type::Integer
-                      name: 'transientCount'
+                      name: 'TransientCount'
                       description: 'Count of transient files not syncing with the specified error code'
                       output: true
                       azure_sdk_references: ['/syncStatus/uploadStatus/filesNotSyncingErrors/transientCount', '/properties/syncStatus/uploadStatus/filesNotSyncingErrors/transientCount']
           - !ruby/object:Api::Type::NestedObject
-            name: 'downloadStatus'
+            name: 'DownloadStatus'
             description: 'Download Status'
             output: true
             azure_sdk_references: ['/syncStatus/downloadStatus', '/properties/syncStatus/downloadStatus']
             properties:
               - !ruby/object:Api::Type::Integer
-                name: 'lastSyncResult'
+                name: 'LastSyncResult'
                 description: 'Last sync result (HResult)'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadStatus/lastSyncResult', '/properties/syncStatus/downloadStatus/lastSyncResult']
               - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                name: 'lastSyncTimestamp'
+                name: 'LastSyncTimestamp'
                 description: 'Last sync timestamp'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadStatus/lastSyncTimestamp', '/properties/syncStatus/downloadStatus/lastSyncTimestamp']
               - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                name: 'lastSyncSuccessTimestamp'
+                name: 'LastSyncSuccessTimestamp'
                 description: 'Last sync success timestamp'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadStatus/lastSyncSuccessTimestamp', '/properties/syncStatus/downloadStatus/lastSyncSuccessTimestamp']
               - !ruby/object:Api::Type::Integer
-                name: 'lastSyncPerItemErrorCount'
+                name: 'LastSyncPerItemErrorCount'
                 description: 'Last sync per item error count.'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadStatus/lastSyncPerItemErrorCount', '/properties/syncStatus/downloadStatus/lastSyncPerItemErrorCount']
               - !ruby/object:Api::Type::Integer
-                name: 'persistentFilesNotSyncingCount'
+                name: 'PersistentFilesNotSyncingCount'
                 description: 'Count of persistent files not syncing. Reserved for future use.'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadStatus/persistentFilesNotSyncingCount', '/properties/syncStatus/downloadStatus/persistentFilesNotSyncingCount']
               - !ruby/object:Api::Type::Integer
-                name: 'transientFilesNotSyncingCount'
+                name: 'TransientFilesNotSyncingCount'
                 description: 'Count of transient files not syncing. Reserved for future use.'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadStatus/transientFilesNotSyncingCount', '/properties/syncStatus/downloadStatus/transientFilesNotSyncingCount']
               - !ruby/object:Api::Type::Array
-                name: 'filesNotSyncingErrors'
+                name: 'FilesNotSyncingErrors'
                 description: 'Array of per-item errors coming from the last sync session. Reserved for future use.'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadStatus/filesNotSyncingErrors', '/properties/syncStatus/downloadStatus/filesNotSyncingErrors']
                 item_type: !ruby/object:Api::Type::NestedObject
                   properties:
                     - !ruby/object:Api::Type::Integer
-                      name: 'errorCode'
+                      name: 'ErrorCode'
                       description: 'Error code (HResult)'
                       output: true
                       azure_sdk_references: ['/syncStatus/downloadStatus/filesNotSyncingErrors/errorCode', '/properties/syncStatus/downloadStatus/filesNotSyncingErrors/errorCode']
                     - !ruby/object:Api::Type::Integer
-                      name: 'persistentCount'
+                      name: 'PersistentCount'
                       description: 'Count of persistent files not syncing with the specified error code'
                       output: true
                       azure_sdk_references: ['/syncStatus/downloadStatus/filesNotSyncingErrors/persistentCount', '/properties/syncStatus/downloadStatus/filesNotSyncingErrors/persistentCount']
                     - !ruby/object:Api::Type::Integer
-                      name: 'transientCount'
+                      name: 'TransientCount'
                       description: 'Count of transient files not syncing with the specified error code'
                       output: true
                       azure_sdk_references: ['/syncStatus/downloadStatus/filesNotSyncingErrors/transientCount', '/properties/syncStatus/downloadStatus/filesNotSyncingErrors/transientCount']
           - !ruby/object:Api::Type::NestedObject
-            name: 'uploadActivity'
+            name: 'UploadActivity'
             description: 'Upload sync activity'
             output: true
             azure_sdk_references: ['/syncStatus/uploadActivity', '/properties/syncStatus/uploadActivity']
             properties:
               - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                name: 'timestamp'
+                name: 'Timestamp'
                 description: 'Timestamp when properties were updated'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadActivity/timestamp', '/properties/syncStatus/uploadActivity/timestamp']
               - !ruby/object:Api::Type::Integer
-                name: 'perItemErrorCount'
+                name: 'PerItemErrorCount'
                 description: 'Per item error count'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadActivity/perItemErrorCount', '/properties/syncStatus/uploadActivity/perItemErrorCount']
               - !ruby/object:Api::Type::Integer
-                name: 'appliedItemCount'
+                name: 'AppliedItemCount'
                 description: 'Applied item count.'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadActivity/appliedItemCount', '/properties/syncStatus/uploadActivity/appliedItemCount']
               - !ruby/object:Api::Type::Integer
-                name: 'totalItemCount'
+                name: 'TotalItemCount'
                 description: 'Total item count (if available)'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadActivity/totalItemCount', '/properties/syncStatus/uploadActivity/totalItemCount']
               - !ruby/object:Api::Type::Integer
-                name: 'appliedBytes'
+                name: 'AppliedBytes'
                 description: 'Applied bytes'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadActivity/appliedBytes', '/properties/syncStatus/uploadActivity/appliedBytes']
               - !ruby/object:Api::Type::Integer
-                name: 'totalBytes'
+                name: 'TotalBytes'
                 description: 'Total bytes (if available)'
                 output: true
                 azure_sdk_references: ['/syncStatus/uploadActivity/totalBytes', '/properties/syncStatus/uploadActivity/totalBytes']
           - !ruby/object:Api::Type::NestedObject
-            name: 'downloadActivity'
+            name: 'DownloadActivity'
             description: 'Download sync activity'
             output: true
             azure_sdk_references: ['/syncStatus/downloadActivity', '/properties/syncStatus/downloadActivity']
             properties:
               - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                name: 'timestamp'
+                name: 'Timestamp'
                 description: 'Timestamp when properties were updated'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadActivity/timestamp', '/properties/syncStatus/downloadActivity/timestamp']
               - !ruby/object:Api::Type::Integer
-                name: 'perItemErrorCount'
+                name: 'PerItemErrorCount'
                 description: 'Per item error count'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadActivity/perItemErrorCount', '/properties/syncStatus/downloadActivity/perItemErrorCount']
               - !ruby/object:Api::Type::Integer
-                name: 'appliedItemCount'
+                name: 'AppliedItemCount'
                 description: 'Applied item count.'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadActivity/appliedItemCount', '/properties/syncStatus/downloadActivity/appliedItemCount']
               - !ruby/object:Api::Type::Integer
-                name: 'totalItemCount'
+                name: 'TotalItemCount'
                 description: 'Total item count (if available)'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadActivity/totalItemCount', '/properties/syncStatus/downloadActivity/totalItemCount']
               - !ruby/object:Api::Type::Integer
-                name: 'appliedBytes'
+                name: 'AppliedBytes'
                 description: 'Applied bytes'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadActivity/appliedBytes', '/properties/syncStatus/downloadActivity/appliedBytes']
               - !ruby/object:Api::Type::Integer
-                name: 'totalBytes'
+                name: 'TotalBytes'
                 description: 'Total bytes (if available)'
                 output: true
                 azure_sdk_references: ['/syncStatus/downloadActivity/totalBytes', '/properties/syncStatus/downloadActivity/totalBytes']
           - !ruby/object:Api::Type::Enum
-            name: 'offlineDataTransferStatus'
+            name: 'OfflineDataTransferStatus'
             description: 'Offline Data Transfer State'
             output: true
             azure_sdk_references: ['/syncStatus/offlineDataTransferStatus', '/properties/syncStatus/offlineDataTransferStatus']
@@ -961,27 +961,27 @@ objects:
               - :NotRunning
               - :Complete
       - !ruby/object:Api::Type::String
-        name: 'offlineDataTransferStorageAccountResourceId'
+        name: 'OfflineDataTransferStorageAccountResourceID'
         description: 'Offline data transfer storage account resource ID'
         output: true
         azure_sdk_references: ['/offlineDataTransferStorageAccountResourceId', '/properties/offlineDataTransferStorageAccountResourceId']
       - !ruby/object:Api::Type::String
-        name: 'offlineDataTransferStorageAccountTenantId'
+        name: 'OfflineDataTransferStorageAccountTenantID'
         description: 'Offline data transfer storage account tenant ID'
         output: true
         azure_sdk_references: ['/offlineDataTransferStorageAccountTenantId', '/properties/offlineDataTransferStorageAccountTenantId']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the resource'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
         output: true
         azure_sdk_references: ['/type']

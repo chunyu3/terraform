@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_application_type_version
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: cluster
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: applicationtype
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: version
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  cluster_name: myCluster
+  name: '<%= get_resource_name('''', ''servicefabricapplicationtypeversion'') -%>'
+  version: '1.0'
+  app_package_url: 'http://fakelink.test.com/MyAppType'

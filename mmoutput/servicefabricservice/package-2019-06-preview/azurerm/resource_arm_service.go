@@ -29,22 +29,6 @@ func resourceArmService() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "application_name": {
                 Type: schema.TypeString,
                 Required: true,
@@ -53,6 +37,15 @@ func resourceArmService() *schema.Resource {
             },
 
             "cluster_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -94,6 +87,8 @@ func resourceArmService() *schema.Resource {
                 }, false),
                 Default: string(servicefabric.Zero),
             },
+
+            "location": azure.SchemaLocation(),
 
             "placement_constraints": {
                 Type: schema.TypeString,
@@ -137,7 +132,19 @@ func resourceArmService() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
             "etag": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -161,26 +168,25 @@ func resourceArmService() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).servicesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     applicationName := d.Get("application_name").(string)
     clusterName := d.Get("cluster_name").(string)
+    name := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName, applicationName, name)
+        existing, err := client.Get(ctx, resourceGroupName, clusterName, applicationName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -193,7 +199,7 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
     defaultMoveCost := d.Get("default_move_cost").(string)
     placementConstraints := d.Get("placement_constraints").(string)
     serviceLoadMetrics := d.Get("service_load_metrics").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := servicefabric.ServiceResourceUpdate{
         Location: utils.String(location),
@@ -203,25 +209,25 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
             PlacementConstraints: utils.String(placementConstraints),
             ServiceLoadMetrics: expandArmServiceServiceLoadMetricDescription(serviceLoadMetrics),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, clusterName, applicationName, name, parameters)
+    future, err := client.Create(ctx, resourceGroupName, clusterName, applicationName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error creating Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, applicationName, name)
+    resp, err := client.Get(ctx, resourceGroupName, clusterName, applicationName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Service %q (Application Name %q / Cluster Name %q / Resource Group %q) ID", name, applicationName, clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q) ID", name, applicationName, clusterName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -230,31 +236,30 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).servicesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     clusterName := id.Path["clusters"]
     applicationName := id.Path["applications"]
     name := id.Path["services"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, applicationName, name)
+    resp, err := client.Get(ctx, resourceGroupName, clusterName, applicationName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -274,6 +279,9 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("service_type_name", serviceResourceUpdateProperties.ServiceTypeName)
     }
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("service_name", name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -281,35 +289,38 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).servicesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     applicationName := d.Get("application_name").(string)
     clusterName := d.Get("cluster_name").(string)
     correlationScheme := d.Get("correlation_scheme").([]interface{})
     defaultMoveCost := d.Get("default_move_cost").(string)
     placementConstraints := d.Get("placement_constraints").(string)
     serviceLoadMetrics := d.Get("service_load_metrics").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    name := d.Get("service_name").(string)
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := servicefabric.ServiceResourceUpdate{
+        Location: utils.String(location),
         ServiceResourceUpdateProperties: &servicefabric.ServiceResourceUpdateProperties{
             CorrelationScheme: expandArmServiceServiceCorrelationDescription(correlationScheme),
             DefaultMoveCost: servicefabric.MoveCost(defaultMoveCost),
             PlacementConstraints: utils.String(placementConstraints),
             ServiceLoadMetrics: expandArmServiceServiceLoadMetricDescription(serviceLoadMetrics),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, clusterName, applicationName, name, parameters)
+    future, err := client.Update(ctx, resourceGroupName, clusterName, applicationName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error updating Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroupName, err)
     }
 
     return resourceArmServiceRead(d, meta)
@@ -317,29 +328,30 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmServiceDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).servicesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     clusterName := id.Path["clusters"]
     applicationName := id.Path["applications"]
     name := id.Path["services"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName, applicationName, name)
+    future, err := client.Delete(ctx, resourceGroupName, clusterName, applicationName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroupName, err)
         }
     }
 
@@ -416,11 +428,11 @@ func flattenArmServiceServiceLoadMetricDescription(input *[]servicefabric.Servic
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         if defaultLoad := item.DefaultLoad; defaultLoad != nil {
             v["default_load"] = *defaultLoad
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
         if primaryDefaultLoad := item.PrimaryDefaultLoad; primaryDefaultLoad != nil {
             v["primary_default_load"] = *primaryDefaultLoad

@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_application_type
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: cluster
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  cluster_name: myCluster
+  name: '<%= get_resource_name('''', ''servicefabricapplicationtype'') -%>'
+  location: '${azurerm_resource_group.<%= resource_id_hint -%>.location}'

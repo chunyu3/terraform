@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -58,7 +58,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -77,7 +77,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -122,7 +122,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -135,46 +135,46 @@ objects:
       Manage Azure SyncGroup instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group within the user''s subscription. The name is case insensitive.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'storageSyncServiceName'
+        name: 'StorageSyncServiceName'
         description: 'Name of Storage Sync Service resource.'
         required: true
         input: true
         azure_sdk_references: ['storageSyncServiceName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'SyncGroupName'
         description: 'Name of Sync Group resource.'
         required: true
         input: true
         azure_sdk_references: ['syncGroupName']
       - !ruby/object:Api::Type::String
-        name: 'uniqueId'
+        name: 'UniqueID'
         description: 'Unique Id'
         required: false
         azure_sdk_references: ['/uniqueId', '/properties/uniqueId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'syncGroupStatus'
+        name: 'SyncGroupStatus'
         description: 'Sync group status'
         output: true
         azure_sdk_references: ['/syncGroupStatus', '/properties/syncGroupStatus']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The id of the resource.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the resource.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource'
         output: true
         azure_sdk_references: ['/type']

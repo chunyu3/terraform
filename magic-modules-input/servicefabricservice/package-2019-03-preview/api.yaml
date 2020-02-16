@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -143,7 +143,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -261,7 +261,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -285,7 +285,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -436,7 +436,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -454,55 +454,55 @@ objects:
       Manage Azure Service instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'clusterName'
+        name: 'ClusterName'
         description: 'The name of the cluster resource.'
         required: true
         input: true
         azure_sdk_references: ['clusterName']
       - !ruby/object:Api::Type::String
-        name: 'applicationName'
+        name: 'ApplicationName'
         description: 'The name of the application resource.'
         required: true
         input: true
         azure_sdk_references: ['applicationName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ServiceName'
         description: 'The name of the service resource in the format of {applicationName}~{serviceName}.'
         required: true
         input: true
         azure_sdk_references: ['serviceName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Azure resource location.'
         required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Azure resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'placementConstraints'
+        name: 'PlacementConstraints'
         description: 'The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".'
         required: false
         azure_sdk_references: ['/placementConstraints', '/properties/placementConstraints']
       - !ruby/object:Api::Type::Array
-        name: 'correlationScheme'
+        name: 'CorrelationScheme'
         description: 'A list that describes the correlation of the service with other services.'
         required: false
         azure_sdk_references: ['/correlationScheme', '/properties/correlationScheme']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::Enum
-              name: 'scheme'
+              name: 'Scheme'
               description: 'The ServiceCorrelationScheme which describes the relationship between this service and the service specified via ServiceName.'
               required: true
               azure_sdk_references: ['/correlationScheme/scheme', '/properties/correlationScheme/scheme']
@@ -512,24 +512,24 @@ objects:
                 - :AlignedAffinity
                 - :NonAlignedAffinity
             - !ruby/object:Api::Type::String
-              name: 'serviceName'
+              name: 'ServiceName'
               description: 'The name of the service that the correlation relationship is established with.'
               required: true
               azure_sdk_references: ['/correlationScheme/serviceName', '/properties/correlationScheme/serviceName']
       - !ruby/object:Api::Type::Array
-        name: 'serviceLoadMetrics'
+        name: 'ServiceLoadMetrics'
         description: 'The service load metrics is given as an array of ServiceLoadMetricDescription objects.'
         required: false
         azure_sdk_references: ['/serviceLoadMetrics', '/properties/serviceLoadMetrics']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case sensitive.'
               required: true
               azure_sdk_references: ['/serviceLoadMetrics/name', '/properties/serviceLoadMetrics/name']
             - !ruby/object:Api::Type::Enum
-              name: 'weight'
+              name: 'Weight'
               description: 'The service load metric relative weight, compared to other metrics configured for this service, as a number.'
               required: false
               azure_sdk_references: ['/serviceLoadMetrics/weight', '/properties/serviceLoadMetrics/weight']
@@ -540,22 +540,22 @@ objects:
                 - :High
               default_value: :Zero
             - !ruby/object:Api::Type::Integer
-              name: 'primaryDefaultLoad'
+              name: 'PrimaryDefaultLoad'
               description: 'Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Primary replica.'
               required: false
               azure_sdk_references: ['/serviceLoadMetrics/primaryDefaultLoad', '/properties/serviceLoadMetrics/primaryDefaultLoad']
             - !ruby/object:Api::Type::Integer
-              name: 'secondaryDefaultLoad'
+              name: 'SecondaryDefaultLoad'
               description: 'Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica.'
               required: false
               azure_sdk_references: ['/serviceLoadMetrics/secondaryDefaultLoad', '/properties/serviceLoadMetrics/secondaryDefaultLoad']
             - !ruby/object:Api::Type::Integer
-              name: 'defaultLoad'
+              name: 'DefaultLoad'
               description: 'Used only for Stateless services. The default amount of load, as a number, that this service creates for this metric.'
               required: false
               azure_sdk_references: ['/serviceLoadMetrics/defaultLoad', '/properties/serviceLoadMetrics/defaultLoad']
       - !ruby/object:Api::Type::Enum
-        name: 'defaultMoveCost'
+        name: 'DefaultMoveCost'
         description: 'Specifies the move cost for the service.'
         required: false
         azure_sdk_references: ['/defaultMoveCost', '/properties/defaultMoveCost']
@@ -567,17 +567,17 @@ objects:
         default_value: :Zero
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'The current deployment or provisioning state, which only appears in the response'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'serviceTypeName'
+        name: 'ServiceTypeName'
         description: 'The name of the service type'
         output: true
         azure_sdk_references: ['/serviceTypeName', '/properties/serviceTypeName']
       - !ruby/object:Api::Type::Enum
-        name: 'servicePackageActivationMode'
+        name: 'ServicePackageActivationMode'
         description: 'The activation Mode of the service package'
         output: true
         azure_sdk_references: ['/servicePackageActivationMode', '/properties/servicePackageActivationMode']
@@ -585,22 +585,22 @@ objects:
           - :SharedProcess
           - :ExclusiveProcess
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Azure resource identifier.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Azure resource name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Azure resource type.'
         output: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'Azure resource etag.'
         output: true
         azure_sdk_references: ['/etag']

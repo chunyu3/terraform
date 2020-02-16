@@ -1,0 +1,41 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_application
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: cluster
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  cluster_name: myCluster
+  name: '<%= get_resource_name('''', ''servicefabricapplication'') -%>'
+  location: '${azurerm_resource_group.<%= resource_id_hint -%>.location}'
+  type_version: '1.0'
+  upgrade_policy:
+    upgrade_replica_set_check_timeout: '01:00:00'
+    force_restart: false
+    rolling_upgrade_monitoring_policy:
+      failure_action: Rollback
+      health_check_wait_duration: '00:02:00'
+      health_check_stable_duration: '00:05:00'
+      health_check_retry_timeout: '00:10:00'
+      upgrade_timeout: '01:00:00'
+      upgrade_domain_timeout: '1.06:00:00'
+    application_health_policy:
+      consider_warning_as_error: true
+      max_percent_unhealthy_deployed_applications: '0'
+      default_service_type_health_policy:
+        max_percent_unhealthy_services: '0'
+        max_percent_unhealthy_partitions_per_service: '0'
+        max_percent_unhealthy_replicas_per_partition: '0'
+  minimum_nodes: '1'
+  maximum_nodes: '3'
+  remove_application_capacity: false
+  metrics:
+    - name: metric1
+      maximum_capacity: '3'
+      reservation_capacity: '1'
+      total_application_capacity: '5'
+  type_name: myAppType

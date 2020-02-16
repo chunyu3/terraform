@@ -29,21 +29,14 @@ func resourceArmCluster() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "cluster_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "management_endpoint": {
                 Type: schema.TypeString,
@@ -139,6 +132,8 @@ func resourceArmCluster() *schema.Resource {
                 },
             },
 
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
             "azure_active_directory": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -176,7 +171,7 @@ func resourceArmCluster() *schema.Resource {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "x509store_name": {
+                        "x509_store_name": {
                             Type: schema.TypeString,
                             Optional: true,
                             ValidateFunc: validation.StringInSlice([]string{
@@ -335,7 +330,7 @@ func resourceArmCluster() *schema.Resource {
                             Type: schema.TypeString,
                             Optional: true,
                         },
-                        "x509store_name": {
+                        "x509_store_name": {
                             Type: schema.TypeString,
                             Optional: true,
                             ValidateFunc: validation.StringInSlice([]string{
@@ -353,6 +348,8 @@ func resourceArmCluster() *schema.Resource {
                     },
                 },
             },
+
+            "tags": tags.Schema(),
 
             "upgrade_description": {
                 Type: schema.TypeList,
@@ -491,6 +488,16 @@ func resourceArmCluster() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -500,24 +507,23 @@ func resourceArmCluster() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmClusterCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).clustersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("cluster_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Cluster (Cluster Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -539,8 +545,8 @@ func resourceArmClusterCreate(d *schema.ResourceData, meta interface{}) error {
     reverseProxyCertificate := d.Get("reverse_proxy_certificate").([]interface{})
     upgradeDescription := d.Get("upgrade_description").([]interface{})
     upgradeMode := d.Get("upgrade_mode").(string)
-    vmImage := d.Get("vm_image").(string)
-    t := d.Get("tags").(map[string]interface{})
+    vMImage := d.Get("vm_image").(string)
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := servicefabric.Cluster{
         Location: utils.String(location),
@@ -558,27 +564,27 @@ func resourceArmClusterCreate(d *schema.ResourceData, meta interface{}) error {
             ReverseProxyCertificate: expandArmClusterCertificateDescription(reverseProxyCertificate),
             UpgradeDescription: expandArmClusterClusterUpgradePolicy(upgradeDescription),
             UpgradeMode: servicefabric.(upgradeMode),
-            VMImage: utils.String(vmImage),
+            VMImage: utils.String(vMImage),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, name, parameters)
+    future, err := client.Create(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Cluster (Cluster Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Cluster (Cluster Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Cluster (Cluster Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Cluster %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Cluster (Cluster Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -587,29 +593,28 @@ func resourceArmClusterCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmClusterRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).clustersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.Path["resourcegroups"]
+    resourceGroupName := id.Path["resourcegroups"]
     name := id.Path["clusters"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Cluster %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Cluster (Cluster Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -654,6 +659,9 @@ func resourceArmClusterRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("upgrade_mode", string(clusterProperties.UpgradeMode))
         d.Set("vm_image", clusterProperties.VMImage)
     }
+    d.Set("cluster_name", name)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -661,15 +669,17 @@ func resourceArmClusterRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmClusterUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).clustersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     azureActiveDirectory := d.Get("azure_active_directory").([]interface{})
     certificate := d.Get("certificate").([]interface{})
     clientCertificateCommonNames := d.Get("client_certificate_common_names").([]interface{})
     clientCertificateThumbprints := d.Get("client_certificate_thumbprints").([]interface{})
     clusterCodeVersion := d.Get("cluster_code_version").(string)
+    name := d.Get("cluster_name").(string)
     diagnosticsStorageAccountConfig := d.Get("diagnostics_storage_account_config").([]interface{})
     fabricSettings := d.Get("fabric_settings").([]interface{})
     managementEndpoint := d.Get("management_endpoint").(string)
@@ -678,10 +688,11 @@ func resourceArmClusterUpdate(d *schema.ResourceData, meta interface{}) error {
     reverseProxyCertificate := d.Get("reverse_proxy_certificate").([]interface{})
     upgradeDescription := d.Get("upgrade_description").([]interface{})
     upgradeMode := d.Get("upgrade_mode").(string)
-    vmImage := d.Get("vm_image").(string)
-    t := d.Get("tags").(map[string]interface{})
+    vMImage := d.Get("vm_image").(string)
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := servicefabric.Cluster{
+        Location: utils.String(location),
         ClusterProperties: &servicefabric.ClusterProperties{
             AzureActiveDirectory: expandArmClusterAzureActiveDirectory(azureActiveDirectory),
             Certificate: expandArmClusterCertificateDescription(certificate),
@@ -696,18 +707,18 @@ func resourceArmClusterUpdate(d *schema.ResourceData, meta interface{}) error {
             ReverseProxyCertificate: expandArmClusterCertificateDescription(reverseProxyCertificate),
             UpgradeDescription: expandArmClusterClusterUpgradePolicy(upgradeDescription),
             UpgradeMode: servicefabric.(upgradeMode),
-            VMImage: utils.String(vmImage),
+            VMImage: utils.String(vMImage),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, name, parameters)
+    future, err := client.Update(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error updating Cluster (Cluster Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Cluster (Cluster Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return resourceArmClusterRead(d, meta)
@@ -715,18 +726,19 @@ func resourceArmClusterUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmClusterDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).clustersClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.Path["resourcegroups"]
+    resourceGroupName := id.Path["resourcegroups"]
     name := id.Path["clusters"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
-        return fmt.Errorf("Error deleting Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name); err != nil {
+        return fmt.Errorf("Error deleting Cluster (Cluster Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return nil
@@ -738,14 +750,14 @@ func expandArmClusterAzureActiveDirectory(input []interface{}) *servicefabric.Az
     }
     v := input[0].(map[string]interface{})
 
-    tenantId := v["tenant_id"].(string)
+    tenantID := v["tenant_id"].(string)
     clusterApplication := v["cluster_application"].(string)
     clientApplication := v["client_application"].(string)
 
     result := servicefabric.AzureActiveDirectory{
         ClientApplication: utils.String(clientApplication),
         ClusterApplication: utils.String(clusterApplication),
-        TenantID: utils.String(tenantId),
+        TenantID: utils.String(tenantID),
     }
     return &result
 }
@@ -758,12 +770,12 @@ func expandArmClusterCertificateDescription(input []interface{}) *servicefabric.
 
     thumbprint := v["thumbprint"].(string)
     thumbprintSecondary := v["thumbprint_secondary"].(string)
-    x509storeName := v["x509store_name"].(string)
+    x509StoreName := v["x509_store_name"].(string)
 
     result := servicefabric.CertificateDescription{
         Thumbprint: utils.String(thumbprint),
         ThumbprintSecondary: utils.String(thumbprintSecondary),
-        X509StoreName: servicefabric.(x509storeName),
+        X509StoreName: servicefabric.(x509StoreName),
     }
     return &result
 }
@@ -851,12 +863,12 @@ func expandArmClusterNodeTypeDescription(input []interface{}) *[]servicefabric.N
         placementProperties := v["placement_properties"].(map[string]interface{})
         capacities := v["capacities"].(map[string]interface{})
         clientConnectionEndpointPort := v["client_connection_endpoint_port"].(int)
-        httpGatewayEndpointPort := v["http_gateway_endpoint_port"].(int)
+        hTTPGatewayEndpointPort := v["http_gateway_endpoint_port"].(int)
         durabilityLevel := v["durability_level"].(string)
         applicationPorts := v["application_ports"].([]interface{})
         ephemeralPorts := v["ephemeral_ports"].([]interface{})
         isPrimary := v["is_primary"].(bool)
-        vmInstanceCount := v["vm_instance_count"].(int)
+        vMInstanceCount := v["vm_instance_count"].(int)
         reverseProxyEndpointPort := v["reverse_proxy_endpoint_port"].(int)
 
         result := servicefabric.NodeTypeDescription{
@@ -865,12 +877,12 @@ func expandArmClusterNodeTypeDescription(input []interface{}) *[]servicefabric.N
             ClientConnectionEndpointPort: utils.Int(clientConnectionEndpointPort),
             DurabilityLevel: servicefabric.(durabilityLevel),
             EphemeralPorts: expandArmClusterEndpointRangeDescription(ephemeralPorts),
-            HTTPGatewayEndpointPort: utils.Int(httpGatewayEndpointPort),
+            HTTPGatewayEndpointPort: utils.Int(hTTPGatewayEndpointPort),
             IsPrimary: utils.Bool(isPrimary),
             Name: utils.String(name),
             PlacementProperties: utils.ExpandKeyValuePairs(placementProperties),
             ReverseProxyEndpointPort: utils.Int(reverseProxyEndpointPort),
-            VMInstanceCount: utils.Int(vmInstanceCount),
+            VMInstanceCount: utils.Int(vMInstanceCount),
         }
 
         results = append(results, result)
@@ -1034,7 +1046,7 @@ func flattenArmClusterCertificateDescription(input *servicefabric.CertificateDes
     if thumbprintSecondary := input.ThumbprintSecondary; thumbprintSecondary != nil {
         result["thumbprint_secondary"] = *thumbprintSecondary
     }
-    result["x509store_name"] = string(input.X509StoreName)
+    result["x509_store_name"] = string(input.X509StoreName)
 
     return []interface{}{result}
 }
@@ -1141,9 +1153,6 @@ func flattenArmClusterNodeTypeDescription(input *[]servicefabric.NodeTypeDescrip
     for _, item := range *input {
         v := make(map[string]interface{})
 
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
         v["application_ports"] = flattenArmClusterEndpointRangeDescription(item.ApplicationPorts)
         v["capacities"] = utils.FlattenKeyValuePairs(item.Capacities)
         if clientConnectionEndpointPort := item.ClientConnectionEndpointPort; clientConnectionEndpointPort != nil {
@@ -1156,6 +1165,9 @@ func flattenArmClusterNodeTypeDescription(input *[]servicefabric.NodeTypeDescrip
         }
         if isPrimary := item.IsPrimary; isPrimary != nil {
             v["is_primary"] = *isPrimary
+        }
+        if name := item.Name; name != nil {
+            v["name"] = *name
         }
         v["placement_properties"] = utils.FlattenKeyValuePairs(item.PlacementProperties)
         if reverseProxyEndpointPort := item.ReverseProxyEndpointPort; reverseProxyEndpointPort != nil {

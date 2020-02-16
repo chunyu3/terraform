@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -84,7 +84,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -143,7 +143,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -167,7 +167,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -266,7 +266,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -284,31 +284,31 @@ objects:
       Manage Azure ServerEndpoint instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group. The name is case insensitive.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'storageSyncServiceName'
+        name: 'StorageSyncServiceName'
         description: 'Name of Storage Sync Service resource.'
         required: true
         input: true
         azure_sdk_references: ['storageSyncServiceName']
       - !ruby/object:Api::Type::String
-        name: 'syncGroupName'
+        name: 'SyncGroupName'
         description: 'Name of Sync Group resource.'
         required: true
         input: true
         azure_sdk_references: ['syncGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ServerEndpointName'
         description: 'Name of Server Endpoint object.'
         required: true
         input: true
         azure_sdk_references: ['serverEndpointName']
       - !ruby/object:Api::Type::Enum
-        name: 'cloudTiering'
+        name: 'CloudTiering'
         description: 'Cloud Tiering.'
         required: false
         azure_sdk_references: ['/cloudTiering', '/properties/cloudTiering']
@@ -317,75 +317,75 @@ objects:
           - :off
         default_value: :on
       - !ruby/object:Api::Type::Integer
-        name: 'volumeFreeSpacePercent'
+        name: 'VolumeFreeSpacePercent'
         description: 'Level of free space to be maintained by Cloud Tiering if it is enabled.'
         required: false
         azure_sdk_references: ['/volumeFreeSpacePercent', '/properties/volumeFreeSpacePercent']
       - !ruby/object:Api::Type::Integer
-        name: 'tierFilesOlderThanDays'
+        name: 'TierFilesOlderThanDays'
         description: 'Tier files older than days.'
         required: false
         azure_sdk_references: ['/tierFilesOlderThanDays', '/properties/tierFilesOlderThanDays']
       - !ruby/object:Api::Type::String
-        name: 'pattern'
+        name: 'Pattern'
         description: 'Pattern of the files.'
         required: false
         input: true
         azure_sdk_references: ['/pattern']
       - !ruby/object:Api::Type::String
-        name: 'recallPath'
+        name: 'RecallPath'
         description: 'Recall path.'
         required: false
         input: true
         azure_sdk_references: ['/recallPath']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'serverLocalPath'
+        name: 'ServerLocalPath'
         description: 'Server Local path.'
         output: true
         azure_sdk_references: ['/serverLocalPath', '/properties/serverLocalPath']
       - !ruby/object:Api::Type::String
-        name: 'friendlyName'
+        name: 'FriendlyName'
         description: 'Friendly Name'
         output: true
         azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
       - !ruby/object:Api::Type::String
-        name: 'serverResourceId'
+        name: 'ServerResourceID'
         description: 'Server Resource Id.'
         output: true
         azure_sdk_references: ['/serverResourceId', '/properties/serverResourceId']
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'ServerEndpoint Provisioning State'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'lastWorkflowId'
+        name: 'LastWorkflowID'
         description: 'ServerEndpoint lastWorkflowId'
         output: true
         azure_sdk_references: ['/lastWorkflowId', '/properties/lastWorkflowId']
       - !ruby/object:Api::Type::String
-        name: 'lastOperationName'
+        name: 'LastOperationName'
         description: 'Resource Last Operation Name'
         output: true
         azure_sdk_references: ['/lastOperationName', '/properties/lastOperationName']
       - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'syncStatus'
+        name: 'SyncStatus'
         description: 'Sync Health Status'
         output: true
         azure_sdk_references: ['/syncStatus', '/properties/syncStatus']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the resource'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
         output: true
         azure_sdk_references: ['/type']

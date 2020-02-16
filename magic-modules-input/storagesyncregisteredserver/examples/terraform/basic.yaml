@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_registered_server
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storagesyncservice
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  name: '<%= get_resource_name('''', ''storagesyncregisteredserver'') -%>'
+  server_id: '"080d4133-bdb5-40a0-96a0-71a6057bfe9a"'

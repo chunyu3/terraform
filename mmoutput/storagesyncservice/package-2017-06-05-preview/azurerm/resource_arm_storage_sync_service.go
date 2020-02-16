@@ -29,21 +29,28 @@ func resourceArmStorageSyncService() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "storage_sync_service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
+            "location": azure.SchemaLocation(),
+
+            "tags": tags.Schema(),
+
+            "id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
 
             "storage_sync_service_status": {
                 Type: schema.TypeInt,
@@ -59,24 +66,23 @@ func resourceArmStorageSyncService() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmStorageSyncServiceCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).storageSyncServicesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("storage_sync_service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Storage Sync Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Storage Sync Service (Storage Sync Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -85,25 +91,25 @@ func resourceArmStorageSyncServiceCreate(d *schema.ResourceData, meta interface{
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := storagesync.Service{
         Location: utils.String(location),
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Storage Sync Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroupName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Storage Sync Service (Storage Sync Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Storage Sync Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Storage Sync Service (Storage Sync Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Storage Sync Service %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Storage Sync Service (Storage Sync Service Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -112,32 +118,34 @@ func resourceArmStorageSyncServiceCreate(d *schema.ResourceData, meta interface{
 
 func resourceArmStorageSyncServiceRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).storageSyncServicesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["storageSyncServices"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Storage Sync Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Storage Sync Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Storage Sync Service (Storage Sync Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("storage_sync_service_name", name)
     if serviceProperties := resp.ServiceProperties; serviceProperties != nil {
         d.Set("storage_sync_service_status", serviceProperties.StorageSyncServiceStatus)
         d.Set("storage_sync_service_uid", serviceProperties.StorageSyncServiceUID)
@@ -149,19 +157,22 @@ func resourceArmStorageSyncServiceRead(d *schema.ResourceData, meta interface{})
 
 func resourceArmStorageSyncServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).storageSyncServicesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
-    t := d.Get("tags").(map[string]interface{})
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
+    name := d.Get("storage_sync_service_name").(string)
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := storagesync.Service{
-        Tags: tags.Expand(t),
+        Location: utils.String(location),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
-        return fmt.Errorf("Error updating Storage Sync Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Storage Sync Service (Storage Sync Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return resourceArmStorageSyncServiceRead(d, meta)
@@ -169,18 +180,19 @@ func resourceArmStorageSyncServiceUpdate(d *schema.ResourceData, meta interface{
 
 func resourceArmStorageSyncServiceDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).storageSyncServicesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["storageSyncServices"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
-        return fmt.Errorf("Error deleting Storage Sync Service %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name); err != nil {
+        return fmt.Errorf("Error deleting Storage Sync Service (Storage Sync Service Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return nil
