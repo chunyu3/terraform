@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -66,7 +66,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -80,7 +80,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -94,7 +94,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -138,7 +138,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -151,7 +151,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -168,55 +168,55 @@ objects:
       Manage Azure Account instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the Azure Resource Group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'AccountName'
         description: 'The name of the Maps Account.'
         required: true
         input: true
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The location of the resource.'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::NestedObject
-        name: 'sku'
+        name: 'Sku'
         description: 'The SKU of this account.'
         required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'name'
+            name: 'Name'
             description: 'The name of the SKU, in standard format (such as S0).'
             required: true
             azure_sdk_references: ['/sku/name']
       - !ruby/object:Api::Type::String
-        name: 'targetResourceGroup'
+        name: 'TargetResourceGroup'
         description: 'The name of the destination resource group.'
         required: true
         input: true
         azure_sdk_references: ['/targetResourceGroup']
       - !ruby/object:Api::Type::Array
-        name: 'resourceIds'
+        name: 'ResourceIds'
         description: 'A list of resource names to move from the source resource group.'
         required: true
         input: true
         azure_sdk_references: ['/resourceIds']
         item_type: Api::Type::String
       - !ruby/object:Api::Type::Enum
-        name: 'keyType'
+        name: 'KeyType'
         description: 'Whether the operation refers to the primary or secondary key.'
         required: true
         input: true
@@ -226,17 +226,17 @@ objects:
           - :secondary
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'The fully qualified Maps Account resource identifier.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the Maps Account, which is unique within a Resource Group.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Azure resource type.'
         output: true
         azure_sdk_references: ['/type']

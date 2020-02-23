@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_mapsaccount
+  description: CreateAccount
+  code:
+    resource_group: myResourceGroup
+    name: myAccount
+    maps_account_create_parameters:
+      location: global
+      sku:
+        name: S0
+      tags:
+        test: 'true'
+  

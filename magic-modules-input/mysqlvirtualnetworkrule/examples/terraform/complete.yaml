@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_virtual_network_rule
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: server
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: virtualnetwork
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: subnet
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  server_name: vnet-test-svr
+  name: '<%= get_resource_name('''', ''mysqlvirtualnetworkrule'') -%>'
+  virtual_network_subnet_id: '${azurerm_subnet.<%= resource_id_hint -%>.id}'
+  ignore_missing_vnet_service_endpoint: false

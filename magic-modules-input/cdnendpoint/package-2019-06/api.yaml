@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -207,7 +207,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -227,7 +227,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -246,7 +246,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -480,7 +480,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -494,7 +494,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -512,68 +512,68 @@ objects:
       Manage Azure Endpoint instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'Name of the Resource group within the Azure subscription.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'profileName'
+        name: 'ProfileName'
         description: 'Name of the CDN profile which is unique within the resource group.'
         required: true
         input: true
         azure_sdk_references: ['profileName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'EndpointName'
         description: 'Name of the endpoint under the profile which is unique globally.'
         required: true
         input: true
         azure_sdk_references: ['endpointName']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Resource location.'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Endpoint tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'originHostHeader'
+        name: 'OriginHostHeader'
         description: 'The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.'
         required: false
         azure_sdk_references: ['/originHostHeader', '/properties/originHostHeader']
       - !ruby/object:Api::Type::String
-        name: 'originPath'
+        name: 'OriginPath'
         description: 'A directory path on the origin that CDN can use to retrieve content from, e.g. contoso.cloudapp.net/originpath.'
         required: false
         azure_sdk_references: ['/originPath', '/properties/originPath']
       - !ruby/object:Api::Type::Array
-        name: 'contentTypesToCompress'
+        name: 'ContentTypesToCompress'
         description: 'List of content types on which compression applies. The value should be a valid MIME type.'
         required: false
         azure_sdk_references: ['/contentTypesToCompress', '/properties/contentTypesToCompress']
         item_type: Api::Type::String
       - !ruby/object:Api::Type::Boolean
-        name: 'isCompressionEnabled'
+        name: 'IsCompressionEnabled'
         description: 'Indicates whether content compression is enabled on CDN. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won''t be compressed on CDN when requested content is smaller than 1 byte or larger than 1 MB.'
         required: false
         azure_sdk_references: ['/isCompressionEnabled', '/properties/isCompressionEnabled']
       - !ruby/object:Api::Type::Boolean
-        name: 'isHttpAllowed'
+        name: 'IsHTTPAllowed'
         description: 'Indicates whether HTTP traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.'
         required: false
         azure_sdk_references: ['/isHttpAllowed', '/properties/isHttpAllowed']
       - !ruby/object:Api::Type::Boolean
-        name: 'isHttpsAllowed'
+        name: 'IsHTTPSAllowed'
         description: 'Indicates whether HTTPS traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.'
         required: false
         azure_sdk_references: ['/isHttpsAllowed', '/properties/isHttpsAllowed']
       - !ruby/object:Api::Type::Enum
-        name: 'queryStringCachingBehavior'
+        name: 'QueryStringCachingBehavior'
         description: 'Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.'
         required: false
         azure_sdk_references: ['/queryStringCachingBehavior', '/properties/queryStringCachingBehavior']
@@ -584,7 +584,7 @@ objects:
           - :NotSet
         default_value: :IgnoreQueryString
       - !ruby/object:Api::Type::Enum
-        name: 'optimizationType'
+        name: 'OptimizationType'
         description: 'Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media services. With this information, CDN can apply scenario driven optimization.'
         required: false
         azure_sdk_references: ['/optimizationType', '/properties/optimizationType']
@@ -596,24 +596,24 @@ objects:
           - :DynamicSiteAcceleration
         default_value: :GeneralWebDelivery
       - !ruby/object:Api::Type::String
-        name: 'probePath'
+        name: 'ProbePath'
         description: 'Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the most optimal routes for the CDN. This is relative to the origin path.'
         required: false
         azure_sdk_references: ['/probePath', '/properties/probePath']
       - !ruby/object:Api::Type::Array
-        name: 'geoFilters'
+        name: 'GeoFilters'
         description: 'List of rules defining the user''s geo access within a CDN endpoint. Each geo filter defines an access rule to a specified path or content, e.g. block APAC for path /pictures/'
         required: false
         azure_sdk_references: ['/geoFilters', '/properties/geoFilters']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'relativePath'
+              name: 'RelativePath'
               description: 'Relative path applicable to geo filter. (e.g. ''/mypictures'', ''/mypicture/kitty.jpg'', and etc.)'
               required: true
               azure_sdk_references: ['/geoFilters/relativePath', '/properties/geoFilters/relativePath']
             - !ruby/object:Api::Type::Enum
-              name: 'action'
+              name: 'Action'
               description: 'Action of the geo filter, i.e. allow or block access.'
               required: true
               azure_sdk_references: ['/geoFilters/action', '/properties/geoFilters/action']
@@ -621,98 +621,98 @@ objects:
                 - :Block
                 - :Allow
             - !ruby/object:Api::Type::Array
-              name: 'countryCodes'
+              name: 'CountryCodes'
               description: 'Two letter country codes defining user country access in a geo filter, e.g. AU, MX, US.'
               required: true
               azure_sdk_references: ['/geoFilters/countryCodes', '/properties/geoFilters/countryCodes']
               item_type: Api::Type::String
       - !ruby/object:Api::Type::NestedObject
-        name: 'deliveryPolicy'
+        name: 'DeliveryPolicy'
         description: 'A policy that specifies the delivery rules to be used for an endpoint.'
         required: false
         azure_sdk_references: ['/deliveryPolicy', '/properties/deliveryPolicy']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'description'
+            name: 'Description'
             description: 'User-friendly description of the policy.'
             required: false
             azure_sdk_references: ['/deliveryPolicy/description', '/properties/deliveryPolicy/description']
           - !ruby/object:Api::Type::Array
-            name: 'rules'
+            name: 'Rules'
             description: 'A list of the delivery rules.'
             required: true
             azure_sdk_references: ['/deliveryPolicy/rules', '/properties/deliveryPolicy/rules']
             item_type: !ruby/object:Api::Type::NestedObject
               properties:
                 - !ruby/object:Api::Type::String
-                  name: 'name'
+                  name: 'Name'
                   description: 'Name of the rule'
                   required: false
                   azure_sdk_references: ['/deliveryPolicy/rules/name', '/properties/deliveryPolicy/rules/name']
                 - !ruby/object:Api::Type::Integer
-                  name: 'order'
+                  name: 'Order'
                   description: 'The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,………}. A rule with a lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not require any condition and actions listed in it will always be applied.'
                   required: true
                   azure_sdk_references: ['/deliveryPolicy/rules/order', '/properties/deliveryPolicy/rules/order']
       - !ruby/object:Api::Type::NestedObject
-        name: 'webApplicationFirewallPolicyLink'
+        name: 'WebApplicationFirewallPolicyLink'
         description: 'Defines the Web Application Firewall policy for the endpoint (if applicable)'
         required: false
         azure_sdk_references: ['/webApplicationFirewallPolicyLink', '/properties/webApplicationFirewallPolicyLink']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'id'
+            name: 'ID'
             description: 'Resource ID.'
             required: false
             azure_sdk_references: ['/webApplicationFirewallPolicyLink/id', '/properties/webApplicationFirewallPolicyLink/id']
       - !ruby/object:Api::Type::Array
-        name: 'contentPaths'
+        name: 'ContentPaths'
         description: 'The path to the content to be loaded. Path should be a relative file URL of the origin.'
         required: true
         input: true
         azure_sdk_references: ['/contentPaths']
         item_type: Api::Type::String
       - !ruby/object:Api::Type::String
-        name: 'hostName'
+        name: 'HostName'
         description: 'The host name of the custom domain. Must be a domain name.'
         required: true
         input: true
         azure_sdk_references: ['/hostName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'hostName'
+        name: 'HostName'
         description: 'The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net'
         output: true
         azure_sdk_references: ['/hostName', '/properties/hostName']
       - !ruby/object:Api::Type::Array
-        name: 'origins'
+        name: 'Origins'
         description: 'The source of the content being delivered via CDN.'
         output: true
         azure_sdk_references: ['/origins', '/properties/origins']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'name'
+              name: 'Name'
               description: 'Origin name'
               output: true
               azure_sdk_references: ['/origins/name', '/properties/origins/name']
             - !ruby/object:Api::Type::String
-              name: 'hostName'
+              name: 'HostName'
               description: 'The address of the origin. It can be a domain name, IPv4 address, or IPv6 address.'
               output: true
               azure_sdk_references: ['/origins/hostName', '/properties/origins/properties/hostName']
             - !ruby/object:Api::Type::Integer
-              name: 'httpPort'
+              name: 'HTTPPort'
               description: 'The value of the HTTP port. Must be between 1 and 65535'
               output: true
               azure_sdk_references: ['/origins/httpPort', '/properties/origins/properties/httpPort']
             - !ruby/object:Api::Type::Integer
-              name: 'httpsPort'
+              name: 'HTTPSPort'
               description: 'The value of the HTTPS port. Must be between 1 and 65535'
               output: true
               azure_sdk_references: ['/origins/httpsPort', '/properties/origins/properties/httpsPort']
       - !ruby/object:Api::Type::Enum
-        name: 'resourceState'
+        name: 'ResourceState'
         description: 'Resource status of the endpoint.'
         output: true
         azure_sdk_references: ['/resourceState', '/properties/resourceState']
@@ -724,22 +724,22 @@ objects:
           - :Stopped
           - :Stopping
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Provisioning status of the endpoint.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource ID.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']

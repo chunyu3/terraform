@@ -1,0 +1,46 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_job
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storageaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  name: '<%= get_resource_name('''', ''databoxjob'') -%>'
+  job_resource:
+    properties:
+      details:
+        jobDetailsType: DataBox
+        contactDetails:
+          contactName: Public SDK Test
+          phone: '1234567890'
+          phoneExtension: '1234'
+          emailList:
+            - testing@microsoft.com
+        shippingAddress:
+          streetAddress1: 16 TOWNSEND ST
+          streetAddress2: Unit 1
+          city: San Francisco
+          stateOrProvince: CA
+          country: US
+          postalCode: '94107'
+          companyName: Microsoft
+          addressType: Commercial
+        destinationAccountDetails:
+          - storageAccountId: >-
+              /subscriptions/{{ subscription_id }}/resourceGroups/{{
+              resource_group }}/providers/Microsoft.Storage/storageAccounts/{{
+              storage_account_name }}
+          - stagingStorageAccountId: >-
+              /subscriptions/{{ subscription_id }}/resourceGroups/{{
+              resource_group }}/providers/Microsoft.Storage/storageAccounts/{{
+              storage_account_name }}
+            resourceGroupId: >-
+              /subscriptions/{{ subscription_id }}/resourceGroups/{{
+              resource_group }}
+    location: westus
+    sku:
+      name: DataBox

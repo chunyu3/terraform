@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_mysqlprivateendpointconnection
+  description: Approve or reject a private endpoint connection with a given name.
+  code:
+    resource_group: myResourceGroup
+    server_name: myServer
+    name: myPrivateEndpointConnection
+    private_link_service_connection_state:
+      status: Approved
+      description: Approved by johndoe@contoso.com
+  

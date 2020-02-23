@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -66,7 +66,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -85,7 +85,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -130,7 +130,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -143,46 +143,46 @@ objects:
       Manage Azure FirewallRule instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'serverName'
+        name: 'ServerName'
         description: 'The name of the server.'
         required: true
         input: true
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'FirewallRuleName'
         description: 'The name of the server firewall rule.'
         required: true
         input: true
         azure_sdk_references: ['firewallRuleName']
       - !ruby/object:Api::Type::String
-        name: 'startIpAddress'
+        name: 'StartIPAddress'
         description: 'The start IP address of the server firewall rule. Must be IPv4 format.'
         required: true
         azure_sdk_references: ['/startIpAddress', '/properties/startIpAddress']
       - !ruby/object:Api::Type::String
-        name: 'endIpAddress'
+        name: 'EndIPAddress'
         description: 'The end IP address of the server firewall rule. Must be IPv4 format.'
         required: true
         azure_sdk_references: ['/endIpAddress', '/properties/endIpAddress']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource ID'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']

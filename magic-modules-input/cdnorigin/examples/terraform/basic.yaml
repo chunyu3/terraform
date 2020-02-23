@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_origin
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: profile
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: endpoint
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  profile_name: profile1
+  endpoint_name: endpoint1
+  name: '<%= get_resource_name('''', ''cdnorigin'') -%>'
