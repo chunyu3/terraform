@@ -29,21 +29,16 @@ func resourceArmServer() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "server_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "administrator_login_password": {
                 Type: schema.TypeString,
@@ -137,6 +132,8 @@ func resourceArmServer() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
             "version": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -166,7 +163,38 @@ func resourceArmServer() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "identity": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "principal_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "tenant_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
             "master_server_id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -185,24 +213,23 @@ func resourceArmServer() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).serversClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("server_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -217,7 +244,7 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
     sslEnforcement := d.Get("ssl_enforcement").(string)
     storageProfile := d.Get("storage_profile").([]interface{})
     version := d.Get("version").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := postgresql.ServerUpdateParameters{
         Location: utils.String(location),
@@ -229,25 +256,25 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
             Version: postgresql.ServerVersion(version),
         },
         Sku: expandArmServerSku(sku),
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, name, parameters)
+    future, err := client.Create(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Server %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Server (Server Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -256,29 +283,28 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).serversClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["servers"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Server %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -296,6 +322,12 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("user_visible_state", string(serverUpdateParametersProperties.UserVisibleState))
         d.Set("version", string(serverUpdateParametersProperties.Version))
     }
+    d.Set("id", resp.ID)
+    if err := d.Set("identity", flattenArmServerResourceIdentity(resp.Identity)); err != nil {
+        return fmt.Errorf("Error setting `identity`: %+v", err)
+    }
+    d.Set("name", resp.Name)
+    d.Set("server_name", name)
     if err := d.Set("sku", flattenArmServerSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
     }
@@ -306,19 +338,22 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).serversClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     administratorLoginPassword := d.Get("administrator_login_password").(string)
     replicationRole := d.Get("replication_role").(string)
+    name := d.Get("server_name").(string)
     sku := d.Get("sku").([]interface{})
     sslEnforcement := d.Get("ssl_enforcement").(string)
     storageProfile := d.Get("storage_profile").([]interface{})
     version := d.Get("version").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := postgresql.ServerUpdateParameters{
+        Location: utils.String(location),
         ServerUpdateParameters_properties: &postgresql.ServerUpdateParameters_properties{
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
             ReplicationRole: utils.String(replicationRole),
@@ -327,16 +362,16 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
             Version: postgresql.ServerVersion(version),
         },
         Sku: expandArmServerSku(sku),
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, name, parameters)
+    future, err := client.Update(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error updating Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return resourceArmServerRead(d, meta)
@@ -344,27 +379,28 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmServerDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).serversClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["servers"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -379,14 +415,14 @@ func expandArmServerStorageProfile(input []interface{}) *postgresql.StorageProfi
 
     backupRetentionDays := v["backup_retention_days"].(int)
     geoRedundantBackup := v["geo_redundant_backup"].(string)
-    storageMb := v["storage_mb"].(int)
+    storageMB := v["storage_mb"].(int)
     storageAutogrow := v["storage_autogrow"].(string)
 
     result := postgresql.StorageProfile{
         BackupRetentionDays: utils.Int(backupRetentionDays),
         GeoRedundantBackup: postgresql.GeoRedundantBackup(geoRedundantBackup),
         StorageAutogrow: postgresql.StorageAutogrow(storageAutogrow),
-        StorageMB: utils.Int32(int32(storageMb)),
+        StorageMB: utils.Int32(int32(storageMB)),
     }
     return &result
 }
@@ -433,6 +469,24 @@ func flattenArmServerStorageProfile(input *postgresql.StorageProfile) []interfac
     return []interface{}{result}
 }
 
+func flattenArmServerResourceIdentity(input *postgresql.ResourceIdentity) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if principalId := input.PrincipalID; principalId != nil {
+        result["principal_id"] = *principalId
+    }
+    if tenantId := input.TenantID; tenantId != nil {
+        result["tenant_id"] = *tenantId
+    }
+    result["type"] = string(input.Type)
+
+    return []interface{}{result}
+}
+
 func flattenArmServerSku(input *postgresql.Sku) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
@@ -440,14 +494,14 @@ func flattenArmServerSku(input *postgresql.Sku) []interface{} {
 
     result := make(map[string]interface{})
 
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
     if capacity := input.Capacity; capacity != nil {
         result["capacity"] = int(*capacity)
     }
     if family := input.Family; family != nil {
         result["family"] = *family
+    }
+    if name := input.Name; name != nil {
+        result["name"] = *name
     }
     if size := input.Size; size != nil {
         result["size"] = *size

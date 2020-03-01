@@ -40,4 +40,31 @@ task: !ruby/object:Provider::Ansible::Task
                   - jpg
                 transforms:
                   - Lowercase
+          - name: Rule3
+            priority: '3'
+            action:
+              routeConfigurationOverride:
+                '@odata.type': >-
+                  #Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration
+                customForwardingPath: null
+                forwardingProtocol: HttpsOnly
+                cacheConfiguration:
+                  queryParameterStripDirective: StripOnly
+                  queryParameters: 'a=b,p=q'
+                  dynamicCompression: Disabled
+                  cacheDuration: P1DT12H20M30S
+                backendPool:
+                  id: >-
+                    /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                    resource_group }}/providers/Microsoft.Network/frontDoors/{{
+                    front_door_name }}/backendPools/{{ backend_pool_name }}
+            matchConditions:
+              - rulesEngineMatchVariable: RequestHeader
+                rulesEngineOperator: Equal
+                rulesEngineMatchValue:
+                  - allowoverride
+                transforms:
+                  - Lowercase
+                negateCondition: false
+                selector: Rules-Engine-Route-Forward
   

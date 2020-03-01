@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_server_administrator
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: server
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: administrator
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  name: '<%= get_resource_name('''', ''postgresqlserveradministrator'') -%>'

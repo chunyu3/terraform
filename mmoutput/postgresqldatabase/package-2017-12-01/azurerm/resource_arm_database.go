@@ -29,16 +29,11 @@ func resourceArmDatabase() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "database_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -60,6 +55,16 @@ func resourceArmDatabase() *schema.Resource {
                 Optional: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -70,17 +75,18 @@ func resourceArmDatabase() *schema.Resource {
 
 func resourceArmDatabaseCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).databasesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("database_name").(string)
     serverName := d.Get("server_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, name)
+        existing, err := client.Get(ctx, resourceGroupName, serverName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Database %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Database (Database Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -99,21 +105,21 @@ func resourceArmDatabaseCreateUpdate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Database %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+        return fmt.Errorf("Error creating Database (Database Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Database %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Database (Database Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, name)
+    resp, err := client.Get(ctx, resourceGroupName, serverName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Database %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Database (Database Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Database %q (Server Name %q / Resource Group %q) ID", name, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Database (Database Name %q / Server Name %q / Resource Group %q) ID", name, serverName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -122,34 +128,36 @@ func resourceArmDatabaseCreateUpdate(d *schema.ResourceData, meta interface{}) e
 
 func resourceArmDatabaseRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).databasesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     serverName := id.Path["servers"]
     name := id.Path["databases"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, name)
+    resp, err := client.Get(ctx, resourceGroupName, serverName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Database %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Database %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Database (Database Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if databaseProperties := resp.DatabaseProperties; databaseProperties != nil {
         d.Set("charset", databaseProperties.Charset)
         d.Set("collation", databaseProperties.Collation)
     }
+    d.Set("database_name", name)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 
@@ -159,28 +167,29 @@ func resourceArmDatabaseRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmDatabaseDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).databasesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     serverName := id.Path["servers"]
     name := id.Path["databases"]
 
-    future, err := client.Delete(ctx, resourceGroup, serverName, name)
+    future, err := client.Delete(ctx, resourceGroupName, serverName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Database %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Database (Database Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Database %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Database (Database Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
         }
     }
 

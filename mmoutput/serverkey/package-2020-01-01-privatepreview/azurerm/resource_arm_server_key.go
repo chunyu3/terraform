@@ -108,8 +108,8 @@ func resourceArmServerKeyCreateUpdate(d *schema.ResourceData, meta interface{}) 
     serverKeyType := d.Get("server_key_type").(string)
     uRI := d.Get("uri").(string)
 
-    parameters := mysql.ServerKey{
-        ServerKeyProperties: &mysql.ServerKeyProperties{
+    parameters := postgresql.ServerKey{
+        ServerKeyProperties: &postgresql.ServerKeyProperties{
             ServerKeyType: utils.String(serverKeyType),
             URI: utils.String(uRI),
         },

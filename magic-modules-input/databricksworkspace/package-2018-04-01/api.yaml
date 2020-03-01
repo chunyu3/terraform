@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -33,12 +33,253 @@ objects:
             go_variable_name: name
             python_parameter_name: workspace_name
             python_variable_name: name
-          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Parameters
-          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            go_type_name: WorkspaceCustomParameters
+          '/properties/parameters/amlWorkspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AmlWorkspaceID
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/amlWorkspaceId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/amlWorkspaceId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/customVirtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomVirtualNetworkID
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/customVirtualNetworkId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/customVirtualNetworkId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/customPublicSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomPublicSubnetName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/customPublicSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/customPublicSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/customPrivateSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomPrivateSubnetName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/customPrivateSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/customPrivateSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/enableNoPublicIp': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EnableNoPublicIP
+            go_type_name: WorkspaceCustomBooleanParameter
+          '/properties/parameters/enableNoPublicIp/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/enableNoPublicIp/value': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/loadBalancerBackendPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerBackendPoolName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/loadBalancerBackendPoolName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/loadBalancerBackendPoolName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/loadBalancerId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerID
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/loadBalancerId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/loadBalancerId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/relayNamespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RelayNamespaceName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/relayNamespaceName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/relayNamespaceName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccountName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/storageAccountName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/storageAccountName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/storageAccountSkuName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccountSkuName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/storageAccountSkuName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/storageAccountSkuName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/resourceTags': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ResourceTags
+            go_type_name: WorkspaceCustomObjectParameter
+          '/properties/parameters/resourceTags/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/resourceTags/value': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/vnetAddressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VnetAddressPrefix
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/vnetAddressPrefix/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/vnetAddressPrefix/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: parameters
+          '/parameters/amlWorkspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: aml_workspace_id
+          '/parameters/amlWorkspaceId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/amlWorkspaceId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/customVirtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_virtual_network_id
+          '/parameters/customVirtualNetworkId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/customVirtualNetworkId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/customPublicSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_public_subnet_name
+          '/parameters/customPublicSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/customPublicSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/customPrivateSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_private_subnet_name
+          '/parameters/customPrivateSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/customPrivateSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/enableNoPublicIp': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: enable_no_public_ip
+          '/parameters/enableNoPublicIp/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/enableNoPublicIp/value': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/loadBalancerBackendPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: load_balancer_backend_pool_name
+          '/parameters/loadBalancerBackendPoolName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/loadBalancerBackendPoolName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/loadBalancerId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: load_balancer_id
+          '/parameters/loadBalancerId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/loadBalancerId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/relayNamespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: relay_namespace_name
+          '/parameters/relayNamespaceName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/relayNamespaceName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account_name
+          '/parameters/storageAccountName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/storageAccountName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/storageAccountSkuName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account_sku_name
+          '/parameters/storageAccountSkuName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/storageAccountSkuName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/resourceTags': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: resource_tags
+          '/parameters/resourceTags/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/resourceTags/value': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/vnetAddressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vnet_address_prefix
+          '/parameters/vnetAddressPrefix/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/vnetAddressPrefix/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -46,7 +287,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -54,12 +295,253 @@ objects:
             go_variable_name: name
             python_parameter_name: workspace_name
             python_variable_name: name
-          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Parameters
-          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            go_type_name: WorkspaceCustomParameters
+          '/properties/parameters/amlWorkspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AmlWorkspaceID
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/amlWorkspaceId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/amlWorkspaceId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/customVirtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomVirtualNetworkID
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/customVirtualNetworkId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/customVirtualNetworkId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/customPublicSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomPublicSubnetName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/customPublicSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/customPublicSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/customPrivateSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomPrivateSubnetName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/customPrivateSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/customPrivateSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/enableNoPublicIp': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EnableNoPublicIP
+            go_type_name: WorkspaceCustomBooleanParameter
+          '/properties/parameters/enableNoPublicIp/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/enableNoPublicIp/value': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/loadBalancerBackendPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerBackendPoolName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/loadBalancerBackendPoolName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/loadBalancerBackendPoolName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/loadBalancerId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerID
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/loadBalancerId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/loadBalancerId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/relayNamespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RelayNamespaceName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/relayNamespaceName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/relayNamespaceName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccountName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/storageAccountName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/storageAccountName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/storageAccountSkuName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccountSkuName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/storageAccountSkuName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/storageAccountSkuName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/resourceTags': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ResourceTags
+            go_type_name: WorkspaceCustomObjectParameter
+          '/properties/parameters/resourceTags/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/resourceTags/value': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/vnetAddressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VnetAddressPrefix
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/vnetAddressPrefix/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/vnetAddressPrefix/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: parameters
+          '/parameters/amlWorkspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: aml_workspace_id
+          '/parameters/amlWorkspaceId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/amlWorkspaceId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/customVirtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_virtual_network_id
+          '/parameters/customVirtualNetworkId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/customVirtualNetworkId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/customPublicSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_public_subnet_name
+          '/parameters/customPublicSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/customPublicSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/customPrivateSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_private_subnet_name
+          '/parameters/customPrivateSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/customPrivateSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/enableNoPublicIp': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: enable_no_public_ip
+          '/parameters/enableNoPublicIp/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/enableNoPublicIp/value': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/loadBalancerBackendPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: load_balancer_backend_pool_name
+          '/parameters/loadBalancerBackendPoolName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/loadBalancerBackendPoolName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/loadBalancerId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: load_balancer_id
+          '/parameters/loadBalancerId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/loadBalancerId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/relayNamespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: relay_namespace_name
+          '/parameters/relayNamespaceName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/relayNamespaceName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account_name
+          '/parameters/storageAccountName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/storageAccountName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/storageAccountSkuName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account_sku_name
+          '/parameters/storageAccountSkuName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/storageAccountSkuName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/resourceTags': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: resource_tags
+          '/parameters/resourceTags/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/resourceTags/value': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/vnetAddressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vnet_address_prefix
+          '/parameters/vnetAddressPrefix/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/vnetAddressPrefix/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -67,7 +549,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -81,7 +563,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -106,12 +588,253 @@ objects:
           '/managedResourceGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: managed_resource_group_id
-          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Parameters
-          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            go_type_name: WorkspaceCustomParameters
+          '/properties/parameters/amlWorkspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AmlWorkspaceID
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/amlWorkspaceId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/amlWorkspaceId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/customVirtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomVirtualNetworkID
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/customVirtualNetworkId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/customVirtualNetworkId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/customPublicSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomPublicSubnetName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/customPublicSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/customPublicSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/customPrivateSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomPrivateSubnetName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/customPrivateSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/customPrivateSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/enableNoPublicIp': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EnableNoPublicIP
+            go_type_name: WorkspaceCustomBooleanParameter
+          '/properties/parameters/enableNoPublicIp/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/enableNoPublicIp/value': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/loadBalancerBackendPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerBackendPoolName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/loadBalancerBackendPoolName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/loadBalancerBackendPoolName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/loadBalancerId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerID
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/loadBalancerId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/loadBalancerId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/relayNamespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RelayNamespaceName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/relayNamespaceName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/relayNamespaceName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccountName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/storageAccountName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/storageAccountName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/storageAccountSkuName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccountSkuName
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/storageAccountSkuName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/storageAccountSkuName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/resourceTags': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ResourceTags
+            go_type_name: WorkspaceCustomObjectParameter
+          '/properties/parameters/resourceTags/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/resourceTags/value': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/parameters/vnetAddressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VnetAddressPrefix
+            go_type_name: WorkspaceCustomStringParameter
+          '/properties/parameters/vnetAddressPrefix/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: CustomParameterType
+          '/properties/parameters/vnetAddressPrefix/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: parameters
+          '/parameters/amlWorkspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: aml_workspace_id
+          '/parameters/amlWorkspaceId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/amlWorkspaceId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/customVirtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_virtual_network_id
+          '/parameters/customVirtualNetworkId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/customVirtualNetworkId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/customPublicSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_public_subnet_name
+          '/parameters/customPublicSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/customPublicSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/customPrivateSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_private_subnet_name
+          '/parameters/customPrivateSubnetName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/customPrivateSubnetName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/enableNoPublicIp': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: enable_no_public_ip
+          '/parameters/enableNoPublicIp/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/enableNoPublicIp/value': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/loadBalancerBackendPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: load_balancer_backend_pool_name
+          '/parameters/loadBalancerBackendPoolName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/loadBalancerBackendPoolName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/loadBalancerId': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: load_balancer_id
+          '/parameters/loadBalancerId/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/loadBalancerId/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/relayNamespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: relay_namespace_name
+          '/parameters/relayNamespaceName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/relayNamespaceName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account_name
+          '/parameters/storageAccountName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/storageAccountName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/storageAccountSkuName': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account_sku_name
+          '/parameters/storageAccountSkuName/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/storageAccountSkuName/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/resourceTags': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: resource_tags
+          '/parameters/resourceTags/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/resourceTags/value': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: value
+          '/parameters/vnetAddressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vnet_address_prefix
+          '/parameters/vnetAddressPrefix/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/parameters/vnetAddressPrefix/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
           '/properties/uiDefinitionUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: UIDefinitionURI
@@ -169,7 +892,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -181,80 +904,333 @@ objects:
       Manage Azure Workspace instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group. The name is case insensitive.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'WorkspaceName'
         description: 'The name of the workspace.'
         required: true
         input: true
         azure_sdk_references: ['workspaceName']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The geo-location where the resource lives'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Type::String
-        name: 'managedResourceGroupId'
+        name: 'ManagedResourceGroupID'
         description: 'The managed resource group Id.'
         required: true
         azure_sdk_references: ['/managedResourceGroupId', '/properties/managedResourceGroupId']
-      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'parameters'
-        description: 'Name and value pairs that define the workspace parameters.'
+      - !ruby/object:Api::Type::NestedObject
+        name: 'Parameters'
+        description: 'The workspace''s custom parameters.'
         required: false
         azure_sdk_references: ['/parameters', '/properties/parameters']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'AmlWorkspaceID'
+            description: 'The Workspace ID of an Azure Machine Learning Workspace'
+            required: false
+            azure_sdk_references: ['/parameters/amlWorkspaceId', '/properties/parameters/amlWorkspaceId']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/amlWorkspaceId/type', '/properties/parameters/amlWorkspaceId/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Type::String
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/amlWorkspaceId/value', '/properties/parameters/amlWorkspaceId/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'CustomVirtualNetworkID'
+            description: 'The ID of a Virtual Network where this Databricks Cluster should be created'
+            required: false
+            azure_sdk_references: ['/parameters/customVirtualNetworkId', '/properties/parameters/customVirtualNetworkId']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/customVirtualNetworkId/type', '/properties/parameters/customVirtualNetworkId/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Type::String
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/customVirtualNetworkId/value', '/properties/parameters/customVirtualNetworkId/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'CustomPublicSubnetName'
+            description: 'The name of a Public Subnet within the Virtual Network'
+            required: false
+            azure_sdk_references: ['/parameters/customPublicSubnetName', '/properties/parameters/customPublicSubnetName']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/customPublicSubnetName/type', '/properties/parameters/customPublicSubnetName/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Type::String
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/customPublicSubnetName/value', '/properties/parameters/customPublicSubnetName/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'CustomPrivateSubnetName'
+            description: 'The name of the Private Subnet within the Virtual Network'
+            required: false
+            azure_sdk_references: ['/parameters/customPrivateSubnetName', '/properties/parameters/customPrivateSubnetName']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/customPrivateSubnetName/type', '/properties/parameters/customPrivateSubnetName/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Type::String
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/customPrivateSubnetName/value', '/properties/parameters/customPrivateSubnetName/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'EnableNoPublicIP'
+            description: 'Should the Public IP be Disabled?'
+            required: false
+            azure_sdk_references: ['/parameters/enableNoPublicIp', '/properties/parameters/enableNoPublicIp']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/enableNoPublicIp/type', '/properties/parameters/enableNoPublicIp/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Type::Boolean
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/enableNoPublicIp/value', '/properties/parameters/enableNoPublicIp/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'LoadBalancerBackendPoolName'
+            description: 'The name of a Backend Address Pool within an Azure Load Balancer'
+            required: false
+            azure_sdk_references: ['/parameters/loadBalancerBackendPoolName', '/properties/parameters/loadBalancerBackendPoolName']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/loadBalancerBackendPoolName/type', '/properties/parameters/loadBalancerBackendPoolName/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Type::String
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/loadBalancerBackendPoolName/value', '/properties/parameters/loadBalancerBackendPoolName/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'LoadBalancerID'
+            description: 'The Resource ID of an Azure Load Balancer'
+            required: false
+            azure_sdk_references: ['/parameters/loadBalancerId', '/properties/parameters/loadBalancerId']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/loadBalancerId/type', '/properties/parameters/loadBalancerId/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Type::String
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/loadBalancerId/value', '/properties/parameters/loadBalancerId/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'RelayNamespaceName'
+            description: 'The name of an Azure Relay Namespace'
+            required: false
+            azure_sdk_references: ['/parameters/relayNamespaceName', '/properties/parameters/relayNamespaceName']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/relayNamespaceName/type', '/properties/parameters/relayNamespaceName/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Type::String
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/relayNamespaceName/value', '/properties/parameters/relayNamespaceName/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'StorageAccountName'
+            description: 'The name which should be used for the Storage Account'
+            required: false
+            azure_sdk_references: ['/parameters/storageAccountName', '/properties/parameters/storageAccountName']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/storageAccountName/type', '/properties/parameters/storageAccountName/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Type::String
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/storageAccountName/value', '/properties/parameters/storageAccountName/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'StorageAccountSkuName'
+            description: 'The SKU which should be used for this Storage Account'
+            required: false
+            azure_sdk_references: ['/parameters/storageAccountSkuName', '/properties/parameters/storageAccountSkuName']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/storageAccountSkuName/type', '/properties/parameters/storageAccountSkuName/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Type::String
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/storageAccountSkuName/value', '/properties/parameters/storageAccountSkuName/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'ResourceTags'
+            description: 'A map of Tags which should be applied to the resources used by this Databricks Cluster.'
+            required: false
+            azure_sdk_references: ['/parameters/resourceTags', '/properties/parameters/resourceTags']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/resourceTags/type', '/properties/parameters/resourceTags/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/resourceTags/value', '/properties/parameters/resourceTags/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'VnetAddressPrefix'
+            description: 'The first 2 octets of the virtual network /16 address range (e.g., ''10.139'' for the address range 10.139.0.0/16).'
+            required: false
+            azure_sdk_references: ['/parameters/vnetAddressPrefix', '/properties/parameters/vnetAddressPrefix']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'Type'
+                description: 'The type of variable that this is'
+                required: false
+                azure_sdk_references: ['/parameters/vnetAddressPrefix/type', '/properties/parameters/vnetAddressPrefix/type']
+                values:
+                  - :Bool
+                  - :Object
+                  - :String
+                default_value: :Bool
+              - !ruby/object:Api::Type::String
+                name: 'Value'
+                description: 'The value which should be used for this field.'
+                required: true
+                azure_sdk_references: ['/parameters/vnetAddressPrefix/value', '/properties/parameters/vnetAddressPrefix/value']
       - !ruby/object:Api::Type::String
-        name: 'uiDefinitionUri'
+        name: 'UIDefinitionURI'
         description: 'The blob URI where the UI definition file is located.'
         required: false
         azure_sdk_references: ['/uiDefinitionUri', '/properties/uiDefinitionUri']
       - !ruby/object:Api::Type::Array
-        name: 'authorizations'
+        name: 'Authorizations'
         description: 'The workspace provider authorizations.'
         required: false
         azure_sdk_references: ['/authorizations', '/properties/authorizations']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'principalId'
+              name: 'PrincipalID'
               description: 'The provider''s principal identifier. This is the identity that the provider will use to call ARM to manage the workspace resources.'
               required: true
               azure_sdk_references: ['/authorizations/principalId', '/properties/authorizations/principalId']
             - !ruby/object:Api::Type::String
-              name: 'roleDefinitionId'
+              name: 'RoleDefinitionID'
               description: 'The provider''s role definition identifier. This role will define all the permissions that the provider must have on the workspace''s container resource group. This role definition cannot have permission to delete the resource group.'
               required: true
               azure_sdk_references: ['/authorizations/roleDefinitionId', '/properties/authorizations/roleDefinitionId']
       - !ruby/object:Api::Type::NestedObject
-        name: 'sku'
+        name: 'Sku'
         description: 'The SKU of the resource.'
         required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'name'
+            name: 'Name'
             description: 'The SKU name.'
             required: true
             azure_sdk_references: ['/sku/name']
           - !ruby/object:Api::Type::String
-            name: 'tier'
+            name: 'Tier'
             description: 'The SKU tier.'
             required: false
             azure_sdk_references: ['/sku/tier']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'The workspace provisioning state.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
@@ -271,17 +1247,17 @@ objects:
           - :Succeeded
           - :Updating
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the resource'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
         output: true
         azure_sdk_references: ['/type']

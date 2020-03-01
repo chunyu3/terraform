@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -89,7 +89,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -108,7 +108,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -185,7 +185,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -198,74 +198,74 @@ objects:
       Manage Azure PrivateEndpointConnection instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'serverName'
+        name: 'ServerName'
         description: 'The name of the server.'
         required: true
         input: true
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'PrivateEndpointConnectionName'
         description: ''
         required: true
         input: true
         azure_sdk_references: ['privateEndpointConnectionName']
       - !ruby/object:Api::Type::NestedObject
-        name: 'privateEndpoint'
+        name: 'PrivateEndpoint'
         description: 'Private endpoint which the connection belongs to.'
         required: false
         azure_sdk_references: ['/privateEndpoint', '/properties/privateEndpoint']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'id'
+            name: 'ID'
             description: 'Resource id of the private endpoint.'
             required: false
             azure_sdk_references: ['/privateEndpoint/id', '/properties/privateEndpoint/id']
       - !ruby/object:Api::Type::NestedObject
-        name: 'privateLinkServiceConnectionState'
+        name: 'PrivateLinkServiceConnectionState'
         description: 'Connection state of the private endpoint connection.'
         required: false
         azure_sdk_references: ['/privateLinkServiceConnectionState', '/properties/privateLinkServiceConnectionState']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'status'
+            name: 'Status'
             description: 'The private link service connection status.'
             required: true
             azure_sdk_references: ['/privateLinkServiceConnectionState/status', '/properties/privateLinkServiceConnectionState/status']
           - !ruby/object:Api::Type::String
-            name: 'description'
+            name: 'Description'
             description: 'The private link service connection description.'
             required: true
             azure_sdk_references: ['/privateLinkServiceConnectionState/description', '/properties/privateLinkServiceConnectionState/description']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'State of the private endpoint connection.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource ID.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']
