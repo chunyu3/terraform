@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_management_policy
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storageaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  account_name: sto9699
+  name: '<%= get_resource_name('''', ''storagemanagementpolicy'') -%>'

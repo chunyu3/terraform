@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_file_share
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storageaccount
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: fileservice
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: share
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  account_name: sto328
+  name: '<%= get_resource_name('''', ''storagefileshare'') -%>'

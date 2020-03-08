@@ -325,7 +325,7 @@ objects:
         azure_sdk_references: ['/httpsPort', '/properties/httpsPort']
       - !ruby/object:Api::Type::String
         name: 'OriginHostHeader'
-        description: 'The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. This overrides the host header defined at Endpoint'
+        description: 'The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. If endpoint uses multiple origins for load balancing, then the host header at endpoint is ignored and this one is considered.'
         required: false
         azure_sdk_references: ['/originHostHeader', '/properties/originHostHeader']
       - !ruby/object:Api::Type::Integer

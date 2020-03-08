@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_storageaccount
+  description: BlobRangesRestore
+  code:
+    name: myStorageAccount
+    resource_group: myResourceGroup
+    time_to_restore: '2019-04-20T15:30:00Z'
+    blob_ranges:
+      - start_range: container/blobpath1
+        end_range: container/blobpath2
+      - start_range: container2/blobpath3
+        end_range: ''
+  

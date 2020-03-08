@@ -1,0 +1,24 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_blob_container
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storageaccount
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: blobservice
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: container
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: immutabilitypolicy
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  account_name: sto7069
+  container_name: container6397
+  immutability_period_since_creation_in_days: '3'
+  name: '<%= get_resource_name('''', ''storageblobcontainer'') -%>'

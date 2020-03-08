@@ -1,0 +1,58 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_blob_service
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storageaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  account_name: sto8607
+  name: '<%= get_resource_name('''', ''storageblobservice'') -%>'
+  cors:
+    cors_rules:
+      - allowed_origins:
+          - 'http://www.contoso.com'
+          - 'http://www.fabrikam.com'
+        allowed_methods:
+          - GET
+          - HEAD
+          - POST
+          - OPTIONS
+          - MERGE
+          - PUT
+        max_age_in_seconds: '100'
+        exposed_headers:
+          - x-ms-meta-*
+        allowed_headers:
+          - x-ms-meta-abc
+          - x-ms-meta-data*
+          - x-ms-meta-target*
+      - allowed_origins:
+          - '*'
+        allowed_methods:
+          - GET
+        max_age_in_seconds: '2'
+        exposed_headers:
+          - '*'
+        allowed_headers:
+          - '*'
+      - allowed_origins:
+          - 'http://www.abc23.com'
+          - 'https://www.fabrikam.com/*'
+        allowed_methods:
+          - GET
+          - PUT
+        max_age_in_seconds: '2000'
+        exposed_headers:
+          - x-ms-meta-abc
+          - x-ms-meta-data*
+          - x -ms-meta-target*
+        allowed_headers:
+          - x-ms-meta-12345675754564*
+  default_service_version: '2017-07-29'
+  delete_retention_policy:
+    enabled: true
+    days: '300'

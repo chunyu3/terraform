@@ -1,4 +1,46 @@
 --- !ruby/object:Provider::Azure::Terraform::Config
 overrides: !ruby/object:Overrides::ResourceOverrides
   BlobContainer: !ruby/object:Provider::Azure::Terraform::ResourceOverride
+    # azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinitionOverride
     properties: {}
+    acctests:
+      - !ruby/object:Provider::Azure::Terraform::AccTestDefinition
+        name: basic
+        steps: [basic]
+      - !ruby/object:Provider::Azure::Terraform::AccTestDefinition
+        name: complete
+        steps: [complete]
+      - !ruby/object:Provider::Azure::Terraform::AccTestDefinition
+        name: update
+        steps: [basic, complete]
+    document_examples:
+      - !ruby/object:Provider::Azure::Terraform::DocumentExampleReference
+        title: Example Usage
+        example_name: basic
+        resource_name_hints:
+          resourceGroups: example-resource-group
+          storageAccounts: example-storage-account
+          blobServices: example-blob-service
+          containers: example-container
+          immutabilityPolicies: example-immutability-policy
+datasources: !ruby/object:Overrides::ResourceOverrides
+  BlobContainer: !ruby/object:Provider::Azure::Terraform::ResourceOverride
+    acctests:
+      - !ruby/object:Provider::Azure::Terraform::AccTestDefinition
+        name: basic
+        steps: [basic]
+      - !ruby/object:Provider::Azure::Terraform::AccTestDefinition
+        name: complete
+        steps: [complete]
+    document_examples:
+      - !ruby/object:Provider::Azure::Terraform::DocumentExampleReference
+        title: Example Usage
+        example_name: basic
+        resource_name_hints:
+          resourceGroups: example-resource-group
+          storageAccounts: example-storage-account
+          blobServices: example-blob-service
+          containers: example-container
+          immutabilityPolicies: example-immutability-policy
+    datasource_example_outputs:
+      blob_container_id: id
