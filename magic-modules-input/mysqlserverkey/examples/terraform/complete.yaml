@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_server_key
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: server
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: key
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  server_name: testserver
+  name: '<%= get_resource_name('''', ''mysqlserverkey'') -%>'
+  server_key_type: AzureKeyVault
+  uri: >-
+    https://someVault.vault.azure.net/keys/someKey/01234567890123456789012345678901

@@ -45,6 +45,18 @@ func resourceArmServer() *schema.Resource {
                 Optional: true,
             },
 
+            "minimal_tls_version": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(postgresql.TLS1_0),
+                    string(postgresql.TLS1_1),
+                    string(postgresql.TLS1_2),
+                    string(postgresql.TLSEnforcementDisabled),
+                }, false),
+                Default: string(postgresql.TLS1_0),
+            },
+
             "replication_role": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -153,6 +165,11 @@ func resourceArmServer() *schema.Resource {
                 Computed: true,
             },
 
+            "byok_enforcement": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "earliest_restore_date": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -168,12 +185,92 @@ func resourceArmServer() *schema.Resource {
                 Computed: true,
             },
 
+            "identity": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "principal_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "tenant_id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "type": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "infrastructure_encryption": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "master_server_id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
             "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "private_endpoint_connections": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "private_endpoint": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "private_link_service_connection_state": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "actions_required": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "description": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "status": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "provisioning_state": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
+            },
+
+            "public_network_access": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -218,6 +315,7 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     administratorLoginPassword := d.Get("administrator_login_password").(string)
+    minimalTLSVersion := d.Get("minimal_tls_version").(string)
     replicationRole := d.Get("replication_role").(string)
     sku := d.Get("sku").([]interface{})
     sslEnforcement := d.Get("ssl_enforcement").(string)
@@ -229,6 +327,7 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
         Location: utils.String(location),
         ServerUpdateParameters_properties: &postgresql.ServerUpdateParameters_properties{
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
+            MinimalTLSVersion: postgresql.MinimalTlsVersionEnum(minimalTLSVersion),
             ReplicationRole: utils.String(replicationRole),
             SslEnforcement: postgresql.SslEnforcementEnum(sslEnforcement),
             StorageProfile: expandArmServerStorageProfile(storageProfile),
@@ -289,9 +388,16 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
     }
     if serverUpdateParametersProperties := resp.ServerUpdateParameters_properties; serverUpdateParametersProperties != nil {
         d.Set("administrator_login", serverUpdateParametersProperties.AdministratorLogin)
+        d.Set("byok_enforcement", serverUpdateParametersProperties.ByokEnforcement)
         d.Set("earliest_restore_date", (serverUpdateParametersProperties.EarliestRestoreDate).String())
         d.Set("fully_qualified_domain_name", serverUpdateParametersProperties.FullyQualifiedDomainName)
+        d.Set("infrastructure_encryption", string(serverUpdateParametersProperties.InfrastructureEncryption))
         d.Set("master_server_id", serverUpdateParametersProperties.MasterServerID)
+        d.Set("minimal_tls_version", string(serverUpdateParametersProperties.MinimalTLSVersion))
+        if err := d.Set("private_endpoint_connections", flattenArmServerServerPrivateEndpointConnection(serverUpdateParametersProperties.PrivateEndpointConnections)); err != nil {
+            return fmt.Errorf("Error setting `private_endpoint_connections`: %+v", err)
+        }
+        d.Set("public_network_access", string(serverUpdateParametersProperties.PublicNetworkAccess))
         d.Set("replica_capacity", int(*serverUpdateParametersProperties.ReplicaCapacity))
         d.Set("replication_role", serverUpdateParametersProperties.ReplicationRole)
         d.Set("ssl_enforcement", string(serverUpdateParametersProperties.SslEnforcement))
@@ -302,6 +408,9 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("version", string(serverUpdateParametersProperties.Version))
     }
     d.Set("id", resp.ID)
+    if err := d.Set("identity", flattenArmServerResourceIdentity(resp.Identity)); err != nil {
+        return fmt.Errorf("Error setting `identity`: %+v", err)
+    }
     d.Set("name", resp.Name)
     d.Set("server_name", name)
     if err := d.Set("sku", flattenArmServerSku(resp.Sku)); err != nil {
@@ -320,6 +429,7 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
       resourceGroupName := d.Get("resource_group").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     administratorLoginPassword := d.Get("administrator_login_password").(string)
+    minimalTLSVersion := d.Get("minimal_tls_version").(string)
     replicationRole := d.Get("replication_role").(string)
     name := d.Get("server_name").(string)
     sku := d.Get("sku").([]interface{})
@@ -332,6 +442,7 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
         Location: utils.String(location),
         ServerUpdateParameters_properties: &postgresql.ServerUpdateParameters_properties{
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
+            MinimalTLSVersion: postgresql.MinimalTlsVersionEnum(minimalTLSVersion),
             ReplicationRole: utils.String(replicationRole),
             SslEnforcement: postgresql.SslEnforcementEnum(sslEnforcement),
             StorageProfile: expandArmServerStorageProfile(storageProfile),
@@ -426,6 +537,30 @@ func expandArmServerSku(input []interface{}) *postgresql.Sku {
 }
 
 
+func flattenArmServerServerPrivateEndpointConnection(input *[]postgresql.ServerPrivateEndpointConnection) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if serverPrivateEndpointConnectionProperties := item.ServerPrivateEndpointConnectionProperties; serverPrivateEndpointConnectionProperties != nil {
+            v["private_endpoint"] = flattenArmServerPrivateEndpointProperty(serverPrivateEndpointConnectionProperties.PrivateEndpoint)
+            v["private_link_service_connection_state"] = flattenArmServerServerPrivateLinkServiceConnectionStateProperty(serverPrivateEndpointConnectionProperties.PrivateLinkServiceConnectionState)
+            v["provisioning_state"] = string(serverPrivateEndpointConnectionProperties.ProvisioningState)
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
 func flattenArmServerStorageProfile(input *postgresql.StorageProfile) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
@@ -441,6 +576,24 @@ func flattenArmServerStorageProfile(input *postgresql.StorageProfile) []interfac
     if storageMb := input.StorageMB; storageMb != nil {
         result["storage_mb"] = int(*storageMb)
     }
+
+    return []interface{}{result}
+}
+
+func flattenArmServerResourceIdentity(input *postgresql.ResourceIdentity) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if principalId := input.PrincipalID; principalId != nil {
+        result["principal_id"] = *principalId
+    }
+    if tenantId := input.TenantID; tenantId != nil {
+        result["tenant_id"] = *tenantId
+    }
+    result["type"] = string(input.Type)
 
     return []interface{}{result}
 }
@@ -465,6 +618,36 @@ func flattenArmServerSku(input *postgresql.Sku) []interface{} {
         result["size"] = *size
     }
     result["tier"] = string(input.Tier)
+
+    return []interface{}{result}
+}
+
+func flattenArmServerPrivateEndpointProperty(input *postgresql.PrivateEndpointProperty) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmServerServerPrivateLinkServiceConnectionStateProperty(input *postgresql.ServerPrivateLinkServiceConnectionStateProperty) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["actions_required"] = string(input.ActionsRequired)
+    if description := input.Description; description != nil {
+        result["description"] = *description
+    }
+    result["status"] = string(input.Status)
 
     return []interface{}{result}
 }

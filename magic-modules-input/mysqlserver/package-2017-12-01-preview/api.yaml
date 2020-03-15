@@ -115,6 +115,13 @@ objects:
             applicable_to: [go]
             go_field_name: SslEnforcement
             go_enum_type_name: SslEnforcementEnum
+          '/minimalTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: minimal_tls_version
+          '/properties/minimalTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MinimalTLSVersion
+            go_enum_type_name: MinimalTlsVersionEnum
           '/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: replication_role
@@ -224,6 +231,13 @@ objects:
             applicable_to: [go]
             go_field_name: SslEnforcement
             go_enum_type_name: SslEnforcementEnum
+          '/minimalTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: minimal_tls_version
+          '/properties/minimalTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MinimalTLSVersion
+            go_enum_type_name: MinimalTlsVersionEnum
           '/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: replication_role
@@ -337,6 +351,13 @@ objects:
           '/sslEnforcement': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: ssl_enforcement
+          '/properties/minimalTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MinimalTLSVersion
+            go_enum_type_name: MinimalTlsVersionEnum
+          '/minimalTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: minimal_tls_version
           '/properties/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ReplicationRole
@@ -349,6 +370,19 @@ objects:
           '/administratorLogin': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: administrator_login
+          '/properties/byokEnforcement': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ByokEnforcement
+          '/byokEnforcement': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: byok_enforcement
+          '/properties/infrastructureEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: InfrastructureEncryption
+            go_enum_type_name: InfrastructureEncryption
+          '/infrastructureEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: infrastructure_encryption
           '/properties/userVisibleState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: UserVisibleState
@@ -380,6 +414,77 @@ objects:
           '/replicaCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [python]
             python_field_name: replica_capacity
+          '/properties/publicNetworkAccess': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PublicNetworkAccess
+            go_enum_type_name: PublicNetworkAccessEnum
+          '/publicNetworkAccess': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: public_network_access
+          '/properties/privateEndpointConnections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PrivateEndpointConnections
+            go_type_name: ServerPrivateEndpointConnection
+          '/properties/privateEndpointConnections/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/privateEndpointConnections/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateEndpointConnectionProperties
+            go_type_name: PrivateEndpointConnectionProperties
+          '/properties/privateEndpointConnections/properties/privateEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateEndpoint
+            go_type_name: PrivateEndpointProperty
+          '/properties/privateEndpointConnections/properties/privateEndpoint/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/privateEndpointConnections/properties/privateLinkServiceConnectionState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateLinkServiceConnectionState
+            go_type_name: PrivateLinkServiceConnectionStateProperty
+          '/properties/privateEndpointConnections/properties/privateLinkServiceConnectionState/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: PrivateLinkServiceConnectionStateStatus
+          '/properties/privateEndpointConnections/properties/privateLinkServiceConnectionState/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/privateEndpointConnections/properties/privateLinkServiceConnectionState/actionsRequired': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActionsRequired
+            go_enum_type_name: PrivateLinkServiceConnectionStateActionsRequire
+          '/properties/privateEndpointConnections/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: PrivateEndpointProvisioningState
+          '/privateEndpointConnections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: private_endpoint_connections
+          '/privateEndpointConnections/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/privateEndpointConnections/privateEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: private_endpoint
+          '/privateEndpointConnections/privateEndpoint/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/privateEndpointConnections/privateLinkServiceConnectionState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: private_link_service_connection_state
+          '/privateEndpointConnections/privateLinkServiceConnectionState/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/privateEndpointConnections/privateLinkServiceConnectionState/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/privateEndpointConnections/privateLinkServiceConnectionState/actionsRequired': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: actions_required
+          '/privateEndpointConnections/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
             python_field_name: location
@@ -532,6 +637,17 @@ objects:
           - :Enabled
           - :Disabled
         default_value: :Enabled
+      - !ruby/object:Api::Type::Enum
+        name: 'MinimalTLSVersion'
+        description: 'Enforce a minimal Tls version for the server.'
+        required: false
+        azure_sdk_references: ['/minimalTlsVersion', '/properties/minimalTlsVersion']
+        values:
+          - :TLS1_0
+          - :TLS1_1
+          - :TLS1_2
+          - :TLSEnforcementDisabled
+        default_value: :TLS1_0
       - !ruby/object:Api::Type::String
         name: 'ReplicationRole'
         description: 'The replication role of the server.'
@@ -555,6 +671,19 @@ objects:
         description: 'The administrator''s login name of a server. Can only be specified when the server is being created (and is required for creation).'
         output: true
         azure_sdk_references: ['/administratorLogin', '/properties/administratorLogin']
+      - !ruby/object:Api::Type::String
+        name: 'ByokEnforcement'
+        description: 'Status showing whether the server data encryption is enabled with customer-managed keys.'
+        output: true
+        azure_sdk_references: ['/byokEnforcement', '/properties/byokEnforcement']
+      - !ruby/object:Api::Type::Enum
+        name: 'InfrastructureEncryption'
+        description: 'Status showing whether the server enabled infrastructure encryption.'
+        output: true
+        azure_sdk_references: ['/infrastructureEncryption', '/properties/infrastructureEncryption']
+        values:
+          - :Enabled
+          - :Disabled
       - !ruby/object:Api::Type::Enum
         name: 'UserVisibleState'
         description: 'A state of a server that is visible to user.'
@@ -564,6 +693,7 @@ objects:
           - :Ready
           - :Dropping
           - :Disabled
+          - :Inaccessible
       - !ruby/object:Api::Type::String
         name: 'FullyQualifiedDomainName'
         description: 'The fully qualified domain name of a server.'
@@ -584,6 +714,76 @@ objects:
         description: 'The maximum number of replicas that a master server can have.'
         output: true
         azure_sdk_references: ['/replicaCapacity', '/properties/replicaCapacity']
+      - !ruby/object:Api::Type::Enum
+        name: 'PublicNetworkAccess'
+        description: 'Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be ''Enabled'' or ''Disabled'''
+        output: true
+        azure_sdk_references: ['/publicNetworkAccess', '/properties/publicNetworkAccess']
+        values:
+          - :Enabled
+          - :Disabled
+      - !ruby/object:Api::Type::Array
+        name: 'PrivateEndpointConnections'
+        description: 'List of private endpoint connections on a server'
+        output: true
+        azure_sdk_references: ['/privateEndpointConnections', '/properties/privateEndpointConnections']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'ID'
+              description: 'Resource Id of the private endpoint connection.'
+              output: true
+              azure_sdk_references: ['/privateEndpointConnections/id', '/properties/privateEndpointConnections/id']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'PrivateEndpoint'
+              description: 'Private endpoint which the connection belongs to.'
+              output: true
+              azure_sdk_references: ['/privateEndpointConnections/privateEndpoint', '/properties/privateEndpointConnections/properties/privateEndpoint']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'ID'
+                  description: 'Resource id of the private endpoint.'
+                  output: true
+                  azure_sdk_references: ['/privateEndpointConnections/privateEndpoint/id', '/properties/privateEndpointConnections/properties/privateEndpoint/id']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'PrivateLinkServiceConnectionState'
+              description: 'Connection state of the private endpoint connection.'
+              output: true
+              azure_sdk_references: ['/privateEndpointConnections/privateLinkServiceConnectionState', '/properties/privateEndpointConnections/properties/privateLinkServiceConnectionState']
+              properties:
+                - !ruby/object:Api::Type::Enum
+                  name: 'Status'
+                  description: 'The private link service connection status.'
+                  output: true
+                  azure_sdk_references: ['/privateEndpointConnections/privateLinkServiceConnectionState/status', '/properties/privateEndpointConnections/properties/privateLinkServiceConnectionState/status']
+                  values:
+                    - :Approved
+                    - :Pending
+                    - :Rejected
+                    - :Disconnected
+                - !ruby/object:Api::Type::String
+                  name: 'Description'
+                  description: 'The private link service connection description.'
+                  output: true
+                  azure_sdk_references: ['/privateEndpointConnections/privateLinkServiceConnectionState/description', '/properties/privateEndpointConnections/properties/privateLinkServiceConnectionState/description']
+                - !ruby/object:Api::Type::Enum
+                  name: 'ActionsRequired'
+                  description: 'The actions required for private link service connection.'
+                  output: true
+                  azure_sdk_references: ['/privateEndpointConnections/privateLinkServiceConnectionState/actionsRequired', '/properties/privateEndpointConnections/properties/privateLinkServiceConnectionState/actionsRequired']
+                  values:
+                    - :None
+            - !ruby/object:Api::Type::Enum
+              name: 'ProvisioningState'
+              description: 'State of the private endpoint connection.'
+              output: true
+              azure_sdk_references: ['/privateEndpointConnections/provisioningState', '/properties/privateEndpointConnections/properties/provisioningState']
+              values:
+                - :Approving
+                - :Ready
+                - :Dropping
+                - :Failed
+                - :Rejecting
       - !ruby/object:Api::Type::String
         name: 'ID'
         description: 'Resource ID'
