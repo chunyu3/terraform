@@ -29,21 +29,16 @@ func resourceArmVirtualNetworkRule() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "server_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "server_name": {
+            "virtual_network_rule_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -61,6 +56,16 @@ func resourceArmVirtualNetworkRule() *schema.Resource {
                 Optional: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -76,17 +81,18 @@ func resourceArmVirtualNetworkRule() *schema.Resource {
 
 func resourceArmVirtualNetworkRuleCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworkRulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     serverName := d.Get("server_name").(string)
+    name := d.Get("virtual_network_rule_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, name)
+        existing, err := client.Get(ctx, resourceGroupName, serverName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Network Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Network Rule (Virtual Network Rule Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -95,31 +101,31 @@ func resourceArmVirtualNetworkRuleCreateUpdate(d *schema.ResourceData, meta inte
     }
 
     ignoreMissingVnetServiceEndpoint := d.Get("ignore_missing_vnet_service_endpoint").(bool)
-    virtualNetworkSubnetId := d.Get("virtual_network_subnet_id").(string)
+    virtualNetworkSubnetID := d.Get("virtual_network_subnet_id").(string)
 
     parameters := mariadb.VirtualNetworkRule{
         VirtualNetworkRuleProperties: &mariadb.VirtualNetworkRuleProperties{
             IgnoreMissingVnetServiceEndpoint: utils.Bool(ignoreMissingVnetServiceEndpoint),
-            VirtualNetworkSubnetID: utils.String(virtualNetworkSubnetId),
+            VirtualNetworkSubnetID: utils.String(virtualNetworkSubnetID),
         },
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, name, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroupName, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Virtual Network Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+        return fmt.Errorf("Error creating Virtual Network Rule (Virtual Network Rule Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Virtual Network Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Virtual Network Rule (Virtual Network Rule Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, name)
+    resp, err := client.Get(ctx, resourceGroupName, serverName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Network Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Network Rule (Virtual Network Rule Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Network Rule %q (Server Name %q / Resource Group %q) ID", name, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Network Rule (Virtual Network Rule Name %q / Server Name %q / Resource Group %q) ID", name, serverName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -128,37 +134,39 @@ func resourceArmVirtualNetworkRuleCreateUpdate(d *schema.ResourceData, meta inte
 
 func resourceArmVirtualNetworkRuleRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworkRulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     serverName := id.Path["servers"]
     name := id.Path["virtualNetworkRules"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, name)
+    resp, err := client.Get(ctx, resourceGroupName, serverName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Network Rule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Network Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Network Rule (Virtual Network Rule Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
+    d.Set("id", resp.ID)
     if virtualNetworkRuleProperties := resp.VirtualNetworkRuleProperties; virtualNetworkRuleProperties != nil {
         d.Set("ignore_missing_vnet_service_endpoint", virtualNetworkRuleProperties.IgnoreMissingVnetServiceEndpoint)
         d.Set("state", string(virtualNetworkRuleProperties.State))
         d.Set("virtual_network_subnet_id", virtualNetworkRuleProperties.VirtualNetworkSubnetID)
     }
+    d.Set("name", resp.Name)
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
+    d.Set("virtual_network_rule_name", name)
 
     return nil
 }
@@ -166,28 +174,29 @@ func resourceArmVirtualNetworkRuleRead(d *schema.ResourceData, meta interface{})
 
 func resourceArmVirtualNetworkRuleDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).virtualNetworkRulesClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     serverName := id.Path["servers"]
     name := id.Path["virtualNetworkRules"]
 
-    future, err := client.Delete(ctx, resourceGroup, serverName, name)
+    future, err := client.Delete(ctx, resourceGroupName, serverName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Virtual Network Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Virtual Network Rule (Virtual Network Rule Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Virtual Network Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Virtual Network Rule (Virtual Network Rule Name %q / Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroupName, err)
         }
     }
 

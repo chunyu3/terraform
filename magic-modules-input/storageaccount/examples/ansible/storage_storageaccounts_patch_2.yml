@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_storageaccount
+  description: StorageAccountEnableCMK
+  code:
+    name: myStorageAccount
+    resource_group: myResourceGroup
+    encryption:
+      services:
+        blob:
+          enabled: true
+          key_type: Account
+        file:
+          enabled: true
+          key_type: Account
+      key_source: Microsoft.Keyvault
+      keyvaultproperties:
+        keyname: wrappingKey
+        keyversion: ''
+        keyvaulturi: 'https://myvault8569.vault.azure.net'
+  

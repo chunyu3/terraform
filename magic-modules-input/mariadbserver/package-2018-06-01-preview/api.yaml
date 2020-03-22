@@ -25,7 +25,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -134,7 +134,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -243,7 +243,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -257,7 +257,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -395,13 +395,27 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: ResourceIdentity
+            python_field_name: identity
+          '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrincipalID
+            python_field_name: principal_id
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: IdentityType
+            python_field_name: type
+          '/identity/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: TenantID
+            python_field_name: tenant_id
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -413,30 +427,30 @@ objects:
       Manage Azure Server instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ServerName'
         description: 'The name of the server.'
         required: true
         input: true
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Type::NestedObject
-        name: 'sku'
+        name: 'Sku'
         description: 'The SKU (pricing tier) of the server.'
         required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'name'
+            name: 'Name'
             description: 'The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.'
             required: false
             azure_sdk_references: ['/sku/name']
           - !ruby/object:Api::Type::Enum
-            name: 'tier'
+            name: 'Tier'
             description: 'The tier of the particular SKU, e.g. Basic.'
             required: false
             azure_sdk_references: ['/sku/tier']
@@ -446,33 +460,33 @@ objects:
               - :MemoryOptimized
             default_value: :Basic
           - !ruby/object:Api::Type::Integer
-            name: 'capacity'
+            name: 'Capacity'
             description: 'The scale up/out capacity, representing server''s compute units.'
             required: false
             azure_sdk_references: ['/sku/capacity']
           - !ruby/object:Api::Type::String
-            name: 'size'
+            name: 'Size'
             description: 'The size code, to be interpreted by resource as appropriate.'
             required: false
             azure_sdk_references: ['/sku/size']
           - !ruby/object:Api::Type::String
-            name: 'family'
+            name: 'Family'
             description: 'The family of hardware.'
             required: false
             azure_sdk_references: ['/sku/family']
       - !ruby/object:Api::Type::NestedObject
-        name: 'storageProfile'
+        name: 'StorageProfile'
         description: 'Storage profile of a server.'
         required: false
         azure_sdk_references: ['/storageProfile', '/properties/storageProfile']
         properties:
           - !ruby/object:Api::Type::Integer
-            name: 'backupRetentionDays'
+            name: 'BackupRetentionDays'
             description: 'Backup retention days for the server.'
             required: false
             azure_sdk_references: ['/storageProfile/backupRetentionDays', '/properties/storageProfile/backupRetentionDays']
           - !ruby/object:Api::Type::Enum
-            name: 'geoRedundantBackup'
+            name: 'GeoRedundantBackup'
             description: 'Enable Geo-redundant or not for server backup.'
             required: false
             azure_sdk_references: ['/storageProfile/geoRedundantBackup', '/properties/storageProfile/geoRedundantBackup']
@@ -481,12 +495,12 @@ objects:
               - :Disabled
             default_value: :Enabled
           - !ruby/object:Api::Type::Integer
-            name: 'storageMb'
+            name: 'StorageMB'
             description: 'Max storage allowed for a server.'
             required: false
             azure_sdk_references: ['/storageProfile/storageMB', '/properties/storageProfile/storageMB']
           - !ruby/object:Api::Type::Enum
-            name: 'storageAutogrow'
+            name: 'StorageAutogrow'
             description: 'Enable Storage Auto Grow.'
             required: false
             azure_sdk_references: ['/storageProfile/storageAutogrow', '/properties/storageProfile/storageAutogrow']
@@ -495,12 +509,12 @@ objects:
               - :Disabled
             default_value: :Enabled
       - !ruby/object:Api::Type::String
-        name: 'administratorLoginPassword'
+        name: 'AdministratorLoginPassword'
         description: 'The password of the administrator login.'
         required: false
         azure_sdk_references: ['/administratorLoginPassword', '/properties/administratorLoginPassword']
       - !ruby/object:Api::Type::Enum
-        name: 'version'
+        name: 'Version'
         description: 'The version of a server.'
         required: false
         azure_sdk_references: ['/version', '/properties/version']
@@ -509,7 +523,7 @@ objects:
           - :5.7
         default_value: :5.6
       - !ruby/object:Api::Type::Enum
-        name: 'sslEnforcement'
+        name: 'SslEnforcement'
         description: 'Enable ssl enforcement or not when connect to server.'
         required: false
         azure_sdk_references: ['/sslEnforcement', '/properties/sslEnforcement']
@@ -518,30 +532,30 @@ objects:
           - :Disabled
         default_value: :Enabled
       - !ruby/object:Api::Type::String
-        name: 'replicationRole'
+        name: 'ReplicationRole'
         description: 'The replication role of the server.'
         required: false
         azure_sdk_references: ['/replicationRole', '/properties/replicationRole']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The location the resource resides in.'
         required: true
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Application-specific metadata in the form of key-value pairs.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'administratorLogin'
+        name: 'AdministratorLogin'
         description: 'The administrator''s login name of a server. Can only be specified when the server is being created (and is required for creation).'
         output: true
         azure_sdk_references: ['/administratorLogin', '/properties/administratorLogin']
       - !ruby/object:Api::Type::Enum
-        name: 'userVisibleState'
+        name: 'UserVisibleState'
         description: 'A state of a server that is visible to user.'
         output: true
         azure_sdk_references: ['/userVisibleState', '/properties/userVisibleState']
@@ -550,37 +564,60 @@ objects:
           - :Dropping
           - :Disabled
       - !ruby/object:Api::Type::String
-        name: 'fullyQualifiedDomainName'
+        name: 'FullyQualifiedDomainName'
         description: 'The fully qualified domain name of a server.'
         output: true
         azure_sdk_references: ['/fullyQualifiedDomainName', '/properties/fullyQualifiedDomainName']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'earliestRestoreDate'
+        name: 'EarliestRestoreDate'
         description: 'Earliest restore point creation time (ISO8601 format)'
         output: true
         azure_sdk_references: ['/earliestRestoreDate', '/properties/earliestRestoreDate']
       - !ruby/object:Api::Type::String
-        name: 'masterServerId'
+        name: 'MasterServerID'
         description: 'The master server id of a replica server.'
         output: true
         azure_sdk_references: ['/masterServerId', '/properties/masterServerId']
       - !ruby/object:Api::Type::Integer
-        name: 'replicaCapacity'
+        name: 'ReplicaCapacity'
         description: 'The maximum number of replicas that a master server can have.'
         output: true
         azure_sdk_references: ['/replicaCapacity', '/properties/replicaCapacity']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource ID'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'Identity'
+        description: 'The Azure Active Directory identity of the server.'
+        output: true
+        azure_sdk_references: ['/identity']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'PrincipalID'
+            description: 'The Azure Active Directory principal id.'
+            output: true
+            azure_sdk_references: ['/identity/principalId']
+          - !ruby/object:Api::Type::Enum
+            name: 'Type'
+            description: 'The identity type. Set this to ''SystemAssigned'' in order to automatically create and assign an Azure Active Directory principal for the resource.'
+            output: true
+            azure_sdk_references: ['/identity/type']
+            values:
+              - :SystemAssigned
+          - !ruby/object:Api::Type::String
+            name: 'TenantID'
+            description: 'The Azure Active Directory tenant id.'
+            output: true
+            azure_sdk_references: ['/identity/tenantId']

@@ -1,0 +1,78 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_software_update_configuration
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: automationaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  automation_account_name: myaccount
+  name: '<%= get_resource_name('''', ''automationsoftwareupdateconfiguration'') -%>'
+  update_configuration:
+    operating_system: Windows
+    windows:
+      included_update_classifications: Critical
+      excluded_kb_numbers:
+        - '168934'
+        - '168973'
+      reboot_setting: IfRequired
+    duration: PT2H0M
+    azure_virtual_machines:
+      - >-
+        ${azurerm_/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01.<%=
+        resource_id_hint -%>.id}
+      - >-
+        ${azurerm_/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-02.<%=
+        resource_id_hint -%>.id}
+      - >-
+        ${azurerm_/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-03.<%=
+        resource_id_hint -%>.id}
+    non_azure_computer_names:
+      - box1.contoso.com
+      - box2.contoso.com
+    targets:
+      azure_queries:
+        - scope:
+            - >-
+              ${azurerm_/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources.<%=
+              resource_id_hint -%>.id}
+            - >-
+              ${azurerm_/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067.<%=
+              resource_id_hint -%>.id}
+          locations:
+            - Japan East
+            - UK South
+          tag_settings:
+            tags:
+              - tag1:
+                  - tag1Value1
+                  - tag1Value2
+                  - tag1Value3
+              - tag2:
+                  - tag2Value1
+                  - tag2Value2
+                  - tag2Value3
+            filter_operator: All
+      non_azure_queries:
+        - function_alias: SavedSearch1
+          workspace_id: WorkspaceId1
+        - function_alias: SavedSearch2
+          workspace_id: WorkspaceId2
+  schedule_info:
+    start_time: '2017-10-19T12:22:57+00:00'
+    expiry_time: '2018-11-09T11:22:57+00:00'
+    interval: '1'
+    frequency: Hour
+    time_zone: America/Los_Angeles
+    advanced_schedule:
+      week_days:
+        - Monday
+        - Thursday
+  tasks:
+    pre_task:
+      source: HelloWorld
+    post_task:
+      source: GetCache

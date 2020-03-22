@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -401,7 +401,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -425,7 +425,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -843,7 +843,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -861,37 +861,37 @@ objects:
       Manage Azure SoftwareUpdateConfiguration instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'Name of an Azure Resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'automationAccountName'
+        name: 'AutomationAccountName'
         description: 'The name of the automation account.'
         required: true
         input: true
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'SoftwareUpdateConfigurationName'
         description: 'The name of the software update configuration to be created.'
         required: true
         input: true
         azure_sdk_references: ['softwareUpdateConfigurationName']
       - !ruby/object:Api::Type::String
-        name: 'clientRequestId'
+        name: 'ClientRequestID'
         description: 'Identifies this specific client request.'
         required: false
         input: true
         azure_sdk_references: ['clientRequestId']
       - !ruby/object:Api::Type::NestedObject
-        name: 'updateConfiguration'
+        name: 'UpdateConfiguration'
         description: 'update specific properties for the Software update configuration'
         required: true
         azure_sdk_references: ['/updateConfiguration', '/properties/updateConfiguration']
         properties:
           - !ruby/object:Api::Type::Enum
-            name: 'operatingSystem'
+            name: 'OperatingSystem'
             description: 'operating system of target machines'
             required: true
             azure_sdk_references: ['/updateConfiguration/operatingSystem', '/properties/updateConfiguration/operatingSystem']
@@ -899,13 +899,13 @@ objects:
               - :Windows
               - :Linux
           - !ruby/object:Api::Type::NestedObject
-            name: 'windows'
+            name: 'Windows'
             description: 'Windows specific update configuration.'
             required: false
             azure_sdk_references: ['/updateConfiguration/windows', '/properties/updateConfiguration/windows']
             properties:
               - !ruby/object:Api::Type::Enum
-                name: 'includedUpdateClassifications'
+                name: 'IncludedUpdateClassifications'
                 description: 'Update classification included in the software update configuration. A comma separated string with required values'
                 required: false
                 azure_sdk_references: ['/updateConfiguration/windows/includedUpdateClassifications', '/properties/updateConfiguration/windows/includedUpdateClassifications']
@@ -921,30 +921,30 @@ objects:
                   - :Updates
                 default_value: :Unclassified
               - !ruby/object:Api::Type::Array
-                name: 'excludedKbNumbers'
+                name: 'ExcludedKbNumbers'
                 description: 'KB numbers excluded from the software update configuration.'
                 required: false
                 azure_sdk_references: ['/updateConfiguration/windows/excludedKbNumbers', '/properties/updateConfiguration/windows/excludedKbNumbers']
                 item_type: Api::Type::String
               - !ruby/object:Api::Type::Array
-                name: 'includedKbNumbers'
+                name: 'IncludedKbNumbers'
                 description: 'KB numbers included from the software update configuration.'
                 required: false
                 azure_sdk_references: ['/updateConfiguration/windows/includedKbNumbers', '/properties/updateConfiguration/windows/includedKbNumbers']
                 item_type: Api::Type::String
               - !ruby/object:Api::Type::String
-                name: 'rebootSetting'
+                name: 'RebootSetting'
                 description: 'Reboot setting for the software update configuration.'
                 required: false
                 azure_sdk_references: ['/updateConfiguration/windows/rebootSetting', '/properties/updateConfiguration/windows/rebootSetting']
           - !ruby/object:Api::Type::NestedObject
-            name: 'linux'
+            name: 'Linux'
             description: 'Linux specific update configuration.'
             required: false
             azure_sdk_references: ['/updateConfiguration/linux', '/properties/updateConfiguration/linux']
             properties:
               - !ruby/object:Api::Type::Enum
-                name: 'includedPackageClassifications'
+                name: 'IncludedPackageClassifications'
                 description: 'Update classifications included in the software update configuration.'
                 required: false
                 azure_sdk_references: ['/updateConfiguration/linux/includedPackageClassifications', '/properties/updateConfiguration/linux/includedPackageClassifications']
@@ -955,77 +955,77 @@ objects:
                   - :Other
                 default_value: :Unclassified
               - !ruby/object:Api::Type::Array
-                name: 'excludedPackageNameMasks'
+                name: 'ExcludedPackageNameMasks'
                 description: 'packages excluded from the software update configuration.'
                 required: false
                 azure_sdk_references: ['/updateConfiguration/linux/excludedPackageNameMasks', '/properties/updateConfiguration/linux/excludedPackageNameMasks']
                 item_type: Api::Type::String
               - !ruby/object:Api::Type::Array
-                name: 'includedPackageNameMasks'
+                name: 'IncludedPackageNameMasks'
                 description: 'packages included from the software update configuration.'
                 required: false
                 azure_sdk_references: ['/updateConfiguration/linux/includedPackageNameMasks', '/properties/updateConfiguration/linux/includedPackageNameMasks']
                 item_type: Api::Type::String
               - !ruby/object:Api::Type::String
-                name: 'rebootSetting'
+                name: 'RebootSetting'
                 description: 'Reboot setting for the software update configuration.'
                 required: false
                 azure_sdk_references: ['/updateConfiguration/linux/rebootSetting', '/properties/updateConfiguration/linux/rebootSetting']
           - !ruby/object:Api::Azure::Type::ISO8601Duration
-            name: 'duration'
+            name: 'Duration'
             description: 'Maximum time allowed for the software update configuration run. Duration needs to be specified using the format PT[n]H[n]M[n]S as per ISO8601'
             required: false
             azure_sdk_references: ['/updateConfiguration/duration', '/properties/updateConfiguration/duration']
           - !ruby/object:Api::Type::Array
-            name: 'azureVirtualMachines'
+            name: 'AzureVirtualMachines'
             description: 'List of azure resource Ids for azure virtual machines targeted by the software update configuration.'
             required: false
             azure_sdk_references: ['/updateConfiguration/azureVirtualMachines', '/properties/updateConfiguration/azureVirtualMachines']
             item_type: Api::Type::String
           - !ruby/object:Api::Type::Array
-            name: 'nonAzureComputerNames'
+            name: 'NonAzureComputerNames'
             description: 'List of names of non-azure machines targeted by the software update configuration.'
             required: false
             azure_sdk_references: ['/updateConfiguration/nonAzureComputerNames', '/properties/updateConfiguration/nonAzureComputerNames']
             item_type: Api::Type::String
           - !ruby/object:Api::Type::NestedObject
-            name: 'targets'
+            name: 'Targets'
             description: 'Group targets for the software update configuration.'
             required: false
             azure_sdk_references: ['/updateConfiguration/targets', '/properties/updateConfiguration/targets']
             properties:
               - !ruby/object:Api::Type::Array
-                name: 'azureQueries'
+                name: 'AzureQueries'
                 description: 'List of Azure queries in the software update configuration.'
                 required: false
                 azure_sdk_references: ['/updateConfiguration/targets/azureQueries', '/properties/updateConfiguration/targets/azureQueries']
                 item_type: !ruby/object:Api::Type::NestedObject
                   properties:
                     - !ruby/object:Api::Type::Array
-                      name: 'scope'
+                      name: 'Scope'
                       description: 'List of Subscription or Resource Group ARM Ids.'
                       required: false
                       azure_sdk_references: ['/updateConfiguration/targets/azureQueries/scope', '/properties/updateConfiguration/targets/azureQueries/scope']
                       item_type: Api::Type::String
                     - !ruby/object:Api::Type::Array
-                      name: 'locations'
+                      name: 'Locations'
                       description: 'List of locations to scope the query to.'
                       required: false
                       azure_sdk_references: ['/updateConfiguration/targets/azureQueries/locations', '/properties/updateConfiguration/targets/azureQueries/locations']
                       item_type: Api::Type::String
                     - !ruby/object:Api::Type::NestedObject
-                      name: 'tagSettings'
+                      name: 'TagSettings'
                       description: 'Tag settings for the VM.'
                       required: false
                       azure_sdk_references: ['/updateConfiguration/targets/azureQueries/tagSettings', '/properties/updateConfiguration/targets/azureQueries/tagSettings']
                       properties:
                         - !ruby/object:Api::Azure::Type::Tags
-                          name: 'tags'
+                          name: 'Tags'
                           description: 'Dictionary of tags with its list of values.'
                           required: false
                           azure_sdk_references: ['/updateConfiguration/targets/azureQueries/tagSettings/tags', '/properties/updateConfiguration/targets/azureQueries/tagSettings/tags']
                         - !ruby/object:Api::Type::Enum
-                          name: 'filterOperator'
+                          name: 'FilterOperator'
                           description: 'Filter VMs by Any or All specified tags.'
                           required: false
                           azure_sdk_references: ['/updateConfiguration/targets/azureQueries/tagSettings/filterOperator', '/properties/updateConfiguration/targets/azureQueries/tagSettings/filterOperator']
@@ -1034,65 +1034,65 @@ objects:
                             - :Any
                           default_value: :All
               - !ruby/object:Api::Type::Array
-                name: 'nonAzureQueries'
+                name: 'NonAzureQueries'
                 description: 'List of non Azure queries in the software update configuration.'
                 required: false
                 azure_sdk_references: ['/updateConfiguration/targets/nonAzureQueries', '/properties/updateConfiguration/targets/nonAzureQueries']
                 item_type: !ruby/object:Api::Type::NestedObject
                   properties:
                     - !ruby/object:Api::Type::String
-                      name: 'functionAlias'
+                      name: 'FunctionAlias'
                       description: 'Log Analytics Saved Search name.'
                       required: false
                       azure_sdk_references: ['/updateConfiguration/targets/nonAzureQueries/functionAlias', '/properties/updateConfiguration/targets/nonAzureQueries/functionAlias']
                     - !ruby/object:Api::Type::String
-                      name: 'workspaceId'
+                      name: 'WorkspaceID'
                       description: 'Workspace Id for Log Analytics in which the saved Search is resided.'
                       required: false
                       azure_sdk_references: ['/updateConfiguration/targets/nonAzureQueries/workspaceId', '/properties/updateConfiguration/targets/nonAzureQueries/workspaceId']
       - !ruby/object:Api::Type::NestedObject
-        name: 'scheduleInfo'
+        name: 'ScheduleInfo'
         description: 'Schedule information for the Software update configuration'
         required: true
         azure_sdk_references: ['/scheduleInfo', '/properties/scheduleInfo']
         properties:
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'startTime'
+            name: 'StartTime'
             description: 'Gets or sets the start time of the schedule.'
             required: false
             azure_sdk_references: ['/scheduleInfo/startTime', '/properties/scheduleInfo/startTime']
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'expiryTime'
+            name: 'ExpiryTime'
             description: 'Gets or sets the end time of the schedule.'
             required: false
             azure_sdk_references: ['/scheduleInfo/expiryTime', '/properties/scheduleInfo/expiryTime']
           - !ruby/object:Api::Type::Double
-            name: 'expiryTimeOffsetMinutes'
+            name: 'ExpiryTimeOffsetMinutes'
             description: 'Gets or sets the expiry time''s offset in minutes.'
             required: false
             azure_sdk_references: ['/scheduleInfo/expiryTimeOffsetMinutes', '/properties/scheduleInfo/expiryTimeOffsetMinutes']
           - !ruby/object:Api::Type::Boolean
-            name: 'isEnabled'
+            name: 'IsEnabled'
             description: 'Gets or sets a value indicating whether this schedule is enabled.'
             required: false
             azure_sdk_references: ['/scheduleInfo/isEnabled', '/properties/scheduleInfo/isEnabled']
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'nextRun'
+            name: 'NextRun'
             description: 'Gets or sets the next run time of the schedule.'
             required: false
             azure_sdk_references: ['/scheduleInfo/nextRun', '/properties/scheduleInfo/nextRun']
           - !ruby/object:Api::Type::Double
-            name: 'nextRunOffsetMinutes'
+            name: 'NextRunOffsetMinutes'
             description: 'Gets or sets the next run time''s offset in minutes.'
             required: false
             azure_sdk_references: ['/scheduleInfo/nextRunOffsetMinutes', '/properties/scheduleInfo/nextRunOffsetMinutes']
           - !ruby/object:Api::Type::Integer
-            name: 'interval'
+            name: 'Interval'
             description: 'Gets or sets the interval of the schedule.'
             required: false
             azure_sdk_references: ['/scheduleInfo/interval', '/properties/scheduleInfo/interval']
           - !ruby/object:Api::Type::Enum
-            name: 'frequency'
+            name: 'Frequency'
             description: 'Gets or sets the frequency of the schedule.'
             required: false
             azure_sdk_references: ['/scheduleInfo/frequency', '/properties/scheduleInfo/frequency']
@@ -1105,42 +1105,42 @@ objects:
               - :Minute
             default_value: :OneTime
           - !ruby/object:Api::Type::String
-            name: 'timeZone'
+            name: 'TimeZone'
             description: 'Gets or sets the time zone of the schedule.'
             required: false
             azure_sdk_references: ['/scheduleInfo/timeZone', '/properties/scheduleInfo/timeZone']
           - !ruby/object:Api::Type::NestedObject
-            name: 'advancedSchedule'
+            name: 'AdvancedSchedule'
             description: 'Gets or sets the advanced schedule.'
             required: false
             azure_sdk_references: ['/scheduleInfo/advancedSchedule', '/properties/scheduleInfo/advancedSchedule']
             properties:
               - !ruby/object:Api::Type::Array
-                name: 'weekDays'
+                name: 'WeekDays'
                 description: 'Days of the week that the job should execute on.'
                 required: false
                 azure_sdk_references: ['/scheduleInfo/advancedSchedule/weekDays', '/properties/scheduleInfo/advancedSchedule/weekDays']
                 item_type: Api::Type::String
               - !ruby/object:Api::Type::Array
-                name: 'monthDays'
+                name: 'MonthDays'
                 description: 'Days of the month that the job should execute on. Must be between 1 and 31.'
                 required: false
                 azure_sdk_references: ['/scheduleInfo/advancedSchedule/monthDays', '/properties/scheduleInfo/advancedSchedule/monthDays']
                 item_type: Api::Type::Integer
               - !ruby/object:Api::Type::Array
-                name: 'monthlyOccurrences'
+                name: 'MonthlyOccurrences'
                 description: 'Occurrences of days within a month.'
                 required: false
                 azure_sdk_references: ['/scheduleInfo/advancedSchedule/monthlyOccurrences', '/properties/scheduleInfo/advancedSchedule/monthlyOccurrences']
                 item_type: !ruby/object:Api::Type::NestedObject
                   properties:
                     - !ruby/object:Api::Type::Integer
-                      name: 'occurrence'
+                      name: 'Occurrence'
                       description: 'Occurrence of the week within the month. Must be between 1 and 5'
                       required: false
                       azure_sdk_references: ['/scheduleInfo/advancedSchedule/monthlyOccurrences/occurrence', '/properties/scheduleInfo/advancedSchedule/monthlyOccurrences/occurrence']
                     - !ruby/object:Api::Type::Enum
-                      name: 'day'
+                      name: 'Day'
                       description: 'Day of the occurrence. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday.'
                       required: false
                       azure_sdk_references: ['/scheduleInfo/advancedSchedule/monthlyOccurrences/day', '/properties/scheduleInfo/advancedSchedule/monthlyOccurrences/day']
@@ -1154,112 +1154,112 @@ objects:
                         - :Sunday
                       default_value: :Monday
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'creationTime'
+            name: 'CreationTime'
             description: 'Gets or sets the creation time.'
             required: false
             azure_sdk_references: ['/scheduleInfo/creationTime', '/properties/scheduleInfo/creationTime']
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'lastModifiedTime'
+            name: 'LastModifiedTime'
             description: 'Gets or sets the last modified time.'
             required: false
             azure_sdk_references: ['/scheduleInfo/lastModifiedTime', '/properties/scheduleInfo/lastModifiedTime']
           - !ruby/object:Api::Type::String
-            name: 'description'
+            name: 'Description'
             description: 'Gets or sets the description.'
             required: false
             azure_sdk_references: ['/scheduleInfo/description', '/properties/scheduleInfo/description']
       - !ruby/object:Api::Type::NestedObject
-        name: 'error'
+        name: 'Error'
         description: 'Details of provisioning error'
         required: false
         azure_sdk_references: ['/error', '/properties/error']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'code'
+            name: 'Code'
             description: 'Error code'
             required: false
             azure_sdk_references: ['/error/code', '/properties/error/code']
           - !ruby/object:Api::Type::String
-            name: 'message'
+            name: 'Message'
             description: 'Error message indicating why the operation failed.'
             required: false
             azure_sdk_references: ['/error/message', '/properties/error/message']
       - !ruby/object:Api::Type::NestedObject
-        name: 'tasks'
+        name: 'Tasks'
         description: 'Tasks information for the Software update configuration.'
         required: false
         azure_sdk_references: ['/tasks', '/properties/tasks']
         properties:
           - !ruby/object:Api::Type::NestedObject
-            name: 'preTask'
+            name: 'PreTask'
             description: 'Pre task properties.'
             required: false
             azure_sdk_references: ['/tasks/preTask', '/properties/tasks/preTask']
             properties:
               - !ruby/object:Api::Type::KeyValuePairs
-                name: 'parameters'
+                name: 'Parameters'
                 description: 'Gets or sets the parameters of the task.'
                 required: false
                 azure_sdk_references: ['/tasks/preTask/parameters', '/properties/tasks/preTask/parameters']
               - !ruby/object:Api::Type::String
-                name: 'source'
+                name: 'Source'
                 description: 'Gets or sets the name of the runbook.'
                 required: false
                 azure_sdk_references: ['/tasks/preTask/source', '/properties/tasks/preTask/source']
           - !ruby/object:Api::Type::NestedObject
-            name: 'postTask'
+            name: 'PostTask'
             description: 'Post task properties.'
             required: false
             azure_sdk_references: ['/tasks/postTask', '/properties/tasks/postTask']
             properties:
               - !ruby/object:Api::Type::KeyValuePairs
-                name: 'parameters'
+                name: 'Parameters'
                 description: 'Gets or sets the parameters of the task.'
                 required: false
                 azure_sdk_references: ['/tasks/postTask/parameters', '/properties/tasks/postTask/parameters']
               - !ruby/object:Api::Type::String
-                name: 'source'
+                name: 'Source'
                 description: 'Gets or sets the name of the runbook.'
                 required: false
                 azure_sdk_references: ['/tasks/postTask/source', '/properties/tasks/postTask/source']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Provisioning state for the software update configuration, which only appears in the response.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
+        name: 'CreationTime'
         description: 'Creation time of the resource, which only appears in the response.'
         output: true
         azure_sdk_references: ['/creationTime', '/properties/creationTime']
       - !ruby/object:Api::Type::String
-        name: 'createdBy'
+        name: 'CreatedBy'
         description: 'CreatedBy property, which only appears in the response.'
         output: true
         azure_sdk_references: ['/createdBy', '/properties/createdBy']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModifiedTime'
+        name: 'LastModifiedTime'
         description: 'Last time resource was modified, which only appears in the response.'
         output: true
         azure_sdk_references: ['/lastModifiedTime', '/properties/lastModifiedTime']
       - !ruby/object:Api::Type::String
-        name: 'lastModifiedBy'
+        name: 'LastModifiedBy'
         description: 'LastModifiedBy property, which only appears in the response.'
         output: true
         azure_sdk_references: ['/lastModifiedBy', '/properties/lastModifiedBy']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Resource name.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Resource Id.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Resource type'
         output: true
         azure_sdk_references: ['/type']

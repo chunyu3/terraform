@@ -38,6 +38,14 @@ objects:
             go_type_name: ServerUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: ResourceIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: IdentityType
+            python_field_name: type
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Sku
             go_type_name: Sku
@@ -122,6 +130,13 @@ objects:
             applicable_to: [go]
             go_field_name: MinimalTLSVersion
             go_enum_type_name: MinimalTlsVersionEnum
+          '/publicNetworkAccess': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: public_network_access
+          '/properties/publicNetworkAccess': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PublicNetworkAccess
+            go_enum_type_name: PublicNetworkAccessEnum
           '/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: replication_role
@@ -154,6 +169,14 @@ objects:
             go_type_name: ServerUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: ResourceIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: IdentityType
+            python_field_name: type
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Sku
             go_type_name: Sku
@@ -238,6 +261,13 @@ objects:
             applicable_to: [go]
             go_field_name: MinimalTLSVersion
             go_enum_type_name: MinimalTlsVersionEnum
+          '/publicNetworkAccess': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: public_network_access
+          '/properties/publicNetworkAccess': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PublicNetworkAccess
+            go_enum_type_name: PublicNetworkAccessEnum
           '/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: replication_role
@@ -280,6 +310,20 @@ objects:
             python_parameter_name: server_name
             python_variable_name: name
         response:
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: ResourceIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: IdentityType
+            python_field_name: type
+          '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrincipalID
+            python_field_name: principal_id
+          '/identity/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: TenantID
+            python_field_name: tenant_id
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Sku
             go_type_name: Sku
@@ -358,6 +402,13 @@ objects:
           '/minimalTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: minimal_tls_version
+          '/properties/publicNetworkAccess': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PublicNetworkAccess
+            go_enum_type_name: PublicNetworkAccessEnum
+          '/publicNetworkAccess': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: public_network_access
           '/properties/replicationRole': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ReplicationRole
@@ -414,13 +465,6 @@ objects:
           '/replicaCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [python]
             python_field_name: replica_capacity
-          '/properties/publicNetworkAccess': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: PublicNetworkAccess
-            go_enum_type_name: PublicNetworkAccessEnum
-          '/publicNetworkAccess': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: public_network_access
           '/properties/privateEndpointConnections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: PrivateEndpointConnections
@@ -500,20 +544,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_field_name: Identity
-            go_type_name: ResourceIdentity
-            python_field_name: identity
-          '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: PrincipalID
-            python_field_name: principal_id
-          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            go_field_name: Type
-            go_enum_type_name: IdentityType
-            python_field_name: type
-          '/identity/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: TenantID
-            python_field_name: tenant_id
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -543,6 +573,20 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'Identity'
+        description: 'The Azure Active Directory identity of the server.'
+        required: false
+        azure_sdk_references: ['/identity']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'Type'
+            description: 'The identity type. Set this to ''SystemAssigned'' in order to automatically create and assign an Azure Active Directory principal for the resource.'
+            required: false
+            azure_sdk_references: ['/identity/type']
+            values:
+              - :SystemAssigned
+            default_value: :SystemAssigned
       - !ruby/object:Api::Type::NestedObject
         name: 'Sku'
         description: 'The SKU (pricing tier) of the server.'
@@ -651,6 +695,15 @@ objects:
           - :TLS1_2
           - :TLSEnforcementDisabled
         default_value: :TLS1_0
+      - !ruby/object:Api::Type::Enum
+        name: 'PublicNetworkAccess'
+        description: 'Whether or not public network access is allowed for this server. Value is optional but if passed in, must be ''Enabled'' or ''Disabled'''
+        required: false
+        azure_sdk_references: ['/publicNetworkAccess', '/properties/publicNetworkAccess']
+        values:
+          - :Enabled
+          - :Disabled
+        default_value: :Enabled
       - !ruby/object:Api::Type::String
         name: 'ReplicationRole'
         description: 'The replication role of the server.'
@@ -717,14 +770,6 @@ objects:
         description: 'The maximum number of replicas that a master server can have.'
         output: true
         azure_sdk_references: ['/replicaCapacity', '/properties/replicaCapacity']
-      - !ruby/object:Api::Type::Enum
-        name: 'PublicNetworkAccess'
-        description: 'Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be ''Enabled'' or ''Disabled'''
-        output: true
-        azure_sdk_references: ['/publicNetworkAccess', '/properties/publicNetworkAccess']
-        values:
-          - :Enabled
-          - :Disabled
       - !ruby/object:Api::Type::Array
         name: 'PrivateEndpointConnections'
         description: 'List of private endpoint connections on a server'
@@ -802,26 +847,3 @@ objects:
         description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
         output: true
         azure_sdk_references: ['/type']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'Identity'
-        description: 'The Azure Active Directory identity of the server.'
-        output: true
-        azure_sdk_references: ['/identity']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'PrincipalID'
-            description: 'The Azure Active Directory principal id.'
-            output: true
-            azure_sdk_references: ['/identity/principalId']
-          - !ruby/object:Api::Type::Enum
-            name: 'Type'
-            description: 'The identity type. Set this to ''SystemAssigned'' in order to automatically create and assign an Azure Active Directory principal for the resource.'
-            output: true
-            azure_sdk_references: ['/identity/type']
-            values:
-              - :SystemAssigned
-          - !ruby/object:Api::Type::String
-            name: 'TenantID'
-            description: 'The Azure Active Directory tenant id.'
-            output: true
-            azure_sdk_references: ['/identity/tenantId']

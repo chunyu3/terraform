@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_schedule
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: automationaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  automation_account_name: myAutomationAccount33
+  name: mySchedule
+  description: my description of schedule goes here
+  start_time: '2017-03-27T17:28:57.2494819Z'
+  expiry_time: '2017-04-01T17:28:57.2494819Z'
+  interval: '1'
+  frequency: Hour
+  advanced_schedule: {}

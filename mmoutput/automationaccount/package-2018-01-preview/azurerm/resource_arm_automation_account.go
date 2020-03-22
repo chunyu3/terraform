@@ -29,22 +29,22 @@ func resourceArmAutomationAccount() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "automation_account_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "location": azure.SchemaLocation(),
+
             "name": {
                 Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "sku": {
                 Type: schema.TypeList,
@@ -72,6 +72,8 @@ func resourceArmAutomationAccount() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
             "creation_time": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -83,6 +85,11 @@ func resourceArmAutomationAccount() *schema.Resource {
             },
 
             "etag": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -106,24 +113,23 @@ func resourceArmAutomationAccount() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmAutomationAccountCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).automationAccountClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("automation_account_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Automation Account (Automation Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -131,10 +137,10 @@ func resourceArmAutomationAccountCreate(d *schema.ResourceData, meta interface{}
         }
     }
 
-    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
+    name := d.Get("name").(string)
     sku := d.Get("sku").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := automation.AccountCreateOrUpdateParameters{
         Location: utils.String(location),
@@ -142,21 +148,21 @@ func resourceArmAutomationAccountCreate(d *schema.ResourceData, meta interface{}
         AccountCreateOrUpdateProperties: &automation.AccountCreateOrUpdateProperties{
             Sku: expandArmAutomationAccountSku(sku),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Automation Account (Automation Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Automation Account (Automation Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Automation Account %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Automation Account (Automation Account Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -165,32 +171,32 @@ func resourceArmAutomationAccountCreate(d *schema.ResourceData, meta interface{}
 
 func resourceArmAutomationAccountRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).automationAccountClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["automationAccounts"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Automation Account %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Automation Account (Automation Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    d.Set("automation_account_name", name)
     if accountCreateOrUpdateProperties := resp.AccountCreateOrUpdateProperties; accountCreateOrUpdateProperties != nil {
         d.Set("creation_time", (accountCreateOrUpdateProperties.CreationTime).String())
         d.Set("description", accountCreateOrUpdateProperties.Description)
@@ -202,6 +208,8 @@ func resourceArmAutomationAccountRead(d *schema.ResourceData, meta interface{}) 
         d.Set("state", string(accountCreateOrUpdateProperties.State))
     }
     d.Set("etag", resp.Etag)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -209,25 +217,28 @@ func resourceArmAutomationAccountRead(d *schema.ResourceData, meta interface{}) 
 
 func resourceArmAutomationAccountUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).automationAccountClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
+    name := d.Get("automation_account_name").(string)
     name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
     sku := d.Get("sku").([]interface{})
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := automation.AccountCreateOrUpdateParameters{
+        Location: utils.String(location),
         Name: utils.String(name),
         AccountCreateOrUpdateProperties: &automation.AccountCreateOrUpdateProperties{
             Sku: expandArmAutomationAccountSku(sku),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
-        return fmt.Errorf("Error updating Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Automation Account (Automation Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return resourceArmAutomationAccountRead(d, meta)
@@ -235,18 +246,19 @@ func resourceArmAutomationAccountUpdate(d *schema.ResourceData, meta interface{}
 
 func resourceArmAutomationAccountDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).automationAccountClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["automationAccounts"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
-        return fmt.Errorf("Error deleting Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name); err != nil {
+        return fmt.Errorf("Error deleting Automation Account (Automation Account Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return nil
@@ -278,13 +290,13 @@ func flattenArmAutomationAccountSku(input *automation.Sku) []interface{} {
 
     result := make(map[string]interface{})
 
-    result["name"] = string(input.Name)
     if capacity := input.Capacity; capacity != nil {
         result["capacity"] = int(*capacity)
     }
     if family := input.Family; family != nil {
         result["family"] = *family
     }
+    result["name"] = string(input.Name)
 
     return []interface{}{result}
 }

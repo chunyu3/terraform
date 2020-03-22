@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_module
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: automationaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  automation_account_name: myAutomationAccount33
+  name: '<%= get_resource_name('''', ''automationmodule'') -%>'
+  content_link:
+    uri: >-
+      https://teststorage.blob.core.windows.net/dsccomposite/OmsCompositeResources.zip
+    content_hash:
+      algorithm: sha265
+      value: 07E108A962B81DD9C9BAA89BB47C0F6EE52B29E83758B07795E408D258B2B87A
+    version: 1.0.0.0

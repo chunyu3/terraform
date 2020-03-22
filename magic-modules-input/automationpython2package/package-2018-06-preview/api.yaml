@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -93,7 +93,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -162,7 +162,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -181,7 +181,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -335,7 +335,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -348,84 +348,84 @@ objects:
       Manage Azure Python2Package instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'Name of an Azure Resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'automationAccountName'
+        name: 'AutomationAccountName'
         description: 'The name of the automation account.'
         required: true
         input: true
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'PackageName'
         description: 'The name of python package.'
         required: true
         input: true
         azure_sdk_references: ['packageName']
       - !ruby/object:Api::Type::NestedObject
-        name: 'contentLink'
+        name: 'ContentLink'
         description: 'Gets or sets the module content link.'
         required: true
         azure_sdk_references: ['/contentLink', '/properties/contentLink']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'uri'
+            name: 'URI'
             description: 'Gets or sets the uri of the runbook content.'
             required: false
             azure_sdk_references: ['/contentLink/uri', '/properties/contentLink/uri']
           - !ruby/object:Api::Type::NestedObject
-            name: 'contentHash'
+            name: 'ContentHash'
             description: 'Gets or sets the hash.'
             required: false
             azure_sdk_references: ['/contentLink/contentHash', '/properties/contentLink/contentHash']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'algorithm'
+                name: 'Algorithm'
                 description: 'Gets or sets the content hash algorithm used to hash the content.'
                 required: true
                 azure_sdk_references: ['/contentLink/contentHash/algorithm', '/properties/contentLink/contentHash/algorithm']
               - !ruby/object:Api::Type::String
-                name: 'value'
+                name: 'Value'
                 description: 'Gets or sets expected hash value of the content.'
                 required: true
                 azure_sdk_references: ['/contentLink/contentHash/value', '/properties/contentLink/contentHash/value']
           - !ruby/object:Api::Type::String
-            name: 'version'
+            name: 'Version'
             description: 'Gets or sets the version of the content.'
             required: false
             azure_sdk_references: ['/contentLink/version', '/properties/contentLink/version']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Gets or sets the tags attached to the resource.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
       - !ruby/object:Api::Type::Boolean
-        name: 'isGlobal'
+        name: 'IsGlobal'
         description: 'Gets or sets the isGlobal flag of the module.'
         output: true
         azure_sdk_references: ['/isGlobal', '/properties/isGlobal']
       - !ruby/object:Api::Type::String
-        name: 'version'
+        name: 'Version'
         description: 'Gets or sets the version of the module.'
         output: true
         azure_sdk_references: ['/version', '/properties/version']
       - !ruby/object:Api::Type::Integer
-        name: 'sizeInBytes'
+        name: 'SizeInBytes'
         description: 'Gets or sets the size in bytes of the module.'
         output: true
         azure_sdk_references: ['/sizeInBytes', '/properties/sizeInBytes']
       - !ruby/object:Api::Type::Integer
-        name: 'activityCount'
+        name: 'ActivityCount'
         description: 'Gets or sets the activity count of the module.'
         output: true
         azure_sdk_references: ['/activityCount', '/properties/activityCount']
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Gets or sets the provisioning state of the module.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
@@ -447,63 +447,63 @@ objects:
           - :Cancelled
           - :Updating
       - !ruby/object:Api::Type::NestedObject
-        name: 'error'
+        name: 'Error'
         description: 'Gets or sets the error info of the module.'
         output: true
         azure_sdk_references: ['/error', '/properties/error']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'code'
+            name: 'Code'
             description: 'Gets or sets the error code.'
             output: true
             azure_sdk_references: ['/error/code', '/properties/error/code']
           - !ruby/object:Api::Type::String
-            name: 'message'
+            name: 'Message'
             description: 'Gets or sets the error message.'
             output: true
             azure_sdk_references: ['/error/message', '/properties/error/message']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
+        name: 'CreationTime'
         description: 'Gets or sets the creation time.'
         output: true
         azure_sdk_references: ['/creationTime', '/properties/creationTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModifiedTime'
+        name: 'LastModifiedTime'
         description: 'Gets or sets the last modified time.'
         output: true
         azure_sdk_references: ['/lastModifiedTime', '/properties/lastModifiedTime']
       - !ruby/object:Api::Type::String
-        name: 'description'
+        name: 'Description'
         description: 'Gets or sets the description.'
         output: true
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::Boolean
-        name: 'isComposite'
+        name: 'IsComposite'
         description: 'Gets or sets type of module, if its composite or not.'
         output: true
         azure_sdk_references: ['/isComposite', '/properties/isComposite']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Fully qualified resource Id for the resource'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'The name of the resource'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'The Azure Region where the resource lives'
         output: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'Gets or sets the etag of the resource.'
         output: true
         azure_sdk_references: ['/etag']

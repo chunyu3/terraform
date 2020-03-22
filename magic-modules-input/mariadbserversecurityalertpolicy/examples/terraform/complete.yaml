@@ -1,0 +1,27 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_server_security_alert_policy
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: server
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: securityalertpolicy
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  server_name: securityalert-6440
+  name: '<%= get_resource_name('''', ''mariadbserversecurityalertpolicy'') -%>'
+  state: Enabled
+  disabled_alerts:
+    - Access_Anomaly
+    - Usage_Anomaly
+  email_addresses:
+    - testSecurityAlert@microsoft.com
+  email_account_admins: true
+  storage_endpoint: 'https://mystorage.blob.core.windows.net'
+  storage_account_access_key: >-
+    sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==
+  retention_days: '5'

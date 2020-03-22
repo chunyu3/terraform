@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_mariadbtopquerystatistic
+  description: TopQueryStatisticsListByServer
+  code:
+    resource_group: myResourceGroup
+    name: myServer
+    number_of_top_queries: '5'
+    aggregation_function: avg
+    observed_metric: duration
+    observation_start_time: '2019-05-01T20:00:00Z'
+    observation_end_time: '2019-05-07T20:00:00Z'
+    aggregation_window: PT15M
+  

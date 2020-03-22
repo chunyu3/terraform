@@ -1,0 +1,23 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_source_control
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: automationaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  automation_account_name: sampleAccount9
+  name: '<%= get_resource_name('''', ''automationsourcecontrol'') -%>'
+  branch: master
+  folder_path: /folderOne/folderTwo
+  auto_sync: true
+  publish_runbook: true
+  security_token:
+    access_token: 3a326f7a0dcd343ea58fee21f2fd5fb4c1234567
+    token_type: PersonalAccessToken
+  description: my description
+  repo_url: 'https://sampleUser.visualstudio.com/myProject/_git/myRepository'
+  source_type: VsoGit

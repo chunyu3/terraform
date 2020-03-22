@@ -1,0 +1,28 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_watcher
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: automationaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  automation_account_name: MyTestAutomationAccount
+  name: '<%= get_resource_name('''', ''automationwatcher'') -%>'
+  parameters:
+    name: MyTestWatcher
+    type: null
+    location: null
+    tags: {}
+    etag: null
+    properties:
+      executionFrequencyInSeconds: '60'
+      scriptName: MyTestWatcherRunbook
+      scriptParameters: null
+      description: This is a test watcher.
+      scriptRunOn: MyTestHybridWorkerGroup
+      creationTime: '2016-11-01T11:22:47.7333333+00:00'
+      lastModifiedBy: null
+      lastModifiedTime: '2016-11-01T11:22:47.7333333+00:00'

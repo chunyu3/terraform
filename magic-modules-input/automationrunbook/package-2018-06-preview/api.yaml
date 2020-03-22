@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -43,7 +43,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -62,7 +62,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -81,7 +81,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -317,7 +317,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -330,64 +330,64 @@ objects:
       Manage Azure Runbook instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'Name of an Azure Resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'automationAccountName'
+        name: 'AutomationAccountName'
         description: 'The name of the automation account.'
         required: true
         input: true
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'RunbookName'
         description: 'The runbook name.'
         required: true
         input: true
         azure_sdk_references: ['runbookName']
       - !ruby/object:Api::Type::String
-        name: 'description'
+        name: 'Description'
         description: 'Gets or sets the description of the runbook.'
         required: false
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::Boolean
-        name: 'logVerbose'
+        name: 'LogVerbose'
         description: 'Gets or sets verbose log option.'
         required: false
         azure_sdk_references: ['/logVerbose', '/properties/logVerbose']
       - !ruby/object:Api::Type::Boolean
-        name: 'logProgress'
+        name: 'LogProgress'
         description: 'Gets or sets progress log option.'
         required: false
         azure_sdk_references: ['/logProgress', '/properties/logProgress']
       - !ruby/object:Api::Type::Integer
-        name: 'logActivityTrace'
+        name: 'LogActivityTrace'
         description: 'Gets or sets the activity-level tracing options of the runbook.'
         required: false
         azure_sdk_references: ['/logActivityTrace', '/properties/logActivityTrace']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Gets or sets the name of the resource.'
         required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Gets or sets the location of the resource.'
         required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Gets or sets the tags attached to the resource.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
-        name: 'runbookType'
+        name: 'RunbookType'
         description: 'Gets or sets the type of the runbook.'
         output: true
         azure_sdk_references: ['/runbookType', '/properties/runbookType']
@@ -399,39 +399,39 @@ objects:
           - :GraphPowerShellWorkflow
           - :GraphPowerShell
       - !ruby/object:Api::Type::NestedObject
-        name: 'publishContentLink'
+        name: 'PublishContentLink'
         description: 'Gets or sets the published runbook content link.'
         output: true
         azure_sdk_references: ['/publishContentLink', '/properties/publishContentLink']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'uri'
+            name: 'URI'
             description: 'Gets or sets the uri of the runbook content.'
             output: true
             azure_sdk_references: ['/publishContentLink/uri', '/properties/publishContentLink/uri']
           - !ruby/object:Api::Type::NestedObject
-            name: 'contentHash'
+            name: 'ContentHash'
             description: 'Gets or sets the hash.'
             output: true
             azure_sdk_references: ['/publishContentLink/contentHash', '/properties/publishContentLink/contentHash']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'algorithm'
+                name: 'Algorithm'
                 description: 'Gets or sets the content hash algorithm used to hash the content.'
                 output: true
                 azure_sdk_references: ['/publishContentLink/contentHash/algorithm', '/properties/publishContentLink/contentHash/algorithm']
               - !ruby/object:Api::Type::String
-                name: 'value'
+                name: 'Value'
                 description: 'Gets or sets expected hash value of the content.'
                 output: true
                 azure_sdk_references: ['/publishContentLink/contentHash/value', '/properties/publishContentLink/contentHash/value']
           - !ruby/object:Api::Type::String
-            name: 'version'
+            name: 'Version'
             description: 'Gets or sets the version of the content.'
             output: true
             azure_sdk_references: ['/publishContentLink/version', '/properties/publishContentLink/version']
       - !ruby/object:Api::Type::Enum
-        name: 'state'
+        name: 'State'
         description: 'Gets or sets the state of the runbook.'
         output: true
         azure_sdk_references: ['/state', '/properties/state']
@@ -440,119 +440,119 @@ objects:
           - :Edit
           - :Published
       - !ruby/object:Api::Type::Integer
-        name: 'jobCount'
+        name: 'JobCount'
         description: 'Gets or sets the job count of the runbook.'
         output: true
         azure_sdk_references: ['/jobCount', '/properties/jobCount']
       - !ruby/object:Api::Type::KeyValuePairs
-        name: 'parameters'
+        name: 'Parameters'
         description: 'Gets or sets the runbook parameters.'
         output: true
         azure_sdk_references: ['/parameters', '/properties/parameters']
       - !ruby/object:Api::Type::Array
-        name: 'outputTypes'
+        name: 'OutputTypes'
         description: 'Gets or sets the runbook output types.'
         output: true
         azure_sdk_references: ['/outputTypes', '/properties/outputTypes']
         item_type: Api::Type::String
       - !ruby/object:Api::Type::NestedObject
-        name: 'draft'
+        name: 'Draft'
         description: 'Gets or sets the draft runbook properties.'
         output: true
         azure_sdk_references: ['/draft', '/properties/draft']
         properties:
           - !ruby/object:Api::Type::Boolean
-            name: 'inEdit'
+            name: 'InEdit'
             description: 'Gets or sets whether runbook is in edit mode.'
             output: true
             azure_sdk_references: ['/draft/inEdit', '/properties/draft/inEdit']
           - !ruby/object:Api::Type::NestedObject
-            name: 'draftContentLink'
+            name: 'DraftContentLink'
             description: 'Gets or sets the draft runbook content link.'
             output: true
             azure_sdk_references: ['/draft/draftContentLink', '/properties/draft/draftContentLink']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'uri'
+                name: 'URI'
                 description: 'Gets or sets the uri of the runbook content.'
                 output: true
                 azure_sdk_references: ['/draft/draftContentLink/uri', '/properties/draft/draftContentLink/uri']
               - !ruby/object:Api::Type::NestedObject
-                name: 'contentHash'
+                name: 'ContentHash'
                 description: 'Gets or sets the hash.'
                 output: true
                 azure_sdk_references: ['/draft/draftContentLink/contentHash', '/properties/draft/draftContentLink/contentHash']
                 properties:
                   - !ruby/object:Api::Type::String
-                    name: 'algorithm'
+                    name: 'Algorithm'
                     description: 'Gets or sets the content hash algorithm used to hash the content.'
                     output: true
                     azure_sdk_references: ['/draft/draftContentLink/contentHash/algorithm', '/properties/draft/draftContentLink/contentHash/algorithm']
                   - !ruby/object:Api::Type::String
-                    name: 'value'
+                    name: 'Value'
                     description: 'Gets or sets expected hash value of the content.'
                     output: true
                     azure_sdk_references: ['/draft/draftContentLink/contentHash/value', '/properties/draft/draftContentLink/contentHash/value']
               - !ruby/object:Api::Type::String
-                name: 'version'
+                name: 'Version'
                 description: 'Gets or sets the version of the content.'
                 output: true
                 azure_sdk_references: ['/draft/draftContentLink/version', '/properties/draft/draftContentLink/version']
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'creationTime'
+            name: 'CreationTime'
             description: 'Gets or sets the creation time of the runbook draft.'
             output: true
             azure_sdk_references: ['/draft/creationTime', '/properties/draft/creationTime']
           - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'lastModifiedTime'
+            name: 'LastModifiedTime'
             description: 'Gets or sets the last modified time of the runbook draft.'
             output: true
             azure_sdk_references: ['/draft/lastModifiedTime', '/properties/draft/lastModifiedTime']
           - !ruby/object:Api::Type::KeyValuePairs
-            name: 'parameters'
+            name: 'Parameters'
             description: 'Gets or sets the runbook draft parameters.'
             output: true
             azure_sdk_references: ['/draft/parameters', '/properties/draft/parameters']
           - !ruby/object:Api::Type::Array
-            name: 'outputTypes'
+            name: 'OutputTypes'
             description: 'Gets or sets the runbook output types.'
             output: true
             azure_sdk_references: ['/draft/outputTypes', '/properties/draft/outputTypes']
             item_type: Api::Type::String
       - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Gets or sets the provisioning state of the runbook.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
         values:
           - :Succeeded
       - !ruby/object:Api::Type::String
-        name: 'lastModifiedBy'
+        name: 'LastModifiedBy'
         description: 'Gets or sets the last modified by.'
         output: true
         azure_sdk_references: ['/lastModifiedBy', '/properties/lastModifiedBy']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
+        name: 'CreationTime'
         description: 'Gets or sets the creation time.'
         output: true
         azure_sdk_references: ['/creationTime', '/properties/creationTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModifiedTime'
+        name: 'LastModifiedTime'
         description: 'Gets or sets the last modified time.'
         output: true
         azure_sdk_references: ['/lastModifiedTime', '/properties/lastModifiedTime']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Fully qualified resource Id for the resource'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'Gets or sets the etag of the resource.'
         output: true
         azure_sdk_references: ['/etag']

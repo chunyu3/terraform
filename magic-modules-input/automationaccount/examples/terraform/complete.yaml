@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_automation_account
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  name: myAutomationAccount9
+  sku:
+    name: Free
+  location: '${azurerm_resource_group.<%= resource_id_hint -%>.location}'

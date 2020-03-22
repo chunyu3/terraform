@@ -29,22 +29,16 @@ func resourceArmSchedule() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "automation_account_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Optional: true,
-                ForceNew: true,
-            },
-
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "automation_account_name": {
+            "schedule_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -59,6 +53,12 @@ func resourceArmSchedule() *schema.Resource {
             "is_enabled": {
                 Type: schema.TypeBool,
                 Optional: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
             },
 
             "advanced_schedule": {
@@ -120,6 +120,11 @@ func resourceArmSchedule() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "interval": {
                 Type: schema.TypeInt,
                 Computed: true,
@@ -165,17 +170,18 @@ func resourceArmSchedule() *schema.Resource {
 
 func resourceArmScheduleCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).scheduleClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
+    name := d.Get("schedule_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+        existing, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Schedule %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Schedule (Schedule Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -183,9 +189,9 @@ func resourceArmScheduleCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
-    name := d.Get("name").(string)
     description := d.Get("description").(string)
     isEnabled := d.Get("is_enabled").(bool)
+    name := d.Get("name").(string)
 
     parameters := automation.ScheduleUpdateParameters{
         Name: utils.String(name),
@@ -196,17 +202,17 @@ func resourceArmScheduleCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Schedule %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Schedule (Schedule Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+    resp, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Schedule %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Schedule (Schedule Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Schedule %q (Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Schedule (Schedule Name %q / Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -215,30 +221,29 @@ func resourceArmScheduleCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmScheduleRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).scheduleClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
     name := id.Path["schedules"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+    resp, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Schedule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Schedule %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Schedule (Schedule Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if scheduleUpdateProperties := resp.ScheduleUpdateProperties; scheduleUpdateProperties != nil {
         if err := d.Set("advanced_schedule", flattenArmScheduleAdvancedSchedule(scheduleUpdateProperties.AdvancedSchedule)); err != nil {
             return fmt.Errorf("Error setting `advanced_schedule`: %+v", err)
@@ -258,6 +263,9 @@ func resourceArmScheduleRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("time_zone", scheduleUpdateProperties.TimeZone)
     }
     d.Set("automation_account_name", automationAccountName)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("schedule_name", name)
     d.Set("type", resp.Type)
 
     return nil
@@ -265,14 +273,15 @@ func resourceArmScheduleRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmScheduleUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).scheduleClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
     description := d.Get("description").(string)
     isEnabled := d.Get("is_enabled").(bool)
+    name := d.Get("name").(string)
+    name := d.Get("schedule_name").(string)
 
     parameters := automation.ScheduleUpdateParameters{
         Name: utils.String(name),
@@ -283,8 +292,8 @@ func resourceArmScheduleUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
-        return fmt.Errorf("Error updating Schedule %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Schedule (Schedule Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
     return resourceArmScheduleRead(d, meta)
@@ -292,19 +301,20 @@ func resourceArmScheduleUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmScheduleDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).scheduleClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
     name := id.Path["schedules"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name); err != nil {
-        return fmt.Errorf("Error deleting Schedule %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, automationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Schedule (Schedule Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
     return nil

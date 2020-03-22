@@ -29,25 +29,30 @@ func resourceArmServer() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "server_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "administrator_login_password": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "public_network_access": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(mariadb.Enabled),
+                    string(mariadb.Disabled),
+                }, false),
+                Default: string(mariadb.Enabled),
             },
 
             "replication_role": {
@@ -137,6 +142,8 @@ func resourceArmServer() *schema.Resource {
                 },
             },
 
+            "tags": tags.Schema(),
+
             "version": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -162,9 +169,68 @@ func resourceArmServer() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "master_server_id": {
                 Type: schema.TypeString,
                 Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "private_endpoint_connections": {
+                Type: schema.TypeList,
+                Computed: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "id": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                        "private_endpoint": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "id": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "private_link_service_connection_state": {
+                            Type: schema.TypeList,
+                            Computed: true,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "actions_required": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "description": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                    "status": {
+                                        Type: schema.TypeString,
+                                        Computed: true,
+                                    },
+                                },
+                            },
+                        },
+                        "provisioning_state": {
+                            Type: schema.TypeString,
+                            Computed: true,
+                        },
+                    },
+                },
             },
 
             "replica_capacity": {
@@ -181,24 +247,23 @@ func resourceArmServer() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).serversClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("server_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -208,42 +273,44 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     administratorLoginPassword := d.Get("administrator_login_password").(string)
+    publicNetworkAccess := d.Get("public_network_access").(string)
     replicationRole := d.Get("replication_role").(string)
     sku := d.Get("sku").([]interface{})
     sslEnforcement := d.Get("ssl_enforcement").(string)
     storageProfile := d.Get("storage_profile").([]interface{})
     version := d.Get("version").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := mariadb.ServerUpdateParameters{
         Location: utils.String(location),
         ServerUpdateParameters_properties: &mariadb.ServerUpdateParameters_properties{
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
+            PublicNetworkAccess: mariadb.PublicNetworkAccessEnum(publicNetworkAccess),
             ReplicationRole: utils.String(replicationRole),
             SslEnforcement: mariadb.SslEnforcementEnum(sslEnforcement),
             StorageProfile: expandArmServerStorageProfile(storageProfile),
             Version: mariadb.ServerVersion(version),
         },
         Sku: expandArmServerSku(sku),
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, name, parameters)
+    future, err := client.Create(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error creating Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Server %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Server (Server Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -252,29 +319,28 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).serversClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["servers"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Server %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -283,6 +349,10 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("earliest_restore_date", (serverUpdateParametersProperties.EarliestRestoreDate).String())
         d.Set("fully_qualified_domain_name", serverUpdateParametersProperties.FullyQualifiedDomainName)
         d.Set("master_server_id", serverUpdateParametersProperties.MasterServerID)
+        if err := d.Set("private_endpoint_connections", flattenArmServerServerPrivateEndpointConnection(serverUpdateParametersProperties.PrivateEndpointConnections)); err != nil {
+            return fmt.Errorf("Error setting `private_endpoint_connections`: %+v", err)
+        }
+        d.Set("public_network_access", string(serverUpdateParametersProperties.PublicNetworkAccess))
         d.Set("replica_capacity", int(*serverUpdateParametersProperties.ReplicaCapacity))
         d.Set("replication_role", serverUpdateParametersProperties.ReplicationRole)
         d.Set("ssl_enforcement", string(serverUpdateParametersProperties.SslEnforcement))
@@ -292,6 +362,9 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("user_visible_state", string(serverUpdateParametersProperties.UserVisibleState))
         d.Set("version", string(serverUpdateParametersProperties.Version))
     }
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("server_name", name)
     if err := d.Set("sku", flattenArmServerSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
     }
@@ -302,37 +375,42 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).serversClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     administratorLoginPassword := d.Get("administrator_login_password").(string)
+    publicNetworkAccess := d.Get("public_network_access").(string)
     replicationRole := d.Get("replication_role").(string)
+    name := d.Get("server_name").(string)
     sku := d.Get("sku").([]interface{})
     sslEnforcement := d.Get("ssl_enforcement").(string)
     storageProfile := d.Get("storage_profile").([]interface{})
     version := d.Get("version").(string)
-    t := d.Get("tags").(map[string]interface{})
+    tags := d.Get("tags").(map[string]interface{})
 
     parameters := mariadb.ServerUpdateParameters{
+        Location: utils.String(location),
         ServerUpdateParameters_properties: &mariadb.ServerUpdateParameters_properties{
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
+            PublicNetworkAccess: mariadb.PublicNetworkAccessEnum(publicNetworkAccess),
             ReplicationRole: utils.String(replicationRole),
             SslEnforcement: mariadb.SslEnforcementEnum(sslEnforcement),
             StorageProfile: expandArmServerStorageProfile(storageProfile),
             Version: mariadb.ServerVersion(version),
         },
         Sku: expandArmServerSku(sku),
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, name, parameters)
+    future, err := client.Update(ctx, resourceGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error updating Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return resourceArmServerRead(d, meta)
@@ -340,27 +418,28 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmServerDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).serversClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["servers"]
 
-    future, err := client.Delete(ctx, resourceGroup, name)
+    future, err := client.Delete(ctx, resourceGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error deleting Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Server %q (Resource Group %q): %+v", name, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Server (Server Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
         }
     }
 
@@ -375,14 +454,14 @@ func expandArmServerStorageProfile(input []interface{}) *mariadb.StorageProfile 
 
     backupRetentionDays := v["backup_retention_days"].(int)
     geoRedundantBackup := v["geo_redundant_backup"].(string)
-    storageMb := v["storage_mb"].(int)
+    storageMB := v["storage_mb"].(int)
     storageAutogrow := v["storage_autogrow"].(string)
 
     result := mariadb.StorageProfile{
         BackupRetentionDays: utils.Int(backupRetentionDays),
         GeoRedundantBackup: mariadb.GeoRedundantBackup(geoRedundantBackup),
         StorageAutogrow: mariadb.StorageAutogrow(storageAutogrow),
-        StorageMB: utils.Int32(int32(storageMb)),
+        StorageMB: utils.Int32(int32(storageMB)),
     }
     return &result
 }
@@ -410,6 +489,30 @@ func expandArmServerSku(input []interface{}) *mariadb.Sku {
 }
 
 
+func flattenArmServerServerPrivateEndpointConnection(input *[]mariadb.ServerPrivateEndpointConnection) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if id := item.ID; id != nil {
+            v["id"] = *id
+        }
+        if serverPrivateEndpointConnectionProperties := item.ServerPrivateEndpointConnectionProperties; serverPrivateEndpointConnectionProperties != nil {
+            v["private_endpoint"] = flattenArmServerPrivateEndpointProperty(serverPrivateEndpointConnectionProperties.PrivateEndpoint)
+            v["private_link_service_connection_state"] = flattenArmServerServerPrivateLinkServiceConnectionStateProperty(serverPrivateEndpointConnectionProperties.PrivateLinkServiceConnectionState)
+            v["provisioning_state"] = string(serverPrivateEndpointConnectionProperties.ProvisioningState)
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
 func flattenArmServerStorageProfile(input *mariadb.StorageProfile) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
@@ -436,19 +539,49 @@ func flattenArmServerSku(input *mariadb.Sku) []interface{} {
 
     result := make(map[string]interface{})
 
-    if name := input.Name; name != nil {
-        result["name"] = *name
-    }
     if capacity := input.Capacity; capacity != nil {
         result["capacity"] = int(*capacity)
     }
     if family := input.Family; family != nil {
         result["family"] = *family
     }
+    if name := input.Name; name != nil {
+        result["name"] = *name
+    }
     if size := input.Size; size != nil {
         result["size"] = *size
     }
     result["tier"] = string(input.Tier)
+
+    return []interface{}{result}
+}
+
+func flattenArmServerPrivateEndpointProperty(input *mariadb.PrivateEndpointProperty) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmServerServerPrivateLinkServiceConnectionStateProperty(input *mariadb.ServerPrivateLinkServiceConnectionStateProperty) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["actions_required"] = string(input.ActionsRequired)
+    if description := input.Description; description != nil {
+        result["description"] = *description
+    }
+    result["status"] = string(input.Status)
 
     return []interface{}{result}
 }

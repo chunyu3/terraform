@@ -45,6 +45,24 @@ func resourceArmServer() *schema.Resource {
                 Optional: true,
             },
 
+            "identity": {
+                Type: schema.TypeList,
+                Optional: true,
+                MaxItems: 1,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "type": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(postgresql.SystemAssigned),
+                            }, false),
+                            Default: string(postgresql.SystemAssigned),
+                        },
+                    },
+                },
+            },
+
             "minimal_tls_version": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -55,6 +73,16 @@ func resourceArmServer() *schema.Resource {
                     string(postgresql.TLSEnforcementDisabled),
                 }, false),
                 Default: string(postgresql.TLS1_0),
+            },
+
+            "public_network_access": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(postgresql.Enabled),
+                    string(postgresql.Disabled),
+                }, false),
+                Default: string(postgresql.Enabled),
             },
 
             "replication_role": {
@@ -185,27 +213,6 @@ func resourceArmServer() *schema.Resource {
                 Computed: true,
             },
 
-            "identity": {
-                Type: schema.TypeList,
-                Computed: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "principal_id": {
-                            Type: schema.TypeString,
-                            Computed: true,
-                        },
-                        "tenant_id": {
-                            Type: schema.TypeString,
-                            Computed: true,
-                        },
-                        "type": {
-                            Type: schema.TypeString,
-                            Computed: true,
-                        },
-                    },
-                },
-            },
-
             "infrastructure_encryption": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -270,11 +277,6 @@ func resourceArmServer() *schema.Resource {
                 },
             },
 
-            "public_network_access": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "replica_capacity": {
                 Type: schema.TypeInt,
                 Computed: true,
@@ -315,7 +317,9 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     administratorLoginPassword := d.Get("administrator_login_password").(string)
+    identity := d.Get("identity").([]interface{})
     minimalTLSVersion := d.Get("minimal_tls_version").(string)
+    publicNetworkAccess := d.Get("public_network_access").(string)
     replicationRole := d.Get("replication_role").(string)
     sku := d.Get("sku").([]interface{})
     sslEnforcement := d.Get("ssl_enforcement").(string)
@@ -324,10 +328,12 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
     tags := d.Get("tags").(map[string]interface{})
 
     parameters := postgresql.ServerUpdateParameters{
+        Identity: expandArmServerResourceIdentity(identity),
         Location: utils.String(location),
         ServerUpdateParameters_properties: &postgresql.ServerUpdateParameters_properties{
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
             MinimalTLSVersion: postgresql.MinimalTlsVersionEnum(minimalTLSVersion),
+            PublicNetworkAccess: postgresql.PublicNetworkAccessEnum(publicNetworkAccess),
             ReplicationRole: utils.String(replicationRole),
             SslEnforcement: postgresql.SslEnforcementEnum(sslEnforcement),
             StorageProfile: expandArmServerStorageProfile(storageProfile),
@@ -429,7 +435,9 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
       resourceGroupName := d.Get("resource_group").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     administratorLoginPassword := d.Get("administrator_login_password").(string)
+    identity := d.Get("identity").([]interface{})
     minimalTLSVersion := d.Get("minimal_tls_version").(string)
+    publicNetworkAccess := d.Get("public_network_access").(string)
     replicationRole := d.Get("replication_role").(string)
     name := d.Get("server_name").(string)
     sku := d.Get("sku").([]interface{})
@@ -439,10 +447,12 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
     tags := d.Get("tags").(map[string]interface{})
 
     parameters := postgresql.ServerUpdateParameters{
+        Identity: expandArmServerResourceIdentity(identity),
         Location: utils.String(location),
         ServerUpdateParameters_properties: &postgresql.ServerUpdateParameters_properties{
             AdministratorLoginPassword: utils.String(administratorLoginPassword),
             MinimalTLSVersion: postgresql.MinimalTlsVersionEnum(minimalTLSVersion),
+            PublicNetworkAccess: postgresql.PublicNetworkAccessEnum(publicNetworkAccess),
             ReplicationRole: utils.String(replicationRole),
             SslEnforcement: postgresql.SslEnforcementEnum(sslEnforcement),
             StorageProfile: expandArmServerStorageProfile(storageProfile),
@@ -492,6 +502,20 @@ func resourceArmServerDelete(d *schema.ResourceData, meta interface{}) error {
     }
 
     return nil
+}
+
+func expandArmServerResourceIdentity(input []interface{}) *postgresql.ResourceIdentity {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    type := v["type"].(string)
+
+    result := postgresql.ResourceIdentity{
+        Type: postgresql.IdentityType(type),
+    }
+    return &result
 }
 
 func expandArmServerStorageProfile(input []interface{}) *postgresql.StorageProfile {
@@ -587,12 +611,6 @@ func flattenArmServerResourceIdentity(input *postgresql.ResourceIdentity) []inte
 
     result := make(map[string]interface{})
 
-    if principalId := input.PrincipalID; principalId != nil {
-        result["principal_id"] = *principalId
-    }
-    if tenantId := input.TenantID; tenantId != nil {
-        result["tenant_id"] = *tenantId
-    }
     result["type"] = string(input.Type)
 
     return []interface{}{result}

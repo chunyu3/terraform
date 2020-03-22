@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_connection
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: automationaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  automation_account_name: myAutomationAccount28
+  name: mysConnection
+  description: my description goes here
+  field_definition_values:
+    AutomationCertificateName: mysCertificateName
+    SubscriptionID: subid
+  connection_type:
+    name: Azure

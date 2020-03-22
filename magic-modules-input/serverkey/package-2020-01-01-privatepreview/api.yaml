@@ -9,15 +9,15 @@ scopes:
 objects:
   - !ruby/object:Api::Resource
     name: ServerKey
-    api_name: DBforPostgreSQL
+    api_name: DBforMySQL
     base_url: NotUsedInAzure
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
-      provider_name: Microsoft.DBforPostgreSQL
-      go_client_namespace: postgresql
+      provider_name: Microsoft.DBforMySQL
+      go_client_namespace: mysql
       go_client: serverKeysClient
-      python_client_namespace: azure.mgmt.postgresql
-      python_client: PostgreSQLManagementClient.server_keys
+      python_client_namespace: azure.mgmt.mysql
+      python_client: MySQLManagementClient.server_keys
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: CreateOrUpdate
@@ -165,7 +165,7 @@ objects:
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Type::String
         name: 'KeyName'
-        description: 'The name of the PostgreSQL Server key to be deleted.'
+        description: 'The name of the MySQL Server key to be deleted.'
         required: true
         input: true
         azure_sdk_references: ['keyName']

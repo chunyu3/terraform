@@ -29,26 +29,14 @@ func resourceArmSoftwareUpdateConfiguration() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "automation_account_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "schedule_info": {
                 Type: schema.TypeList,
@@ -169,6 +157,13 @@ func resourceArmSoftwareUpdateConfiguration() *schema.Resource {
                         },
                     },
                 },
+            },
+
+            "software_update_configuration_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "update_configuration": {
@@ -435,12 +430,22 @@ func resourceArmSoftwareUpdateConfiguration() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "last_modified_by": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
             "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -460,18 +465,19 @@ func resourceArmSoftwareUpdateConfiguration() *schema.Resource {
 
 func resourceArmSoftwareUpdateConfigurationCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).softwareUpdateConfigurationsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
     clientRequestID := d.Get("client_request_id").(string)
+    name := d.Get("software_update_configuration_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.GetByName(ctx, resourceGroup, automationAccountName, name, clientRequestID)
+        existing, err := client.GetByName(ctx, resourceGroupName, automationAccountName, name, clientRequestID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Software Update Configuration %q (Client Request %q / Automation Account Name %q / Resource Group %q): %+v", name, clientRequestID, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Software Update Configuration (Client Request %q / Software Update Configuration Name %q / Automation Account Name %q / Resource Group %q): %+v", clientRequestID, name, automationAccountName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -494,17 +500,17 @@ func resourceArmSoftwareUpdateConfigurationCreateUpdate(d *schema.ResourceData, 
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, automationAccountName, name, parameters, clientRequestID); err != nil {
-        return fmt.Errorf("Error creating Software Update Configuration %q (Client Request %q / Automation Account Name %q / Resource Group %q): %+v", name, clientRequestID, automationAccountName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroupName, automationAccountName, name, parameters, clientRequestID); err != nil {
+        return fmt.Errorf("Error creating Software Update Configuration (Client Request %q / Software Update Configuration Name %q / Automation Account Name %q / Resource Group %q): %+v", clientRequestID, name, automationAccountName, resourceGroupName, err)
     }
 
 
-    resp, err := client.GetByName(ctx, resourceGroup, automationAccountName, name, clientRequestID)
+    resp, err := client.GetByName(ctx, resourceGroupName, automationAccountName, name, clientRequestID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Software Update Configuration %q (Client Request %q / Automation Account Name %q / Resource Group %q): %+v", name, clientRequestID, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Software Update Configuration (Client Request %q / Software Update Configuration Name %q / Automation Account Name %q / Resource Group %q): %+v", clientRequestID, name, automationAccountName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Software Update Configuration %q (Client Request %q / Automation Account Name %q / Resource Group %q) ID", name, clientRequestID, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Software Update Configuration (Client Request %q / Software Update Configuration Name %q / Automation Account Name %q / Resource Group %q) ID", clientRequestID, name, automationAccountName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -513,30 +519,29 @@ func resourceArmSoftwareUpdateConfigurationCreateUpdate(d *schema.ResourceData, 
 
 func resourceArmSoftwareUpdateConfigurationRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).softwareUpdateConfigurationsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
     name := id.Path["softwareUpdateConfigurations"]
 
-    resp, err := client.GetByName(ctx, resourceGroup, automationAccountName, name, clientRequestID)
+    resp, err := client.GetByName(ctx, resourceGroupName, automationAccountName, name, clientRequestID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Software Update Configuration %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Software Update Configuration %q (Client Request %q / Automation Account Name %q / Resource Group %q): %+v", name, clientRequestID, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Software Update Configuration (Client Request %q / Software Update Configuration Name %q / Automation Account Name %q / Resource Group %q): %+v", clientRequestID, name, automationAccountName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     d.Set("automation_account_name", automationAccountName)
     d.Set("client_request_id", clientRequestID)
     if softwareUpdateConfigurationProperties := resp.SoftwareUpdateConfigurationProperties; softwareUpdateConfigurationProperties != nil {
@@ -558,6 +563,9 @@ func resourceArmSoftwareUpdateConfigurationRead(d *schema.ResourceData, meta int
             return fmt.Errorf("Error setting `update_configuration`: %+v", err)
         }
     }
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("software_update_configuration_name", name)
     d.Set("type", resp.Type)
 
     return nil
@@ -566,19 +574,20 @@ func resourceArmSoftwareUpdateConfigurationRead(d *schema.ResourceData, meta int
 
 func resourceArmSoftwareUpdateConfigurationDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).softwareUpdateConfigurationsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
     name := id.Path["softwareUpdateConfigurations"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name, clientRequestID); err != nil {
-        return fmt.Errorf("Error deleting Software Update Configuration %q (Client Request %q / Automation Account Name %q / Resource Group %q): %+v", name, clientRequestID, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, automationAccountName, name, clientRequestID); err != nil {
+        return fmt.Errorf("Error deleting Software Update Configuration (Client Request %q / Software Update Configuration Name %q / Automation Account Name %q / Resource Group %q): %+v", clientRequestID, name, automationAccountName, resourceGroupName, err)
     }
 
     return nil
@@ -826,11 +835,11 @@ func expandArmSoftwareUpdateConfigurationNonAzureQueryProperties(input []interfa
     for _, item := range input {
         v := item.(map[string]interface{})
         functionAlias := v["function_alias"].(string)
-        workspaceId := v["workspace_id"].(string)
+        workspaceID := v["workspace_id"].(string)
 
         result := automation.NonAzureQueryProperties{
             FunctionAlias: utils.String(functionAlias),
-            WorkspaceID: utils.String(workspaceId),
+            WorkspaceID: utils.String(workspaceID),
         }
 
         results = append(results, result)
@@ -844,12 +853,12 @@ func expandArmSoftwareUpdateConfigurationTagSettingsProperties(input []interface
     }
     v := input[0].(map[string]interface{})
 
-    t := v["tags"].(map[string]interface{})
+    tags := v["tags"].(map[string]interface{})
     filterOperator := v["filter_operator"].(string)
 
     result := automation.TagSettingsProperties{
         FilterOperator: automation.TagOperators(filterOperator),
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
     return &result
 }

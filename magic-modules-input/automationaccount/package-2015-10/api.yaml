@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -82,7 +82,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -140,7 +140,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -154,7 +154,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -248,7 +248,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -260,25 +260,25 @@ objects:
       Manage Azure AutomationAccount instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'Name of an Azure Resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'AutomationAccountName'
         description: 'The name of the automation account.'
         required: true
         input: true
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::NestedObject
-        name: 'sku'
+        name: 'Sku'
         description: 'Gets or sets account SKU.'
         required: false
         azure_sdk_references: ['/sku', '/properties/sku']
         properties:
           - !ruby/object:Api::Type::Enum
-            name: 'name'
+            name: 'Name'
             description: 'Gets or sets the SKU name of the account.'
             required: true
             azure_sdk_references: ['/sku/name', '/properties/sku/name']
@@ -286,41 +286,41 @@ objects:
               - :Free
               - :Basic
           - !ruby/object:Api::Type::String
-            name: 'family'
+            name: 'Family'
             description: 'Gets or sets the SKU family.'
             required: false
             azure_sdk_references: ['/sku/family', '/properties/sku/family']
           - !ruby/object:Api::Type::Integer
-            name: 'capacity'
+            name: 'Capacity'
             description: 'Gets or sets the SKU capacity.'
             required: false
             azure_sdk_references: ['/sku/capacity', '/properties/sku/capacity']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Gets or sets name of the resource.'
         required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Gets or sets the location of the resource.'
         required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Gets or sets the tags attached to the resource.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'lastModifiedBy'
+        name: 'LastModifiedBy'
         description: 'Gets or sets the last modified by.'
         output: true
         azure_sdk_references: ['/lastModifiedBy', '/properties/lastModifiedBy']
       - !ruby/object:Api::Type::Enum
-        name: 'state'
+        name: 'State'
         description: 'Gets status of account.'
         output: true
         azure_sdk_references: ['/state', '/properties/state']
@@ -329,32 +329,32 @@ objects:
           - :Unavailable
           - :Suspended
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
+        name: 'CreationTime'
         description: 'Gets the creation time.'
         output: true
         azure_sdk_references: ['/creationTime', '/properties/creationTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModifiedTime'
+        name: 'LastModifiedTime'
         description: 'Gets the last modified time.'
         output: true
         azure_sdk_references: ['/lastModifiedTime', '/properties/lastModifiedTime']
       - !ruby/object:Api::Type::String
-        name: 'description'
+        name: 'Description'
         description: 'Gets or sets the description.'
         output: true
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Fully qualified resource Id for the resource'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Type::String
-        name: 'etag'
+        name: 'Etag'
         description: 'Gets or sets the etag of the resource.'
         output: true
         azure_sdk_references: ['/etag']

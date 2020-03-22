@@ -29,23 +29,14 @@ func resourceArmConnectionType() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "automation_account_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "connection_type_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -58,6 +49,15 @@ func resourceArmConnectionType() *schema.Resource {
                 Elem: &schema.Schema{Type: schema.TypeString},
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
             "is_global": {
                 Type: schema.TypeBool,
                 Optional: true,
@@ -69,6 +69,11 @@ func resourceArmConnectionType() *schema.Resource {
             },
 
             "description": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -88,17 +93,18 @@ func resourceArmConnectionType() *schema.Resource {
 
 func resourceArmConnectionTypeCreateUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).connectionTypeClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreateUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
+    name := d.Get("connection_type_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+        existing, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Connection Type %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -106,9 +112,9 @@ func resourceArmConnectionTypeCreateUpdate(d *schema.ResourceData, meta interfac
         }
     }
 
-    name := d.Get("name").(string)
     fieldDefinitions := d.Get("field_definitions").(map[string]interface{})
     isGlobal := d.Get("is_global").(bool)
+    name := d.Get("name").(string)
 
     parameters := automation.ConnectionTypeCreateOrUpdateParameters{
         Name: utils.String(name),
@@ -119,17 +125,17 @@ func resourceArmConnectionTypeCreateUpdate(d *schema.ResourceData, meta interfac
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Connection Type %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+    resp, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Connection Type %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Connection Type %q (Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -138,31 +144,31 @@ func resourceArmConnectionTypeCreateUpdate(d *schema.ResourceData, meta interfac
 
 func resourceArmConnectionTypeRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).connectionTypeClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
     name := id.Path["connectionTypes"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+    resp, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Connection Type %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Connection Type %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     d.Set("automation_account_name", automationAccountName)
+    d.Set("connection_type_name", name)
     if connectionTypeCreateOrUpdateProperties := resp.ConnectionTypeCreateOrUpdateProperties; connectionTypeCreateOrUpdateProperties != nil {
         d.Set("creation_time", (connectionTypeCreateOrUpdateProperties.CreationTime).String())
         d.Set("description", connectionTypeCreateOrUpdateProperties.Description)
@@ -170,6 +176,8 @@ func resourceArmConnectionTypeRead(d *schema.ResourceData, meta interface{}) err
         d.Set("is_global", connectionTypeCreateOrUpdateProperties.IsGlobal)
         d.Set("last_modified_time", (connectionTypeCreateOrUpdateProperties.LastModifiedTime).String())
     }
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return nil
@@ -178,19 +186,20 @@ func resourceArmConnectionTypeRead(d *schema.ResourceData, meta interface{}) err
 
 func resourceArmConnectionTypeDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).connectionTypeClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
     name := id.Path["connectionTypes"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name); err != nil {
-        return fmt.Errorf("Error deleting Connection Type %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, automationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
     return nil

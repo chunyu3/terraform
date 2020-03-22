@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -49,7 +49,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -74,7 +74,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -93,7 +93,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -199,7 +199,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -212,98 +212,98 @@ objects:
       Manage Azure Webhook instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'Name of an Azure Resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'automationAccountName'
+        name: 'AutomationAccountName'
         description: 'The name of the automation account.'
         required: true
         input: true
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'WebhookName'
         description: 'The webhook name.'
         required: true
         input: true
         azure_sdk_references: ['webhookName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Gets or sets the name of the webhook.'
         required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::Boolean
-        name: 'isEnabled'
+        name: 'IsEnabled'
         description: 'Gets or sets the value of the enabled flag of webhook.'
         required: false
         azure_sdk_references: ['/isEnabled', '/properties/isEnabled']
       - !ruby/object:Api::Type::String
-        name: 'runOn'
+        name: 'RunOn'
         description: 'Gets or sets the name of the hybrid worker group the webhook job will run on.'
         required: false
         azure_sdk_references: ['/runOn', '/properties/runOn']
       - !ruby/object:Api::Type::KeyValuePairs
-        name: 'parameters'
+        name: 'Parameters'
         description: 'Gets or sets the parameters of the job.'
         required: false
         azure_sdk_references: ['/parameters', '/properties/parameters']
       - !ruby/object:Api::Type::String
-        name: 'description'
+        name: 'Description'
         description: 'Gets or sets the description of the webhook.'
         required: false
         azure_sdk_references: ['/description', '/properties/description']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'uri'
+        name: 'URI'
         description: 'Gets or sets the webhook uri.'
         output: true
         azure_sdk_references: ['/uri', '/properties/uri']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'expiryTime'
+        name: 'ExpiryTime'
         description: 'Gets or sets the expiry time.'
         output: true
         azure_sdk_references: ['/expiryTime', '/properties/expiryTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastInvokedTime'
+        name: 'LastInvokedTime'
         description: 'Gets or sets the last invoked time.'
         output: true
         azure_sdk_references: ['/lastInvokedTime', '/properties/lastInvokedTime']
       - !ruby/object:Api::Type::NestedObject
-        name: 'runbook'
+        name: 'Runbook'
         description: 'Gets or sets the runbook the webhook is associated with.'
         output: true
         azure_sdk_references: ['/runbook', '/properties/runbook']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'name'
+            name: 'Name'
             description: 'Gets or sets the name of the runbook.'
             output: true
             azure_sdk_references: ['/runbook/name', '/properties/runbook/name']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
+        name: 'CreationTime'
         description: 'Gets or sets the creation time.'
         output: true
         azure_sdk_references: ['/creationTime', '/properties/creationTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModifiedTime'
+        name: 'LastModifiedTime'
         description: 'Gets or sets the last modified time.'
         output: true
         azure_sdk_references: ['/lastModifiedTime', '/properties/lastModifiedTime']
       - !ruby/object:Api::Type::String
-        name: 'lastModifiedBy'
+        name: 'LastModifiedBy'
         description: 'Details of the user who last modified the Webhook'
         output: true
         azure_sdk_references: ['/lastModifiedBy', '/properties/lastModifiedBy']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Fully qualified resource Id for the resource'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']

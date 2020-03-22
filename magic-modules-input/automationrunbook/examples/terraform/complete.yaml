@@ -1,0 +1,28 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_runbook
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: automationaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  automation_account_name: ContoseAutomationAccount
+  name: Get-AzureVMTutorial
+  description: Description of the Runbook
+  log_verbose: false
+  log_progress: true
+  log_activity_trace: '1'
+  runbook_type: PowerShellWorkflow
+  publish_content_link:
+    uri: >-
+      https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-automation-runbook-getvms/Runbooks/Get-AzureVMTutorial.ps1
+    content_hash:
+      algorithm: SHA256
+      value: 115775B8FF2BE672D8A946BD0B489918C724DDE15A440373CA54461D53010A80
+  location: '${azurerm_resource_group.<%= resource_id_hint -%>.location}'
+  tags:
+    tag01: value01
+    tag02: value02

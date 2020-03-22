@@ -29,27 +29,21 @@ func resourceArmConnection() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "name": {
-                Type: schema.TypeString,
-                Optional: true,
-                ForceNew: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
             "automation_account_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "connection_name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "description": {
                 Type: schema.TypeString,
@@ -60,6 +54,12 @@ func resourceArmConnection() *schema.Resource {
                 Type: schema.TypeMap,
                 Optional: true,
                 Elem: &schema.Schema{Type: schema.TypeString},
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
             },
 
             "connection_type": {
@@ -80,6 +80,11 @@ func resourceArmConnection() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "last_modified_time": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -95,17 +100,18 @@ func resourceArmConnection() *schema.Resource {
 
 func resourceArmConnectionCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).connectionClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
+    name := d.Get("connection_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+        existing, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Connection %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Connection (Connection Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -113,9 +119,9 @@ func resourceArmConnectionCreate(d *schema.ResourceData, meta interface{}) error
         }
     }
 
-    name := d.Get("name").(string)
     description := d.Get("description").(string)
     fieldDefinitionValues := d.Get("field_definition_values").(map[string]interface{})
+    name := d.Get("name").(string)
 
     parameters := automation.ConnectionUpdateParameters{
         Name: utils.String(name),
@@ -126,17 +132,17 @@ func resourceArmConnectionCreate(d *schema.ResourceData, meta interface{}) error
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Connection %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Connection (Connection Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+    resp, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Connection %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Connection (Connection Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Connection %q (Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Connection (Connection Name %q / Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -145,31 +151,31 @@ func resourceArmConnectionCreate(d *schema.ResourceData, meta interface{}) error
 
 func resourceArmConnectionRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).connectionClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
     name := id.Path["connections"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+    resp, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Connection %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Connection %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Connection (Connection Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     d.Set("automation_account_name", automationAccountName)
+    d.Set("connection_name", name)
     if connectionUpdateProperties := resp.ConnectionUpdateProperties; connectionUpdateProperties != nil {
         if err := d.Set("connection_type", flattenArmConnectionConnectionTypeAssociationProperty(connectionUpdateProperties.ConnectionType)); err != nil {
             return fmt.Errorf("Error setting `connection_type`: %+v", err)
@@ -179,6 +185,8 @@ func resourceArmConnectionRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("field_definition_values", utils.FlattenKeyValuePairs(connectionUpdateProperties.FieldDefinitionValues))
         d.Set("last_modified_time", (connectionUpdateProperties.LastModifiedTime).String())
     }
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return nil
@@ -186,14 +194,15 @@ func resourceArmConnectionRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmConnectionUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).connectionClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
+    name := d.Get("connection_name").(string)
     description := d.Get("description").(string)
     fieldDefinitionValues := d.Get("field_definition_values").(map[string]interface{})
+    name := d.Get("name").(string)
 
     parameters := automation.ConnectionUpdateParameters{
         Name: utils.String(name),
@@ -204,8 +213,8 @@ func resourceArmConnectionUpdate(d *schema.ResourceData, meta interface{}) error
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
-        return fmt.Errorf("Error updating Connection %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Connection (Connection Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
     return resourceArmConnectionRead(d, meta)
@@ -213,19 +222,20 @@ func resourceArmConnectionUpdate(d *schema.ResourceData, meta interface{}) error
 
 func resourceArmConnectionDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).connectionClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
     name := id.Path["connections"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name); err != nil {
-        return fmt.Errorf("Error deleting Connection %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, automationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Connection (Connection Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
     return nil

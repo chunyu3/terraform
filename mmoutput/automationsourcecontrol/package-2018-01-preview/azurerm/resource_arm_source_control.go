@@ -29,21 +29,16 @@ func resourceArmSourceControl() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "automation_account_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "automation_account_name": {
+            "source_control_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -107,7 +102,17 @@ func resourceArmSourceControl() *schema.Resource {
                 Computed: true,
             },
 
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -132,17 +137,18 @@ func resourceArmSourceControl() *schema.Resource {
 
 func resourceArmSourceControlCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).sourceControlClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
+    name := d.Get("source_control_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+        existing, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Source Control %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Source Control (Source Control Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -169,17 +175,17 @@ func resourceArmSourceControlCreate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
-        return fmt.Errorf("Error creating Source Control %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroupName, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Source Control (Source Control Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+    resp, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Source Control %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Source Control (Source Control Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Source Control %q (Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Source Control (Source Control Name %q / Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -188,30 +194,29 @@ func resourceArmSourceControlCreate(d *schema.ResourceData, meta interface{}) er
 
 func resourceArmSourceControlRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).sourceControlClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
     name := id.Path["sourceControls"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
+    resp, err := client.Get(ctx, resourceGroupName, automationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Source Control %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Source Control %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Source Control (Source Control Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if sourceControlUpdateProperties := resp.SourceControlUpdateProperties; sourceControlUpdateProperties != nil {
         d.Set("auto_sync", sourceControlUpdateProperties.AutoSync)
         d.Set("branch", sourceControlUpdateProperties.Branch)
@@ -224,6 +229,9 @@ func resourceArmSourceControlRead(d *schema.ResourceData, meta interface{}) erro
         d.Set("source_type", string(sourceControlUpdateProperties.SourceType))
     }
     d.Set("automation_account_name", automationAccountName)
+    d.Set("id", resp.ID)
+    d.Set("name", resp.Name)
+    d.Set("source_control_name", name)
     d.Set("type", resp.Type)
 
     return nil
@@ -231,10 +239,10 @@ func resourceArmSourceControlRead(d *schema.ResourceData, meta interface{}) erro
 
 func resourceArmSourceControlUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).sourceControlClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
     autoSync := d.Get("auto_sync").(bool)
     automationAccountName := d.Get("automation_account_name").(string)
     branch := d.Get("branch").(string)
@@ -242,6 +250,7 @@ func resourceArmSourceControlUpdate(d *schema.ResourceData, meta interface{}) er
     folderPath := d.Get("folder_path").(string)
     publishRunbook := d.Get("publish_runbook").(bool)
     securityToken := d.Get("security_token").([]interface{})
+    name := d.Get("source_control_name").(string)
 
     parameters := automation.SourceControlUpdateParameters{
         SourceControlUpdateProperties: &automation.SourceControlUpdateProperties{
@@ -255,8 +264,8 @@ func resourceArmSourceControlUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
-        return fmt.Errorf("Error updating Source Control %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Source Control (Source Control Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
     return resourceArmSourceControlRead(d, meta)
@@ -264,19 +273,20 @@ func resourceArmSourceControlUpdate(d *schema.ResourceData, meta interface{}) er
 
 func resourceArmSourceControlDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).sourceControlClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
     name := id.Path["sourceControls"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name); err != nil {
-        return fmt.Errorf("Error deleting Source Control %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, automationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Source Control (Source Control Name %q / Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroupName, err)
     }
 
     return nil

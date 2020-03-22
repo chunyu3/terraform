@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -85,7 +85,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -104,7 +104,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -146,7 +146,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -159,47 +159,47 @@ objects:
       Manage Azure DscNodeConfiguration instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'Name of an Azure Resource group.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'automationAccountName'
+        name: 'AutomationAccountName'
         description: 'The name of the automation account.'
         required: true
         input: true
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'NodeConfigurationName'
         description: 'The create or update parameters for configuration.'
         required: true
         input: true
         azure_sdk_references: ['nodeConfigurationName']
       - !ruby/object:Api::Type::NestedObject
-        name: 'source'
+        name: 'Source'
         description: 'Gets or sets the source.'
         required: true
         azure_sdk_references: ['/source']
         properties:
           - !ruby/object:Api::Type::NestedObject
-            name: 'hash'
+            name: 'Hash'
             description: 'Gets or sets the hash.'
             required: false
             azure_sdk_references: ['/source/hash']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'algorithm'
+                name: 'Algorithm'
                 description: 'Gets or sets the content hash algorithm used to hash the content.'
                 required: true
                 azure_sdk_references: ['/source/hash/algorithm']
               - !ruby/object:Api::Type::String
-                name: 'value'
+                name: 'Value'
                 description: 'Gets or sets expected hash value of the content.'
                 required: true
                 azure_sdk_references: ['/source/hash/value']
           - !ruby/object:Api::Type::Enum
-            name: 'type'
+            name: 'Type'
             description: 'Gets or sets the content source type.'
             required: false
             azure_sdk_references: ['/source/type']
@@ -208,56 +208,56 @@ objects:
               - :uri
             default_value: :embeddedContent
           - !ruby/object:Api::Type::String
-            name: 'value'
+            name: 'Value'
             description: 'Gets or sets the value of the content. This is based on the content source type.'
             required: false
             azure_sdk_references: ['/source/value']
           - !ruby/object:Api::Type::String
-            name: 'version'
+            name: 'Version'
             description: 'Gets or sets the version of the content.'
             required: false
             azure_sdk_references: ['/source/version']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Name of the node configuration.'
         required: true
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::NestedObject
-        name: 'configuration'
+        name: 'Configuration'
         description: 'Gets or sets the configuration of the node.'
         required: true
         azure_sdk_references: ['/configuration']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'name'
+            name: 'Name'
             description: 'Gets or sets the name of the Dsc configuration.'
             required: false
             azure_sdk_references: ['/configuration/name']
       - !ruby/object:Api::Type::Boolean
-        name: 'incrementNodeConfigurationBuild'
+        name: 'IncrementNodeConfigurationBuild'
         description: 'If a new build version of NodeConfiguration is required.'
         required: false
         input: true
         azure_sdk_references: ['/incrementNodeConfigurationBuild']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Fully qualified resource Id for the resource'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModifiedTime'
+        name: 'LastModifiedTime'
         description: 'Gets or sets the last modified time.'
         output: true
         azure_sdk_references: ['/lastModifiedTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
+        name: 'CreationTime'
         description: 'Gets or sets creation time.'
         output: true
         azure_sdk_references: ['/creationTime']
