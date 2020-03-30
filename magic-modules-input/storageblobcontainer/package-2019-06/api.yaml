@@ -179,6 +179,18 @@ objects:
             applicable_to: [go]
             go_field_name: ImmutabilityPolicyProperty
             go_type_name: ImmutabilityPolicyProperty
+          '/properties/defaultEncryptionScope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultEncryptionScope
+          '/defaultEncryptionScope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_encryption_scope
+          '/properties/denyEncryptionScopeOverride': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DenyEncryptionScopeOverride
+          '/denyEncryptionScopeOverride': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: deny_encryption_scope_override
           '/properties/publicAccess': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: PublicAccess
@@ -469,6 +481,16 @@ objects:
         input: true
         azure_sdk_references: ['/proposedLeaseId']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'DefaultEncryptionScope'
+        description: 'Default the container to use specified encryption scope for all writes.'
+        output: true
+        azure_sdk_references: ['/defaultEncryptionScope', '/properties/defaultEncryptionScope']
+      - !ruby/object:Api::Type::Boolean
+        name: 'DenyEncryptionScopeOverride'
+        description: 'Block override of encryption scope from the container default.'
+        output: true
+        azure_sdk_references: ['/denyEncryptionScopeOverride', '/properties/denyEncryptionScopeOverride']
       - !ruby/object:Api::Type::Enum
         name: 'PublicAccess'
         description: 'Specifies whether data in the container may be accessed publicly and the level of access.'

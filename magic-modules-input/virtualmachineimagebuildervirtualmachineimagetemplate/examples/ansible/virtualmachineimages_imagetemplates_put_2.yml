@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_virtualmachineimagebuildervirtualmachineimagetemplate
+  description: Create an Image Template with a user assigned identity configured
+  code:
+    resource_group: myResourceGroup
+    customize:
+      - name: Shell Customizer Example
+    distribute:
+      - run_output_name: image_it_pir_1
+        artifact_tags:
+          tagName: value
+    image_template_name: myImageTemplate
+  
