@@ -1,6 +1,6 @@
 --- !ruby/object:Provider::Azure::Terraform::Config
 overrides: !ruby/object:Overrides::ResourceOverrides
-  Job: !ruby/object:Provider::Azure::Terraform::ResourceOverride
+  ApplicationType: !ruby/object:Provider::Azure::Terraform::ResourceOverride
     # azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinitionOverride
     properties: {}
     acctests:
@@ -19,9 +19,10 @@ overrides: !ruby/object:Overrides::ResourceOverrides
         example_name: basic
         resource_name_hints:
           resourceGroups: example-resource-group
-          jobs: example-job
+          clusters: example-cluster
+          applicationTypes: example-application-type
 datasources: !ruby/object:Overrides::ResourceOverrides
-  Job: !ruby/object:Provider::Azure::Terraform::ResourceOverride
+  ApplicationType: !ruby/object:Provider::Azure::Terraform::ResourceOverride
     acctests:
       - !ruby/object:Provider::Azure::Terraform::AccTestDefinition
         name: basic
@@ -35,6 +36,7 @@ datasources: !ruby/object:Overrides::ResourceOverrides
         example_name: basic
         resource_name_hints:
           resourceGroups: example-resource-group
-          jobs: example-job
+          clusters: example-cluster
+          applicationTypes: example-application-type
     datasource_example_outputs:
-      job_id: id
+      application_type_id: id

@@ -20,8 +20,8 @@ objects:
       python_client: ServiceFabricManagementClient.clusters
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
-        go_func_name: Create
-        python_func_name: create
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourcegroups
@@ -2010,7 +2010,7 @@ objects:
             azure_sdk_references: ['/diagnosticsStorageAccountConfig/protectedAccountKeyName', '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName']
           - !ruby/object:Api::Type::String
             name: 'ProtectedAccountKeyName2'
-            description: 'The secondary protected diagnostics storage key name. If one of the storage account keys is rotated the cluster will fallback to using the other.'
+            description: 'The secondary protected diagnostics storage key name.'
             output: true
             azure_sdk_references: ['/diagnosticsStorageAccountConfig/protectedAccountKeyName2', '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName2']
           - !ruby/object:Api::Type::String

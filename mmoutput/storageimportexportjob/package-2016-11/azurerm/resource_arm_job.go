@@ -29,19 +29,12 @@ func resourceArmJob() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "name": {
+            "job_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "name": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
@@ -202,6 +195,8 @@ func resourceArmJob() *schema.Resource {
                 Type: schema.TypeString,
                 Optional: true,
             },
+
+            "location": azure.SchemaLocation(),
 
             "log_level": {
                 Type: schema.TypeString,
@@ -373,6 +368,18 @@ func resourceArmJob() *schema.Resource {
                 Optional: true,
             },
 
+            "tags": tags.Schema(),
+
+            "id": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -382,24 +389,23 @@ func resourceArmJob() *schema.Resource {
                 Type: schema.TypeString,
                 Computed: true,
             },
-
-            "tags": tags.Schema(),
         },
     }
 }
 
 func resourceArmJobCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForCreate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+    resourceGroupName := d.Get("resource_group").(string)
+    name := d.Get("job_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name)
+        existing, err := client.Get(ctx, resourceGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Job %q (Resource Group %q): %+v", name, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Job (Job Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -414,7 +420,7 @@ func resourceArmJobCreate(d *schema.ResourceData, meta interface{}) error {
     diagnosticsPath := d.Get("diagnostics_path").(string)
     driveList := d.Get("drive_list").([]interface{})
     export := d.Get("export").([]interface{})
-    incompleteBlobListUri := d.Get("incomplete_blob_list_uri").(string)
+    incompleteBlobListURI := d.Get("incomplete_blob_list_uri").(string)
     jobType := d.Get("job_type").(string)
     logLevel := d.Get("log_level").(string)
     percentComplete := d.Get("percent_complete").(int)
@@ -423,8 +429,8 @@ func resourceArmJobCreate(d *schema.ResourceData, meta interface{}) error {
     returnShipping := d.Get("return_shipping").([]interface{})
     shippingInformation := d.Get("shipping_information").([]interface{})
     state := d.Get("state").(string)
-    storageAccountId := d.Get("storage_account_id").(string)
-    t := d.Get("tags").(map[string]interface{})
+    storageAccountID := d.Get("storage_account_id").(string)
+    tags := d.Get("tags").(map[string]interface{})
 
     body := storageimportexport.PutJobParameters{
         Location: utils.String(location),
@@ -435,7 +441,7 @@ func resourceArmJobCreate(d *schema.ResourceData, meta interface{}) error {
             DiagnosticsPath: utils.String(diagnosticsPath),
             DriveList: expandArmJobDriveStatus(driveList),
             Export: expandArmJobExport(export),
-            IncompleteBlobListURI: utils.String(incompleteBlobListUri),
+            IncompleteBlobListURI: utils.String(incompleteBlobListURI),
             JobType: utils.String(jobType),
             LogLevel: utils.String(logLevel),
             PercentComplete: utils.Int(percentComplete),
@@ -444,23 +450,23 @@ func resourceArmJobCreate(d *schema.ResourceData, meta interface{}) error {
             ReturnShipping: expandArmJobReturnShipping(returnShipping),
             ShippingInformation: expandArmJobShippingInformation(shippingInformation),
             State: utils.String(state),
-            StorageAccountID: utils.String(storageAccountId),
+            StorageAccountID: utils.String(storageAccountID),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, name, body); err != nil {
-        return fmt.Errorf("Error creating Job %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroupName, name, body); err != nil {
+        return fmt.Errorf("Error creating Job (Job Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Job %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Job (Job Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Job %q (Resource Group %q) ID", name, resourceGroup)
+        return fmt.Errorf("Cannot read Job (Job Name %q / Resource Group %q) ID", name, resourceGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -469,29 +475,28 @@ func resourceArmJobCreate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmJobRead(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForRead(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["jobs"]
 
-    resp, err := client.Get(ctx, resourceGroup, name)
+    resp, err := client.Get(ctx, resourceGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Job %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Job %q (Resource Group %q): %+v", name, resourceGroup, err)
+        return fmt.Errorf("Error reading Job (Job Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
 
-    d.Set("name", name)
-    d.Set("name", resp.Name)
-    d.Set("resource_group", resourceGroup)
+    d.Set("resource_group", resourceGroupName)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
@@ -528,6 +533,9 @@ func resourceArmJobRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("state", jobDetails.State)
         d.Set("storage_account_id", jobDetails.StorageAccountID)
     }
+    d.Set("id", resp.ID)
+    d.Set("job_name", name)
+    d.Set("name", resp.Name)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -535,17 +543,19 @@ func resourceArmJobRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForUpdate(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
-    name := d.Get("name").(string)
-    resourceGroup := d.Get("resource_group").(string)
+      resourceGroupName := d.Get("resource_group").(string)
+    location := azure.NormalizeLocation(d.Get("location").(string))
     backupDriveManifest := d.Get("backup_drive_manifest").(bool)
     cancelRequested := d.Get("cancel_requested").(bool)
     deliveryPackage := d.Get("delivery_package").([]interface{})
     diagnosticsPath := d.Get("diagnostics_path").(string)
     driveList := d.Get("drive_list").([]interface{})
     export := d.Get("export").([]interface{})
-    incompleteBlobListUri := d.Get("incomplete_blob_list_uri").(string)
+    incompleteBlobListURI := d.Get("incomplete_blob_list_uri").(string)
+    name := d.Get("job_name").(string)
     jobType := d.Get("job_type").(string)
     logLevel := d.Get("log_level").(string)
     percentComplete := d.Get("percent_complete").(int)
@@ -554,10 +564,11 @@ func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
     returnShipping := d.Get("return_shipping").([]interface{})
     shippingInformation := d.Get("shipping_information").([]interface{})
     state := d.Get("state").(string)
-    storageAccountId := d.Get("storage_account_id").(string)
-    t := d.Get("tags").(map[string]interface{})
+    storageAccountID := d.Get("storage_account_id").(string)
+    tags := d.Get("tags").(map[string]interface{})
 
     body := storageimportexport.PutJobParameters{
+        Location: utils.String(location),
         JobDetails: &storageimportexport.JobDetails{
             BackupDriveManifest: utils.Bool(backupDriveManifest),
             CancelRequested: utils.Bool(cancelRequested),
@@ -565,7 +576,7 @@ func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
             DiagnosticsPath: utils.String(diagnosticsPath),
             DriveList: expandArmJobDriveStatus(driveList),
             Export: expandArmJobExport(export),
-            IncompleteBlobListURI: utils.String(incompleteBlobListUri),
+            IncompleteBlobListURI: utils.String(incompleteBlobListURI),
             JobType: utils.String(jobType),
             LogLevel: utils.String(logLevel),
             PercentComplete: utils.Int(percentComplete),
@@ -574,14 +585,14 @@ func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
             ReturnShipping: expandArmJobReturnShipping(returnShipping),
             ShippingInformation: expandArmJobShippingInformation(shippingInformation),
             State: utils.String(state),
-            StorageAccountID: utils.String(storageAccountId),
+            StorageAccountID: utils.String(storageAccountID),
         },
-        Tags: tags.Expand(t),
+        Tags: tags.Expand(tags),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, name, body); err != nil {
-        return fmt.Errorf("Error updating Job %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroupName, name, body); err != nil {
+        return fmt.Errorf("Error updating Job (Job Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return resourceArmJobRead(d, meta)
@@ -589,18 +600,19 @@ func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceArmJobDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobsClient
-    ctx := meta.(*ArmClient).StopContext
+    ctx, cancel := timeouts.ForDelete(meta.(*ArmClient).StopContext, d)
+    defer cancel()
 
 
     id, err := azure.ParseAzureResourceID(d.Id())
     if err != nil {
         return err
     }
-    resourceGroup := id.ResourceGroup
+    resourceGroupName := id.ResourceGroup
     name := id.Path["jobs"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
-        return fmt.Errorf("Error deleting Job %q (Resource Group %q): %+v", name, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroupName, name); err != nil {
+        return fmt.Errorf("Error deleting Job (Job Name %q / Resource Group %q): %+v", name, resourceGroupName, err)
     }
 
     return nil
@@ -630,7 +642,7 @@ func expandArmJobDriveStatus(input []interface{}) *[]storageimportexport.DriveSt
     results := make([]storageimportexport.DriveStatus, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
-        driveId := v["drive_id"].(string)
+        driveID := v["drive_id"].(string)
         bitLockerKey := v["bit_locker_key"].(string)
         manifestFile := v["manifest_file"].(string)
         manifestHash := v["manifest_hash"].(string)
@@ -638,9 +650,9 @@ func expandArmJobDriveStatus(input []interface{}) *[]storageimportexport.DriveSt
         state := v["state"].(string)
         copyStatus := v["copy_status"].(string)
         percentComplete := v["percent_complete"].(int)
-        verboseLogUri := v["verbose_log_uri"].(string)
-        errorLogUri := v["error_log_uri"].(string)
-        manifestUri := v["manifest_uri"].(string)
+        verboseLogURI := v["verbose_log_uri"].(string)
+        errorLogURI := v["error_log_uri"].(string)
+        manifestURI := v["manifest_uri"].(string)
         bytesSucceeded := v["bytes_succeeded"].(int)
 
         result := storageimportexport.DriveStatus{
@@ -648,14 +660,14 @@ func expandArmJobDriveStatus(input []interface{}) *[]storageimportexport.DriveSt
             BytesSucceeded: utils.Int64(int64(bytesSucceeded)),
             CopyStatus: utils.String(copyStatus),
             DriveHeaderHash: utils.String(driveHeaderHash),
-            DriveID: utils.String(driveId),
-            ErrorLogURI: utils.String(errorLogUri),
+            DriveID: utils.String(driveID),
+            ErrorLogURI: utils.String(errorLogURI),
             ManifestFile: utils.String(manifestFile),
             ManifestHash: utils.String(manifestHash),
-            ManifestURI: utils.String(manifestUri),
+            ManifestURI: utils.String(manifestURI),
             PercentComplete: utils.Int(percentComplete),
             State: storageimportexport.DriveState(state),
-            VerboseLogURI: utils.String(verboseLogUri),
+            VerboseLogURI: utils.String(verboseLogURI),
         }
 
         results = append(results, result)

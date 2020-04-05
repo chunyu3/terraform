@@ -24,7 +24,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -416,7 +416,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -808,7 +808,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -822,7 +822,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -1225,7 +1225,7 @@ objects:
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
-            go_variable_name: resourceGroup
+            go_variable_name: resourceGroupName
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -1237,267 +1237,267 @@ objects:
       Manage Azure Job instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
-        name: 'resourceGroup'
+        name: 'ResourceGroup'
         description: 'The resource group name uniquely identifies the resource group within the user subscription.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'JobName'
         description: 'The name of the import/export job.'
         required: true
         input: true
         azure_sdk_references: ['jobName']
       - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
+        name: 'Tags'
         description: 'Specifies the tags that will be assigned to the job.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
-        name: 'storageAccountId'
+        name: 'StorageAccountID'
         description: 'The resource identifier of the storage account where data will be imported to or exported from.'
         required: false
         azure_sdk_references: ['/storageAccountId', '/properties/storageAccountId']
       - !ruby/object:Api::Type::String
-        name: 'jobType'
+        name: 'JobType'
         description: 'The type of job'
         required: false
         azure_sdk_references: ['/jobType', '/properties/jobType']
       - !ruby/object:Api::Type::NestedObject
-        name: 'returnAddress'
+        name: 'ReturnAddress'
         description: 'Specifies the return address information for the job. '
         required: false
         azure_sdk_references: ['/returnAddress', '/properties/returnAddress']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'recipientName'
+            name: 'RecipientName'
             description: 'The name of the recipient who will receive the hard drives when they are returned. '
             required: true
             azure_sdk_references: ['/returnAddress/recipientName', '/properties/returnAddress/recipientName']
           - !ruby/object:Api::Type::String
-            name: 'streetAddress1'
+            name: 'StreetAddress1'
             description: 'The first line of the street address to use when returning the drives. '
             required: true
             azure_sdk_references: ['/returnAddress/streetAddress1', '/properties/returnAddress/streetAddress1']
           - !ruby/object:Api::Type::String
-            name: 'streetAddress2'
+            name: 'StreetAddress2'
             description: 'The second line of the street address to use when returning the drives. '
             required: false
             azure_sdk_references: ['/returnAddress/streetAddress2', '/properties/returnAddress/streetAddress2']
           - !ruby/object:Api::Type::String
-            name: 'city'
+            name: 'City'
             description: 'The city name to use when returning the drives.'
             required: true
             azure_sdk_references: ['/returnAddress/city', '/properties/returnAddress/city']
           - !ruby/object:Api::Type::String
-            name: 'stateOrProvince'
+            name: 'StateOrProvince'
             description: 'The state or province to use when returning the drives.'
             required: false
             azure_sdk_references: ['/returnAddress/stateOrProvince', '/properties/returnAddress/stateOrProvince']
           - !ruby/object:Api::Type::String
-            name: 'postalCode'
+            name: 'PostalCode'
             description: 'The postal code to use when returning the drives.'
             required: true
             azure_sdk_references: ['/returnAddress/postalCode', '/properties/returnAddress/postalCode']
           - !ruby/object:Api::Type::String
-            name: 'countryOrRegion'
+            name: 'CountryOrRegion'
             description: 'The country or region to use when returning the drives. '
             required: true
             azure_sdk_references: ['/returnAddress/countryOrRegion', '/properties/returnAddress/countryOrRegion']
           - !ruby/object:Api::Type::String
-            name: 'phone'
+            name: 'Phone'
             description: 'Phone number of the recipient of the returned drives.'
             required: true
             azure_sdk_references: ['/returnAddress/phone', '/properties/returnAddress/phone']
           - !ruby/object:Api::Type::String
-            name: 'email'
+            name: 'Email'
             description: 'Email address of the recipient of the returned drives.'
             required: true
             azure_sdk_references: ['/returnAddress/email', '/properties/returnAddress/email']
       - !ruby/object:Api::Type::NestedObject
-        name: 'returnShipping'
+        name: 'ReturnShipping'
         description: 'Specifies the return carrier and customer''s account with the carrier. '
         required: false
         azure_sdk_references: ['/returnShipping', '/properties/returnShipping']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'carrierName'
+            name: 'CarrierName'
             description: 'The carrier''s name.'
             required: true
             azure_sdk_references: ['/returnShipping/carrierName', '/properties/returnShipping/carrierName']
           - !ruby/object:Api::Type::String
-            name: 'carrierAccountNumber'
+            name: 'CarrierAccountNumber'
             description: 'The customer''s account number with the carrier.'
             required: true
             azure_sdk_references: ['/returnShipping/carrierAccountNumber', '/properties/returnShipping/carrierAccountNumber']
       - !ruby/object:Api::Type::NestedObject
-        name: 'shippingInformation'
+        name: 'ShippingInformation'
         description: 'Contains information about the Microsoft datacenter to which the drives should be shipped. '
         required: false
         azure_sdk_references: ['/shippingInformation', '/properties/shippingInformation']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'recipientName'
+            name: 'RecipientName'
             description: 'The name of the recipient who will receive the hard drives when they are returned. '
             required: true
             azure_sdk_references: ['/shippingInformation/recipientName', '/properties/shippingInformation/recipientName']
           - !ruby/object:Api::Type::String
-            name: 'streetAddress1'
+            name: 'StreetAddress1'
             description: 'The first line of the street address to use when returning the drives. '
             required: true
             azure_sdk_references: ['/shippingInformation/streetAddress1', '/properties/shippingInformation/streetAddress1']
           - !ruby/object:Api::Type::String
-            name: 'streetAddress2'
+            name: 'StreetAddress2'
             description: 'The second line of the street address to use when returning the drives. '
             required: false
             azure_sdk_references: ['/shippingInformation/streetAddress2', '/properties/shippingInformation/streetAddress2']
           - !ruby/object:Api::Type::String
-            name: 'city'
+            name: 'City'
             description: 'The city name to use when returning the drives.'
             required: true
             azure_sdk_references: ['/shippingInformation/city', '/properties/shippingInformation/city']
           - !ruby/object:Api::Type::String
-            name: 'stateOrProvince'
+            name: 'StateOrProvince'
             description: 'The state or province to use when returning the drives.'
             required: true
             azure_sdk_references: ['/shippingInformation/stateOrProvince', '/properties/shippingInformation/stateOrProvince']
           - !ruby/object:Api::Type::String
-            name: 'postalCode'
+            name: 'PostalCode'
             description: 'The postal code to use when returning the drives.'
             required: true
             azure_sdk_references: ['/shippingInformation/postalCode', '/properties/shippingInformation/postalCode']
           - !ruby/object:Api::Type::String
-            name: 'countryOrRegion'
+            name: 'CountryOrRegion'
             description: 'The country or region to use when returning the drives. '
             required: true
             azure_sdk_references: ['/shippingInformation/countryOrRegion', '/properties/shippingInformation/countryOrRegion']
           - !ruby/object:Api::Type::String
-            name: 'phone'
+            name: 'Phone'
             description: 'Phone number of the recipient of the returned drives.'
             required: false
             azure_sdk_references: ['/shippingInformation/phone', '/properties/shippingInformation/phone']
       - !ruby/object:Api::Type::NestedObject
-        name: 'deliveryPackage'
+        name: 'DeliveryPackage'
         description: 'Contains information about the package being shipped by the customer to the Microsoft data center. '
         required: false
         azure_sdk_references: ['/deliveryPackage', '/properties/deliveryPackage']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'carrierName'
+            name: 'CarrierName'
             description: 'The name of the carrier that is used to ship the import or export drives.'
             required: true
             azure_sdk_references: ['/deliveryPackage/carrierName', '/properties/deliveryPackage/carrierName']
           - !ruby/object:Api::Type::String
-            name: 'trackingNumber'
+            name: 'TrackingNumber'
             description: 'The tracking number of the package.'
             required: true
             azure_sdk_references: ['/deliveryPackage/trackingNumber', '/properties/deliveryPackage/trackingNumber']
           - !ruby/object:Api::Type::Integer
-            name: 'driveCount'
+            name: 'DriveCount'
             description: 'The number of drives included in the package.'
             required: true
             azure_sdk_references: ['/deliveryPackage/driveCount', '/properties/deliveryPackage/driveCount']
           - !ruby/object:Api::Type::String
-            name: 'shipDate'
+            name: 'ShipDate'
             description: 'The date when the package is shipped.'
             required: true
             azure_sdk_references: ['/deliveryPackage/shipDate', '/properties/deliveryPackage/shipDate']
       - !ruby/object:Api::Type::NestedObject
-        name: 'returnPackage'
+        name: 'ReturnPackage'
         description: 'Contains information about the package being shipped from the Microsoft data center to the customer to return the drives. The format is the same as the deliveryPackage property above. This property is not included if the drives have not yet been returned. '
         required: false
         azure_sdk_references: ['/returnPackage', '/properties/returnPackage']
         properties:
           - !ruby/object:Api::Type::String
-            name: 'carrierName'
+            name: 'CarrierName'
             description: 'The name of the carrier that is used to ship the import or export drives.'
             required: true
             azure_sdk_references: ['/returnPackage/carrierName', '/properties/returnPackage/carrierName']
           - !ruby/object:Api::Type::String
-            name: 'trackingNumber'
+            name: 'TrackingNumber'
             description: 'The tracking number of the package.'
             required: true
             azure_sdk_references: ['/returnPackage/trackingNumber', '/properties/returnPackage/trackingNumber']
           - !ruby/object:Api::Type::Integer
-            name: 'driveCount'
+            name: 'DriveCount'
             description: 'The number of drives included in the package.'
             required: true
             azure_sdk_references: ['/returnPackage/driveCount', '/properties/returnPackage/driveCount']
           - !ruby/object:Api::Type::String
-            name: 'shipDate'
+            name: 'ShipDate'
             description: 'The date when the package is shipped.'
             required: true
             azure_sdk_references: ['/returnPackage/shipDate', '/properties/returnPackage/shipDate']
       - !ruby/object:Api::Type::String
-        name: 'diagnosticsPath'
+        name: 'DiagnosticsPath'
         description: 'The virtual blob directory to which the copy logs and backups of drive manifest files (if enabled) will be stored.'
         required: false
         azure_sdk_references: ['/diagnosticsPath', '/properties/diagnosticsPath']
       - !ruby/object:Api::Type::String
-        name: 'logLevel'
+        name: 'LogLevel'
         description: 'Default value is Error. Indicates whether error logging or verbose logging will be enabled.'
         required: false
         azure_sdk_references: ['/logLevel', '/properties/logLevel']
       - !ruby/object:Api::Type::Boolean
-        name: 'backupDriveManifest'
+        name: 'BackupDriveManifest'
         description: 'Default value is false. Indicates whether the manifest files on the drives should be copied to block blobs.'
         required: false
         azure_sdk_references: ['/backupDriveManifest', '/properties/backupDriveManifest']
       - !ruby/object:Api::Type::String
-        name: 'state'
+        name: 'State'
         description: 'Current state of the job.'
         required: false
         azure_sdk_references: ['/state', '/properties/state']
       - !ruby/object:Api::Type::Boolean
-        name: 'cancelRequested'
+        name: 'CancelRequested'
         description: 'Indicates whether a request has been submitted to cancel the job.'
         required: false
         azure_sdk_references: ['/cancelRequested', '/properties/cancelRequested']
       - !ruby/object:Api::Type::Integer
-        name: 'percentComplete'
+        name: 'PercentComplete'
         description: 'Overall percentage completed for the job.'
         required: false
         azure_sdk_references: ['/percentComplete', '/properties/percentComplete']
       - !ruby/object:Api::Type::String
-        name: 'incompleteBlobListUri'
+        name: 'IncompleteBlobListURI'
         description: 'A blob path that points to a block blob containing a list of blob names that were not exported due to insufficient drive space. If all blobs were exported successfully, then this element is not included in the response.'
         required: false
         azure_sdk_references: ['/incompleteBlobListUri', '/properties/incompleteBlobListUri']
       - !ruby/object:Api::Type::Array
-        name: 'driveList'
+        name: 'DriveList'
         description: 'List of up to ten drives that comprise the job. The drive list is a required element for an import job; it is not specified for export jobs.'
         required: false
         azure_sdk_references: ['/driveList', '/properties/driveList']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
             - !ruby/object:Api::Type::String
-              name: 'driveId'
+              name: 'DriveID'
               description: 'The drive''s hardware serial number, without spaces.'
               required: false
               azure_sdk_references: ['/driveList/driveId', '/properties/driveList/driveId']
             - !ruby/object:Api::Type::String
-              name: 'bitLockerKey'
+              name: 'BitLockerKey'
               description: 'The BitLocker key used to encrypt the drive.'
               required: false
               azure_sdk_references: ['/driveList/bitLockerKey', '/properties/driveList/bitLockerKey']
             - !ruby/object:Api::Type::String
-              name: 'manifestFile'
+              name: 'ManifestFile'
               description: 'The relative path of the manifest file on the drive. '
               required: false
               azure_sdk_references: ['/driveList/manifestFile', '/properties/driveList/manifestFile']
             - !ruby/object:Api::Type::String
-              name: 'manifestHash'
+              name: 'ManifestHash'
               description: 'The Base16-encoded MD5 hash of the manifest file on the drive.'
               required: false
               azure_sdk_references: ['/driveList/manifestHash', '/properties/driveList/manifestHash']
             - !ruby/object:Api::Type::String
-              name: 'driveHeaderHash'
+              name: 'DriveHeaderHash'
               description: 'The drive header hash value.'
               required: false
               azure_sdk_references: ['/driveList/driveHeaderHash', '/properties/driveList/driveHeaderHash']
             - !ruby/object:Api::Type::Enum
-              name: 'state'
+              name: 'State'
               description: 'The drive''s current state. '
               required: false
               azure_sdk_references: ['/driveList/state', '/properties/driveList/state']
@@ -1511,88 +1511,88 @@ objects:
                 - :ShippedBack
               default_value: :Specified
             - !ruby/object:Api::Type::String
-              name: 'copyStatus'
+              name: 'CopyStatus'
               description: 'Detailed status about the data transfer process. This field is not returned in the response until the drive is in the Transferring state.'
               required: false
               azure_sdk_references: ['/driveList/copyStatus', '/properties/driveList/copyStatus']
             - !ruby/object:Api::Type::Integer
-              name: 'percentComplete'
+              name: 'PercentComplete'
               description: 'Percentage completed for the drive. '
               required: false
               azure_sdk_references: ['/driveList/percentComplete', '/properties/driveList/percentComplete']
             - !ruby/object:Api::Type::String
-              name: 'verboseLogUri'
+              name: 'VerboseLogURI'
               description: 'A URI that points to the blob containing the verbose log for the data transfer operation. '
               required: false
               azure_sdk_references: ['/driveList/verboseLogUri', '/properties/driveList/verboseLogUri']
             - !ruby/object:Api::Type::String
-              name: 'errorLogUri'
+              name: 'ErrorLogURI'
               description: 'A URI that points to the blob containing the error log for the data transfer operation.'
               required: false
               azure_sdk_references: ['/driveList/errorLogUri', '/properties/driveList/errorLogUri']
             - !ruby/object:Api::Type::String
-              name: 'manifestUri'
+              name: 'ManifestURI'
               description: 'A URI that points to the blob containing the drive manifest file. '
               required: false
               azure_sdk_references: ['/driveList/manifestUri', '/properties/driveList/manifestUri']
             - !ruby/object:Api::Type::Integer
-              name: 'bytesSucceeded'
+              name: 'BytesSucceeded'
               description: 'Bytes successfully transferred for the drive.'
               required: false
               azure_sdk_references: ['/driveList/bytesSucceeded', '/properties/driveList/bytesSucceeded']
       - !ruby/object:Api::Type::NestedObject
-        name: 'export'
+        name: 'Export'
         description: 'A property containing information about the blobs to be exported for an export job. This property is included for export jobs only.'
         required: false
         azure_sdk_references: ['/export', '/properties/export']
         properties:
           - !ruby/object:Api::Type::NestedObject
-            name: 'blobList'
+            name: 'BlobList'
             description: 'A list of the blobs to be exported.'
             required: false
             azure_sdk_references: ['/export/blobList', '/properties/export/blobList']
             properties:
               - !ruby/object:Api::Type::Array
-                name: 'blobPath'
+                name: 'BlobPath'
                 description: 'A collection of blob-path strings.'
                 required: false
                 azure_sdk_references: ['/export/blobList/blobPath', '/properties/export/blobList/blobPath']
                 item_type: Api::Type::String
               - !ruby/object:Api::Type::Array
-                name: 'blobPathPrefix'
+                name: 'BlobPathPrefix'
                 description: 'A collection of blob-prefix strings.'
                 required: false
                 azure_sdk_references: ['/export/blobList/blobPathPrefix', '/properties/export/blobList/blobPathPrefix']
                 item_type: Api::Type::String
           - !ruby/object:Api::Type::String
-            name: 'blobListblobPath'
+            name: 'BlobListblobPath'
             description: 'The relative URI to the block blob that contains the list of blob paths or blob path prefixes as defined above, beginning with the container name. If the blob is in root container, the URI must begin with $root. '
             required: false
             azure_sdk_references: ['/export/blobListblobPath', '/properties/export/blobListblobPath']
       - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
+        name: 'Location'
         description: 'Specifies the supported Azure location where the job should be created'
         required: false
         input: true
         azure_sdk_references: ['/location']
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'provisioningState'
+        name: 'ProvisioningState'
         description: 'Specifies the provisioning state of the job.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
       - !ruby/object:Api::Type::String
-        name: 'id'
+        name: 'ID'
         description: 'Specifies the resource identifier of the job.'
         output: true
         azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'Name'
         description: 'Specifies the name of the job.'
         output: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
-        name: 'type'
+        name: 'Type'
         description: 'Specifies the type of the job resource.'
         output: true
         azure_sdk_references: ['/type']

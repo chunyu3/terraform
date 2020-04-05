@@ -1,0 +1,39 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_job
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storageaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  name: '<%= get_resource_name('''', ''storageimportexportjob'') -%>'
+  body:
+    location: West US
+    properties:
+      storageAccountId: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.ClassicStorage/storageAccounts/{{
+        storage_account_name }}
+      jobType: Import
+      returnAddress:
+        recipientName: Tets
+        streetAddress1: Street1
+        streetAddress2: street2
+        city: Redmond
+        stateOrProvince: wa
+        postalCode: '98007'
+        countryOrRegion: USA
+        phone: '4250000000'
+        email: Test@contoso.com
+      diagnosticsPath: waimportexport
+      logLevel: Verbose
+      backupDriveManifest: true
+      driveList:
+        - driveId: 9CA995BB
+          bitLockerKey: 238810-662376-448998-450120-652806-203390-606320-483076
+          manifestFile: \DriveManifest.xml
+          manifestHash: 109B21108597EF36D5785F08303F3638
+          driveHeaderHash: ''
