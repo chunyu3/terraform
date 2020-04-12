@@ -860,6 +860,62 @@ objects:
           '/authorizations/roleDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: role_definition_id
+          '/properties/createdBy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CreatedBy
+            go_type_name: CreatedBy
+          '/properties/createdBy/oid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Oid
+          '/properties/createdBy/puid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Puid
+          '/properties/createdBy/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationID
+          '/createdBy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: created_by
+          '/createdBy/oid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: oid
+          '/createdBy/puid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: puid
+          '/createdBy/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_id
+          '/properties/updatedBy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UpdatedBy
+            go_type_name: CreatedBy
+          '/properties/updatedBy/oid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Oid
+          '/properties/updatedBy/puid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Puid
+          '/properties/updatedBy/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationID
+          '/updatedBy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: updated_by
+          '/updatedBy/oid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: oid
+          '/updatedBy/puid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: puid
+          '/updatedBy/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_id
+          '/properties/createdDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedDateTime
+          '/createdDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_date_time
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -867,6 +923,18 @@ objects:
           '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: provisioning_state
+          '/properties/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkspaceID
+          '/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace_id
+          '/properties/workspaceUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkspaceURL
+          '/workspaceUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace_url
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Sku
             go_type_name: Sku
@@ -1213,6 +1281,23 @@ objects:
               required: true
               azure_sdk_references: ['/authorizations/roleDefinitionId', '/properties/authorizations/roleDefinitionId']
       - !ruby/object:Api::Type::NestedObject
+        name: 'CreatedBy'
+        description: 'Indicates the Object ID, PUID and Application ID of entity that created the workspace.'
+        required: false
+        azure_sdk_references: ['/createdBy', '/properties/createdBy']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'UpdatedBy'
+        description: 'Indicates the Object ID, PUID and Application ID of entity that last updated the workspace.'
+        required: false
+        azure_sdk_references: ['/updatedBy', '/properties/updatedBy']
+        properties:
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'CreatedDateTime'
+        description: 'Specifies the date and time when the workspace is created.'
+        required: false
+        azure_sdk_references: ['/createdDateTime', '/properties/createdDateTime']
+      - !ruby/object:Api::Type::NestedObject
         name: 'Sku'
         description: 'The SKU of the resource.'
         required: false
@@ -1246,6 +1331,16 @@ objects:
           - :Failed
           - :Succeeded
           - :Updating
+      - !ruby/object:Api::Type::String
+        name: 'WorkspaceID'
+        description: 'The unique identifier of the databricks workspace in databricks control plane.'
+        output: true
+        azure_sdk_references: ['/workspaceId', '/properties/workspaceId']
+      - !ruby/object:Api::Type::String
+        name: 'WorkspaceURL'
+        description: 'The workspace URL which is of the format ''adb-{workspaceId}.{random}.azuredatabricks.net'''
+        output: true
+        azure_sdk_references: ['/workspaceUrl', '/properties/workspaceUrl']
       - !ruby/object:Api::Type::String
         name: 'ID'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'

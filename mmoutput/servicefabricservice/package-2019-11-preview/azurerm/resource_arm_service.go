@@ -154,6 +154,11 @@ func resourceArmService() *schema.Resource {
                 Computed: true,
             },
 
+            "service_dns_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "service_package_activation_mode": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -272,6 +277,7 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("default_move_cost", string(serviceResourceUpdateProperties.DefaultMoveCost))
         d.Set("placement_constraints", serviceResourceUpdateProperties.PlacementConstraints)
         d.Set("provisioning_state", serviceResourceUpdateProperties.ProvisioningState)
+        d.Set("service_dns_name", serviceResourceUpdateProperties.ServiceDNSName)
         if err := d.Set("service_load_metrics", flattenArmServiceServiceLoadMetricDescription(serviceResourceUpdateProperties.ServiceLoadMetrics)); err != nil {
             return fmt.Errorf("Error setting `service_load_metrics`: %+v", err)
         }

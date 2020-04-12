@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Azure::Example
+resource: azurerm_object_replication_policy
+prerequisites:
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: resourcegroup
+    example: basic
+  - !ruby/object:Provider::Azure::ExampleReference
+    product: storageaccount
+    example: basic
+properties:
+  resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
+  name: '<%= get_resource_name('''', ''storageobjectreplicationpolicy'') -%>'
+  object_replication_policy_id: 2a20bb73-5717-4635-985a-5d4cf777438f

@@ -1,0 +1,274 @@
+--- !ruby/object:Api::Product
+name: Azure ObjectReplicationPolicy Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ObjectReplicationPolicy
+    api_name: Storage
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Storage
+      go_client_namespace: storage
+      go_client: objectReplicationPoliciesClient
+      python_client_namespace: azure.mgmt.storage
+      python_client: StorageManagementClient.object_replication_policies
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: name
+            python_parameter_name: account_name
+            python_variable_name: name
+          'objectReplicationPolicyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: objectReplicationPolicies
+            go_variable_name: objectReplicationPolicyID
+            python_parameter_name: object_replication_policy_id
+            python_variable_name: object_replication_policy_id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ObjectReplicationPolicyProperties
+            go_type_name: ObjectReplicationPolicyProperties
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: name
+            python_parameter_name: account_name
+            python_variable_name: name
+          'objectReplicationPolicyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: objectReplicationPolicies
+            go_variable_name: objectReplicationPolicyID
+            python_parameter_name: object_replication_policy_id
+            python_variable_name: object_replication_policy_id
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: name
+            python_parameter_name: account_name
+            python_variable_name: name
+          'objectReplicationPolicyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: objectReplicationPolicies
+            go_variable_name: objectReplicationPolicyID
+            python_parameter_name: object_replication_policy_id
+            python_variable_name: object_replication_policy_id
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ObjectReplicationPolicyProperties
+            go_type_name: ObjectReplicationPolicyProperties
+          '/properties/sourceAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceAccount
+          '/sourceAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_account
+          '/properties/destinationAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DestinationAccount
+          '/destinationAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: destination_account
+          '/properties/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Rules
+            go_type_name: ObjectReplicationPolicyRule
+          '/properties/rules/ruleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleID
+          '/properties/rules/sourceContainer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceContainer
+          '/properties/rules/destinationContainer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DestinationContainer
+          '/properties/rules/filters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Filters
+            go_type_name: ObjectReplicationPolicyFilter
+          '/properties/rules/filters/prefixMatch': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: PrefixMatch
+          '/properties/rules/filters/minCreationTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MinCreationTime
+          '/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: rules
+          '/rules/ruleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_id
+          '/rules/sourceContainer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_container
+          '/rules/destinationContainer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: destination_container
+          '/rules/filters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: filters
+          '/rules/filters/prefixMatch': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: prefix_match
+          '/rules/filters/minCreationTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: min_creation_time
+          '/properties/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PolicyID
+          '/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: policy_id
+          '/properties/enabledTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EnabledTime
+          '/enabledTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: enabled_time
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroupName
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: name
+            python_parameter_name: account_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure ObjectReplicationPolicy instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'ResourceGroup'
+        description: 'The name of the resource group within the user''s subscription. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'AccountName'
+        description: 'The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'ObjectReplicationPolicyID'
+        description: 'The ID of object replication policy or ''default'' if the policy ID is unknown.'
+        required: true
+        input: true
+        azure_sdk_references: ['objectReplicationPolicyId']
+      - !ruby/object:Api::Type::String
+        name: 'SourceAccount'
+        description: 'Required. Source account name.'
+        required: true
+        azure_sdk_references: ['/sourceAccount', '/properties/sourceAccount']
+      - !ruby/object:Api::Type::String
+        name: 'DestinationAccount'
+        description: 'Required. Destination account name.'
+        required: true
+        azure_sdk_references: ['/destinationAccount', '/properties/destinationAccount']
+      - !ruby/object:Api::Type::Array
+        name: 'Rules'
+        description: 'The storage account object replication rules.'
+        required: false
+        azure_sdk_references: ['/rules', '/properties/rules']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'RuleID'
+              description: 'Rule Id is auto-generated for each new rule on destination account. It is required for put policy on source account.'
+              required: false
+              azure_sdk_references: ['/rules/ruleId', '/properties/rules/ruleId']
+            - !ruby/object:Api::Type::String
+              name: 'SourceContainer'
+              description: 'Required. Source container name.'
+              required: true
+              azure_sdk_references: ['/rules/sourceContainer', '/properties/rules/sourceContainer']
+            - !ruby/object:Api::Type::String
+              name: 'DestinationContainer'
+              description: 'Required. Destination container name.'
+              required: true
+              azure_sdk_references: ['/rules/destinationContainer', '/properties/rules/destinationContainer']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'Filters'
+              description: 'Optional. An object that defines the filter set.'
+              required: false
+              azure_sdk_references: ['/rules/filters', '/properties/rules/filters']
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'PrefixMatch'
+                  description: 'Optional. Filters the results to replicate only blobs whose names begin with the specified prefix.'
+                  required: false
+                  azure_sdk_references: ['/rules/filters/prefixMatch', '/properties/rules/filters/prefixMatch']
+                  item_type: Api::Type::String
+                - !ruby/object:Api::Type::String
+                  name: 'MinCreationTime'
+                  description: 'Blobs created after the time will be replicated to the destination. It must be in datetime format ''yyyy-MM-ddTHH:mm:ssZ''. Example: 2020-02-19T16:05:00Z'
+                  required: false
+                  azure_sdk_references: ['/rules/filters/minCreationTime', '/properties/rules/filters/minCreationTime']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'PolicyID'
+        description: 'A unique id for object replication policy.'
+        output: true
+        azure_sdk_references: ['/policyId', '/properties/policyId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'EnabledTime'
+        description: 'Indicates when the policy is enabled on the source account.'
+        output: true
+        azure_sdk_references: ['/enabledTime', '/properties/enabledTime']
+      - !ruby/object:Api::Type::String
+        name: 'ID'
+        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'Name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'Type'
+        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+        output: true
+        azure_sdk_references: ['/type']

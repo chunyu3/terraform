@@ -446,6 +446,19 @@ objects:
             applicable_to: [go]
             go_field_name: UpgradeMode
             go_enum_type_name: 
+          '/applicationTypeVersionsCleanupPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: application_type_versions_cleanup_policy
+          '/applicationTypeVersionsCleanupPolicy/maxUnusedVersionsToKeep': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_unused_versions_to_keep
+          '/properties/applicationTypeVersionsCleanupPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApplicationTypeVersionsCleanupPolicy
+            go_type_name: ApplicationTypeVersionsCleanupPolicy
+          '/properties/applicationTypeVersionsCleanupPolicy/maxUnusedVersionsToKeep': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxUnusedVersionsToKeep
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -874,6 +887,19 @@ objects:
             applicable_to: [go]
             go_field_name: UpgradeMode
             go_enum_type_name: 
+          '/applicationTypeVersionsCleanupPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: application_type_versions_cleanup_policy
+          '/applicationTypeVersionsCleanupPolicy/maxUnusedVersionsToKeep': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_unused_versions_to_keep
+          '/properties/applicationTypeVersionsCleanupPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApplicationTypeVersionsCleanupPolicy
+            go_type_name: ApplicationTypeVersionsCleanupPolicy
+          '/properties/applicationTypeVersionsCleanupPolicy/maxUnusedVersionsToKeep': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxUnusedVersionsToKeep
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -1311,6 +1337,19 @@ objects:
           '/upgradeMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: upgrade_mode
+          '/properties/applicationTypeVersionsCleanupPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApplicationTypeVersionsCleanupPolicy
+            go_type_name: ApplicationTypeVersionsCleanupPolicy
+          '/properties/applicationTypeVersionsCleanupPolicy/maxUnusedVersionsToKeep': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxUnusedVersionsToKeep
+          '/applicationTypeVersionsCleanupPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: application_type_versions_cleanup_policy
+          '/applicationTypeVersionsCleanupPolicy/maxUnusedVersionsToKeep': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_unused_versions_to_keep
           '/properties/availableClusterVersions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: AvailableClusterVersions
@@ -1919,6 +1958,17 @@ objects:
           - :Automatic
           - :Manual
         default_value: :Automatic
+      - !ruby/object:Api::Type::NestedObject
+        name: 'ApplicationTypeVersionsCleanupPolicy'
+        description: 'The policy used to clean up unused versions.'
+        required: false
+        azure_sdk_references: ['/applicationTypeVersionsCleanupPolicy', '/properties/applicationTypeVersionsCleanupPolicy']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'MaxUnusedVersionsToKeep'
+            description: 'Number of unused versions per application type to keep.'
+            required: true
+            azure_sdk_references: ['/applicationTypeVersionsCleanupPolicy/maxUnusedVersionsToKeep', '/properties/applicationTypeVersionsCleanupPolicy/maxUnusedVersionsToKeep']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'AvailableClusterVersions'
