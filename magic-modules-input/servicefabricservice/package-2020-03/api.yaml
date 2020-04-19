@@ -418,6 +418,12 @@ objects:
           '/servicePackageActivationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: service_package_activation_mode
+          '/properties/serviceDnsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceDNSName
+          '/serviceDnsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_dns_name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -584,6 +590,11 @@ objects:
         values:
           - :SharedProcess
           - :ExclusiveProcess
+      - !ruby/object:Api::Type::String
+        name: 'ServiceDNSName'
+        description: 'Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name.'
+        output: true
+        azure_sdk_references: ['/serviceDnsName', '/properties/serviceDnsName']
       - !ruby/object:Api::Type::String
         name: 'ID'
         description: 'Azure resource identifier.'

@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_cognitiveservicesaccount
+  description: Create Account Min
+  code:
+    resource_group: myResourceGroup
+    name: myAccount
+    account:
+      location: West US
+      kind: CognitiveServices
+      sku:
+        name: S0
+      properties: {}
+      identity:
+        type: SystemAssigned
+  

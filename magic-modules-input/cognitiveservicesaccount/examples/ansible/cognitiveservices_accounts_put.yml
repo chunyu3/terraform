@@ -10,5 +10,18 @@ task: !ruby/object:Provider::Ansible::Task
       kind: Emotion
       sku:
         name: S0
-      properties: {}
+      properties:
+        encryption:
+          keyVaultProperties:
+            keyName: KeyName
+            keyVersion: 891CF236-D241-4738-9462-D506AF493DFA
+            keyVaultUri: 'https://pltfrmscrts-use-pc-dev.vault.azure.net/'
+          keySource: Microsoft.KeyVault
+        userOwnedStorage:
+          - resourceId: >-
+              /subscriptions/{{ subscription_id }}/resourceGroups/{{
+              resource_group }}/providers/Microsoft.Storage/storageAccounts/{{
+              storage_account_name }}
+      identity:
+        type: SystemAssigned
   

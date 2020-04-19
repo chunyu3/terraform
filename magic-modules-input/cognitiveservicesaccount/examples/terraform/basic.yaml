@@ -1,14 +1,12 @@
 --- !ruby/object:Provider::Azure::Example
-resource: azurerm_workspace
+resource: azurerm_account
 prerequisites:
   - !ruby/object:Provider::Azure::ExampleReference
     product: resourcegroup
     example: basic
   - !ruby/object:Provider::Azure::ExampleReference
-    product: virtualnetwork
+    product: storageaccount
     example: basic
 properties:
   resource_group_name: '${azurerm_resource_group.<%= resource_id_hint -%>.name}'
-  name: '<%= get_resource_name('''', ''databricksworkspace'') -%>'
-  location: '${azurerm_resource_group.<%= resource_id_hint -%>.location}'
-  managed_resource_group_id: '${azurerm_resource_group.<%= resource_id_hint -%>.id}'
+  name: '<%= get_resource_name('''', ''cognitiveservicesaccount'') -%>'
